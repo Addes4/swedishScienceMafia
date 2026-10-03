@@ -36,11 +36,12 @@ RESULTS.md files and in the coordination log (`experiments/OVERNIGHT-2026-10-03.
 | 21:54 | Commit `5b2d9bb`: method, decisions and corrections recorded in related-work.md; `context/fetch_papers.py` added and tested. |
 | 22:10 | Commit `34ec6b2`: two paper outlines. |
 | 23:10 | Documents updated with bp-ceiling, the memory-ablation confirmatory study, idea-table and the partial tournament. Paper-outline index and this log written. |
+| 23:15 | Commit `1e28890`. The coordinating session merged `docs/related-work` into its local branch `consolidate-overnight` (merge `91633c9`); this session checked that the merged files match. The overnight log's 20:05 entry now links this log. |
 
 ## What was produced
 
 All files are on branch `docs/related-work` (worktree `../swedishScienceMafia-related-work`). The
-branch has not been pushed.
+branch is merged into the local branch `consolidate-overnight`; neither has been pushed.
 
 | File | Content |
 |---|---|
@@ -110,9 +111,9 @@ python3 context/fetch_papers.py --only Herrmann     # one paper
 
 ## Open work
 
-- **Push `docs/related-work` and open a PR:** waiting for the user's approval.
-- **The coordinating session**, which owns the root README and the final pitch, should link
-  related-work.md, the outlines and the pitch draft.
+- **Push and open a PR:** the user decides. The work now travels in `consolidate-overnight`,
+  which already links related-work.md from the README.
+- **The coordinating session** owns the final pitch and can use `output/pitch-draft.md` as input.
 - **Download six papers by hand** (listed by `fetch_papers.py`).
 - **Before writing any paper:** run the gaps listed in each outline, and search the literature
   again.
