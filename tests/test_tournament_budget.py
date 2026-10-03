@@ -114,6 +114,12 @@ def test_parallel_callers_wait_for_in_flight_calls(tmp_path, mock):
     assert budget.spent <= budget.cap + 1e-12
     assert budget.spent > 0.6 * budget.cap   # shrink-to-fit uses most of the budget
     assert not budget.reserved
+    # Parallel calls wait for in-flight reservations instead of being truncated; only calls made
+    # when the remaining budget cannot cover one full worst case are shortened.
+    worst = 32000 * 10 / 1e6
+    for r in _usage(tmp_path / "usage.jsonl"):
+        if r["event"] == "call" and r["granted_max_tokens"] < r["requested_max_tokens"]:
+            assert r["spent_usd"] - r["cost_usd"] > budget.cap - worst - 0.05
 
 
 def test_failed_status_is_free_and_unknown_failures_charge_the_reservation(tmp_path):

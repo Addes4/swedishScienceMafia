@@ -7,8 +7,9 @@ Before a request is sent, its worst-case cost is reserved:
 The input upper bound is the UTF-8 byte length of the JSON-encoded system prompt and messages
 plus a margin (a token is never shorter than one byte). If the reservation does not fit in what
 is left of the cap (after money already spent and money reserved by calls still in flight),
-max_tokens is lowered to what fits. Below a floor the caller waits for in-flight calls to settle;
-if nothing is in flight the budget is exhausted and the call is refused.
+the caller first waits for calls in flight to settle (their reservations are worst cases). With
+nothing in flight, max_tokens is lowered to what fits; below a floor the budget is exhausted and
+the call is refused.
 
 After the call, the reservation is replaced by the cost of the usage the API reported. A call
 that fails with an HTTP error status is charged nothing (errors are not billed). A call that
@@ -95,16 +96,21 @@ class Budget:
         pin, pout = per_token_prices(model)
         free = self.cap - self.spent - self.external - sum(self.reserved.values()) - input_upper * pin
         afford = int(math.floor(free / pout)) if free > 0 else 0
-        if afford >= min(max_tokens, self.min_output_tokens):
-            granted = min(max_tokens, afford)
-            rid = next(self._ids)
-            amount = input_upper * pin + granted * pout
-            self.reserved[rid] = amount
-            return Reservation(rid, model, max_tokens, granted, input_upper, amount, time.time())
-        if self.reserved:
+        if afford >= max_tokens:
+            granted = max_tokens
+        elif self.reserved:
+            # Reservations are worst cases; calls in flight usually settle far below them. Wait rather
+            # than truncate, so parallel arms are not handicapped before their budget is really used.
             return None
-        self.exhausted = True
-        return False
+        elif afford >= min(max_tokens, self.min_output_tokens):
+            granted = afford              # the true end of the budget: shrink the last call to fit
+        else:
+            self.exhausted = True
+            return False
+        rid = next(self._ids)
+        amount = input_upper * pin + granted * pout
+        self.reserved[rid] = amount
+        return Reservation(rid, model, max_tokens, granted, input_upper, amount, time.time())
 
     def _refuse(self, model, max_tokens, input_upper, path, why):
         self.refusals += 1
