@@ -43,7 +43,7 @@ app = modal.App(APP_NAME, image=image)
 volume = modal.Volume.from_name(VOLUME_NAME, create_if_missing=True)
 
 
-@app.function(volumes={"/vol": volume}, cpu=2.0, memory=4096, timeout=6 * 3600, retries=0, max_containers=48)
+@app.function(volumes={"/vol": volume}, cpu=2.0, memory=4096, timeout=6 * 3600, retries=0, max_containers=100)
 def run_job(job: dict) -> dict:
     out = Path("/vol") / job["grid"] / job["job_id"]
     if (out / "summary.json").exists():

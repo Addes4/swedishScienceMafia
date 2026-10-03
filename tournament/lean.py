@@ -19,6 +19,7 @@ Only public-instance results are used for any decision. Hidden-instance scores e
 the private evaluation log.
 """
 import re
+import time
 from dataclasses import dataclass
 from types import SimpleNamespace
 from typing import Optional
@@ -30,7 +31,7 @@ from .budget import BudgetExhausted
 from .context import Context, Evaluation
 
 DEFAULTS = {"model": "claude-sonnet-5-5", "effort": "high", "max_tokens": 32000, "history": 8,
-            "max_iters": 10_000, "max_consecutive_errors": 5, "gate": False, "patience": None,
+            "max_iters": 10_000, "max_consecutive_errors": 6, "error_backoff_s": 10.0, "gate": False, "patience": None,
             "independent": False}
 EPS = 1e-9
 
@@ -189,6 +190,7 @@ def run(ctx: Context):
             if errors >= cfg["max_consecutive_errors"]:
                 stop = "api_errors"
                 break
+            time.sleep(min(120.0, cfg["error_backoff_s"] * 2 ** (errors - 1)))
             continue
         errors = 0
         rec.update(cost=call.cost, input_tokens=call.input_tokens, output_tokens=call.output_tokens,

@@ -136,3 +136,21 @@ def test_input_bound_and_cost_formula():
     assert input_upper_bound("ab", [{"role": "user", "content": "é"}]) > len("ab")
     cost = usage_cost("claude-sonnet-5-5", {"input_tokens": 1_000_000, "output_tokens": 100_000})
     assert abs(cost - (2.0 + 1.0)) < 1e-9
+
+
+def test_rate_limits_are_retried_free_and_logged(tmp_path, mock, monkeypatch):
+    fast = lambda e, attempt, waited: (0.01 if getattr(e, "status_code", None) in guard.RETRY_STATUSES
+                                       and attempt < 20 else None)
+    monkeypatch.setattr(guard, "_retry_delay", fast)
+    budget = Budget(1.0, tmp_path / "usage.jsonl")
+    guard.install(budget)
+    mock.fail_next, mock.fail_status = 7, 529      # more failures than the SDK's own retries absorb
+    assert Claude().call("claude-sonnet-5-5", "s", PROGRAM, max_tokens=8000).text
+    mock.fail_next, mock.fail_status = 4, 429
+    anthropic.Anthropic(timeout=900, max_retries=1).messages.create(
+        model="claude-haiku-4-5", max_tokens=4000, messages=[{"role": "user", "content": "hi"}])
+    log = _usage(tmp_path / "usage.jsonl")
+    assert sum(r["event"] == "retry" for r in log) >= 2
+    calls = [r for r in log if r["event"] == "call"]
+    assert len(calls) == 2 and all(r["error"] is None and r["cost_basis"] == "usage" for r in calls)
+    assert not budget.reserved

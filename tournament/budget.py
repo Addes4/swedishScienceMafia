@@ -176,6 +176,10 @@ class Budget:
             self._cond.notify_all()
         return cost
 
+    def log_event(self, rec: dict):
+        with self._cond:
+            self._write(rec)
+
     def charge_external(self, amount: float, label: str):
         """Costs paid to other APIs (e.g. Jev). Counted against the cap after the fact."""
         with self._cond:

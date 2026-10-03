@@ -10,6 +10,7 @@ through the budget guard (usage.jsonl) and all evaluations through tournament.ev
 """
 import json
 import os
+import time
 from argparse import Namespace
 from pathlib import Path
 
@@ -92,7 +93,15 @@ def triage(ctx: Context):
     rank = run.ranker.rank
     if run.ranker.name == "jev":   # Jev is billed outside Anthropic; count it against the same cap
         def charged_rank(*a, **k):
-            out = rank(*a, **k)
+            for attempt in range(5):  # transient Jev errors must not end the run
+                try:
+                    out = rank(*a, **k)
+                    break
+                except Exception as e:
+                    ctx.event(event="ranker_error", attempt=attempt, error=f"{type(e).__name__}: {str(e)[:300]}")
+                    if attempt == 4:
+                        raise
+                    time.sleep(5 * 2 ** attempt)
             ctx.budget.charge_external(sum(r.cost for r in out), "jev")
             return out
         run.ranker.rank = charged_rank

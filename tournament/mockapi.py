@@ -109,6 +109,18 @@ class _Handler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         with mock.lock:
+            failing = mock.fail_next > 0
+            mock.fail_next -= failing
+        if failing:  # simulated rate limit / overload, as the real API sends it
+            data = json.dumps({"type": "error", "error": {"type": "rate_limit_error", "message": "mock"}}).encode()
+            self.send_response(mock.fail_status)
+            self.send_header("content-type", "application/json")
+            self.send_header("retry-after-ms", "5")
+            self.send_header("content-length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+            return
+        with mock.lock:
             mock.requests += 1
             rng = random.Random(f"{mock.seed}/{mock.requests}")
             mock.log.append({"model": body.get("model"), "max_tokens": body.get("max_tokens"),
@@ -173,6 +185,8 @@ class MockAnthropic:
     def __init__(self, seed: int = 0, latency: float = 0.05, set_env: bool = True):
         self.seed, self.latency, self.set_env = seed, latency, set_env
         self.requests = 0
+        self.fail_next = 0            # answer this many requests with fail_status first
+        self.fail_status = 429
         self.log = []
         self.lock = threading.Lock()
         self.server = None

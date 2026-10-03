@@ -12,7 +12,16 @@ streams, batches, parse) raises UnbudgetedCall instead of sending anything.
 Server-side refusal fallbacks are stripped from every request: with them, a refused request is
 re-run on another model at that model's prices, so the worst case could not be bounded. A
 refusal is then an ordinary outcome (stop_reason "refusal") that the arm records.
+
+Rate limits and overload: a request that fails at the start with HTTP 429, 500, 502, 503, 504 or
+529 (after the SDK's own retries) is retried here with exponential backoff for up to 10 minutes,
+holding its reservation. These failures are not billed. Every retry is logged. Many tournament
+containers share one API organisation, so this keeps a busy minute from ending a run.
 """
+import asyncio
+import random
+import time
+
 import anthropic
 from anthropic.resources.beta.messages import batches as beta_batches
 from anthropic.resources.beta.messages import messages as beta_messages
@@ -50,6 +59,50 @@ def _unknown_billing(e: BaseException) -> bool:
     return not isinstance(e, anthropic.APIStatusError)
 
 
+RETRY_STATUSES = (429, 500, 502, 503, 504, 529)
+RETRY_MAX_WAIT_S = 600.0
+
+
+def _retry_delay(e: BaseException, attempt: int, waited: float):
+    """Seconds to wait before retrying, or None to give up."""
+    if not (isinstance(e, anthropic.APIStatusError) and e.status_code in RETRY_STATUSES) or waited >= RETRY_MAX_WAIT_S:
+        return None
+    return min(60.0, 2.0 ** attempt) * (0.5 + random.random())
+
+
+def _note_retry(budget, path, e, delay):
+    budget.log_event({"event": "retry", "path": path, "status": getattr(e, "status_code", None),
+                      "delay_s": round(delay, 2), "error": f"{type(e).__name__}: {str(e)[:200]}"})
+
+
+def _with_retries(fn, budget, path):
+    attempt, waited = 0, 0.0
+    while True:
+        try:
+            return fn()
+        except anthropic.APIStatusError as e:
+            delay = _retry_delay(e, attempt, waited)
+            if delay is None:
+                raise
+            _note_retry(budget, path, e, delay)
+            time.sleep(delay)
+            attempt, waited = attempt + 1, waited + delay
+
+
+async def _with_retries_async(fn, budget, path):
+    attempt, waited = 0, 0.0
+    while True:
+        try:
+            return await fn()
+        except anthropic.APIStatusError as e:
+            delay = _retry_delay(e, attempt, waited)
+            if delay is None:
+                raise
+            _note_retry(budget, path, e, delay)
+            await asyncio.sleep(delay)
+            attempt, waited = attempt + 1, waited + delay
+
+
 def _sync_create(self, *args, **kwargs):
     budget = _BUDGET
     if budget is None:
@@ -62,7 +115,7 @@ def _sync_create(self, *args, **kwargs):
     kwargs["max_tokens"] = res.granted_max_tokens
     extra = {"fallback_stripped": stripped}
     try:
-        msg = _ORIG["create"](self, *args, **kwargs)
+        msg = _with_retries(lambda: _ORIG["create"](self, *args, **kwargs), budget, path)
     except BaseException as e:
         budget.settle(res, error=e, charge_reservation=_unknown_billing(e), path=path, extra=extra)
         raise
@@ -83,7 +136,7 @@ async def _async_create(self, *args, **kwargs):
     kwargs["max_tokens"] = res.granted_max_tokens
     extra = {"fallback_stripped": stripped}
     try:
-        msg = await _ORIG["acreate"](self, *args, **kwargs)
+        msg = await _with_retries_async(lambda: _ORIG["acreate"](self, *args, **kwargs), budget, path)
     except BaseException as e:
         budget.settle(res, error=e, charge_reservation=_unknown_billing(e), path=path, extra=extra)
         raise
@@ -95,13 +148,17 @@ async def _async_create(self, *args, **kwargs):
 class _GuardedStreamManager:
     """Wraps BetaMessageStreamManager: settles the reservation when the `with` block exits."""
 
-    def __init__(self, inner, budget: Budget, res, extra):
-        self.inner, self.budget, self.res, self.extra = inner, budget, res, extra
-        self.stream = None
+    def __init__(self, make, budget: Budget, res, extra):
+        self.make, self.budget, self.res, self.extra = make, budget, res, extra
+        self.inner = self.stream = None
+
+    def _open(self):
+        self.inner = self.make()
+        return self.inner.__enter__()
 
     def __enter__(self):
         try:
-            self.stream = self.inner.__enter__()
+            self.stream = _with_retries(self._open, self.budget, "beta.messages.stream")
         except BaseException as e:
             self.budget.settle(self.res, error=e, charge_reservation=_unknown_billing(e), path="beta.messages.stream",
                                extra=self.extra)
@@ -110,7 +167,7 @@ class _GuardedStreamManager:
 
     def __exit__(self, exc_type, exc, tb):
         try:
-            return self.inner.__exit__(exc_type, exc, tb)
+            return self.inner.__exit__(exc_type, exc, tb) if self.inner is not None else False
         finally:
             snap = None
             try:
@@ -135,12 +192,7 @@ def _beta_stream(self, *args, **kwargs):
     res = budget.reserve(kwargs["model"], kwargs["max_tokens"], _upper(kwargs), "beta.messages.stream")
     kwargs["max_tokens"] = res.granted_max_tokens
     extra = {"fallback_stripped": stripped}
-    try:
-        inner = _ORIG["bstream"](self, *args, **kwargs)
-    except BaseException as e:
-        budget.settle(res, error=e, path="beta.messages.stream", extra=extra)
-        raise
-    return _GuardedStreamManager(inner, budget, res, extra)
+    return _GuardedStreamManager(lambda: _ORIG["bstream"](self, *args, **kwargs), budget, res, extra)
 
 
 def _blocked(name):
