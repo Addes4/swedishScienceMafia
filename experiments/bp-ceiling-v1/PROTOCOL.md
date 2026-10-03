@@ -90,4 +90,17 @@ representation is a ceiling if `linear20` has none in a regime where FunSearch's
 
 ## Changes after this protocol
 
-None yet.
+All made after the 240 searches finished and before any audit instance was generated.
+
+1. **Added arm `ab_rules` (secondary).** The team's literature review pointed to Herrmann &
+   Pallez (2025, arXiv 2510.27353), who reduce FunSearch's heuristics to two-threshold rules
+   (ab-FirstFit, ab-BestFit, ab-WorstFit). For every regime and search seed we grid-search the
+   three variants with a in 0..15 and b in a+1..40 (1,560 evaluations, fewer than the 8,000 of
+   the linear arms) on that seed's training set, deploy the best (best fit if nothing beats
+   it) and audit it like the other arms. `falsify/longpack.cpp: pack_ab` implements the rules
+   and is tested against the paper's priority functions.
+2. **Added decision statistics** to the audit (share of items placed in a new bin while an
+   open bin fits; share of bins ending exactly full), on the first 10 primary audit instances.
+3. **Determinism fix before launch:** `longpack.cpp` is compiled with `-ffp-contract=off` so
+   hill-climbing runs give identical results on Modal (x86) and macOS (arm64). CMA-ES runs are
+   reproducible only on the same platform (BLAS and RNG differences).

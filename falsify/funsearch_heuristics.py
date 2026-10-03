@@ -61,3 +61,43 @@ def best_fit(item: float, bins: np.ndarray) -> np.ndarray:
 
 HEURISTICS = {'funsearch_weibull': funsearch_weibull, 'funsearch_or': funsearch_or,
               'best_fit_priority': best_fit}
+
+
+# Herrmann & Pallez (2025), "An in-depth study of LLM contributions to the bin packing problem",
+# arXiv 2510.27353, Algorithms 4-6: two-threshold ab-heuristics, transcribed from the paper.
+# falsify.longpack.pack_ab implements the same rules in C++ for speed.
+AB_VARIANTS = ['ab_first_fit', 'ab_best_fit', 'ab_worst_fit']
+
+
+def ab_priority(variant, a, b, capacity=100):
+  def s_ff(bin, item):
+    if bin <= item + a:
+      return capacity - bin + 1
+    elif bin < item + b:
+      return -2
+    else:
+      return 1
+
+  def s_bf(bin, item):
+    if bin <= item + a:
+      return capacity - bin + 1
+    elif bin < item + b:
+      return -2
+    else:
+      return 1 / (bin - item)
+
+  def s_wf(bin, item):
+    if bin <= item + a:
+      return capacity - bin + 1
+    elif bin <= item + b:
+      return -2
+    elif bin == capacity:
+      return -1
+    else:
+      return -1 / (bin - item)
+
+  s = {'ab_first_fit': s_ff, 'ab_best_fit': s_bf, 'ab_worst_fit': s_wf}[variant]
+
+  def priority(item, bins):
+    return np.array([s(bin, item) for bin in bins])
+  return priority
