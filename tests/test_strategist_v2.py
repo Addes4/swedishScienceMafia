@@ -127,7 +127,7 @@ class PipelineTests(unittest.TestCase):
         summary = v2.summarise(records, benches=('labs',))
         self.assertEqual(summary['labs']['comparisons']['adaptive_v1']['final']['wins'], 6)
         self.assertIn('holm_p', summary['labs']['comparisons']['edits_only']['final'])
-        moments = [{'controller': c, 'benchmark': 'labs', 'seed': s, 'leaves_in_run': 3,
+        moments = [{'controller': c, 'benchmark': 'labs', 'seed': s, 'leaves_in_run': 3, 'stall': 20, 'spent': 500.,
                     'switch': {'p_improve': .5, 'mean_gain': g}, 'stay': {'p_improve': .5, 'mean_gain': .2}}
                    for s in range(5) for c, g in (('adaptive_v1', .1), ('adaptive_v2', .3))]
         f = v2.summarise_forks(moments, benches=('labs',))['labs']

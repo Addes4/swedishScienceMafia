@@ -72,7 +72,8 @@
         "stats.py": "8e1f57a7a38634d4",
         "v2.py": "aabeeaf7d87be3db"
       }
-    }
+    },
+    "summary_recomputed": "summary recomputed from the stored moments to add tie counts and the stall and timing of switch moments; no new forks. Seed-clustered intervals moved in the third digit because clusters are now resampled in seed order."
   },
   "summary": {
     "labs": {
@@ -115,14 +116,20 @@
           "effect_dz": 0.1045385593779901
         },
         "gain_difference_seed_cluster_ci": [
-          -0.11356423434557533,
-          -0.046654179362992425
+          -0.11361731101256309,
+          -0.045432571957129075
         ],
         "premature_share": 0.4780701754385965,
         "premature_share_seed_cluster_ci": [
-          0.4088888888888889,
-          0.5470085470085471
-        ]
+          0.40444444444444444,
+          0.5454545454545454
+        ],
+        "stay_better": 109,
+        "switch_better": 76,
+        "ties": 43,
+        "premature_share_excluding_ties": 0.5891891891891892,
+        "mean_stall_at_switch": 113.25,
+        "median_spent_at_switch": 398.049999999999
       },
       "adaptive_v2": {
         "moments": 240,
@@ -163,14 +170,20 @@
           "effect_dz": 0.12415335543451513
         },
         "gain_difference_seed_cluster_ci": [
-          -0.05529434833304006,
-          0.02521990958319818
+          -0.05579364746524455,
+          0.025287392133217772
         ],
         "premature_share": 0.2125,
         "premature_share_seed_cluster_ci": [
           0.15,
           0.2833333333333333
-        ]
+        ],
+        "stay_better": 51,
+        "switch_better": 122,
+        "ties": 67,
+        "premature_share_excluding_ties": 0.2947976878612717,
+        "mean_stall_at_switch": 188.29166666666666,
+        "median_spent_at_switch": 986.8000000000073
       },
       "v2_minus_v1": {
         "premature_share": -0.2655701754385965,
@@ -226,14 +239,20 @@
           "effect_dz": -0.6190074008274402
         },
         "gain_difference_seed_cluster_ci": [
-          -0.001293268417204497,
-          -0.001064746238653724
+          -0.0012914496621459683,
+          -0.0010650628594237855
         ],
         "premature_share": 0.9743589743589743,
         "premature_share_seed_cluster_ci": [
           0.9487179487179487,
-          0.9956709956709957
-        ]
+          0.9956521739130435
+        ],
+        "stay_better": 228,
+        "switch_better": 6,
+        "ties": 0,
+        "premature_share_excluding_ties": 0.9743589743589743,
+        "mean_stall_at_switch": 26.914529914529915,
+        "median_spent_at_switch": 693.6000000000009
       },
       "adaptive_v2": {
         "moments": 224,
@@ -274,14 +293,20 @@
           "effect_dz": -0.93952283341297
         },
         "gain_difference_seed_cluster_ci": [
-          -0.001459665021619727,
-          -0.001112360212677814
+          -0.0014623351905994543,
+          -0.0011144497292292234
         ],
         "premature_share": 0.9776785714285714,
         "premature_share_seed_cluster_ci": [
-          0.9539170506912442,
-          0.9955947136563876
-        ]
+          0.9541284403669725,
+          0.9956140350877193
+        ],
+        "stay_better": 219,
+        "switch_better": 5,
+        "ties": 0,
+        "premature_share_excluding_ties": 0.9776785714285714,
+        "mean_stall_at_switch": 39.808035714285715,
+        "median_spent_at_switch": 778.7000000000048
       },
       "v2_minus_v1": {
         "premature_share": 0.003319597069597058,
@@ -337,14 +362,20 @@
           "effect_dz": 0.02413566183839277
         },
         "gain_difference_seed_cluster_ci": [
-          -0.010284429549512523,
-          -0.006365017867955237
+          -0.010210536923445706,
+          -0.0064325174298165465
         ],
         "premature_share": 0.548936170212766,
         "premature_share_seed_cluster_ci": [
           0.49356223175965663,
-          0.6016949152542372
-        ]
+          0.6
+        ],
+        "stay_better": 129,
+        "switch_better": 59,
+        "ties": 47,
+        "premature_share_excluding_ties": 0.6861702127659575,
+        "mean_stall_at_switch": 105.02553191489362,
+        "median_spent_at_switch": 316.49999999999966
       },
       "adaptive_v2": {
         "moments": 237,
@@ -385,14 +416,20 @@
           "effect_dz": -0.04109333764055968
         },
         "gain_difference_seed_cluster_ci": [
-          -0.004894806626375292,
-          -0.0014020973931126981
+          -0.004866196310384399,
+          -0.0014155846638297677
         ],
         "premature_share": 0.33755274261603374,
         "premature_share_seed_cluster_ci": [
-          0.2754237288135593,
-          0.4067796610169492
-        ]
+          0.275,
+          0.40336134453781514
+        ],
+        "stay_better": 80,
+        "switch_better": 98,
+        "ties": 59,
+        "premature_share_excluding_ties": 0.449438202247191,
+        "mean_stall_at_switch": 151.53164556962025,
+        "median_spent_at_switch": 1086.9000000000135
       },
       "v2_minus_v1": {
         "premature_share": -0.21138342759673223,

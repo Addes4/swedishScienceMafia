@@ -213,4 +213,17 @@ The confirmatory run goes ahead unchanged, once, with the arms and analysis fixe
 
 ## Disclosed changes
 
-(none yet)
+All after the confirmatory, uniform-cost and fork runs had finished. None changes a design, an arm, a
+seed or a primary analysis.
+
+1. **Fork summary extended.** `summarise_forks` now also reports, per controller, how many moments
+   had stay better / switch better / a tie, the premature share excluding ties, and the mean stall and
+   median cost at the switch moments. `forks.json`'s summary was recomputed from its stored moments; no
+   fork was re-run. The seed-clustered intervals moved in the third digit because clusters are now
+   resampled in seed order (recorded in `forks.json` under `config.summary_recomputed`).
+2. **Exploratory forks for each change alone** (`forks_ablations.json`, same seeds 4000-4039 and
+   settings; `python -m strategist.v2 forks --controllers only_xo,only_excursion,only_leave --out
+   forks_ablations.json --modal`). Not pre-registered; added to see which change reduces premature
+   switching. adaptive_v1's moments in this file are identical to those in `forks.json`, as expected
+   from deterministic seeding.
+3. **Report generator** `strategist/report_v2.py` written after the runs; it only reads the JSON outputs.

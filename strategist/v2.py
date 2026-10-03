@@ -303,50 +303,57 @@ def summarise(records, benches=BENCHES, reference='adaptive_v2', primary=PRIMARY
 
 
 def summarise_forks(moments, benches=BENCHES, window=300.):
+    """Per benchmark and controller, plus each controller minus adaptive_v1 (seeds resampled as clusters)."""
+    controllers = sorted({m['controller'] for m in moments}, key=lambda c: (c != 'adaptive_v1', c != 'adaptive_v2', c))
+    premature = lambda ms: statistics.fmean(m['stay']['mean_gain'] > m['switch']['mean_gain'] for m in ms)
+    gain = lambda ms: statistics.fmean(m['switch']['mean_gain']-m['stay']['mean_gain'] for m in ms)
     out = {}
     for bench in benches:
         out[bench] = {}
-        for ctl in ('adaptive_v1', 'adaptive_v2'):
+        seeds = sorted({m['seed'] for m in moments if m['benchmark'] == bench})
+        per_seed = {c: {s: [] for s in seeds} for c in controllers}
+        for ctl in controllers:
             rows = [m for m in moments if m['benchmark'] == bench and m['controller'] == ctl]
             ms = [m for m in rows if not m.get('empty')]
+            for m in ms: per_seed[ctl][m['seed']].append(m)
             leaves = {m['seed']: m['leaves_in_run'] for m in rows}
-            groups = {}
-            for m in ms: groups.setdefault(m['seed'], []).append(m)
-            g = list(groups.values())+[[] for s in leaves if s not in groups]
-            entry = {'moments': len(ms), 'seeds_with_moments': len(groups),
+            g = list(per_seed[ctl].values())
+            entry = {'moments': len(ms), 'seeds_with_moments': sum(bool(x) for x in g),
                      'leaves_per_run': statistics.fmean(leaves.values()) if leaves else 0.}
             if ms:
-                gain_d = [m['switch']['mean_gain']-m['stay']['mean_gain'] for m in ms]
-                p_d = [m['switch']['p_improve']-m['stay']['p_improve'] for m in ms]
+                stay_wins = sum(m['stay']['mean_gain'] > m['switch']['mean_gain'] for m in ms)
+                switch_wins = sum(m['stay']['mean_gain'] < m['switch']['mean_gain'] for m in ms)
                 entry.update({
                     'p_improve': {a: statistics.fmean(m[a]['p_improve'] for m in ms) for a in ('switch', 'stay')},
                     'mean_gain': {a: statistics.fmean(m[a]['mean_gain'] for m in ms) for a in ('switch', 'stay')},
-                    'gain_difference': paired(gain_d), 'p_improve_difference': paired(p_d),
+                    'gain_difference': paired([m['switch']['mean_gain']-m['stay']['mean_gain'] for m in ms]),
+                    'p_improve_difference': paired([m['switch']['p_improve']-m['stay']['p_improve'] for m in ms]),
                     'gain_difference_seed_cluster_ci': cluster_interval(
                         [[m['switch']['mean_gain']-m['stay']['mean_gain'] for m in grp] for grp in g]),
-                    'premature_share': statistics.fmean(m['stay']['mean_gain'] > m['switch']['mean_gain'] for m in ms),
+                    'premature_share': premature(ms),
                     'premature_share_seed_cluster_ci': cluster_interval(
-                        [[float(m['stay']['mean_gain'] > m['switch']['mean_gain']) for m in grp] for grp in g])})
+                        [[float(m['stay']['mean_gain'] > m['switch']['mean_gain']) for m in grp] for grp in g]),
+                    'stay_better': stay_wins, 'switch_better': switch_wins, 'ties': len(ms)-stay_wins-switch_wins,
+                    'premature_share_excluding_ties': stay_wins/(stay_wins+switch_wins) if stay_wins+switch_wins else None,
+                    'mean_stall_at_switch': statistics.fmean(m['stall'] for m in ms),
+                    'median_spent_at_switch': statistics.median(m['spent'] for m in ms)})
             out[bench][ctl] = entry
-        # v2 minus v1, resampling seeds (both controllers ran on the same seeds)
-        seeds = sorted({m['seed'] for m in moments if m['benchmark'] == bench})
-        per_seed = {s: {c: [m for m in moments if m['benchmark'] == bench and m['seed'] == s and m['controller'] == c
-                            and not m.get('empty')] for c in ('adaptive_v1', 'adaptive_v2')} for s in seeds}
+        if 'adaptive_v1' not in controllers or not out[bench]['adaptive_v1'].get('moments'): continue
+        for ctl in controllers:
+            if ctl == 'adaptive_v1' or not out[bench][ctl].get('moments'): continue
+            groups = [[(c, m) for c in ('adaptive_v1', ctl) for m in per_seed[c][s]] for s in seeds]
 
-        def diff(stat):
-            def f(pooled):
-                a = [m for c, m in pooled if c == 'adaptive_v2']; b = [m for c, m in pooled if c == 'adaptive_v1']
-                return stat(a)-stat(b) if a and b else 0.
-            return f
-        premature = lambda ms: statistics.fmean(m['stay']['mean_gain'] > m['switch']['mean_gain'] for m in ms)
-        gain = lambda ms: statistics.fmean(m['switch']['mean_gain']-m['stay']['mean_gain'] for m in ms)
-        groups = [[(c, m) for c in ('adaptive_v1', 'adaptive_v2') for m in per_seed[s][c]] for s in seeds]
-        if out[bench]['adaptive_v1'].get('moments') and out[bench]['adaptive_v2'].get('moments'):
+            def diff(stat, ctl=ctl):
+                def f(pooled):
+                    a = [m for c, m in pooled if c == ctl]; b = [m for c, m in pooled if c == 'adaptive_v1']
+                    return stat(a)-stat(b) if a and b else 0.
+                return f
             pooled = [x for grp in groups for x in grp]
-            out[bench]['v2_minus_v1'] = {
+            key = 'v2_minus_v1' if ctl == 'adaptive_v2' else f'{ctl}_minus_v1'
+            out[bench][key] = {
                 'premature_share': diff(premature)(pooled), 'premature_share_ci': cluster_interval(groups, diff(premature)),
                 'gain_difference': diff(gain)(pooled), 'gain_difference_ci': cluster_interval(groups, diff(gain)),
-                'leaves_per_run': out[bench]['adaptive_v2']['leaves_per_run']-out[bench]['adaptive_v1']['leaves_per_run']}
+                'leaves_per_run': out[bench][ctl]['leaves_per_run']-out[bench]['adaptive_v1']['leaves_per_run']}
     return out
 
 
@@ -437,24 +444,32 @@ def cmd_confirm(args):
 
 
 def cmd_forks(args):
+    """Pre-registered: adaptive_v1 and adaptive_v2 -> forks.json. With --controllers (exploratory, added
+    after the confirmatory run): any confirmatory arm names, plus adaptive_v1 as reference -> --out."""
     frozen = frozen_design()
     _, costs = load_costs('llm_proxy')
     check_seeds(FORK_SEEDS)
-    specs = {'adaptive_v1': {'kind': 'v1'}, 'adaptive_v2': v2_spec(frozen['levels'])}
+    arms = dict(confirm_arms(frozen, frozen['patience_dev'])[0])
+    names = args.controllers.split(',') if args.controllers else ['adaptive_v2']
+    specs = {'adaptive_v1': {'kind': 'v1'}, **{c: arms[c] for c in names}}
     jobs = [{'type': 'forks', 'controller': c, 'spec': spec, 'bench': b, 'seed': s, 'budget': BUDGET,
              'window': args.window, 'forks': args.forks, 'moments': args.moments, 'costs': costs}
             for c, spec in specs.items() for b in BENCHES for s in FORK_SEEDS]
     moments = execute(jobs, args.modal, args.workers, 'forks')
     summary = summarise_forks(moments)
-    write_json(OUT/'forks.json', {'config': config(args, frozen=frozen), 'summary': summary, 'moments': moments})
+    path = OUT/(args.out or 'forks.json')
+    write_json(path, {'config': config(args, frozen=frozen), 'summary': summary, 'moments': moments})
+    print_forks(summary)
+
+
+def print_forks(summary):
     for b, s in summary.items():
-        for c in ('adaptive_v1', 'adaptive_v2'):
-            e = s[c]
+        for c, e in s.items():
+            if c.endswith('_minus_v1'): print(f"{b:10s} {c}: {e}"); continue
             if not e.get('moments'): print(b, c, 'no moments'); continue
             print(f"{b:10s} {c}: leaves/run={e['leaves_per_run']:.1f} moments={e['moments']} "
                   f"premature={e['premature_share']:.2f} gain switch-stay={e['gain_difference']['mean']:+.4g} "
                   f"CI(seed)={[round(x, 5) for x in e['gain_difference_seed_cluster_ci']]}")
-        if 'v2_minus_v1' in s: print(f"{b:10s} v2-v1: {s['v2_minus_v1']}")
 
 
 def print_summary(summary):
@@ -488,6 +503,8 @@ def main(argv=None):
         p.add_argument('--window', type=float, default=300.)
         p.add_argument('--forks', type=int, default=20)
         p.add_argument('--moments', type=int, default=6)
+        p.add_argument('--controllers', default=None, help='forks only, exploratory: arm names, comma-separated')
+        p.add_argument('--out', default=None, help='forks only: output file name in experiments/strategist-v2')
     args = parser.parse_args(argv)
     if args.command == 'report':
         from .report_v2 import main as report
