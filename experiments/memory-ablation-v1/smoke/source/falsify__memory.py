@@ -122,14 +122,8 @@ class TokenFitter:
     running characters-per-token estimate per arm to choose candidates cheaply."""
 
     def __init__(self, count, budget):
-        self._count, self.budget = count, budget
+        self.count, self.budget = count, budget
         self.ratio = {'prose': 3.6, 'executable': 2.6}
-        self.cache = {}
-
-    def count(self, text, tag):
-        if text not in self.cache:
-            self.cache[text] = self._count(text, tag)
-        return self.cache[text]
 
     def _estimate(self, arm, text):
         return len(text) / self.ratio[arm]
