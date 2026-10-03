@@ -92,8 +92,10 @@ def test_lean_end_to_end_with_mock_api(tmp_path, arm_config):
     assert (out / "curve.csv").exists() and (out / "best_program.py").exists()
     assert (out / "artifacts.tar.gz").exists() and not (out / "programs").exists()
     steps = [json.loads(l) for l in open(out / "events.jsonl") if '"step"' in l]
-    if arm_config.get("patience"):
-        assert any(e["op"] == "restart" for e in steps) or all(e["stall"] < 2 for e in steps)
+    if arm_config.get("patience"):   # after T non-improving steps, the next step restarts
+        for before, after in zip(steps, steps[1:]):
+            if before.get("stall", 0) >= arm_config["patience"]:
+                assert after["op"] == "restart"
     if arm_config["type"] == "independent":
         assert {e["op"] for e in steps} == {"sample"}
 
