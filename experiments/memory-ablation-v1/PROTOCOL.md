@@ -177,3 +177,172 @@ counterexamples, memory token counts and promotion decision), `usage.jsonl`,
    shrinking runs only on proposals that lose probes (pilot: about 45,000, 21,000 and
    27,000 packer executions per run for none, prose and executable). It is a few seconds
    of CPU per run and is reported, not matched.
+3. **Confirmatory regime fixed (Saturday 3 October, about 21:00 BST, before any
+   confirmatory call).** The coordinator chose the Weibull 5k code regime. The full
+   design is in the section "Confirmatory study" below and supersedes "Confirmatory run"
+   above wherever they differ. It adds, identically in all three arms, one sentence to
+   the "This call" section of the prompt: "A proposal that packs every fixed-suite
+   instance exactly like the incumbent cannot be promoted and uses up a call." The no-op
+   rate per arm becomes a secondary endpoint.
+
+# Confirmatory study: Weibull 5k, code representation
+
+Written before launch. Code: `falsify/closed_loop_code.py` (loop, audit, CLI),
+`falsify/code_eval.py` (sandboxed evaluation, short-stream mining, shrinking),
+`falsify/memory_code.py` (memory sections), `falsify/memory_ablation_modal.py` (Modal
+back end and spend cap). The problem adapter and evaluator come from branch
+exp/bp-ceiling, merged at commit f736fb2 (merge ec4d132); the adapter
+(`problems/bin_packing_online`, the gate's online protocol) is unchanged since ffd72cf.
+
+## Question
+
+The same as above, in a regime with headroom over best-fit. On 5,000-item Weibull(45, 3)
+instances, FunSearch's published heuristic uses about 62 fewer bins per instance than
+best-fit (positive control from bp-ceiling-v1). Does showing the model executable
+counterexamples lead to better audited final policies than no memory, or than a prose
+summary of the same failures filling the same number of tokens?
+
+## Loop
+
+- Representation: one complete Python module defining `priority(item, bins)` per call,
+  with FunSearch's evaluator semantics (as many bins as items, unused bins included,
+  highest score wins, first index on ties). Structured output fields: name, hypothesis,
+  falsification, code. Model `claude-haiku-4-5`, `max_tokens` 2048 (code needs more room
+  than 20 weights; the same in every arm), default sampling, 30 calls per run.
+- The system prompt states the problem, the interface, the item distribution, best-fit
+  as the starting incumbent, and the sandbox rules. It does not mention FunSearch.
+- The user prompt shows the incumbent's full code, its fixed-suite bins per instance,
+  best-fit's, the L2 lower bound, the per-instance difference from best-fit, the call
+  number, the promotion rule, the no-op sentence and the arm's memory section.
+- Every run starts from best-fit (`return -(bins - item)`).
+- Fixed suite per run seed: 5 instances of 5,000 items (namespace
+  `memory-ablation-v1/fixed`), shared by the three arms of that seed.
+- Evaluation of a proposal: the gate's static checks; then each fixed instance in a
+  fresh process through `autoresearch.sandbox.run_online` with the problem's trusted
+  driver (items revealed one at a time, credentials stripped, 30 seconds per instance).
+  A static rejection, an exception, a timeout or invalid decisions make the call a
+  failed call. Evaluation runs in Modal containers with no network, no secrets and no
+  access to Modal resources.
+- Promotion (same in every arm): the proposal replaces the incumbent if and only if it
+  uses strictly fewer total bins than the incumbent on the fixed suite.
+
+## Counterexamples (the evidence both memory arms draw on)
+
+For every proposal that runs, in every arm: a fresh probe stream of 2,000 items per call
+(namespace `memory-ablation-v1/probe`, the same for the three arms of a seed) is cut into
+50 streams of 40 items. Each short stream is packed from empty bins (40 bins) by the
+proposal and by a reference: the incumbent at the time of the proposal, and also
+best-fit when that incumbent is not best-fit. Up to the four worst losing streams per
+reference are shrunk by greedy single-item deletion (at most 300 trials each) while the
+proposal still uses more bins. Shrunk streams of at most 30 items are kept, shortest
+first, at most two per reference. Each kept stream is re-run in fresh gate processes
+and dropped if the loss does not reproduce. Short streams and shrinking run in one
+persistent online child per program (items still revealed one at a time; the module is
+re-executed for every stream). This work is counted separately from fixed-suite
+evaluation.
+
+## Arms (only the memory section differs)
+
+- **none**: no memory section.
+- **prose**: for earlier proposals that were not promoted, newest first: name, stated idea
+  (at most 200 characters), fixed-suite bins per instance versus the incumbent of the
+  time (and versus best-fit when different), how many short streams it lost and won
+  against that reference, whether it packed exactly like the incumbent, and one sentence
+  on how its first departure from the reference went on its shrunk losing streams
+  (opened a new bin although an open bin had room / chose a roomier or tighter open
+  bin), with the median stream length. No concrete input. If the incumbent is not
+  best-fit, a summary of its own short-stream losses against the incumbent it replaced
+  and against best-fit comes first.
+- **executable**: for the same proposals: name, idea, fixed-suite result, and up to two
+  shrunk losing streams each, with the items, both packings and the first different
+  decision. At most 8 streams in total. If the incumbent is not best-fit, its own
+  streams (against the incumbent it replaced and against best-fit) come first.
+- In both memory arms, proposals that were rejected by the integrity gate or failed to
+  run get the same one-line note (the gate rejection is generic; a runtime failure shows
+  the last line of the error). Replies that could not be parsed are left out of memory.
+- prose and executable fill the same budget of 1,500 tokens, counted with the API's
+  token-counting endpoint. Realized memory tokens are reported per arm.
+
+## Known threat, measured before launch
+
+Short streams packed from empty bins disagree with the long-run objective in this
+regime. FunSearch's heuristic used more bins than best-fit on 200 of 200 Weibull streams
+of 30 items and of 60 items, and on 199 of 200 of 100 items, yet it ends a 5,000-item
+instance 64 bins ahead. In one 5,000-item stream it used more bins than best-fit up to
+about item 500 and fewer from about item 1,000 on. Its shrunk counterexamples are two
+items long (it opens a new bin for the second item). Executable counterexamples of this
+kind can therefore point away from policies that win only over long horizons. Both
+memory arms report the short-stream evidence next to the fixed-suite result on
+5,000-item instances, so neither arm hides the long-run outcome. This is the design the
+coordinator specified; the threat is stated here so that a negative result for the
+executable arm can be read correctly.
+
+## Seeds, pairing and budgets
+
+Seeds 0-9, three arms, 30 calls: 900 calls. A seed fixes the fixed suite and the probe
+streams, not model sampling. Up to 15 runs in parallel.
+
+- Anthropic: the total cap for the whole task stays at $15, enforced in code and
+  counting the $0.94 already spent (pilot, smoke, checks). This invocation is capped at
+  $9. Expected: about $0.003 per call, about $3 in total.
+- Modal: app `ssm-memory-ablation`, cap $5 including all earlier Modal use under this
+  folder. Each call reserves its worst case (the function timeout at list prices plus
+  25%) before it is submitted. Expected: under $1.
+
+## Endpoints
+
+Primary: audited mean excess bins per instance of each run's final incumbent over
+best-fit, on 400 fresh 5,000-item instances (namespace `memory-ablation-v1/audit`).
+Lower is better. Primary contrasts, paired by seed: executable minus prose, and
+executable minus none; prose minus none is also reported. Paired seed bootstrap, 10,000
+resamples, seed 49999, 95% percentile intervals. The audit uses 400 instances rather
+than 1,600, because each instance is 62 times longer: 2 million item steps per policy
+against 128,000 in the pilot.
+
+Fixed reference (not an arm): FunSearch's Weibull heuristic (notebook commit cc53f27)
+and best-fit on the same 400 audit instances, with an instance-level bootstrap interval.
+Also reported as % excess over the L2 lower bound, as FunSearch reports.
+
+Secondaries:
+
+1. Harmful proposals: share of valid proposals with more mean bins than best-fit on 10
+   fresh 5,000-item diagnostic instances; and share with more mean bins than the
+   incumbent of their time on the same instances.
+2. No-op rate: share of valid proposals that pack every fixed instance exactly like the
+   incumbent (identical decisions up to bin relabelling).
+3. Repeats and reverts: valid proposals that pack the fixed suite exactly like an
+   earlier non-promoted proposal of the run, and proposals that pack exactly like a
+   former incumbent (reverting to an earlier state).
+4. Gate rejections and runtime failures per arm; promotions; best fixed-suite result per
+   run.
+5. Tokens and dollars per arm; realized memory tokens; Modal seconds; shrinking trials
+   and short-stream executions, separately from fixed-suite evaluation.
+6. Similarity to FunSearch's published heuristic (added at the coordinator's request
+   before launch; FunSearch's code is public and Haiku may reproduce it from memory).
+   For every promoted or final candidate: run it on 2 fresh 5,000-item instances
+   (namespace `memory-ablation-v1/similarity`), replay its own decisions, and at every
+   step ask whether FunSearch's heuristic, given the same bins, would pick a bin with the
+   same remaining capacity. Report the agreement fraction (and the same against
+   best-fit), flag near-copies (agreement at least 0.99), and give the near-copy rate per
+   arm. This does not bias the comparison between arms, but it qualifies any claim that
+   a run "found" a better-than-best-fit heuristic.
+
+## Audit freshness
+
+Audit and diagnostic seeds come from the SHA-256 of all 30 finished traces, so the
+instances cannot exist before every run has ended. The audit refuses to run unless all
+three arms and the expected seeds are present. Nothing from the audit feeds back.
+
+## Interpretation
+
+An executable-minus-prose interval entirely below zero supports the claim that
+executable counterexamples beat prose at equal tokens. An interval containing zero is
+inconclusive. If final incumbents stay at best-fit in most runs of every arm, the
+primary endpoint is at its floor and that will be said plainly.
+
+## Infrastructure checks before this section
+
+Not analysed, kept for provenance: `checks/modal-mock/` (mock model, Modal back end, 3
+calls) and `checks/live-code/` (seed 903, three arms, 3 calls each, $0.0263; no
+promotions). One cosmetic change followed them: the stated idea in memory is now cut at
+a word boundary.
