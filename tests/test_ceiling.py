@@ -49,3 +49,22 @@ def test_compare_reports_percentage_points_against_best_fit():
     cases = [C(), C()]
     out = compare([11, 10], [10, 10], [10, 10], cases, ['weibull'])
     assert abs(out['delta_pp'] - 5.0) < 1e-12 and out['losses'] == 1 and out['ties'] == 1
+
+
+def test_exact_optimum_matches_brute_force_on_tiny_instances():
+    import itertools
+    from falsify.optimum import optimal_bins
+
+    def brute(items, cap):
+        for k in range(1, len(items) + 1):
+            for assignment in itertools.product(range(k), repeat=len(items)):
+                loads = [0] * k
+                for b, x in zip(assignment, items):
+                    loads[b] += x
+                if max(loads) <= cap:
+                    return k
+
+    rng = random.Random(9)
+    for _ in range(25):
+        items = [rng.randint(15, 70) for _ in range(rng.randint(2, 7))]
+        assert optimal_bins(items) == (brute(items, 100), brute(items, 100))

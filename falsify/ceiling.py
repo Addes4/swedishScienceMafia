@@ -7,6 +7,8 @@ are generated only after every search has finished. See experiments/bp-ceiling-v
     python -m falsify.ceiling search --regime weibull5k --representation linear20 --optimizer hc --seed 0
     python -m falsify.ceiling audit --out experiments/bp-ceiling-v1      # after all runs exist
     python -m falsify.ceiling sweep --out experiments/bp-ceiling-v1      # length sweep, fixed heuristics
+    python -m falsify.ceiling tune-ab --out experiments/bp-ceiling-v1    # ab-heuristic grid per seed
+    python -m falsify.ceiling headroom --out experiments/bp-ceiling-v1   # best fit vs exact optimum, n = 80
 Fan-out of the searches on Modal: falsify/ceiling_modal.py.
 """
 import argparse
@@ -403,12 +405,39 @@ def sweep(out):
     write_json(out / 'length_sweep.json', rows)
 
 
+def headroom(out, per_family=200):
+    """Best fit against the exact offline optimum on fresh 80-item instances (namespace
+    bp-ceiling-v1/headroom): the most any online rule could gain there."""
+    from .optimum import optimal_bins
+    rows = {}
+    for family in TRAIN_FAMILIES + ['weibull']:
+        bf, l2, lo, hi = [], [], [], []
+        for i in range(per_family):
+            items = (weibull_items(f'80/{i}', 80, namespace='bp-ceiling-v1/headroom') if family == 'weibull'
+                     else falsify_items(f'bp-ceiling-v1/headroom/{family}/{i}', family, 80))
+            low, high = optimal_bins(items)
+            bf.append(pack_rule(items, 'best_fit'))
+            l2.append(l2_bound(items))
+            lo.append(low)
+            hi.append(high)
+        proven = [i for i in range(per_family) if lo[i] == hi[i]]
+        rows[family] = {'instances': per_family, 'optimum_proven': len(proven),
+                        'best_fit_excess_percent_over_l2': excess_percent(bf, l2),
+                        'best_fit_excess_percent_over_optimum': excess_percent([bf[i] for i in proven],
+                                                                               [hi[i] for i in proven]),
+                        'instances_where_best_fit_is_optimal': sum(bf[i] == hi[i] for i in proven),
+                        'mean_bins_best_fit_minus_optimum': statistics.mean(bf[i] - hi[i] for i in proven)}
+        print(family, rows[family], flush=True)
+    write_json(Path(out) / 'headroom_80.json', rows)
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('command', choices=['search', 'tune-ab', 'audit', 'sweep'],
+    parser.add_argument('command', choices=['search', 'tune-ab', 'audit', 'sweep', 'headroom'],
                         help='search: one linear-policy search; tune-ab: grid-tune the ab-heuristics for '
                              'every regime and seed; audit: fresh-instance audit of everything; '
-                             'sweep: length sweep of the fixed heuristics')
+                             'sweep: length sweep of the fixed heuristics; headroom: best fit against '
+                             'the exact optimum on 80-item instances')
     parser.add_argument('--out', default='experiments/bp-ceiling-v1')
     parser.add_argument('--regime', choices=list(REGIMES))
     parser.add_argument('--representation', choices=list(REPRESENTATIONS))
@@ -433,8 +462,10 @@ def main():
                           flush=True)
     elif args.command == 'audit':
         audit(args.out)
-    else:
+    elif args.command == 'sweep':
         sweep(args.out)
+    else:
+        headroom(args.out)
 
 
 if __name__ == '__main__':
