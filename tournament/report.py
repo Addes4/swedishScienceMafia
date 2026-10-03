@@ -166,7 +166,7 @@ def group_table(runs):
 
 # -- SVG ---------------------------------------------------------------------------------------
 def svg_chart(problem, runs, arms, width=640, height=360):
-    pad_l, pad_r, pad_t, pad_b = 56, 16, 16, 44
+    pad_l, pad_r, pad_t, pad_b = 56, 28, 16, 44
     cap = max(r["cap_usd"] for r in runs) or 1.0
     ys = [c["incumbent_public"] for r in runs for c in r["curve"]] or [0, 1]
     lo, hi = min(ys), max(ys)
@@ -338,11 +338,54 @@ def _table(lines):
     return f"<table><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table>"
 
 
+def figure_svg(runs, arms, width=640, height=300):
+    """All problems as stacked panels in one standalone SVG, with a legend row on top."""
+    problems = sorted({r["problem"] for r in runs})
+    legend_h, title_h = 28, 22
+    total_h = legend_h + len(problems) * (title_h + height)
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {total_h}" width="{width}" height="{total_h}" '
+             f'style="background:{SURFACE};font-family:system-ui,sans-serif;font-size:12px">'
+             f'<rect width="{width}" height="{total_h}" fill="{SURFACE}"/>']
+    x = 56
+    for k, arm in enumerate(arms):
+        parts.append(f'<line x1="{x}" x2="{x + 18}" y1="14" y2="14" stroke="{COLORS[k % len(COLORS)]}" stroke-width="2"/>'
+                     f'<text x="{x + 24}" y="18" fill="{INK}">{html.escape(arm)}</text>')
+        x += 30 + 7.5 * len(arm)
+    y = legend_h
+    for problem in problems:
+        parts.append(f'<text x="56" y="{y + 16}" fill="{INK}" font-weight="600">{html.escape(problem)}: '
+                     f'best public score (1.0 = reference) vs US dollars spent</text>')
+        chart = svg_chart(problem, [r for r in runs if r["problem"] == problem], arms, width, height)
+        parts.append(chart.replace("<svg ", f'<svg x="0" y="{y + title_h}" ', 1))
+        y += title_h + height
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def headline(rows, comparisons, contrasts, runs, reference):
+    """Machine-readable headline numbers for cross-experiment summaries."""
+    live = [r for r in runs if not r.get("mock")]
+    return {
+        "runs": len(runs), "reference_arm": reference,
+        "anthropic_usd": round(sum(r["spent_usd"] for r in live), 4),
+        "tokens": sum(r["tokens"] for r in live),
+        "evaluations": sum(r["evals"] for r in runs),
+        "all_within_cap": all(r["within_cap"] for r in runs),
+        "by_problem_and_arm": [{k: row[k] for k in ("problem", "arm", "runs", "final_public", "final_min", "final_max",
+                                                     "auc_gain", "final_hidden", "spent_usd", "calls", "evals",
+                                                     "improvements", "matches_record", "wall_s")} for row in rows],
+        "vs_reference": comparisons, "secondary_contrasts": contrasts,
+        "record_flags": [dict(f, run=r["run_dir"]) for r in runs for f in r.get("record_flags") or []],
+    }
+
+
 def main(argv=None):
-    ap = argparse.ArgumentParser()
-    ap.add_argument("folder")
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("folder", help="grid folder with one subfolder per run")
     ap.add_argument("--reference", default="shinka", help="arm the others are compared with")
     ap.add_argument("--recompute", action="store_true", help="rebuild summaries from the raw logs")
+    ap.add_argument("--figure", help="also write the curves as one standalone SVG here")
+    ap.add_argument("--headline", help="also write headline numbers as JSON here")
     a = ap.parse_args(argv)
     folder = Path(a.folder)
     runs = load_runs(folder, a.recompute)
@@ -367,6 +410,11 @@ def main(argv=None):
     (folder / "results.json").write_text(json.dumps({"groups": rows, "comparisons": comparisons, "contrasts": contrasts,
                                                      "runs": [{k: v for k, v in r.items() if k != "curve"} for r in runs]},
                                                     indent=2, default=str))
+    if a.figure:
+        Path(a.figure).write_text(figure_svg(runs, arms))
+    if a.headline:
+        Path(a.headline).write_text(json.dumps(headline(rows, comparisons, contrasts, runs, a.reference), indent=2,
+                                               default=str))
     print(md_text)
     print(f"wrote {folder / 'report.md'} and {folder / 'report.html'}")
 

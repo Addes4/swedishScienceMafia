@@ -117,6 +117,14 @@ def summarize(run_dir) -> dict:
         "failed_calls": sum(1 for r in calls if r.get("error")),
         "refusals": sum(1 for r in usage if r.get("event") == "refused"),
         "stop_reason_counts": _counts(r.get("stop_reason") for r in calls),
+        "calls_by_model": _counts(r.get("model") for r in calls),
+        "usd_by_model": {m: round(sum(r.get("cost_usd") or 0 for r in calls if r.get("model") == m), 6)
+                         for m in sorted({r.get("model") for r in calls})},
+        "external_usd": round(sum(r.get("cost_usd") or 0 for r in usage if r.get("event") == "external"), 8),
+        "idea_calls": sum(1 for r in calls if r.get("requested_max_tokens") == 16000),   # triage: one per round
+        "truncated_calls": sum(1 for r in calls if r.get("stop_reason") == "max_tokens"),
+        "shortened_calls": sum(1 for r in calls if (r.get("granted_max_tokens") or 0) < (r.get("requested_max_tokens") or 0)),
+        "retries": sum(1 for r in usage if r.get("event") == "retry"),
         "evals": len(evals), "valid_evals": len(valid),
         "initial_public": y0, "initial_hidden": initial["incumbent_hidden"] if initial else None,
         "final_public": final["incumbent_public"] if final else None,
