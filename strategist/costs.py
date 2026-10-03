@@ -12,6 +12,7 @@ Measured tables are relative. By default they are rescaled so that an edit costs
 proxy table (1.2), so the 3,000-unit budget buys about as many edits as in v1 and only the ratios
 change. `resume` (going back to the leader line) evaluates nothing and is always free.
 """
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -51,4 +52,8 @@ def load(spec):
     if not path.exists(): raise CostTableError(f'no cost table named or found at {spec}')
     data = json.loads(path.read_text())
     edit_cost = COSTS['edit'] if data.get('normalise', True) else None
-    return data.get('name', path.stem), normalise(data.get('relative', {}), edit_cost)
+    table = normalise(data.get('relative', {}), edit_cost)
+    # Each version of a measured table gets its own name (and output folder), so updated ratios never
+    # overwrite or get mixed with an earlier run.
+    digest = hashlib.sha256(json.dumps(table, sort_keys=True).encode()).hexdigest()[:6]
+    return f"{data.get('name', path.stem)}-{digest}", table

@@ -7,7 +7,8 @@
     python -m strategist.v2 confirm --costs uniform --modal     # cost sensitivity (patience re-tuned on dev)
     python -m strategist.v2 confirm --costs measured --modal    # after filling costs/measured_llm.json
     python -m strategist.v2 forks --modal               # counterfactual forks, v1 and v2, seeds 4000-4039
-    python -m strategist.v2 report                      # tables.md from the JSON outputs
+    python -m strategist.v2 report                      # tables.md, headline in summary.json, figure
+    python -m strategist.v2 cost                        # cost.json: Modal spend, runs, evaluations
 
 Without --modal, jobs run locally on --workers processes (default 2).
 """
@@ -21,7 +22,7 @@ import time
 import copy
 from pathlib import Path
 from .controller import Adaptive, AdaptiveV2, Fixed, Patience, shuffled
-from .costs import load as load_costs
+from .costs import CostTableError, load as load_costs
 from .problems import BENCHMARKS
 from .search import Run
 from .stats import cluster_interval, holm, paired
@@ -441,6 +442,42 @@ def cmd_confirm(args):
     write_json(folder/'summary.json', {**summary, 'config': config(args, frozen=frozen, cost_table=costs,
                                                                     cost_name=name, patience_dev=patience)})
     print_summary(summary)
+    from .report_v2 import main as report
+    report()                                  # refresh tables.md (and the headline) with the new run
+
+
+def cmd_cost(args):
+    """Record spend and compute: Modal cost of app ssm-strategist-v2 (from `modal billing report`),
+    evaluator executions and CPU seconds from the saved records. Writes cost.json."""
+    import subprocess
+    out = {'anthropic_usd': 0., 'anthropic_note': 'no LLM calls in this experiment (no usage.jsonl)'}
+    try:
+        modal_cli = str(Path(sys.executable).with_name('modal'))
+        rows = json.loads(subprocess.run([modal_cli, 'billing', 'report', '--for', args.billing, '--json'],
+                                         capture_output=True, text=True, check=True).stdout)
+        rows = [r for r in rows if r.get('description') == 'ssm-strategist-v2']
+        out.update({'modal_usd': round(sum(float(r['cost']) for r in rows), 4), 'modal_app_runs': len(rows),
+                    'modal_note': f'modal billing report --for {args.billing!r}, app ssm-strategist-v2, queried '
+                                  + time.strftime('%Y-%m-%d %H:%M %Z')})
+    except (OSError, subprocess.CalledProcessError, ValueError) as error:
+        out['modal_note'] = f'billing query failed: {error}'
+    runs, seconds, evaluations = 0, 0., 0
+    for path in [OUT/'dev'/'runs.jsonl.gz', OUT/'validation'/'runs.jsonl.gz', OUT/'runs.jsonl.gz',
+                 *sorted((OUT/'costs').glob('*/*runs.jsonl.gz'))]:
+        if not path.exists(): continue
+        for r in read_records(path):
+            runs += 1; seconds += r['seconds']; evaluations += r['steps']+1     # +1: the initial solution
+    out.update({'runs': runs, 'run_cpu_seconds': round(seconds), 'evaluations': evaluations})
+    fork_moments = 0
+    for name in ('forks.json', 'forks_ablations.json'):
+        if (OUT/name).exists():
+            fork_moments += sum(not m.get('empty') for m in json.loads((OUT/name).read_text())['moments'])
+    # Fork evaluations are not logged; estimate: 20 stay forks x ~250 edits + 20 switch forks x ~220 moves
+    # per moment, plus one ~2,300-move base run per fork job (3 benchmarks x 40 seeds per controller).
+    out['fork_moments'] = fork_moments
+    out['fork_evaluations_estimate'] = fork_moments*20*(250+220)
+    write_json(OUT/'cost.json', out)
+    print(json.dumps(out, indent=2))
 
 
 def cmd_forks(args):
@@ -491,7 +528,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest='command', required=True)
     for name, func in (('dev', cmd_dev), ('freeze', cmd_freeze), ('validate', cmd_validate),
-                       ('confirm', cmd_confirm), ('forks', cmd_forks), ('report', None)):
+                       ('confirm', cmd_confirm), ('forks', cmd_forks), ('report', None), ('cost', cmd_cost)):
         p = sub.add_parser(name)
         p.set_defaults(func=func)
         p.add_argument('--modal', action='store_true', help='fan out on Modal (app ssm-strategist-v2)')
@@ -500,16 +537,20 @@ def main(argv=None):
         p.add_argument('--costs', default='llm_proxy', help='llm_proxy | uniform | measured | path.json | edit=1,...')
         p.add_argument('--retune', action='store_true', help='re-tune patience on dev for this cost table')
         p.add_argument('--seeds', default=None, help='dev only: start:stop (default 40:240)')
-        p.add_argument('--window', type=float, default=300.)
-        p.add_argument('--forks', type=int, default=20)
-        p.add_argument('--moments', type=int, default=6)
+        p.add_argument('--window', type=float, default=300., help='forks: cost units each fork runs')
+        p.add_argument('--forks', type=int, default=20, help='forks: forks per arm per switch moment')
+        p.add_argument('--moments', type=int, default=6, help='forks: switch moments sampled per seed')
+        p.add_argument('--billing', default='today', help="cost: billing range, e.g. 'today' or 'this month'")
         p.add_argument('--controllers', default=None, help='forks only, exploratory: arm names, comma-separated')
         p.add_argument('--out', default=None, help='forks only: output file name in experiments/strategist-v2')
     args = parser.parse_args(argv)
     if args.command == 'report':
         from .report_v2 import main as report
         return report()
-    args.func(args)
+    try:
+        args.func(args)
+    except CostTableError as error:
+        raise SystemExit(f'cost table: {error}')
 
 
 if __name__ == '__main__': main()

@@ -1,4 +1,513 @@
 {
+  "headline": {
+    "experiment": "strategist-v2",
+    "question": "Do v1's three proposed fixes (crossover gate, excursion cap, recent-improvement leave test) make the adaptive controller better at equal cost, and does it now match a patience rule tuned on dev seeds?",
+    "design": "gate02/cap64/improving16",
+    "options": {
+      "xo_gate": true,
+      "xo_probe": 0.02,
+      "excursion": "cap",
+      "excursion_len": 64,
+      "leave_test": "improving",
+      "window": 16
+    },
+    "patience_dev_T": {
+      "labs": 64,
+      "heilbronn": 512,
+      "nk": 128
+    },
+    "seeds": {
+      "dev": "40-239",
+      "validation": "240-439",
+      "confirmatory": "3000-3199",
+      "forks": "4000-4039"
+    },
+    "budget_cost_units": 3000,
+    "primary_cost_table": "llm_proxy",
+    "units": {
+      "labs": "merit factor, higher is better",
+      "heilbronn": "smallest triangle area, higher is better",
+      "nk": "fitness, higher is better"
+    },
+    "differences": "adaptive_v2 minus the other arm, per seed, positive = v2 better; 200 seeds",
+    "means": {
+      "labs": {
+        "adaptive_v2": 4.1716852587635085,
+        "adaptive_v1": 4.034486994270266,
+        "patience_dev": 4.391791238686307,
+        "patience_256": 4.289063088026578,
+        "static_mix": 3.5838198283708236,
+        "edits_only": 3.5488162373812555,
+        "timing_shuffled": 4.0899720655675145
+      },
+      "heilbronn": {
+        "adaptive_v2": 0.010496073823792,
+        "adaptive_v1": 0.010428280283358746,
+        "patience_dev": 0.010009381542048721,
+        "patience_256": 0.009980897803266503,
+        "static_mix": 0.010567469628208242,
+        "edits_only": 0.009987033352003816,
+        "timing_shuffled": 0.009479210627770485
+      },
+      "nk": {
+        "adaptive_v2": 0.7407676028794346,
+        "adaptive_v1": 0.7350005432223117,
+        "patience_dev": 0.7458161231755761,
+        "patience_256": 0.7414657355480405,
+        "static_mix": 0.7170701981447758,
+        "edits_only": 0.7110987350093082,
+        "timing_shuffled": 0.7333079866561911
+      }
+    },
+    "primary": {
+      "labs": {
+        "adaptive_v1": {
+          "mean": 0.13719826449324155,
+          "ci95": [
+            0.04267705901443362,
+            0.2360568173322882
+          ],
+          "wins": 110,
+          "ties": 14,
+          "losses": 76,
+          "sign_p": 0.015308531789131538,
+          "holm_p": 0.030617063578263076,
+          "verdict": "better"
+        },
+        "timing_shuffled": {
+          "mean": 0.08171319319599349,
+          "ci95": [
+            -0.008819618630602004,
+            0.17325157645485437
+          ],
+          "wins": 104,
+          "ties": 12,
+          "losses": 84,
+          "sign_p": 0.16566117169897784,
+          "holm_p": 0.16566117169897784,
+          "verdict": "no clear difference"
+        },
+        "patience_dev": {
+          "mean": -0.2201059799227989,
+          "ci95": [
+            -0.3069258293399719,
+            -0.13186345133278127
+          ],
+          "wins": 53,
+          "ties": 15,
+          "losses": 132,
+          "sign_p": 5.784600799942916e-09,
+          "holm_p": 2.3138403199771663e-08,
+          "verdict": "worse"
+        },
+        "patience_256": {
+          "mean": -0.11737782926307,
+          "ci95": [
+            -0.2119174095809568,
+            -0.02095899814085379
+          ],
+          "wins": 76,
+          "ties": 8,
+          "losses": 116,
+          "sign_p": 0.0047552374855475395,
+          "holm_p": 0.01426571245664262,
+          "verdict": "worse"
+        },
+        "static_mix": {
+          "mean": 0.5878654303926844,
+          "ci95": [
+            0.49229630530818225,
+            0.6842576843077821
+          ],
+          "wins": 157,
+          "ties": 6,
+          "losses": 37,
+          "sign_p": 8.537713396706037e-19,
+          "holm_p": 4.268856698353019e-18,
+          "verdict": "better"
+        },
+        "edits_only": {
+          "mean": 0.6228690213822524,
+          "ci95": [
+            0.5261585129568193,
+            0.7218061503985201
+          ],
+          "wins": 161,
+          "ties": 9,
+          "losses": 30,
+          "sign_p": 7.167434382229876e-23,
+          "holm_p": 4.300460629337926e-22,
+          "verdict": "better"
+        }
+      },
+      "heilbronn": {
+        "adaptive_v1": {
+          "mean": 6.779354043325334e-05,
+          "ci95": [
+            -0.0004011352020964156,
+            0.0005215754826393675
+          ],
+          "wins": 105,
+          "ties": 0,
+          "losses": 95,
+          "sign_p": 0.5246223557223149,
+          "holm_p": 0.873506979102658,
+          "verdict": "no clear difference"
+        },
+        "timing_shuffled": {
+          "mean": 0.0010168631960215154,
+          "ci95": [
+            0.0006417131958593461,
+            0.001400182111843929
+          ],
+          "wins": 125,
+          "ties": 0,
+          "losses": 75,
+          "sign_p": 0.0004994264864177534,
+          "holm_p": 0.0029965589185065203,
+          "verdict": "better"
+        },
+        "patience_dev": {
+          "mean": 0.00048669228174327996,
+          "ci95": [
+            3.113271984602612e-05,
+            0.0009346071391156999
+          ],
+          "wins": 122,
+          "ties": 0,
+          "losses": 78,
+          "sign_p": 0.0022794385018057293,
+          "holm_p": 0.009117754007222917,
+          "verdict": "better"
+        },
+        "patience_256": {
+          "mean": 0.0005151760205254988,
+          "ci95": [
+            6.866943429674924e-05,
+            0.0009639871820721437
+          ],
+          "wins": 124,
+          "ties": 0,
+          "losses": 76,
+          "sign_p": 0.0008450699446919267,
+          "holm_p": 0.004225349723459634,
+          "verdict": "better"
+        },
+        "static_mix": {
+          "mean": -7.139580441624019e-05,
+          "ci95": [
+            -0.0004750235098583837,
+            0.0003373285522473235
+          ],
+          "wins": 94,
+          "ties": 0,
+          "losses": 106,
+          "sign_p": 0.436753489551329,
+          "holm_p": 0.873506979102658,
+          "verdict": "no clear difference"
+        },
+        "edits_only": {
+          "mean": 0.0005090404717881852,
+          "ci95": [
+            4.8877172583598454e-05,
+            0.0009646022207200592
+          ],
+          "wins": 122,
+          "ties": 0,
+          "losses": 78,
+          "sign_p": 0.0022794385018057293,
+          "holm_p": 0.009117754007222917,
+          "verdict": "better"
+        }
+      },
+      "nk": {
+        "adaptive_v1": {
+          "mean": 0.0057670596571228645,
+          "ci95": [
+            0.0023576802600526543,
+            0.009153195350354687
+          ],
+          "wins": 118,
+          "ties": 0,
+          "losses": 82,
+          "sign_p": 0.013130355940531583,
+          "holm_p": 0.03939106782159475,
+          "verdict": "better"
+        },
+        "timing_shuffled": {
+          "mean": 0.007459616223243368,
+          "ci95": [
+            0.003967390168104266,
+            0.010939029464002128
+          ],
+          "wins": 128,
+          "ties": 0,
+          "losses": 72,
+          "sign_p": 9.129815585318742e-05,
+          "holm_p": 0.00036519262341274967,
+          "verdict": "better"
+        },
+        "patience_dev": {
+          "mean": -0.005048520296141656,
+          "ci95": [
+            -0.008210015969828493,
+            -0.0018872095999508775
+          ],
+          "wins": 84,
+          "ties": 0,
+          "losses": 116,
+          "sign_p": 0.028125407232926402,
+          "holm_p": 0.056250814465852804,
+          "verdict": "no clear difference"
+        },
+        "patience_256": {
+          "mean": -0.0006981326686059219,
+          "ci95": [
+            -0.003870724429416628,
+            0.0025476458796161792
+          ],
+          "wins": 101,
+          "ties": 0,
+          "losses": 99,
+          "sign_p": 0.9436515209907436,
+          "holm_p": 0.9436515209907436,
+          "verdict": "no clear difference"
+        },
+        "static_mix": {
+          "mean": 0.02369740473465882,
+          "ci95": [
+            0.01972393038772042,
+            0.027660592682460385
+          ],
+          "wins": 158,
+          "ties": 0,
+          "losses": 42,
+          "sign_p": 5.1038205427106886e-17,
+          "holm_p": 2.5519102713553445e-16,
+          "verdict": "better"
+        },
+        "edits_only": {
+          "mean": 0.029668867870126424,
+          "ci95": [
+            0.025465562422877598,
+            0.033816100343011656
+          ],
+          "wins": 171,
+          "ties": 2,
+          "losses": 27,
+          "sign_p": 8.64704691682899e-27,
+          "holm_p": 5.188228150097394e-26,
+          "verdict": "better"
+        }
+      }
+    },
+    "v1_vs_patience_dev": {
+      "labs": {
+        "mean": -0.3573042444160404,
+        "ci95": [
+          -0.4442719408422896,
+          -0.27274306426525974
+        ],
+        "wins": 49,
+        "ties": 9,
+        "losses": 142,
+        "sign_p": 1.0855677484939158e-11,
+        "holm_p": null,
+        "verdict": "worse"
+      },
+      "heilbronn": {
+        "mean": 0.0004188987413100266,
+        "ci95": [
+          -3.428490610184969e-05,
+          0.0008759456558705256
+        ],
+        "wins": 109,
+        "ties": 0,
+        "losses": 91,
+        "sign_p": 0.22924659725971577,
+        "holm_p": null,
+        "verdict": "no clear difference"
+      },
+      "nk": {
+        "mean": -0.010815579953264522,
+        "ci95": [
+          -0.013903989818371607,
+          -0.007823497045538377
+        ],
+        "wins": 59,
+        "ties": 0,
+        "losses": 141,
+        "sign_p": 6.307981725354924e-09,
+        "holm_p": null,
+        "verdict": "worse"
+      }
+    },
+    "J": {
+      "definition": "mean over benchmarks of (mean paired difference to adaptive_v1) / SD(adaptive_v1)",
+      "adaptive_v2": {
+        "dev": 0.23643995603062853,
+        "validation": 0.13184972169130937,
+        "confirmatory": 0.2086776904648789
+      },
+      "patience_dev": {
+        "validation": 0.38428458287850403,
+        "confirmatory": 0.3814582447185848
+      }
+    },
+    "forks": {
+      "labs": {
+        "premature_share_v1": 0.4780701754385965,
+        "premature_share_v2": 0.2125,
+        "v2_minus_v1": {
+          "premature_share": -0.2655701754385965,
+          "premature_share_ci": [
+            -0.3536343612334802,
+            -0.17472222222222222
+          ],
+          "gain_difference": 0.06526451625715038,
+          "gain_difference_ci": [
+            0.016438658778805862,
+            0.1127564694362856
+          ],
+          "leaves_per_run": 2.4250000000000007
+        }
+      },
+      "heilbronn": {
+        "premature_share_v1": 0.9743589743589743,
+        "premature_share_v2": 0.9776785714285714,
+        "v2_minus_v1": {
+          "premature_share": 0.003319597069597058,
+          "premature_share_ci": [
+            -0.02743692000920317,
+            0.03418803418803418
+          ],
+          "gain_difference": -9.924405419041004e-05,
+          "gain_difference_ci": [
+            -0.00032260614284120937,
+            0.00010892501838115159
+          ],
+          "leaves_per_run": -18.150000000000002
+        }
+      },
+      "nk": {
+        "premature_share_v1": 0.548936170212766,
+        "premature_share_v2": 0.33755274261603374,
+        "v2_minus_v1": {
+          "premature_share": -0.21138342759673223,
+          "premature_share_ci": [
+            -0.29357555214236536,
+            -0.13102431834929995
+          ],
+          "gain_difference": 0.005251076471053773,
+          "gain_difference_ci": [
+            0.0027092209212994933,
+            0.007776450829571461
+          ],
+          "leaves_per_run": 1.7750000000000004
+        }
+      }
+    },
+    "cost_sensitivity": {
+      "uniform": {
+        "labs": {
+          "adaptive_v1": {
+            "mean": 0.16575666451867396,
+            "ci95": [
+              0.08377768416676583,
+              0.24874746065064607
+            ],
+            "wins": 115,
+            "ties": 11,
+            "losses": 74,
+            "sign_p": 0.003508139931872309,
+            "holm_p": 0.007016279863744618,
+            "verdict": "better"
+          },
+          "patience_dev": {
+            "mean": -0.3269689259693445,
+            "ci95": [
+              -0.41257675867018456,
+              -0.2436162797564585
+            ],
+            "wins": 54,
+            "ties": 8,
+            "losses": 138,
+            "sign_p": 1.1470962400513935e-09,
+            "holm_p": 4.588384960205574e-09,
+            "verdict": "worse"
+          }
+        },
+        "heilbronn": {
+          "adaptive_v1": {
+            "mean": 0.00013413481216781133,
+            "ci95": [
+              -0.00033721992848717526,
+              0.0005961019732828698
+            ],
+            "wins": 105,
+            "ties": 0,
+            "losses": 95,
+            "sign_p": 0.5246223557223149,
+            "holm_p": 1.0,
+            "verdict": "no clear difference"
+          },
+          "patience_dev": {
+            "mean": 0.001220046377794143,
+            "ci95": [
+              0.0007602417676117492,
+              0.0016856126146021398
+            ],
+            "wins": 132,
+            "ties": 0,
+            "losses": 68,
+            "sign_p": 7.086525758598971e-06,
+            "holm_p": 2.8346103034395885e-05,
+            "verdict": "better"
+          }
+        },
+        "nk": {
+          "adaptive_v1": {
+            "mean": 0.0031014090974485504,
+            "ci95": [
+              -0.0004705016475035628,
+              0.0065981800120877895
+            ],
+            "wins": 109,
+            "ties": 0,
+            "losses": 91,
+            "sign_p": 0.22924659725971577,
+            "holm_p": 0.45849319451943155,
+            "verdict": "no clear difference"
+          },
+          "patience_dev": {
+            "mean": -0.008564393941089871,
+            "ci95": [
+              -0.011912586303984372,
+              -0.0053797473572007246
+            ],
+            "wins": 77,
+            "ties": 0,
+            "losses": 123,
+            "sign_p": 0.0014016905787957903,
+            "holm_p": 0.005606762315183161,
+            "verdict": "worse"
+          }
+        }
+      }
+    },
+    "spend": {
+      "anthropic_usd": 0.0,
+      "anthropic_note": "no LLM calls in this experiment (no usage.jsonl)",
+      "modal_usd": 0.3316,
+      "modal_app_runs": 8,
+      "modal_note": "modal billing report --for 'today', app ssm-strategist-v2, queried 2026-10-03 20:06 BST",
+      "runs": 98400,
+      "run_cpu_seconds": 14176,
+      "evaluations": 223656370,
+      "fork_moments": 4144,
+      "fork_evaluations_estimate": 38953600
+    }
+  },
   "labs": {
     "higher_is_better": true,
     "seeds": 200,

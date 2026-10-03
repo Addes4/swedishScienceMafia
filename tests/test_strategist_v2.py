@@ -140,4 +140,27 @@ class PipelineTests(unittest.TestCase):
         self.assertLess(lo, 4.5); self.assertGreater(hi, 4.5)
 
 
+class ReportTests(unittest.TestCase):
+    def test_results_blocks_are_refreshed_from_tables(self):
+        from strategist.report_v2 import refresh_results
+        tables = '# t\n\n## Primary comparisons (Holm)\n\n| a |\n|---|\n| 1 |\n\n## Other\n\n| b |\n'
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d)/'RESULTS.md'
+            path.write_text('intro\n<!-- tables.md: Primary -->\nstale\n<!-- /tables.md -->\nend\n')
+            refresh_results(tables, path)
+            self.assertEqual(path.read_text(), 'intro\n<!-- tables.md: Primary -->\n| a |\n|---|\n| 1 |\n'
+                                               '<!-- /tables.md -->\nend\n')
+
+    def test_measured_table_versions_get_distinct_names(self):
+        with tempfile.TemporaryDirectory() as d:
+            names = []
+            for edit in (1, 2):
+                path = Path(d)/f'm{edit}.json'
+                path.write_text(json.dumps({'name': 'measured_llm', 'relative':
+                                            {'edit': edit, 'rewrite': 3, 'crossover': 2, 'restart': 4}}))
+                names.append(load(str(path))[0])
+            self.assertTrue(all(n.startswith('measured_llm-') for n in names))
+            self.assertNotEqual(*names)
+
+
 if __name__ == '__main__': unittest.main()

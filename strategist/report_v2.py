@@ -158,6 +158,131 @@ def forks_table(f, controllers=('adaptive_v1', 'adaptive_v2')):
     return '\n'.join(rows)
 
 
+def v1_vs_v2_table(confirm, forks, uniform=None):
+    """What changed between the controllers and whether it helped, confirmatory seeds."""
+    rows = ['| | ' + ' | '.join(TITLES[b] for b in BENCHES) + ' |', '|---|' + '---|'*len(BENCHES)]
+    a = lambda b, arm: confirm[b]['arms'][arm]
+    rows.append('| mean final score, v1 → v2 | ' + ' | '.join(
+        f"{fmt(a(b, 'adaptive_v1')['mean'], b)} → {fmt(a(b, 'adaptive_v2')['mean'], b)}" for b in BENCHES) + ' |')
+    rows.append('| v2 − v1, proxy costs (primary) | ' + ' | '.join(
+        cell(confirm[b]['comparisons']['adaptive_v1']['final'], b) for b in BENCHES) + ' |')
+    if uniform:
+        rows.append('| v2 − v1, uniform costs (secondary) | ' + ' | '.join(
+            cell(uniform[b]['comparisons']['adaptive_v1']['final'], b) for b in BENCHES) + ' |')
+    rows.append('| v1 → v2, each minus patience T tuned on dev (negative = patience better) | ' + ' | '.join(
+        f"{fmt(confirm[b]['secondary']['adaptive_v1 vs patience_dev']['final']['mean'], b)} → "
+        f"{fmt(confirm[b]['comparisons']['patience_dev']['final']['mean'], b)}" for b in BENCHES) + ' |')
+    rows.append('| crossover share of moves, v1 → v2 | ' + ' | '.join(
+        f"{a(b, 'adaptive_v1')['op_share']['crossover']:.0%} → {a(b, 'adaptive_v2')['op_share']['crossover']:.0%}"
+        for b in BENCHES) + ' |')
+    rows.append('| restarts per run, v1 → v2 | ' + ' | '.join(
+        f"{a(b, 'adaptive_v1')['restarts_per_run']:.1f} → {a(b, 'adaptive_v2')['restarts_per_run']:.1f}" for b in BENCHES) + ' |')
+    if forks:
+        f = forks['summary']
+        rows.append('| premature share at switch points (forks), v1 → v2 | ' + ' | '.join(
+            f"{f[b]['adaptive_v1']['premature_share']:.0%} → {f[b]['adaptive_v2']['premature_share']:.0%} "
+            f"(diff {f[b]['v2_minus_v1']['premature_share']:+.0%} [{f[b]['v2_minus_v1']['premature_share_ci'][0]:+.0%}, "
+            f"{f[b]['v2_minus_v1']['premature_share_ci'][1]:+.0%}])" for b in BENCHES) + ' |')
+    return '\n'.join(rows)
+
+
+def headline(confirm, frozen, validation, forks, cost_runs, dev_j, j_conf):
+    """Machine-readable headline numbers, stored under summary.json['headline']."""
+    def comp(c):
+        c = c['final']
+        return {'mean': c['mean'], 'ci95': c['interval95'], 'wins': c['wins'], 'ties': c['ties'],
+                'losses': c['losses'], 'sign_p': c['sign_p'], 'holm_p': c.get('holm_p'),
+                'verdict': {'**better**': 'better', '**worse**': 'worse', '~': 'no clear difference'}[sig(c)]}
+    out = {'experiment': 'strategist-v2',
+           'question': 'Do v1\'s three proposed fixes (crossover gate, excursion cap, recent-improvement leave '
+                       'test) make the adaptive controller better at equal cost, and does it now match a patience '
+                       'rule tuned on dev seeds?',
+           'design': frozen['label'], 'options': frozen['options'], 'patience_dev_T': frozen['patience_dev'],
+           'seeds': {'dev': '40-239', 'validation': '240-439', 'confirmatory': '3000-3199', 'forks': '4000-4039'},
+           'budget_cost_units': 3000, 'primary_cost_table': 'llm_proxy', 'units': {
+               'labs': 'merit factor, higher is better', 'heilbronn': 'smallest triangle area, higher is better',
+               'nk': 'fitness, higher is better'},
+           'differences': 'adaptive_v2 minus the other arm, per seed, positive = v2 better; 200 seeds',
+           'means': {b: {arm: confirm[b]['arms'][arm]['mean'] for arm in MAIN_ARMS+('timing_shuffled',)} for b in BENCHES},
+           'primary': {b: {arm: comp(confirm[b]['comparisons'][arm]) for arm in confirm[b]['primary']} for b in BENCHES},
+           'v1_vs_patience_dev': {b: comp(confirm[b]['secondary']['adaptive_v1 vs patience_dev']) for b in BENCHES},
+           'J': {'definition': 'mean over benchmarks of (mean paired difference to adaptive_v1) / SD(adaptive_v1)',
+                 'adaptive_v2': {'dev': dev_j, 'validation': validation['J']['adaptive_v2'] if validation else None,
+                                 'confirmatory': j_conf.get('adaptive_v2')},
+                 'patience_dev': {'validation': validation['J']['patience_dev'] if validation else None,
+                                  'confirmatory': j_conf.get('patience_dev')}}}
+    if forks:
+        out['forks'] = {b: {'premature_share_v1': forks['summary'][b]['adaptive_v1']['premature_share'],
+                            'premature_share_v2': forks['summary'][b]['adaptive_v2']['premature_share'],
+                            'v2_minus_v1': forks['summary'][b]['v2_minus_v1']} for b in BENCHES}
+    out['cost_sensitivity'] = {name: {b: {arm: comp(s[b]['comparisons'][arm]) for arm in ('adaptive_v1', 'patience_dev')}
+                                      for b in BENCHES} for name, s in cost_runs.items()}
+    cost = load(OUT/'cost.json')
+    if cost: out['spend'] = cost
+    return out
+
+
+def figure(confirm, path):
+    """Dot-and-interval chart of v2 minus each primary arm, one panel per benchmark. Needs matplotlib."""
+    try:
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print('matplotlib not installed: skipping the figure'); return
+    ink, muted, grid, blue = '#0b0b0b', '#52514e', '#e4e3df', '#2a78d6'
+    arms = list(confirm['labs']['primary'])
+    fig, axes = plt.subplots(1, 3, figsize=(12, 3.4), sharey=True)
+    units = {'labs': 'merit factor', 'heilbronn': 'smallest triangle area ×10⁻³', 'nk': 'fitness'}
+    scale = {'labs': 1., 'heilbronn': 1e3, 'nk': 1.}
+    from matplotlib.ticker import MaxNLocator
+    for ax, b in zip(axes, BENCHES):
+        for i, arm in enumerate(arms):
+            c = confirm[b]['comparisons'][arm]['final']
+            y = len(arms)-1-i
+            ax.plot([v*scale[b] for v in c['interval95']], [y, y], color=blue, lw=2, solid_capstyle='round')
+            significant = c['holm_p'] < .05
+            ax.plot([c['mean']*scale[b]], [y], 'o', ms=8, color=blue, mfc=blue if significant else 'white', mew=2)
+        ax.xaxis.set_major_locator(MaxNLocator(5))
+        ax.axvline(0, color=muted, lw=1)
+        ax.set_title(f"{TITLES[b]} ({units[b]})", color=ink, fontsize=11, loc='left')
+        ax.set_xlabel('v2 minus arm (right = v2 better)', color=muted, fontsize=9)
+        ax.grid(axis='x', color=grid, lw=.8); ax.set_axisbelow(True)
+        for side in ('top', 'right', 'left'): ax.spines[side].set_visible(False)
+        ax.spines['bottom'].set_color(grid)
+        ax.tick_params(colors=muted, labelsize=8, length=0)
+    axes[0].set_yticks(range(len(arms)), [NAMES[a] for a in reversed(arms)], color=ink, fontsize=9)
+    fig.suptitle('Adaptive v2 against each primary comparison arm: mean paired difference and 95% bootstrap '
+                 'interval, 200 confirmatory seeds\nfilled dot = Holm-adjusted sign test p < 0.05; hollow = no clear '
+                 'difference', x=.01, y=.99, ha='left', color=ink, fontsize=10)
+    fig.tight_layout(rect=(0, 0, 1, .93))
+    fig.savefig(path, dpi=150, facecolor='#fcfcfb')
+    plt.close(fig)
+    print(f'wrote {path}')
+
+
+def refresh_results(tables_text, path):
+    """Replace each `<!-- tables.md: PREFIX -->` ... `<!-- /tables.md -->` block in RESULTS.md with the
+    section of tables.md whose heading starts with PREFIX, so tables in RESULTS.md are never retyped."""
+    if not path.exists(): return
+    sections, heading = {}, None
+    for line in tables_text.splitlines():
+        if line.startswith('## '): heading = line[3:].strip(); sections[heading] = []
+        elif heading: sections[heading].append(line)
+    out, lines, i = [], path.read_text().splitlines(), 0
+    while i < len(lines):
+        line = lines[i]; out.append(line); i += 1
+        if line.startswith('<!-- tables.md: ') and line.endswith('-->'):
+            prefix = line[len('<!-- tables.md: '):-3].strip()
+            match = [h for h in sections if h.startswith(prefix)]
+            if len(match) != 1: raise SystemExit(f'RESULTS.md block {prefix!r} matches {len(match)} sections')
+            while i < len(lines) and lines[i] != '<!-- /tables.md -->': i += 1
+            out += [l for l in '\n'.join(sections[match[0]]).strip('\n').splitlines()]
+            if i < len(lines): out.append(lines[i]); i += 1
+    path.write_text('\n'.join(out)+'\n')
+    print(f'refreshed tables in {path}')
+
+
 def main():
     from .v2 import read_records
     confirm = load(OUT/'summary.json')
@@ -171,7 +296,9 @@ def main():
              + ', '.join(f"{TITLES[b]} {t}" for b, t in frozen['patience_dev'].items()) + '.\n',
              'Cells: verdict, mean paired difference (positive favours the first arm) [95% bootstrap interval] '
              '(seed wins/ties/losses, sign-test p; Holm-adjusted for primary comparisons).\n',
-             '## Mean final score, confirmatory seeds 3000-3199, proxy costs\n',
+             '## v1 vs v2: what changed and whether it helped (confirmatory seeds 3000-3199)\n',
+             v1_vs_v2_table(confirm, forks, cost_runs.get('uniform')),
+             '\n## Mean final score, confirmatory seeds 3000-3199, proxy costs\n',
              means_table(confirm, list(NAMES)),
              '\n## Primary comparisons (Holm over six per benchmark)\n', comparison_table(confirm, primary_pairs(confirm)),
              '\n## Anytime performance (mean best-so-far over 30 checkpoints), same comparisons\n',
@@ -212,6 +339,15 @@ def main():
                   forks_table(ablation_forks, ('adaptive_v1', 'only_xo', 'only_excursion', 'only_leave'))]
     (OUT/'tables.md').write_text('\n'.join(parts)+'\n')
     print(f'wrote {OUT/"tables.md"}')
+    refresh_results('\n'.join(parts), OUT/'RESULTS.md')
+    if dev and validation:
+        selection = json.loads((OUT/'dev'/'selection.json').read_text())
+        dev_j = next(r['J'] for a, r in selection['ranking'] if a == frozen['label'])
+        confirm['headline'] = headline(confirm, frozen, validation, forks, cost_runs, dev_j, jc)
+        ordered = {'headline': confirm.pop('headline'), **confirm}
+        (OUT/'summary.json').write_text(json.dumps(ordered, indent=2)+'\n')
+        print(f'wrote headline into {OUT/"summary.json"}')
+    figure(confirm, OUT/'comparisons.png')
 
 
 if __name__ == '__main__': main()

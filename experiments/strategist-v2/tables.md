@@ -4,6 +4,18 @@ Frozen design: `gate02/cap64/improving16`; patience_dev T = LABS 64, Heilbronn 5
 
 Cells: verdict, mean paired difference (positive favours the first arm) [95% bootstrap interval] (seed wins/ties/losses, sign-test p; Holm-adjusted for primary comparisons).
 
+## v1 vs v2: what changed and whether it helped (confirmatory seeds 3000-3199)
+
+| | LABS | Heilbronn | NK |
+|---|---|---|---|
+| mean final score, v1 → v2 | 4.034 → 4.172 | 0.01043 → 0.01050 | 0.7350 → 0.7408 |
+| v2 − v1, proxy costs (primary) | **better** 0.137 [0.043, 0.236] (110/14/76, p=0.031) | ~ 0.00007 [-0.00040, 0.00052] (105/0/95, p=0.87) | **better** 0.00577 [0.00236, 0.00915] (118/0/82, p=0.039) |
+| v2 − v1, uniform costs (secondary) | **better** 0.166 [0.084, 0.249] (115/11/74, p=0.007) | ~ 0.00013 [-0.00034, 0.00060] (105/0/95, p=1) | ~ 0.00310 [-0.00047, 0.00660] (109/0/91, p=0.46) |
+| v1 → v2, each minus patience T tuned on dev (negative = patience better) | -0.357 → -0.220 | 0.00042 → 0.00049 | -0.0108 → -0.00505 |
+| crossover share of moves, v1 → v2 | 31% → 9% | 34% → 9% | 29% → 13% |
+| restarts per run, v1 → v2 | 12.1 → 13.3 | 31.9 → 7.8 | 11.1 → 11.4 |
+| premature share at switch points (forks), v1 → v2 | 48% → 21% (diff -27% [-35%, -17%]) | 97% → 98% (diff +0% [-3%, +3%]) | 55% → 34% (diff -21% [-29%, -13%]) |
+
 ## Mean final score, confirmatory seeds 3000-3199, proxy costs
 
 | arm | LABS ↑ | Heilbronn ↑ | NK ↑ |
