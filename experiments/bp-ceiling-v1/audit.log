@@ -1,0 +1,27 @@
+falsify80 best_fit 0.0
+falsify80 first_fit 0.7224
+falsify80 funsearch_weibull 14.9737
+falsify80 funsearch_or 1.1489
+weibull500 best_fit 0.0
+weibull500 first_fit 0.5316
+weibull500 funsearch_weibull 1.7204
+weibull500 funsearch_or -1.263
+weibull5k best_fit 0.0
+weibull5k first_fit 0.3237
+weibull5k funsearch_weibull -3.3285
+weibull5k funsearch_or -0.9747
+falsify80 linear20 hc 0.0247 [0.0169, 0.0342]
+falsify80 linear20 cmaes 0.0196 [0.0142, 0.0254]
+falsify80 linear21 hc -0.0861 [-0.1064, -0.0623]
+falsify80 linear21 cmaes -0.0104 [-0.0366, 0.0183]
+falsify80 ab_rules grid 0.032 [0.019, 0.049]
+weibull500 linear20 hc -0.7236 [-0.737, -0.7089]
+weibull500 linear20 cmaes -0.7214 [-0.745, -0.6953]
+weibull500 linear21 hc -2.027 [-2.138, -1.907]
+weibull500 linear21 cmaes -2.0902 [-2.1622, -2.0138]
+weibull500 ab_rules grid -2.244 [-2.2702, -2.2157]
+weibull5k linear20 hc -1.1821 [-1.2039, -1.1572]
+weibull5k linear20 cmaes -1.1873 [-1.2005, -1.1732]
+weibull5k linear21 hc -3.2779 [-3.3225, -3.2249]
+weibull5k linear21 cmaes -3.3062 [-3.3335, -3.2741]
+weibull5k ab_rules grid -3.3097 [-3.3225, -3.2932]
