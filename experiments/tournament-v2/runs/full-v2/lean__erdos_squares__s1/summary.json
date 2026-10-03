@@ -1,0 +1,87 @@
+{
+  "job_id": "lean__erdos_squares__s1",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "erdos_squares",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.007374,
+  "within_cap": true,
+  "tokens": 18838,
+  "calls": 5,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 5
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 5
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.007374
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 5,
+  "valid_evals": 5,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.9516155202138535,
+  "final_hidden": 0.9734773592712569,
+  "final_sha": "1c16c7978705b2cc",
+  "max_public_seen": 0.9516155202138535,
+  "hidden_of_max_public_seen": 0.9734773592712569,
+  "improvements": 2,
+  "usd_per_improvement": 0.003687,
+  "tokens_per_improvement": 9419,
+  "auc": 0.950706,
+  "auc_gain": 0.65727,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 97.6,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.007374,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.4,
+      "t": 1791069481.6749423,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.001083,
+      "budget_frac": 0.00722,
+      "tokens": 2283,
+      "wall_s": 22.9,
+      "t": 1791069499.157739,
+      "incumbent_public": 0.9440744440744441,
+      "incumbent_hidden": 0.9554693184574339,
+      "sha": "28b326383d18158b"
+    },
+    {
+      "spent_usd": 0.005473,
+      "budget_frac": 0.036487,
+      "tokens": 13934,
+      "wall_s": 83.9,
+      "t": 1791069560.2315338,
+      "incumbent_public": 0.9516155202138535,
+      "incumbent_hidden": 0.9734773592712569,
+      "sha": "1c16c7978705b2cc"
+    }
+  ]
+}

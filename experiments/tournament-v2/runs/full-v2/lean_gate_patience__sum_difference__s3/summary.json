@@ -1,0 +1,67 @@
+{
+  "job_id": "lean_gate_patience__sum_difference__s3",
+  "arm": "lean_gate_patience",
+  "arm_type": "lean",
+  "problem": "sum_difference",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.001303,
+  "within_cap": true,
+  "tokens": 3198,
+  "calls": 2,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 2
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 2
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.001303
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 3,
+  "valid_evals": 3,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.887449398787755,
+  "initial_hidden": null,
+  "final_public": 0.887449398787755,
+  "final_hidden": null,
+  "final_sha": "ed99a0dcac7a33cc",
+  "max_public_seen": 0.887449398787755,
+  "hidden_of_max_public_seen": null,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.887449,
+  "auc_gain": 0.0,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 149.1,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.001303,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 22.4,
+      "t": 1791069498.6538851,
+      "incumbent_public": 0.887449398787755,
+      "incumbent_hidden": null,
+      "sha": "ed99a0dcac7a33cc"
+    }
+  ]
+}

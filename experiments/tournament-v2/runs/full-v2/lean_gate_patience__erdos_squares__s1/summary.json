@@ -1,0 +1,67 @@
+{
+  "job_id": "lean_gate_patience__erdos_squares__s1",
+  "arm": "lean_gate_patience",
+  "arm_type": "lean",
+  "problem": "erdos_squares",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.001337,
+  "within_cap": true,
+  "tokens": 2707,
+  "calls": 1,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 1
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 1
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.001337
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 1,
+  "valid_evals": 1,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.8561716061716061,
+  "final_hidden": 0.9127792599779017,
+  "final_sha": "5ca1aa946ee89389",
+  "max_public_seen": 0.8561716061716061,
+  "hidden_of_max_public_seen": 0.9127792599779017,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.856172,
+  "auc_gain": 0.0,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 22.6,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.001337,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.0,
+      "t": 1791069482.5381515,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    }
+  ]
+}
