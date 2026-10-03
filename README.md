@@ -162,7 +162,8 @@ explains how our setup differs. The triage loop uses ShinkaEvolve as its baselin
 the math problems come from Georgiev, Gómez-Serrano, Tao and Wagner (2025).
 [context/related-work.md](context/related-work.md) reviews about 60 related papers. It covers
 which of our results are new, which independently reproduce published findings, and what
-the literature implies for each part.
+the literature implies for each part. [context/related-work-addendum.md](context/related-work-addendum.md) adds
+papers on the questions the overnight experiments left open.
 
 ## Run the individual parts
 
