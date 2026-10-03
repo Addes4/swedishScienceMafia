@@ -9,6 +9,7 @@ to the Volume ssm-tournament under /<grid>/<job_id>/, and returns the run summar
 get API keys from the Modal secret ssm-llm-keys; mock grids get no secret at all. Only the code
 directories are copied into the image (never .env).
 """
+import gzip
 import json
 import os
 import signal
@@ -61,7 +62,8 @@ def run_job(job: dict) -> dict:
     except (ProcessLookupError, PermissionError):
         pass
     out.mkdir(parents=True, exist_ok=True)
-    (out / "stdout.log").write_text(log_path.read_text()[-2_000_000:])
+    with gzip.open(out / "stdout.log.gz", "wt") as f:
+        f.write(log_path.read_text())
     volume.commit()
     summary_path = out / "summary.json"
     result = {"job_id": job["job_id"], "returncode": rc, "container_seconds": round(time.time() - t0, 1)}

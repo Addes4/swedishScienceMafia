@@ -99,12 +99,15 @@ class Finisher:
                         shutil.rmtree(self.out / d, ignore_errors=True)
 
 
-def watchdog(budget, deadline: float, grace: float, finish, poll: float = 2.0):
+def watchdog(budget, deadline: float, grace: float, finish, finisher, poll: float = 2.0):
     """Hard stop: once the budget is exhausted (after a grace period for evaluations already paid for)
-    or the wall-clock limit has passed, write the summary and exit the process."""
+    or the wall-clock limit has passed, write the summary and exit the process. Returns as soon as
+    the run has finished normally."""
     exhausted_at = None
-    while True:
+    while not finisher.done:
         time.sleep(poll)
+        if finisher.done:
+            return
         now = time.time()
         if budget.exhausted and exhausted_at is None:
             exhausted_at = now
@@ -185,7 +188,7 @@ def main(argv=None):
                   config={k: v for k, v in job["arm_config"].items() if k != "type"}, deadline=deadline)
     finish = Finisher(out, ctx.event)
     grace = max_eval_seconds(problem_dir) + 60
-    threading.Thread(target=watchdog, args=(budget, deadline, grace, lambda s: finish(s, pack=not a.no_pack)),
+    threading.Thread(target=watchdog, args=(budget, deadline, grace, lambda s: finish(s, pack=not a.no_pack), finish),
                      daemon=True).start()
 
     print(f"[start] {job['job_id']}: arm {job['arm']} ({arm_type}) on {problem_dir.name}, seed {job['seed']}, "

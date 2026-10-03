@@ -1,0 +1,19 @@
+{
+  "name": "mock-v1",
+  "mode": "mock",
+  "description": "Infrastructure check: every arm on both problems, 2 seeds, mock API (virtual dollars, no API cost).",
+  "budget_usd": 0.5,
+  "seeds": [0, 1],
+  "problems": ["erdos_squares", "circle_packing"],
+  "arms": {
+    "shinka": {"type": "shinka", "model": "claude-sonnet-5-5", "effort": "high", "max_tokens": 32000},
+    "triage": {"type": "triage", "ranker": "random"},
+    "lean": {"type": "lean", "model": "claude-sonnet-5-5", "effort": "high"},
+    "lean_gate_patience": {"type": "lean", "model": "claude-sonnet-5-5", "effort": "high", "gate": true, "patience": 5}
+  },
+  "anthropic_cap_usd": 0,
+  "modal_cap_usd": 5,
+  "wall_limit_s": 1200,
+  "cpu": 2,
+  "memory_mb": 4096
+}

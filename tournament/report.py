@@ -134,7 +134,7 @@ def svg_chart(problem, runs, arms, width=640, height=360):
         parts.append(f'<text x="{pad_l - 6}" y="{Y(v) + 4:.1f}" text-anchor="end" fill="{INK2}">{v:.3f}</text>')
     for i in range(5):
         usd = cap * i / 4
-        parts.append(f'<text x="{X(usd):.1f}" y="{height - pad_b + 16}" text-anchor="middle" fill="{INK2}">${usd:.2f}</text>')
+        parts.append(f'<text x="{X(usd):.1f}" y="{height - pad_b + 16}" text-anchor="middle" fill="{INK2}">${usd:.3g}</text>')
     parts.append(f'<text x="{pad_l + pw / 2:.1f}" y="{height - 8}" text-anchor="middle" fill="{INK2}">dollars spent</text>')
     parts.append(f'<text x="12" y="{pad_t + ph / 2:.1f}" text-anchor="middle" fill="{INK2}" '
                  f'transform="rotate(-90 12 {pad_t + ph / 2:.1f})">best public score</text>')
