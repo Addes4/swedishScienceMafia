@@ -37,3 +37,17 @@ def paired(differences, tolerance=1e-12):
             'interval95': bootstrap_interval(differences), 'wins': wins, 'losses': losses,
             'ties': len(differences)-wins-losses, 'sign_p': sign_test(wins, losses),
             'effect_dz': statistics.fmean(differences)/sd if sd > 0 else 0.}
+
+
+def cluster_interval(groups, statistic=None, resamples=10000, seed=739):
+    """95% bootstrap interval that resamples whole clusters (e.g. all switch moments of one seed).
+
+    `groups` is a list of per-cluster value lists; `statistic` maps the pooled values of a resample
+    to a number (default: their mean). Empty clusters are allowed."""
+    statistic = statistic or statistics.fmean
+    rng, stats = random.Random(seed), []
+    for _ in range(resamples):
+        pooled = [v for g in rng.choices(groups, k=len(groups)) for v in g]
+        if pooled: stats.append(statistic(pooled))
+    stats.sort()
+    return [stats[int(.025*len(stats))], stats[int(.975*len(stats))-1]]
