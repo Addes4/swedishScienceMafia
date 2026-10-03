@@ -1,9 +1,12 @@
 # Paper B outline: checking the claims of autoresearch loops
 
-Status: outline, 3 October 2026. Evidence is from `experiments/RESULTS.md`,
-`experiments/gate-v3/RESULTS.md`, `experiments/soft-gate-v4/RESULTS.md`,
-`experiments/simplify-v1/EXPERIMENT.md`, and the `exp/gate-redteam` and `exp/memory-ablation`
-branches. Pending: tournament-v1, bp-ceiling-v1 and the memory-ablation confirmatory audit.
+Status: outline, 3 October 2026, updated at 23:10 with every finished overnight run. Evidence
+comes from:
+- on main: `experiments/RESULTS.md`, `experiments/gate-v3/RESULTS.md`,
+  `experiments/soft-gate-v4/RESULTS.md`, `experiments/simplify-v1/EXPERIMENT.md`;
+- the RESULTS.md on branches `exp/gate-redteam`, `exp/memory-ablation`, `exp/bp-ceiling`,
+  `exp/idea-table` and `exp/tournament`.
+
 Related work is in [context/related-work.md](../../context/related-work.md).
 
 ## Working title
@@ -29,11 +32,12 @@ and Gideoni et al. (2026), which show evaluation practice in this field is fragi
 | Claim | Failure we observed | Control | Evidence | Status |
 |---|---|---|---|---|
 | "Better than its parent" | A Codex revision went from 1 win / 0 losses on 1,000 cases to 3 / 14 on 10,000 fresh cases | Counterexample replay and promotion gates; fresh audits | Replay cut drift away from best-fit: 0.000725 vs 0.023 excess bins, difference −0.0223 [−0.0378, −0.0108]. Gate vs score-only: −0.0022 [−0.0041, −0.0006]; vs a random gate: inconclusive. Soft gate with validation kept 15/16 beneficial proposals and blocked 328/599 harmful ones (strict: 14/16, 270/599). | Done (no LLM) |
-| "Better", with an LLM proposing | Without memory, 59/60 Haiku proposals were harmful | Memory of executable counterexamples vs prose vs none | Pilot: harmful 59/60, 8/60 and 23/60 (none, prose, executable). With prose memory, 56/60 proposals packed exactly like the incumbent, so memory curbs harm and also exploration. | Pilot done; confirmatory (30 runs, 900 calls) awaiting audit |
+| "Better", with an LLM proposing | Without memory, most Haiku proposals were harmful (0.803 in the confirmatory study) | Memory of executable counterexamples vs prose vs none | Confirmatory (Weibull 5k, 10 seeds × 3 arms, 900 calls): no evidence executable memory helps the audited policy; all primary intervals include 0. Memory cut harmful proposals (0.803 / 0.202 / 0.147 for none, prose, executable) mainly by inducing no-ops (0.133 / 0.650 / 0.815). Not token-matched. | Done: null on the primary endpoint |
+| "This idea is promising" | Off-the-shelf models predict research outcomes at chance (Wen et al.) | Rank ideas before code, then replay rankers and routing policies offline on a table of every idea implemented by every model | idea-table (62 of 114 ideas complete): Opus 62/62, Sonnet 60/62, Haiku 10/62 improved, so the implementer decided success. AUC: Jev 0.484, Codex 0.600 (the only one clearly above random). Ranked tiers did not beat random tiers; uniform Sonnet was best per dollar. | Partial (credit ran out); null for triage |
 | "The adaptation helped" | Many switches were premature (48% on LABS in v1) | Timing-shuffled replay; counterfactual forks | See Paper A: timing matters on Heilbronn and NK, not on LABS; the fix cut premature switches to 21% | Done (proxy moves) |
 | "We discovered a new algorithm" | The 11-term evolved "winner" is exactly best-fit, and 8 of its 11 terms are inert | Automated simplification, ablation CIs, witness search | 35/43 candidates reduce to best-fit. Two-sided check: 17/43 are truly equivalent, while 26/43 were repaired rather than explained (a caveat we report). | Done (weight vectors only) |
 | "Beats the record" | HASE (2026) documents tolerance exploits on circle packing | Separate process, hidden instances, strict 1e-12 re-check, margin vs n × tolerance | Red team: 68 attempts, none gained a material unearned score. 18/28 hand-made rejected (10 neutralised), 28/40 LLM-written rejected (12 honest). Residual: about 3e-10, below the record. | Done |
-| "Our framework works" | Simple sampling matches complex search (Gideoni et al. 2026) | Matched-dollar tournament with independent sampling and greedy best-of-N baselines, 4 seeds, P(A > B) | tournament-v1 | **Pending** |
+| "Our framework works" | Simple sampling matches complex search (Gideoni et al. 2026) | Matched-dollar tournament with independent sampling and greedy best-of-N baselines, 4 seeds, P(A > B) | tournament-v1 stopped 13.6 minutes in (credit exhausted); 17 of 60 runs complete. At a common low-spend checkpoint, lean (+0.233) and independent sampling (+0.209) led ShinkaEvolve in area under the curve, and triage trailed (−0.156). Final scores did not differ. Two of three problems saturate within 1–3 calls. | **Partial; not budget-matched** |
 
 ## Contributions
 
@@ -52,9 +56,10 @@ and Gideoni et al. (2026), which show evaluation practice in this field is fragi
 
 | # | Gap | Why it matters | Source |
 |---|---|---|---|
-| 1 | **The tournament result** | Without it, the "framework works" row is empty and the paper has no evidence from a full loop with an LLM in it | tournament-v1 (running) |
-| 2 | **A regime with headroom for Falsify** (long Weibull, OR-Library, Falkenauer) | At 80 items, gates can only be shown to prevent drift, not to help discovery | bp-ceiling-v1 picks the regime |
-| 3 | **Memory-ablation confirmatory audit** in that regime | It is the only LLM-in-the-loop test of counterexample memory | memory-ablation (audit pending) |
+| 1 | **A complete, budget-matched tournament** on problems that do not saturate (sum_difference, plus harder instances) | v1 is partial and its main comparison is post hoc; reviewers will discount it | Rerun with credit: about $66 for v1's grid |
+| 2 | ~~A regime with headroom~~ **Resolved:** bp-ceiling found it. 5,000-item Weibull: the linear rule beats best-fit by 1.18 pp, and with a new-bin option by 3.28 pp, level with FunSearch's code. | - | Rerun the gates (Falsify v2–v4) in this regime |
+| 3 | ~~Memory-ablation confirmatory~~ **Done** (null; memory induces no-ops). Remaining: token-matched memory, and Karimi et al.'s distilled diagnoses as a fourth arm | The null is confounded by unequal memory size | New run, about $3 per 30 runs |
+| 3b | **idea-table replicates:** implement a subset twice to measure the implementation lottery (Ning et al.) | The table's labels come from single implementations | Queued but never run |
 | 4 | **Power for gate vs random gate** | The key comparison is inconclusive at 40 seeds. Either power it or state it as a bound. | New run, CPU only |
 | 5 | **Simplify for code**, not just weight vectors: AST-level removal of statements and constants, with the same two-sided tolerance | Evolved programs are code. Pelleriti et al. find most edits are constant tuning. | New work |
 | 6 | **Overhead of each control** (extra evaluations, tokens) | Answers "is checking worth it?" in research-efficiency terms | From existing logs |
@@ -102,8 +107,9 @@ and Gideoni et al. (2026), which show evaluation practice in this field is fragi
 ## Likely reviewer objections
 
 - **"Nothing beats best-fit, so what was discovered?"** The paper is about checking claims, not
-  about beating best-fit. The 80-item null result matches two published studies, and gap 2 adds
-  a regime where improvement is possible.
+  about beating best-fit. The 80-item null result matches two published studies. bp-ceiling
+  found the regime where improvement is possible (5,000-item Weibull), and showed that a linear
+  rule with a new-bin option reaches FunSearch's level there.
 - **"The gates are no better than a random gate."** Report it honestly: they beat score-only
   promotion, and the comparison with a random gate is inconclusive and needs power (gap 4).
 - **"Four contributions with no single result."** That is the risk of this paper. If the
@@ -116,10 +122,23 @@ and Gideoni et al. (2026), which show evaluation practice in this field is fragi
 - TMLR, which takes submissions at any time.
 - EvoApplications, if narrowed to the bin-packing case study.
 
+## What the overnight results mean for this paper
+
+Most claims did not survive checking:
+- memory did not improve outcomes;
+- ranking ideas did not beat random tiers;
+- 80-item bin packing has no headroom;
+- simple loops matched or led the elaborate frameworks at low spend.
+
+That is a coherent paper ("what checking reveals") if each null is reported with its control and
+power. It is weaker as a framework paper. Lead with the controls and the nulls they exposed, not
+with the framework.
+
 ## Order of work
 
-1. Wait for tournament-v1 and bp-ceiling-v1.
-2. Decide the scope: the full paper if the tournament gives a clear result, or narrowed to
-   promotion and records if not.
-3. Run gaps 3, 4 and 6.
+1. Rerun the tournament budget-matched (gap 1), and rerun the gates in the Weibull regime (gap 2).
+2. Run gaps 3, 3b and 4 (token-matched memory, idea replicates, gate power).
+3. Decide the scope:
+   - Full paper if the reruns give clear results.
+   - Otherwise narrow to promotion and records, with the nulls as case studies.
 4. Search the literature again before writing.

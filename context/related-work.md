@@ -7,7 +7,9 @@ against the papers. `python3 context/fetch_papers.py` downloads them into
 `context/related-papers/`. That folder is git-ignored because most of the PDFs cannot be
 redistributed; the links below lead to every paper. [How the review was done](#how-this-review-was-done)
 records the method, decisions and corrections. [What changed in our experiments](#what-changed-in-our-experiments)
-records what the review changed in the running experiments.
+records what the review changed in the running experiments. [related-work-log.md](related-work-log.md)
+is the session's timeline, decisions, incidents and cost. [output/paper-outlines/](../output/paper-outlines/README.md)
+turns the findings into two candidate research papers.
 
 ## Question and answer
 
@@ -18,7 +20,8 @@ the literature imply for each part of the framework?
 not appear in the roughly 60 papers we reviewed. Two of our results reproduce published findings,
 and one mechanism is prior art. The review changed two running experiments: the tournament gained
 the baselines and statistics the literature expects, and bp-ceiling gained a published rule as a
-baseline and a headroom measurement.
+baseline and a headroom measurement. Every experiment that finished afterwards agreed with the
+literature (see [How the finished runs line up](#how-the-finished-runs-line-up-with-the-literature)).
 
 ## Summary
 
@@ -27,7 +30,8 @@ baseline and a headroom measurement.
   seeds, and evaluators get exploited. Our focus on loops that check their own claims is timely.
 - **Our bin-packing null result is the expected one.** No paper beats best-fit on short
   (about 80-item) instances with independent item sizes. Published wins need long streams,
-  structure to exploit, or features that see every open bin.
+  structure to exploit, or features that see every open bin. bp-ceiling-v1 confirmed this: on
+  5,000-item Weibull instances our linear rule, given a "new bin" option, matches FunSearch's code.
 - **Several results are confirmations, not firsts.** Simplify's finding has a manual precedent,
   and adaptive restarting already exists in LLM evolution. We should phrase those as independent
   replications.
@@ -44,7 +48,7 @@ baseline and a headroom measurement.
 | Evolved winners reduce to simple rules (Simplify) | Confirmed, not first | Herrmann & Pallez did this by hand for FunSearch's bin-packing heuristic | "We automate the reduction, with ablation CIs and a witness; it independently reproduces their finding." |
 | Leave the leader by the marginal value theorem, with move costs (Strategist) | Rule new; mechanism not | AdaEvolve, PACEvolve, MetaMax (2011) and Luby restarts already adapt restarts during a run | Claim the cost-weighted leave rule and the timing controls, not adaptive restarting. |
 | Timing-shuffled replay and counterfactual forks | New as far as we found | None of the strategy papers separates timing from move mix | Lead with this for Strategist. |
-| Rank ideas before code, route to model tiers, randomise 15% (Triage) | Ranking-before-code and swaps new; routing not | Relay Don't Route, LEVI and AdaptEvolve route work between cheap and strong models | "Measured triage": the swaps make the ranker's value measurable. Make no cost-saving claim until runs exist. |
+| Rank ideas before code, route to model tiers, randomise 15% (Triage) | Ranking-before-code and swaps new; routing not | Relay Don't Route, LEVI and AdaptEvolve route work between cheap and strong models | "Measured triage", reported as a null. idea-table-v1 found rankers near chance (only Codex clearly above random, AUC 0.600) and ranked tiers no better than random tiers; the implementing model decided success. Make no cost-saving claim. |
 | Strict re-check of anything that beats a record | Independently validated | HASE hit the same tolerance exploit on circle packing | "Our 1e-12 re-check guards against a documented exploit." |
 
 Name clashes: Madeyski (2026) is also called "Triage", and `falsify` is an existing Haskell
@@ -158,16 +162,19 @@ property-testing library (de Vries 2023).
 
 ## How the finished runs line up with the literature
 
-These are results from the runs finished by 21:45 on 3 October. See each run's RESULTS.md on its
-`exp/*` branch.
+Results as of 23:10 on 3 October. Each run's RESULTS.md on its `exp/*` branch is the authority
+for its numbers. The coordination log (`experiments/OVERNIGHT-2026-10-03.md` on branch
+`docs/overnight-log`) records how the runs went. Overall, every finished run agrees with the
+literature; none contradicts it.
 
 | Run | Result | Literature |
 |---|---|---|
+| bp-ceiling-v1 | The limit is mainly the instances, then the missing "open a new bin" option. At 80 items nothing online beats best-fit robustly: the only interval below zero (−0.086 pp) fails under distribution shift. On Weibull the 20-feature space beats best-fit (−0.724 pp at 500 items, −1.182 pp at 5,000). Adding a new-bin option (21 weights) reaches −3.278 pp at 5,000, level with FunSearch's code (−3.329) and the tuned Herrmann & Pallez rules (−3.310). FunSearch's heuristic is worse than best-fit up to 500 items. | Confirms Herrmann & Pallez (gains need long streams; their heuristic loses at small n) and Sim et al. (best-fit wins at short lengths). New relative to them: a linear rule with a new-bin option matches FunSearch's code, so code is not what was missing. |
+| memory-ablation (confirmatory, Weibull 5k, 10 seeds × 3 arms) | No evidence that executable counterexamples help; all primary intervals include zero, and executable memory had the worst point estimate. Memory cut harmful proposals (none 0.803, prose 0.202, executable 0.147) mainly by making the model propose no-ops (0.133 → 0.650 → 0.815). Memory was not token-matched. | Related to Pelleriti et al., who find evolutionary coding agents often re-propose earlier code; here memory pushed the model towards proposals that behave like the incumbent. Karimi et al.'s distilled diagnoses, an alternative way to present failures, remain untested. |
+| idea-table-v1 (62 of 114 ideas complete after the credit ran out) | The implementer decided success, not the idea: Opus 62/62, Sonnet 60/62, Haiku 10/62. Ranker AUCs: Jev 0.484, Claude Haiku 0.516, Claude Opus 0.564, Codex 0.600 (only Codex clearly above random). Ranked triage did not beat random tiers. Sonnet on every idea was best per dollar. Implementation noise was not measured (the replicate step never ran). | As Wen et al. predict, off-the-shelf rankers are near chance. Relay Don't Route found per-call routing often within noise of random; our idea-level routing likewise did not beat random tiers. That success depended on the implementer echoes Ning et al.'s implementation lottery. |
+| tournament-v1 (partial: 17 of 60 runs complete) | Not a budget-matched comparison: the API key ran out of credit 13.6 minutes in. At a common low-spend checkpoint the single-model loops led ShinkaEvolve in area under the score-vs-spend curve (lean +0.233, independent sampling +0.209); triage trailed (−0.156). Final scores did not differ. Circle packing and Erdős squares saturate within 1–3 Sonnet calls. | As Gideoni et al. and Gupta et al. found, simple loops and independent sampling are competitive; and as Oved et al. warn, the result depends on budget. Saturated problems cannot separate methods. |
 | strategist-v2 | v1's fixes beat v1 on LABS (+0.137 merit factor, CI [0.043, 0.236]) and NK, mostly through gating crossover. Premature switches on LABS fell from 48% to 21%. A patience rule tuned on dev seeds still wins on LABS. | Gupta et al.: early signals are weak and no harness wins everywhere. Requiring more evidence before leaving is what their finding suggests, and the remaining gap to a tuned rule matches "no universal winner". |
 | gate-redteam | Of 68 exploit attempts (28 hand-made, 40 written by Sonnet and Haiku), none gained a material unearned score. The only leak is a sub-tolerance overlap worth about 3e-10, below the record. | Catches the exploit class HASE documents. Its residual leak is bounded by n × tolerance, the same bound ThetaEvolve's tolerance comparison implies. |
-| memory-ablation (pilot, 2 seeds) | Without memory 59/60 proposals were harmful. With prose memory 8/60 were, but 56/60 packed exactly like the incumbent. No arm beat best-fit. | At 80 items there is no headroom to find (Herrmann & Pallez, Sim et al.), so the primary endpoint cannot separate arms. Karimi et al. suggest distilled diagnoses beat raw counterexamples in the prompt; untested here. |
-
-Pending when this was written: tournament-v1, bp-ceiling-v1 and idea-table-v1.
 
 ## What changed in our experiments
 
@@ -187,10 +194,14 @@ before a protocol was frozen. Adopted, as recorded in each protocol's change log
   grid-searched per regime (commit `f736fb2`), and a tool that measures best-fit's distance from
   the exact optimum (commit `9141b1a`).
 - **Not attributed to the review:** idea-table's randomised idea order and repeated
-  implementations were in its protocol before the findings were sent.
+  implementations were in its protocol before the findings were sent. The repeated
+  implementations never ran, because the credit ran out.
 
 The tournament's full grid ($75 Anthropic, $75 Modal) was launched only after the user approved it
-directly in the coordinating session. That session did not accept a relayed approval.
+directly in the coordinating session. That session did not accept a relayed approval. The grid
+stopped 13.6 minutes in when the Anthropic credit was exhausted (about 21:30), leaving 17 of 60
+runs complete. The coordination log records the incident and the decision not to run a follow-up
+tournament (v2) on open models.
 
 ## How this review was done
 
@@ -240,9 +251,12 @@ its subagents only.
 `--only <text>` to fetch a subset. The papers it cannot fetch are printed with links at the end.
 
 **Next steps.**
-- Fill the tournament, bp-ceiling and idea-table rows above when those runs finish.
-- Rephrase the claims in the root README and pitch as in the novelty table.
-- Consider ASRO-style instance generators and the Sum-of-Squares feature for a Falsify v5.
+- Rephrase the claims in the root README and pitch as in the novelty table; the coordinating
+  session owns the README.
+- Rerun the tournament with credit, budget-matched, on problems that do not saturate.
+- Consider ASRO-style instance generators and the Sum-of-Squares feature for a Falsify v5, in the
+  Weibull regime where bp-ceiling found headroom.
+- Research papers: see [output/paper-outlines/](../output/paper-outlines/README.md).
 
 ## Reading list
 
