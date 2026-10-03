@@ -9,6 +9,7 @@ rankers can be scored offline without running a loop per policy.
     python -m autoresearch.ideatable evaluate  DIR --host modal           # integrity gate on every program
     python -m autoresearch.ideatable table     DIR                        # write table.jsonl
     python -m autoresearch.ideatable status    DIR
+    python -m autoresearch.ideatable fill      DIR [--dry-run]            # complete missing cells + replicates
 
 Each step resumes: finished cells are skipped. All Claude calls go through a hard spend cap
 (autoresearch/spend.py) that reserves the worst-case cost before sending and logs every call

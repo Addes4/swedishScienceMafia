@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.5132096438337865,
+    "public": {
+      "n=5": 1.4166666666666667,
+      "n=6": 1.4444444444444444,
+      "n=7": 1.472222222222222,
+      "n=8": 1.4814814814814814,
+      "n=11": 1.4969135802469136,
+      "n=12": 1.4979423868312758,
+      "n=13": 1.4989711934156378,
+      "n=14": 1.4993141289437586,
+      "n=15": 1.4996570644718792
+    },
+    "private": {
+      "hidden_normalized": [
+        0.357125,
+        0.333331,
+        0.315789,
+        0.290322
+      ],
+      "hidden_mean": 0.3241415737961799,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 1.41667 (best known 2)\nn=6: score 1.44444 (best known 2.33333)\nn=7: score 1.47222 (best known 2.5)\nn=8: score 1.48148 (best known 2.66667)\nn=11: score 1.49691 (best known 3.25)\nn=12: score 1.49794 (best known 3.33333)\nn=13: score 1.49897 (best known 3.5)\nn=14: score 1.49931 (best known 3.66667)\nn=15: score 1.49966 (best known 3.75)"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 1.4166666666666667,
+        "normalized": 0.7083333333333334,
+        "seconds": 0.00010900000000013677,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 1.4444444444444444,
+        "normalized": 0.619047619047619,
+        "seconds": 0.00013428999999987035,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 1.472222222222222,
+        "normalized": 0.5888888888888888,
+        "seconds": 0.00017552799999998037,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 1.4814814814814814,
+        "normalized": 0.5555555555555556,
+        "seconds": 0.00026819799999988625,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "valid",
+        "score": 1.4969135802469136,
+        "normalized": 0.46058879392212726,
+        "seconds": 0.00038362700000016403,
+        "reason": ""
+      },
+      {
+        "label": "n=12",
+        "status": "valid",
+        "score": 1.4979423868312758,
+        "normalized": 0.44938271604938274,
+        "seconds": 0.0004674480000002035,
+        "reason": ""
+      },
+      {
+        "label": "n=13",
+        "status": "valid",
+        "score": 1.4989711934156378,
+        "normalized": 0.4282774838330394,
+        "seconds": 0.00046781799999973117,
+        "reason": ""
+      },
+      {
+        "label": "n=14",
+        "status": "valid",
+        "score": 1.4993141289437586,
+        "normalized": 0.4089038533482978,
+        "seconds": 0.0005650070000000618,
+        "reason": ""
+      },
+      {
+        "label": "n=15",
+        "status": "valid",
+        "score": 1.4996570644718792,
+        "normalized": 0.39990855052583446,
+        "seconds": 0.0006041269999998988,
+        "reason": ""
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 1.499923792104862,
+        "normalized": 0.35712471240591953,
+        "seconds": 0.0008839460000000798,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "valid",
+        "score": 1.4999872986841436,
+        "normalized": 0.3333305108186986,
+        "seconds": 0.0011902639999998854,
+        "reason": ""
+      },
+      {
+        "label": "n=23",
+        "status": "valid",
+        "score": 1.4999957662280479,
+        "normalized": 0.31578858236379953,
+        "seconds": 0.0014591029999997396,
+        "reason": ""
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 1.499999529580894,
+        "normalized": 0.2903224895963021,
+        "seconds": 0.002144368999999813,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 1.54,
+  "container_seconds": 1.54,
+  "host": "modal"
+}

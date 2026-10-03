@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.4752610352610353,
+    "public": {
+      "n=5": 1.3333333333333335,
+      "n=6": 1.3333333333333335,
+      "n=7": 1.3333333333333335,
+      "n=8": 1.3333333333333335,
+      "n=11": 1.3999999999999997,
+      "n=12": 1.3999999999999997,
+      "n=13": 1.3999999999999997,
+      "n=14": 1.3999999999999997,
+      "n=15": 1.3999999999999997
+    },
+    "private": {
+      "hidden_normalized": [
+        0.333333,
+        0.311111,
+        0.294737,
+        0.270968
+      ],
+      "hidden_mean": 0.3025372571212978,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 1.33333 (best known 2)\nn=6: score 1.33333 (best known 2.33333)\nn=7: score 1.33333 (best known 2.5)\nn=8: score 1.33333 (best known 2.66667)\nn=11: score 1.4 (best known 3.25)\nn=12: score 1.4 (best known 3.33333)\nn=13: score 1.4 (best known 3.5)\nn=14: score 1.4 (best known 3.66667)\nn=15: score 1.4 (best known 3.75)"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 1.3333333333333335,
+        "normalized": 0.6666666666666667,
+        "seconds": 7.909000000005939e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 1.3333333333333335,
+        "normalized": 0.5714285714285715,
+        "seconds": 8.326999999996865e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 1.3333333333333335,
+        "normalized": 0.5333333333333334,
+        "seconds": 8.436999999994477e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 1.3333333333333335,
+        "normalized": 0.5000000000000001,
+        "seconds": 9.57399999998998e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.4307692307692307,
+        "seconds": 9.083999999992542e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=12",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.4199999999999999,
+        "seconds": 9.140000000007475e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=13",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.3999999999999999,
+        "seconds": 9.177899999990302e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=14",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.3818181818181817,
+        "seconds": 9.456999999990501e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=15",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.37333333333333324,
+        "seconds": 9.780000000025879e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.33333333333333326,
+        "seconds": 0.00010449000000001263,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.31111111111111106,
+        "seconds": 0.00010372000000025139,
+        "reason": ""
+      },
+      {
+        "label": "n=23",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.2947368421052631,
+        "seconds": 0.00013209899999999664,
+        "reason": ""
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 1.3999999999999997,
+        "normalized": 0.2709677419354838,
+        "seconds": 0.00012323000000025175,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 1.65,
+  "container_seconds": 1.65,
+  "host": "modal"
+}

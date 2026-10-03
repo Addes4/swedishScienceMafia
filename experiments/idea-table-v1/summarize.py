@@ -67,7 +67,7 @@ def summarize(folder: Path) -> dict:
     }
     for r, s in a["rankers"].items():
         out["rankers"][r] = {k: _ci(s[k], 3) for k in ("auc_pooled", "auc_haiku", "auc_sonnet", "auc_opus", "auc_any",
-                                                       "spearman_gain", "brier_pooled")}
+                                                       "spearman_gain", "brier_pooled", "auc_solved_pooled")}
         out["rankers"][r]["usd_per_idea"] = a["ranker_cost_per_idea"].get(r)
         if r != "random":
             out["rankers"][r]["auc_pooled_minus_random"] = _ci(a["contrasts"][f"auc_pooled: {r} - random"], 3)
@@ -80,6 +80,21 @@ def summarize(folder: Path) -> dict:
             continue
         out["contrasts_primary"][f"tiers:{r} - tiers:random | improvements"] = _ci(
             a["contrasts"][f"tiers:{r} - tiers:random | improvements"], 3)
+        out.setdefault("contrasts_post_hoc", {})[f"inverse-tiers:{r} - tiers:random | improvements"] = _ci(
+            a["contrasts"][f"inverse-tiers:{r} - tiers:random | improvements"], 3)
+    out["missingness"] = {k: v for k, v in a["missingness"].items() if k != "complete_positions"}
+    excl = set(a["excluded_ideas"])
+    use = [r for r in rows if r["replicate"] == 0 and r["idea_id"] not in excl and r["outcome"] != "api_error"]
+    out["solved_by_model"] = {   # improved and equal to the best known value on every public instance
+        m: {"solved_public": sum(r["improved"] and r["score"] >= 1 - 1e-9 for r in use if r["model"] == m),
+            "hidden_mean_1": sum(r["improved"] and (r["hidden_mean"] or 0) >= 1 - 1e-9 for r in use if r["model"] == m),
+            "cells": sum(r["model"] == m for r in use)} for m in ("claude-haiku-4-5", "claude-sonnet-5-5", "claude-opus-5-5")}
+    n_imp = sum(r["improved"] for r in use)
+    out["brier_base_rate_predictor"] = {"base_rate": n_imp / len(use), "brier": (n_imp / len(use)) * (1 - n_imp / len(use))}
+    out["fill_command"] = "python -m autoresearch.ideatable fill experiments/idea-table-v1"
+    est = folder / "fill_estimate.json"
+    if est.exists():
+        out["fill_estimate"] = json.loads(est.read_text())
     return out
 
 
@@ -106,8 +121,8 @@ def figure(folder: Path, a: dict):
     ax1.grid(axis="x", color=grid, lw=0.8)
     ax1.set_axisbelow(True)
 
-    fam = {"uniform": (blue, "uniform model"), "tiers": (orange, "ranked tiers (opus/sonnet/haiku thirds)"),
-           "top2-opus": (aqua, "top 2 of 6 to Opus, rest skipped")}
+    fam = {"uniform": (blue, "uniform model"), "tiers": (orange, "ranked tiers, 5 rankers (opus/sonnet/haiku thirds)"),
+           "top2-opus": (aqua, "top 2 of 6 to Opus, 5 rankers, rest skipped")}
     seen = set()
     for p in FIG_POLICIES:
         if p not in a["policies"]:
@@ -119,8 +134,8 @@ def figure(folder: Path, a: dict):
         ax2.plot([x, x], [s["improvements"]["lo"], s["improvements"]["hi"]], color=color, lw=2, alpha=0.6)
         ax2.plot(x, y, "o", color=color, ms=8, mec="white", mew=2, label=None if f in seen else label)
         seen.add(f)
-        ax2.annotate(p.split(":", 1)[1].replace("claude-", "").replace("-4-5", "").replace("-5-5", ""),
-                     (x, y), xytext=(5, 3), textcoords="offset points", fontsize=7, color=muted)
+        if f == "uniform":   # clusters of ranked policies overlap; they are named in the legend and RESULTS.md
+            ax2.annotate(p.split(":", 1)[1], (x, y), xytext=(6, 3), textcoords="offset points", fontsize=8, color=muted)
     ax2.set_xlabel(f"Implementation spend over the {a['n_ideas']}-idea pool (US$, incl. ranker)")
     ax2.set_ylabel("Improving programs found (count)")
     ax2.set_title("B. Result per dollar by policy (95% bootstrap intervals)", loc="left", color=ink, fontsize=10)

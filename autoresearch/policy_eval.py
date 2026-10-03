@@ -122,7 +122,10 @@ class Draw:
 
 # -- policies: each returns assign[j] in {-1 skip, 0 haiku, 1 sonnet, 2 opus} --------------------------
 
-def tiers(draw, key, swap=False):
+def tiers(draw, key, swap=False, inverse=False):
+    """Triage thirds within each batch: favourites -> opus, middle -> sonnet, long shots -> haiku.
+    inverse=True (post hoc) sends favourites to haiku and long shots to opus instead."""
+    to_model = TIER_TO_MODEL[::-1] if inverse else TIER_TO_MODEL
     assign = np.empty(len(key), int)
     for batch in draw.batches:
         order = sorted(batch, key=lambda j: (-key[j], draw.tie[j]))
@@ -131,7 +134,7 @@ def tiers(draw, key, swap=False):
             tier = planned
             if swap and draw.swap_u[j] < SWAP:
                 tier = [t for t in range(3) if t != planned][draw.swap_alt[j]]
-            assign[j] = TIER_TO_MODEL[tier]
+            assign[j] = to_model[tier]
     return assign
 
 
@@ -163,6 +166,7 @@ def policy_specs(rankers):
     for r in rankers:
         specs.append((f"tiers:{r}", r, lambda d, k: tiers(d, k)))
         specs.append((f"tiers+swap:{r}", r, lambda d, k: tiers(d, k, swap=True)))
+        specs.append((f"inverse-tiers:{r}", r, lambda d, k: tiers(d, k, inverse=True)))   # post hoc
         for kk in (1, 2, 3):
             specs.append((f"top{kk}-opus:{r}", r, lambda d, k, kk=kk: topk(d, k, kk)))
     specs.append(("oracle-cheapest", None, lambda d, k: oracle(d)))
@@ -236,6 +240,11 @@ def ranker_metrics(draw, key, p, parent_score, imp=None):
            "auc_any": auc(key, imp.any(1)),
            "spearman_gain": float(rho),
            "brier_pooled": float(np.mean((p[:, None] - imp) ** 2))}
+    # post hoc: "solved" = improved and matches the best known value on every public instance
+    solved = imp & (np.nan_to_num(draw.score, nan=0.0) >= 1 - 1e-9)
+    out["auc_solved_pooled"] = auc(np.repeat(key, 3), solved.reshape(-1))
+    for m in range(3):
+        out[f"auc_solved_{SHORT[m]}"] = auc(key, solved[:, m])
     for m in range(3):
         out[f"auc_{SHORT[m]}"] = auc(key, imp[:, m])
         out[f"brier_{SHORT[m]}"] = float(np.mean((p - imp[:, m]) ** 2))
@@ -296,6 +305,46 @@ def position_check(data):
         res = spearmanr(pos[ok], key[ok])
         out[name] = {"spearman": float(res.statistic), "p_value": float(res.pvalue), "n": int(ok.sum()),
                      "max_position": int(np.nanmax(pos))}
+    return out
+
+
+def missingness(data):
+    """Where are the cells without a result (api_error, pending)? By model, by idea, by queue position
+    (presentation order) and by idea-generation call; and do rankers rate the missing ideas differently?"""
+    from scipy.stats import mannwhitneyu
+    folder = data.folder
+    ideas = {d["id"]: d for d in json.loads((folder / "ideas.json").read_text())["ideas"]}
+    rankings = json.loads((folder / "rankings.json").read_text())
+    design = [i for b in rankings["batches"] for i in b]
+    status = defaultdict(dict)
+    for r in data.rows:
+        if r["replicate"] == 0:
+            status[r["idea_id"]][r["model"]] = r["outcome"]
+    done = {i: [m for m in MODELS if status[i].get(m) not in (None,) + EXCLUDED_OUTCOMES] for i in design}
+    missing_cells = [(i, m) for i in design for m in MODELS if m not in done[i]]
+    complete = [i for i in design if len(done[i]) == 3]
+    none = [i for i in design if not done[i]]
+    partial = [i for i in design if 0 < len(done[i]) < 3]
+    pos = {i: ideas[i]["order"] for i in design}
+    out = {"design_ideas": len(design), "design_cells": 3 * len(design), "missing_cells": len(missing_cells),
+           "missing_by_model": {SHORT[MODELS.index(m)]: sum(mm == m for _, mm in missing_cells) for m in MODELS},
+           "ideas_complete": len(complete), "ideas_no_cell": len(none), "ideas_partial": len(partial),
+           "partial_detail": {i: {"position": pos[i], "done": [SHORT[MODELS.index(m)] for m in done[i]]}
+                              for i in partial},
+           "complete_positions": sorted(pos[i] for i in complete),
+           "generation_call_share_late": {
+               "design": float(np.mean([ideas[i]["call"] >= 8 for i in design])),
+               "complete": float(np.mean([ideas[i]["call"] >= 8 for i in complete]))},
+           "ranker_key_complete_vs_missing": {}}
+    for name, entry in rankings["rankers"].items():
+        if name == "random":
+            continue
+        a = [entry["ideas"][i]["key"] for i in complete]
+        b = [entry["ideas"][i]["key"] for i in design if i not in complete]
+        if a and b:
+            out["ranker_key_complete_vs_missing"][name] = {
+                "mean_complete": float(np.mean(a)), "mean_missing": float(np.mean(b)),
+                "mann_whitney_p": float(mannwhitneyu(a, b).pvalue)}
     return out
 
 
@@ -428,10 +477,11 @@ def analyse(data: Data, n_boot=2000, n_point=500, seed=0, budgets=None, noise_se
         result["rankers"][r] = {k: stat(("ranker", r, k)) for k in point[0]["ranker"][r]}
     result["cross_model_agreement"] = {k: stat(("cross", k)) for k in point[0]["cross"]}
     result["position_check"] = position_check(data)
+    result["missingness"] = missingness(data)
     for r in rankers:
         if r == "random":
             continue
-        for metric in ("auc_pooled", "auc_any", "spearman_gain"):
+        for metric in ("auc_pooled", "auc_any", "spearman_gain", "auc_solved_pooled"):
             pt = [x["ranker"][r][metric] - x["ranker"]["random"][metric] for x in point]
             bt = [x["ranker"][r][metric] - x["ranker"]["random"][metric] for x in boot]
             result["contrasts"][f"{metric}: {r} - random"] = dict(mean=_mean(pt), **_summ(bt))
@@ -450,6 +500,8 @@ def analyse(data: Data, n_boot=2000, n_point=500, seed=0, budgets=None, noise_se
             continue
         for metric in ("improvements", "best_public", "best_hidden", "cost", "recall_any"):
             result["contrasts"][f"tiers:{r} - tiers:random | {metric}"] = contrast(f"tiers:{r}", "tiers:random", metric)
+            result["contrasts"][f"inverse-tiers:{r} - tiers:random | {metric}"] = contrast(
+                f"inverse-tiers:{r}", "tiers:random", metric)
             result["contrasts"][f"tiers:{r} - uniform:opus | {metric}"] = contrast(f"tiers:{r}", "uniform:opus", metric)
         for kk in (1, 2, 3):
             for metric in ("improvements", "best_public", "best_hidden"):
@@ -505,6 +557,11 @@ def report(result, summary) -> str:
     for r, s in result["rankers"].items():
         L.append(f"| {r} | {result['ranker_cost_per_idea'].get(r, 0):.5f} | {_f(s['auc_pooled'])} | {_f(s['auc_haiku'])} | "
                  f"{_f(s['auc_sonnet'])} | {_f(s['auc_opus'])} | {_f(s["auc_any"])} | {_f(s["spearman_gain"])} | {_f(s["brier_pooled"])} |")
+    L += ["", "Post hoc: AUC for 'solved' (improved and equal to the best known value on every public instance):", "",
+          "| ranker | pooled | haiku | sonnet | opus |", "|---|---|---|---|---|"]
+    for r, s in result["rankers"].items():
+        L.append(f"| {r} | {_f(s['auc_solved_pooled'])} | {_f(s['auc_solved_haiku'])} | {_f(s['auc_solved_sonnet'])} | "
+                 f"{_f(s['auc_solved_opus'])} |")
     L += ["", "Success rate by ranker tier (global thirds of the ranker's key), per implementing model:", "",
           "| ranker | tier | haiku | sonnet | opus | any |", "|---|---|---|---|---|---|"]
     for r, s in result["rankers"].items():

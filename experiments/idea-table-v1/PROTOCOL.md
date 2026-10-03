@@ -152,3 +152,19 @@ revealed the cost per idea and the outcomes of its 9 cells; 7 of the 9 improved.
    by `ideatable.parse_rankings`, which reads the same JSON fields but tolerates malformed
    ones. The count is recorded as `tolerant_parses` in `rankings.json`. The crashed attempt's
    calls are in `usage.jsonl` and count against the budget.
+
+## Deviations during the run (recorded afterwards)
+
+6. **Billing cutoff.** The experiment API key ran out of credit at $19.73 of logged spend,
+   before the main run finished and before the replicates started. 146 of 342 design cells
+   have no result. The analysis uses the 62 ideas with a result from all three models, so the
+   pre-registered endpoints are computed on N = 62 rather than 114. Budget-matched levels are
+   25% and 50% of `tiers:random`'s cost on those 62 ideas. Implementation noise is not
+   measured. `python -m autoresearch.ideatable fill experiments/idea-table-v1` completes the
+   design.
+7. **Post-hoc analyses.** These were added after seeing outcomes and are labelled as post hoc
+   in RESULTS.md:
+   - AUC for "solved" (improved and matching the best known value on every public instance),
+     added because the improved/not label saturated for Sonnet and Opus;
+   - `inverse-tiers` (favourites to Haiku);
+   - the missingness report.
