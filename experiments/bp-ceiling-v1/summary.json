@@ -1221,5 +1221,177 @@
     "commit": "cc53f274237d7ab05c19df939edbc1f9616a7c19",
     "license": "Apache-2.0"
   },
-  "bootstrap_seed": 20261003
+  "bootstrap_seed": 20261003,
+  "headline": {
+    "question": "Is the best-fit ceiling in Falsify the representation (per-bin linear features) or the instances (80 items, Falsify families)?",
+    "units": "delta = excess over the L2 bound (percentage points) minus best fit; negative = fewer bins",
+    "delta_pp": {
+      "falsify80": {
+        "linear20_hc": {
+          "delta_pp": 0.024662202558890334,
+          "ci95_over_seeds": [
+            0.016939694686914607,
+            0.0342281477938539
+          ],
+          "headroom": false
+        },
+        "linear21_hc": {
+          "delta_pp": -0.08614332974610392,
+          "ci95_over_seeds": [
+            -0.10642114073896933,
+            -0.06227828929012717
+          ],
+          "headroom": true
+        },
+        "ab_rules_grid": {
+          "delta_pp": 0.03203595201084135,
+          "ci95_over_seeds": [
+            0.018982422575630674,
+            0.04897564669775589
+          ],
+          "headroom": false
+        },
+        "funsearch_weibull": {
+          "delta_pp": 14.97369365060385,
+          "ci95_over_instances": [
+            14.691697556698154,
+            15.256686197138187
+          ],
+          "headroom": false
+        },
+        "funsearch_or": {
+          "delta_pp": 1.1489098808242653,
+          "ci95_over_instances": [
+            1.0532504284746302,
+            1.2425764279166167
+          ],
+          "headroom": false
+        },
+        "best_fit_excess_percent": 2.902666507234246
+      },
+      "weibull500": {
+        "linear20_hc": {
+          "delta_pp": -0.7235940936223689,
+          "ci95_over_seeds": [
+            -0.7370405278039586,
+            -0.7088909833490419
+          ],
+          "headroom": true
+        },
+        "linear21_hc": {
+          "delta_pp": -2.027018535972353,
+          "ci95_over_seeds": [
+            -2.1380458686773487,
+            -1.9070059692114358
+          ],
+          "headroom": true
+        },
+        "ab_rules_grid": {
+          "delta_pp": -2.2439836632108077,
+          "ci95_over_seeds": [
+            -2.270248193528118,
+            -2.215708451146717
+          ],
+          "headroom": true
+        },
+        "funsearch_weibull": {
+          "delta_pp": 1.7203895695884386,
+          "ci95_over_instances": [
+            1.5808985234055921,
+            1.8611372918630222
+          ],
+          "headroom": false
+        },
+        "funsearch_or": {
+          "delta_pp": -1.2629594721960418,
+          "ci95_over_instances": [
+            -1.3270499528746464,
+            -1.197612315425699
+          ],
+          "headroom": true
+        },
+        "best_fit_excess_percent": 4.909833490417845
+      },
+      "weibull5k": {
+        "linear20_hc": {
+          "delta_pp": -1.1821044014860527,
+          "ci95_over_seeds": [
+            -1.20389144260437,
+            -1.1571689440211574
+          ],
+          "headroom": true
+        },
+        "linear21_hc": {
+          "delta_pp": -3.277942195075877,
+          "ci95_over_seeds": [
+            -3.322523770543417,
+            -3.2248598954725773
+          ],
+          "headroom": true
+        },
+        "ab_rules_grid": {
+          "delta_pp": -3.3097412001763113,
+          "ci95_over_seeds": [
+            -3.322460802216485,
+            -3.2932434985202446
+          ],
+          "headroom": true
+        },
+        "funsearch_weibull": {
+          "delta_pp": -3.3285057616019142,
+          "ci95_over_instances": [
+            -3.399030287765254,
+            -3.2604999685158362
+          ],
+          "headroom": true
+        },
+        "funsearch_or": {
+          "delta_pp": -0.9747497009004471,
+          "ci95_over_instances": [
+            -1.0377180278320004,
+            -0.9105220074302626
+          ],
+          "headroom": true
+        },
+        "best_fit_excess_percent": 4.031232290158051
+      }
+    },
+    "funsearch_weibull_delta_pp_by_length": {
+      "80": 20.476061003040265,
+      "200": 8.415692570109869,
+      "500": 1.5525687727672404,
+      "1000": -1.1977708853418063,
+      "2000": -2.537840565085772,
+      "5000": -3.268352961944872,
+      "10000": -3.5810589450870696
+    },
+    "new_bin_while_open_fits_weibull5000": {
+      "best_fit": 0.0,
+      "funsearch_weibull": 0.39858,
+      "funsearch_or": 0.1752
+    },
+    "positive_control_excess_percent": {
+      "best_fit": 3.9843042559613644,
+      "first_fit": 4.225777241171144,
+      "funsearch_weibull": 0.6841734580943757
+    },
+    "headroom_80_best_fit_excess_over_optimum_percent": {
+      "uniform": 3.8384077715910436,
+      "small": 1.5819589363850555,
+      "large": 2.0125583641925617,
+      "bimodal": 0.8613156909249782,
+      "complementary": 4.120386958079542
+    },
+    "cost": {
+      "anthropic_usd": 0.0,
+      "modal_cpu_hours": 7.410696075174166,
+      "modal_usd_estimate": 0.4087147099380056,
+      "modal_runs": 240,
+      "modal_failures": 0
+    },
+    "adapter_commits": {
+      "problems/bin_packing_online": "ffd72cf",
+      "generator truncation fix": "6092cae"
+    }
+  }
 }
