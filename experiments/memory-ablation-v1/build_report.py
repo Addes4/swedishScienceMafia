@@ -115,7 +115,7 @@ def confirmatory_section(lines):
     lines.append('\n### Secondary endpoints per arm (means over 10 runs)\n')
     lines.append('| Arm | Valid proposals | Gate rejections | Runtime failures | Harmful | Worse than incumbent | No-op | '
                  'Repeats | Reverts | Memory tokens | Counterexamples shown | Input tokens/run | Output tokens/run | USD/run |')
-    lines.append('|---|' + '---:|' * 14)
+    lines.append('|---|' + '---:|' * 13)
     for arm in ARMS:
         x = a[arm]
         lines.append(f'| {arm} | {x["valid_proposals"]:.1f} | {x["static_rejections"]:.1f} | {x["runtime_errors"]:.1f} | '
@@ -123,17 +123,58 @@ def confirmatory_section(lines):
                      f'{x["repeated_failed"]:.1f} | {x["reverts_to_former_incumbent"]:.1f} | {x["memory_tokens_mean"]:.0f} | '
                      f'{x["memory_counterexamples_mean"]:.2f} | {x["input_tokens"]:.0f} | {x["output_tokens"]:.0f} | '
                      f'{x["cost_usd"]:.4f} |')
+    lines += memory_fill_lines()
     lines.append('\n### Similarity of promoted and final candidates to FunSearch\'s heuristic\n')
-    lines.append('| Arm | Promoted candidates that are near-copies (agreement >= 0.99) | Final incumbents that are near-copies | '
-                 'Mean agreement of final incumbents with FunSearch | ... with best-fit |')
+    lines.append('Agreement = share of decisions on 2 fresh 5,000-item instances where FunSearch\'s heuristic (or best-fit), '
+                 'given the same bins, picks a bin with the same remaining capacity. Near-copy = agreement >= 0.99. '
+                 f'{conf_summary_sim(s)}\n')
+    lines.append('| Arm | Near-copies among promoted candidates | Runs with a non-best-fit final | '
+                 'Their mean agreement with FunSearch | Their mean agreement with best-fit |')
     lines.append('|---|---:|---:|---:|---:|')
     for arm in ARMS:
         x = a[arm]
-        lines.append(f'| {arm} | {x["promoted_near_copies_of_funsearch"]:.1f} per run | {x["final_near_copies_of_funsearch"]} of '
+        lines.append(f'| {arm} | {x["promoted_near_copies_of_funsearch"] * x["runs"]:.0f} | {x["runs"] - x["final_is_best_fit"]} of '
                      f'{x["runs"]} | {fmt(x["final_agreement_with_funsearch"], 3, False)} | '
                      f'{fmt(x["final_agreement_with_best_fit"], 3, False)} |')
     lines.append('')
     return s
+
+
+def memory_fill_lines():
+    """Why realized memory tokens differ between arms, and what the counterexamples look like."""
+    import statistics
+    out = ['\n### Memory fill and counterexample composition (all 10 runs per arm)\n',
+           '| Arm | Calls | Mean memory tokens (budget 1,500) | Median candidate entries per prompt | '
+           'Calls where the 8-counterexample cap was within 1 | Kept counterexamples | Of which 2 items long | '
+           'Of which first difference = policy opened a new bin |', '|---|---:|---:|---:|---:|---:|---:|---:|']
+    for arm in ('prose', 'executable'):
+        calls = tokens = near_cap = kept = two = new = 0
+        cands = []
+        for path in sorted((HERE / 'confirmatory' / 'runs').glob(f'{arm}-s*.json.gz')):
+            for r in read_json(path)['history']:
+                calls += 1
+                tokens += r['memory']['tokens']
+                cands.append(r['memory']['candidates'])
+                near_cap += r['memory']['counterexamples'] >= 7
+                mining = r.get('mining') or {}
+                # With best-fit as incumbent both keys hold the same mining pass; count it once.
+                refs = ['incumbent'] if r['incumbent_before'] == 'best_fit' else list(mining)
+                for m in (mining[w] for w in refs if w in mining):
+                    for cx in m['counterexamples']:
+                        kept += 1
+                        two += len(cx['items']) == 2
+                        new += bool(cx['divergence'] and cx['divergence']['candidate_new'])
+        out.append(f'| {arm} | {calls} | {tokens / calls:.0f} | {statistics.median(cands):g} | {near_cap} | {kept} | {two} | {new} |')
+    out.append('\nKept counterexamples: shrunk losing streams of at most 30 items, re-verified in fresh processes, over all '
+               'proposals of the arm and both references. The prose arm computes them too but shows only a verbal summary.')
+    return out
+
+
+def conf_summary_sim(s):
+    audit = read_json(HERE / 'confirmatory' / 'audit.json')
+    sims = [v['agreement_with_funsearch'] for v in audit['similarity'].values() if 'agreement_with_funsearch' in v]
+    return (f'{s["distinct_promoted_candidates"]} distinct promoted candidates were checked; the highest agreement with '
+            f'FunSearch was {max(sims):.3f}; near-copies: {s["promoted_near_copies_of_funsearch"]}.')
 
 
 def figure(path):
@@ -150,36 +191,14 @@ def figure(path):
     for seed in seeds:
         t = traces[('none', seed)]
         bins = [pack_priority(funsearch_weibull, weibull_items(sd, n, ns)) for ns, sd, n in t['fixed_specs']]
+        # FunSearch's heuristic on each run's fixed search suite (reported in summary.json).
         fs_fixed[seed] = sum(b - r for b, r in zip(bins, t['fixed_best_fit_bins'])) / len(bins)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.2), gridspec_kw={'width_ratios': [1.5, 1]})
-    for ax in (ax1, ax2):
-        ax.spines[['top', 'right']].set_visible(False)
-        ax.grid(axis='y', color='#e4e3df', linewidth=0.8)
-        ax.set_axisbelow(True)
-        ax.tick_params(colors=MUTED)
-    calls = list(range(0, 31))
-    for arm in ARMS:
-        curves = []
-        for seed in seeds:
-            t = traces[(arm, seed)]
-            cur, curve = 0.0, [0.0]
-            for r in t['history']:
-                if r.get('promoted'):
-                    cur = r['fixed']['mean_vs_best_fit']
-                curve.append(cur)
-            curve += [cur] * (31 - len(curve))
-            curves.append(curve)
-        m = [sum(c[i] for c in curves) / len(curves) for i in calls]
-        ax1.plot(calls, m, color=COLORS[arm], linewidth=2, label=arm)
-        ax1.annotate(arm, (30, m[-1]), xytext=(4, 0), textcoords='offset points', color=INK, va='center', fontsize=9)
     fs_mean = sum(fs_fixed.values()) / len(fs_fixed)
-    ax1.axhline(fs_mean, color=MUTED, linestyle='--', linewidth=1)
-    ax1.annotate("FunSearch's heuristic", (0, fs_mean), xytext=(2, 4), textcoords='offset points', color=MUTED, fontsize=8)
-    ax1.axhline(0, color=MUTED, linewidth=1)
-    ax1.set_xlabel('Model call', color=INK)
-    ax1.set_ylabel('Incumbent bins per instance minus best-fit\n(fixed search suite, mean of 10 seeds)', color=INK)
-    ax1.set_title('Incumbent during search', color=INK, loc='left', fontsize=11)
-    ax1.set_xlim(0, 33)
+    fig, ax2 = plt.subplots(figsize=(6.4, 4.4))
+    ax2.spines[['top', 'right']].set_visible(False)
+    ax2.grid(axis='y', color='#e4e3df', linewidth=0.8)
+    ax2.set_axisbelow(True)
+    ax2.tick_params(colors=MUTED)
     for i, arm in enumerate(ARMS):
         vals = [audit['per_run'][f'{arm}-s{s}']['metrics']['final_audit_excess'] for s in seeds]
         xs = [i + (j - 4.5) * 0.04 for j in range(len(vals))]
@@ -195,7 +214,7 @@ def figure(path):
     ax2.set_xlim(-0.5, 2.5)
     ax2.set_ylabel('Final incumbent bins per instance minus best-fit\n(400 fresh audit instances; dot = seed, bar = mean)',
                    color=INK)
-    ax2.set_title('Final incumbent on the audit', color=INK, loc='left', fontsize=11)
+    ax2.set_title('Final incumbent after 30 calls, per arm', color=INK, loc='left', fontsize=11)
     fig.tight_layout()
     fig.savefig(path, dpi=160)
     return {'funsearch_fixed_suite_mean_vs_best_fit': fs_mean}

@@ -43,16 +43,357 @@
     "anthropic_usd_by_folder": {
       "checks/live-code": 0.026319000000000002,
       "checks/modal-mock": 0,
-      "confirmatory": 0.896138,
+      "confirmatory": 2.875532,
       "pilot": 0.905852,
       "smoke": 0.009223
     },
-    "anthropic_usd_total": 1.837532,
+    "anthropic_usd_total": 3.816926,
     "modal_usd_estimate_by_folder": {
       "checks/live-code": 0.01033275694348335,
       "checks/modal-mock": 0.009338611299552916,
-      "confirmatory": 0.025280039855890273
+      "confirmatory": 0.3496204663362442
     },
-    "modal_usd_estimate_total": 0.04495140809892654
+    "modal_usd_estimate_total": 0.3692918345792805
+  },
+  "confirmatory": {
+    "regime": "weibull5k_code",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "calls_per_run": 30,
+    "primary_endpoint": "audited mean excess bins per instance of the final incumbent over best-fit (400 fresh 5,000-item instances; lower is better)",
+    "arms": {
+      "none": {
+        "final_audit_excess": -1.5237500000000002,
+        "final_delta_pp_vs_best_fit": -0.07678507988419878,
+        "promotions": 0.7,
+        "calls": 30.0,
+        "valid_proposals": 29.1,
+        "static_rejections": 0.2,
+        "runtime_errors": 0.7,
+        "other_failed_calls": 0.0,
+        "harmful_fraction": 0.8030592396109638,
+        "beneficial_fraction": 0.043333333333333335,
+        "worse_than_incumbent_fraction": 0.8297259062776303,
+        "no_op_fraction": 0.13320954907161803,
+        "repeated_failed": 17.4,
+        "reverts_to_former_incumbent": 0.5,
+        "best_fixed_vs_best_fit": -1.54,
+        "memory_tokens_mean": 0.0,
+        "memory_counterexamples_mean": 0.0,
+        "input_tokens": 27967.8,
+        "output_tokens": 10434.8,
+        "cost_usd": 0.0816522,
+        "shrink_trials": 4447.7,
+        "short_stream_executions": 6037.7,
+        "evaluation_seconds": 186.30696128579996,
+        "promoted_near_copies_of_funsearch": 0.0,
+        "final_agreement_with_funsearch": 0.6541,
+        "final_agreement_with_best_fit": 0.7761,
+        "runs": 10,
+        "final_is_best_fit": 9,
+        "final_near_copies_of_funsearch": 0
+      },
+      "prose": {
+        "final_audit_excess": -4.9645,
+        "final_delta_pp_vs_best_fit": -0.25017196330441666,
+        "promotions": 0.9,
+        "calls": 30.0,
+        "valid_proposals": 29.6,
+        "static_rejections": 0.0,
+        "runtime_errors": 0.4,
+        "other_failed_calls": 0.0,
+        "harmful_fraction": 0.20232348111658455,
+        "beneficial_fraction": 0.0635632183908046,
+        "worse_than_incumbent_fraction": 0.22577175697865354,
+        "no_op_fraction": 0.6501970443349754,
+        "repeated_failed": 20.3,
+        "reverts_to_former_incumbent": 1.7,
+        "best_fixed_vs_best_fit": -5.2,
+        "memory_tokens_mean": 1172.4966666666667,
+        "memory_counterexamples_mean": 0.0,
+        "input_tokens": 62467.0,
+        "output_tokens": 10247.0,
+        "cost_usd": 0.113702,
+        "shrink_trials": 1120.3,
+        "short_stream_executions": 2800.3,
+        "evaluation_seconds": 173.59147900939996,
+        "promoted_near_copies_of_funsearch": 0.0,
+        "final_agreement_with_funsearch": 0.5953999999999999,
+        "final_agreement_with_best_fit": 0.8913,
+        "runs": 10,
+        "final_is_best_fit": 5,
+        "final_near_copies_of_funsearch": 0
+      },
+      "executable": {
+        "final_audit_excess": -0.2375,
+        "final_delta_pp_vs_best_fit": -0.011968142065625732,
+        "promotions": 0.1,
+        "calls": 30.0,
+        "valid_proposals": 29.2,
+        "static_rejections": 0.0,
+        "runtime_errors": 0.8,
+        "other_failed_calls": 0.0,
+        "harmful_fraction": 0.14726600985221674,
+        "beneficial_fraction": 0.013793103448275862,
+        "worse_than_incumbent_fraction": 0.18174876847290639,
+        "no_op_fraction": 0.8148029556650247,
+        "repeated_failed": 24.5,
+        "reverts_to_former_incumbent": 0.6,
+        "best_fixed_vs_best_fit": -0.48,
+        "memory_tokens_mean": 934.18,
+        "memory_counterexamples_mean": 5.536666666666667,
+        "input_tokens": 54933.0,
+        "output_tokens": 7453.2,
+        "cost_usd": 0.092199,
+        "shrink_trials": 940.1,
+        "short_stream_executions": 2465.1,
+        "evaluation_seconds": 154.3837317738001,
+        "promoted_near_copies_of_funsearch": 0.0,
+        "final_agreement_with_funsearch": 0.5848,
+        "final_agreement_with_best_fit": 0.9549,
+        "runs": 10,
+        "final_is_best_fit": 9,
+        "final_near_copies_of_funsearch": 0
+      }
+    },
+    "comparisons": [
+      {
+        "comparison": "executable - prose",
+        "metric": "final_audit_excess",
+        "mean": 4.727,
+        "bootstrap_95": [
+          -0.23200000000000004,
+          12.959
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - prose",
+        "metric": "harmful_fraction",
+        "mean": -0.055057471264367816,
+        "bootstrap_95": [
+          -0.1047783251231527,
+          -0.0051970443349753735
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - prose",
+        "metric": "worse_than_incumbent_fraction",
+        "mean": -0.044022988505747124,
+        "bootstrap_95": [
+          -0.08834154351395732,
+          0.005862068965517253
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - prose",
+        "metric": "no_op_fraction",
+        "mean": 0.16460591133004926,
+        "bootstrap_95": [
+          0.05530377668308706,
+          0.3013793103448276
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - prose",
+        "metric": "repeated_failed",
+        "mean": 4.2,
+        "bootstrap_95": [
+          2.7,
+          6.0
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - prose",
+        "metric": "reverts_to_former_incumbent",
+        "mean": -1.1,
+        "bootstrap_95": [
+          -4.6,
+          1.4
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - prose",
+        "metric": "best_fixed_vs_best_fit",
+        "mean": 4.720000000000001,
+        "bootstrap_95": [
+          -0.4,
+          13.24
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "final_audit_excess",
+        "mean": 1.2862500000000001,
+        "bootstrap_95": [
+          0.0,
+          3.8587500000000006
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "harmful_fraction",
+        "mean": -0.655793229758747,
+        "bootstrap_95": [
+          -0.7366420361247947,
+          -0.5398162182644941
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "worse_than_incumbent_fraction",
+        "mean": -0.647977137804724,
+        "bootstrap_95": [
+          -0.7366420361247947,
+          -0.5163433118605532
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "no_op_fraction",
+        "mean": 0.6815934065934066,
+        "bootstrap_95": [
+          0.6060603764052039,
+          0.744902109384868
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "repeated_failed",
+        "mean": 7.1,
+        "bootstrap_95": [
+          5.7,
+          8.8
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "reverts_to_former_incumbent",
+        "mean": 0.1,
+        "bootstrap_95": [
+          0.0,
+          0.3
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "executable - none",
+        "metric": "best_fixed_vs_best_fit",
+        "mean": 1.06,
+        "bootstrap_95": [
+          0.0,
+          3.1800000000000006
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "final_audit_excess",
+        "mean": -3.44075,
+        "bootstrap_95": [
+          -12.857499999999998,
+          3.57175
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "harmful_fraction",
+        "mean": -0.6007357584943792,
+        "bootstrap_95": [
+          -0.700212201591512,
+          -0.448921308576481
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "worse_than_incumbent_fraction",
+        "mean": -0.6039541492989768,
+        "bootstrap_95": [
+          -0.6827339901477832,
+          -0.502159277504105
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "no_op_fraction",
+        "mean": 0.5169874952633573,
+        "bootstrap_95": [
+          0.36951623089554125,
+          0.6346229632436529
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "repeated_failed",
+        "mean": 2.9,
+        "bootstrap_95": [
+          0.5,
+          5.0
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "reverts_to_former_incumbent",
+        "mean": 1.2,
+        "bootstrap_95": [
+          -1.1,
+          4.6
+        ],
+        "n": 10
+      },
+      {
+        "comparison": "prose - none",
+        "metric": "best_fixed_vs_best_fit",
+        "mean": -3.66,
+        "bootstrap_95": [
+          -13.1,
+          3.3200000000000003
+        ],
+        "n": 10
+      }
+    ],
+    "funsearch_reference": {
+      "mean_excess_vs_best_fit": -65.9675,
+      "mean_bins": 1998.1925,
+      "excess_percent_over_l2": 0.6932703767067201,
+      "delta_pp_vs_best_fit": -3.324245944059644,
+      "wins": 400,
+      "ties": 0,
+      "losses": 0,
+      "instance_bootstrap_95": [
+        -66.4425,
+        -65.49
+      ]
+    },
+    "best_fit_mean_bins": 2064.16,
+    "audit_seed": 61898772011730,
+    "trace_digest": "384bee515ad25b3320b504ae5db2746dd663bfd82babcb7a3a04f19146df150b",
+    "funsearch_fixed_suite_mean_vs_best_fit": -66.36
   }
 }
