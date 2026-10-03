@@ -1,33 +1,5 @@
 
-Hackathons
-Recruiting
-Research
-About
-
-Contact us
-Profile
-AI x Science Hackathon
-Hackathon live
-
-HOME
-
-PICTURES
-
-JUDGES & MENTORS
-
-PROJECTS
-
 RESOURCES
-
-TEAMS
-Information
-Discord
-Link: https://discord.gg/ZN36RsFPs
-
-Wifi
-SSID: Halkin Wifi Guest
-
-Password: HalkinWorkspace
 
 API Keys
 Please make sure to read this section carefully so you have all your credits ready in time for the hackathon.
@@ -36,7 +8,7 @@ Google DeepMind: DeepMind is giving every hacker 48 hours of access to Antigravi
 
 Before you arrive:
 
-1. Download and set up Antigravity 2.0: https://antigravity.google/product/antigravity-2
+1. Download and set up Antigravity 2.0
 
 2. Download the DeepMind science skills: https://antigravity.google/use-cases/science
 
@@ -46,54 +18,25 @@ Important: your 48-hour access window starts once activated, and all resources w
 
 Anthropic: Each participant can request $200 in Claude API credits to build with over the weekend.
 
-Before you arrive: 1. Claim your credits here: https://platform.claude.com/offers/b5ca6152-ed2b-4dee-a775-e5e828b37f03
-
 Important: this link will be active starting friday 2 october, and is for confirmed hackathon participants only, please don't share it outside the hack.
 
 Hugging Face: Every participant gets an HF coupon (~$20 in credits) to use HF Jobs and zeroGPU spaces over the weekend - this will get you pretty far on HF.
-
-Before you arrive:
-
-1. Redeem your coupon here: https://huggingface.co/coupons/claim/HuggingFace-AIxScienceHack
-
-2. One redemption per account, credit lasts 30 days.
-
-Important: please don't share this link in public channels or social media it can be redeemed by bots, and there are only 250 total redemptions available. Keep it to yourself or private hackathon channels only.
 
 Modal: Every builder gets $150 in Modal credits to use over the weekend. Do this ahead of time so you're ready to build as soon as the hack kicks off Saturday morning.
 
 Before you arrive:
 
-1. Create a Modal account: https://modal.com
-
-2. Redeem your $150 in credits here: https://modal.fillout.com/t/qMXCmRGseUus?code=959-DB7-EL6 (code: 959-DB7-EL6)
+1. Create a Modal account
 
 Cognition: Every participant gets $200 in credits + 1 month of Devin Max to delegate the plumbing of your project (data pipelines, APIs, dashboards, deployment) so you can focus on the science.
 
-Before you arrive: 1. Go to: https://www.trydevin.ai/london-ai-x-science-hackathon
 
 2. Sign up using the exact same email address you used to register for the hackathon, your $200 credit will only apply if it matches your luma registration email.
 
 AMASS: Each team gets $500 in Amass API credits to build with over the weekend.
 
-Before you arrive: https://amass.tech/onboarding/london-ai-science-hackathon  
-
 GXL: GXL is providing unlimited credits for Paperclip for all hackers to build with over the weekend.
 
-Before you arrive: coming
-
-Form your teams
-If you already have a team you want to hack with:
-
-go to the "teams" panel on the platform
-create your team
-have your teammates join your team
-If you're looking for a team:
-
-join the hackathon's Discord - https://discord.gg/ZN36RsFPs
-introduce yourself in the "intros and team match" channel
-and find your teammates :)
-You'll also have 30 minutes at the start of the hackathon to find some teammates if you haven't found them on Discord.
 
 Schedule
 📍 1-2 Paris Garden (Halkin/Night Office), London SE1 8ND All times BST
