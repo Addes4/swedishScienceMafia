@@ -227,3 +227,8 @@ seed or a primary analysis.
    switching. adaptive_v1's moments in this file are identical to those in `forks.json`, as expected
    from deterministic seeding.
 3. **Report generator** `strategist/report_v2.py` written after the runs; it only reads the JSON outputs.
+   It also writes a `headline` block at the top of `summary.json` (the rest of the file is unchanged),
+   `comparisons.png`, and the tables inside `RESULTS.md`. `python -m strategist.v2 cost` writes
+   `cost.json` (Modal spend from the billing API; run and evaluation counts from the records).
+4. **Measured cost tables get versioned names** (`measured_llm-<hash>`), so a later update of the
+   ratios writes a new folder instead of being refused or overwriting an earlier run. No run used it yet.

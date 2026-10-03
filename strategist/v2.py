@@ -202,7 +202,8 @@ def dev_arms(full_grid=True):
 
 
 def select(records, benches=BENCHES):
-    """The pre-registered selection rule (PROTOCOL.md): see the docstring of each step."""
+    """The selection rule fixed in PROTOCOL.md stage 1: v2 = argmax J over the 32 full configurations;
+    patience T per benchmark = best dev mean. Also returns J for every configuration, for the record."""
     finals = {b: by_arm(records, b) for b in benches}
     candidates = [label((x, e, l)) for x in XO for e in EXCURSION for l in LEAVE
                   if x not in ('off', 'none') and e != 'inherit' and l != 'point']
