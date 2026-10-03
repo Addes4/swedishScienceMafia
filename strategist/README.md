@@ -90,9 +90,28 @@ Read honestly:
   seeds 20-39 and 3.96 on the confirmatory seeds. Picking among about 15 variants on 20 seeds produced a
   winner's curse, which the pre-registered confirmatory run exposed. Use more dev seeds next time.
 
-The most promising next step, to be tested as a new named experiment on new seeds: drop crossover
-unless it has earned its place, cap the length of an excursion, and require stronger evidence before
-leaving a leader that is still improving.
+### v2 ([experiments/strategist-v2](../experiments/strategist-v2/RESULTS.md))
+
+v1's three proposed fixes were tested as a new pre-registered experiment: a crossover gate, an
+excursion cap, and a recent-improvement test before leaving the leader. They are implemented in
+`AdaptiveV2` in `controller.py`; its defaults reproduce v1 exactly. The design was chosen on
+200 dev seeds, checked once on 200 validation seeds, and confirmed once on 200 new seeds.
+
+- **Against v1:** v2 is better on LABS (+0.137 merit factor [0.043, 0.236]) and NK (+0.00577
+  fitness), and ties on Heilbronn. Nearly all of the gain comes from the crossover gate; dropping
+  crossover does about as well.
+- **Fewer premature switches:** down from 48% to 21% of switch points on LABS, and from 55% to
+  34% on NK.
+- **Against a patience rule tuned on dev seeds:** the rule still beats v2 on LABS (−0.220), and
+  weakly on NK.
+- **Winner's curse:** the dev, validation and confirmatory split caught it again. v2's estimated
+  gain fell from +0.236 on dev seeds to +0.132 on validation.
+
+Run it with `python -m strategist.v2 --help`. The cost table is a parameter (`--costs uniform`,
+`--costs measured`, or inline `edit=1,rewrite=...`; see `costs.py`). Present the controller as
+robust without per-problem tuning, not as better than a tuned patience rule. The novel part is the
+testing method: timing-shuffled replay, counterfactual forks, and separate design, validation and
+final seeds.
 
 ## Run it
 
