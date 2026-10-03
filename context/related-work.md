@@ -3,8 +3,22 @@
 Literature review done on 3 October 2026, during the hackathon. We searched for work on each of
 our four parts and checked that every paper exists on arXiv or a publisher page. The 22 most
 relevant papers were read in full (marked †), and the key numbers quoted here were checked
-against the papers. PDFs are kept locally in `context/related-papers/`, which is git-ignored
-because most of them cannot be redistributed; the links below lead to every paper.
+against the papers. `python3 context/fetch_papers.py` downloads them into
+`context/related-papers/`. That folder is git-ignored because most of the PDFs cannot be
+redistributed; the links below lead to every paper. [How the review was done](#how-this-review-was-done)
+records the method, decisions and corrections. [What changed in our experiments](#what-changed-in-our-experiments)
+records what the review changed in the running experiments.
+
+## Question and answer
+
+**Question.** Is anyone else working on what we are, which of our results are new, and what does
+the literature imply for each part of the framework?
+
+**Answer.** Yes: several 2026 groups study the same failure modes. Four of our contributions did
+not appear in the roughly 60 papers we reviewed. Two of our results reproduce published findings,
+and one mechanism is prior art. The review changed two running experiments: the tournament gained
+the baselines and statistics the literature expects, and bp-ceiling gained a published rule as a
+baseline and a headroom measurement.
 
 ## Summary
 
@@ -141,6 +155,94 @@ property-testing library (de Vries 2023).
 - Consequence for `tournament-v1`: include independent sampling next to the plain loop (which
   is greedy best-of-N), run at least 3–5 seeds, report best score against dollars, and treat
   near-saturated problems such as circle packing as ties.
+
+## How the finished runs line up with the literature
+
+These are results from the runs finished by 21:45 on 3 October. See each run's RESULTS.md on its
+`exp/*` branch.
+
+| Run | Result | Literature |
+|---|---|---|
+| strategist-v2 | v1's fixes beat v1 on LABS (+0.137 merit factor, CI [0.043, 0.236]) and NK, mostly through gating crossover. Premature switches on LABS fell from 48% to 21%. A patience rule tuned on dev seeds still wins on LABS. | Gupta et al.: early signals are weak and no harness wins everywhere. Requiring more evidence before leaving is what their finding suggests, and the remaining gap to a tuned rule matches "no universal winner". |
+| gate-redteam | Of 68 exploit attempts (28 hand-made, 40 written by Sonnet and Haiku), none gained a material unearned score. The only leak is a sub-tolerance overlap worth about 3e-10, below the record. | Catches the exploit class HASE documents. Its residual leak is bounded by n × tolerance, the same bound ThetaEvolve's tolerance comparison implies. |
+| memory-ablation (pilot, 2 seeds) | Without memory 59/60 proposals were harmful. With prose memory 8/60 were, but 56/60 packed exactly like the incumbent. No arm beat best-fit. | At 80 items there is no headroom to find (Herrmann & Pallez, Sim et al.), so the primary endpoint cannot separate arms. Karimi et al. suggest distilled diagnoses beat raw counterexamples in the prompt; untested here. |
+
+Pending when this was written: tournament-v1, bp-ceiling-v1 and idea-table-v1.
+
+## What changed in our experiments
+
+The review's findings went to the six `exp/*` agents through the session coordinating them. The
+rule was: no change to a pre-registered design; additions only as disclosed secondary analyses or
+before a protocol was frozen. Adopted, as recorded in each protocol's change log:
+
+- **tournament-v1** (protocol frozen after the review):
+  - an `independent` arm, citing Gideoni et al. (commit `bafaaa7`);
+  - `lean` named as greedy best-of-N (Gupta et al.);
+  - problems with headroom first (sum_difference, erdos_squares);
+  - P(A > B) with bootstrap intervals, and record ties;
+  - every record flag reporting the reference, the margin and n × tolerance, with margins below
+    that bound not claimed (ThetaEvolve).
+  - The protocol uses 4 seeds rather than the 5 suggested, because that is what fits the $75 cap.
+- **bp-ceiling-v1:** a secondary arm with the Herrmann & Pallez two-threshold rules,
+  grid-searched per regime (commit `f736fb2`), and a tool that measures best-fit's distance from
+  the exact optimum (commit `9141b1a`).
+- **Not attributed to the review:** idea-table's randomised idea order and repeated
+  implementations were in its protocol before the findings were sent.
+
+The tournament's full grid ($75 Anthropic, $75 Modal) was launched only after the user approved it
+directly in the coordinating session. That session did not accept a relayed approval.
+
+## How this review was done
+
+**Method.**
+1. We read the repository: each part's README, results and stated next steps, and the hackathon
+   brief.
+2. Four search agents ran in parallel, one per area: Falsify, Strategist, Triage plus the gate,
+   and recent comparable systems. They were told to report only papers they had confirmed.
+3. All 44 arXiv IDs were checked against the arXiv API, and each title matched.
+4. About 30 key claims were checked by hand on arXiv abstract or full-text pages.
+5. Three reading agents read 22 papers in full: bin packing, search and evaluation, and triage
+   plus integrity. Their most consequential numbers were re-checked against the papers: RAISE's
+   tables, Gupta et al.'s Holm p-value, ASRO's table and Herrmann & Pallez's 90-item result.
+6. We downloaded 56 PDFs, one PostScript file and one HTML page from open sources.
+   `fetch_papers.py` reproduces this.
+
+**Decisions.**
+- PDFs are not committed: the repository is public, and most papers may not be redistributed.
+- HAL's bot check and ACM's paywall were not circumvented; those six papers are listed in
+  `fetch_papers.py` for download in a browser.
+- Findings went to the experiment agents only through their coordinating session, so they had
+  one source of instructions.
+
+**Corrections made along the way.**
+- A search agent said FunSearch's bin-packing heuristic was evolved on 5,000-item instances. The
+  heuristic that loses to best-fit below 90 items (c12) was evolved on 20 instances of 120 items.
+- A search agent listed AdaEvolve under two arXiv IDs. The correct one is 2602.20133; 2602.23413
+  is EvoX.
+- A first draft called the Erdős squares reference exact. `problems/erdos_squares/verify.py`
+  says it is the Campbell–Staton conjecture, so only Erdős discrepancy (1160, proven) is a strict
+  canary.
+- ASRO's main text does not list the cross-bin statistics a reading agent attributed to its
+  evolved solvers, so this document does not claim them.
+
+**Limitations.**
+- The search covered arXiv and the open web, not the full literature, so "new" means new among
+  the papers we found.
+- Most 2026 papers are preprints without peer review.
+- Papers not marked † were judged from abstracts and key sections, and some numbers in read
+  papers come from figures.
+- The Sum-of-Squares feature `N(gap+item) − N(gap)` is our own derivation and untested.
+
+**Cost.** No API or compute spend on experiments. The review used this Claude Code session and
+its subagents only.
+
+**Reproduce.** `python3 context/fetch_papers.py` downloads every available paper; add
+`--only <text>` to fetch a subset. The papers it cannot fetch are printed with links at the end.
+
+**Next steps.**
+- Fill the tournament, bp-ceiling and idea-table rows above when those runs finish.
+- Rephrase the claims in the root README and pitch as in the novelty table.
+- Consider ASRO-style instance generators and the Sum-of-Squares feature for a Falsify v5.
 
 ## Reading list
 
