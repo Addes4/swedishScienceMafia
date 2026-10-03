@@ -132,3 +132,15 @@ def test_normal_output_still_passes_the_size_guard(tmp_path):
     prog.write_text("def solve():\n    return [0, 1, 3]\n")
     res = run_candidate(str(prog), "solve", {}, timeout_s=30.0)
     assert res.ok and res.construction == [0, 1, 3]
+
+
+def test_circle_inf_radius_rejected_at_parse(tmp_path):
+    # An infinite radius used to slip _parse (only NaN and r<0 were checked) and was caught
+    # only downstream by the containment test; reject it cleanly at parse instead.
+    metrics, correct, _ = _run(tmp_path, "circle_packing", f"""
+        def solve(n=26):
+            d = {CIRCLES_26!r}
+            r = list(d["radii"]); r[0] = float("inf")
+            return {{"centers": d["centers"], "radii": r}}
+    """)
+    assert not correct["correct"] and metrics["combined_score"] == 0.0
