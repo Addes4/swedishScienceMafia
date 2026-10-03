@@ -1,0 +1,19 @@
+{
+  "cell": "i111__haiku__r0",
+  "idea_id": "i111",
+  "idea": "Generalise the one-sided L-frame recursion to \"corner square plus a two-arm frame of side 1/j\". The bottom arm holds j squares of side 1/j and the left arm holds j\u22121 of them. The remaining (1\u22121/j)\u00d7(1\u22121/j) square is filled recursively, scaled from best[m], with the table built bottom-up. Evaluate f(n) \u2265 (2j\u22121)/j + (1\u22121/j)\u00b7f(n\u22122j+1) for all j.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055970.215926,
+  "cost": 0.009929,
+  "input_tokens": 829,
+  "output_tokens": 1820,
+  "llm_seconds": 11.0,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "2b508d1c995e04ff09557651ed54c0bb7a0104660ba80ca12b4aa2da088c7d68"
+}

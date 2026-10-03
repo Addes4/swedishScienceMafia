@@ -1,0 +1,19 @@
+{
+  "cell": "i040__sonnet__r0",
+  "idea_id": "i040",
+  "idea": "Add a partition recurrence: split the unit square into a j\u00d7j grid of equal sub-squares (j=2,3,4) and give each sub-square its own count n_i with \u03a3n_i = n. This gives f(n) \u2265 (1/j)\u00b7max \u03a3 f(n_i), computed by a knapsack over a best[] table built bottom-up. Unlike single-square substitution, the extra count is spread over all cells, which reaches mixed-parity counts.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055488.002665,
+  "cost": 0.04865,
+  "input_tokens": 985,
+  "output_tokens": 4668,
+  "llm_seconds": 37.47,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "b9f87c7275450f3e7c95cc6db06b65f1e38014511ac929839ad8a93e8f7f954d"
+}

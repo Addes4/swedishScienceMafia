@@ -1,0 +1,19 @@
+{
+  "cell": "i033__haiku__r0",
+  "idea_id": "i033",
+  "idea": "Compaction LP on the topology of the best construction: freeze only the left/right/above/below contact relations between squares. Solve an LP maximising the sum of sides under those relations and containment; this often lets unequal neighbours rebalance, for example growing a big corner square while shrinking a strip. Accept the result only if it is strictly larger.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055299.159086,
+  "cost": 0.008478,
+  "input_tokens": 778,
+  "output_tokens": 1540,
+  "llm_seconds": 9.86,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "d5b7f8fba0491d2a4aa010a56bf887798bd7cf8d95bc9e29b0b51de8dd2a079e"
+}

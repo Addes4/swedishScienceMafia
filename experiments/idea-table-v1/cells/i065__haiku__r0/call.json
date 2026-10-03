@@ -1,0 +1,19 @@
+{
+  "cell": "i065__haiku__r0",
+  "idea_id": "i065",
+  "idea": "Build a sheared staircase grid. Shift row i of a k\u00d7k-style grid horizontally by i\u00b7\u03b4, which opens a staircase of left-edge gaps of widths \u03b4, 2\u03b4, \u2026. Fill those gaps with squares of side i\u03b4 (or stacks of smaller ones), shrinking the row squares by LP, and enumerate k and rational \u03b4 in closed form to obtain extra counts at small sum cost.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055766.16519,
+  "cost": 0.005998,
+  "input_tokens": 798,
+  "output_tokens": 1040,
+  "llm_seconds": 7.18,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "a8a21b582df09e472e84e94ed759856db837758fc310edfb1250fc001acd48ec"
+}

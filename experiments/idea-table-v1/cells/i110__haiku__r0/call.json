@@ -1,0 +1,19 @@
+{
+  "cell": "i110__haiku__r0",
+  "idea_id": "i110",
+  "idea": "Run an exact branch-and-bound over integer square dissections of a k\u00d7k board (k = \u2308\u221an\u2309 \u2026 \u2308\u221an\u2309+3). Enumerate only \"grid plus a single non-unit square of side a placed at a corner, with the cells covered by it removed\", and also the dual case where cells are split into 2\u00d72. Take the best exact count n, as a fast closed-form family indexed by (k, a, number of 2\u00d72 splits).",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055808.0969348,
+  "cost": 0.008223,
+  "input_tokens": 818,
+  "output_tokens": 1481,
+  "llm_seconds": 10.14,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "c60bc70be57c63baaaf865f7aa577f1a50b5dc053bc2bd3fe67a1786abe255b3"
+}

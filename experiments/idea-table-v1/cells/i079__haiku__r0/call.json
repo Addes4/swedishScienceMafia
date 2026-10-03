@@ -1,0 +1,19 @@
+{
+  "cell": "i079__haiku__r0",
+  "idea_id": "i079",
+  "idea": "Random-restart integer perturbation: starting from the best layout expressed on an L\u00d7L board, apply random \"slide a seam by one unit\" moves that shift a maximal straight edge segment. Each move resizes the squares on both sides by \u00b11 unit, and the move is repaired by splitting or merging so the count stays n. Run thousands of exact-integer hill-climbing steps with occasional resets to the best.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055295.407022,
+  "cost": 0.009293,
+  "input_tokens": 793,
+  "output_tokens": 1700,
+  "llm_seconds": 13.56,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "57a5a46dfed3eecf5737508d29a9c2d797e48a49d503e1371b4aa427422aad9f"
+}

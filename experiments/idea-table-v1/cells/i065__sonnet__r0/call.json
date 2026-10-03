@@ -1,0 +1,19 @@
+{
+  "cell": "i065__sonnet__r0",
+  "idea_id": "i065",
+  "idea": "Build a sheared staircase grid. Shift row i of a k\u00d7k-style grid horizontally by i\u00b7\u03b4, which opens a staircase of left-edge gaps of widths \u03b4, 2\u03b4, \u2026. Fill those gaps with squares of side i\u03b4 (or stacks of smaller ones), shrinking the row squares by LP, and enumerate k and rational \u03b4 in closed form to obtain extra counts at small sum cost.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055773.345401,
+  "cost": 0.053886,
+  "input_tokens": 973,
+  "output_tokens": 5194,
+  "llm_seconds": 43.78,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "98ea5c53042e93007ccfaf48e54a658b38098133cddfd89ab2040c8a035846c8"
+}

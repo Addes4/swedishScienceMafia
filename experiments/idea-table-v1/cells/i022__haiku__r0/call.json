@@ -1,0 +1,19 @@
+{
+  "cell": "i022__haiku__r0",
+  "idea_id": "i022",
+  "idea": "Multiset-first packing: enumerate multisets of sides from {1/d} (d up to about 3\u221an) by a knapsack. Maximise the sum subject to the count being n and the area being at most 1, then test the top candidates for exact packability. The test is a bottom-left/skyline backtracking search on the integer board of size lcm(d's) \u00d7 lcm(d's), returning the first multiset that packs.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055438.482257,
+  "cost": 0.008287,
+  "input_tokens": 807,
+  "output_tokens": 1496,
+  "llm_seconds": 12.42,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "063f37c8a1388388bcb711d78b602bf5ac8728d19f2843e5051c5cd7785adc45"
+}

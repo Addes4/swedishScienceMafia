@@ -1,0 +1,19 @@
+{
+  "cell": "i016__sonnet__r0",
+  "idea_id": "i016",
+  "idea": "Two-scale mixed lattice: tile the square with a p\u00d7p grid in which some cells hold one square of side 1/p and others hold a q\u00d7q subgrid. Allow p and q to be coprime-unrelated, and let the subdivided region be a whole band of rows so that the band is re-gridded with a different column count. Enumerate p, q, the band heights and counts in closed form.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056020.962556,
+  "cost": 0.072202,
+  "input_tokens": 961,
+  "output_tokens": 7028,
+  "llm_seconds": 58.17,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "2b12b56e187e2af79cc8cf35e21e89ba73623a6f82f957f70b626e135e3afbb8"
+}

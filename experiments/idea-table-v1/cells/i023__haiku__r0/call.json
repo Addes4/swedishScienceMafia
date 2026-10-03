@@ -1,0 +1,19 @@
+{
+  "cell": "i023__haiku__r0",
+  "idea_id": "i023",
+  "idea": "Exact axis-aligned optimum for small n via a big-M MILP in scipy.optimize.milp. Use continuous centres and sides, and four binary separation indicators per pair (left/right/below/above, at least one active). Add symmetry breaking (sort by side, put the first square in the bottom-left quadrant) and warm-start from the best construction.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055524.687016,
+  "cost": 0.013983,
+  "input_tokens": 783,
+  "output_tokens": 2640,
+  "llm_seconds": 20.2,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "3e208ab52e46f63d4261188b9d8a2f527a0bd8edcb3819a4820d3e1e224da53a"
+}

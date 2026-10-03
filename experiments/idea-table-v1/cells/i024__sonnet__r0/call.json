@@ -1,0 +1,19 @@
+{
+  "cell": "i024__sonnet__r0",
+  "idea_id": "i024",
+  "idea": "Inflation multi-start for rotated packings: start from many random centres, angles and tiny sides. Run a Lubachevsky\u2013Stillinger-style growth in which each square's side grows at a rate proportional to its slack. Resolve overlaps with separating-axis push-apart moves plus rotation, then run a final SLSQP polish on sum(sides) with exact separating-axis constraints.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055462.419633,
+  "cost": 0.043284,
+  "input_tokens": 967,
+  "output_tokens": 4135,
+  "llm_seconds": 36.18,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "5cde15506091676988a17de5736b5d03e4f44fb7cb75ae61549825a03313c485"
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i095__haiku__r0",
+  "idea_id": "i095",
+  "idea": "Use a compaction LP with free sizes on a fixed slicing tree. For the best guillotine layout, set the leaf sides and cut positions as LP variables, constrained so that siblings share the parent's width or height, with sides \u2264 the cell dimensions. Maximise the sum, then round the solution to exact rationals via active constraints. This rebalances strips that the discrete cut grid misallocated.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055733.282132,
+  "cost": 0.00924,
+  "input_tokens": 790,
+  "output_tokens": 1690,
+  "llm_seconds": 13.43,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "655713e9573285cefab76156eee253e52585b08bb5a4eb80f7e965e41ee3673e"
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i079__sonnet__r0",
+  "idea_id": "i079",
+  "idea": "Random-restart integer perturbation: starting from the best layout expressed on an L\u00d7L board, apply random \"slide a seam by one unit\" moves that shift a maximal straight edge segment. Each move resizes the squares on both sides by \u00b11 unit, and the move is repaired by splitting or merging so the count stays n. Run thousands of exact-integer hill-climbing steps with occasional resets to the best.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055308.972448,
+  "cost": 0.07869,
+  "input_tokens": 970,
+  "output_tokens": 7675,
+  "llm_seconds": 65.13,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "84267966062291eb4d3c5aec83c1db40c17c1c2e75851d853446a7baab64bc72"
+}

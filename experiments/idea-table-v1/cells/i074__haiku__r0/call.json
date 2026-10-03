@@ -1,0 +1,14 @@
+{
+  "cell": "i074__haiku__r0",
+  "idea_id": "i074",
+  "idea": "Row re-gridding with free count bumps: in a k-row layout, rows with k+j squares of side 1/(k+j) are always height-feasible alongside rows of k squares of side 1/k, and leave a residual horizontal strip of height \u03a3(1/k \u2212 1/(k+j)). Enumerate row-count vectors and fill that residual strip with a row of tiny squares, plus LP compaction, to reach counts that neither the grid nor the Erd\u0151s\u2013Soifer family reaches.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056132.37356,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9D56LiTth9hxo5Lj8'}",
+  "cost": 0.0
+}

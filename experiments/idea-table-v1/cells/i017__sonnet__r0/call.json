@@ -1,0 +1,19 @@
+{
+  "cell": "i017__sonnet__r0",
+  "idea_id": "i017",
+  "idea": "Gap-filling post-processor: after any construction, compute the free space as a union of axis-aligned empty rectangles, using maximal-rectangle enumeration. Repeatedly replace a zero-size padding square with the largest square that fits a free rectangle, and enlarge existing squares into adjacent slack using an LP over sides with positions free.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055644.88006,
+  "cost": 0.146462,
+  "input_tokens": 951,
+  "output_tokens": 14456,
+  "llm_seconds": 121.28,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "e7104756e59aabb2981b4f033349b51ba9e8f2c9ab5640beb85f91afa9316ef7"
+}

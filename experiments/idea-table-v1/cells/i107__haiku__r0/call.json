@@ -1,0 +1,19 @@
+{
+  "cell": "i107__haiku__r0",
+  "idea_id": "i107",
+  "idea": "Use an empty-cell two-level grid closed form: in a k1\u00d7k1 coarse grid, each cell is either one square, a j\u00d7j subgrid with a single global j, or left empty. With a full, b subdivided and e empty cells, count = a + b\u00b7j\u00b2 and sum = (a + b\u00b7j)/k1. Enumerate (k1, j, a, b) over a + b + e = k1\u00b2 to hit n exactly, without zero-padding waste.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055745.058599,
+  "cost": 0.005829,
+  "input_tokens": 814,
+  "output_tokens": 1003,
+  "llm_seconds": 6.5,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "010249c268b5617c1010f256b864b352df31696e6c629c172e096d42ea8c2007"
+}

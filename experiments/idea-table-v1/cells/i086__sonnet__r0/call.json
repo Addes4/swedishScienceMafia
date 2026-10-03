@@ -1,0 +1,19 @@
+{
+  "cell": "i086__sonnet__r0",
+  "idea_id": "i086",
+  "idea": "Use GRASP with path relinking on integer boards. Build many layouts by randomised greedy largest-fitting-square placement with random size caps, keep an elite pool per count, and walk between pairs of elite layouts by transferring sub-rectangle regions from one into the other. Repair the count by splitting or merging at each step, which recombines good local structures found in different runs.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055723.0714939,
+  "cost": 0.059786,
+  "input_tokens": 958,
+  "output_tokens": 5787,
+  "llm_seconds": 48.66,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "ac6b2d7fccd8d45b70ad6bd71e33df095e80e3c2854c6baf62096769f50aa22f"
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i012__opus__r0",
+  "idea_id": "i012",
+  "idea": "Exact tiling search on an integer L\u00d7L board for L up to about 10\u201312. Use a broken-profile (skyline) DP or exact-cover backtracking to enumerate dissections of the board into integer squares, recording the best total of sides per count. Scale by 1/L, and pad or drop cells (as zero squares) to hit n exactly.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055567.104667,
+  "cost": 0.11764,
+  "input_tokens": 950,
+  "output_tokens": 5692,
+  "llm_seconds": 69.8,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "bff0d79507251a04d4087e573325463425a542c0d5cee15a14fff6b67c9ff555"
+}

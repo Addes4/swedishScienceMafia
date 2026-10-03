@@ -1,0 +1,14 @@
+{
+  "cell": "i093__sonnet__r0",
+  "idea_id": "i093",
+  "idea": "Use a scipy-milp exact partition of an L\u00d7L integer board (L from \u2308\u221an\u2309 to 3\u2308\u221an\u2309 within a time budget) into at most n axis-aligned integer squares. Binary variables x[i,j,s] place a square of side s at (i,j). Cover each cell at most once, require \u03a3x = n, and maximise \u03a3 s\u00b7x / L. Warm-start from the best closed-form answer and stop each L after a few seconds.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 2,
+  "time": 1791056134.506064,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9NCXUV471yodxbwca'}",
+  "cost": 0.0
+}

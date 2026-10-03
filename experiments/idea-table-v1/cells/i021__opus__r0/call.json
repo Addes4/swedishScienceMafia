@@ -1,0 +1,19 @@
+{
+  "cell": "i021__opus__r0",
+  "idea_id": "i021",
+  "idea": "Over-build then delete: build Erd\u0151s\u2013Soifer or grid configurations for every N in n..n+2\u221an+2 and delete the N\u2212n smallest squares. This gives f(n) \u2265 f(N) \u2212 (sum of the N\u2212n smallest sides). Add every such candidate to the pool and keep the best one that is valid.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055594.802489,
+  "cost": 0.213792,
+  "input_tokens": 943,
+  "output_tokens": 10501,
+  "llm_seconds": 120.64,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "41c0f1e6c65164fa8128e3114002bcea40a51f7f113c900773d568505f207663"
+}
