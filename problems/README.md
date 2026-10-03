@@ -9,6 +9,7 @@ problem means adding a folder, with no changes to `autoresearch/`.
 | `erdos_squares` | geometry | problem 55 | k + c/k for n = k² + 2c + 1 (exact, every n) |
 | `erdos_discrepancy` | number theory / combinatorics | problem 40 | 1160 (the maximum for C = 2) |
 | `sum_difference` | additive combinatorics | problem 43 | 1.2715 (asymptotic; AlphaEvolve unaided ≈ 1.21); the gate's reference adds the 0.01 maximum size bonus |
+| `bin_packing_online` | online algorithms | FunSearch (Nature 2024) Weibull 5k | score = L2 bound / bins; best fit 0.960, FunSearch heuristic 0.992 (no record flag) |
 
 Problem numbers refer to the repository accompanying Georgiev, Gómez-Serrano, Tao and Wagner,
 *Mathematical exploration and discovery at scale* (2025),
@@ -37,6 +38,13 @@ def best_known(instance) -> float | None
 def check_strict(construction, instance) -> bool    # optional independent re-check
 def label(instance) -> str                          # optional
 ```
+
+**Online problems.** If `verify.py` also defines `DRIVER` (trusted source that runs in the child and
+calls the candidate once per input) and `online(instance) -> (header, inputs)`, the gate reveals the
+inputs one at a time over a private pipe and sends input k+1 only after reading the decision for
+input k. Future inputs never exist in the candidate's process, so it cannot look ahead or reorder;
+`check()` receives the list of decisions. `bin_packing_online` uses this: the candidate writes
+FunSearch's `priority(item, bins)` and the driver applies it per arriving item.
 
 ## What the gate does (`autoresearch/gate.py`)
 
