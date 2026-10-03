@@ -4,6 +4,10 @@ Score (official): log|A - A| / log|A + A| + (1 - 1/|A|) / 100 for a finite set A
 Best known lower bound for the underlying constant: log(1 + sqrt 2) / log 2 = 1.2715...,
 from a high-dimensional simplex construction; AlphaEvolve without hints reached about 1.21.
 Note the 1.2715 is an asymptotic value: finite sets approach it from below.
+
+The score includes a size bonus of up to 0.01 that the 1.2715 constant does not, so
+best_known() adds that maximum bonus. A score above it then implies the ratio itself
+beats 1.2715; without it, a ratio near 1.262 plus the bonus would be flagged as a record.
 """
 import math
 
@@ -15,6 +19,7 @@ HIDDEN = []
 TIMEOUT_S = 120
 MAX_SIZE = 4000
 BEST_KNOWN = math.log(1 + math.sqrt(2)) / math.log(2)
+MAX_SIZE_BONUS = 0.01
 
 
 def label(instance):
@@ -22,7 +27,7 @@ def label(instance):
 
 
 def best_known(instance):
-    return BEST_KNOWN
+    return BEST_KNOWN + MAX_SIZE_BONUS
 
 
 def _parse(construction):

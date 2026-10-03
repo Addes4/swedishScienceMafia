@@ -88,6 +88,22 @@ def test_timeout_is_reported(tmp_path):
     assert not res.ok and "timed out" in res.error
 
 
+def test_sum_difference_size_bonus_alone_is_not_a_record(tmp_path):
+    # The score adds a size bonus below 0.01, so a ratio near 1.262 would beat the bare 1.2715 constant.
+    # The reference must include the maximum bonus; an ordinary set must not be flagged.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("sd_verify", ROOT / "problems" / "sum_difference" / "verify.py")
+    verify = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(verify)
+    assert verify.best_known({}) >= verify.BEST_KNOWN + 0.01
+    metrics, _, integrity = _run(tmp_path, "sum_difference", """
+        def solve():
+            return [0, 1, 3]
+    """)
+    assert not metrics["private"]["flags"]
+    assert integrity["public"][0]["status"] == "valid"
+
+
 def test_api_keys_never_reach_the_candidate(tmp_path, monkeypatch):
     from autoresearch.sandbox import run_candidate
     for key in ("ANTHROPIC_API_KEY", "TYPESAFE_API_KEY", "SOME_NEW_SERVICE_TOKEN"):

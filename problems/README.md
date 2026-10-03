@@ -8,7 +8,7 @@ problem means adding a folder, with no changes to `autoresearch/`.
 | `circle_packing` | geometry | problem 36 | 2.6359830849 (AlphaEvolve construction, n = 26) |
 | `erdos_squares` | geometry | problem 55 | k + c/k for n = k² + 2c + 1 (exact, every n) |
 | `erdos_discrepancy` | number theory / combinatorics | problem 40 | 1160 (the maximum for C = 2) |
-| `sum_difference` | additive combinatorics | problem 43 | 1.2715 (asymptotic; AlphaEvolve unaided ≈ 1.21) |
+| `sum_difference` | additive combinatorics | problem 43 | 1.2715 (asymptotic; AlphaEvolve unaided ≈ 1.21); the gate's reference adds the 0.01 maximum size bonus |
 
 Problem numbers refer to the repository accompanying Georgiev, Gómez-Serrano, Tao and Wagner,
 *Mathematical exploration and discovery at scale* (2025),
