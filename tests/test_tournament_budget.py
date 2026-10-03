@@ -9,7 +9,7 @@ import pytest
 
 from autoresearch.claude import Claude
 from tournament import guard
-from tournament.budget import Budget, BudgetExhausted, UnbudgetedCall, input_upper_bound, usage_cost
+from tournament.budget import Budget, BudgetExhausted, FatalAPIError, UnbudgetedCall, input_upper_bound, usage_cost
 from tournament.mockapi import MockAnthropic
 
 PROGRAM = "```python\n# EVOLVE-BLOCK-START\ndef solve(n):\n    return 0.5 * n\n# EVOLVE-BLOCK-END\n```"
@@ -154,3 +154,62 @@ def test_rate_limits_are_retried_free_and_logged(tmp_path, mock, monkeypatch):
     calls = [r for r in log if r["event"] == "call"]
     assert len(calls) == 2 and all(r["error"] is None and r["cost_basis"] == "usage" for r in calls)
     assert not budget.reserved
+
+
+CREDIT = "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing."
+
+
+@pytest.mark.parametrize("status,kind,message", [(400, "invalid_request_error", CREDIT),
+                                                 (401, "authentication_error", "invalid x-api-key"),
+                                                 (403, "permission_error", "not allowed")])
+def test_billing_and_auth_errors_are_fatal_and_stop_every_later_call(tmp_path, mock, status, kind, message):
+    budget = Budget(1.0, tmp_path / "usage.jsonl")
+    guard.install(budget)
+    mock.fail_next, mock.fail_status, mock.fail_type, mock.fail_message = 1000, status, kind, message
+    with pytest.raises(FatalAPIError):
+        Claude().call("claude-sonnet-5-5", "s", PROGRAM, max_tokens=8000)
+    assert mock.failed == 1                      # sent once: neither the SDK nor the guard retried it
+    with pytest.raises(FatalAPIError):           # later calls, on any path, are refused without sending
+        anthropic.Anthropic(timeout=900).messages.create(model="claude-haiku-4-5", max_tokens=100,
+                                                         messages=[{"role": "user", "content": "hi"}])
+    assert mock.failed == 1 and mock.requests == 0
+    assert budget.fatal and budget.exhausted and budget.spent == 0.0
+    log = _usage(tmp_path / "usage.jsonl")
+    assert [r["event"] for r in log] == ["call", "fatal", "refused"]
+    assert log[0]["cost_basis"] == "none" and log[0]["fatal"] is True
+
+
+def test_credit_error_inside_a_stream_is_fatal_and_free(tmp_path, mock):
+    budget = Budget(1.0, tmp_path / "usage.jsonl")
+    guard.install(budget)
+    mock.stream_error_next, mock.fail_type, mock.fail_message = 5, "invalid_request_error", CREDIT
+    with pytest.raises(FatalAPIError):
+        Claude().call("claude-opus-5-5", "s", PROGRAM, max_tokens=32000)
+    assert mock.failed == 1 and budget.spent == 0.0 and budget.fatal
+
+
+def test_async_create_credit_error_is_fatal(tmp_path, mock):
+    budget = Budget(1.0, tmp_path / "usage.jsonl")
+    guard.install(budget)
+    mock.fail_next, mock.fail_status, mock.fail_type, mock.fail_message = 1000, 400, "invalid_request_error", CREDIT
+
+    async def go():
+        client = anthropic.AsyncAnthropic(timeout=900)
+        for _ in range(5):   # ShinkaEvolve retries failed queries; none of these may reach the API
+            try:
+                await client.messages.create(model="claude-sonnet-5-5", max_tokens=1000,
+                                             messages=[{"role": "user", "content": "hi"}])
+            except FatalAPIError:
+                pass
+    asyncio.run(go())
+    assert mock.failed == 1 and budget.fatal
+
+
+def test_ordinary_bad_request_is_not_fatal(tmp_path, mock):
+    budget = Budget(1.0, tmp_path / "usage.jsonl")
+    guard.install(budget)
+    mock.fail_next, mock.fail_status, mock.fail_type, mock.fail_message = 1, 400, "invalid_request_error", "bad field"
+    with pytest.raises(anthropic.BadRequestError):
+        Claude().call("claude-sonnet-5-5", "s", PROGRAM, max_tokens=8000)
+    assert not budget.fatal and not budget.exhausted
+    assert Claude().call("claude-sonnet-5-5", "s", PROGRAM, max_tokens=8000).text

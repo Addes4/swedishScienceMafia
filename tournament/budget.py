@@ -37,6 +37,14 @@ class BudgetExhausted(RuntimeError):
     """The cap cannot pay for another call."""
 
 
+class FatalAPIError(BudgetExhausted):
+    """The API refused for a reason retrying cannot fix (no credit, bad key, no permission).
+
+    A subclass of BudgetExhausted so every arm stops exactly as it does at the end of its budget;
+    the run's status records the difference. After it, no call in the process is sent again.
+    """
+
+
 class UnbudgetedCall(RuntimeError):
     """A call path or model the guard cannot bound; refused rather than sent."""
 
@@ -87,6 +95,7 @@ class Budget:
         self.input_tokens = 0
         self.output_tokens = 0
         self.exhausted = False
+        self.fatal = None                # reason, once the API has refused fatally
         self._cond = threading.Condition()
         self._ids = itertools.count(1)
 
@@ -114,9 +123,21 @@ class Budget:
 
     def _refuse(self, model, max_tokens, input_upper, path, why):
         self.refusals += 1
+        if self.fatal:
+            why = f"fatal API error earlier ({self.fatal})"
         self._write({"event": "refused", "model": model, "path": path, "requested_max_tokens": max_tokens,
                      "input_upper": input_upper, "reason": why})
-        return BudgetExhausted(f"{why} (spent ${self.spent:.4f} of ${self.cap:.2f})")
+        cls = FatalAPIError if self.fatal else BudgetExhausted
+        return cls(f"{why} (spent ${self.spent:.4f} of ${self.cap:.2f})")
+
+    def mark_fatal(self, reason: str):
+        """Stop all further calls in this process: they are refused locally and never sent."""
+        with self._cond:
+            if self.fatal is None:
+                self.fatal = reason
+                self._write({"event": "fatal", "reason": reason})
+            self.exhausted = True
+            self._cond.notify_all()
 
     def reserve(self, model: str, max_tokens: int, input_upper: int, path: str = "") -> Reservation:
         with self._cond:
@@ -195,7 +216,7 @@ class Budget:
         with self._cond:
             return {"cap_usd": self.cap, "spent_usd": round(self.spent, 6), "external_usd": round(self.external, 8),
                     "calls": self.calls, "refusals": self.refusals, "input_tokens": self.input_tokens,
-                    "output_tokens": self.output_tokens, "exhausted": self.exhausted,
+                    "output_tokens": self.output_tokens, "exhausted": self.exhausted, "fatal": self.fatal,
                     "in_flight": len(self.reserved)}
 
     def _write(self, rec: dict):

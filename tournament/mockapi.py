@@ -109,10 +109,11 @@ class _Handler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         with mock.lock:
-            failing = mock.fail_next > 0
-            mock.fail_next -= failing
-        if failing:  # simulated rate limit / overload, as the real API sends it
-            data = json.dumps({"type": "error", "error": {"type": "rate_limit_error", "message": "mock"}}).encode()
+            failing = mock.fail_next > 0 or (mock.fail_after is not None and mock.requests >= mock.fail_after)
+            mock.fail_next -= mock.fail_next > 0 and failing
+            mock.failed += failing
+        if failing:  # simulated API error (rate limit, overload, no credit, bad key), as the real API sends it
+            data = json.dumps({"type": "error", "error": {"type": mock.fail_type, "message": mock.fail_message}}).encode()
             self.send_response(mock.fail_status)
             self.send_header("content-type", "application/json")
             self.send_header("retry-after-ms", "5")
@@ -163,6 +164,16 @@ class _Handler(BaseHTTPRequestHandler):
         def event(kind, payload):
             self.wfile.write(f"event: {kind}\ndata: {json.dumps(payload)}\n\n".encode())
 
+        mock = self.server.mock
+        with mock.lock:
+            in_stream_error = mock.stream_error_next > 0
+            mock.stream_error_next -= in_stream_error
+            mock.failed += in_stream_error
+        if in_stream_error:  # an error delivered inside an opened stream, as the API sometimes does
+            event("error", {"type": "error", "error": {"type": mock.fail_type, "message": mock.fail_message}})
+            self.wfile.flush()
+            return
+
         start_usage = dict(usage, output_tokens=1)
         event("message_start", {"type": "message_start", "message": {
             "id": "msg_mock", "type": "message", "role": "assistant", "model": model, "content": [],
@@ -187,6 +198,11 @@ class MockAnthropic:
         self.requests = 0
         self.fail_next = 0            # answer this many requests with fail_status first
         self.fail_status = 429
+        self.fail_type = "rate_limit_error"
+        self.fail_message = "mock"
+        self.failed = 0               # requests answered with an error
+        self.stream_error_next = 0    # streaming requests that get an error event inside the stream
+        self.fail_after = None        # once this many requests have succeeded, fail every later one
         self.log = []
         self.lock = threading.Lock()
         self.server = None

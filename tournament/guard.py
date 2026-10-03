@@ -17,6 +17,12 @@ Rate limits and overload: a request that fails at the start with HTTP 429, 500, 
 529 (after the SDK's own retries) is retried here with exponential backoff for up to 10 minutes,
 holding its reservation. These failures are not billed. Every retry is logged. Many tournament
 containers share one API organisation, so this keeps a busy minute from ending a run.
+
+Fatal errors: no credit ("credit balance is too low", HTTP 400), a bad key (401) or no permission
+(403), whether returned at once or inside a stream, are never retried. The guard marks the budget
+fatal and raises FatalAPIError; every later call in the process is refused without being sent.
+These are charged nothing: the API generates nothing it can bill. (In full-v1, before this rule,
+ShinkaEvolve's own retries sent such a refused request more than 12,000 times.)
 """
 import asyncio
 import random
@@ -28,7 +34,7 @@ from anthropic.resources.beta.messages import messages as beta_messages
 from anthropic.resources.messages import batches as std_batches
 from anthropic.resources.messages import messages as std_messages
 
-from .budget import Budget, UnbudgetedCall, input_upper_bound
+from .budget import Budget, FatalAPIError, UnbudgetedCall, input_upper_bound
 
 _ORIG = {}
 _BUDGET = None
@@ -61,6 +67,30 @@ def _unknown_billing(e: BaseException) -> bool:
 
 RETRY_STATUSES = (429, 500, 502, 503, 504, 529)
 RETRY_MAX_WAIT_S = 600.0
+FATAL_STATUSES = (401, 403)
+FATAL_MARKERS = ("authentication_error", "permission_error", "invalid x-api-key")
+
+
+def fatal_reason(e: BaseException):
+    """Why this API error cannot be fixed by retrying, or None."""
+    if not isinstance(e, anthropic.APIStatusError):
+        return None
+    text = str(e).lower()
+    if "credit balance" in text or "billing_error" in text:
+        return f"billing: {str(e)[:160]}"
+    if getattr(e, "status_code", None) in FATAL_STATUSES or any(m in text for m in FATAL_MARKERS):
+        return f"authentication or permission (HTTP {getattr(e, 'status_code', None)}): {str(e)[:160]}"
+    return None
+
+
+def _settle_failure(budget, res, e, path, extra):
+    """Settle a failed call; on a fatal error stop every later call and raise FatalAPIError."""
+    reason = fatal_reason(e)
+    if reason:
+        budget.settle(res, error=e, charge_reservation=False, path=path, extra=dict(extra, fatal=True))
+        budget.mark_fatal(reason)
+        raise FatalAPIError(reason) from e
+    budget.settle(res, error=e, charge_reservation=_unknown_billing(e), path=path, extra=extra)
 
 
 def _retry_delay(e: BaseException, attempt: int, waited: float):
@@ -81,7 +111,7 @@ def _with_retries(fn, budget, path):
         try:
             return fn()
         except anthropic.APIStatusError as e:
-            delay = _retry_delay(e, attempt, waited)
+            delay = None if fatal_reason(e) else _retry_delay(e, attempt, waited)
             if delay is None:
                 raise
             _note_retry(budget, path, e, delay)
@@ -95,7 +125,7 @@ async def _with_retries_async(fn, budget, path):
         try:
             return await fn()
         except anthropic.APIStatusError as e:
-            delay = _retry_delay(e, attempt, waited)
+            delay = None if fatal_reason(e) else _retry_delay(e, attempt, waited)
             if delay is None:
                 raise
             _note_retry(budget, path, e, delay)
@@ -117,7 +147,7 @@ def _sync_create(self, *args, **kwargs):
     try:
         msg = _with_retries(lambda: _ORIG["create"](self, *args, **kwargs), budget, path)
     except BaseException as e:
-        budget.settle(res, error=e, charge_reservation=_unknown_billing(e), path=path, extra=extra)
+        _settle_failure(budget, res, e, path, extra)
         raise
     budget.settle(res, usage=msg.usage, served_model=getattr(msg, "model", None), stop_reason=msg.stop_reason,
                   path=path, extra=extra)
@@ -138,7 +168,7 @@ async def _async_create(self, *args, **kwargs):
     try:
         msg = await _with_retries_async(lambda: _ORIG["acreate"](self, *args, **kwargs), budget, path)
     except BaseException as e:
-        budget.settle(res, error=e, charge_reservation=_unknown_billing(e), path=path, extra=extra)
+        _settle_failure(budget, res, e, path, extra)
         raise
     budget.settle(res, usage=msg.usage, served_model=getattr(msg, "model", None), stop_reason=msg.stop_reason,
                   path=path, extra=extra)
@@ -160,14 +190,13 @@ class _GuardedStreamManager:
         try:
             self.stream = _with_retries(self._open, self.budget, "beta.messages.stream")
         except BaseException as e:
-            self.budget.settle(self.res, error=e, charge_reservation=_unknown_billing(e), path="beta.messages.stream",
-                               extra=self.extra)
+            _settle_failure(self.budget, self.res, e, "beta.messages.stream", self.extra)
             raise
         return self.stream
 
     def __exit__(self, exc_type, exc, tb):
         try:
-            return self.inner.__exit__(exc_type, exc, tb) if self.inner is not None else False
+            result = self.inner.__exit__(exc_type, exc, tb) if self.inner is not None else False
         finally:
             snap = None
             try:
@@ -179,9 +208,12 @@ class _GuardedStreamManager:
                 self.budget.settle(self.res, usage=snap.usage, served_model=getattr(snap, "model", None),
                                    stop_reason=snap.stop_reason, path="beta.messages.stream", extra=self.extra,
                                    error=exc)
+            elif fatal_reason(exc):  # e.g. a credit error delivered inside the stream: nothing billed
+                _settle_failure(self.budget, self.res, exc, "beta.messages.stream", self.extra)
             else:  # stream not consumed to the end: billing unknown, charge the reservation
                 self.budget.settle(self.res, error=exc or RuntimeError("stream not finished"),
                                    charge_reservation=True, path="beta.messages.stream", extra=self.extra)
+        return result
 
 
 def _beta_stream(self, *args, **kwargs):

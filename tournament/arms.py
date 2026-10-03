@@ -69,6 +69,8 @@ def shinka(ctx: Context):
         shinka_run.main(argv)
     finally:
         ShinkaEvolveRunner._get_committed_cost = committed
+    if ctx.budget.fatal:
+        return "fatal_api_error"
     return "budget" if ctx.budget.exhausted else "generations_done"
 
 
@@ -110,10 +112,11 @@ def triage(ctx: Context):
         run.run()
         return "rounds_done"
     except BudgetExhausted:
+        stop = "fatal_api_error" if ctx.budget.fatal else "budget"
         ends = [json.loads(line) for line in open(run.log_path) if '"round_end"' in line]
         start = json.loads(open(run.log_path).readline())
         best = ends[-1]["best_score"] if ends else start["initial_score"]
-        run.log({"event": "end", "best_score": best, "stop": "budget"})
+        run.log({"event": "end", "best_score": best, "stop": stop})
         (run.out / "summary.json").write_text(json.dumps(summarize(run.log_path), indent=2))
         write_notebook(run.log_path, run.out / "notebook.md")
-        return "budget"
+        return stop

@@ -138,6 +138,33 @@ def test_triage_end_to_end_with_mock_api(tmp_path):
     assert s["within_cap"] and s["calls"] >= 4 and s["evals"] >= 4
 
 
+@pytest.mark.parametrize("arm_config", [{"type": "lean"}, {"type": "triage", "ranker": "random", "ideas": 3}])
+def test_run_stops_at_once_when_credit_runs_out(tmp_path, arm_config):
+    """The full-v1 failure: after the account ran out of credit, runs kept calling the API."""
+    from tournament.run import main
+    out = tmp_path / "run"
+    job = {"job_id": "fatal", "grid": "test", "arm": arm_config["type"], "arm_config": arm_config,
+           "problem": "circle_packing", "seed": 0, "budget_usd": 1.0, "wall_limit_s": 600, "mock": True,
+           "mock_latency": 0.0, "mock_failure": {"after": 3}}
+    cwd = os.getcwd()
+    try:
+        main(["--job", json.dumps(job), "--out", str(out)])
+    finally:
+        os.chdir(cwd)
+        for key in ("TOURNAMENT_EVAL_LOG", "TOURNAMENT_PROBLEM_DIR"):
+            os.environ.pop(key, None)
+    usage = [json.loads(l) for l in open(out / "usage.jsonl")]
+    errors = [r for r in usage if r.get("error")]
+    assert 1 <= len(errors) <= 6                       # only calls already in flight; nothing after
+    assert all("credit balance" in r["error"] for r in errors)
+    assert [r["event"] for r in usage].count("fatal") == 1
+    after = usage[[r["event"] for r in usage].index("fatal") + 1:]
+    assert all(r["event"] in ("refused", "call") for r in after)
+    assert not [r for r in after if r["event"] == "call" and not r.get("error")]   # the mock fails every later request
+    s = json.loads((out / "summary.json").read_text())
+    assert s["status"] == "fatal_api_error"
+
+
 def test_report_statistics():
     from tournament.report import bootstrap_p_greater, holm, sign_flip_p
     assert sign_flip_p([1.0, 1.0, 1.0]) == 2 / 8          # all positive: only the two extreme sign patterns

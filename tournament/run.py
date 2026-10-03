@@ -172,6 +172,11 @@ def main(argv=None):
     if job.get("mock"):
         from .mockapi import MockAnthropic
         mock = MockAnthropic(seed=job["seed"], latency=job.get("mock_latency", 0.05)).start()
+        failure = job.get("mock_failure")   # tests only: e.g. {"after": 3, "status": 400, "message": "credit balance..."}
+        if failure:
+            mock.fail_after, mock.fail_status = failure["after"], failure.get("status", 400)
+            mock.fail_type = failure.get("type", "invalid_request_error")
+            mock.fail_message = failure.get("message", "Your credit balance is too low to access the Anthropic API.")
     else:
         from autoresearch.env import load_env, require
         load_env()
@@ -202,6 +207,8 @@ def main(argv=None):
         status = f"error: {type(e).__name__}"
         (out / "error.txt").write_text(traceback.format_exc())
         print(traceback.format_exc(), file=sys.stderr, flush=True)
+    if budget.fatal:   # the arm stopped because the API refused fatally: not a budget-matched run
+        status = "fatal_api_error"
     finish(status, arm_result=result, pack=not a.no_pack)
     guard.uninstall()
     if mock:

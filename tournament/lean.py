@@ -27,7 +27,7 @@ from typing import Optional
 from autoresearch.claude import Claude, parse_code
 from strategist.controller import Patience, context
 
-from .budget import BudgetExhausted
+from .budget import BudgetExhausted, FatalAPIError
 from .context import Context, Evaluation
 
 DEFAULTS = {"model": "claude-sonnet-5-5", "effort": "high", "max_tokens": 32000, "history": 8,
@@ -181,8 +181,8 @@ def run(ctx: Context):
         rec = {"event": "step", "iter": it, "op": op, "line": state.line}
         try:
             call = claude.call(cfg["model"], system, user, max_tokens=cfg["max_tokens"], effort=cfg["effort"])
-        except BudgetExhausted:
-            stop = "budget"
+        except BudgetExhausted as e:
+            stop = "fatal_api_error" if isinstance(e, FatalAPIError) else "budget"
             break
         except Exception as e:  # API errors must not kill the run
             errors += 1
