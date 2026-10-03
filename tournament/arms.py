@@ -49,9 +49,13 @@ def shinka(ctx: Context):
     from autoresearch import run as shinka_run
     o = ctx.option
     os.environ[PROBLEM_ENV] = str(ctx.problem_dir)
+    model = o("model", "claude-sonnet-5-5")
+    if ctx.provider == "hf":   # ShinkaEvolve's own OpenAI-compatible client, pointed at the router
+        from .hf import base_url
+        model = f"local/{model}@{base_url()}?api_key_env=HF_TOKEN"
     argv = [str(ctx.problem_dir),
             "--generations", str(o("max_generations", 1000)),
-            "--model", o("model", "claude-sonnet-5-5"),
+            "--model", model,
             "--effort", o("effort", "high"),
             "--max-tokens", str(o("max_tokens", 32000)),
             "--results", str(ctx.out / "shinka"),
@@ -91,6 +95,9 @@ def triage(ctx: Context):
                      out=str(ctx.out / "triage"))
     args.efforts = args.efforts if args.efforts.count(",") == 2 else "high,high,"
     tri.evaluate = lambda problem_dir, program, results: evaluate_logged(problem_dir, program, results, tag="triage")
+    if ctx.provider == "hf":   # the same loop, with every model call on the HF router
+        from .hf import HFClient
+        tri.Claude = HFClient
     run = tri.Run(args)
     rank = run.ranker.rank
     if run.ranker.name == "jev":   # Jev is billed outside Anthropic; count it against the same cap

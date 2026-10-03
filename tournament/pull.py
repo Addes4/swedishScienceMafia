@@ -2,6 +2,7 @@
 
     python -m tournament.pull full-v1
     python -m tournament.pull full-v1 --no-report
+    python -m tournament.pull full-v2 --experiment tournament-v2
 
 After download, runs that were stopped from outside (and so never packed their own files) get
 their arm folders packed into artifacts.tar.gz, and logs over 1 MB are gzipped (metrics reads
@@ -49,10 +50,11 @@ def compact(grid_dir: Path) -> None:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("grid", help="grid name (the folder on the Volume)")
-    ap.add_argument("--dest", default=str(RUNS))
+    ap.add_argument("--experiment", default="tournament-v1", help="folder under experiments/")
+    ap.add_argument("--dest", default=None, help="override: where the grid folder goes")
     ap.add_argument("--no-report", action="store_true")
     a = ap.parse_args(argv)
-    dest = Path(a.dest)
+    dest = Path(a.dest) if a.dest else REPO / "experiments" / a.experiment / "runs"
     dest.mkdir(parents=True, exist_ok=True)
     target = dest / a.grid
     if target.exists():

@@ -54,10 +54,26 @@ def input_upper_bound(system, messages) -> int:
     return len(raw.encode("utf-8")) + INPUT_MARGIN_TOKENS
 
 
+# $ per million tokens (input, output) for models outside autoresearch.claude.PRICES, registered at run
+# start from the provider's own price list (e.g. the Hugging Face router's /v1/models).
+EXTRA_PRICES = {}
+
+
+def register_prices(prices: dict) -> None:
+    EXTRA_PRICES.update({m: (float(i), float(o)) for m, (i, o) in prices.items()})
+
+
+def known_price(model: str) -> bool:
+    return model in EXTRA_PRICES or model in PRICES
+
+
 def per_token_prices(model: str):
-    if model not in PRICES:
+    if model in EXTRA_PRICES:
+        pin, pout = EXTRA_PRICES[model]
+    elif model in PRICES:
+        pin, pout = PRICES[model]
+    else:
         raise UnbudgetedCall(f"no price known for model {model!r}; refusing to call it")
-    pin, pout = PRICES[model]
     return pin / 1e6, pout / 1e6
 
 
@@ -170,7 +186,7 @@ class Budget:
         with self._cond:
             self.reserved.pop(res.id, None)
             if usage is not None:
-                model = served_model if served_model in PRICES else res.model
+                model = served_model if served_model and known_price(served_model) else res.model
                 cost, basis = usage_cost(model, usage), "usage"
             elif charge_reservation:
                 cost, basis = res.amount, "reservation"

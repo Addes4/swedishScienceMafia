@@ -35,6 +35,7 @@ class Context:
     budget: Budget
     config: dict = field(default_factory=dict)
     deadline: float = float("inf")
+    provider: str = "anthropic"          # "anthropic" or "hf" (Hugging Face router, OpenAI-compatible)
 
     def __post_init__(self):
         self.problem_dir = Path(self.problem_dir)
@@ -42,6 +43,14 @@ class Context:
         self.problem = (self.problem_dir / "problem.md").read_text()
         self.initial = (self.problem_dir / "initial.py").read_text()
         self.events_path = self.out / "events.jsonl"
+
+    def llm(self):
+        """A client with Claude.call's interface for this run's provider."""
+        if self.provider == "hf":
+            from .hf import HFClient
+            return HFClient()
+        from autoresearch.claude import Claude
+        return Claude()
 
     def option(self, key, default):
         return self.config.get(key, default)

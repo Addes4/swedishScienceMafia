@@ -168,6 +168,7 @@ def main(argv=None):
     (out / "job.json").write_text(json.dumps(job, indent=2))
 
     os.chdir(out)  # ShinkaEvolve loads .env from the launch directory; keep it away from the repo's
+    provider = job.get("provider", "anthropic")
     mock = None
     if job.get("mock"):
         from .mockapi import MockAnthropic
@@ -180,17 +181,32 @@ def main(argv=None):
     else:
         from autoresearch.env import load_env, require
         load_env()
-        require("ANTHROPIC_API_KEY", "live tournament runs call Claude")
-        if os.environ.get("ANTHROPIC_BASE_URL"):
-            raise SystemExit("ANTHROPIC_BASE_URL is set; refusing a live run against a non-default endpoint")
+        if provider == "hf":
+            from . import hf
+            hf.token()   # raises if no token; never printed
+            if os.environ.get(hf.BASE_ENV):
+                raise SystemExit(f"{hf.BASE_ENV} is set; refusing a live run against a non-default endpoint")
+        else:
+            require("ANTHROPIC_API_KEY", "live tournament runs call Claude")
+            if os.environ.get("ANTHROPIC_BASE_URL"):
+                raise SystemExit("ANTHROPIC_BASE_URL is set; refusing a live run against a non-default endpoint")
 
     budget = Budget(job["budget_usd"], out / "usage.jsonl", min_output_tokens=job.get("min_output_tokens", 2048))
     guard.install(budget)
+    if provider == "hf":   # prices from the router's own list, recorded with the run
+        from . import hf
+        from .budget import register_prices
+        prices = hf.fetch_prices(job["hf_models"])
+        register_prices(prices)
+        hf.install(budget)
+        job["prices_usd_per_mtok"] = {m: list(p) for m, p in prices.items()}
+        (out / "job.json").write_text(json.dumps(job, indent=2))
     os.environ[EVAL_LOG_ENV] = str(out / "evals.jsonl")
     os.environ[PROBLEM_ENV] = str(problem_dir)
     deadline = time.time() + float(job.get("wall_limit_s", 3 * 3600))
     ctx = Context(problem_dir=problem_dir, out=out, seed=job["seed"], budget=budget,
-                  config={k: v for k, v in job["arm_config"].items() if k != "type"}, deadline=deadline)
+                  config={k: v for k, v in job["arm_config"].items() if k != "type"}, deadline=deadline,
+                  provider=provider)
     finish = Finisher(out, ctx.event)
     grace = max_eval_seconds(problem_dir) + 60
     threading.Thread(target=watchdog, args=(budget, deadline, grace, lambda s: finish(s, pack=not a.no_pack), finish),
@@ -211,6 +227,9 @@ def main(argv=None):
         status = "fatal_api_error"
     finish(status, arm_result=result, pack=not a.no_pack)
     guard.uninstall()
+    if provider == "hf":
+        from . import hf
+        hf.uninstall()
     if mock:
         mock.stop()
     s = json.loads((out / "summary.json").read_text())

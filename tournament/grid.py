@@ -6,6 +6,8 @@ A grid is JSON:
      "problems": ["erdos_squares", "circle_packing"],
      "arms": {"lean": {"type": "lean"}, "lean_gate_patience": {"type": "lean", "gate": true, "patience": 5}, ...},
      "jobs": ["lean__erdos_squares__s0", ...],        # optional: run only these jobs of the cross product
+     "experiment": "tournament-v2",                   # optional: folder under experiments/ (default tournament-v1)
+     "provider": "hf", "hf_models": ["model:provider", ...],   # optional: Hugging Face router instead of Anthropic
      "anthropic_cap_usd": 0, "modal_cap_usd": 5,
      "experiment_cap_usd": 75,                        # optional: cap on all live spend in the experiment
      "wall_limit_s": 1800, "cpu": 2, "memory_mb": 4096}
@@ -27,7 +29,13 @@ from .metrics import load_jsonl
 MODAL_CPU_PER_CORE_HOUR = 0.0473
 MODAL_MEM_PER_GIB_HOUR = 0.008
 CONTAINER_OVERHEAD_S = 600       # image pull, startup and the post-budget grace period, per job
-RUNS = Path(__file__).resolve().parents[1] / "experiments" / "tournament-v1" / "runs"
+EXPERIMENTS = Path(__file__).resolve().parents[1] / "experiments"
+RUNS = EXPERIMENTS / "tournament-v1" / "runs"
+
+
+def experiment_dir(grid: dict) -> Path:
+    """experiments/<grid "experiment", default tournament-v1>/: holds runs/ and launches/."""
+    return EXPERIMENTS / grid.get("experiment", "tournament-v1")
 
 
 def load(path) -> dict:
@@ -52,7 +60,8 @@ def jobs(grid: dict) -> list:
                 out.append({"job_id": f"{arm}__{problem}__s{seed}", "grid": grid["name"], "arm": arm,
                             "arm_config": cfg, "problem": problem, "seed": seed, "budget_usd": budget,
                             "wall_limit_s": grid.get("wall_limit_s", 3 * 3600),
-                            "mock": grid["mode"] == "mock", "mock_latency": grid.get("mock_latency", 0.05)})
+                            "mock": grid["mode"] == "mock", "mock_latency": grid.get("mock_latency", 0.05),
+                            "provider": grid.get("provider", "anthropic"), "hf_models": grid.get("hf_models", [])})
     if "jobs" in grid:
         wanted = list(grid["jobs"])
         unknown = sorted(set(wanted) - {j["job_id"] for j in out})
@@ -86,7 +95,7 @@ def recorded_spend(runs_dir: Path = RUNS, exclude_grid: str = None) -> dict:
     return out
 
 
-def check_caps(grid: dict, job_list: list, experiment_cap: float = None, runs_dir: Path = RUNS) -> dict:
+def check_caps(grid: dict, job_list: list, experiment_cap: float = None, runs_dir: Path = None) -> dict:
     """Refuse grids whose worst case exceeds the declared Anthropic, Modal or experiment caps."""
     anthropic_total = 0.0 if grid["mode"] == "mock" else sum(j["budget_usd"] for j in job_list)
     modal_worst = worst_case_modal_usd(grid, len(job_list))
@@ -99,7 +108,7 @@ def check_caps(grid: dict, job_list: list, experiment_cap: float = None, runs_di
     out = {"jobs": len(job_list), "anthropic_worst_usd": round(anthropic_total, 2), "modal_worst_usd": round(modal_worst, 2)}
     cap = experiment_cap if experiment_cap is not None else grid.get("experiment_cap_usd")
     if cap is not None and grid["mode"] == "live":
-        prior = recorded_spend(runs_dir, exclude_grid=grid["name"])
+        prior = recorded_spend(runs_dir or experiment_dir(grid) / "runs", exclude_grid=grid["name"])
         total = sum(prior.values()) + anthropic_total
         out.update(experiment_recorded_usd=prior, experiment_worst_total_usd=round(total, 2), experiment_cap_usd=cap)
         if total > cap + 1e-9:

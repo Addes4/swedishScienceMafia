@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from types import SimpleNamespace
 from typing import Optional
 
-from autoresearch.claude import Claude, parse_code
+from autoresearch.claude import parse_code
 from strategist.controller import Patience, context
 
 from .budget import BudgetExhausted, FatalAPIError
@@ -152,7 +152,7 @@ def run(ctx: Context):
     independent = bool(cfg["independent"])
     if independent and (cfg["gate"] or cfg["patience"]):
         raise ValueError("independent sampling has no parent, so it takes neither a gate nor a restart rule")
-    claude = Claude()
+    claude = ctx.llm()
     system = (INDEPENDENT_SYSTEM if independent else SYSTEM).format(problem=ctx.problem)
     gate = Gate(bool(cfg["gate"]))
     policy = Patience(int(cfg["patience"])) if cfg["patience"] else None

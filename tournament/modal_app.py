@@ -2,7 +2,7 @@
 
     modal run tournament/modal_app.py --grid experiments/tournament-v1/grids/mock.json
     modal run --detach tournament/modal_app.py --grid experiments/tournament-v1/grids/full.json   # live grid
-    python -m tournament.pull mock-v1        # copy results from the Volume into experiments/tournament-v1/runs/
+    python -m tournament.pull mock-v1        # copy results from the Volume into experiments/<experiment>/runs/
 
 Each container runs `python -m tournament.run --job ...` with its own hard dollar cap, writes
 to the Volume ssm-tournament under /<grid>/<job_id>/, and returns the run summary. Live grids
@@ -25,7 +25,8 @@ if modal.is_local() and str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 APP_NAME = "ssm-tournament"
 VOLUME_NAME = "ssm-tournament"
-SECRET_NAME = "ssm-llm-keys"
+SECRET_NAME = "ssm-llm-keys"          # ANTHROPIC_API_KEY, TYPESAFE_API_KEY
+HF_SECRET_NAME = "ssm-hf"              # HF_TOKEN, for grids with "provider": "hf"
 CODE_DIRS = ["autoresearch", "problems", "strategist", "tournament", "falsify"]
 IGNORE = ["**/__pycache__/**", "**/*.pyc", "**/*.so", "**/*.dylib", "**/.env", "**/results/**"]
 PINS = ["anthropic==1.11.0", "shinka-evolve==0.0.7", "typesafe-sdk==0.7.2", "numpy==2.5.3", "scipy==1.18.1"]
@@ -48,8 +49,9 @@ def run_job(job: dict) -> dict:
     out = Path("/vol") / job["grid"] / job["job_id"]
     if (out / "summary.json").exists():
         return {"job_id": job["job_id"], "skipped": True, **json.loads((out / "summary.json").read_text())}
-    if not job.get("mock") and not os.environ.get("ANTHROPIC_API_KEY"):
-        return {"job_id": job["job_id"], "error": "live job without ANTHROPIC_API_KEY (secret not attached)"}
+    key = "HF_TOKEN" if job.get("provider") == "hf" else "ANTHROPIC_API_KEY"
+    if not job.get("mock") and not os.environ.get(key):
+        return {"job_id": job["job_id"], "error": f"live job without {key} (secret not attached)"}
     out.parent.mkdir(parents=True, exist_ok=True)
     log_path = Path("/tmp") / f"{job['job_id']}.log"
     t0 = time.time()
@@ -99,7 +101,8 @@ def main(grid: str, only: str = "", dry_run: bool = False, experiment_cap: float
         return
     fn = run_job
     if g["mode"] == "live":
-        fn = run_job.with_options(secrets=[modal.Secret.from_name(SECRET_NAME)])
+        names = [SECRET_NAME] + ([HF_SECRET_NAME] if g.get("provider") == "hf" else [])
+        fn = run_job.with_options(secrets=[modal.Secret.from_name(n) for n in names])
     fn = fn.with_options(cpu=float(g.get("cpu", 2)), memory=int(g.get("memory_mb", 4096)),
                          timeout=int(g.get("wall_limit_s", 3 * 3600)) + 1800)
     results = []
@@ -110,7 +113,7 @@ def main(grid: str, only: str = "", dry_run: bool = False, experiment_cap: float
         print(json.dumps({k: res.get(k) for k in ("job_id", "error", "spent_usd", "cap_usd", "calls", "evals",
                                                   "initial_public", "final_public", "final_hidden", "status",
                                                   "container_seconds", "skipped")}, default=str), flush=True)
-    local = REPO / "experiments" / "tournament-v1" / "launches"
+    local = grids.experiment_dir(g) / "launches"
     local.mkdir(parents=True, exist_ok=True)
     stamp = time.strftime("%Y%m%d_%H%M%S")
     (local / f"{g['name']}_{stamp}.json").write_text(json.dumps({"grid": g, "caps": caps, "results": results},

@@ -9,6 +9,10 @@ as a server-sent-event stream, and reports usage that is priced like a real call
 1 token per 3.5 characters; output = visible text plus a simulated 1,000-4,000 thinking tokens,
 capped at max_tokens), so dollar caps bind in mock runs as they would live.
 
+It also answers the OpenAI-compatible routes of the Hugging Face router (GET /v1/models with
+per-provider prices, POST /v1/chat/completions with reasoning tokens in the usage), so the HF
+path (tournament/hf.py, ShinkaEvolve's local_openai client) is exercised the same way.
+
 Replies are shaped by the prompt: idea lists for "<idea>" prompts, a JSON list for rankers,
 SEARCH/REPLACE diffs for ShinkaEvolve's diff prompts, <CODE> blocks for its rewrites, and
 otherwise the current program with one numeric constant perturbed by up to 10%.
@@ -22,6 +26,9 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 CHARS_PER_TOKEN = 3.5
+MOCK_HF_PRICES = {"deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": (0.2, 0.6),
+                  "deepseek-ai/DeepSeek-V4-Pro:deepinfra": (1.3, 2.6),
+                  "Qwen/Qwen3.5-9B:together": (0.17, 0.25)}
 FLOAT = re.compile(r"(?<![\w.])(\d+\.\d+)(?![\w.])")
 
 
@@ -101,25 +108,45 @@ class _Handler(BaseHTTPRequestHandler):
     def log_message(self, *args):  # keep test and job logs quiet
         pass
 
+    def _json(self, status, payload):
+        data = json.dumps(payload).encode()
+        self.send_response(status)
+        self.send_header("content-type", "application/json")
+        self.send_header("retry-after-ms", "5")
+        self.send_header("content-length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+    def do_GET(self):
+        if not self.path.startswith("/v1/models"):
+            self.send_error(404)
+            return
+        models = {}
+        for pinned, (pin, pout) in self.server.mock.hf_prices.items():
+            name, _, provider = pinned.partition(":")
+            models.setdefault(name, []).append({"provider": provider, "status": "live",
+                                                "pricing": {"input": pin, "output": pout}})
+        self._json(200, {"object": "list", "data": [{"id": k, "providers": v} for k, v in models.items()]})
+
     def do_POST(self):
         mock = self.server.mock
         length = int(self.headers.get("content-length") or 0)
         body = json.loads(self.rfile.read(length) or b"{}")
-        if not self.path.startswith("/v1/messages"):
+        openai_route = self.path.startswith("/v1/chat/completions")
+        if not (self.path.startswith("/v1/messages") or openai_route):
             self.send_error(404)
             return
+        if openai_route:   # translate to the Messages shape respond() reads
+            msgs = body.get("messages") or []
+            body = dict(body, system="\n".join(m.get("content") or "" for m in msgs if m.get("role") == "system"),
+                        messages=[m for m in msgs if m.get("role") != "system"],
+                        max_tokens=body.get("max_tokens") or body.get("max_completion_tokens"))
         with mock.lock:
             failing = mock.fail_next > 0 or (mock.fail_after is not None and mock.requests >= mock.fail_after)
             mock.fail_next -= mock.fail_next > 0 and failing
             mock.failed += failing
         if failing:  # simulated API error (rate limit, overload, no credit, bad key), as the real API sends it
-            data = json.dumps({"type": "error", "error": {"type": mock.fail_type, "message": mock.fail_message}}).encode()
-            self.send_response(mock.fail_status)
-            self.send_header("content-type", "application/json")
-            self.send_header("retry-after-ms", "5")
-            self.send_header("content-length", str(len(data)))
-            self.end_headers()
-            self.wfile.write(data)
+            self._json(mock.fail_status, {"type": "error", "error": {"type": mock.fail_type, "message": mock.fail_message}})
             return
         with mock.lock:
             mock.requests += 1
@@ -140,6 +167,16 @@ class _Handler(BaseHTTPRequestHandler):
             keep = max(0, int((max_tokens - 4000) * CHARS_PER_TOKEN))
             text = text[:keep]
         model = body.get("model", "mock")
+        if openai_route:
+            reasoning = output_tokens - visible if stop_reason != "max_tokens" else output_tokens
+            self._json(200, {"id": f"chatcmpl-mock-{mock.requests}", "object": "chat.completion", "model": model,
+                             "choices": [{"index": 0, "finish_reason": "length" if stop_reason == "max_tokens" else "stop",
+                                          "message": {"role": "assistant", "content": text or None,
+                                                      "reasoning_content": "mock reasoning"}}],
+                             "usage": {"prompt_tokens": input_tokens, "completion_tokens": output_tokens,
+                                       "total_tokens": input_tokens + output_tokens,
+                                       "completion_tokens_details": {"reasoning_tokens": max(reasoning, 0)}}})
+            return
         usage = {"input_tokens": input_tokens, "output_tokens": output_tokens,
                  "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0}
         if body.get("stream"):
@@ -203,6 +240,7 @@ class MockAnthropic:
         self.failed = 0               # requests answered with an error
         self.stream_error_next = 0    # streaming requests that get an error event inside the stream
         self.fail_after = None        # once this many requests have succeeded, fail every later one
+        self.hf_prices = dict(MOCK_HF_PRICES)   # pinned "model:provider" -> ($/M input, $/M output)
         self.log = []
         self.lock = threading.Lock()
         self.server = None
@@ -218,7 +256,8 @@ class MockAnthropic:
         self.server.mock = self
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         if self.set_env:
-            for k, v in (("ANTHROPIC_BASE_URL", self.url), ("ANTHROPIC_API_KEY", "mock-key-not-a-secret")):
+            for k, v in (("ANTHROPIC_BASE_URL", self.url), ("ANTHROPIC_API_KEY", "mock-key-not-a-secret"),
+                         ("TOURNAMENT_HF_BASE_URL", self.url + "/v1"), ("HF_TOKEN", "mock-hf-token-not-a-secret")):
                 self._saved[k] = os.environ.get(k)
                 os.environ[k] = v
             os.environ.pop("ANTHROPIC_AUTH_TOKEN", None)
