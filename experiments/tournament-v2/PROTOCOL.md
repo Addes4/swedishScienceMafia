@@ -1,7 +1,9 @@
 # Tournament v2: the same frameworks on open models, at equal dollar budgets
 
 **Status: re-opened on 4 October before launch.** The grid was first cancelled (see RESULTS.md);
-it is launched with the pre-launch amendment at the end of this file. Nothing in the grid had run.
+it is launched as `full-v2b` with the pre-launch amendment at the end of this file. Two earlier
+launches of the unamended grid (`full-v2`) were stopped by hand before any result was looked at
+(amendment item 4).
 
 Written and committed before the confirmatory grid (`grids/full.json`) is launched. Changes made
 after launch are listed at the end.
@@ -101,8 +103,8 @@ per-problem tables; record flags.
 ```bash
 modal run tournament/modal_app.py --grid experiments/tournament-v2/grids/full.json --dry-run
 modal run --detach tournament/modal_app.py --grid experiments/tournament-v2/grids/full.json
-python -m tournament.pull full-v2 --experiment tournament-v2
-python -m tournament.report experiments/tournament-v2/runs/full-v2 --figure experiments/tournament-v2/curves.svg \
+python -m tournament.pull full-v2b --experiment tournament-v2
+python -m tournament.report experiments/tournament-v2/runs/full-v2b --figure experiments/tournament-v2/curves.svg \
     --headline experiments/tournament-v2/summary.json
 ```
 
@@ -135,6 +137,17 @@ Made before `grids/full.json` was launched; no grid result existed when it was w
    = $53.1 at list prices; the launcher's check, which adds 25 minutes per job for start-up and the hard-stop grace, gives $58.62, under
    modal_cap_usd = $60. Runs that hit the wall limit are reported as
    `stopped_early`, as before.
+
+4. **Stopped launches, new grid name.** On 4 October the unamended grid (circle_packing, 2 cores,
+   6 h, commit 97dc703) was launched as `full-v2` by mistake, twice: both times the amendment
+   patch had not been applied. Each launch was stopped by hand within minutes, before any result
+   was pulled or read. The second launch reused the same Volume folder, so the first launch's
+   logs may be overwritten; the HF spend of both is taken from the Hugging Face billing page and
+   reported in RESULTS.md. The grid is relaunched with this amendment as `full-v2b`, so these
+   partial runs cannot mix with the new ones on the Volume (`run_job` skips any job folder that
+   already has a summary). The partial runs are pulled into `runs/full-v2/` for spend accounting
+   only: the launcher counts their recorded HF spend toward the $12 experiment cap, and they are
+   excluded from every comparison.
 
 Unchanged: arms, models, seeds 0-3, $0.15 cap per run, primary endpoint and comparisons, the $12
 HF experiment cap.
