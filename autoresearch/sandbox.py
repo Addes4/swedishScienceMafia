@@ -47,6 +47,13 @@ _SECRET_ENV_PREFIXES = ("ANTHROPIC", "TYPESAFE", "OPENAI", "GEMINI", "GOOGLE", "
 # Catch credentials from services not listed above.
 _SECRET_ENV_MARKERS = ("KEY", "TOKEN", "SECRET", "PASSWORD")
 
+# A valid construction for any of our problems is a few KB. A candidate that returns a huge
+# or malformed object would make the parent load it into memory and could exhaust RAM/disk on
+# the shared host before check() ever rejects it, so refuse to read an oversized result.
+# This bounds the parent's exposure; it does not bound memory the child burns while *building*
+# the object (true memory isolation needs an OS sandbox -- see this module's docstring).
+MAX_OUTPUT_BYTES = 64 * 1024 * 1024
+
 
 @dataclass
 class RunResult:
@@ -75,6 +82,8 @@ def run_candidate(program_path: str, fn_name: str, kwargs: dict, timeout_s: floa
         if proc.returncode != 0 or not os.path.exists(out_path):
             tail = "\n".join((proc.stderr or "").strip().splitlines()[-6:])
             return RunResult(ok=False, error=tail or f"exit code {proc.returncode}")
+        if os.path.getsize(out_path) > MAX_OUTPUT_BYTES:
+            return RunResult(ok=False, error=f"result exceeds {MAX_OUTPUT_BYTES} bytes")
         try:
             with open(out_path) as f:
                 payload = json.load(f)

@@ -113,3 +113,22 @@ def test_api_keys_never_reach_the_candidate(tmp_path, monkeypatch):
     res = run_candidate(str(prog), "solve", {}, timeout_s=30.0)
     assert res.ok
     assert not {"ANTHROPIC_API_KEY", "TYPESAFE_API_KEY", "SOME_NEW_SERVICE_TOKEN"} & set(res.construction)
+
+
+def test_oversized_output_is_refused(tmp_path):
+    # A candidate that returns a huge object must be refused before the parent loads it,
+    # so it cannot exhaust memory/disk on the shared host. Bounded here to just over the cap.
+    from autoresearch.sandbox import run_candidate, MAX_OUTPUT_BYTES
+    prog = tmp_path / "big.py"
+    chunk = MAX_OUTPUT_BYTES // 8 + 100  # each float serialises to several bytes
+    prog.write_text(f"def solve():\n    return [1.123456789] * {chunk}\n")
+    res = run_candidate(str(prog), "solve", {}, timeout_s=60.0)
+    assert not res.ok and "exceeds" in res.error
+
+
+def test_normal_output_still_passes_the_size_guard(tmp_path):
+    from autoresearch.sandbox import run_candidate
+    prog = tmp_path / "ok.py"
+    prog.write_text("def solve():\n    return [0, 1, 3]\n")
+    res = run_candidate(str(prog), "solve", {}, timeout_s=30.0)
+    assert res.ok and res.construction == [0, 1, 3]
