@@ -36,7 +36,10 @@ def _label(rec):
 
 
 def _idea(rec):
-    return ' '.join(rec.get('hypothesis', '').split())[:IDEA_CHARS]
+    text = ' '.join(rec.get('hypothesis', '').split())
+    if len(text) <= IDEA_CHARS:
+        return text
+    return text[:IDEA_CHARS].rsplit(' ', 1)[0] + '...'
 
 
 def _ref_name(rec, which):
