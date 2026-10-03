@@ -331,7 +331,7 @@ until 22:21, ending with a 503 s repeat batch rerun. The offline analysis takes 
 From the repository root:
 
 ```bash
-PY=/Users/adriansohrabi/.venvs/ssm/bin/python        # or `python` with requirements.txt installed
+PY=python        # Python 3.12 with requirements.txt installed
 $PY -m pytest tests/test_ideatable.py -q                                   # 9 tests, no network
 $PY -m autoresearch.policy_eval experiments/idea-table-v1                 # analysis.json/.md, ~15 s, no API
 $PY experiments/idea-table-v1/summarize.py                                # summary.json, figure.png

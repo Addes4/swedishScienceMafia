@@ -203,17 +203,17 @@ From the repository root (Python 3.12 with `requirements.txt` installed; Modal a
 for `--modal`; an Anthropic key in `.env` for live runs):
 
 ```sh
-/Users/adriansohrabi/.venvs/ssm/bin/python -m pytest tests/test_closed_loop.py tests/test_closed_loop_code.py -q
+python -m pytest tests/test_closed_loop.py tests/test_closed_loop_code.py -q
 # Pilot
-/Users/adriansohrabi/.venvs/ssm/bin/python -m falsify.closed_loop run --out experiments/my-pilot --seeds 100 101 --cap-usd 3
-/Users/adriansohrabi/.venvs/ssm/bin/python -m falsify.closed_loop audit --out experiments/my-pilot
+python -m falsify.closed_loop run --out experiments/my-pilot --seeds 100 101 --cap-usd 3
+python -m falsify.closed_loop audit --out experiments/my-pilot
 # Confirmatory
-/Users/adriansohrabi/.venvs/ssm/bin/python -m falsify.closed_loop_code run --out experiments/my-conf --seeds 0 1 2 3 4 5 6 7 8 9 --cap-usd 9 --modal --workers 15
-/Users/adriansohrabi/.venvs/ssm/bin/python -m falsify.closed_loop_code audit --out experiments/my-conf --modal --expect-seeds 0 1 2 3 4 5 6 7 8 9
+python -m falsify.closed_loop_code run --out experiments/my-conf --seeds 0 1 2 3 4 5 6 7 8 9 --cap-usd 9 --modal --workers 15
+python -m falsify.closed_loop_code audit --out experiments/my-conf --modal --expect-seeds 0 1 2 3 4 5 6 7 8 9
 # Offline check with a mock model (no API, no Modal)
-/Users/adriansohrabi/.venvs/ssm/bin/python -m falsify.closed_loop_code run --out /tmp/mock --seeds 1 --calls 3 --cap-usd 1 --mock --items 600 --fixed-instances 2
+python -m falsify.closed_loop_code run --out /tmp/mock --seeds 1 --calls 3 --cap-usd 1 --mock --items 600 --fixed-instances 2
 # Rebuild tables, summary.json and the figure from the saved data in this folder
-/Users/adriansohrabi/.venvs/ssm/bin/python experiments/memory-ablation-v1/build_report.py
+python experiments/memory-ablation-v1/build_report.py
 ```
 
 A new run produces different proposals, because model sampling is not seeded. The audit is a

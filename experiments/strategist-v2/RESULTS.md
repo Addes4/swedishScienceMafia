@@ -420,23 +420,23 @@ here. MetaMax and Luby restarts are untuned baselines that this experiment did n
 From the repository root (the CLI also runs without `--modal`, on at most 2 local processes):
 
 ```sh
-/Users/adriansohrabi/.venvs/ssm/bin/python -m pytest tests/test_strategist_v2.py tests/test_strategist.py -q
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 dev --modal        # dev grid -> dev/selection.json
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 freeze             # -> frozen.json
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 validate --modal --force   # --force: it refuses to re-run a run-once phase
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 confirm --modal --force
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 confirm --costs uniform --modal --force
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 forks --modal
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 forks --modal --controllers only_xo,only_excursion,only_leave --out forks_ablations.json
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 report             # tables.md, summary.json headline, figure, tables here
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 cost               # cost.json
+python -m pytest tests/test_strategist_v2.py tests/test_strategist.py -q
+python -m strategist.v2 dev --modal        # dev grid -> dev/selection.json
+python -m strategist.v2 freeze             # -> frozen.json
+python -m strategist.v2 validate --modal --force   # --force: it refuses to re-run a run-once phase
+python -m strategist.v2 confirm --modal --force
+python -m strategist.v2 confirm --costs uniform --modal --force
+python -m strategist.v2 forks --modal
+python -m strategist.v2 forks --modal --controllers only_xo,only_excursion,only_leave --out forks_ablations.json
+python -m strategist.v2 report             # tables.md, summary.json headline, figure, tables here
+python -m strategist.v2 cost               # cost.json
 ```
 
 **Measured LLM costs, when available.** Fill in the four relative costs in
 `experiments/strategist-v2/costs/measured_llm.json` (or pass them inline), then run one command:
 
 ```sh
-/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 confirm --costs measured --modal
+python -m strategist.v2 confirm --costs measured --modal
 # or: ... confirm --costs edit=1,rewrite=3.1,crossover=2.4,restart=3.5 --modal
 ```
 

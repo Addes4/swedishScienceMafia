@@ -248,8 +248,8 @@ it completes.
 ## Reproduce
 
 ```bash
-/Users/adriansohrabi/.venvs/ssm/bin/python -m pytest tests -q
-/Users/adriansohrabi/.venvs/ssm/bin/python -m tournament.report experiments/tournament-v1/runs/full-v1 \
+python -m pytest tests -q
+python -m tournament.report experiments/tournament-v1/runs/full-v1 \
     --figure experiments/tournament-v1/curves.svg --headline experiments/tournament-v1/summary.json
 ```
 

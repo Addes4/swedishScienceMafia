@@ -240,7 +240,7 @@ Recomputed from `usage.jsonl` (8 calls, all succeeded; `--mock` entries excluded
 ## Reproduce (from the repo root)
 
 ```bash
-VENV=/Users/adriansohrabi/.venvs/ssm/bin/python
+VENV=python   # Python 3.12 with requirements.txt installed
 # Part A (no API cost):
 $VENV experiments/gate-redteam-v1/run_part_a.py
 # Part B (needs ANTHROPIC_API_KEY in .env; offline dry run with --mock):

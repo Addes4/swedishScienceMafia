@@ -100,7 +100,7 @@ lean reached the reference on erdos_squares in two calls; with Flash it reached 
 ## Reproduce
 
 ```bash
-/Users/adriansohrabi/.venvs/ssm/bin/python -m pytest tests -q                 # includes the HF tests (mock only)
+python -m pytest tests -q                 # includes the HF tests (mock only)
 # create the HF secret once without printing the token, e.g. a script that passes HF_TOKEN=<file contents>
 modal run tournament/modal_app.py --grid experiments/tournament-v2/grids/smoke.json      # $0.15 at most
 python -m tournament.pull smoke-v2 --experiment tournament-v2

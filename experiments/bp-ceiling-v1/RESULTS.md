@@ -269,8 +269,8 @@ Weibull-80 row was not completed.
 
 ## Reproduce
 
-All commands from the repository root with `python` = `/Users/adriansohrabi/.venvs/ssm/bin/python`
-(or any Python 3.12 with `requirements.txt`; `cma` was added for this study). A C++17
+All commands run from the repository root with Python 3.12 and `pip install -r requirements.txt`
+(`cma` was added for this study). A C++17
 compiler is needed.
 
 ```bash
@@ -340,7 +340,7 @@ For `falsify/README.md`, section "Relation to FunSearch":
 > by more than 0.09 percentage points of the L2 bound, FunSearch's own heuristic included
 > (+15 pp worse). On 5,000-item Weibull instances the existing 20-feature space beats best fit
 > by 1.2 pp; adding the option to open a new bin while an open bin fits reaches 3.3 pp, level
-> with FunSearch's code. See [experiments/bp-ceiling-v1/RESULTS.md](../experiments/bp-ceiling-v1/RESULTS.md).
+> with FunSearch's code. See `experiments/bp-ceiling-v1/RESULTS.md`.
 
 For `problems/README.md`: the `bin_packing_online` row and the "Online problems" paragraph
 are already in this branch.

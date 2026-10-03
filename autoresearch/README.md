@@ -106,7 +106,11 @@ Each run writes `results/triage_<problem>_<ranker>_<time>/`:
 `log.jsonl` (every proposal, ranking, implementation and cost), `notebook.md` (readable research
 log), `summary.json`, `best_program.py`, and every program with its gate results under `programs/`.
 
-## The experiment (same problem, same dollar budget, 3 seeds each)
+## The planned triage experiment (not run as designed)
+
+This comparison was designed before the overnight runs. It was not run in this form: the API credit
+ran out, and the [idea table](#what-we-found-the-idea-table) answered the ranking question offline
+instead. It is kept as the design for a rerun (same problem, same dollar budget, 3 seeds each).
 
 | Run | Command flags | What it answers |
 |---|---|---|
