@@ -1,0 +1,92 @@
+dev 60/600 jobs  8s
+dev 120/600 jobs  9s
+dev 180/600 jobs  10s
+dev 240/600 jobs  14s
+dev 300/600 jobs  15s
+dev 360/600 jobs  17s
+dev 420/600 jobs  18s
+dev 480/600 jobs  20s
+dev 540/600 jobs  20s
+dev 600/600 jobs  22s
+{
+  "chosen": null,
+  "patience_dev": {
+    "labs": 64,
+    "heilbronn": 512,
+    "nk": 128
+  },
+  "patience_joint": {
+    "T": 128,
+    "J": {
+      "8": -1.6844742741037575,
+      "16": -1.0015207042205945,
+      "32": -0.39559372618895833,
+      "64": 0.08963761800604146,
+      "128": 0.29650883511589327,
+      "256": 0.16609820563659206,
+      "512": 0.024187413747728388,
+      "1024": -0.2703018237524457
+    }
+  }
+}
+confirm[uniform] 60/600 jobs  12s
+confirm[uniform] 120/600 jobs  14s
+confirm[uniform] 180/600 jobs  16s
+confirm[uniform] 240/600 jobs  23s
+confirm[uniform] 300/600 jobs  26s
+confirm[uniform] 360/600 jobs  28s
+confirm[uniform] 420/600 jobs  30s
+confirm[uniform] 480/600 jobs  32s
+confirm[uniform] 540/600 jobs  39s
+confirm[uniform] 600/600 jobs  42s
+
+== labs (200 seeds; positive = adaptive_v2 better)
+  patience_dev           mean=4.4385  diff=-0.327 CI=[-0.413,-0.244] W/T/L=54/8/138 p=1.1e-09 holm=4.6e-09
+  patience_256           mean=4.3478  diff=-0.2363 CI=[-0.328,-0.146] W/T/L=72/10/118 p=0.001 holm=0.0031
+  v2_crossover_removed   mean=4.2874  diff=-0.1759 CI=[-0.273,-0.0835] W/T/L=73/14/113 p=0.0041
+  v1_crossover_removed   mean=4.246  diff=-0.1345 CI=[-0.233,-0.0386] W/T/L=84/16/100 p=0.27
+  without_excursion      mean=4.1328  diff=-0.02129 CI=[-0.096,+0.0504] W/T/L=59/87/54 p=0.71
+  without_leave          mean=4.1244  diff=-0.01286 CI=[-0.101,+0.0759] W/T/L=94/8/98 p=0.83
+  adaptive_v2            mean=4.1115
+  only_xo                mean=4.1106  diff=+0.0009477 CI=[-0.087,+0.0889] W/T/L=88/16/96 p=0.61
+  timing_shuffled        mean=4.1049  diff=+0.006586 CI=[-0.0776,+0.0894] W/T/L=99/9/92 p=0.66 holm=0.66
+  only_leave             mean=3.9953  diff=+0.1163 CI=[+0.0237,+0.209] W/T/L=103/14/83 p=0.16
+  without_xo             mean=3.9801  diff=+0.1314 CI=[+0.0427,+0.221] W/T/L=104/14/82 p=0.12
+  only_excursion         mean=3.9557  diff=+0.1558 CI=[+0.0757,+0.238] W/T/L=112/12/76 p=0.01
+  adaptive_v1            mean=3.9458  diff=+0.1658 CI=[+0.0838,+0.249] W/T/L=115/11/74 p=0.0035 holm=0.007
+  static_mix             mean=3.6168  diff=+0.4948 CI=[+0.407,+0.583] W/T/L=153/8/39 p=3.7e-17 holm=1.8e-16
+  edits_only             mean=3.5488  diff=+0.5627 CI=[+0.464,+0.66] W/T/L=163/6/31 p=7.9e-23 holm=4.7e-22
+
+== heilbronn (200 seeds; positive = adaptive_v2 better)
+  v2_crossover_removed   mean=0.011851  diff=-9.447e-05 CI=[-0.000549,+0.000347] W/T/L=106/0/94 p=0.44
+  v1_crossover_removed   mean=0.011837  diff=-8.003e-05 CI=[-0.000492,+0.000322] W/T/L=100/0/100 p=1
+  adaptive_v2            mean=0.011757
+  static_mix             mean=0.01174  diff=+1.639e-05 CI=[-0.000408,+0.00044] W/T/L=99/0/101 p=0.94 holm=1
+  only_excursion         mean=0.011683  diff=+7.361e-05 CI=[-0.000385,+0.000528] W/T/L=107/0/93 p=0.36
+  without_xo             mean=0.011651  diff=+0.0001056 CI=[-0.000374,+0.000578] W/T/L=101/0/99 p=0.94
+  adaptive_v1            mean=0.011622  diff=+0.0001341 CI=[-0.000337,+0.000596] W/T/L=105/0/95 p=0.52 holm=1
+  without_excursion      mean=0.011606  diff=+0.0001506 CI=[-8.26e-05,+0.000376] W/T/L=80/69/51 p=0.014
+  only_leave             mean=0.011561  diff=+0.0001955 CI=[-0.000269,+0.000652] W/T/L=101/0/99 p=0.94
+  without_leave          mean=0.011532  diff=+0.0002244 CI=[-0.000181,+0.000629] W/T/L=104/2/94 p=0.52
+  only_xo                mean=0.011489  diff=+0.0002679 CI=[-0.000129,+0.000674] W/T/L=106/0/94 p=0.44
+  timing_shuffled        mean=0.010971  diff=+0.0007854 CI=[+0.000323,+0.00124] W/T/L=116/0/84 p=0.028 holm=0.084
+  patience_dev           mean=0.010537  diff=+0.00122 CI=[+0.00076,+0.00169] W/T/L=132/0/68 p=7.1e-06 holm=2.8e-05
+  patience_256           mean=0.010521  diff=+0.001235 CI=[+0.000775,+0.00169] W/T/L=133/0/67 p=3.5e-06 holm=2.1e-05
+  edits_only             mean=0.010491  diff=+0.001266 CI=[+0.000797,+0.00173] W/T/L=133/0/67 p=3.5e-06 holm=2.1e-05
+
+== nk (200 seeds; positive = adaptive_v2 better)
+  patience_dev           mean=0.74766  diff=-0.008564 CI=[-0.0119,-0.00538] W/T/L=77/0/123 p=0.0014 holm=0.0056
+  patience_256           mean=0.74458  diff=-0.005487 CI=[-0.00861,-0.00234] W/T/L=80/0/120 p=0.0057 holm=0.017
+  v2_crossover_removed   mean=0.74298  diff=-0.003885 CI=[-0.00718,-0.000666] W/T/L=89/1/110 p=0.16
+  v1_crossover_removed   mean=0.74286  diff=-0.003767 CI=[-0.00722,-0.000343] W/T/L=87/0/113 p=0.077
+  only_xo                mean=0.74001  diff=-0.000921 CI=[-0.0044,+0.00258] W/T/L=103/1/96 p=0.67
+  adaptive_v2            mean=0.73909
+  without_excursion      mean=0.73885  diff=+0.000242 CI=[-0.00167,+0.00218] W/T/L=51/104/45 p=0.61
+  without_leave          mean=0.73854  diff=+0.0005533 CI=[-0.00309,+0.00409] W/T/L=104/2/94 p=0.52
+  timing_shuffled        mean=0.73681  diff=+0.002278 CI=[-0.00114,+0.00557] W/T/L=109/0/91 p=0.23 holm=0.46
+  without_xo             mean=0.73609  diff=+0.003004 CI=[-0.000548,+0.00653] W/T/L=112/0/88 p=0.1
+  adaptive_v1            mean=0.73599  diff=+0.003101 CI=[-0.000471,+0.0066] W/T/L=109/0/91 p=0.23 holm=0.46
+  only_leave             mean=0.73554  diff=+0.003556 CI=[-7.43e-05,+0.00716] W/T/L=113/0/87 p=0.077
+  only_excursion         mean=0.73501  diff=+0.004081 CI=[+0.00042,+0.0077] W/T/L=116/0/84 p=0.028
+  static_mix             mean=0.71774  diff=+0.02135 CI=[+0.0171,+0.0255] W/T/L=150/0/50 p=8.4e-13 holm=4.2e-12
+  edits_only             mean=0.7111  diff=+0.02799 CI=[+0.0239,+0.0321] W/T/L=160/0/40 p=3.4e-18 holm=2e-17

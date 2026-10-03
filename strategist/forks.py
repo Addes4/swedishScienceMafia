@@ -20,9 +20,11 @@ from .stats import paired
 BENCHMARK_SET = ('labs', 'heilbronn', 'nk')
 
 
-def switch_points(problem, seed, budget):
-    """Snapshots of the adaptive run taken just before each decision to leave the leader line."""
-    run = Run(problem, Adaptive(COSTS, seed), budget, seed)
+def switch_points(problem, seed, budget, policy=None, costs=COSTS):
+    """Snapshots of the adaptive run taken just before each decision to leave the leader line.
+
+    `policy` defaults to v1's Adaptive; strategist.v2 passes other controllers."""
+    run = Run(problem, policy or Adaptive(costs, seed), budget, seed, costs)
     snapshots = []
     while True:
         if run.leader and run.policy.leaves(context(run.stall, True), run) == 'restart':

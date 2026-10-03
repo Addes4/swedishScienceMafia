@@ -1,0 +1,10 @@
+{
+  "name": "measured_llm",
+  "status": "PLACEHOLDER: fill in 'relative' with measured costs, then run the command in 'rerun'",
+  "relative": {"edit": null, "rewrite": null, "crossover": null, "restart": null},
+  "normalise": true,
+  "units": "relative cost of one candidate of each move type, e.g. mean USD per call (input and output tokens times price), plus evaluation cost if it is not negligible",
+  "how_measured": "",
+  "source_runs": "",
+  "rerun": "/Users/adriansohrabi/.venvs/ssm/bin/python -m strategist.v2 costs --table measured --modal"
+}
