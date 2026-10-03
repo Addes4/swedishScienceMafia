@@ -1,40 +1,58 @@
 """Tournament report: tables, paired comparisons and best-score-versus-dollars curves.
 
-    python -m tournament.report experiments/tournament-v1/runs/mock-v1 [--reference shinka]
+    python -m tournament.report experiments/tournament-v1/runs/full-v1 --recompute
+    python -m tournament.report runs/full-v1 runs/full-v1-rerun --out runs/merged      # a later folder's run
+                                                                                       # replaces an earlier one
+Writes report.md, report.html (inline SVG, no scripts), all_curves.csv and results.json to --out
+(default: the first folder), plus --figure (standalone SVG) and --headline (JSON) if given.
 
-Reads every <run>/summary.json under the folder (recomputing it from the raw logs when
---recompute is given) and writes report.md, report.html (inline SVG, no scripts),
-all_curves.csv and results.json into the folder.
+Two analyses, kept apart:
+
+1. Full budget. Only budget-matched runs (completion "budget": the run used its cap before any API
+   error) enter the per-arm table and the paired comparisons, and a pair is used only if both of
+   its runs are complete. Truncated runs are listed separately with how far they got.
+2. Common spend checkpoint. Per problem, X = the smallest valid spend of any run of that problem,
+   rounded down to a multiple of $0.05. Every run is valid up to X, so all arms and seeds compare
+   at X: the incumbent's score at X and the area under its curve over [0, X], each as a fraction
+   of the headroom above the starting score.
 """
 import argparse
 import csv
 import html
 import json
+import math
 import random
 import statistics
 from collections import defaultdict
 from pathlib import Path
 
-from .metrics import CURVE_FIELDS, summarize
+from .metrics import CURVE_FIELDS, auc_to, score_at, summarize, valid_curve
 
-# Categorical slots 1-4 of the validated reference palette (dataviz skill, light surface #fcfcfb).
+# Categorical slots of the validated reference palette (dataviz skill, light surface #fcfcfb).
 # Two of them sit below 3:1 contrast, so every chart has a legend and a table view.
 COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
 SURFACE, INK, INK2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
+MATCHES_RECORD = 1 - 1e-6    # normalized score treated as a tie with the best known value
+CHECKPOINT_STEP = 0.05
 
 
-def load_runs(folder: Path, recompute=False):
-    runs = []
-    for d in sorted(p for p in folder.iterdir() if p.is_dir()):
-        if recompute and (d / "job.json").exists():
-            s = summarize(d)
-        elif (d / "summary.json").exists():
-            s = json.loads((d / "summary.json").read_text())
-        else:
-            continue
-        s["run_dir"] = d.name
-        runs.append(s)
-    return runs
+def load_runs(folders, recompute=False):
+    """Runs keyed by folder name; a run in a later folder replaces one of the same name."""
+    runs = {}
+    for folder in folders:
+        for d in sorted(p for p in Path(folder).iterdir() if p.is_dir()):
+            if recompute and (d / "job.json").exists():
+                s = summarize(d)
+            elif (d / "summary.json").exists():
+                s = json.loads((d / "summary.json").read_text())
+            else:
+                continue
+            if "completion" not in s and (d / "job.json").exists():
+                s = summarize(d)    # summaries written before completion was recorded
+            s["run_dir"] = d.name
+            s["source"] = Path(folder).name
+            runs[d.name] = s
+    return list(runs.values())
 
 
 def _mean(xs):
@@ -60,15 +78,13 @@ def step_value(curve, x_usd, y0):
     return y
 
 
+# -- statistics --------------------------------------------------------------------------------
 def bootstrap_ci(diffs, reps=10_000, seed=0):
     if len(diffs) < 2:
         return None
     rng = random.Random(seed)
     means = sorted(statistics.fmean(rng.choices(diffs, k=len(diffs))) for _ in range(reps))
     return means[int(0.025 * reps)], means[int(0.975 * reps) - 1]
-
-
-MATCHES_RECORD = 1 - 1e-6    # normalized score treated as a tie with the best known value
 
 
 def bootstrap_p_greater(diffs, reps=10_000, seed=1):
@@ -129,17 +145,18 @@ def paired(runs, reference, metric):
 SECONDARY = (("lean_gate_patience", "lean"), ("lean", "independent"))
 
 
-def secondary_contrasts(runs, arms):
+def secondary_contrasts(runs, arms, metrics=("auc_gain", "final_public")):
     """First arm minus second on matched units, for the protocol's secondary questions."""
     out = {}
     for first, second in SECONDARY:
         if first in arms and second in arms:
             sub = [r for r in runs if r["arm"] in (first, second)]
-            out[f"{first} - {second}"] = {m: paired(sub, second, m)[first] for m in ("auc_gain", "final_public")
-                                          if first in paired(sub, second, m)}
+            res = {m: paired(sub, second, m).get(first) for m in metrics}
+            out[f"{first} - {second}"] = {m: c for m, c in res.items() if c}
     return out
 
 
+# -- tables ------------------------------------------------------------------------------------
 def group_table(runs):
     groups = defaultdict(list)
     for r in runs:
@@ -148,7 +165,7 @@ def group_table(runs):
     for (problem, arm), rs in sorted(groups.items()):
         finals = [r["final_public"] for r in rs if r["final_public"] is not None]
         rows.append({
-            "problem": problem, "arm": arm, "runs": len(rs),
+            "problem": problem, "arm": arm, "runs": len(rs), "seeds": sorted(r["seed"] for r in rs),
             "final_public": _mean(finals), "final_min": min(finals) if finals else None,
             "final_max": max(finals) if finals else None,
             "auc_gain": _mean(r["auc_gain"] for r in rs), "final_hidden": _mean(r["final_hidden"] for r in rs),
@@ -156,7 +173,8 @@ def group_table(runs):
             "improvements": _mean(r["improvements"] for r in rs),
             "usd_per_improvement": _mean(r["usd_per_improvement"] for r in rs),
             "tokens_per_improvement": _mean(r["tokens_per_improvement"] for r in rs),
-            "calls": _mean(r["calls"] for r in rs), "evals": _mean(r["evals"] for r in rs),
+            "calls": _mean(r["calls"] for r in rs), "idea_calls": _mean(r.get("idea_calls") for r in rs),
+            "evals": _mean(r["evals"] for r in rs),
             "valid_evals": _mean(r["valid_evals"] for r in rs), "wall_s": _mean(r["wall_s"] for r in rs),
             "all_within_cap": all(r["within_cap"] for r in rs),
             "matches_record": sum((r["final_public"] or 0) >= MATCHES_RECORD for r in rs),
@@ -164,11 +182,54 @@ def group_table(runs):
     return rows
 
 
+def checkpoints(runs, step=CHECKPOINT_STEP):
+    """Per problem: the largest multiple of `step` at or below every run's valid spend."""
+    out = {}
+    for problem in sorted({r["problem"] for r in runs}):
+        low = min(r["valid_spend_usd"] for r in runs if r["problem"] == problem)
+        x = math.floor(low / step + 1e-9) * step
+        out[problem] = round(x, 2) if x > 0 else None
+    return out
+
+
+def checkpoint_rows(runs, cps):
+    """One record per run at its problem's checkpoint (score and area as fractions of headroom)."""
+    rows = []
+    for r in runs:
+        x = cps.get(r["problem"])
+        if not x:
+            continue
+        y0 = r["initial_public"]
+        s, a = score_at(r, x), auc_to(r, x)
+        head = 1 - y0 if y0 is not None and y0 < 1 else None
+        rows.append({"run_dir": r["run_dir"], "arm": r["arm"], "problem": r["problem"], "seed": r["seed"],
+                     "checkpoint_usd": x, "initial": y0, "score": s, "auc": a,
+                     "gain": (s - y0) / head if head and s is not None else None,
+                     "auc_gain": (a - y0) / head if head and a is not None else None})
+    return rows
+
+
+def checkpoint_groups(rows):
+    groups = defaultdict(list)
+    for r in rows:
+        groups[(r["problem"], r["arm"])].append(r)
+    out = []
+    for (problem, arm), rs in sorted(groups.items()):
+        scores = [r["score"] for r in rs if r["score"] is not None]
+        out.append({"problem": problem, "arm": arm, "checkpoint_usd": rs[0]["checkpoint_usd"], "runs": len(rs),
+                    "score": _mean(scores), "score_min": min(scores) if scores else None,
+                    "score_max": max(scores) if scores else None, "gain": _mean(r["gain"] for r in rs),
+                    "auc_gain": _mean(r["auc_gain"] for r in rs),
+                    "at_record": sum(s >= MATCHES_RECORD for s in scores)})
+    return out
+
+
 # -- SVG ---------------------------------------------------------------------------------------
-def svg_chart(problem, runs, arms, width=640, height=360):
+def svg_chart(problem, runs, arms, width=640, height=360, checkpoint=None):
+    """Thin line per run up to its valid spend; bold mean over seeds up to the checkpoint (or the cap)."""
     pad_l, pad_r, pad_t, pad_b = 56, 28, 16, 44
     cap = max(r["cap_usd"] for r in runs) or 1.0
-    ys = [c["incumbent_public"] for r in runs for c in r["curve"]] or [0, 1]
+    ys = [c["incumbent_public"] for r in runs for c in valid_curve(r)] or [0, 1]
     lo, hi = min(ys), max(ys)
     if hi - lo < 1e-6:
         lo, hi = lo - 0.01, hi + 0.01
@@ -192,26 +253,31 @@ def svg_chart(problem, runs, arms, width=640, height=360):
     for i in range(5):
         usd = cap * i / 4
         parts.append(f'<text x="{X(usd):.1f}" y="{height - pad_b + 16}" text-anchor="middle" fill="{INK2}">${usd:.3g}</text>')
-    parts.append(f'<text x="{pad_l + pw / 2:.1f}" y="{height - 8}" text-anchor="middle" fill="{INK2}">dollars spent</text>')
+    parts.append(f'<text x="{pad_l + pw / 2:.1f}" y="{height - 8}" text-anchor="middle" fill="{INK2}">US dollars spent</text>')
     parts.append(f'<text x="12" y="{pad_t + ph / 2:.1f}" text-anchor="middle" fill="{INK2}" '
-                 f'transform="rotate(-90 12 {pad_t + ph / 2:.1f})">best public score</text>')
-
-    grid_x = [cap * i / 100 for i in range(101)]
+                 f'transform="rotate(-90 12 {pad_t + ph / 2:.1f})">best public score (1.0 = reference)</text>')
+    if checkpoint:
+        parts.append(f'<line x1="{X(checkpoint):.1f}" x2="{X(checkpoint):.1f}" y1="{pad_t}" y2="{pad_t + ph}" '
+                     f'stroke="{INK2}" stroke-width="1"/><text x="{X(checkpoint) + 4:.1f}" y="{pad_t + 12}" '
+                     f'fill="{INK2}">checkpoint ${checkpoint:.2f}</text>')
+    mean_until = checkpoint or cap
+    grid_x = [mean_until * i / 100 for i in range(101)]
     for k, arm in enumerate(arms):
         color = COLORS[k % len(COLORS)]
-        mine = [r for r in runs if r["arm"] == arm and r["curve"]]
-        for r in mine:   # thin per-seed step lines
-            pts, y_prev = [], r["curve"][0]["incumbent_public"]
-            for c in r["curve"]:
+        mine = [r for r in runs if r["arm"] == arm and valid_curve(r)]
+        for r in mine:   # thin per-run step lines, ending where the run stops being valid
+            curve = valid_curve(r)
+            pts, y_prev = [], curve[0]["incumbent_public"]
+            for c in curve:
                 pts += [(X(c["spent_usd"]), Y(y_prev)), (X(c["spent_usd"]), Y(c["incumbent_public"]))]
                 y_prev = c["incumbent_public"]
-            pts.append((X(max(r["spent_usd"], r["curve"][-1]["spent_usd"])), Y(y_prev)))
+            pts.append((X(max(r["valid_spend_usd"], curve[-1]["spent_usd"])), Y(y_prev)))
             d = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+            note = "complete" if r.get("completion") == "budget" else f"valid to ${r['valid_spend_usd']:.2f}"
             parts.append(f'<polyline points="{d}" fill="none" stroke="{color}" stroke-opacity="0.35" stroke-width="1">'
-                         f'<title>{html.escape(arm)} seed {r["seed"]}: final {r["final_public"]:.4f}, '
-                         f'${r["spent_usd"]:.2f} spent</title></polyline>')
-        if mine:         # bold mean over seeds (each run holds its last value to the cap)
-            means = [statistics.fmean(step_value(r["curve"], x, r["curve"][0]["incumbent_public"]) for r in mine)
+                         f'<title>{html.escape(arm)} seed {r["seed"]} ({note}): {y_prev:.4f}</title></polyline>')
+        if mine:
+            means = [statistics.fmean(step_value(valid_curve(r), x, valid_curve(r)[0]["incumbent_public"]) for r in mine)
                      for x in grid_x]
             pts = []
             for i, (x, m) in enumerate(zip(grid_x, means)):
@@ -221,7 +287,7 @@ def svg_chart(problem, runs, arms, width=640, height=360):
             d = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
             parts.append(f'<polyline points="{d}" fill="none" stroke="{color}" stroke-width="2" '
                          f'stroke-linejoin="round" stroke-linecap="round"><title>{html.escape(arm)} mean of '
-                         f'{len(mine)} seeds: final {means[-1]:.4f}</title></polyline>')
+                         f'{len(mine)} runs at ${mean_until:.2f}: {means[-1]:.4f}</title></polyline>')
     parts.append("</svg>")
     return "".join(parts)
 
@@ -233,48 +299,104 @@ def legend(arms):
     return f'<div style="margin:8px 0;color:{INK}">{items}</div>'
 
 
+def figure_svg(runs, arms, cps=None, width=640, height=300):
+    """All problems as stacked panels in one standalone SVG, with a legend row on top."""
+    problems = sorted({r["problem"] for r in runs})
+    legend_h, title_h = 28, 22
+    total_h = legend_h + len(problems) * (title_h + height)
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {total_h}" width="{width}" height="{total_h}" '
+             f'style="background:{SURFACE};font-family:system-ui,sans-serif;font-size:12px">'
+             f'<rect width="{width}" height="{total_h}" fill="{SURFACE}"/>']
+    x = 56
+    for k, arm in enumerate(arms):
+        parts.append(f'<line x1="{x}" x2="{x + 18}" y1="14" y2="14" stroke="{COLORS[k % len(COLORS)]}" stroke-width="2"/>'
+                     f'<text x="{x + 24}" y="18" fill="{INK}">{html.escape(arm)}</text>')
+        x += 30 + 7.5 * len(arm)
+    y = legend_h
+    for problem in problems:
+        parts.append(f'<text x="56" y="{y + 16}" fill="{INK}" font-weight="600">{html.escape(problem)}: '
+                     f'best public score (1.0 = reference) vs US dollars spent</text>')
+        chart = svg_chart(problem, [r for r in runs if r["problem"] == problem], arms, width, height,
+                          checkpoint=(cps or {}).get(problem))
+        parts.append(chart.replace("<svg ", f'<svg x="0" y="{y + title_h}" ', 1))
+        y += title_h + height
+    parts.append("</svg>")
+    return "".join(parts)
+
+
 # -- outputs -----------------------------------------------------------------------------------
 TABLE_COLS = [("problem", "problem"), ("arm", "arm"), ("runs", "runs"), ("final_public", "final public (mean)"),
               ("final_min", "min"), ("final_max", "max"), ("auc_gain", "AUC gain"), ("final_hidden", "final hidden"),
-              ("spent_usd", "$ spent"), ("improvements", "improvements"), ("usd_per_improvement", "$/improvement"),
-              ("tokens_per_improvement", "tokens/improvement"), ("calls", "calls"), ("valid_evals", "valid evals"),
-              ("evals", "evals"), ("wall_s", "wall s"), ("matches_record", "runs at record"),
-              ("all_within_cap", "within cap")]
+              ("spent_usd", "$ spent"), ("calls", "calls"), ("idea_calls", "idea calls (triage rounds)"),
+              ("evals", "evals"), ("valid_evals", "valid evals"), ("improvements", "improvements"),
+              ("usd_per_improvement", "$/improvement"), ("wall_s", "wall s"), ("matches_record", "runs at record")]
+COUNT_COLS = {"improvements", "calls", "idea_calls", "valid_evals", "evals", "wall_s"}
 
 
-def markdown(title, runs, rows, comparisons, reference, contrasts=None):
+def _comparison_lines(comparisons, reference, title):
+    lines = ["", title, "",
+             "Sign-flip permutation p-values, Holm-adjusted within each metric across the arms compared.", "",
+             "| metric | arm | n | mean difference | bootstrap 95% CI | P(arm > reference) | 95% CI | "
+             "wins / ties / losses | p | p (Holm) |", "|---|---|---|---|---|---|---|---|---|---|"]
+    for metric, comp in comparisons.items():
+        for arm, c in comp.items():
+            ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
+            pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
+            lines.append(f"| {metric} | {arm} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
+                         f"{c['wins']} / {c['ties']} / {c['losses']} | {_fmt(c['p_value'], 3)} | {_fmt(c['p_holm'], 3)} |")
+    return lines
+
+
+def _contrast_lines(contrasts, title):
+    lines = ["", title, "", "| contrast | metric | n | mean difference | bootstrap 95% CI | P(first > second) | 95% CI | "
+             "wins / ties / losses | p |", "|---|---|---|---|---|---|---|---|---|"]
+    for name, by_metric in contrasts.items():
+        for metric, c in by_metric.items():
+            ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
+            pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
+            lines.append(f"| {name} | {metric} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
+                         f"{c['wins']} / {c['ties']} / {c['losses']} | {_fmt(c['p_value'], 3)} |")
+    return lines
+
+
+def markdown(title, runs, analysis, reference):
+    complete = [r for r in runs if r.get("completion") == "budget"]
     total = sum(r["spent_usd"] for r in runs if not r.get("mock"))
-    lines = [f"# {title}", "", f"{len(runs)} runs. Anthropic spend (live runs only): ${total:.2f}. "
-             "Scores are normalized so 1.0 matches the best known result; higher is better. AUC gain is the "
-             "area under the best-score-versus-budget-fraction curve, minus the starting score, divided by the "
-             "headroom (1 - starting score). A run is at the record when its final score is at least 1 - 1e-6; "
-             "such runs tie with the record, they do not beat it.", "",
+    lines = [f"# {title}", "",
+             f"{len(runs)} runs, {len(complete)} budget-matched (used their cap before any API error). "
+             f"Anthropic spend recorded (live runs): ${total:.2f}. Scores are normalized so 1.0 matches the reference "
+             "value; higher is better. A final score of at least 1 - 1e-6 ties with the reference.", "",
+             "## Full budget: budget-matched runs only", "",
+             "AUC gain: area under the incumbent score over budget fraction [0, 1], minus the starting score, "
+             "divided by the headroom (1 - starting score).", "",
              "| " + " | ".join(h for _, h in TABLE_COLS) + " |", "|" + "---|" * len(TABLE_COLS)]
-    counts = {"improvements", "calls", "valid_evals", "evals", "wall_s", "tokens_per_improvement"}
-    for row in rows:
-        lines.append("| " + " | ".join(_fmt(row[k], 1 if k in counts else 4) for k, _ in TABLE_COLS) + " |")
-    if comparisons:
-        lines += ["", f"## Paired differences against `{reference}` (matched problem and seed)", "",
-                  "Sign-flip permutation p-values, Holm-adjusted within each metric across the arms compared.", "",
-                  "| metric | arm | n | mean difference | bootstrap 95% CI | P(arm > reference) | 95% CI | "
-                  "wins / ties / losses | p | p (Holm) |",
+    for row in analysis["groups"]:
+        lines.append("| " + " | ".join(_fmt(row[k], 1 if k in COUNT_COLS else 4) for k, _ in TABLE_COLS) + " |")
+    if analysis["comparisons"]:
+        lines += _comparison_lines(analysis["comparisons"], reference,
+                                   f"### Paired against `{reference}`, both runs complete")
+    if analysis["contrasts"]:
+        lines += _contrast_lines(analysis["contrasts"], "### Secondary contrasts, both runs complete")
+
+    cps = analysis["checkpoints"]
+    if cps:
+        lines += ["", "## Common spend checkpoint (every run)", "",
+                  "Per problem, the checkpoint is the smallest spend any run reached before an API error (or its "
+                  "cap), rounded down to a multiple of $0.05: "
+                  + ", ".join(f"{p} ${x:.2f}" for p, x in cps.items() if x) + ". Gain: (score at checkpoint - start) / "
+                  "(1 - start). AUC gain: same for the mean incumbent score over spend [0, checkpoint].", "",
+                  "| problem | arm | checkpoint $ | runs | score (mean) | min | max | gain | AUC gain | runs at record |",
                   "|---|---|---|---|---|---|---|---|---|---|"]
-        for metric, comp in comparisons.items():
-            for arm, c in comp.items():
-                ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
-                pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
-                lines.append(f"| {metric} | {arm} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
-                             f"{c['wins']} / {c['ties']} / {c['losses']} | {_fmt(c['p_value'], 3)} | {_fmt(c['p_holm'], 3)} |")
-    if contrasts:
-        lines += ["", "## Secondary contrasts (matched problem and seed)", "",
-                  "| contrast | metric | n | mean difference | bootstrap 95% CI | P(first > second) | 95% CI | "
-                  "wins / ties / losses | p |", "|---|---|---|---|---|---|---|---|---|"]
-        for name, by_metric in contrasts.items():
-            for metric, c in by_metric.items():
-                ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
-                pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
-                lines.append(f"| {name} | {metric} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
-                             f"{c['wins']} / {c['ties']} / {c['losses']} | {_fmt(c['p_value'], 3)} |")
+        for g in analysis["checkpoint_groups"]:
+            lines.append(f"| {g['problem']} | {g['arm']} | {g['checkpoint_usd']:.2f} | {g['runs']} | {_fmt(g['score'])} | "
+                         f"{_fmt(g['score_min'])} | {_fmt(g['score_max'])} | {_fmt(g['gain'])} | {_fmt(g['auc_gain'])} | "
+                         f"{g['at_record']} |")
+        if analysis["checkpoint_comparisons"]:
+            lines += _comparison_lines(analysis["checkpoint_comparisons"], reference,
+                                       f"### Paired against `{reference}` at the checkpoint, all problems pooled")
+        if analysis["checkpoint_contrasts"]:
+            lines += _contrast_lines(analysis["checkpoint_contrasts"], "### Secondary contrasts at the checkpoint")
+
     flags = [dict(f, run=r["run_dir"]) for r in runs for f in r.get("record_flags") or []]
     if flags:
         lines += ["", "## Scores above the best known value", "",
@@ -284,20 +406,25 @@ def markdown(title, runs, rows, comparisons, reference, contrasts=None):
         for f in flags:
             lines.append(f"| {f['run']} | {f['label']} | {f['score']:.12g} | {f['reference']:.12g} | {f['margin']:.3g} | "
                          f"{f['n_x_tolerance']:.3g} | {f['worth_review']} |")
-    lines += ["", "## Runs", "", "| run | status | $ spent | cap | calls | evals | start | final public | final hidden | AUC gain |",
-              "|---|---|---|---|---|---|---|---|---|---|"]
+    lines += ["", "## Runs", "",
+              "$ spent includes reservations charged for calls whose billing was unknown. Last public / hidden: the "
+              "run's last incumbent, which for a truncated run is not a full-budget result. AUC gain over the full "
+              "budget is shown for complete runs only.", "",
+              "| run | completion | $ spent | valid to $ | cap | calls | failed calls | evals | start | last public | "
+              "last hidden | AUC gain |", "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in sorted(runs, key=lambda r: (r["problem"], r["arm"], r["seed"])):
-        lines.append(f"| {r['run_dir']} | {r.get('status')} | {r['spent_usd']:.4f} | {r['cap_usd']:.2f} | {r['calls']} | "
-                     f"{r['evals']} | {_fmt(r['initial_public'])} | {_fmt(r['final_public'])} | {_fmt(r['final_hidden'])} | "
-                     f"{_fmt(r['auc_gain'])} |")
+        auc = _fmt(r["auc_gain"]) if r.get("completion") == "budget" else "n/a"
+        lines.append(f"| {r['run_dir']} | {r.get('completion')} | {r['spent_usd']:.4f} | {r['valid_spend_usd']:.4f} | "
+                     f"{r['cap_usd']:.2f} | {r['calls']} | {r['failed_calls']} | {r['evals']} | {_fmt(r['initial_public'])} | "
+                     f"{_fmt(r['final_public'])} | {_fmt(r['final_hidden'])} | {auc} |")
     return "\n".join(lines) + "\n"
 
 
-def html_report(title, md_text, runs, arms):
+def html_report(title, md_text, runs, arms, cps):
     charts = []
     for problem in sorted({r["problem"] for r in runs}):
         rs = [r for r in runs if r["problem"] == problem]
-        charts.append(f"<h2>{html.escape(problem)}</h2>{legend(arms)}{svg_chart(problem, rs, arms)}")
+        charts.append(f"<h2>{html.escape(problem)}</h2>{legend(arms)}{svg_chart(problem, rs, arms, checkpoint=cps.get(problem))}")
     body = "".join(charts)
     table_html = _md_tables_to_html(md_text)
     return (f"<!doctype html><html><head><meta charset='utf-8'><title>{html.escape(title)}</title>"
@@ -305,9 +432,9 @@ def html_report(title, md_text, runs, arms):
             f"margin:24px auto;padding:0 16px}}table{{border-collapse:collapse;font-size:12px;margin:8px 0 24px}}"
             f"td,th{{border-bottom:1px solid {GRID};padding:3px 8px;text-align:right}}td:first-child,th:first-child,"
             f"td:nth-child(2),th:nth-child(2){{text-align:left}}p{{color:{INK2}}}</style></head><body>"
-            f"<h1>{html.escape(title)}</h1><p>Thin lines: one run each. Bold line: mean over seeds, each run holding "
-            f"its final value up to the cap. Hover a line for its numbers; the tables below carry every value.</p>"
-            f"{body}{table_html}</body></html>")
+            f"<h1>{html.escape(title)}</h1><p>Thin lines: one run each, drawn only as far as the run is valid (to its "
+            f"cap, or to its first API error). Bold line: mean over runs up to the common checkpoint. Hover a line for "
+            f"its numbers; the tables below carry every value.</p>{body}{table_html}</body></html>")
 
 
 def _md_tables_to_html(md_text):
@@ -319,7 +446,9 @@ def _md_tables_to_html(md_text):
         if table:
             out.append(_table(table))
             table = []
-        if line.startswith("## "):
+        if line.startswith("### "):
+            out.append(f"<h3>{html.escape(line[4:])}</h3>")
+        elif line.startswith("## "):
             out.append(f"<h2>{html.escape(line[3:])}</h2>")
         elif line.startswith("# "):
             continue
@@ -338,85 +467,84 @@ def _table(lines):
     return f"<table><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table>"
 
 
-def figure_svg(runs, arms, width=640, height=300):
-    """All problems as stacked panels in one standalone SVG, with a legend row on top."""
-    problems = sorted({r["problem"] for r in runs})
-    legend_h, title_h = 28, 22
-    total_h = legend_h + len(problems) * (title_h + height)
-    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {total_h}" width="{width}" height="{total_h}" '
-             f'style="background:{SURFACE};font-family:system-ui,sans-serif;font-size:12px">'
-             f'<rect width="{width}" height="{total_h}" fill="{SURFACE}"/>']
-    x = 56
-    for k, arm in enumerate(arms):
-        parts.append(f'<line x1="{x}" x2="{x + 18}" y1="14" y2="14" stroke="{COLORS[k % len(COLORS)]}" stroke-width="2"/>'
-                     f'<text x="{x + 24}" y="18" fill="{INK}">{html.escape(arm)}</text>')
-        x += 30 + 7.5 * len(arm)
-    y = legend_h
-    for problem in problems:
-        parts.append(f'<text x="56" y="{y + 16}" fill="{INK}" font-weight="600">{html.escape(problem)}: '
-                     f'best public score (1.0 = reference) vs US dollars spent</text>')
-        chart = svg_chart(problem, [r for r in runs if r["problem"] == problem], arms, width, height)
-        parts.append(chart.replace("<svg ", f'<svg x="0" y="{y + title_h}" ', 1))
-        y += title_h + height
-    parts.append("</svg>")
-    return "".join(parts)
+def analyse(runs, arms, reference):
+    complete = [r for r in runs if r.get("completion") == "budget"]
+    cps = checkpoints(runs)
+    cp_rows = checkpoint_rows(runs, cps)
+    analysis = {
+        "groups": group_table(complete),
+        "comparisons": ({m: paired(complete, reference, m) for m in ("auc_gain", "final_public", "final_hidden")}
+                        if reference in arms else {}),
+        "contrasts": secondary_contrasts(complete, arms),
+        "checkpoints": cps,
+        "checkpoint_runs": cp_rows,
+        "checkpoint_groups": checkpoint_groups(cp_rows),
+        "checkpoint_comparisons": ({m: paired(cp_rows, reference, m) for m in ("auc_gain", "gain")}
+                                   if reference in arms else {}),
+        "checkpoint_contrasts": secondary_contrasts(cp_rows, arms, metrics=("auc_gain", "gain")),
+        "completion_counts": {c: sum(r.get("completion") == c for r in runs)
+                              for c in sorted({r.get("completion") for r in runs})},
+    }
+    return analysis
 
 
-def headline(rows, comparisons, contrasts, runs, reference):
+def headline(analysis, runs, reference):
     """Machine-readable headline numbers for cross-experiment summaries."""
     live = [r for r in runs if not r.get("mock")]
+    keep = ("problem", "arm", "runs", "seeds", "final_public", "final_min", "final_max", "auc_gain", "final_hidden",
+            "spent_usd", "calls", "idea_calls", "evals", "improvements", "matches_record", "wall_s")
     return {
-        "runs": len(runs), "reference_arm": reference,
-        "anthropic_usd": round(sum(r["spent_usd"] for r in live), 4),
+        "runs": len(runs), "reference_arm": reference, "completion_counts": analysis["completion_counts"],
+        "anthropic_usd_recorded": round(sum(r["spent_usd"] for r in live), 4),
         "tokens": sum(r["tokens"] for r in live),
         "evaluations": sum(r["evals"] for r in runs),
         "all_within_cap": all(r["within_cap"] for r in runs),
-        "by_problem_and_arm": [{k: row[k] for k in ("problem", "arm", "runs", "final_public", "final_min", "final_max",
-                                                     "auc_gain", "final_hidden", "spent_usd", "calls", "evals",
-                                                     "improvements", "matches_record", "wall_s")} for row in rows],
-        "vs_reference": comparisons, "secondary_contrasts": contrasts,
+        "full_budget_complete_runs": [{k: row[k] for k in keep} for row in analysis["groups"]],
+        "full_budget_vs_reference": analysis["comparisons"],
+        "checkpoints_usd": analysis["checkpoints"],
+        "checkpoint_by_problem_and_arm": analysis["checkpoint_groups"],
+        "checkpoint_vs_reference": analysis["checkpoint_comparisons"],
+        "checkpoint_secondary_contrasts": analysis["checkpoint_contrasts"],
         "record_flags": [dict(f, run=r["run_dir"]) for r in runs for f in r.get("record_flags") or []],
     }
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("folder", help="grid folder with one subfolder per run")
+    ap.add_argument("folders", nargs="+", help="grid folders with one subfolder per run (later ones override)")
+    ap.add_argument("--out", help="where to write the report (default: the first folder)")
     ap.add_argument("--reference", default="shinka", help="arm the others are compared with")
     ap.add_argument("--recompute", action="store_true", help="rebuild summaries from the raw logs")
     ap.add_argument("--figure", help="also write the curves as one standalone SVG here")
     ap.add_argument("--headline", help="also write headline numbers as JSON here")
     a = ap.parse_args(argv)
-    folder = Path(a.folder)
-    runs = load_runs(folder, a.recompute)
+    runs = load_runs(a.folders, a.recompute)
     if not runs:
-        raise SystemExit(f"no runs with summary.json under {folder}")
+        raise SystemExit(f"no runs under {a.folders}")
+    out = Path(a.out or a.folders[0])
+    out.mkdir(parents=True, exist_ok=True)
     arms = sorted({r["arm"] for r in runs}, key=lambda x: (x != a.reference, x))
-    rows = group_table(runs)
-    comparisons = {}
-    if a.reference in arms:
-        comparisons = {m: paired(runs, a.reference, m) for m in ("auc_gain", "final_public", "final_hidden")}
-    title = f"Tournament report: {folder.name}"
-    contrasts = secondary_contrasts(runs, arms)
-    md_text = markdown(title, runs, rows, comparisons, a.reference, contrasts)
-    (folder / "report.md").write_text(md_text)
-    (folder / "report.html").write_text(html_report(title, md_text, runs, arms))
-    with open(folder / "all_curves.csv", "w", newline="") as f:
+    analysis = analyse(runs, arms, a.reference)
+    title = f"Tournament report: {' + '.join(Path(f).name for f in a.folders)}"
+    md_text = markdown(title, runs, analysis, a.reference)
+    (out / "report.md").write_text(md_text)
+    (out / "report.html").write_text(html_report(title, md_text, runs, arms, analysis["checkpoints"]))
+    with open(out / "all_curves.csv", "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["run", "arm", "problem", "seed", "cap_usd"] + CURVE_FIELDS)
+        w.writerow(["run", "arm", "problem", "seed", "cap_usd", "completion", "valid_spend_usd", "valid"] + CURVE_FIELDS)
         for r in runs:
+            valid_ts = {c.get("t") for c in valid_curve(r)}
             for c in r["curve"]:
-                w.writerow([r["run_dir"], r["arm"], r["problem"], r["seed"], r["cap_usd"]] + [c.get(k) for k in CURVE_FIELDS])
-    (folder / "results.json").write_text(json.dumps({"groups": rows, "comparisons": comparisons, "contrasts": contrasts,
-                                                     "runs": [{k: v for k, v in r.items() if k != "curve"} for r in runs]},
-                                                    indent=2, default=str))
+                w.writerow([r["run_dir"], r["arm"], r["problem"], r["seed"], r["cap_usd"], r.get("completion"),
+                            r.get("valid_spend_usd"), c.get("t") in valid_ts] + [c.get(k) for k in CURVE_FIELDS])
+    (out / "results.json").write_text(json.dumps({**analysis, "runs": [{k: v for k, v in r.items() if k != "curve"}
+                                                                       for r in runs]}, indent=2, default=str))
     if a.figure:
-        Path(a.figure).write_text(figure_svg(runs, arms))
+        Path(a.figure).write_text(figure_svg(runs, arms, analysis["checkpoints"]))
     if a.headline:
-        Path(a.headline).write_text(json.dumps(headline(rows, comparisons, contrasts, runs, a.reference), indent=2,
-                                               default=str))
+        Path(a.headline).write_text(json.dumps(headline(analysis, runs, a.reference), indent=2, default=str))
     print(md_text)
-    print(f"wrote {folder / 'report.md'} and {folder / 'report.html'}")
+    print(f"wrote {out / 'report.md'} and {out / 'report.html'}")
 
 
 if __name__ == "__main__":

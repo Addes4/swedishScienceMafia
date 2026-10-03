@@ -77,14 +77,14 @@ def run_job(job: dict) -> dict:
 
 
 @app.local_entrypoint()
-def main(grid: str, only: str = "", dry_run: bool = False):
+def main(grid: str, only: str = "", dry_run: bool = False, experiment_cap: float = -1.0):
     from tournament import grid as grids
     g = grids.load(grid)
     job_list = grids.jobs(g)
     if only:
         keep = set(only.split(","))
         job_list = [j for j in job_list if j["job_id"] in keep or j["arm"] in keep or j["problem"] in keep]
-    caps = grids.check_caps(g, job_list)
+    caps = grids.check_caps(g, job_list, experiment_cap=None if experiment_cap < 0 else experiment_cap)
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
     dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=REPO, capture_output=True,
                            text=True).stdout.strip()

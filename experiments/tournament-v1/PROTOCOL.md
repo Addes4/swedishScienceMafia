@@ -141,4 +141,9 @@ record goes to `launches/`.
 
 ## Changes after launch
 
-(None yet.)
+- 13.6 minutes after launch the Anthropic key ran out of credit; 43 of 60 runs were cut short
+  (17 used their full budget). The pre-registered full-budget endpoint cannot be computed for the
+  truncated runs. RESULTS.md reports the complete runs separately and adds, post hoc, a comparison
+  at a common spend checkpoint per problem (the smallest valid spend of any run, rounded down to
+  $0.05; a rule that uses no score information). Billing and authentication errors are now fatal
+  (commit 65ffdcb). `grids/rerun.json` re-runs the 43 jobs fresh.

@@ -1,0 +1,74 @@
+{
+  "job_id": "lean_gate_patience__circle_packing__s1",
+  "arm": "lean_gate_patience",
+  "arm_type": "lean",
+  "problem": "circle_packing",
+  "seed": 1,
+  "mock": true,
+  "cap_usd": 0.5,
+  "spent_usd": 0.480762,
+  "within_cap": true,
+  "tokens": 59749,
+  "calls": 14,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "end_turn": 14
+  },
+  "evals": 15,
+  "valid_evals": 15,
+  "initial_public": 0.37485287701830405,
+  "initial_hidden": null,
+  "final_public": 0.5239253260162612,
+  "final_hidden": null,
+  "final_sha": "202c1aea34fec349",
+  "max_public_seen": 0.5239253260162612,
+  "hidden_of_max_public_seen": null,
+  "improvements": 3,
+  "usd_per_improvement": 0.160254,
+  "tokens_per_improvement": 19916,
+  "auc": 0.476036,
+  "auc_gain": 0.161855,
+  "flags": [],
+  "wall_s": 3.6,
+  "status": "ok",
+  "arm_result": "budget",
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.4,
+      "incumbent_public": 0.37485287701830405,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.14389,
+      "budget_frac": 0.28778,
+      "tokens": 17353,
+      "wall_s": 1.5,
+      "incumbent_public": 0.5060805026703916,
+      "incumbent_hidden": null,
+      "sha": "1a11e994113622b9"
+    },
+    {
+      "spent_usd": 0.255862,
+      "budget_frac": 0.511724,
+      "tokens": 31895,
+      "wall_s": 2.3,
+      "incumbent_public": 0.5106258743413197,
+      "incumbent_hidden": null,
+      "sha": "10871cb842fb340f"
+    },
+    {
+      "spent_usd": 0.293188,
+      "budget_frac": 0.586376,
+      "tokens": 36522,
+      "wall_s": 2.5,
+      "incumbent_public": 0.5239253260162612,
+      "incumbent_hidden": null,
+      "sha": "202c1aea34fec349"
+    }
+  ]
+}

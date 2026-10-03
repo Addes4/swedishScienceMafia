@@ -4,6 +4,14 @@
     evals.jsonl   every program evaluation: public score, validity, hidden-instance scores
     events.jsonl  arm events; arms that choose their incumbent explicitly log "incumbent" events
 
+Completion. A run is budget-matched ("budget") only if its budget was used up (the guard refused a
+call because the cap could not pay for it) before any API error. A run with an API error first is
+"truncated_api_error"; its valid part is everything before the first error, and valid_spend_usd
+is what it had spent by then. A run without a run_end event was stopped from outside
+("incomplete"); one that ended for another reason (wall clock, iteration limit) is "stopped_early".
+Truncated runs must not be compared with complete ones at the full budget; compare them at a
+spend checkpoint below every run's valid spend (score_at, auc_to).
+
 The incumbent is the program the arm would submit. Arms that log incumbent events (lean) are
 taken at their word; for the others it is the best valid program by public score so far, which
 is exactly how ShinkaEvolve and triage pick their best. Spend at an evaluation is the total of
@@ -11,16 +19,23 @@ all calls settled before the evaluation finished.
 """
 import bisect
 import csv
+import gzip
 import json
 from pathlib import Path
 
 
 def load_jsonl(path):
+    """Read a JSON-lines log, or its gzipped copy (path + '.gz') if only that exists."""
     path = Path(path)
-    if not path.exists():
+    gz = path.with_name(path.name + ".gz")
+    if path.exists():
+        text = path.read_text()
+    elif gz.exists():
+        text = gzip.decompress(gz.read_bytes()).decode()
+    else:
         return []
     out = []
-    for line in path.read_text().splitlines():
+    for line in text.splitlines():
         line = line.strip()
         if line:
             try:
@@ -96,7 +111,7 @@ def summarize(run_dir) -> dict:
         usd, tokens = spend.at(t)
         hidden = by_sha.get(sha, {}).get("hidden_mean")
         curve.append({"spent_usd": round(usd, 6), "budget_frac": round(usd / cap, 6) if cap else None,
-                      "tokens": int(tokens), "wall_s": round(t - t0, 1), "incumbent_public": score,
+                      "tokens": int(tokens), "wall_s": round(t - t0, 1), "t": t, "incumbent_public": score,
                       "incumbent_hidden": hidden, "sha": sha})
     initial = curve[0] if curve else None
     final = curve[-1] if curve else None
@@ -109,6 +124,22 @@ def summarize(run_dir) -> dict:
     calls = [r for r in usage if r.get("event") == "call"]
     end = next((e for e in reversed(events) if e.get("event") in ("run_end",)), {})
     last_t = max([r["t"] for r in usage + evals + events] or [t0])
+    errors = sorted((r for r in calls if r.get("error")), key=lambda r: r["t"])
+    t_err = errors[0]["t"] if errors else None
+    t_cap = min((r["t"] for r in usage if r.get("event") == "refused" and "cap cannot pay" in (r.get("reason") or "")),
+                default=None)
+    if t_err is not None and (t_cap is None or t_err < t_cap):
+        completion = "truncated_api_error"
+    elif not end:
+        completion = "incomplete"
+    elif t_cap is not None:
+        completion = "budget"
+    else:
+        completion = "stopped_early"
+    spend_at_err = None
+    if t_err is not None:
+        spend_at_err = sum(r.get("cost_usd") or 0 for r in usage
+                           if r.get("event") in ("call", "external") and r["t"] < t_err and not r.get("error"))
     return {
         "job_id": job.get("job_id"), "arm": job.get("arm"), "arm_type": (job.get("arm_config") or {}).get("type"),
         "problem": job.get("problem"), "seed": job.get("seed"), "mock": job.get("mock"),
@@ -141,8 +172,35 @@ def summarize(run_dir) -> dict:
         "record_flags": [dict(f, sha=e["sha"]) for e in evals for f in (e.get("record_flags") or [])],
         "wall_s": round(last_t - t0, 1),
         "status": end.get("status"), "arm_result": end.get("arm_result"),
+        "completion": completion,
+        "first_error": errors[0]["error"][:200] if errors else None,
+        "first_error_t": t_err,
+        "spend_at_first_error_usd": round(spend_at_err, 6) if spend_at_err is not None else None,
+        "valid_spend_usd": round(spend_at_err if completion == "truncated_api_error" else total_usd, 6),
         "curve": curve,
     }
+
+
+def valid_curve(summary: dict):
+    """Curve points recorded before the run's first API error (all points for complete runs)."""
+    t_err = summary.get("first_error_t")
+    return [c for c in summary["curve"] if t_err is None or c.get("t") is None or c["t"] < t_err]
+
+
+def score_at(summary: dict, usd: float):
+    """Incumbent public score when the run had spent `usd` (None if the run is not valid that far)."""
+    if summary.get("valid_spend_usd") is None or summary["valid_spend_usd"] < usd - 1e-12:
+        return None
+    pts = [c for c in valid_curve(summary) if c["spent_usd"] <= usd + 1e-12]
+    return pts[-1]["incumbent_public"] if pts else None
+
+
+def auc_to(summary: dict, usd: float):
+    """Mean incumbent score over spend [0, usd] (step function), or None if not valid that far."""
+    if usd <= 0 or score_at(summary, usd) is None:
+        return None
+    pts = [(c["spent_usd"], c["incumbent_public"]) for c in valid_curve(summary) if c["spent_usd"] <= usd + 1e-12]
+    return area(pts, usd, pts[0][1])
 
 
 def _counts(values):

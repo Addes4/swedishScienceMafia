@@ -1,0 +1,76 @@
+{
+  "job_id": "independent__sum_difference__s2",
+  "arm": "independent",
+  "arm_type": "independent",
+  "problem": "sum_difference",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.566088,
+  "within_cap": true,
+  "tokens": 73524,
+  "calls": 30,
+  "failed_calls": 6,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 24,
+    "None": 6
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 30
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 0.566088
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 25,
+  "valid_evals": 25,
+  "initial_public": 0.887449398787755,
+  "initial_hidden": null,
+  "final_public": 0.9469478674107464,
+  "final_hidden": null,
+  "final_sha": "70e82de1e2f3fd8c",
+  "max_public_seen": 0.9469478674107464,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.566088,
+  "tokens_per_improvement": 73524,
+  "auc": 0.94557,
+  "auc_gain": 0.516391,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1085.3,
+  "status": "ok",
+  "arm_result": "api_errors",
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056133.9206145,
+  "spend_at_first_error_usd": 0.566088,
+  "valid_spend_usd": 0.566088,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 20.6,
+      "t": 1791055340.1040995,
+      "incumbent_public": 0.887449398787755,
+      "incumbent_hidden": null,
+      "sha": "ed99a0dcac7a33cc"
+    },
+    {
+      "spent_usd": 0.025482,
+      "budget_frac": 0.023165,
+      "tokens": 3253,
+      "wall_s": 45.4,
+      "t": 1791055364.9789534,
+      "incumbent_public": 0.9469478674107464,
+      "incumbent_hidden": null,
+      "sha": "70e82de1e2f3fd8c"
+    }
+  ]
+}

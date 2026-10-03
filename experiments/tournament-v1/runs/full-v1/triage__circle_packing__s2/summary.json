@@ -1,0 +1,89 @@
+{
+  "job_id": "triage__circle_packing__s2",
+  "arm": "triage",
+  "arm_type": "triage",
+  "problem": "circle_packing",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 1.028452,
+  "within_cap": true,
+  "tokens": 95581,
+  "calls": 14,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "end_turn": 14
+  },
+  "calls_by_model": {
+    "claude-opus-5-5": 8,
+    "claude-sonnet-5-5": 2,
+    "claude-haiku-4-5": 4
+  },
+  "usd_by_model": {
+    "claude-haiku-4-5": 0.067393,
+    "claude-opus-5-5": 0.851804,
+    "claude-sonnet-5-5": 0.107842
+  },
+  "external_usd": 0.00141321,
+  "idea_calls": 2,
+  "truncated_calls": 0,
+  "shortened_calls": 4,
+  "retries": 0,
+  "evals": 13,
+  "valid_evals": 11,
+  "initial_public": 0.3937715968177443,
+  "initial_hidden": null,
+  "final_public": 0.9999999999901417,
+  "final_hidden": null,
+  "final_sha": "14945b6ebf21359b",
+  "max_public_seen": 0.9999999999990279,
+  "hidden_of_max_public_seen": null,
+  "improvements": 2,
+  "usd_per_improvement": 0.514226,
+  "tokens_per_improvement": 47790,
+  "auc": 0.765522,
+  "auc_gain": 0.613219,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 842.6,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 1.028452,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.5,
+      "t": 1791055313.7769356,
+      "incumbent_public": 0.3937715968177443,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.425459,
+      "budget_frac": 0.386781,
+      "tokens": 32683,
+      "wall_s": 266.0,
+      "t": 1791055579.2757213,
+      "incumbent_public": 0.9993586139145986,
+      "incumbent_hidden": null,
+      "sha": "a6c600cd54fdb7bc"
+    },
+    {
+      "spent_usd": 0.425459,
+      "budget_frac": 0.386781,
+      "tokens": 32683,
+      "wall_s": 363.8,
+      "t": 1791055677.1170652,
+      "incumbent_public": 0.9999999999901417,
+      "incumbent_hidden": null,
+      "sha": "14945b6ebf21359b"
+    }
+  ]
+}

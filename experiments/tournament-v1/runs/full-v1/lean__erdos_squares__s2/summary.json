@@ -1,0 +1,86 @@
+{
+  "job_id": "lean__erdos_squares__s2",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "erdos_squares",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.190098,
+  "within_cap": true,
+  "tokens": 24829,
+  "calls": 9,
+  "failed_calls": 6,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 3,
+    "None": 6
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 9
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 0.190098
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 4,
+  "valid_evals": 4,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.9999999983993784,
+  "final_hidden": 0.9999999928231869,
+  "final_sha": "45a3551a2c753fce",
+  "max_public_seen": 0.9999999983993784,
+  "hidden_of_max_public_seen": 0.9999999928231869,
+  "improvements": 2,
+  "usd_per_improvement": 0.095049,
+  "tokens_per_improvement": 12414,
+  "auc": 0.993537,
+  "auc_gain": 0.955066,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1243.3,
+  "status": "ok",
+  "arm_result": "api_errors",
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056287.5978878,
+  "spend_at_first_error_usd": 0.190098,
+  "valid_spend_usd": 0.190098,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 2.5,
+      "t": 1791055318.0922832,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.044056,
+      "budget_frac": 0.040051,
+      "tokens": 5168,
+      "wall_s": 39.4,
+      "t": 1791055355.0450432,
+      "incumbent_public": 0.992100492100492,
+      "incumbent_hidden": 0.9904041016519793,
+      "sha": "aab61535df7c28b1"
+    },
+    {
+      "spent_usd": 0.141856,
+      "budget_frac": 0.12896,
+      "tokens": 16732,
+      "wall_s": 413.0,
+      "t": 1791055728.6293583,
+      "incumbent_public": 0.9999999983993784,
+      "incumbent_hidden": 0.9999999928231869,
+      "sha": "45a3551a2c753fce"
+    }
+  ]
+}
