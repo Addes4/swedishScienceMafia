@@ -3,6 +3,72 @@
 Our entry for Track 1, *Build Your Own Algorithm Autoresearch Framework*, at the AI x
 Science Hackathon (London, 3–4 October 2026).
 
+## Quick start
+
+One command runs the whole research loop on any problem folder and writes a report.
+
+```bash
+pip install -r requirements.txt
+python -m autoresearch.loop problems/erdos_squares --mock                            # no network, no cost, seconds
+python -m autoresearch.loop problems/bin_packing_online --budget 0.10 --provider hf  # live, hard $0.10 cap
+python -m autoresearch.loop --report runs/<dir>                                      # rebuild the report of a saved run
+```
+
+A live run on the Hugging Face router (default model `deepseek-ai/DeepSeek-V4.1-Flash:deepinfra`)
+reads `HF_TOKEN` or `~/.cache/huggingface/token`; `--provider anthropic` uses `ANTHROPIC_API_KEY`
+from `.env`. Each run writes `runs/<problem>-<time>/report.md`. Committed examples:
+[runs/demo-binpacking/report.md](runs/demo-binpacking/report.md) (live) and
+[runs/demo-erdos-mock/report.md](runs/demo-erdos-mock/report.md) (mock).
+
+### What one run does
+
+Every default is the setting that won one of our controlled experiments; the rest are flags.
+
+1. **Propose and implement.** One LLM call per step edits the current best program (`lean`). In
+   [tournament-v1](experiments/tournament-v1/RESULTS.md) the single-model loops were ahead of
+   ShinkaEvolve and triage at a common early spend (partial study: 17 of 60 runs complete).
+2. **Score** in the [integrity gate](autoresearch/gate.py): separate process, static scan, strict
+   re-check of record scores, hidden instances. None of 68 exploit attempts gained a material
+   unearned score ([gate-redteam-v1](experiments/gate-redteam-v1/RESULTS.md)).
+3. **Keep** a candidate only if its public score improves and it does not regress on instances where
+   earlier candidates regressed (Falsify's archive, used as a gate:
+   [gate-v3](experiments/gate-v3/RESULTS.md); as prompt memory it mostly produced no-op proposals,
+   [memory-ablation-v1](experiments/memory-ablation-v1/RESULTS.md)).
+4. **Audit** the final program on hidden instances that are never used for selection, and flag
+   `OVERFIT?` if the public score rose while the hidden score fell. Hidden instances caught a
+   program at 0.960 public and 0.238 hidden in [tournament-v2](experiments/tournament-v2/RESULTS.md).
+5. **Explain** it by two-sided ablation ([explain_code.py](autoresearch/explain_code.py)): a part is
+   dropped only if the score stays within ±0.002 *on both sides*, so the explanation describes the
+   program actually found. One-sided simplification repaired 21 of 43 worse candidates toward
+   best-fit in [simplify-v1](experiments/simplify-v1/EXPERIMENT.md); here a removal that raises the
+   score is labelled `REPAIRED (not an explanation)`. Program simplification itself is standard in
+   genetic programming (survey: Javed, Gobet and Lane 2022).
+6. **Compare** with the problem's baselines on the same public and hidden instances. Cheap baselines
+   can match FunSearch ([bp-ceiling-v1](experiments/bp-ceiling-v1/RESULTS.md)), so a gain is
+   stated against them.
+
+Off by default, available as flags or modules:
+
+| Option | Why it is off |
+|---|---|
+| `--patience T` (Strategist's restart rule) | Wins on Strategist's benchmarks, but inside an LLM loop it was only tested in the partial tournament, where lean with gate and patience was not significantly ahead of ShinkaEvolve (+0.195, Holm p = 0.070) |
+| `--independent` (no history, no parent) | About as good as lean in tournament-v1 (+0.209 vs +0.233); lean leaves an edit trail that the report and the explanation can follow |
+| triage (`python -m autoresearch.triage`) | Ranking ideas did not beat random tiers in the [idea table](experiments/idea-table-v1/RESULTS.md); Sonnet on every idea was best per dollar |
+| prompt memory of failures | Did not improve the audited result and made the model propose no-op changes ([memory-ablation-v1](experiments/memory-ablation-v1/RESULTS.md)) |
+| `--no-gate` | For problems with one public instance the gate has nothing to archive; elsewhere it is on |
+
+All flags: `python -m autoresearch.loop --help` and [autoresearch/README.md](autoresearch/README.md#one-command-loop).
+
+### Add a problem
+
+Add a folder under `problems/` with `problem.md`, `initial.py`, `evaluate.py` and `verify.py`
+([contract](problems/README.md)); the loop needs no changes. Optionally add `baselines/*.py`, each
+an ordinary candidate program, and the report scores them on the same instances. Online problems
+use the gate's online mode, which calls the candidate once per arriving item so it cannot look
+ahead; [problems/bin_packing_online](problems/bin_packing_online/) is the example.
+
+## The parts and the experiments behind them
+
 An autoresearch loop proposes candidate algorithms, evaluates them, keeps what works and
 proposes again. We built four pieces of such a loop. Each one targets a way these loops
 fool themselves, and each was tested in its own controlled experiment:
@@ -25,7 +91,9 @@ fool themselves, and each was tested in its own controlled experiment:
 ```
 
 The parts share one experimental discipline, and Falsify, Simplify and Strategist share
-the bin-packing evaluator. They are not yet wired into one pipeline. On the night of
+the bin-packing evaluator. `autoresearch.loop` ([Quick start](#quick-start)) wires the
+pieces that won their experiments into one command; the others stay available as flags or
+separate modules. On the night of
 3 October, six follow-up experiments tested them with real LLM calls, stronger baselines
 and a new bin-packing benchmark with room to improve ([below](#overnight-experiments-3-october)).
 
@@ -96,14 +164,14 @@ the math problems come from Georgiev, Gómez-Serrano, Tao and Wagner (2025).
 which of our results are new, which independently reproduce published findings, and what
 the literature implies for each part.
 
-## Quick start
+## Run the individual parts
 
 You need Python 3.10+ (we used 3.12) and a C++17 compiler (`c++`); the first run compiles
 small evaluators. Run everything from the repository root.
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests -q                                 # 175 tests, no API calls
+python -m pytest tests -q                                 # 182 tests, no API calls
 python3 -m strategist.demo --benchmark labs --seed 1000   # one research run, narrated
 python3 -m falsify.pilot --out experiments/my-pilot        # evaluate hypotheses, shrink failures
 python3 -m falsify.simplify --out experiments/my-simplify  # simplify and explain (~25 s)
@@ -125,14 +193,11 @@ python -m autoresearch.triage problems/erdos_squares --rounds 10 --budget 10
 The starting programs for circle packing and Erdős discrepancy are unseeded and random,
 so `check --all` gives slightly different scores for them on each run.
 
-## Add a problem
+## Add a problem to the other parts
 
+- **Autoresearch loop and triage:** see [Add a problem](#add-a-problem) above.
 - **Strategist:** subclass `Problem` in [strategist/problems.py](strategist/problems.py)
   (five methods: random, score, edit, rewrite, crossover).
-- **Autoresearch:** add a folder under [problems/](problems/README.md) with `problem.md`,
-  `initial.py`, `evaluate.py` and `verify.py`. The framework itself needs no changes. For
-  online problems, the gate's online mode calls the candidate once per arriving item, so it
-  cannot look ahead; [problems/bin_packing_online](problems/bin_packing_online/) is the example.
 - **Falsify:** the evaluator is specific to bin packing for now; new item families go in
   `instance()` in [falsify/core.py](falsify/core.py).
 
@@ -141,10 +206,11 @@ so `check --all` gives slightly different scores for them on each run.
 ```
 falsify/        bin-packing evaluators (C++), replay/gate/soft-gate search, simplify, closed LLM loop
 strategist/     adaptive strategy controller (v1, v2), benchmarks, forks, stats, report
-autoresearch/   triage loop, rankers, Claude client, integrity gate, spend cap, idea table
+autoresearch/   one-command loop, explanation, triage loop, rankers, integrity gate, idea table
 tournament/     whole-framework comparison on Modal at equal dollar budgets
 problems/       circle packing, Erdős squares, Erdős discrepancy, sum-difference, online bin packing
 experiments/    one folder per experiment: protocol, config, traces, audits, source snapshot
+runs/           committed example runs of autoresearch.loop (other runs are git-ignored)
 tests/          all tests
 output/pdf/     experiment review and addenda
 context/        hackathon brief, website text, the supplied papers and a literature review

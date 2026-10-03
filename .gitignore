@@ -14,3 +14,7 @@ falsify/_longpack.so
 
 # Papers downloaded by context/fetch_papers.py (not redistributable; see context/related-work.md)
 context/related-papers/
+
+# Runs of `python -m autoresearch.loop`; only the committed demo runs are tracked
+runs/*
+!runs/demo-*/
