@@ -50,8 +50,14 @@ def main():
         'Codex proposed seven hypotheses, inspected measured failures, and proposed six revisions plus a best-fit control. The reserve-quarter heuristic uses 3 bins for [63,44,32,56], while best-fit uses 2. The revised moderate tight-or-roomy heuristic fixes this case.','',
         'Its exploratory selection result was one win and no losses on 1,000 cases. The independent 10,000-case audit found 3 wins, 14 losses, and 9,983 ties: mean excess 0.0011 bins. This rejects a broad improvement claim despite the attractive pilot result.','',
         '## Recovery from first-fit','',
-        f'The initial first-fit policy averaged {firstfit_gap:.6f} excess bins over best-fit on its audit suite. After 200 generations / 20 paired seeds, final excess was '+', '.join(f'{a["arm"]}: {a["mean_excess_bins"]:.6f}' for a in summaries['local-firstfit']['arms'])+'. All arms improved the weak starting policy; none beat best-fit overall.','',
-        '## Limitations and next experiment','',
+        f'The initial first-fit policy averaged {firstfit_gap:.6f} excess bins over best-fit on its audit suite. After 200 generations / 20 paired seeds, final excess was '+', '.join(f'{a["arm"]}: {a["mean_excess_bins"]:.6f}' for a in summaries['local-firstfit']['arms'])+'. All arms improved the weak starting policy; none beat best-fit overall.','']
+    recovery=summaries['local-firstfit']['paired_comparisons']
+    for c in recovery:
+        lo,hi=c['bootstrap_95_interval']
+        lines.append(f'- {c["arm_minus_random"]} minus random: {c["mean"]:.6f} bins; paired seed bootstrap 95% interval [{lo:.6f}, {hi:.6f}].')
+    if all(c['bootstrap_95_interval'][1]<0 for c in recovery):
+        lines+=['','Both intervals exclude zero: at equal search budgets, the counterexample arms recovered closer to best-fit than random replay.']
+    lines+=['','## Limitations and next experiment','',
         '- The candidate language is 12 weighted features, not arbitrary algorithm code. Its expressive power and best-fit warm start constrain discovery.',
         '- Counterexamples are prioritized by the largest historical observed regression, so archive relevance can become stale.',
         '- Changing the replay distribution is part of the treatment; this does not isolate explanatory memory in LLM prompts.',

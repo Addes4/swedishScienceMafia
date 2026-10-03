@@ -164,6 +164,11 @@ All arms improved the weak starting point. Counterexample arms recovered more
 reliably, but none beat best-fit overall. Each arm used 38,400 search executions
 per seed.
 
+Paired seed bootstrap intervals (recorded in `local-firstfit/summary.json`, added
+to this handoff later): counterexample minus random -0.010625 bins
+[-0.018187, -0.003188]; tail minus random -0.011813 bins [-0.018812, -0.005000].
+Both exclude zero.
+
 ### Codex-guided pilot and revision
 
 Codex proposed seven initial candidates, including a best-fit control, before

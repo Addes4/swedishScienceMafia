@@ -27,6 +27,11 @@ Its exploratory selection result was one win and no losses on 1,000 cases. The i
 
 The initial first-fit policy averaged 0.327500 excess bins over best-fit on its audit suite. After 200 generations / 20 paired seeds, final excess was random_replay: 0.016000, counterexample_replay: 0.005375, counterexample_tail: 0.004188. All arms improved the weak starting policy; none beat best-fit overall.
 
+- counterexample_replay minus random: -0.010625 bins; paired seed bootstrap 95% interval [-0.018187, -0.003188].
+- counterexample_tail minus random: -0.011813 bins; paired seed bootstrap 95% interval [-0.018812, -0.005000].
+
+Both intervals exclude zero: at equal search budgets, the counterexample arms recovered closer to best-fit than random replay.
+
 ## Limitations and next experiment
 
 - The candidate language is 12 weighted features, not arbitrary algorithm code. Its expressive power and best-fit warm start constrain discovery.
