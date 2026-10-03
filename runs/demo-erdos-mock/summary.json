@@ -1,0 +1,67 @@
+{
+  "job_id": "loop__erdos_squares__s0",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "/Users/adriansohrabi/Documents/GitHub/swedishScienceMafia-one-command/problems/erdos_squares",
+  "seed": 0,
+  "mock": true,
+  "cap_usd": 0.1,
+  "spent_usd": 0.024079,
+  "within_cap": true,
+  "tokens": 47381,
+  "calls": 12,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 12
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 12
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.024079
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 13,
+  "valid_evals": 10,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.8561716061716061,
+  "final_hidden": 0.9127792599779017,
+  "final_sha": "5ca1aa946ee89389",
+  "max_public_seen": 0.8561716061716061,
+  "hidden_of_max_public_seen": 0.9127792599779017,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.856172,
+  "auc_gain": 0.0,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 2.7,
+  "status": "ok",
+  "arm_result": "max_iters",
+  "completion": "stopped_early",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.024079,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.6,
+      "t": 1791067766.285677,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    }
+  ]
+}

@@ -59,6 +59,7 @@ answering one design question for the final framework.
 | 23:25 | At the user's request the branch was pushed and PR #3 opened. A pre-push scan found no keys or email addresses; the largest file is 1.6 MB. |
 | 23:30-23:40 | Asked what is new and what remains open, the coordinator searched arXiv (15 queries) for papers on the five open questions and wrote [context/related-work-addendum.md](../context/related-work-addendum.md). It is based on abstracts only. Main changes: frame the cheap-formula result as the extreme case of separating structure from tuning (LLaMEA-HPO, TIDE). Read the memory null against failure feedback that explains where and why (Karimi et al., MOSAIC). |
 | 23:47 | Correction: the last four entries' times were first written as 00:00–00:45 (the coordinator assumed it was past midnight without checking). They were fixed from git commit times, and the addendum's "4 October" date was changed to 3 October. |
+| 23:39-23:55 | One-command loop, built from the spec the user pasted, on branch `feat/one-command` (worktree `../swedishScienceMafia-one-command`, from `consolidate-overnight`). `python -m autoresearch.loop` wraps `tournament.run` (lean arm, gate on, hard cap, mock API), then audits the final program on hidden instances, scores `problems/<name>/baselines/*.py` with the same gate (FunSearch's two heuristics for bin packing), explains the program by two-sided ablation (`autoresearch/explain_code.py`) and writes `report.md`. One correction to the spec's evidence table: in tournament-v1 the arm ahead of ShinkaEvolve was plain lean without the gate, so the README credits the gate to Falsify's gate-v3, not to the tournament. 182 tests pass. Live demo ([runs/demo-binpacking](../runs/demo-binpacking/report.md)): 8 DeepSeek-V4.1-Flash steps for $0.0038; nothing beat best fit (7 of 8 proposals packed exactly like it). Mock demo on Erdős squares in 4 s. Decisions, bugs, limitations and the spec verbatim: [autoresearch/LOOP.md](../autoresearch/LOOP.md). Latest `consolidate-overnight` merged in. Pushed at the user's choice as PR #4 on top of PR #3, after a key scan of the diff and of the runs' archives. |
 
 ## Incidents
 
@@ -88,7 +89,8 @@ answering one design question for the final framework.
 | tournament-v1 and v2 | $41.86 ($40.23 full grid, $0.96 smoke, $0.67 check) | $7.47 (billing report, both versions; the last hour may be incomplete) | Jev $0.011; HF $0.1408 (v2 smoke) |
 | strategist-v2 | $0 | $0.33 | - |
 | gate-redteam | $0.21 | $0 | - |
-| **Total** | **≈ $65.6** | **≈ $9.0** | HF ≈ $0.14 |
+| one-command demo (`runs/demo-binpacking`) | $0 | $0 | HF $0.0038 |
+| **Total** | **≈ $65.6** | **≈ $9.0** | HF ≈ $0.145 |
 
 Claude Code agent usage is not in this table; it was not metered separately.
 
@@ -125,7 +127,7 @@ All three are fixed on `consolidate-overnight`, not yet on `main`.
 | Rerun tournament-v1's 43 truncated runs | `modal run --detach tournament/modal_app.py --grid experiments/tournament-v1/grids/rerun.json --experiment-cap 90`, then `python -m tournament.pull full-v1-rerun` and `tournament.report` (see tournament-v1 RESULTS.md) | Anthropic credit, ≤ $47.30 |
 | Strategist with measured LLM costs | Fill `experiments/strategist-v2/costs/measured_llm.json`, then `python -m strategist.v2 confirm --costs measured --modal` | Measured cost ratios |
 | Publish the consolidation | Pushed `consolidate-overnight` and opened [PR #3](https://github.com/swedishScienceMafia/swedishScienceMafia/pull/3) into `main` (not merged) | Team review |
-| One runnable framework | A single command that runs the LLM loop under the integrity gate with a spend cap, then a fresh audit and comparison with the cheap baselines | Owner |
+| One runnable framework | Built: `python -m autoresearch.loop` on branch `feat/one-command` (see the 23:39 entry and [runs/README.md](../runs/README.md) for the demo plan). At the user's choice, pushed and opened as [PR #4](https://github.com/swedishScienceMafia/swedishScienceMafia/pull/4) into `consolidate-overnight` (on top of PR #3) | Team review, then merge into PR #3 |
 | Submission | Video of at most 4 minutes, repo URL and short description to admin@algorithmdiscovery.org by 14:45 on 4 Oct; code freeze 10:30. Draft description, video outline and Q&A are in `output/pitch-draft.md` | Owner |
 | Review PDF | PR #2 (`refresh-review-pdf`) is open and predates the overnight experiments | Team |
 | Devin | Check the session; it may lack access to the GitHub org | User |

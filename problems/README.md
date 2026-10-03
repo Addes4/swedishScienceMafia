@@ -24,6 +24,8 @@ problems/<name>/
   initial.py    seed program; the evolvable part sits between EVOLVE-BLOCK-START / EVOLVE-BLOCK-END
   evaluate.py   ShinkaEvolve entry point (identical in every folder; calls autoresearch.gate)
   verify.py     scoring and integrity checks; never shown to the LLM
+  baselines/    optional: *.py candidate programs that `autoresearch.loop` scores on the same
+                instances and reports next to the search result (never shown to the LLM)
 ```
 
 `verify.py` defines (all scores higher-is-better):
@@ -66,6 +68,7 @@ FunSearch's `priority(item, bins)` and the driver applies it per arriving item.
 
 ```bash
 pip install -r requirements.txt
+python -m autoresearch.loop problems/erdos_squares --mock            # the whole loop, no network, no cost
 python -m autoresearch.check --all                                   # score every initial.py, no LLM
 python -m autoresearch.check problems/erdos_squares my_program.py     # score any program
 python -m pytest tests/ -q                                            # integrity gate tests
@@ -79,3 +82,6 @@ reject, and does not know their prices).
 
 Credits: ShinkaEvolve (Sakana AI, Apache-2.0); problem statements, scoring rules and the n = 26
 circle construction from the AlphaEvolve problem repository (Apache-2.0 / CC-BY 4.0).
+`problems/bin_packing_online/baselines/` holds FunSearch's published OR and Weibull heuristics,
+verbatim from github.com/google-deepmind/funsearch (Copyright 2023 DeepMind Technologies Limited,
+Apache-2.0); best fit is `initial.py`.

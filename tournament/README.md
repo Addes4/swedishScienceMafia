@@ -93,7 +93,7 @@ folder under [problems/](../problems/README.md) named in a grid's `"problems"`.
 | File | Role |
 |---|---|
 | `modal_app.py`, `grid.py`, `pull.py` | Launch a grid on Modal, check its caps, pull results back |
-| `run.py`, `context.py`, `arms.py`, `lean.py` | One job; what an arm receives; the arm adapters; the lean and independent loops |
+| `run.py`, `context.py`, `arms.py`, `lean.py` | One job; what an arm receives; the arm adapters; the lean and independent loops. `autoresearch/loop.py` runs its search as one `run.py` job and wraps `Context.event` to print steps, so changes here affect it |
 | `budget.py`, `guard.py`, `hf.py` | Dollar cap, routing every SDK call through it, the Hugging Face router client |
 | `evallog.py`, `shinka_eval.py` | One logged integrity-gate evaluation per program |
 | `metrics.py`, `report.py` | Curves, area under the curve, paired comparisons, the report |
