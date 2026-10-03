@@ -1,0 +1,19 @@
+{
+  "cell": "i036__sonnet__r0",
+  "idea_id": "i036",
+  "idea": "Upper-bound-pruned exhaustive search for small n (\u226420): enumerate axis-aligned dissections in bottom-left skyline order with side choices from {i/L : L\u226412}. Prune with the Cauchy\u2013Schwarz bound sum \u2264 current + \u221a(m\u00b7remaining area) and with the best known lower bound, so the exact discrete optimum is found within the time limit.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055405.1764648,
+  "cost": 0.041612,
+  "input_tokens": 966,
+  "output_tokens": 3968,
+  "llm_seconds": 33.3,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "20af60fe4c5e8e54e479bd0253cfefdbd34b24631a8e3940adfac09c9d741f87"
+}

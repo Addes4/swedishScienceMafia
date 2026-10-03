@@ -134,3 +134,35 @@ def test_end_to_end_mock(tmp_path):
         assert np.isnan(a) or 0.0 <= a <= 1.0
     md = report(result, data_summary(data))
     assert "Policies over the whole pool" in md
+
+
+class CreditOut:
+    """Wraps MockClaude; after `ok` calls every call fails like an exhausted API account."""
+
+    def __init__(self, ok):
+        from autoresearch.mock_claude import MockClaude
+        self.inner, self.ok, self.n = MockClaude(), ok, 0
+
+    def call(self, *a, **k):
+        self.n += 1
+        if self.n > self.ok:
+            raise RuntimeError("Error code: 400 - Your credit balance is too low to access the Anthropic API.")
+        return self.inner.call(*a, **k)
+
+
+def test_billing_stop_and_fill(tmp_path):
+    t = IdeaTable(tmp_path / "exp", mock=True, cap=40.0)
+    t.generate_ideas(calls=2, k=6)
+    t.run_rankers(["random"], n=6)
+    t2 = IdeaTable(tmp_path / "exp", client=CreditOut(ok=4), cap=40.0)
+    t2.implement(t2.main_cells(0, 6), workers=1)
+    recs = [json.loads(p.read_text()) for p in (tmp_path / "exp" / "cells").glob("*/call.json")]
+    assert sum(r["status"] == "api_error" for r in recs) == 1          # the run stops at the first billing error
+    assert all(r["billing_failures"] == 1 for r in recs if r["status"] == "api_error")
+    est = t.fill_estimate(replicates=3)
+    assert est["cells"] == 6 * 3 - 4 + 3                               # billing failures do not use up retries
+    t3 = IdeaTable(tmp_path / "exp", mock=True, cap=40.0)
+    t3.fill(replicates=3, workers=2, host="local")
+    assert t3.fill_estimate(replicates=3)["cells"] == 0
+    rows = [json.loads(l) for l in (tmp_path / "exp" / "table.jsonl").read_text().splitlines()]
+    assert len(rows) == 21 and not any(r["outcome"] in ("api_error", "pending_eval") for r in rows)

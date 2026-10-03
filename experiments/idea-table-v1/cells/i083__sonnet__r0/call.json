@@ -1,0 +1,19 @@
+{
+  "cell": "i083__sonnet__r0",
+  "idea_id": "i083",
+  "idea": "Add an active-set rational reconstruction post-processor. After any continuous (SLSQP/penalty) optimisation, detect the near-active contacts (gap < 1e-7) and solve the resulting linear equality system exactly in Fractions to recover the exact rational optimum. Accept it if exact verification passes, so optimiser noise neither costs score nor causes invalid overlaps.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055955.3695822,
+  "cost": 0.052682,
+  "input_tokens": 966,
+  "output_tokens": 5075,
+  "llm_seconds": 44.83,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "9ba91ed603cbd24a7d050e29301ecd202810bcd46f7e8b86bf289ff780f96963"
+}

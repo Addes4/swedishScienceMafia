@@ -1,0 +1,19 @@
+{
+  "cell": "i031__sonnet__r0",
+  "idea_id": "i031",
+  "idea": "Exact rectangle table g(p,q,m): for integer rectangles p\u00d7q up to about 12 and counts m up to n, store the best sum from a single square, a uniform grid, or one guillotine cut. Compute it with memoised DP in exact Fractions. The unit square is then filled by trying every split of the 1\u00d71 board at rational cut positions with denominators up to 12, which captures nested L-shapes and asymmetric cuts in one table.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055949.669717,
+  "cost": 0.054408,
+  "input_tokens": 984,
+  "output_tokens": 5244,
+  "llm_seconds": 42.51,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "aa006e1ea03038a39f3f44aaee75af0395bfc24bf1dd963b791f29ff42c64a8b"
+}

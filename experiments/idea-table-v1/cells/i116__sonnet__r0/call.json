@@ -1,0 +1,19 @@
+{
+  "cell": "i116__sonnet__r0",
+  "idea_id": "i116",
+  "idea": "Run a small exact integer-board DP (a skyline or profile DP on an L\u00d7L board, L \u2264 10, with square sides 1..L). The DP tracks the best sum for every count, so the true optimal axis-aligned integer dissection is found for small n. Prune it with a time cap and keep it as one of the candidates.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056057.171797,
+  "cost": 0.043338,
+  "input_tokens": 944,
+  "output_tokens": 4145,
+  "llm_seconds": 35.31,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "4b516c530361932b00e376fe43c9b2ad1717e5a951f3f32e1ceaa55c478217a6"
+}

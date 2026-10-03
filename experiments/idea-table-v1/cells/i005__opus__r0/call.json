@@ -1,0 +1,19 @@
+{
+  "cell": "i005__opus__r0",
+  "idea_id": "i005",
+  "idea": "Recursive guillotine dynamic programming: f(rectangle a\u00d7b, count n) = best of placing a single square or making a vertical/horizontal cut and splitting n between the parts. Run it over a discretised set of rectangle dimensions, e.g. multiples of 1/(k\u00b7L), to discover axis-aligned packings better than the formula.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055369.448229,
+  "cost": 0.187624,
+  "input_tokens": 951,
+  "output_tokens": 9191,
+  "llm_seconds": 92.97,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "e5e9d082e2ce517422f24907750d932be9e827487ac1a9d74081d3af447a0ee6"
+}

@@ -1,0 +1,14 @@
+{
+  "cell": "i097__sonnet__r0",
+  "idea_id": "i097",
+  "idea": "Long shot \"tilted strip\" family: take k\u22121 rows of a k-grid of side 1/k and replace the final row with a strip of height h, holding k+1 squares rotated by \u03b8 and touching alternately the top and bottom. Shrink the other rows to height (1\u2212h)/(k\u22121). Solve the sum over (h, \u03b8) numerically with exact rotated-square containment, accepting only when it beats the axis-aligned value for that n.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 2,
+  "time": 1791056133.1839528,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9GaBrpdYNGVoR6v5L'}",
+  "cost": 0.0
+}

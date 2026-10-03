@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.37857142857142856,
+    "public": {
+      "n=5": 2.0,
+      "n=6": 2.0,
+      "n=7": 2.0,
+      "n=8": 2.0,
+      "n=11": null,
+      "n=12": null,
+      "n=13": null,
+      "n=14": null,
+      "n=15": null
+    },
+    "private": {
+      "hidden_normalized": [
+        0.952381,
+        0.888889,
+        0.842105,
+        0.967742
+      ],
+      "hidden_mean": 0.9127792599779017,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 2 (best known 2)\nn=6: score 2 (best known 2.33333)\nn=7: score 2 (best known 2.5)\nn=8: score 2 (best known 2.66667)\nn=11: invalid construction: square 2: every value must lie in [0, 1]\nn=12: invalid construction: square 2: every value must lie in [0, 1]\nn=13: invalid construction: square 2: every value must lie in [0, 1]\nn=14: invalid construction: square 2: every value must lie in [0, 1]\nn=15: invalid construction: square 2: every value must lie in [0, 1]"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 1.0,
+        "seconds": 0.002737675000000106,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.8571428571428571,
+        "seconds": 0.004721047000000089,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.8,
+        "seconds": 0.006396710999999833,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.75,
+        "seconds": 0.009618585000000124,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.022610949999999796,
+        "reason": "square 2: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=12",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.032376785999999935,
+        "reason": "square 2: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=13",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.039216080999999736,
+        "reason": "square 2: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=14",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0506443860000001,
+        "reason": "square 2: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=15",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.06288083799999988,
+        "reason": "square 2: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.9523809523809523,
+        "seconds": 0.08238951799999983,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.8888888888888888,
+        "seconds": 0.09808256899999979,
+        "reason": ""
+      },
+      {
+        "label": "n=23",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.8421052631578947,
+        "seconds": 0.10301865699999979,
+        "reason": ""
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 5.0,
+        "normalized": 0.9677419354838709,
+        "seconds": 0.13081814099999978,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 2.39,
+  "container_seconds": 2.39,
+  "host": "modal"
+}

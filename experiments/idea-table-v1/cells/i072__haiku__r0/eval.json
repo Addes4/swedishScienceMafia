@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.4978021978021978,
+    "public": {
+      "n=5": 2.0,
+      "n=6": 2.0,
+      "n=7": 2.0,
+      "n=8": null,
+      "n=11": 3.0,
+      "n=12": 3.0,
+      "n=13": null,
+      "n=14": null,
+      "n=15": null
+    },
+    "private": {
+      "hidden_normalized": [
+        0.952381,
+        0.0,
+        0.0,
+        0.967742
+      ],
+      "hidden_mean": 0.4800307219662058,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 2 (best known 2)\nn=6: score 2 (best known 2.33333)\nn=7: score 2 (best known 2.5)\nn=8: invalid construction: squares 0 and 4 overlap\nn=11: score 3 (best known 3.25)\nn=12: score 3 (best known 3.33333)\nn=13: invalid construction: squares 4 and 9 overlap\nn=14: invalid construction: squares 4 and 9 overlap\nn=15: invalid construction: squares 4 and 9 overlap"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 1.0,
+        "seconds": 0.00036282800000719817,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.8571428571428571,
+        "seconds": 0.0004819880000042076,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.8,
+        "seconds": 0.000498797999995304,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0004604879999874356,
+        "reason": "squares 0 and 4 overlap"
+      },
+      {
+        "label": "n=11",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.9230769230769231,
+        "seconds": 0.0007669759999942016,
+        "reason": ""
+      },
+      {
+        "label": "n=12",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.8999999999999999,
+        "seconds": 0.0007834360000060769,
+        "reason": ""
+      },
+      {
+        "label": "n=13",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0005820779999936576,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=14",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.000719846999999163,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=15",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0008536160000005566,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.9523809523809523,
+        "seconds": 0.0011191049999865754,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0008825970000003736,
+        "reason": "squares 5 and 16 overlap"
+      },
+      {
+        "label": "n=23",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0012398450000006278,
+        "reason": "squares 5 and 16 overlap"
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 5.0,
+        "normalized": 0.9677419354838709,
+        "seconds": 0.0012659239999948113,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 9.05,
+  "container_seconds": 9.05,
+  "host": "modal"
+}

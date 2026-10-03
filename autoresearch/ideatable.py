@@ -53,6 +53,22 @@ def sha256(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
 
 
+class BillingStop(RuntimeError):
+    """The API account cannot pay (e.g. credit exhausted): stop starting new cells."""
+
+
+def is_billing_error(e: Exception) -> bool:
+    return "credit balance" in str(e).lower()
+
+
+def _real_attempts(rec: dict) -> int:
+    """Attempts that failed for reasons other than billing (older records lack the counter)."""
+    n = rec.get("attempts", 1) - rec.get("billing_failures", 0)
+    if "billing_failures" not in rec and "credit balance" in rec.get("detail", "").lower():
+        n = 0
+    return n
+
+
 def _read_json(path, default=None):
     path = Path(path)
     return json.loads(path.read_text()) if path.exists() else default
@@ -277,14 +293,16 @@ class IdeaTable:
         d = self.cell_dir(idea["id"], model, rep)
         call_path = d / "call.json"
         prev = _read_json(call_path)
-        if prev and (prev["status"] != "api_error" or prev.get("attempts", 1) >= MAX_ATTEMPTS):
+        if prev and (prev["status"] != "api_error" or _real_attempts(prev) >= MAX_ATTEMPTS):
             return prev
         parent = self.parent()
         user = IMPLEMENT_USER.format(score=parent["score"], code=parent["code"], feedback=parent["feedback"],
                                      idea=idea["text"])
+        prev = prev or {}
         rec = {"cell": d.name, "idea_id": idea["id"], "idea": idea["text"], "model": model, "replicate": rep,
                "effort": EFFORT[model], "max_tokens": IMPL_MAX_TOKENS,
-               "attempts": (prev or {}).get("attempts", 0) + 1, "time": time.time()}
+               "attempts": prev.get("attempts", 0) + 1, "billing_failures": prev.get("billing_failures", 0),
+               "time": time.time()}
         try:
             with self.claude.tagged(f"implement/{d.name}/a{rec['attempts']}"):
                 res = self.claude.call(model, IMPLEMENT_SYSTEM.format(problem=self.problem), user,
@@ -293,7 +311,12 @@ class IdeaTable:
             raise
         except Exception as e:  # API errors must not kill the run; the cell is retried later
             rec.update(status="api_error", detail=f"{type(e).__name__}: {str(e)[:300]}", cost=0.0)
+            billing = is_billing_error(e)
+            if billing:   # an account problem, not the cell's: it does not use up the cell's retries
+                rec["billing_failures"] += 1
             _write_json(call_path, rec)
+            if billing:
+                raise BillingStop(rec["detail"])
             return rec
         rec.update(cost=res.cost, input_tokens=res.input_tokens, output_tokens=res.output_tokens,
                    llm_seconds=round(res.seconds, 2), served_by=res.served_by, refused=res.refused)
@@ -327,9 +350,9 @@ class IdeaTable:
                 return None
             try:
                 rec = self.implement_cell(*cell)
-            except BudgetExceeded as e:
+            except (BudgetExceeded, BillingStop) as e:
                 stop["budget"] = True
-                print(f"[implement] stopped: {e}")
+                print(f"[implement] stopped ({type(e).__name__}): {str(e)[:200]}")
                 return None
             except Exception as e:  # a bug or disk error in one cell must not lose the others
                 print(f"[implement] {cell[0]['id']}/{cell[1]}/r{cell[2]} crashed: {type(e).__name__}: {e}")
@@ -425,6 +448,47 @@ class IdeaTable:
             for r in rows:
                 f.write(json.dumps(r) + "\n")
         return rows
+
+    def missing_cells(self, replicates=12) -> list:
+        """Cells of the pre-registered design (N ideas x 3 models, plus replicates) without a finished call."""
+        n = _read_json(self.out / "rankings.json")["n"]
+        cells = self.main_cells(0, n) + self.replicate_cells(n, replicates)
+        out = []
+        for c in cells:
+            rec = _read_json(self.cell_dir(c[0]["id"], c[1], c[2]) / "call.json")
+            if rec is None or (rec["status"] == "api_error" and _real_attempts(rec) < MAX_ATTEMPTS):
+                out.append(c)
+        return out
+
+    def fill_estimate(self, replicates=12) -> dict:
+        """Cost of the missing cells at the mean measured cost per finished cell of each model."""
+        todo = self.missing_cells(replicates)
+        costs = {m: [] for m in MODELS}
+        for d in (self.out / "cells").glob("*"):
+            rec = _read_json(d / "call.json")
+            if rec and rec["status"] != "api_error":
+                costs[rec["model"]].append(rec.get("cost") or 0.0)
+        mean = {m: sum(v) / len(v) for m, v in costs.items() if v}
+        top = {m: max(v) for m, v in costs.items() if v}
+        by_model = {SHORT[m]: sum(c[1] == m for c in todo) for m in MODELS}
+        est = sum(mean[c[1]] for c in todo)
+        return {"cells": len(todo), "by_model": by_model, "ideas_touched": len({c[0]["id"] for c in todo}),
+                "mean_cost_per_cell": {SHORT[m]: round(v, 4) for m, v in mean.items()},
+                "max_cost_per_cell": {SHORT[m]: round(v, 4) for m, v in top.items()},
+                "estimate_usd": round(est, 2), "spent_so_far": round(self.ledger.spent, 4),
+                "cap": self.ledger.cap, "fits_cap": self.ledger.spent + est <= self.ledger.cap}
+
+    def fill(self, replicates=12, workers=6, host="modal", modal_cap=5.0, dry_run=False) -> dict:
+        """One command to complete the table: implement every missing cell, evaluate, rebuild table.jsonl."""
+        est = self.fill_estimate(replicates)
+        print(json.dumps(est, indent=2))
+        if dry_run or not est["cells"]:
+            return est
+        soft = self.ledger.cap - 1.0     # keep $1 of the cap unspent (in-flight calls can overshoot a soft stop)
+        self.implement(self.missing_cells(replicates), workers=workers, stop_at=soft)
+        self.evaluate_pending(host=host, modal_cap=modal_cap, eval_replicates=12)
+        self.build_table()
+        return est
 
     def size(self, probe_ideas=3, reserve=6.0, replicates=12) -> dict:
         """The protocol's sizing rule: largest multiple of BATCH with
@@ -643,7 +707,7 @@ def _span(s: str):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("step", choices=["ideas", "rank", "implement", "evaluate", "table", "status", "provenance", "size"])
+    ap.add_argument("step", choices=["ideas", "rank", "implement", "evaluate", "table", "status", "provenance", "size", "fill"])
     ap.add_argument("out")
     ap.add_argument("--problem", default="problems/erdos_squares")
     ap.add_argument("--cap", type=float, default=40.0, help="hard Anthropic spend cap in dollars (whole folder)")
@@ -657,6 +721,7 @@ def main():
     ap.add_argument("--replicates", type=int, default=0, help="implement this many cells a second time")
     ap.add_argument("--replicate-pool", type=int, help="choose replicate cells among the first N ideas")
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--dry-run", action="store_true", help="fill: print the cost estimate and stop")
     ap.add_argument("--stop-at", type=float, help="soft limit: start no new cell once spend reaches this")
     ap.add_argument("--host", choices=["local", "modal"], default="local")
     ap.add_argument("--modal-cap", type=float, default=5.0)
@@ -686,6 +751,9 @@ def main():
         print(f"[table] {len(rows)} rows -> {t.out / 'table.jsonl'}")
     elif args.step == "provenance":
         t.provenance()
+    elif args.step == "fill":
+        t.fill(replicates=args.replicates or 12, workers=args.workers, host=args.host, modal_cap=args.modal_cap,
+               dry_run=args.dry_run)
     elif args.step == "size":
         print(json.dumps(t.size(replicates=args.replicates or 12), indent=2))
     print(json.dumps(t.status(), indent=2))

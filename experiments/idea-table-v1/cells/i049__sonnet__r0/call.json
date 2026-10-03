@@ -1,0 +1,19 @@
+{
+  "cell": "i049__sonnet__r0",
+  "idea_id": "i049",
+  "idea": "Large-neighbourhood search on the best axis-aligned layout. Repeatedly free a random window (for example a 2\u00d72 to 4\u00d74 region of cells), then solve the window exactly. The exact solve maximises the sum of sides inside the window's bounding box with a fixed count, using the small big-M MILP or a brute-force integer tiling. Accept improvements and cycle through windows and counts until the time limit.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055830.241885,
+  "cost": 0.069638,
+  "input_tokens": 974,
+  "output_tokens": 6769,
+  "llm_seconds": 53.58,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "ce701ef1313c6042f92b6f197b497a12253c119ed995ca3786f1f2cf96600a84"
+}

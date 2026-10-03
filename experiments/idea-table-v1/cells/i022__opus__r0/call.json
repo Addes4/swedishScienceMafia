@@ -1,0 +1,19 @@
+{
+  "cell": "i022__opus__r0",
+  "idea_id": "i022",
+  "idea": "Multiset-first packing: enumerate multisets of sides from {1/d} (d up to about 3\u221an) by a knapsack. Maximise the sum subject to the count being n and the area being at most 1, then test the top candidates for exact packability. The test is a bottom-left/skyline backtracking search on the integer board of size lcm(d's) \u00d7 lcm(d's), returning the first multiset that packs.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055454.3513558,
+  "cost": 0.156116,
+  "input_tokens": 969,
+  "output_tokens": 7612,
+  "llm_seconds": 86.14,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "6ec199b261ae42a76f5b15abbdc161406f7ab6e43431ac0a2bd9eecfd0f37114"
+}

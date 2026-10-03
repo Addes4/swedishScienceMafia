@@ -1,0 +1,19 @@
+{
+  "cell": "i018__sonnet__r0",
+  "idea_id": "i018",
+  "idea": "Tilted-band long shot: lay out the k\u00d7k grid but replace one row (or column) with k+1 squares rotated by a small angle \u03b8, stacked as a tilted chain in a strip of height slightly above 1/k. Shrink the other rows accordingly, then optimise \u03b8, the strip height and the side lengths numerically with exact separating-axis feasibility checks. This targets n = k\u00b2+1-type values where a lattice cannot fit the extra square.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055374.106357,
+  "cost": 0.082852,
+  "input_tokens": 986,
+  "output_tokens": 8088,
+  "llm_seconds": 69.19,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "804f166752f550360dab7ab56df66141e2d639947a9035bf49e5ec087cd0b84a"
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i060__opus__r0",
+  "idea_id": "i060",
+  "idea": "Solve a maximum-weight independent set ILP on a mixed-denominator lattice. Candidate axis-aligned squares have sides i/L and corners on an L\u00d7L board with highly composite L (12, 24 or 60), so sizes like 1/3, 1/4 and 3/8 coexist. Non-overlap is enforced by a clique constraint at every interior lattice point, plus an exact count of n.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055893.5189602,
+  "cost": 0.107708,
+  "input_tokens": 972,
+  "output_tokens": 5191,
+  "llm_seconds": 51.87,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "126406efdabcbb3c42bb3eb86bed5cb32652c29d39aa10493da29ff08b6823a4"
+}

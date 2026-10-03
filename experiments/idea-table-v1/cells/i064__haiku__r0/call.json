@@ -1,0 +1,14 @@
+{
+  "cell": "i064__haiku__r0",
+  "idea_id": "i064",
+  "idea": "Evolve construction expressions with grammar-based genetic programming. The primitives are grid(p,q), cut(h|v, t, A, B), split(j), merge(j) and ring(j, A), applied to a rectangle. Expressions are evaluated exactly in Fractions to get (count, sum), and the fitness is the best sum at exactly n with zero-padding, so new compositional families are discovered automatically.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056131.1311731,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs97oLsEEH2yYChnhpG'}",
+  "cost": 0.0
+}

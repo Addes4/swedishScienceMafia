@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.9999999989967903,
+    "public": {
+      "n=5": 1.9999999979960001,
+      "n=6": 2.3333333309940003,
+      "n=7": 2.499999997493,
+      "n=8": 2.6666666639920003,
+      "n=11": 3.249999996739,
+      "n=12": 3.333333329988,
+      "n=13": 3.499999996487,
+      "n=14": 3.666666662986,
+      "n=15": 3.749999996235
+    },
+    "private": {
+      "hidden_normalized": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "hidden_mean": 0.999999998995245,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 2 (best known 2)\nn=6: score 2.33333 (best known 2.33333)\nn=7: score 2.5 (best known 2.5)\nn=8: score 2.66667 (best known 2.66667)\nn=11: score 3.25 (best known 3.25)\nn=12: score 3.33333 (best known 3.33333)\nn=13: score 3.5 (best known 3.5)\nn=14: score 3.66667 (best known 3.66667)\nn=15: score 3.75 (best known 3.75)"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 1.9999999979960001,
+        "normalized": 0.9999999989980001,
+        "seconds": 0.4612961899999988,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 2.3333333309940003,
+        "normalized": 0.9999999989974286,
+        "seconds": 0.4991707450000007,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 2.499999997493,
+        "normalized": 0.9999999989972,
+        "seconds": 0.9447568960000012,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 2.6666666639920003,
+        "normalized": 0.9999999989970001,
+        "seconds": 0.8041260050000005,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "valid",
+        "score": 3.249999996739,
+        "normalized": 0.9999999989966154,
+        "seconds": 1.3700128910000018,
+        "reason": ""
+      },
+      {
+        "label": "n=12",
+        "status": "valid",
+        "score": 3.333333329988,
+        "normalized": 0.9999999989964,
+        "seconds": 1.6837281709999985,
+        "reason": ""
+      },
+      {
+        "label": "n=13",
+        "status": "valid",
+        "score": 3.499999996487,
+        "normalized": 0.9999999989962857,
+        "seconds": 1.7080853580000053,
+        "reason": ""
+      },
+      {
+        "label": "n=14",
+        "status": "valid",
+        "score": 3.666666662986,
+        "normalized": 0.9999999989961819,
+        "seconds": 1.6391141840000074,
+        "reason": ""
+      },
+      {
+        "label": "n=15",
+        "status": "valid",
+        "score": 3.749999996235,
+        "normalized": 0.999999998996,
+        "seconds": 2.217020442000006,
+        "reason": ""
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 4.199999995782001,
+        "normalized": 0.9999999989957145,
+        "seconds": 2.127692289999999,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "valid",
+        "score": 4.499999995479,
+        "normalized": 0.9999999989953334,
+        "seconds": 3.8500016960000067,
+        "reason": ""
+      },
+      {
+        "label": "n=23",
+        "status": "valid",
+        "score": 4.749999995227,
+        "normalized": 0.9999999989951579,
+        "seconds": 3.9536413020000083,
+        "reason": ""
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 5.166666661473,
+        "normalized": 0.9999999989947742,
+        "seconds": 5.6101952890000035,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 42.43,
+  "container_seconds": 42.43,
+  "host": "modal"
+}
