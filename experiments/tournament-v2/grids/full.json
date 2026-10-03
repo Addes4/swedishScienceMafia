@@ -3,24 +3,57 @@
   "experiment": "tournament-v2",
   "mode": "live",
   "provider": "hf",
-  "description": "Tournament v2 confirmatory grid: 5 arms x 3 problems x 4 seeds on open models through the Hugging Face router, $0.15 hard cap per run. See ../PROTOCOL.md.",
-  "hf_models": ["deepseek-ai/DeepSeek-V4.1-Flash:deepinfra", "deepseek-ai/DeepSeek-V4-Pro:deepinfra", "Qwen/Qwen3.5-9B:together"],
+  "description": "Tournament v2 confirmatory grid: 5 arms x 3 problems (circle_packing replaced by bin_packing_online before launch) x 4 seeds on open models through the Hugging Face router, $0.15 hard cap per run. See ../PROTOCOL.md.",
+  "hf_models": [
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra",
+    "Qwen/Qwen3.5-9B:together"
+  ],
   "budget_usd": 0.15,
-  "seeds": [0, 1, 2, 3],
-  "problems": ["sum_difference", "erdos_squares", "circle_packing"],
+  "seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "problems": [
+    "sum_difference",
+    "erdos_squares",
+    "bin_packing_online"
+  ],
   "arms": {
-    "shinka": {"type": "shinka", "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra", "max_tokens": 32000},
-    "triage": {"type": "triage", "ranker": "jev", "idea_model": "deepseek-ai/DeepSeek-V4-Pro:deepinfra",
-               "tiers": "deepseek-ai/DeepSeek-V4-Pro:deepinfra,deepseek-ai/DeepSeek-V4.1-Flash:deepinfra,Qwen/Qwen3.5-9B:together"},
-    "lean": {"type": "lean", "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"},
-    "lean_gate_patience": {"type": "lean", "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra", "gate": true, "patience": 5},
-    "independent": {"type": "independent", "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"}
+    "shinka": {
+      "type": "shinka",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+      "max_tokens": 32000
+    },
+    "triage": {
+      "type": "triage",
+      "ranker": "jev",
+      "idea_model": "deepseek-ai/DeepSeek-V4-Pro:deepinfra",
+      "tiers": "deepseek-ai/DeepSeek-V4-Pro:deepinfra,deepseek-ai/DeepSeek-V4.1-Flash:deepinfra,Qwen/Qwen3.5-9B:together"
+    },
+    "lean": {
+      "type": "lean",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+    },
+    "lean_gate_patience": {
+      "type": "lean",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+      "gate": true,
+      "patience": 5
+    },
+    "independent": {
+      "type": "independent",
+      "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+    }
   },
   "anthropic_cap_usd": 9.0,
   "anthropic_cap_note": "The grid's LLM spend cap for any provider (here Hugging Face): 60 runs x $0.15.",
   "experiment_cap_usd": 12,
   "modal_cap_usd": 60,
-  "wall_limit_s": 21600,
-  "cpu": 2,
-  "memory_mb": 4096
+  "wall_limit_s": 14400,
+  "cpu": 4,
+  "memory_mb": 4096,
+  "gate_workers": 4
 }

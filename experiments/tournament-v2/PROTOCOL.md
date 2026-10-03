@@ -1,7 +1,7 @@
 # Tournament v2: the same frameworks on open models, at equal dollar budgets
 
-**Status: NOT EXECUTED.** The confirmatory grid was cancelled before launch (see RESULTS.md); only
-the smoke runs below were made. The design is kept as drafted.
+**Status: re-opened on 4 October before launch.** The grid was first cancelled (see RESULTS.md);
+it is launched with the pre-launch amendment at the end of this file. Nothing in the grid had run.
 
 Written and committed before the confirmatory grid (`grids/full.json`) is launched. Changes made
 after launch are listed at the end.
@@ -116,6 +116,28 @@ python -m tournament.report experiments/tournament-v2/runs/full-v2 --figure expe
   `runs/smoke-v2/` and RESULTS.md. Evaluation, not the model, set the wall time (up to 665 s per
   evaluation); a pre-launch amendment (parallel instance scoring, possibly lower time limits) was
   being prepared when the grid was cancelled.
+
+## Pre-launch amendment (4 October, before any grid run)
+
+Made before `grids/full.json` was launched; no grid result existed when it was written.
+
+1. **circle_packing replaced by bin_packing_online.** tournament-v1 found circle packing (n = 26)
+   saturated: independent sampling reached the reference in one or two calls, so it cannot
+   separate frameworks. bin_packing_online has headroom with an external reference (start: best
+   fit, 0.9616 public / 0.9604 hidden; FunSearch's published Weibull heuristic 0.9925 / 0.9928,
+   measured with `autoresearch.check`), two hidden instances, and evaluates in about 1.5 s.
+   Problems are now sum_difference, erdos_squares and bin_packing_online. The FunSearch score is a
+   reference for interpretation only; the gate sets no best_known for this problem, so no record
+   flag can fire.
+2. **Parallel instance scoring:** `gate_workers` = 4 and 4 cores per container. Scores are
+   identical (`GATE_WORKERS`, tested); only wall time changes. All arms get the same setting.
+3. **Wall limit 4 hours** (was 6). Worst-case Modal cost: 60 x 4 h x (4 x $0.0473 + 4 GiB x $0.008)
+   = $53.1 at list prices; the launcher's check, which adds 25 minutes per job for start-up and the hard-stop grace, gives $58.62, under
+   modal_cap_usd = $60. Runs that hit the wall limit are reported as
+   `stopped_early`, as before.
+
+Unchanged: arms, models, seeds 0-3, $0.15 cap per run, primary endpoint and comparisons, the $12
+HF experiment cap.
 
 ## Changes after launch
 
