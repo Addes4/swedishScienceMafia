@@ -162,6 +162,37 @@ Each phase writes its config (arguments, cost table, seeds, sha256 of every `str
 version) and gzip-compressed raw records. Jobs run on Modal (app `ssm-strategist-v2`, Linux,
 Python 3.12) or locally with at most 2 processes.
 
+## Stage 2: frozen design (after the dev grid, before validation)
+
+The dev grid ran once on Modal (600 jobs, 66,000 runs, 229 s wall clock; `dev/runs.jsonl.gz`,
+`dev/selection.json`, `dev/dev.log`). The selection rule picked:
+
+- **adaptive_v2 = `gate02/cap64/improving16`**: crossover gated with probe rate 0.02; excursions
+  abandoned after min(leader's stall when left, 64) stalled moves; the leader is left only if the v1
+  test says so *and* it has gone at least 16 moves without improving. J = +0.236 (LABS +0.283,
+  Heilbronn +0.050, NK +0.376 v1 standard deviations).
+- **patience_dev**: T = 64 (LABS), 512 (Heilbronn), 128 (NK). `patience_joint` = 128.
+- Ablation arms: `only_xo` = gate02/inherit/point, `only_excursion` = off/cap64/point, `only_leave` =
+  off/inherit/improving16; `without_xo` = off/cap64/improving16, `without_excursion` =
+  gate02/inherit/improving16, `without_leave` = gate02/cap64/point. Secondary: `v2_crossover_removed` =
+  none/cap64/improving16, `v1_crossover_removed` = none/inherit/point.
+
+Written to `frozen.json`. What the dev grid already shows, disclosed so that later results can be read
+against it (dev seeds 40-239; differences are v2 minus the arm, positive = v2 better):
+
+| | LABS | Heilbronn | NK |
+|---|---|---|---|
+| v2 mean (v1 mean) | 4.129 (3.992) | 0.01039 (0.01029) | 0.7397 (0.7327) |
+| v2 − v1 | +0.136 [0.043, 0.230] | +0.00011 [−0.0003, 0.0005] | +0.0069 [0.0036, 0.0103] |
+| v2 − patience_dev | −0.269 [−0.355, −0.183] | +0.00074 [0.0003, 0.0012] | −0.0085 [−0.0116, −0.0053] |
+| v2 − v1 with crossover removed | −0.024 [−0.118, 0.066] | +0.00018 [−0.0003, 0.0006] | −0.0024 [−0.0056, 0.0009] |
+
+Further dev observations: the best configurations overall all remove crossover rather than gate it
+(best: none/cap64/improving64, J = +0.419), and the single best patience value across benchmarks
+(T = 128, J = +0.440) scores higher than every adaptive configuration. Excursion caps of 16 hurt on
+every benchmark; the `upper90` leave test helps Heilbronn (+0.41) but hurts LABS (−0.50) and NK (−0.31).
+These are dev-seed numbers, chosen as the maximum of a grid, and expected to shrink on new seeds.
+
 ## Disclosed changes
 
 (none yet)

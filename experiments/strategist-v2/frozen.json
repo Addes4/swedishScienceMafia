@@ -1,0 +1,37 @@
+{
+  "levels": [
+    "gate02",
+    "cap64",
+    "improving16"
+  ],
+  "label": "gate02/cap64/improving16",
+  "options": {
+    "xo_gate": true,
+    "xo_probe": 0.02,
+    "excursion": "cap",
+    "excursion_len": 64,
+    "leave_test": "improving",
+    "window": 16
+  },
+  "patience_dev": {
+    "labs": 64,
+    "heilbronn": 512,
+    "nk": 128
+  },
+  "patience_joint": 128,
+  "frozen_at": "2026-10-03 19:51:46 BST",
+  "source_sha256_16": {
+    "__init__.py": "5a44635cc496565d",
+    "controller.py": "09b65ab226580601",
+    "costs.py": "7c64eafdeb6667ea",
+    "demo.py": "b487502a7bed6ef7",
+    "experiment.py": "6885e29318eebbc6",
+    "forks.py": "edb7b4e0de6f1537",
+    "modal_app.py": "eafe565f7e263898",
+    "problems.py": "fbf5842753bd4815",
+    "report.py": "3f7d126c88ef343c",
+    "search.py": "6810939cd944962a",
+    "stats.py": "8e1f57a7a38634d4",
+    "v2.py": "aabeeaf7d87be3db"
+  }
+}
