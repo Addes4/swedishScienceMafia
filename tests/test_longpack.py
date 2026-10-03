@@ -92,6 +92,18 @@ def test_priority_packer_is_funsearch_skeleton():
         assert pack_priority(best_fit_priority, items) == pack_rule(items, 'best_fit')
 
 
+def test_ab_heuristics_match_the_papers_priority_functions():
+    from falsify.funsearch_heuristics import AB_VARIANTS, ab_priority
+    from falsify.longpack import pack_ab
+    rng = random.Random(4)
+    for k in range(9):
+        variant = AB_VARIANTS[k % 3]
+        a = rng.randint(0, 8)
+        b = rng.randint(a + 1, 40)
+        items = weibull_items(k, 400) if k % 2 else falsify_items(k, TRAIN_FAMILIES[k % 5], 300)
+        assert pack_ab(items, variant, a, b, trace=True) == pack_priority(ab_priority(variant, a, b), items, trace=True)
+
+
 def test_positive_control_on_funsearch_test_instances():
     with gzip.open(ROOT / 'experiments' / 'bp-ceiling-v1' / 'funsearch_weibull5k_test.json.gz', 'rt') as f:
         data = json.load(f)['instances']

@@ -20,8 +20,9 @@ from pathlib import Path
 
 from .contextual import CONTEXT_BEST_FIT, anchors
 from .core import SHIFT_FAMILIES, TRAIN_FAMILIES, read_json, write_json
-from .funsearch_heuristics import HEURISTICS, SOURCE
-from .longpack import Instance, falsify_items, l2_bound, pack_linear, pack_priority, pack_rule, weibull_items
+from .funsearch_heuristics import AB_VARIANTS, HEURISTICS, SOURCE
+from .longpack import (Instance, falsify_items, l2_bound, pack_ab, pack_linear, pack_priority, pack_rule,
+                       weibull_items)
 
 ITEM_STEPS_PER_EVALUATION = 20000
 REGIMES = {'falsify80': 80, 'weibull500': 500, 'weibull5k': 5000}
@@ -148,6 +149,27 @@ def run_name(regime, representation, optimizer, seed):
     return f'{regime}-{representation}-{optimizer}-{seed}'
 
 
+AB_GRID = [(v, a, b) for v in AB_VARIANTS for a in range(16) for b in range(a + 1, 41)]
+
+
+def tune_ab(regime, seed):
+    """Grid-search Herrmann & Pallez's ab-heuristics (3 variants, a in 0..15, b in a+1..40) on
+    the same training set as search seed `seed`; deploy the lowest total, best fit included,
+    ties to best fit and then to grid order."""
+    started = time.monotonic()
+    cases = training_cases(regime, seed)
+    reference = sum(pack_rule(c, 'best_fit') for c in cases)
+    totals = [sum(pack_ab(c, v, a, b) for c in cases) for v, a, b in AB_GRID]
+    best = min(range(len(AB_GRID)), key=lambda i: totals[i])
+    policy = ({'ab': AB_GRID[best][0], 'a': AB_GRID[best][1], 'b': AB_GRID[best][2]}
+              if totals[best] < reference else 'best_fit')
+    return {'regime': regime, 'representation': 'ab_rules', 'optimizer': 'grid', 'seed': seed, 'weights': policy,
+            'train_excess_bins': min(totals[best], reference) - reference, 'reference_bins': reference,
+            'evaluations': len(AB_GRID) + 1, 'grid_totals_minus_best_fit': [t - reference for t in totals],
+            'training_sha256': hashlib.sha256(json.dumps([c.items for c in cases]).encode()).hexdigest(),
+            'seconds': time.monotonic() - started}
+
+
 def snapshot_source(out, name='source'):
     source = Path(out) / name
     source.mkdir(parents=True, exist_ok=True)
@@ -177,7 +199,34 @@ def audit_cases(regime):
     return cases
 
 
+def decision_stats(items, assignment, capacity=100):
+    """Share of items put in a new bin although an open bin could take them, and share of
+    used bins that end exactly full."""
+    import numpy as np
+    remaining = np.full(len(items), capacity)
+    opened = eager = 0
+    for x, b in zip(items, assignment):
+        if b >= opened:
+            eager += bool((remaining[:opened] >= x).any())
+            opened = b + 1
+        remaining[b] -= x
+    used = remaining[remaining < capacity]
+    return {'new_bin_while_open_fits': eager / len(items), 'full_bins': float((used == 0).mean())}
+
+
+def policy_trace(policy, case):
+    if isinstance(policy, dict):
+        return pack_ab(case, policy['ab'], policy['a'], policy['b'], trace=True)[1]
+    if isinstance(policy, list):
+        return pack_linear(policy, case, trace=True)[1]
+    if policy in ('best_fit', 'first_fit', 'worst_fit'):
+        return pack_rule(case, policy, trace=True)[1]
+    return pack_priority(HEURISTICS[policy], case, trace=True)[1]
+
+
 def policy_bins(policy, cases):
+    if isinstance(policy, dict):
+        return [pack_ab(c, policy['ab'], policy['a'], policy['b']) for c in cases]
     if isinstance(policy, list):
         return [pack_linear(policy, c) for c in cases]
     if policy in ('best_fit', 'first_fit', 'worst_fit'):
@@ -215,6 +264,8 @@ def audit(out):
                     name = run_name(regime, representation, optimizer, seed)
                     runs[name] = read_json(out / 'runs' / f'{name}.json.gz')
                     assert runs[name]['evaluations'] == config['evaluations'], name
+        for seed in range(config['seeds']):
+            runs[f'ab-{regime}-{seed}'] = read_json(out / 'runs' / f'ab-{regime}-{seed}.json.gz')
     snapshot_source(out, 'audit_source')
     # Audit instances are created only here, after every search result exists.
     results, fixed = [], {}
@@ -240,13 +291,16 @@ def audit(out):
             if run['regime'] != regime:
                 continue
             bins = policy_bins(run['weights'], cases)
+            sample = [c for c in cases if c.family in families][:10]
+            stats = [decision_stats(c.items, policy_trace(run['weights'], c)) for c in sample]
             results.append({k: run[k] for k in ['regime', 'representation', 'optimizer', 'seed', 'weights',
                                                  'train_excess_bins', 'reference_bins', 'evaluations', 'seconds']}
-                           | {'audit': {g: compare(bins, reference, bounds, cases, fam) for g, fam in groups.items()}})
+                           | {'audit': {g: compare(bins, reference, bounds, cases, fam) for g, fam in groups.items()},
+                              'decisions': {k: statistics.mean(x[k] for x in stats) for k in stats[0]}})
     cells = []
+    arms = [(rep, opt) for rep in REPRESENTATIONS for opt in OPTIMIZERS] + [('ab_rules', 'grid')]
     for regime in REGIMES:
-        for representation in REPRESENTATIONS:
-            for optimizer in OPTIMIZERS:
+        for representation, optimizer in arms:
                 rs = [r for r in results if (r['regime'], r['representation'], r['optimizer']) ==
                       (regime, representation, optimizer)]
                 deltas = [r['audit']['primary']['delta_pp'] for r in rs]
@@ -258,6 +312,9 @@ def audit(out):
                               'seeds_identical_to_best_fit': sum(r['audit']['primary']['wins'] == 0 and
                                                                  r['audit']['primary']['losses'] == 0 for r in rs),
                               'train_change_percent_of_best_fit_bins_mean': statistics.mean(train),
+                              'new_bin_while_open_fits_mean': statistics.mean(
+                                  r['decisions']['new_bin_while_open_fits'] for r in rs),
+                              'full_bins_mean': statistics.mean(r['decisions']['full_bins'] for r in rs),
                               'mean_seconds': statistics.mean(r['seconds'] for r in rs)})
                 if regime.startswith('falsify'):
                     shift = [r['audit']['shift']['delta_pp'] for r in rs]
@@ -265,11 +322,31 @@ def audit(out):
                     cells[-1]['shift_delta_pp_ci95_seeds'] = bootstrap(shift)
     control = positive_control(out)
     write_json(out / 'audit.json', results)
-    write_json(out / 'summary.json', {'cells': cells, 'fixed_heuristics': fixed, 'positive_control': control,
+    write_json(out / 'summary.json', {'decision_table': decision_table(cells, fixed), 'cells': cells,
+                                      'fixed_heuristics': fixed, 'positive_control': control,
                                       'funsearch_source': SOURCE, 'bootstrap_seed': BOOTSTRAP_SEED})
     for c in cells:
         print(c['regime'], c['representation'], c['optimizer'], round(c['delta_pp_mean'], 4),
               [round(x, 4) for x in c['delta_pp_ci95_seeds']], flush=True)
+
+
+def decision_table(cells, fixed):
+    """Headline per regime: delta (pp of the L2 bound, negative = better than best fit) with its
+    95% interval, and whether the interval lies entirely below zero."""
+    table = {}
+    for regime in REGIMES:
+        row = {'best_fit_excess_percent': fixed[regime]['best_fit']['primary']['excess_percent']}
+        for c in cells:
+            if c['regime'] == regime:
+                ci = c['delta_pp_ci95_seeds']
+                row[f"{c['representation']}_{c['optimizer']}"] = {
+                    'delta_pp': c['delta_pp_mean'], 'ci95_over_seeds': ci, 'headroom': ci[1] < 0}
+        for policy in ['first_fit', 'funsearch_weibull', 'funsearch_or']:
+            f = fixed[regime][policy]['primary']
+            row[policy] = {'delta_pp': f['delta_pp'], 'ci95_over_instances': f['delta_pp_ci95_instances'],
+                           'headroom': f['delta_pp_ci95_instances'][1] < 0}
+        table[regime] = row
+    return table
 
 
 def positive_control(out):
@@ -309,11 +386,17 @@ def sweep(out):
             row = {'family': family, 'n': n, 'instances': count,
                    'best_fit_excess_percent': excess_percent(reference, bounds)}
             policies = ['first_fit', 'funsearch_weibull'] + (['funsearch_or'] if n <= 5000 else [])
-            for policy in policies:
-                bins = policy_bins(policy, cases)
+            for policy in ['best_fit'] + policies:
+                if policy == 'best_fit':
+                    traces, bins = [policy_trace(policy, c) for c in cases[:10]], reference
+                else:
+                    traces = [policy_trace(policy, c) for c in cases]
+                    bins = [len(set(t)) for t in traces]
+                stats = [decision_stats(c.items, t) for c, t in zip(cases, traces[:10])]
                 row[policy] = {'excess_percent': excess_percent(bins, bounds),
                                'delta_pp': excess_percent(bins, bounds) - row['best_fit_excess_percent'],
-                               'delta_pp_ci95_instances': instance_ci(bins, reference, bounds, cases, [family])}
+                               'delta_pp_ci95_instances': instance_ci(bins, reference, bounds, cases, [family]),
+                               **{k: statistics.mean(x[k] for x in stats) for k in stats[0]}}
             rows.append(row)
             print(family, n, round(row['best_fit_excess_percent'], 3),
                   {p: round(row[p]['delta_pp'], 3) for p in policies}, flush=True)
@@ -322,7 +405,10 @@ def sweep(out):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('command', choices=['search', 'audit', 'sweep'])
+    parser.add_argument('command', choices=['search', 'tune-ab', 'audit', 'sweep'],
+                        help='search: one linear-policy search; tune-ab: grid-tune the ab-heuristics for '
+                             'every regime and seed; audit: fresh-instance audit of everything; '
+                             'sweep: length sweep of the fixed heuristics')
     parser.add_argument('--out', default='experiments/bp-ceiling-v1')
     parser.add_argument('--regime', choices=list(REGIMES))
     parser.add_argument('--representation', choices=list(REPRESENTATIONS))
@@ -335,6 +421,16 @@ def main():
         name = run_name(args.regime, args.representation, args.optimizer, args.seed)
         write_json(Path(args.out) / 'runs' / f'{name}.json.gz', result)
         print(name, result['train_excess_bins'], round(result['seconds'], 1))
+    elif args.command == 'tune-ab':
+        seeds = read_json(Path(args.out) / 'config.json')['seeds']
+        for regime in REGIMES:
+            for seed in range(seeds):
+                path = Path(args.out) / 'runs' / f'ab-{regime}-{seed}.json.gz'
+                if not path.exists():
+                    result = tune_ab(regime, seed)
+                    write_json(path, result)
+                    print(path.name, result['weights'], result['train_excess_bins'], round(result['seconds'], 1),
+                          flush=True)
     elif args.command == 'audit':
         audit(args.out)
     else:

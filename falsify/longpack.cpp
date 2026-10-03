@@ -88,3 +88,40 @@ extern "C" int pack_linear(const int* items, int n, const double* w, int nw, int
     }
     return (int)remaining.size();
 }
+
+// Herrmann & Pallez (2025, arXiv 2510.27353) two-threshold ab-heuristics under FunSearch's
+// evaluator semantics: every open bin the item fits in plus the next unused bin are scored,
+// ties go to the lowest index. Scores follow their Algorithms 4-6 for remaining capacity r:
+//   r <= item + a: capacity - r + 1  (best fit among tight bins)
+//   variant 0 ab-FirstFit: r < item + b: -2, else 1
+//   variant 1 ab-BestFit:  r < item + b: -2, else 1 / (r - item)
+//   variant 2 ab-WorstFit: r <= item + b: -2, r == capacity: -1, else -1 / (r - item)
+extern "C" int pack_ab(const int* items, int n, int capacity, int a, int b, int variant, int* assignments) {
+    if (n < 0 || capacity < 1 || variant < 0 || variant > 2) return -1;
+    std::vector<int> remaining;
+    remaining.reserve(n);
+    for (int k = 0; k < n; ++k) {
+        const int item = items[k];
+        if (item < 1 || item > capacity) return -1;
+        auto score_of = [&](int r) -> double {
+            if (r <= item + a) return double(capacity - r + 1);
+            if (variant == 0) return r < item + b ? -2.0 : 1.0;
+            if (variant == 1) return r < item + b ? -2.0 : 1.0 / double(r - item);
+            if (r <= item + b) return -2.0;
+            if (r == capacity) return -1.0;
+            return -1.0 / double(r - item);
+        };
+        int chosen = -1;
+        double best = -std::numeric_limits<double>::infinity();
+        for (int bin = 0; bin <= (int)remaining.size(); ++bin) {
+            const int r = bin < (int)remaining.size() ? remaining[bin] : capacity;
+            if (r < item) continue;
+            const double score = score_of(r);
+            if (score > best) { best = score; chosen = bin; }
+        }
+        if (chosen == (int)remaining.size()) remaining.push_back(capacity);
+        remaining[chosen] -= item;
+        if (assignments) assignments[k] = chosen;
+    }
+    return (int)remaining.size();
+}

@@ -3,6 +3,8 @@
 - pack_rule(items, 'best_fit' | 'first_fit' | 'worst_fit', capacity)
 - pack_linear(weights, items): the 20 contextual features of contextual.py over open bins
   (20 weights), or over open bins plus one unused bin with an extra "new bin" feature (21).
+- pack_ab(items, variant, a, b): Herrmann & Pallez's two-threshold ab-heuristics, same
+  semantics as pack_priority with their priority functions.
 - pack_priority(priority, items, capacity): FunSearch's evaluator semantics exactly: num_items
   bins of full capacity, priority(item, bins[valid]) over every bin the item fits in (unused
   bins included), argmax with first index on ties.
@@ -40,6 +42,9 @@ def _lib():
         lib.pack_linear.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.POINTER(ctypes.c_double),
                                     ctypes.c_int, ctypes.c_int, ctypes.POINTER(ctypes.c_int)]
         lib.pack_linear.restype = ctypes.c_int
+        lib.pack_ab.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                ctypes.c_int, ctypes.POINTER(ctypes.c_int)]
+        lib.pack_ab.restype = ctypes.c_int
         LIB = lib
     return LIB
 
@@ -82,6 +87,19 @@ def pack_linear(weights, items, trace=False):
     bins = _lib().pack_linear(inst.buffer, len(inst), ws, len(weights), int(len(weights) == 21), out)
     if bins < 0:
         raise ValueError('invalid instance or non-finite scores')
+    return (bins, list(out)) if trace else bins
+
+
+AB_CODES = {'ab_first_fit': 0, 'ab_best_fit': 1, 'ab_worst_fit': 2}
+
+
+def pack_ab(items, variant, a, b, capacity=100, trace=False):
+    """Herrmann & Pallez's two-threshold ab-heuristics (see funsearch_heuristics.ab_priority)."""
+    inst = _as_instance(items, capacity)
+    out = (ctypes.c_int * len(inst))() if trace else None
+    bins = _lib().pack_ab(inst.buffer, len(inst), inst.capacity, int(a), int(b), AB_CODES[variant], out)
+    if bins < 0:
+        raise ValueError('invalid instance')
     return (bins, list(out)) if trace else bins
 
 
