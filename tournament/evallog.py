@@ -13,7 +13,7 @@ import os
 import time
 from pathlib import Path
 
-from autoresearch.gate import evaluate
+from autoresearch.gate import _load_verify, evaluate
 
 EVAL_LOG_ENV = "TOURNAMENT_EVAL_LOG"
 PROBLEM_ENV = "TOURNAMENT_PROBLEM_DIR"
@@ -24,8 +24,32 @@ def evaluate_logged(problem_dir, program_path: str, results_dir: str, tag: str =
     metrics = evaluate(problem_dir, program_path, results_dir)
     log_path = os.environ.get(EVAL_LOG_ENV)
     if log_path:
-        append(log_path, record(program_path, results_dir, metrics, t0, tag))
+        rec = record(program_path, results_dir, metrics, t0, tag)
+        rec["record_flags"] = record_flags(problem_dir, results_dir)
+        append(log_path, rec)
     return metrics
+
+
+def record_flags(problem_dir, results_dir) -> list:
+    """Every instance scored above its best known value, with the numbers needed to judge it.
+
+    A margin is only worth a human look if it exceeds n x the checker's tolerance (n = the
+    instance's size, tolerance = verify.TOL; 0 for exact checkers): below that, float slack in
+    n constraints could explain it. The gate has already re-checked these at 1e-12.
+    """
+    integrity = json.loads((Path(results_dir) / "integrity.json").read_text())
+    flagged = [r for r in integrity.get("public", []) + integrity.get("hidden", []) if r.get("flag")]
+    if not flagged:
+        return []
+    tol = float(getattr(_load_verify(Path(problem_dir)), "TOL", 0.0))
+    out = []
+    for r in flagged:
+        n = (r.get("instance") or {}).get("n")
+        margin = r["score"] - r["best_known"]
+        threshold = (n or 1) * tol
+        out.append({"label": r["label"], "score": r["score"], "reference": r["best_known"], "margin": margin,
+                    "n": n, "tolerance": tol, "n_x_tolerance": threshold, "worth_review": margin > threshold})
+    return out
 
 
 def record(program_path, results_dir, metrics, t0, tag=None) -> dict:

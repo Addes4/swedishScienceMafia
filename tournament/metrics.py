@@ -130,6 +130,7 @@ def summarize(run_dir) -> dict:
         "auc": round(auc, 6) if auc is not None else None,
         "auc_gain": round((auc - y0) / (1 - y0), 6) if auc is not None and y0 < 1 else None,
         "flags": sorted({f for e in evals for f in (e.get("flags") or [])}),
+        "record_flags": [dict(f, sha=e["sha"]) for e in evals for f in (e.get("record_flags") or [])],
         "wall_s": round(last_t - t0, 1),
         "status": end.get("status"), "arm_result": end.get("arm_result"),
         "curve": curve,

@@ -72,7 +72,8 @@ def test_grid_expansion_and_caps():
         grids.check_caps(live, grids.jobs(live))       # 16 x $0.50 > $1
 
 
-@pytest.mark.parametrize("arm_config", [{"type": "lean"}, {"type": "lean", "gate": True, "patience": 2}])
+@pytest.mark.parametrize("arm_config", [{"type": "lean"}, {"type": "lean", "gate": True, "patience": 2},
+                                        {"type": "independent"}])
 def test_lean_end_to_end_with_mock_api(tmp_path, arm_config):
     from tournament.run import main
     out = tmp_path / "run"
@@ -93,6 +94,31 @@ def test_lean_end_to_end_with_mock_api(tmp_path, arm_config):
     steps = [json.loads(l) for l in open(out / "events.jsonl") if '"step"' in l]
     if arm_config.get("patience"):
         assert any(e["op"] == "restart" for e in steps) or all(e["stall"] < 2 for e in steps)
+    if arm_config["type"] == "independent":
+        assert {e["op"] for e in steps} == {"sample"}
+
+
+def test_record_flags_compare_margin_with_n_times_tolerance(tmp_path):
+    from tournament.evallog import record_flags
+    integrity = {"public": [{"label": "n=26", "instance": {"n": 26}, "score": 2.6359830849176076 + 1e-8,
+                             "best_known": 2.6359830849176076, "flag": "exceeds best known value"},
+                            {"label": "n=26", "instance": {"n": 26}, "score": 2.6359830849176076 + 1e-6,
+                             "best_known": 2.6359830849176076, "flag": "exceeds best known value"}],
+                 "hidden": []}
+    (tmp_path / "integrity.json").write_text(json.dumps(integrity))
+    flags = record_flags(ROOT / "problems" / "circle_packing", tmp_path)
+    assert [f["worth_review"] for f in flags] == [False, True]          # 26 x 1e-9 = 2.6e-8
+    assert flags[0]["reference"] == 2.6359830849176076 and flags[0]["tolerance"] == 1e-9
+
+
+def test_independent_rejects_gate_and_patience(tmp_path):
+    from tournament import lean
+    from tournament.budget import Budget
+    from tournament.context import Context
+    ctx = Context(problem_dir=ROOT / "problems" / "circle_packing", out=tmp_path, seed=0, budget=Budget(0.1),
+                  config={"independent": True, "patience": 3})
+    with pytest.raises(ValueError):
+        lean.run(ctx)
 
 
 def test_triage_end_to_end_with_mock_api(tmp_path):

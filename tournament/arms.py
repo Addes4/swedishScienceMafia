@@ -34,6 +34,14 @@ def lean(ctx: Context):
     return lean_loop.run(ctx)
 
 
+@arm("independent")
+def independent(ctx: Context):
+    """Independent sampling: lean's loop with no history and no parent (see tournament/lean.py)."""
+    from . import lean as lean_loop
+    ctx.config = {**ctx.config, "independent": True}
+    return lean_loop.run(ctx)
+
+
 @arm("shinka")
 def shinka(ctx: Context):
     """Stock ShinkaEvolve through autoresearch/run.py; its own soft cost limit is set to the cap too."""

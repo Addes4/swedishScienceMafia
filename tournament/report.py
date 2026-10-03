@@ -68,6 +68,19 @@ def bootstrap_ci(diffs, reps=10_000, seed=0):
     return means[int(0.025 * reps)], means[int(0.975 * reps) - 1]
 
 
+MATCHES_RECORD = 1 - 1e-6    # normalized score treated as a tie with the best known value
+
+
+def bootstrap_p_greater(diffs, reps=10_000, seed=1):
+    """P(A > B) over matched units (ties count one half), with a bootstrap 95% interval."""
+    score = lambda ds: sum((d > 1e-9) + 0.5 * (abs(d) <= 1e-9) for d in ds) / len(ds)
+    if len(diffs) < 2:
+        return score(diffs), None
+    rng = random.Random(seed)
+    sims = sorted(score(rng.choices(diffs, k=len(diffs))) for _ in range(reps))
+    return score(diffs), (sims[int(0.025 * reps)], sims[int(0.975 * reps) - 1])
+
+
 def paired(runs, reference, metric):
     """Arm minus reference on matched (problem, seed) units."""
     by = {(r["arm"], r["problem"], r["seed"]): r for r in runs}
@@ -78,7 +91,9 @@ def paired(runs, reference, metric):
         diffs = [x - y for x, y in diffs if x is not None and y is not None]
         if diffs:
             ci = bootstrap_ci(diffs)
+            p_greater, p_ci = bootstrap_p_greater(diffs)
             out[arm] = {"n": len(diffs), "mean_diff": statistics.fmean(diffs), "ci95": ci,
+                        "p_greater": p_greater, "p_greater_ci95": p_ci,
                         "wins": sum(d > 1e-9 for d in diffs), "ties": sum(abs(d) <= 1e-9 for d in diffs),
                         "losses": sum(d < -1e-9 for d in diffs)}
     return out
@@ -103,6 +118,7 @@ def group_table(runs):
             "calls": _mean(r["calls"] for r in rs), "evals": _mean(r["evals"] for r in rs),
             "valid_evals": _mean(r["valid_evals"] for r in rs), "wall_s": _mean(r["wall_s"] for r in rs),
             "all_within_cap": all(r["within_cap"] for r in rs),
+            "matches_record": sum((r["final_public"] or 0) >= MATCHES_RECORD for r in rs),
         })
     return rows
 
@@ -181,27 +197,40 @@ TABLE_COLS = [("problem", "problem"), ("arm", "arm"), ("runs", "runs"), ("final_
               ("final_min", "min"), ("final_max", "max"), ("auc_gain", "AUC gain"), ("final_hidden", "final hidden"),
               ("spent_usd", "$ spent"), ("improvements", "improvements"), ("usd_per_improvement", "$/improvement"),
               ("tokens_per_improvement", "tokens/improvement"), ("calls", "calls"), ("valid_evals", "valid evals"),
-              ("evals", "evals"), ("wall_s", "wall s"), ("all_within_cap", "within cap")]
+              ("evals", "evals"), ("wall_s", "wall s"), ("matches_record", "runs at record"),
+              ("all_within_cap", "within cap")]
 
 
 def markdown(title, runs, rows, comparisons, reference):
     total = sum(r["spent_usd"] for r in runs if not r.get("mock"))
     lines = [f"# {title}", "", f"{len(runs)} runs. Anthropic spend (live runs only): ${total:.2f}. "
-             "Scores are normalized so 1.0 matches the best known result. AUC gain is the area under the "
-             "best-score-versus-budget-fraction curve, minus the starting score, divided by the headroom "
-             "(1 - starting score).", "",
+             "Scores are normalized so 1.0 matches the best known result; higher is better. AUC gain is the "
+             "area under the best-score-versus-budget-fraction curve, minus the starting score, divided by the "
+             "headroom (1 - starting score). A run is at the record when its final score is at least 1 - 1e-6; "
+             "such runs tie with the record, they do not beat it.", "",
              "| " + " | ".join(h for _, h in TABLE_COLS) + " |", "|" + "---|" * len(TABLE_COLS)]
     counts = {"improvements", "calls", "valid_evals", "evals", "wall_s", "tokens_per_improvement"}
     for row in rows:
         lines.append("| " + " | ".join(_fmt(row[k], 1 if k in counts else 4) for k, _ in TABLE_COLS) + " |")
     if comparisons:
         lines += ["", f"## Paired differences against `{reference}` (matched problem and seed)", "",
-                  "| metric | arm | n | mean difference | bootstrap 95% CI | wins / ties / losses |", "|---|---|---|---|---|---|"]
+                  "| metric | arm | n | mean difference | bootstrap 95% CI | P(arm > reference) | 95% CI | wins / ties / losses |",
+                  "|---|---|---|---|---|---|---|---|"]
         for metric, comp in comparisons.items():
             for arm, c in comp.items():
                 ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
-                lines.append(f"| {metric} | {arm} | {c['n']} | {c['mean_diff']:.4f} | {ci} | "
+                pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
+                lines.append(f"| {metric} | {arm} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
                              f"{c['wins']} / {c['ties']} / {c['losses']} |")
+    flags = [dict(f, run=r["run_dir"]) for r in runs for f in r.get("record_flags") or []]
+    if flags:
+        lines += ["", "## Scores above the best known value", "",
+                  "Re-checked by the strict checker in the gate. Only a margin above n x tolerance is worth a human "
+                  "review; nothing here is a claim until reviewed.", "",
+                  "| run | instance | score | reference | margin | n x tolerance | worth review |", "|---|---|---|---|---|---|---|"]
+        for f in flags:
+            lines.append(f"| {f['run']} | {f['label']} | {f['score']:.12g} | {f['reference']:.12g} | {f['margin']:.3g} | "
+                         f"{f['n_x_tolerance']:.3g} | {f['worth_review']} |")
     lines += ["", "## Runs", "", "| run | status | $ spent | cap | calls | evals | start | final public | final hidden | AUC gain |",
               "|---|---|---|---|---|---|---|---|---|---|"]
     for r in sorted(runs, key=lambda r: (r["problem"], r["arm"], r["seed"])):

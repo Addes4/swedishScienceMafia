@@ -8,6 +8,12 @@ lean            one call per step proposes and implements a change to the curren
 + patience      the Patience restart rule from strategist/controller.py: after T consecutive
                 non-improving steps on the working line, restart with a fresh program written
                 from the problem statement. The best program found so far is always kept.
+independent     the baseline without any loop: every call writes a program from the problem
+                statement and the starting program only (no history, no parent); the best valid
+                program is kept. Independent sampling in Gideoni, Risi & Gal (2026).
+
+Plain lean is greedy sequential best-of-N: each call conditions on the current best and the
+recent outcomes, and only improvements are kept.
 
 Only public-instance results are used for any decision. Hidden-instance scores exist only in
 the private evaluation log.
@@ -24,7 +30,8 @@ from .budget import BudgetExhausted
 from .context import Context, Evaluation
 
 DEFAULTS = {"model": "claude-sonnet-5-5", "effort": "high", "max_tokens": 32000, "history": 8,
-            "max_iters": 10_000, "max_consecutive_errors": 5, "gate": False, "patience": None}
+            "max_iters": 10_000, "max_consecutive_errors": 5, "gate": False, "patience": None,
+            "independent": False}
 EPS = 1e-9
 
 SYSTEM = """You are an expert researcher and programmer improving a program for the problem below.
@@ -54,6 +61,27 @@ Recent attempts and their outcomes (most recent last):
 {history}
 
 Propose one change that you expect to improve the score, and implement it."""
+
+INDEPENDENT_SYSTEM = """You are an expert researcher and programmer. Write a program for the problem below
+that scores as high as possible.
+
+PROBLEM
+{problem}
+
+RULES
+- Reply with your approach in one or two sentences inside <change></change> tags, then the
+  complete program in a single ```python block, and nothing after it.
+- Keep the required function name and signature.
+- Use only the standard library, numpy and scipy. Do not read or write files, start processes,
+  use the network, or use eval/exec/importlib: such programs are rejected.
+- Respect the time limit stated in the problem."""
+
+INDEPENDENT_USER = """The starting program below is a simple baseline that shows the required interface:
+```python
+{initial}
+```
+
+Write a complete program that scores as high as possible."""
 
 RESTART_USER = """Write a new program for this problem from scratch. Use a different approach from the ones
 already explored{explored}.
@@ -120,8 +148,11 @@ def describe(outcome: str, cand: Optional[Evaluation], parent_score: float, gate
 
 def run(ctx: Context):
     cfg = {**DEFAULTS, **ctx.config}
+    independent = bool(cfg["independent"])
+    if independent and (cfg["gate"] or cfg["patience"]):
+        raise ValueError("independent sampling has no parent, so it takes neither a gate nor a restart rule")
     claude = Claude()
-    system = SYSTEM.format(problem=ctx.problem)
+    system = (INDEPENDENT_SYSTEM if independent else SYSTEM).format(problem=ctx.problem)
     gate = Gate(bool(cfg["gate"]))
     policy = Patience(int(cfg["patience"])) if cfg["patience"] else None
 
@@ -137,7 +168,9 @@ def run(ctx: Context):
             stop = "wall"
             break
         op = policy.choose(context(state.stall, state.line == state.leader_line), state) if policy else "edit"
-        if op == "restart":
+        if independent:
+            op, user = "sample", INDEPENDENT_USER.format(initial=ctx.initial)
+        elif op == "restart":
             explored_txt = "".join(f"\n- {s}" for s in explored[-6:])
             user = RESTART_USER.format(initial=ctx.initial, explored=(":" + explored_txt) if explored else "")
         else:
