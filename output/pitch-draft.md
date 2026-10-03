@@ -21,7 +21,7 @@ and what independently reproduces published work.
 |---|---|---|
 | 0:00–0:40 | What the system does | The loop: propose → rank → implement → gate → keep → choose the next move → explain. Name the failure each part prevents: promoting regressions, wasting budget on bad ideas or the wrong move, opaque winners, evaluator exploits. |
 | 0:40–1:50 | What is novel | (1) Counterexample gates tested against score-only and random-input gates at matched budgets. (2) A strategy controller with timing-shuffled and counterfactual-fork controls, which tell real adaptation from luck. (3) Automated simplification with ablation CIs. (4) Triage with randomised swaps, so the ranker's value is measured, not assumed. |
-| 1:50–3:10 | What we tested it on | [RESULT: tournament, best score against dollars per arm with seeds and CIs, with sampling baselines.] Bin packing: nothing beat best-fit at 80 items, consistent with Herrmann & Pallez and Sim et al.; [RESULT: bp-ceiling, long Weibull instances]. Strategist: beats fixed move mixes; timing matters on Heilbronn (130/0/70 seeds). Simplify: the 11-term "winner" is exactly best-fit. |
+| 1:50–3:10 | What we tested it on | [RESULT: tournament, best score against dollars per arm with seeds and CIs, with sampling baselines.] Bin packing: nothing beat best-fit at 80 items, consistent with Herrmann & Pallez and Sim et al.; [RESULT: bp-ceiling, long Weibull instances]. Memory (first closed-loop LLM run, pilot): with no memory, 59/60 Haiku proposals were harmful; with prose memory 8/60, but 56/60 then packed exactly like the incumbent. Memory stops harm and also stops exploration. Strategist v2 (200 seeds): v1's fixes beat v1 on LABS (+0.137 merit factor, CI [0.043, 0.236]) and NK, mostly through gating crossover, and cut premature switches on LABS from 48% to 21%. A patience rule tuned on dev seeds still wins on LABS. Gate red team: 28 hand-made and 40 LLM-written exploits, none gained a material unearned score. Simplify: the 11-term "winner" is exactly best-fit. |
 | 3:10–4:00 | What we would do next | Evolve instance generators instead of single counterexamples (RAISE, ASRO). Use measured LLM token costs in Strategist. Fine-tune the ranker on our own run logs (Wen et al. show fine-tuning is what makes outcome prediction work). |
 
 ## Live demo (1:30 in round 1)
@@ -54,11 +54,22 @@ progress"), not as safety. Otherwise it reads as a Track 2 project.
 - **"Isn't adaptive restarting already in AdaEvolve and PACEvolve?"** Yes. What's new is the
   cost-weighted leave rule, and above all the controls that separate timing from move mix. None
   of those papers has them, and our results show timing matters on Heilbronn but not on LABS.
+  The forks also showed the controller left improving lines too early. v2 required more evidence
+  and gated crossover, and premature switches on LABS fell from 48% to 21% (seed-clustered CI of
+  the difference [−35, −17] points). Like Gupta et al. (2026), we find no universal winner: a
+  tuned patience rule still beats v2 on LABS.
 - **"Why not just sample many programs?"** Gideoni et al. (2026) show simple sampling is
   competitive, so we include it as a baseline. [RESULT: how our arms compare with it.]
 - **"How do you know a record isn't an exploit?"** Separate process, credentials stripped,
   hidden instances, and an independent 1e-12 re-check. HASE (2026) documented exactly the
-  tolerance exploit this catches. [RESULT: gate-redteam catch rate.]
+  tolerance exploit this catches. We red-teamed it.
+  - Of 28 hand-made exploits, 18 were rejected and 10 were scored as the valid programs they
+    really were.
+  - Of 40 live Sonnet and Haiku attempts, 28 were rejected and 12 ran as honest, weak programs.
+  - The only leak was 2 sub-tolerance overlaps scoring below the record, worth about 3e-10,
+    which is bounded by n × tolerance.
+  - It is not a hardened security sandbox: code can still run inside the child process, but it
+    cannot change the reported score.
 - **"Does the ranker beat random?"** [RESULT: idea-table AUC with CI against the random ranker.]
   Off-the-shelf LLMs are near chance at this task (Wen et al. 2025), so a random-ranker
   baseline is required.
