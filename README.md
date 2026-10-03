@@ -39,8 +39,9 @@ Every default is the setting that won one of our controlled experiments; the res
    program at 0.960 public and 0.238 hidden in [tournament-v2](experiments/tournament-v2/RESULTS.md).
 5. **Explain** it by two-sided ablation ([explain_code.py](autoresearch/explain_code.py)): a part is
    dropped only if the score stays within ±0.002 *on both sides*, so the explanation describes the
-   program actually found. One-sided simplification repaired 21 of 43 worse candidates toward
-   best-fit in [simplify-v1](experiments/simplify-v1/EXPERIMENT.md); here a removal that raises the
+   program actually found. One-sided simplification improved 26 of 43 candidates beyond the
+   tolerance in [simplify-v1](experiments/simplify-v1/EXPERIMENT.md), 21 of them into best-fit: repairs,
+   not explanations; here a removal that raises the
    score is labelled `REPAIRED (not an explanation)`. Program simplification itself is standard in
    genetic programming (survey: Javed, Gobet and Lane 2022,
    [doi:10.1007/s10618-022-00830-7](https://doi.org/10.1007/s10618-022-00830-7)).

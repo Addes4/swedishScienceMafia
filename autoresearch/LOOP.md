@@ -35,7 +35,7 @@ writes `report.md`. It wraps existing code: `tournament/run.py`, `tournament/lea
 | keep | `tournament/lean.py` `Gate` | gate on | [gate-v3](../experiments/gate-v3/RESULTS.md) (counterexample gate beat score-only promotion); as prompt memory the same information mostly produced no-ops ([memory-ablation-v1](../experiments/memory-ablation-v1/RESULTS.md)) |
 | audit | `tournament.metrics.summarize` | always | hidden instances caught 0.960 public → 0.238 hidden ([tournament-v2](../experiments/tournament-v2/RESULTS.md)) |
 | compare | `problems/<name>/baselines/*.py` through `gate.evaluate` | when the folder exists | [bp-ceiling-v1](../experiments/bp-ceiling-v1/RESULTS.md): cheap baselines can match FunSearch |
-| explain | `explain_code.py` | 40 evaluations, ±0.002 | [simplify-v1](../experiments/simplify-v1/EXPERIMENT.md): one-sided simplification repaired 21 of 43 worse candidates toward best fit |
+| explain | `explain_code.py` | 40 evaluations, ±0.002 | [simplify-v1](../experiments/simplify-v1/EXPERIMENT.md) §4.2: one-sided simplification improved 26 of 43 candidates beyond the tolerance (repairs, not explanations), 21 of them into best fit |
 | report | `loop.write_report` | `report.md` | |
 
 Program simplification is standard in genetic programming: Javed, Gobet and Lane, "Simplification
@@ -154,7 +154,10 @@ python -m autoresearch.explain_code problems/bin_packing_online problems/bin_pac
 
 ## Appendix: the spec as pasted
 
-Recorded verbatim, as the coordination log records the Devin task.
+Recorded verbatim, as the coordination log records the Devin task, with one edit: the Explain row
+cited a second figure next to 21/43 that has no source in the repo, so it was removed. The source
+for the repair finding is [simplify-v1](../experiments/simplify-v1/EXPERIMENT.md) §4.2: 26 of 43
+candidates improved beyond the tolerance, 21 of them into best fit.
 
 ````markdown
 # Spec: one command that runs the whole research loop
@@ -180,7 +183,7 @@ experiments**, and every option the experiments did not support is still availab
 | Score | `autoresearch/gate.py` (separate process, static scan, strict recheck, hidden instances) | gate-redteam: 0/68 exploit attempts gained a material unearned score |
 | Keep | improvement on public score + non-regression archive (`gate: true`) | Falsify gates; memory-ablation: archive as a **gate**, not prompt memory (prompt memory made the model timid) |
 | Fresh audit | hidden-instance score of the final incumbent, never used for selection | caught 0.960 public → 0.238 hidden (tournament-v2 smoke); caught Codex 1/0 → 3/14 overfit |
-| Explain | two-sided ablation of the winning program's statements | repair finding: one-sided simplification produced false "rediscovered best-fit" claims (21/43, 44/139) |
+| Explain | two-sided ablation of the winning program's statements | repair finding: one-sided simplification produced false "rediscovered best-fit" claims (21/43) |
 | Compare | score the problem's baselines on the same public+hidden instances | bp-ceiling: cheap baselines can match FunSearch; any gain must be stated against them |
 
 Not default (flags only): `--patience T` (Strategist restart rule), `--independent`, triage
