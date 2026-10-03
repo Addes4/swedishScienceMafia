@@ -22,6 +22,28 @@ This does not yet establish that counterexamples improve autonomous LLM research
 - [Promotion-gate experiment protocol](../experiments/PROTOCOL-v3.md)
 - [Promotion-gate results](../experiments/gate-v3/RESULTS.md)
 
+## Relation to FunSearch
+
+FunSearch (Romera-Paredes et al., Nature 2024; in `context/Track 1 papers/`) evolved
+online bin-packing heuristics that beat best-fit on the OR-Library and Weibull
+benchmarks: for example 2.47% versus 4.94% excess bins over the L2 lower bound on
+OR4, and 0.68% versus 3.98% on 5,000-item Weibull instances. Its heuristics take the
+tightest bin only when the fit is very tight and otherwise leave room, close to the
+`tight_or_roomy` idea Codex proposed here.
+
+Falsify asks a different question: whether executable counterexamples make search
+safer at a fixed evaluator budget, not whether best-fit can be beaten. Its setup also
+differs in ways that plausibly make best-fit harder to beat. We have not tested which
+of these matter:
+
+- FunSearch evolves Python code that sees the remaining capacity of every open bin.
+  Falsify scores each bin on its own with 12 (or 20) fixed features.
+- FunSearch's margin over best-fit grows with instance size, from 0.5 points on OR1
+  to 3.8 points on 100,000-item Weibull instances. Falsify instances have 80 items.
+- The item distributions differ.
+
+A direct next step is to add OR-Library and Weibull instances as Falsify families.
+
 ## Run locally
 
 Requires Python 3.10+ and a C++17 compiler (`c++`). No Python packages, GPU, API
