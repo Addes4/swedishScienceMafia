@@ -176,6 +176,12 @@ def command_line(cfg: dict, problem_dir: Path) -> str:
     return "python -m autoresearch.loop " + shlex.join(args)
 
 
+def problem_of(job: dict) -> Path:
+    """The run's problem folder; on another machine, the folder of the same name in this checkout."""
+    p = Path(job["problem_dir"])
+    return p if p.exists() else REPO / "problems" / p.name
+
+
 def write_report(out: Path) -> dict:
     from tournament.metrics import load_jsonl, summarize, write_curve
     job = json.loads((out / "job.json").read_text())
@@ -183,7 +189,7 @@ def write_report(out: Path) -> dict:
     s = summarize(out)
     (out / "summary.json").write_text(json.dumps(s, indent=2, default=str))
     write_curve(s, out / "curve.csv")
-    problem_dir = Path(job["problem_dir"])
+    problem_dir = problem_of(job)
     cfg = job["arm_config"]
     base = json.loads((out / "baselines.json").read_text()) if (out / "baselines.json").exists() else []
     expl = json.loads((out / "explain.json").read_text()) if (out / "explain.json").exists() else None
@@ -269,7 +275,7 @@ def terminal_summary(out: Path, r: dict) -> str:
     s, au, job, expl = r["summary"], r["audit"], r["job"], r["explain"]
     cfg = job["arm_config"]
     spent = f"$0 real (mock), ${s['spent_usd']:.4f} simulated" if job.get("mock") else f"${s['spent_usd']:.4f} of ${s['cap_usd']:.2f} cap"
-    lines = [f"== {Path(job['problem_dir']).name}: {cfg['type']}{' + gate' if cfg.get('gate') else ''}, {cfg.get('model')} ({job.get('provider')})",
+    lines = [f"== {problem_of(job).name}: {cfg['type']}{' + gate' if cfg.get('gate') else ''}, {cfg.get('model')} ({job.get('provider')})",
              f"spend     {spent}, {s['calls']} calls, {s['evals']} evals, search {s['wall_s']:.0f} s",
              f"public    {_f(s['initial_public'])} -> {_f(s['final_public'])}   (initial -> final incumbent; selected on)",
              f"hidden    {_f(s['initial_hidden'])} -> {_f(s['final_hidden'])}   (fresh audit, never selected on)"
@@ -299,7 +305,7 @@ def main(argv=None):
             raise SystemExit(f"{out} is not a run folder (no job.json)")
         loop = json.loads((out / "loop.json").read_text()) if (out / "loop.json").exists() else {}
         timings = loop.get("timings", {})
-        analyse(out, Path(json.loads((out / "job.json").read_text())["problem_dir"]), a.explain_evals, timings)
+        analyse(out, problem_of(json.loads((out / "job.json").read_text())), a.explain_evals, timings)
         if loop:
             (out / "loop.json").write_text(json.dumps(dict(loop, timings=timings), indent=2))
         print(terminal_summary(out, write_report(out)))
