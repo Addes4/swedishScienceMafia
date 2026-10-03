@@ -1,0 +1,5 @@
+circle_packing {'identical': True, 'combined_score': 0.37739814552201184}
+erdos_discrepancy {'identical': True, 'combined_score': 0.11379310344827587}
+erdos_squares {'identical': True, 'combined_score': 0.8561716061716061}
+sum_difference {'identical': True, 'combined_score': 0.887449398787755}
+all identical

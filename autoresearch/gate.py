@@ -13,6 +13,13 @@ Problem contract (problems/<name>/verify.py), all scores higher-is-better:
     def best_known(instance) -> float | None
     def check_strict(construction, instance) -> bool       # optional, independent re-check
     def label(instance) -> str                              # optional, for feedback text
+
+Optional online protocol (for problems where the candidate must decide per input, e.g. online
+bin packing). If verify.py defines both of these, the gate does not call FUNCTION(**instance):
+    DRIVER = "def drive(fn, header, next_input, emit): ..."   # trusted source run in the child
+    def online(instance) -> (header: dict, inputs: list)     # inputs revealed one at a time
+The parent sends input k+1 only after the child has emitted its decision for input k, so the
+candidate never holds future inputs. The construction passed to check() is the list of decisions.
 """
 import importlib.util
 import json
@@ -20,7 +27,7 @@ import os
 import re
 from pathlib import Path
 
-from .sandbox import run_candidate
+from .sandbox import run_candidate, run_online
 
 GENERIC_REJECTION = "rejected by the integrity gate"
 # Any gain over the best known value above float noise triggers the independent strict check.
@@ -58,7 +65,11 @@ def _label(verify, instance) -> str:
 
 def _run_instance(verify, program_path, instance) -> dict:
     rec = {"instance": instance, "label": _label(verify, instance)}
-    run = run_candidate(program_path, verify.FUNCTION, instance, verify.TIMEOUT_S)
+    if hasattr(verify, "online") and hasattr(verify, "DRIVER"):
+        header, inputs = verify.online(instance)
+        run = run_online(program_path, verify.FUNCTION, verify.DRIVER, header, inputs, verify.TIMEOUT_S)
+    else:
+        run = run_candidate(program_path, verify.FUNCTION, instance, verify.TIMEOUT_S)
     rec["seconds"] = run.seconds
     if not run.ok:
         rec.update(status="error", score=None, normalized=0.0, reason=run.error)
