@@ -1,0 +1,22 @@
+weibull 80 6.718 {'first_fit': 0.581, 'funsearch_weibull': 20.476, 'funsearch_or': -0.304}
+weibull 200 5.734 {'first_fit': 0.514, 'funsearch_weibull': 8.416, 'funsearch_or': -1.247}
+weibull 500 4.911 {'first_fit': 0.457, 'funsearch_weibull': 1.553, 'funsearch_or': -1.354}
+weibull 1000 4.569 {'first_fit': 0.421, 'funsearch_weibull': -1.198, 'funsearch_or': -1.253}
+weibull 2000 4.246 {'first_fit': 0.373, 'funsearch_weibull': -2.538, 'funsearch_or': -1.125}
+weibull 5000 3.944 {'first_fit': 0.34, 'funsearch_weibull': -3.268, 'funsearch_or': -0.905}
+weibull 10000 3.911 {'first_fit': 0.355, 'funsearch_weibull': -3.581}
+uniform 80 4.569 {'first_fit': 1.22, 'funsearch_weibull': 15.025, 'funsearch_or': 0.983}
+uniform 500 3.21 {'first_fit': 1.348, 'funsearch_weibull': 6.197, 'funsearch_or': -0.002}
+uniform 5000 1.398 {'first_fit': 1.06, 'funsearch_weibull': 1.755, 'funsearch_or': 0.236}
+small 80 1.171 {'first_fit': 0.177, 'funsearch_weibull': 59.505, 'funsearch_or': 2.025}
+small 500 0.48 {'first_fit': 0.127, 'funsearch_weibull': 9.877, 'funsearch_or': 0.403}
+small 5000 0.189 {'first_fit': 0.033, 'funsearch_weibull': 0.595, 'funsearch_or': 0.083}
+large 80 2.342 {'first_fit': 0.544, 'funsearch_weibull': 8.043, 'funsearch_or': -0.106}
+large 500 1.653 {'first_fit': 0.592, 'funsearch_weibull': 2.633, 'funsearch_or': 0.008}
+large 5000 0.597 {'first_fit': 0.399, 'funsearch_weibull': 0.812, 'funsearch_or': 0.262}
+bimodal 80 0.77 {'first_fit': 0.162, 'funsearch_weibull': 17.263, 'funsearch_or': 2.425}
+bimodal 500 0.114 {'first_fit': 0.034, 'funsearch_weibull': 12.082, 'funsearch_or': 0.779}
+bimodal 5000 0.004 {'first_fit': 0.002, 'funsearch_weibull': 10.08, 'funsearch_or': 0.156}
+complementary 80 4.225 {'first_fit': 1.331, 'funsearch_weibull': 7.691, 'funsearch_or': 1.861}
+complementary 500 2.363 {'first_fit': 0.969, 'funsearch_weibull': 2.912, 'funsearch_or': 1.147}
+complementary 5000 0.907 {'first_fit': 0.558, 'funsearch_weibull': 1.12, 'funsearch_or': 0.633}
