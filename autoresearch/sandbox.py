@@ -42,7 +42,10 @@ with open(out_path, "w") as f:
     json.dump({"result": plain(result), "seconds": seconds}, f)
 """
 
-_SECRET_ENV_PREFIXES = ("ANTHROPIC", "OPENAI", "GEMINI", "GOOGLE", "AWS", "AZURE", "HF_", "MODAL", "WANDB", "GITHUB", "GH_")
+_SECRET_ENV_PREFIXES = ("ANTHROPIC", "TYPESAFE", "OPENAI", "GEMINI", "GOOGLE", "AWS", "AZURE", "HF_", "MODAL", "WANDB",
+                        "GITHUB", "GH_")
+# Catch credentials from services not listed above.
+_SECRET_ENV_MARKERS = ("KEY", "TOKEN", "SECRET", "PASSWORD")
 
 
 @dataclass
@@ -54,7 +57,8 @@ class RunResult:
 
 
 def _child_env():
-    return {k: v for k, v in os.environ.items() if not k.upper().startswith(_SECRET_ENV_PREFIXES)}
+    return {k: v for k, v in os.environ.items()
+            if not k.upper().startswith(_SECRET_ENV_PREFIXES) and not any(m in k.upper() for m in _SECRET_ENV_MARKERS)}
 
 
 def run_candidate(program_path: str, fn_name: str, kwargs: dict, timeout_s: float) -> RunResult:

@@ -86,3 +86,14 @@ def test_timeout_is_reported(tmp_path):
     prog.write_text("import time\ndef solve():\n    time.sleep(60)\n")
     res = run_candidate(str(prog), "solve", {}, timeout_s=1.0)
     assert not res.ok and "timed out" in res.error
+
+
+def test_api_keys_never_reach_the_candidate(tmp_path, monkeypatch):
+    from autoresearch.sandbox import run_candidate
+    for key in ("ANTHROPIC_API_KEY", "TYPESAFE_API_KEY", "SOME_NEW_SERVICE_TOKEN"):
+        monkeypatch.setenv(key, "dummy-value")
+    prog = tmp_path / "peek.py"
+    prog.write_text("import os\ndef solve():\n    return sorted(os.environ)\n")
+    res = run_candidate(str(prog), "solve", {}, timeout_s=30.0)
+    assert res.ok
+    assert not {"ANTHROPIC_API_KEY", "TYPESAFE_API_KEY", "SOME_NEW_SERVICE_TOKEN"} & set(res.construction)
