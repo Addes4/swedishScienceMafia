@@ -138,8 +138,9 @@ def test_generator_matches_funsearch_weibull_parameters():
     verify = _verify()
     items = [x for seed in range(20) for x in verify.items_for(seed, 5000)]
     mean = sum(items) / len(items)
-    # Weibull(scale 45, shape 3): mean 45 * Gamma(4/3) = 40.19; rounding/clipping barely moves it.
-    assert abs(mean - 45 * math.gamma(4 / 3)) < 0.2
+    # Weibull(scale 45, shape 3) has mean 45 * Gamma(4/3) = 40.19; truncating to integers
+    # (as FunSearch's released items indicate) lowers it by about 0.5.
+    assert abs(mean - (45 * math.gamma(4 / 3) - 0.5)) < 0.2
     assert min(items) >= 1 and max(items) <= 100
     assert verify.items_for(3, 100) == verify.items_for(3, 100)
     assert verify.items_for(3, 100) != verify.items_for(4, 100)

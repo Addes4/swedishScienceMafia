@@ -9,15 +9,17 @@ Online constraint: the gate's online protocol (autoresearch/sandbox.run_online) 
 one at a time and waits for the decision before sending the next, so the candidate never
 holds future items. DRIVER below is the trusted per-item loop that runs in the child.
 
-Instances: item sizes drawn from Weibull(scale 45, shape 3), rounded to the nearest integer and
-clipped to 1..100 (FunSearch Supplementary Information E.4); 5,000 items per instance. Items
-are generated from salted seeds so that knowing a label does not let a candidate regenerate the
-sequence.
+Instances: item sizes drawn from Weibull(scale 45, shape 3) and clipped to 1..100, as in
+FunSearch Supplementary Information E.4; 5,000 items per instance. The SI says sizes were
+rounded to the nearest integer, but FunSearch's released Weibull 5k test items fit truncation
+(int()) instead: mean 39.75 against 40.18 expected with rounding (z = -4.7) and 39.68 with
+truncation. We truncate. Items come from salted seeds so that knowing a label does not let a
+candidate regenerate the sequence.
 
 Score per instance: L2 / bins_used, where L2 is the Martello-Toth lower bound on the optimal
 number of bins. Higher is better; 1.0 would mean the lower bound was met. combined_score is the
 mean over PUBLIC. Reference combined scores on PUBLIC (see experiments/bp-ceiling-v1): best
-fit 0.9603, FunSearch's OR heuristic 0.9710, FunSearch's Weibull heuristic 0.9923. No
+fit 0.9616, FunSearch's OR heuristic 0.9699, FunSearch's Weibull heuristic 0.9925. No
 best_known is set, so nothing is flagged as a record; compare against initial.py instead.
 """
 import hashlib
@@ -61,7 +63,7 @@ def drive(priority, header, next_input, emit):
 def items_for(seed: int, n: int) -> tuple:
     digest = hashlib.sha256(f"{_SALT}:{seed}".encode()).digest()
     rng = random.Random(int.from_bytes(digest[:8], "big"))
-    return tuple(min(CAPACITY, max(1, round(rng.weibullvariate(45.0, 3.0)))) for _ in range(n))
+    return tuple(min(CAPACITY, max(1, int(rng.weibullvariate(45.0, 3.0)))) for _ in range(n))
 
 
 def l2_bound(items, capacity=CAPACITY) -> int:

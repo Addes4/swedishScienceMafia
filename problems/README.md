@@ -9,7 +9,7 @@ problem means adding a folder, with no changes to `autoresearch/`.
 | `erdos_squares` | geometry | problem 55 | k + c/k for n = k² + 2c + 1 (exact, every n) |
 | `erdos_discrepancy` | number theory / combinatorics | problem 40 | 1160 (the maximum for C = 2) |
 | `sum_difference` | additive combinatorics | problem 43 | 1.2715 (asymptotic; AlphaEvolve unaided ≈ 1.21); the gate's reference adds the 0.01 maximum size bonus |
-| `bin_packing_online` | online algorithms | FunSearch (Nature 2024) Weibull 5k | score = L2 bound / bins; best fit 0.960, FunSearch heuristic 0.992 (no record flag) |
+| `bin_packing_online` | online algorithms | FunSearch (Nature 2024) Weibull 5k | score = L2 bound / bins; best fit 0.962, FunSearch heuristic 0.993 (no record flag) |
 
 Problem numbers refer to the repository accompanying Georgiev, Gómez-Serrano, Tao and Wagner,
 *Mathematical exploration and discovery at scale* (2025),
