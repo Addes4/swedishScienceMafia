@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "problems/erdos_squares",
+    "--mock",
+    "--out",
+    "runs/demo-erdos-mock"
+  ],
+  "config": {
+    "budget": 0.1,
+    "provider": "hf",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "max_iters": 12,
+    "wall": 3600,
+    "seed": 0,
+    "no_gate": false,
+    "patience": null,
+    "independent": false,
+    "gate_workers": 10,
+    "explain_evals": 40,
+    "mock": true
+  },
+  "timings": {
+    "search_s": 3.3,
+    "baselines_s": 0.0,
+    "explain_s": 0.4
+  }
+}

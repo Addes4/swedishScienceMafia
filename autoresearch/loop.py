@@ -218,7 +218,7 @@ def write_report(out: Path) -> dict:
          f"| `initial.py` (starting program) | {_f(s['initial_public'])} | {_f(s['initial_hidden'])} | |",
          f"| `best_program.py` (final incumbent) | {_f(s['final_public'])} | {_f(s['final_hidden'])} | "
          f"{'**OVERFIT?** public rose, hidden fell' if au['overfit'] else ''} |"]
-    L += [f"| baseline `{b['name']}` | {_f(b['public'])} | {_f(b['hidden'])} | {_cell(b['note'], 70) if b['valid'] else 'invalid: ' + _cell(b['error'], 60)} |"
+    L += [f"| baseline `{b['name']}` | {_f(b['public'])} | {_f(b['hidden'])} | {'`' + b['file'] + '`' if b['valid'] else 'invalid: ' + _cell(b['error'], 60)} |"
           for b in base]
     if expl and not expl.get("skipped"):
         m = expl["minimal"]

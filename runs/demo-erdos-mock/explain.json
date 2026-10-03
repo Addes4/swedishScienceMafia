@@ -1,0 +1,62 @@
+{
+  "function": "solve",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 5,
+  "original": {
+    "public": 0.8561716061716061,
+    "hidden": 0.9127792599779017,
+    "code": "\"\"\"Baseline: the largest k x k grid that fits, plus size-zero squares for the rest.\"\"\"\nimport math\n\ndef solve(n):\n    \"\"\"Return n squares (centre_x, centre_y, angle, side) inside the unit square,\n    with disjoint interiors, maximising the sum of the sides.\"\"\"\n    k = math.isqrt(n)\n    side = 1.0 / k\n    squares = [((i + 0.5) * side, (j + 0.5) * side, 0.0, side) for i in range(k) for j in range(k)]\n    squares += [(0.5, 0.5, 0.0, 0.0)] * (n - len(squares))\n    return squares[:n]\n"
+  },
+  "minimal": {
+    "public": 0.8561716061716061,
+    "hidden": 0.9127792599779017,
+    "code": "\"\"\"Baseline: the largest k x k grid that fits, plus size-zero squares for the rest.\"\"\"\nimport math\n\ndef solve(n):\n    \"\"\"Return n squares (centre_x, centre_y, angle, side) inside the unit square,\n    with disjoint interiors, maximising the sum of the sides.\"\"\"\n    k = math.isqrt(n)\n    side = 1.0 / k\n    squares = [((i + 0.5) * side, (j + 0.5) * side, 0.0, side) for i in range(k) for j in range(k)]\n    squares += [(0.5, 0.5, 0.0, 0.0)] * (n - len(squares))\n    return squares[:n]\n",
+    "removed": []
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 9,
+      "text": "k = math.isqrt(n)",
+      "inside": [],
+      "delta": -0.8561716061716061,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 10,
+      "text": "side = 1.0 / k",
+      "inside": [],
+      "delta": -0.8561716061716061,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 11,
+      "text": "squares = [((i + 0.5) * side, (j + 0.5) * side, 0.0, side) for i in range(k) for j in range(k)]",
+      "inside": [],
+      "delta": -0.8561716061716061,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 12,
+      "text": "squares += [(0.5, 0.5, 0.0, 0.0)] * (n - len(squares))",
+      "inside": [],
+      "delta": -0.8561716061716061,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/swedishScienceMafia-one-command/runs/demo-erdos-mock/best_program.py"
+}

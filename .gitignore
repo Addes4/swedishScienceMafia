@@ -18,3 +18,6 @@ context/related-papers/
 # Runs of `python -m autoresearch.loop`; only the committed demo runs are tracked
 runs/*
 !runs/demo-*/
+
+# Notes on the committed runs and the live demo plan
+!runs/README.md
