@@ -138,3 +138,17 @@ revealed the cost per idea and the outcomes of its 9 cells; 7 of the 9 improved.
    with paired bootstrap intervals; an explicit implementation-noise section (replicate
    disagreement caps the AUC any ranker can reach and confounds success by tier); and the
    correlation between presentation position and ranker key, as a check.
+4. **Ranking and the main implementation run were started at the same time** to save wall
+   time, rather than one after the other. Blindness is unaffected: no program was evaluated
+   until `rankings.json` was committed, so no outcome existed anywhere a ranker could see it.
+   For the same reason, a second implementation process (6 more parallel calls) took ideas
+   66-113 of the presentation order while the first worked through ideas 0-65. Prompts and
+   settings are identical, and both processes enforce the same cap through the shared
+   `usage.jsonl`.
+5. **Tolerant parse of ClaudeRanker replies.** On the first ranking attempt, Haiku returned
+   `"kind"` as a list and `ClaudeRanker`'s parser crashed (`TypeError: unhashable type: 'list'`
+   in `autoresearch/rankers.py`). Nothing was saved. The rankers were rerun from the start
+   with one change: if `ClaudeRanker.rank` raises, the same reply (already paid for) is parsed
+   by `ideatable.parse_rankings`, which reads the same JSON fields but tolerates malformed
+   ones. The count is recorded as `tolerant_parses` in `rankings.json`. The crashed attempt's
+   calls are in `usage.jsonl` and count against the budget.

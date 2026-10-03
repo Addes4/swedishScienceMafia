@@ -5,10 +5,10 @@
     0.254039
   ],
   "c": 0.2667426666666667,
-  "spent_after_probe": 1.691368,
+  "spent_after_probe": 2.2962119999999997,
   "reserve": 6.0,
   "replicate_cost_estimate": 1.0669706666666667,
-  "pool": 80,
-  "N": 78,
+  "pool": 120,
+  "N": 114,
   "soft_stop": 37.933
 }

@@ -68,6 +68,7 @@ class Data:
         self.cells = cells
         self.rankers = {}
         self.ranker_cost = {}
+        self.positions = {}
         sources = dict(rankings["rankers"])
         if extra_rankings:
             sources.update(extra_rankings)
@@ -76,6 +77,7 @@ class Data:
             key = np.array([float(ideas.get(i, {}).get("key", 0.5)) for i in self.ids])
             p = np.array([float(ideas.get(i, {}).get("p_improve", ideas.get(i, {}).get("key", 0.5))) for i in self.ids])
             self.rankers[name] = (key, np.clip(p, 0, 1))
+            self.positions[name] = np.array([float(ideas.get(i, {}).get("position", math.nan)) for i in self.ids])
             total = entry.get("meta", {}).get("cost")
             if total is None:
                 total = sum(float(v.get("cost", 0.0)) for v in ideas.values())
@@ -263,11 +265,50 @@ def replicate_pairs(data):
     return pairs
 
 
+def kappa(a, b):
+    """Cohen's kappa between two binary label vectors (nan when agreement by chance is certain)."""
+    a, b = np.asarray(a, bool), np.asarray(b, bool)
+    if len(a) == 0:
+        return math.nan
+    po = np.mean(a == b)
+    pe = a.mean() * b.mean() + (1 - a.mean()) * (1 - b.mean())
+    return float((po - pe) / (1 - pe)) if pe < 1 else math.nan
+
+
+def cross_model_agreement(imp):
+    """How much do two models agree on which ideas improve? Shared idea quality is the only thing
+    a ranker that sees just the idea could learn; if models disagree, ideas have little stable value."""
+    out = {}
+    for a, b in ((0, 1), (0, 2), (1, 2)):
+        out[f"kappa_{SHORT[a]}_{SHORT[b]}"] = kappa(imp[:, a], imp[:, b])
+        out[f"agree_{SHORT[a]}_{SHORT[b]}"] = float(np.mean(imp[:, a] == imp[:, b]))
+    return out
+
+
+def position_check(data):
+    """Spearman correlation between the position an idea was shown in and the ranker's key."""
+    out = {}
+    for name, (key, _) in data.rankers.items():
+        pos = data.positions.get(name)
+        if pos is None or np.all(np.isnan(pos)) or np.ptp(key) == 0:
+            continue
+        ok = ~np.isnan(pos)
+        res = spearmanr(pos[ok], key[ok])
+        out[name] = {"spearman": float(res.statistic), "p_value": float(res.pvalue), "n": int(ok.sum()),
+                     "max_position": int(np.nanmax(pos))}
+    return out
+
+
 def noise_summary(data):
     pairs = replicate_pairs(data)
     out = {"pairs": len(pairs)}
     if pairs:
-        out["improved_disagreement"] = float(np.mean([p["improved"][0] != p["improved"][1] for p in pairs]))
+        r0 = [p["improved"][0] for p in pairs]
+        r1 = [p["improved"][1] for p in pairs]
+        out["improved_disagreement"] = float(np.mean([a != b for a, b in zip(r0, r1)]))
+        out["replicate_kappa"] = kappa(r0, r1)
+        # rough ceiling: how well one implementation's outcome predicts another implementation of the same cell
+        out["replicate_auc"] = auc(np.asarray(r1, float), r0)
         out["outcome_disagreement"] = float(np.mean([p["outcome"][0] != p["outcome"][1] for p in pairs]))
         diffs = [abs(p["score"][0] - p["score"][1]) for p in pairs if None not in p["score"]]
         out["mean_abs_score_diff_valid_pairs"] = float(np.mean(diffs)) if diffs else None
@@ -338,6 +379,7 @@ def analyse(data: Data, n_boot=2000, n_point=500, seed=0, budgets=None, noise_se
         for r in rankers:
             key, p = draw.keys(data, r)
             res["ranker"][r] = ranker_metrics(draw, key, p, data.parent_score)
+        res["cross"] = cross_model_agreement(draw.imp)
         if noise_sensitivity and d is not None:
             imp_f = flipped_labels(draw, data, d, rates)
             for r in rankers:
@@ -384,6 +426,15 @@ def analyse(data: Data, n_boot=2000, n_point=500, seed=0, budgets=None, noise_se
                                                      "pool_exhausted")} for b in budgets}
     for r in rankers:
         result["rankers"][r] = {k: stat(("ranker", r, k)) for k in point[0]["ranker"][r]}
+    result["cross_model_agreement"] = {k: stat(("cross", k)) for k in point[0]["cross"]}
+    result["position_check"] = position_check(data)
+    for r in rankers:
+        if r == "random":
+            continue
+        for metric in ("auc_pooled", "auc_any", "spearman_gain"):
+            pt = [x["ranker"][r][metric] - x["ranker"]["random"][metric] for x in point]
+            bt = [x["ranker"][r][metric] - x["ranker"]["random"][metric] for x in boot]
+            result["contrasts"][f"{metric}: {r} - random"] = dict(mean=_mean(pt), **_summ(bt))
     if point[0]["sens"]:
         result["sensitivity"] = {k: stat(("sens", k)) for k in point[0]["sens"]}
         result["sensitivity"]["disagreement_rate_used"] = d
@@ -485,8 +536,21 @@ def report(result, summary) -> str:
     L += ["## Implementation noise", ""]
     if n["pairs"]:
         L += [f"{n['pairs']} cells implemented twice. Improved/not disagreement {n['improved_disagreement']:.2f}; "
-              f"outcome disagreement {n['outcome_disagreement']:.2f}. By model: "
+              f"outcome disagreement {n['outcome_disagreement']:.2f}; Cohen's kappa {n['replicate_kappa']:.2f}; "
+              f"AUC of one replicate predicting the other {n['replicate_auc']:.2f}. By model: "
               + ", ".join(f"{k} {v['improved_disagreement']:.2f} ({v['pairs']} pairs)" for k, v in n["by_model"].items()), ""]
+    L += ["Agreement between models on which ideas improve (same idea, different implementer):", "",
+          "| pair | Cohen's kappa | raw agreement |", "|---|---|---|"]
+    ca = result["cross_model_agreement"]
+    for a, b in (("haiku", "sonnet"), ("haiku", "opus"), ("sonnet", "opus")):
+        L.append(f"| {a}-{b} | {_f(ca[f'kappa_{a}_{b}'], 2)} | {_f(ca[f'agree_{a}_{b}'], 2)} |")
+    L.append("")
+    if result.get("position_check"):
+        L += ["Presentation position vs ranker key (Spearman; positions are within the batch shown):", "",
+              "| ranker | rho | p | n | positions |", "|---|---|---|---|---|"]
+        for r, s in result["position_check"].items():
+            L.append(f"| {r} | {s['spearman']:.3f} | {s['p_value']:.3f} | {s['n']} | 0-{s['max_position']} |")
+        L.append("")
     if n.get("eval_repeats"):
         L += [f"{n['eval_repeats']} programs re-evaluated: outcome disagreement {n['eval_outcome_disagreement']:.2f}, "
               f"max |score difference| {n['eval_max_abs_score_diff']:.2e}.", ""]

@@ -52,13 +52,22 @@ class SpendLedger:
         self.cap = float(cap)
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.spent = 0.0
-        if self.path.exists():
-            for line in self.path.read_text().splitlines():
-                if line.strip():
-                    self.spent += float(json.loads(line).get("cost") or 0.0)
+        self.spent = self._logged()
         self.reserved = 0.0
         self._cv = threading.Condition()
+
+    def _logged(self) -> float:
+        """Total cost in usage.jsonl, which other processes sharing the folder also append to."""
+        if not self.path.exists():
+            return 0.0
+        total = 0.0
+        for line in self.path.read_text().splitlines():
+            if line.strip():
+                try:
+                    total += float(json.loads(line).get("cost") or 0.0)
+                except ValueError:      # a line another process is still writing
+                    pass
+        return total
 
     @property
     def remaining(self) -> float:
@@ -68,6 +77,7 @@ class SpendLedger:
         """Reserve `amount` dollars. If other reservations are in flight and the sum would
         exceed the cap, wait for them to settle; refuse if it cannot fit even alone."""
         with self._cv:
+            self.spent = max(self.spent, self._logged())   # include spend settled by other processes
             while self.spent + self.reserved + amount > self.cap + 1e-12:
                 if self.reserved <= 1e-12 or not wait:
                     raise BudgetExceeded(
@@ -80,10 +90,9 @@ class SpendLedger:
         """Release a reservation, add the actual cost and append the entry to usage.jsonl."""
         with self._cv:
             self.reserved = max(0.0, self.reserved - reserved)
-            self.spent += float(entry.get("cost") or 0.0)
-            entry["spent_total"] = round(self.spent, 6)
             with open(self.path, "a") as f:
                 f.write(json.dumps(entry, default=str) + "\n")
+            self.spent = self._logged()
             self._cv.notify_all()
 
 

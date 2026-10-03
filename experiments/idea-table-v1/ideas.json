@@ -96,6 +96,50 @@
       "n_parsed": 10,
       "n_kept": 10,
       "response": "<idea>Lagrangian count pricing: for a range of prices \u03bb, maximise (sum of sides \u2212 \u03bb\u00b7count) over guillotine/grid-tree layouts with a DP that never fixes the count. Each \u03bb yields a layout on the upper convex hull of (count, sum). Then repair the count to exactly n with the cheapest local split, merge or delete, which finds good counts without enumerating every count.</idea>\n\n<idea>Monotone-staircase DP: on an L\u00d7L integer board, restrict layouts to those built by placing squares into the inner corners of a Young-diagram-shaped occupied region growing from the bottom-left corner. States are monotone lattice paths, giving far fewer states than general skyline search, so L can reach about 20\u201324. This finds non-guillotine integer dissections, such as corner-heavy optima, exactly.</idea>\n\n<idea>Insertion homotopy: start from the best layout for n\u22121, insert a zero-size square at every vertex where three or more squares meet or at a boundary corner gap. Grow that square continuously by re-solving the topology-fixed LP while its neighbours shrink, and keep the best final sum; repeat the analogous deletion path from the n+1 layout.</idea>\n\n<idea>Precompute, by multi-start penalty optimisation with rotation, the best packings of m=2..6 squares in rectangles of aspect 1:1, 2:1, 3:2 and 3:1. Use them as tiles that replace equal-aspect blocks of grid cells, inserted through the existing replacement and knapsack machinery when their scaled (\u0394count, \u0394sum) beats the axis-aligned retilings.</idea>\n\n<idea>Row re-gridding with free count bumps: in a k-row layout, rows with k+j squares of side 1/(k+j) are always height-feasible alongside rows of k squares of side 1/k, and leave a residual horizontal strip of height \u03a3(1/k \u2212 1/(k+j)). Enumerate row-count vectors and fill that residual strip with a row of tiny squares, plus LP compaction, to reach counts that neither the grid nor the Erd\u0151s\u2013Soifer family reaches.</idea>\n\n<idea>Unequal L-frame peeling: peel a frame along two adjacent edges whose squares are not all equal (for example one corner square of side a with runs of side b and c along the two arms). Choose a, b and c from small-denominator rationals so that both arms tile exactly, and recurse on the inner square. This generalises the n=11 frame construction beyond unit-fraction frames.</idea>\n\n<idea>Contact-graph mining across n: take the best layouts found for neighbouring counts (n\u22122..n+2) and extract recurring local motifs, such as a 2\u00d72-into-1 merge, an L-corner or a frame. Re-apply every motif at every compatible position of the current layout, scoring each result with the compaction LP, so improvements found at one n propagate to the others within the run.</idea>\n\n<idea>Diagonal two-big-square family: place squares of sides a and 1\u2212a in opposite corners, and fill the two off-diagonal a\u00d7(1\u2212a) rectangles with the best rectangle-table packings using counts n1 and n2. Optimise a over rationals and also allow each big square to be subdivided into a j\u00d7j grid. This is a closed-form non-grid family that is cheap to enumerate.</idea>\n\n<idea>Long shot on rotation: wherever a layout has a free square or near-square hole of side h, check whether a small square tilted at 45\u00b0 plus axis-aligned slivers can increase the count with a smaller sum loss than an axis-aligned refill. Solve this as a tiny SLSQP inside the hole with the surrounding squares allowed to shrink linearly.</idea>\n\n<idea>Random-restart integer perturbation: starting from the best layout expressed on an L\u00d7L board, apply random \"slide a seam by one unit\" moves that shift a maximal straight edge segment. Each move resizes the squares on both sides by \u00b11 unit, and the move is repaired by splitting or merging so the count stays n. Run thousands of exact-integer hill-climbing steps with occasional resets to the best.</idea>"
+    },
+    {
+      "call": 8,
+      "cost": 0.2487,
+      "input_tokens": 11975,
+      "output_tokens": 10040,
+      "seconds": 134.62,
+      "refused": false,
+      "n_parsed": 10,
+      "n_kept": 10,
+      "response": "<idea>Run simulated annealing over slicing floorplans written as normalized Polish expressions (operands are the n squares, operators H/V). Size each expression exactly with an LP that maximises the sum of sides, where each slice's width or height is shared and each leaf is constrained to be square. Use the standard Wong\u2013Liu moves (swap adjacent operands, complement an operator chain, swap an operand with an operator). This explores guillotine layouts with continuous rather than discretised cut positions.</idea>\n\n<idea>Treat the best count for a rectangle of aspect r as a piecewise-linear function g_m(r) and compute its breakpoints exactly in Fractions. Build it recursively from g for smaller counts by taking upper envelopes over the cut position. Optimal cuts can then sit at any rational breakpoint instead of only at denominators \u2264 12, and the unit square is just g_n(1).</idea>\n\n<idea>Keep several layouts per count in the substitution/partition DP rather than only the max-sum one. Use a Pareto front on (sum, largest side) and also (sum, smallest side). A slightly worse layout with one big square is often the better host for later substitution or splitting steps. Prune dominated states only at the end.</idea>\n\n<idea>Add an active-set rational reconstruction post-processor. After any continuous (SLSQP/penalty) optimisation, detect the near-active contacts (gap < 1e-7) and solve the resulting linear equality system exactly in Fractions to recover the exact rational optimum. Accept it if exact verification passes, so optimiser noise neither costs score nor causes invalid overlaps.</idea>\n\n<idea>Use a first-order rigidity test to look for rotational improvements. For the best axis-aligned layout, linearise the separating-axis constraints in each square's translation, rotation and side-growth variables. Solve an LP asking for an infinitesimal motion that strictly increases the sum of sides while keeping all contacts feasible. If one exists, follow it with line search plus SLSQP, which shows exactly where tilting helps instead of guessing.</idea>\n\n<idea>Test candidate multisets of sides for packability with Korf/Huang\u2013Korf's two-phase rectangle-packing algorithm. First assign x-intervals with cumulative-width (wasted-space) pruning, then solve the y-placement as a separate CSP. Order squares in decreasing size and break symmetry by restricting the largest square to one quadrant. This is typically far faster than skyline backtracking, so many more knapsack multisets can be certified.</idea>\n\n<idea>Use GRASP with path relinking on integer boards. Build many layouts by randomised greedy largest-fitting-square placement with random size caps, keep an elite pool per count, and walk between pairs of elite layouts by transferring sub-rectangle regions from one into the other. Repair the count by splitting or merging at each step, which recombines good local structures found in different runs.</idea>\n\n<idea>Add a windmill motif as a replaceable block. Replace a 2\u00d72 block of grid cells by four squares rotated by angle \u03b8 in pinwheel fashion around a fifth small central square, optimising \u03b8 and the sides numerically with exact separating-axis checks. Tabulate the motif's (\u0394count=+1, \u0394sum) and also its 3\u00d73 analogues, then feed them into the block-replacement knapsack as a rotated count-parity fix.</idea>\n\n<idea>Place the refined Erd\u0151s\u2013Soifer block at a non-aligned position: let the (m+1)\u00d7(m+1) fine grid straddle cell boundaries, offset by a fraction of a cell. Re-solve the neighbouring coarse cells with the compaction LP so partially covered cells become rectangles re-tiled by equal squares. This generates (\u0394count, \u0394sum) pairs, including even count changes, that aligned replacements cannot give.</idea>\n\n<idea>Build an \"Egyptian-row\" family. Stack horizontal rows where row i holds c_i squares of side 1/c_i, so each full row contributes exactly 1 to the sum and \u03a31/c_i \u2264 1. Choose the vectors (c_i) by enumerating Egyptian-fraction decompositions with \u03a3c_i close to n. Fill the leftover strip of height 1\u2212\u03a31/c_i with the transposed version of the same construction, recursing two levels, and zero-pad or delete to reach exactly n.</idea>"
+    },
+    {
+      "call": 9,
+      "cost": 0.084824,
+      "input_tokens": 13486,
+      "output_tokens": 1544,
+      "seconds": 21.94,
+      "refused": false,
+      "n_parsed": 10,
+      "n_kept": 10,
+      "response": "<idea>Build an exhaustive axis-aligned \"count-sum\" table T[p][q] over integer rectangles p\u00d7q (p,q \u2264 2\u221an+4), where each entry is a Pareto set of (count, sum) pairs. Fill it with exact-Fraction guillotine recursion that also allows the cell itself to be one square plus a remainder strip. Then return, for the unit square, the best entry at exactly n over all board sizes L, reconstructing the layout from stored back-pointers.</idea>\n\n<idea>Add a \"row-mixing\" closed form. Use r rows: rows of the first kind hold a squares of side 1/a (height 1/a), and rows of the second kind hold b squares of side 1/b. Their heights must satisfy x/a + y/b \u2264 1. Enumerate integers a, b, x, y with xa + yb \u2265 n, keep the largest sides when trimming, and maximise x + y minus the trimmed sides. Also fill any leftover strip with a final row of c squares of side min(leftover height, 1/c).</idea>\n\n<idea>Implement the known optimal-pattern generator directly: for n = k\u00b2 + 2m + 1 use Erd\u0151s\u2013Soifer with the (m+1)\u00d7(m+1) refinement. For n = k\u00b2 \u2212 2m \u2212 1 use the shrinking version, and for even residues combine one expanding and one shrinking replacement in disjoint corners of the same k-grid. Evaluate all (k, m1, m2) and validate with an exact Fraction overlap checker before returning.</idea>\n\n<idea>Use a scipy-milp exact partition of an L\u00d7L integer board (L from \u2308\u221an\u2309 to 3\u2308\u221an\u2309 within a time budget) into at most n axis-aligned integer squares. Binary variables x[i,j,s] place a square of side s at (i,j). Cover each cell at most once, require \u03a3x = n, and maximise \u03a3 s\u00b7x / L. Warm-start from the best closed-form answer and stop each L after a few seconds.</idea>\n\n<idea>Use \"deletion with re-expansion\": take the k\u00d7k grid with k = \u2308\u221an\u2309 and delete the k\u00b2\u2212n surplus cells chosen as a whole row segment. Then merge the freed space with neighbouring cells into larger squares (e.g. delete 3 cells of a 2\u00d72 corner and enlarge the 4th to side 2/k). Enumerate merge shapes j\u00d7j costing j\u00b2\u22121 deletions and gaining (j\u22121)/k each, which turns padding waste into sum.</idea>\n\n<idea>Use a compaction LP with free sizes on a fixed slicing tree. For the best guillotine layout, set the leaf sides and cut positions as LP variables, constrained so that siblings share the parent's width or height, with sides \u2264 the cell dimensions. Maximise the sum, then round the solution to exact rationals via active constraints. This rebalances strips that the discrete cut grid misallocated.</idea>\n\n<idea>Run a SLSQP polish over all axis-aligned squares with the pairwise ordering fixed from the best construction (left/right/above/below per pair, chosen by the largest current separation). Use sides and centres as variables, so the solve is an LP. Then try flipping the ordering of each pair whose separation is tied, accepting improvements greedily within 20 seconds.</idea>\n\n<idea>Long shot \"tilted strip\" family: take k\u22121 rows of a k-grid of side 1/k and replace the final row with a strip of height h, holding k+1 squares rotated by \u03b8 and touching alternately the top and bottom. Shrink the other rows to height (1\u2212h)/(k\u22121). Solve the sum over (h, \u03b8) numerically with exact rotated-square containment, accepting only when it beats the axis-aligned value for that n.</idea>\n\n<idea>Recursive frame-peeling search. Choose a corner square of side 1\u2212t, then fill the L-shaped border of width t with two arms of equal squares of side t/j (stacked j deep where possible). Recurse into any rectangle left over. Enumerate t \u2208 {p/q : q \u2264 12} and depth \u2264 3, keeping the exact count n via the best (count, sum) Pareto lists of the sub-rectangles.</idea>\n\n<idea>Run a bottom-left skyline beam search on an integer L\u00d7L board, where each step places at the lowest-left corner a square chosen from all sizes that fit. Score partial states by placed sum + \u221a(remaining count \u00d7 remaining area), which is the Cauchy\u2013Schwarz bound. Use beam width ~500, iterate L over several values within the time limit, and return the best complete layout with exactly n squares.</idea>"
+    },
+    {
+      "call": 10,
+      "cost": 0.177676,
+      "input_tokens": 15069,
+      "output_tokens": 5870,
+      "seconds": 71.78,
+      "refused": false,
+      "n_parsed": 10,
+      "n_kept": 10,
+      "response": "<idea>Move every size-zero padding square off the interior. The current code puts them at (0.5,0.5), which lies inside a real square whenever k is odd, and a strict evaluator may count that as a shared interior point. Place them instead at distinct boundary corners or grid-line vertices, such as (0,0), (1,0) and points of the form (i/k, 0), which are never interior to any square.</idea>\n\n<idea>Compute every coordinate from integer numerators, for example centre = (2i+1)/(2k) and side = p/q, evaluated once as a float. Then clamp centre \u00b1 side/2 into [0,1], and shrink each side by a relative 1e-13 only when a float check against the evaluator's likely tolerance fails. This removes accumulated rounding from repeated (i+0.5)*side products.</idea>\n\n<idea>Build an exact monotone envelope F(n) = max over n' \u2264 n of the expanding and shrinking Erd\u0151s\u2013Soifer values k \u00b1 m/k (or (m+1)/k), each padded with zero squares. Pick, for each n, the realising layout with the fewest zero squares. A quick check shows this reproduces every listed best-known value (6\u21927/3, 7\u21925/2, 8\u21928/3, 11\u219213/4, 12\u219210/3, 13\u21927/2, 14\u219211/3, 15\u219215/4), and it also handles hidden n such as 18\u21924.2 and 20\u21924.4 through the shrinking branch of k+1.</idea>\n\n<idea>Handle tiny and edge-case n explicitly but generically. For n=1 return the unit square. For n=2,3 compare 1 against splitting into halves (2\u00d7(1/2)=1, a tie). Make sure the k=1 and k=2 cases of the expand/shrink enumeration (for example n=4, and m=0 meaning no replacement) never index out of range or return fewer than n tuples.</idea>\n\n<idea>Run a cross-entropy-method search over size multisets. Keep a probability vector over how many squares of each side 1/d (d \u2264 3\u221an) to use. Decode each sampled multiset with a skyline placer on the lcm board, keep the top 10% of samples that pack with exactly n squares, and re-estimate the distribution. This is a smoother alternative to the GA, seeded at the Erd\u0151s\u2013Soifer multiset.</idea>\n\n<idea>Long-shot self-similar family: tile a corner of the unit square with a geometric spiral of squares whose sides shrink by a ratio r (Fibonacci/golden-spiral or a rational approximation). Fill the complementary rectangle with the best uniform grid. Optimise r and the spiral length over rationals so that the total count is n, as a structurally non-lattice candidate.</idea>\n\n<idea>Use the Erd\u0151s\u2013Soifer layout as a seed for an angle-free/angle-on comparison. Add tiny random rotations (\u00b10.5\u00b0) and position jitter to it, then run SLSQP maximising the sum under exact separating-axis constraints for about 20 s with multiple jitters. Return the rotated result only if it strictly exceeds the exact rational value by more than 1e-9.</idea>\n\n<idea>Use an empty-cell two-level grid closed form: in a k1\u00d7k1 coarse grid, each cell is either one square, a j\u00d7j subgrid with a single global j, or left empty. With a full, b subdivided and e empty cells, count = a + b\u00b7j\u00b2 and sum = (a + b\u00b7j)/k1. Enumerate (k1, j, a, b) over a + b + e = k1\u00b2 to hit n exactly, without zero-padding waste.</idea>\n\n<idea>Add an internal self-test run on the first call that evaluates solve(m) for m=1..40 using a strict exact-Fraction overlap and containment checker. Verify that the returned sum is non-decreasing in m and that each m has exactly m tuples; if any m violates this, substitute the best layout for a smaller m plus zero squares.</idea>\n\n<idea>Choose the position of the refined (or coarsened) block to minimise floating-point risk, preferring the corner at the origin so that most coordinates are small exact dyadics or thirds. For two-block combinations, put the blocks in opposite corners. Before accepting, verify that their union does not exceed the k\u00d7k grid, so the combinatorial enumeration never emits overlapping replacements.</idea>"
+    },
+    {
+      "call": 11,
+      "cost": 0.093644,
+      "input_tokens": 16546,
+      "output_tokens": 1373,
+      "seconds": 18.8,
+      "refused": false,
+      "n_parsed": 10,
+      "n_kept": 10,
+      "response": "<idea>Run an exact branch-and-bound over integer square dissections of a k\u00d7k board (k = \u2308\u221an\u2309 \u2026 \u2308\u221an\u2309+3). Enumerate only \"grid plus a single non-unit square of side a placed at a corner, with the cells covered by it removed\", and also the dual case where cells are split into 2\u00d72. Take the best exact count n, as a fast closed-form family indexed by (k, a, number of 2\u00d72 splits).</idea>\n\n<idea>Generalise the one-sided L-frame recursion to \"corner square plus a two-arm frame of side 1/j\". The bottom arm holds j squares of side 1/j and the left arm holds j\u22121 of them. The remaining (1\u22121/j)\u00d7(1\u22121/j) square is filled recursively, scaled from best[m], with the table built bottom-up. Evaluate f(n) \u2265 (2j\u22121)/j + (1\u22121/j)\u00b7f(n\u22122j+1) for all j.</idea>\n\n<idea>Add a \"rectangle-of-two-grids\" closed form. Split the square vertically at x = p/(p+q)-type rationals. Fill the left part with an a\u00d7b grid of equal squares and the right part with a c\u00d7d grid, with the sides chosen as the min of the width and height constraints. Enumerate all integer tuples with total count \u2265 n, trim the smallest squares, and keep the best exact value.</idea>\n\n<idea>Implement the Pareto-front substitution DP restricted to the four corner sub-squares. Split the unit square into one sub-square of side t and the L-shaped complement, decomposed into two rectangles. Each rectangle uses its best uniform grid, t ranges over rationals p/q with q \u2264 2\u221an+2, and the count is matched exactly by combining the per-rectangle count/sum lists.</idea>\n\n<idea>As a correctness safeguard, compute all candidate configurations in Fractions. Before converting to floats, run an exact pairwise interval-overlap check and an exact containment check. Place zero-size padding squares at the corner (0,0) rather than the centre, so the evaluator never flags a point inside another square's interior.</idea>\n\n<idea>Implement the strip-mixing form directly. Use x rows of a squares of side 1/a and y rows of a+1 squares of side 1/(a+1), with x/a + y/(a+1) \u2264 1, then put a final leftover row of c squares in the residual height. Enumerate a, x, y and c, which naturally yields values like (k\u00b7j + b)/j that match the best-known pattern for even n.</idea>\n\n<idea>Run a small exact integer-board DP (a skyline or profile DP on an L\u00d7L board, L \u2264 10, with square sides 1..L). The DP tracks the best sum for every count, so the true optimal axis-aligned integer dissection is found for small n. Prune it with a time cap and keep it as one of the candidates.</idea>\n\n<idea>Long shot: start from the best rational layout and remove the smallest square, opening a hole. Then run penalty-based SLSQP with rotations allowed only for the squares neighbouring that hole, and look for a tilted re-arrangement that fits n squares with a larger total. Accept the result only after an exact separating-axis verification passes with margin.</idea>\n\n<idea>Add a Lagrangian-hull rescue for every n. Compute the upper concave hull of (count, best sum) over all constructions found, for counts from n\u22126 to n+6. For any n strictly below the hull, try combining the two hull endpoints' layouts by placing them as scaled sub-blocks in a 2\u00d71 or 1\u00d72 split. Use the best sub-layouts for the rectangles via the rectangle table.</idea>\n\n<idea>Use a \"staircase merge\" family on the k\u00d7k grid with k = \u2308\u221an\u2309+1. Merge disjoint 2\u00d72 blocks along the diagonal into single squares of side 2/k, each removing 3 from the count and adding 1/k to the sum. Also allow 3\u00d73 merges, each removing 8 and adding 2/k, and choose the counts by a small knapsack to hit n exactly with the maximal sum.</idea>"
     }
   ],
   "ideas": [
@@ -658,6 +702,286 @@
       "call": 7,
       "pos": 9,
       "order": 9
+    },
+    {
+      "id": "i080",
+      "text": "Run simulated annealing over slicing floorplans written as normalized Polish expressions (operands are the n squares, operators H/V). Size each expression exactly with an LP that maximises the sum of sides, where each slice's width or height is shared and each leaf is constrained to be square. Use the standard Wong\u2013Liu moves (swap adjacent operands, complement an operator chain, swap an operand with an operator). This explores guillotine layouts with continuous rather than discretised cut positions.",
+      "call": 8,
+      "pos": 0,
+      "order": 109
+    },
+    {
+      "id": "i081",
+      "text": "Treat the best count for a rectangle of aspect r as a piecewise-linear function g_m(r) and compute its breakpoints exactly in Fractions. Build it recursively from g for smaller counts by taking upper envelopes over the cut position. Optimal cuts can then sit at any rational breakpoint instead of only at denominators \u2264 12, and the unit square is just g_n(1).",
+      "call": 8,
+      "pos": 1,
+      "order": 107
+    },
+    {
+      "id": "i082",
+      "text": "Keep several layouts per count in the substitution/partition DP rather than only the max-sum one. Use a Pareto front on (sum, largest side) and also (sum, smallest side). A slightly worse layout with one big square is often the better host for later substitution or splitting steps. Prune dominated states only at the end.",
+      "call": 8,
+      "pos": 2,
+      "order": 80
+    },
+    {
+      "id": "i083",
+      "text": "Add an active-set rational reconstruction post-processor. After any continuous (SLSQP/penalty) optimisation, detect the near-active contacts (gap < 1e-7) and solve the resulting linear equality system exactly in Fractions to recover the exact rational optimum. Accept it if exact verification passes, so optimiser noise neither costs score nor causes invalid overlaps.",
+      "call": 8,
+      "pos": 3,
+      "order": 90
+    },
+    {
+      "id": "i084",
+      "text": "Use a first-order rigidity test to look for rotational improvements. For the best axis-aligned layout, linearise the separating-axis constraints in each square's translation, rotation and side-growth variables. Solve an LP asking for an infinitesimal motion that strictly increases the sum of sides while keeping all contacts feasible. If one exists, follow it with line search plus SLSQP, which shows exactly where tilting helps instead of guessing.",
+      "call": 8,
+      "pos": 4,
+      "order": 117
+    },
+    {
+      "id": "i085",
+      "text": "Test candidate multisets of sides for packability with Korf/Huang\u2013Korf's two-phase rectangle-packing algorithm. First assign x-intervals with cumulative-width (wasted-space) pruning, then solve the y-placement as a separate CSP. Order squares in decreasing size and break symmetry by restricting the largest square to one quadrant. This is typically far faster than skyline backtracking, so many more knapsack multisets can be certified.",
+      "call": 8,
+      "pos": 5,
+      "order": 108
+    },
+    {
+      "id": "i086",
+      "text": "Use GRASP with path relinking on integer boards. Build many layouts by randomised greedy largest-fitting-square placement with random size caps, keep an elite pool per count, and walk between pairs of elite layouts by transferring sub-rectangle regions from one into the other. Repair the count by splitting or merging at each step, which recombines good local structures found in different runs.",
+      "call": 8,
+      "pos": 6,
+      "order": 81
+    },
+    {
+      "id": "i087",
+      "text": "Add a windmill motif as a replaceable block. Replace a 2\u00d72 block of grid cells by four squares rotated by angle \u03b8 in pinwheel fashion around a fifth small central square, optimising \u03b8 and the sides numerically with exact separating-axis checks. Tabulate the motif's (\u0394count=+1, \u0394sum) and also its 3\u00d73 analogues, then feed them into the block-replacement knapsack as a rotated count-parity fix.",
+      "call": 8,
+      "pos": 7,
+      "order": 97
+    },
+    {
+      "id": "i088",
+      "text": "Place the refined Erd\u0151s\u2013Soifer block at a non-aligned position: let the (m+1)\u00d7(m+1) fine grid straddle cell boundaries, offset by a fraction of a cell. Re-solve the neighbouring coarse cells with the compaction LP so partially covered cells become rectangles re-tiled by equal squares. This generates (\u0394count, \u0394sum) pairs, including even count changes, that aligned replacements cannot give.",
+      "call": 8,
+      "pos": 8,
+      "order": 101
+    },
+    {
+      "id": "i089",
+      "text": "Build an \"Egyptian-row\" family. Stack horizontal rows where row i holds c_i squares of side 1/c_i, so each full row contributes exactly 1 to the sum and \u03a31/c_i \u2264 1. Choose the vectors (c_i) by enumerating Egyptian-fraction decompositions with \u03a3c_i close to n. Fill the leftover strip of height 1\u2212\u03a31/c_i with the transposed version of the same construction, recursing two levels, and zero-pad or delete to reach exactly n.",
+      "call": 8,
+      "pos": 9,
+      "order": 87
+    },
+    {
+      "id": "i090",
+      "text": "Build an exhaustive axis-aligned \"count-sum\" table T[p][q] over integer rectangles p\u00d7q (p,q \u2264 2\u221an+4), where each entry is a Pareto set of (count, sum) pairs. Fill it with exact-Fraction guillotine recursion that also allows the cell itself to be one square plus a remainder strip. Then return, for the unit square, the best entry at exactly n over all board sizes L, reconstructing the layout from stored back-pointers.",
+      "call": 9,
+      "pos": 0,
+      "order": 96
+    },
+    {
+      "id": "i091",
+      "text": "Add a \"row-mixing\" closed form. Use r rows: rows of the first kind hold a squares of side 1/a (height 1/a), and rows of the second kind hold b squares of side 1/b. Their heights must satisfy x/a + y/b \u2264 1. Enumerate integers a, b, x, y with xa + yb \u2265 n, keep the largest sides when trimming, and maximise x + y minus the trimmed sides. Also fill any leftover strip with a final row of c squares of side min(leftover height, 1/c).",
+      "call": 9,
+      "pos": 1,
+      "order": 112
+    },
+    {
+      "id": "i092",
+      "text": "Implement the known optimal-pattern generator directly: for n = k\u00b2 + 2m + 1 use Erd\u0151s\u2013Soifer with the (m+1)\u00d7(m+1) refinement. For n = k\u00b2 \u2212 2m \u2212 1 use the shrinking version, and for even residues combine one expanding and one shrinking replacement in disjoint corners of the same k-grid. Evaluate all (k, m1, m2) and validate with an exact Fraction overlap checker before returning.",
+      "call": 9,
+      "pos": 2,
+      "order": 98
+    },
+    {
+      "id": "i093",
+      "text": "Use a scipy-milp exact partition of an L\u00d7L integer board (L from \u2308\u221an\u2309 to 3\u2308\u221an\u2309 within a time budget) into at most n axis-aligned integer squares. Binary variables x[i,j,s] place a square of side s at (i,j). Cover each cell at most once, require \u03a3x = n, and maximise \u03a3 s\u00b7x / L. Warm-start from the best closed-form answer and stop each L after a few seconds.",
+      "call": 9,
+      "pos": 3,
+      "order": 105
+    },
+    {
+      "id": "i094",
+      "text": "Use \"deletion with re-expansion\": take the k\u00d7k grid with k = \u2308\u221an\u2309 and delete the k\u00b2\u2212n surplus cells chosen as a whole row segment. Then merge the freed space with neighbouring cells into larger squares (e.g. delete 3 cells of a 2\u00d72 corner and enlarge the 4th to side 2/k). Enumerate merge shapes j\u00d7j costing j\u00b2\u22121 deletions and gaining (j\u22121)/k each, which turns padding waste into sum.",
+      "call": 9,
+      "pos": 4,
+      "order": 104
+    },
+    {
+      "id": "i095",
+      "text": "Use a compaction LP with free sizes on a fixed slicing tree. For the best guillotine layout, set the leaf sides and cut positions as LP variables, constrained so that siblings share the parent's width or height, with sides \u2264 the cell dimensions. Maximise the sum, then round the solution to exact rationals via active constraints. This rebalances strips that the discrete cut grid misallocated.",
+      "call": 9,
+      "pos": 5,
+      "order": 82
+    },
+    {
+      "id": "i096",
+      "text": "Run a SLSQP polish over all axis-aligned squares with the pairwise ordering fixed from the best construction (left/right/above/below per pair, chosen by the largest current separation). Use sides and centres as variables, so the solve is an LP. Then try flipping the ordering of each pair whose separation is tied, accepting improvements greedily within 20 seconds.",
+      "call": 9,
+      "pos": 6,
+      "order": 89
+    },
+    {
+      "id": "i097",
+      "text": "Long shot \"tilted strip\" family: take k\u22121 rows of a k-grid of side 1/k and replace the final row with a strip of height h, holding k+1 squares rotated by \u03b8 and touching alternately the top and bottom. Shrink the other rows to height (1\u2212h)/(k\u22121). Solve the sum over (h, \u03b8) numerically with exact rotated-square containment, accepting only when it beats the axis-aligned value for that n.",
+      "call": 9,
+      "pos": 7,
+      "order": 95
+    },
+    {
+      "id": "i098",
+      "text": "Recursive frame-peeling search. Choose a corner square of side 1\u2212t, then fill the L-shaped border of width t with two arms of equal squares of side t/j (stacked j deep where possible). Recurse into any rectangle left over. Enumerate t \u2208 {p/q : q \u2264 12} and depth \u2264 3, keeping the exact count n via the best (count, sum) Pareto lists of the sub-rectangles.",
+      "call": 9,
+      "pos": 8,
+      "order": 84
+    },
+    {
+      "id": "i099",
+      "text": "Run a bottom-left skyline beam search on an integer L\u00d7L board, where each step places at the lowest-left corner a square chosen from all sizes that fit. Score partial states by placed sum + \u221a(remaining count \u00d7 remaining area), which is the Cauchy\u2013Schwarz bound. Use beam width ~500, iterate L over several values within the time limit, and return the best complete layout with exactly n squares.",
+      "call": 9,
+      "pos": 9,
+      "order": 114
+    },
+    {
+      "id": "i100",
+      "text": "Move every size-zero padding square off the interior. The current code puts them at (0.5,0.5), which lies inside a real square whenever k is odd, and a strict evaluator may count that as a shared interior point. Place them instead at distinct boundary corners or grid-line vertices, such as (0,0), (1,0) and points of the form (i/k, 0), which are never interior to any square.",
+      "call": 10,
+      "pos": 0,
+      "order": 85
+    },
+    {
+      "id": "i101",
+      "text": "Compute every coordinate from integer numerators, for example centre = (2i+1)/(2k) and side = p/q, evaluated once as a float. Then clamp centre \u00b1 side/2 into [0,1], and shrink each side by a relative 1e-13 only when a float check against the evaluator's likely tolerance fails. This removes accumulated rounding from repeated (i+0.5)*side products.",
+      "call": 10,
+      "pos": 1,
+      "order": 99
+    },
+    {
+      "id": "i102",
+      "text": "Build an exact monotone envelope F(n) = max over n' \u2264 n of the expanding and shrinking Erd\u0151s\u2013Soifer values k \u00b1 m/k (or (m+1)/k), each padded with zero squares. Pick, for each n, the realising layout with the fewest zero squares. A quick check shows this reproduces every listed best-known value (6\u21927/3, 7\u21925/2, 8\u21928/3, 11\u219213/4, 12\u219210/3, 13\u21927/2, 14\u219211/3, 15\u219215/4), and it also handles hidden n such as 18\u21924.2 and 20\u21924.4 through the shrinking branch of k+1.",
+      "call": 10,
+      "pos": 2,
+      "order": 115
+    },
+    {
+      "id": "i103",
+      "text": "Handle tiny and edge-case n explicitly but generically. For n=1 return the unit square. For n=2,3 compare 1 against splitting into halves (2\u00d7(1/2)=1, a tie). Make sure the k=1 and k=2 cases of the expand/shrink enumeration (for example n=4, and m=0 meaning no replacement) never index out of range or return fewer than n tuples.",
+      "call": 10,
+      "pos": 3,
+      "order": 106
+    },
+    {
+      "id": "i104",
+      "text": "Run a cross-entropy-method search over size multisets. Keep a probability vector over how many squares of each side 1/d (d \u2264 3\u221an) to use. Decode each sampled multiset with a skyline placer on the lcm board, keep the top 10% of samples that pack with exactly n squares, and re-estimate the distribution. This is a smoother alternative to the GA, seeded at the Erd\u0151s\u2013Soifer multiset.",
+      "call": 10,
+      "pos": 4,
+      "order": 88
+    },
+    {
+      "id": "i105",
+      "text": "Long-shot self-similar family: tile a corner of the unit square with a geometric spiral of squares whose sides shrink by a ratio r (Fibonacci/golden-spiral or a rational approximation). Fill the complementary rectangle with the best uniform grid. Optimise r and the spiral length over rationals so that the total count is n, as a structurally non-lattice candidate.",
+      "call": 10,
+      "pos": 5,
+      "order": 103
+    },
+    {
+      "id": "i106",
+      "text": "Use the Erd\u0151s\u2013Soifer layout as a seed for an angle-free/angle-on comparison. Add tiny random rotations (\u00b10.5\u00b0) and position jitter to it, then run SLSQP maximising the sum under exact separating-axis constraints for about 20 s with multiple jitters. Return the rotated result only if it strictly exceeds the exact rational value by more than 1e-9.",
+      "call": 10,
+      "pos": 6,
+      "order": 118
+    },
+    {
+      "id": "i107",
+      "text": "Use an empty-cell two-level grid closed form: in a k1\u00d7k1 coarse grid, each cell is either one square, a j\u00d7j subgrid with a single global j, or left empty. With a full, b subdivided and e empty cells, count = a + b\u00b7j\u00b2 and sum = (a + b\u00b7j)/k1. Enumerate (k1, j, a, b) over a + b + e = k1\u00b2 to hit n exactly, without zero-padding waste.",
+      "call": 10,
+      "pos": 7,
+      "order": 83
+    },
+    {
+      "id": "i108",
+      "text": "Add an internal self-test run on the first call that evaluates solve(m) for m=1..40 using a strict exact-Fraction overlap and containment checker. Verify that the returned sum is non-decreasing in m and that each m has exactly m tuples; if any m violates this, substitute the best layout for a smaller m plus zero squares.",
+      "call": 10,
+      "pos": 8,
+      "order": 119
+    },
+    {
+      "id": "i109",
+      "text": "Choose the position of the refined (or coarsened) block to minimise floating-point risk, preferring the corner at the origin so that most coordinates are small exact dyadics or thirds. For two-block combinations, put the blocks in opposite corners. Before accepting, verify that their union does not exceed the k\u00d7k grid, so the combinatorial enumeration never emits overlapping replacements.",
+      "call": 10,
+      "pos": 9,
+      "order": 111
+    },
+    {
+      "id": "i110",
+      "text": "Run an exact branch-and-bound over integer square dissections of a k\u00d7k board (k = \u2308\u221an\u2309 \u2026 \u2308\u221an\u2309+3). Enumerate only \"grid plus a single non-unit square of side a placed at a corner, with the cells covered by it removed\", and also the dual case where cells are split into 2\u00d72. Take the best exact count n, as a fast closed-form family indexed by (k, a, number of 2\u00d72 splits).",
+      "call": 11,
+      "pos": 0,
+      "order": 86
+    },
+    {
+      "id": "i111",
+      "text": "Generalise the one-sided L-frame recursion to \"corner square plus a two-arm frame of side 1/j\". The bottom arm holds j squares of side 1/j and the left arm holds j\u22121 of them. The remaining (1\u22121/j)\u00d7(1\u22121/j) square is filled recursively, scaled from best[m], with the table built bottom-up. Evaluate f(n) \u2265 (2j\u22121)/j + (1\u22121/j)\u00b7f(n\u22122j+1) for all j.",
+      "call": 11,
+      "pos": 1,
+      "order": 91
+    },
+    {
+      "id": "i112",
+      "text": "Add a \"rectangle-of-two-grids\" closed form. Split the square vertically at x = p/(p+q)-type rationals. Fill the left part with an a\u00d7b grid of equal squares and the right part with a c\u00d7d grid, with the sides chosen as the min of the width and height constraints. Enumerate all integer tuples with total count \u2265 n, trim the smallest squares, and keep the best exact value.",
+      "call": 11,
+      "pos": 2,
+      "order": 92
+    },
+    {
+      "id": "i113",
+      "text": "Implement the Pareto-front substitution DP restricted to the four corner sub-squares. Split the unit square into one sub-square of side t and the L-shaped complement, decomposed into two rectangles. Each rectangle uses its best uniform grid, t ranges over rationals p/q with q \u2264 2\u221an+2, and the count is matched exactly by combining the per-rectangle count/sum lists.",
+      "call": 11,
+      "pos": 3,
+      "order": 93
+    },
+    {
+      "id": "i114",
+      "text": "As a correctness safeguard, compute all candidate configurations in Fractions. Before converting to floats, run an exact pairwise interval-overlap check and an exact containment check. Place zero-size padding squares at the corner (0,0) rather than the centre, so the evaluator never flags a point inside another square's interior.",
+      "call": 11,
+      "pos": 4,
+      "order": 113
+    },
+    {
+      "id": "i115",
+      "text": "Implement the strip-mixing form directly. Use x rows of a squares of side 1/a and y rows of a+1 squares of side 1/(a+1), with x/a + y/(a+1) \u2264 1, then put a final leftover row of c squares in the residual height. Enumerate a, x, y and c, which naturally yields values like (k\u00b7j + b)/j that match the best-known pattern for even n.",
+      "call": 11,
+      "pos": 5,
+      "order": 102
+    },
+    {
+      "id": "i116",
+      "text": "Run a small exact integer-board DP (a skyline or profile DP on an L\u00d7L board, L \u2264 10, with square sides 1..L). The DP tracks the best sum for every count, so the true optimal axis-aligned integer dissection is found for small n. Prune it with a time cap and keep it as one of the candidates.",
+      "call": 11,
+      "pos": 6,
+      "order": 94
+    },
+    {
+      "id": "i117",
+      "text": "Long shot: start from the best rational layout and remove the smallest square, opening a hole. Then run penalty-based SLSQP with rotations allowed only for the squares neighbouring that hole, and look for a tilted re-arrangement that fits n squares with a larger total. Accept the result only after an exact separating-axis verification passes with margin.",
+      "call": 11,
+      "pos": 7,
+      "order": 116
+    },
+    {
+      "id": "i118",
+      "text": "Add a Lagrangian-hull rescue for every n. Compute the upper concave hull of (count, best sum) over all constructions found, for counts from n\u22126 to n+6. For any n strictly below the hull, try combining the two hull endpoints' layouts by placing them as scaled sub-blocks in a 2\u00d71 or 1\u00d72 split. Use the best sub-layouts for the rectangles via the rectangle table.",
+      "call": 11,
+      "pos": 8,
+      "order": 110
+    },
+    {
+      "id": "i119",
+      "text": "Use a \"staircase merge\" family on the k\u00d7k grid with k = \u2308\u221an\u2309+1. Merge disjoint 2\u00d72 blocks along the diagonal into single squares of side 2/k, each removing 3 from the count and adding 1/k to the sum. Also allow 3\u00d73 merges, each removing 8 and adding 2/k, and choose the counts by a small knapsack to hit n exactly with the maximal sum.",
+      "call": 11,
+      "pos": 9,
+      "order": 100
     }
   ],
   "dropped": []

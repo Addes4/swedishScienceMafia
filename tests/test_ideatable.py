@@ -9,7 +9,7 @@ import pytest
 
 from autoresearch.claude import CallResult
 from autoresearch.ideatable import CodexRanker, IdeaTable, classify, dedupe, parse_rankings
-from autoresearch.policy_eval import Data, Draw, analyse, auc, data_summary, report, tiers, topk
+from autoresearch.policy_eval import Data, Draw, analyse, auc, data_summary, kappa, report, tiers, topk
 from autoresearch.spend import BudgetExceeded, CappedClaude, SpendLedger, worst_case_cost
 
 
@@ -70,9 +70,17 @@ def test_parse_rankings_is_robust():
     r = parse_rankings('junk [{"promise": "favourite", "p_improve": 1.7}, {"promise": "?"}] tail', 3)
     assert r[0].promise["favourite"] == 1.0 and r[0].p_improve == 1.0
     assert r[1].promise["middle"] == 1.0 and r[2].p_improve == 0.5 and not r[2].raw["parsed"]
+    odd = parse_rankings('[{"promise": ["favourite"], "kind": ["bug_fix"], "p_improve": "x", "p_repeat": null}]', 1)
+    assert odd[0].kind == "other" and odd[0].promise["middle"] == 1.0 and odd[0].p_improve == 0.5
     ranker = CodexRanker(runner=lambda prompt: '[{"promise": "long_shot", "p_improve": 0.1}]')
     out = ranker.rank("problem", 0.5, "code", [], ["idea a"])
     assert out[0].promise["long_shot"] == 1.0 and out[0].key < 0.5
+
+
+def test_kappa():
+    assert kappa([1, 0, 1, 0], [1, 0, 1, 0]) == 1.0
+    assert kappa([1, 1, 0, 0], [1, 0, 1, 0]) == 0.0
+    assert np.isnan(kappa([1, 1], [1, 1]))
 
 
 def test_auc_and_policies():

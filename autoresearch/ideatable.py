@@ -250,7 +250,16 @@ class IdeaTable:
         for attempt in range(2):
             with self.claude.tagged(f"rank/{name}/b{b:02d}/a{attempt}") if name.startswith("claude-") \
                     else _nullcontext():
-                ranks = ranker.rank(self.problem, parent["score"], parent["code"], [], ideas)
+                try:
+                    ranks = ranker.rank(self.problem, parent["score"], parent["code"], [], ideas)
+                except TypeError:
+                    # ClaudeRanker's parser crashes on a non-string "kind" (e.g. a list). The call was
+                    # made and paid for; parse the same reply with the tolerant parser instead.
+                    last = self.claude.last if name.startswith("claude-") else None
+                    if last is None:
+                        raise
+                    ranks = parse_rankings(last.text, len(ideas), cost=last.cost, seconds=last.seconds)
+                    meta["tolerant_parses"] = meta.get("tolerant_parses", 0) + 1
             if not name.startswith("claude-"):
                 return ranks
             last = self.claude.last
@@ -403,6 +412,8 @@ class IdeaTable:
                                            "cost", "input_tokens", "output_tokens", "llm_seconds",
                                            "served_by", "attempts", "code_sha256")}
             row["refused"] = rec["status"] == "refused"
+            if (d / "program.py").exists():   # program on disk is the one the call record describes
+                row["code_consistent"] = sha256((d / "program.py").read_text()) == rec.get("code_sha256")
             row.update(classify(rec, ev, parent["score"]))
             rep = _read_json(d / "eval_repeat.json")
             if rep:
@@ -535,22 +546,29 @@ def ranking_prompt(problem, best_score, best_code, history, ideas) -> str:
             '"p_improve": 0..1, "p_repeat": 0..1, "kind": ' + json.dumps(list(KINDS)) + "}")
 
 
+def _prob(x, default):
+    try:
+        return min(1.0, max(0.0, float(x)))
+    except (TypeError, ValueError):
+        return default
+
+
 def parse_rankings(text, n, cost=0.0, seconds=0.0) -> list:
+    """ClaudeRanker's JSON format, parsed tolerantly (missing or malformed fields get its defaults)."""
     try:
         items = json.loads(re.search(r"\[.*\]", text or "", re.S).group(0))
     except (AttributeError, ValueError):
         items = []
+    if not isinstance(items, list):
+        items = []
     out = []
     for i in range(n):
         it = items[i] if i < len(items) and isinstance(items[i], dict) else {}
-        tier = it.get("promise") if it.get("promise") in TIERS else "middle"
-        try:
-            p = min(1.0, max(0.0, float(it.get("p_improve", 0.5))))
-        except (TypeError, ValueError):
-            p = 0.5
-        out.append(Ranking(promise={t: float(t == tier) for t in TIERS}, p_improve=p,
-                           p_repeat=float(it.get("p_repeat", 0.0) or 0.0),
-                           kind=it.get("kind") if it.get("kind") in KINDS else "other",
+        promise, kind = it.get("promise"), it.get("kind")
+        tier = promise if isinstance(promise, str) and promise in TIERS else "middle"
+        out.append(Ranking(promise={t: float(t == tier) for t in TIERS}, p_improve=_prob(it.get("p_improve"), 0.5),
+                           p_repeat=_prob(it.get("p_repeat"), 0.0),
+                           kind=kind if isinstance(kind, str) and kind in KINDS else "other",
                            cost=cost / max(n, 1), seconds=seconds / max(n, 1), raw={"parsed": bool(it)}))
     return out
 
