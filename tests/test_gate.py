@@ -113,3 +113,54 @@ def test_api_keys_never_reach_the_candidate(tmp_path, monkeypatch):
     res = run_candidate(str(prog), "solve", {}, timeout_s=30.0)
     assert res.ok
     assert not {"ANTHROPIC_API_KEY", "TYPESAFE_API_KEY", "SOME_NEW_SERVICE_TOKEN"} & set(res.construction)
+
+
+def test_oversized_output_is_refused(tmp_path):
+    # A candidate that returns a huge object must be refused before the parent loads it,
+    # so it cannot exhaust memory/disk on the shared host. Bounded here to just over the cap.
+    from autoresearch.sandbox import run_candidate, MAX_OUTPUT_BYTES
+    prog = tmp_path / "big.py"
+    chunk = MAX_OUTPUT_BYTES // 8 + 100  # each float serialises to several bytes
+    prog.write_text(f"def solve():\n    return [1.123456789] * {chunk}\n")
+    res = run_candidate(str(prog), "solve", {}, timeout_s=60.0)
+    assert not res.ok and "exceeds" in res.error
+
+
+def test_normal_output_still_passes_the_size_guard(tmp_path):
+    from autoresearch.sandbox import run_candidate
+    prog = tmp_path / "ok.py"
+    prog.write_text("def solve():\n    return [0, 1, 3]\n")
+    res = run_candidate(str(prog), "solve", {}, timeout_s=30.0)
+    assert res.ok and res.construction == [0, 1, 3]
+
+
+def test_circle_inf_radius_rejected_at_parse(tmp_path):
+    # An infinite radius used to slip _parse (only NaN and r<0 were checked) and was caught
+    # only downstream by the containment test; reject it cleanly at parse instead.
+    metrics, correct, _ = _run(tmp_path, "circle_packing", f"""
+        def solve(n=26):
+            d = {CIRCLES_26!r}
+            r = list(d["radii"]); r[0] = float("inf")
+            return {{"centers": d["centers"], "radii": r}}
+    """)
+    assert not correct["correct"] and metrics["combined_score"] == 0.0
+
+
+def test_static_ignores_comments_and_strings(tmp_path):
+    # An honest program that only *mentions* forbidden words in a comment/string must pass.
+    from autoresearch.gate import static_violations
+    honest = (
+        "def solve():\n"
+        "    # we do not use subprocess, eval or open here\n"
+        "    note = 'avoid importlib and os.system'\n"
+        "    return [0, 1, 3]\n"
+    )
+    assert static_violations(honest) == []
+
+
+def test_static_still_catches_real_code_and_method_calls_unaffected():
+    from autoresearch.gate import static_violations
+    assert "file access" in static_violations("def solve():\n    return open('x').read()\n")
+    assert "dynamic code execution" in static_violations("def solve():\n    return eval('1')\n")
+    # a method named eval is not the builtin and must stay un-flagged, as before
+    assert static_violations("def solve(o):\n    return o.eval(1)\n") == []

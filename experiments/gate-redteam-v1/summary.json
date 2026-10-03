@@ -1,0 +1,64 @@
+{
+  "experiment": "gate-redteam-v1",
+  "question": "How often does the integrity gate catch programs trying to obtain an unearned score, and which layer?",
+  "headline": {
+    "materially_unearned_scores": 0,
+    "part_a_exploits": 28,
+    "part_a_caught": 18,
+    "part_a_scored_not_rejected": 10,
+    "part_a_unearned_via_tolerance": 1,
+    "part_b_attempts": 40,
+    "part_b_caught": 28,
+    "part_b_scored_not_rejected": 12,
+    "part_b_unearned_via_tolerance": 1
+  },
+  "part_a_layer_counts": {
+    "strict": 2,
+    "none(scored)": 10,
+    "check": 9,
+    "process": 3,
+    "static": 4
+  },
+  "part_b_layer_counts": {
+    "none(scored)": 12,
+    "check": 28
+  },
+  "secondary": {
+    "erdos_discrepancy_canary_fires": 0,
+    "erdos_discrepancy_attempts": 16,
+    "erdos_squares_strict_flags": 1,
+    "check_vs_strict_disagreements": 4,
+    "tolerance_unearned_increment_normalized": 3e-10
+  },
+  "part_c_fixes": [
+    {
+      "commit_topic": "sandbox output cap",
+      "class": "resource/DoS",
+      "backward_compatible": true
+    },
+    {
+      "commit_topic": "non-finite circle radii at parse",
+      "class": "nan/inf",
+      "backward_compatible": true
+    },
+    {
+      "commit_topic": "static scan ignores comments/strings",
+      "class": "static false positive",
+      "backward_compatible": true
+    }
+  ],
+  "backward_compat": {
+    "erdos_squares_combined_score_before": 0.8562,
+    "erdos_squares_combined_score_after": 0.8562,
+    "tests_passing": 70
+  },
+  "cost": {
+    "anthropic_usd": 0.2112,
+    "anthropic_cap_usd": 5.0,
+    "anthropic_calls": 8,
+    "input_tokens": 7129,
+    "output_tokens": 22291,
+    "modal_usd": 0.0
+  },
+  "verdict": "Sound isolation for an honest loop (process+JSON boundary and record-strict re-check hold); not a hardened security sandbox (static scan bypassable). No materially unearned score across 68 adversarial programs."
+}

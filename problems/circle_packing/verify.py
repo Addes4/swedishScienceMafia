@@ -35,8 +35,9 @@ def _parse(construction, n):
         raise ValueError(f"expected {n} centres and {n} radii")
     cs = [(float(c[0]), float(c[1])) for c in centers]
     rs = [float(r) for r in radii]
-    if any(math.isnan(v) or math.isinf(v) for c in cs for v in c) or any(math.isnan(r) or r < 0 for r in rs):
-        raise ValueError("centres must be finite and radii non-negative")
+    if any(math.isnan(v) or math.isinf(v) for c in cs for v in c) \
+            or any(math.isnan(r) or math.isinf(r) or r < 0 for r in rs):
+        raise ValueError("centres must be finite and radii finite and non-negative")
     return cs, rs
 
 
