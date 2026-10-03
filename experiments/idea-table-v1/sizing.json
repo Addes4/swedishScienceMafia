@@ -1,0 +1,14 @@
+{
+  "probe_cost_per_idea": [
+    0.262506,
+    0.283683,
+    0.254039
+  ],
+  "c": 0.2667426666666667,
+  "spent_after_probe": 1.691368,
+  "reserve": 6.0,
+  "replicate_cost_estimate": 1.0669706666666667,
+  "pool": 80,
+  "N": 78,
+  "soft_stop": 37.933
+}

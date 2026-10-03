@@ -120,4 +120,21 @@ proposer. N is limited by budget. One problem.
 
 ## Changes after this protocol
 
-(none yet)
+All of these were made after the probe and before any ranker or main-run call. The probe
+revealed the cost per idea and the outcomes of its 9 cells; 7 of the 9 improved.
+
+1. **Pool extended from 80 to 120 ideas.** The sizing rule gave N = 78, capped by the 80-idea
+   pool, while the budget allowed about 114 (c = $0.267 per idea). We ran 4 more Opus calls
+   with the same prompts and settings (k = 10, history listing all earlier proposals). As
+   pre-registered, the new ideas were appended after the existing order (positions 80+), and N
+   was recomputed with the unchanged rule. The first 80 ideas were ordered once over the
+   whole pool after generation (seed "20261003:0"); during generation, positions had been
+   assigned call by call, and that was replaced before anything used the order.
+2. **Each ranker sees each batch in its own random order** (seed derived from the ranker name
+   and batch index; Codex gets the whole list shuffled). The position each idea was shown in is
+   recorded in `rankings.json`. This was prompted by the team's literature review (position
+   bias in LLM judges).
+3. **Secondary analyses added.** These are every ranker's AUC minus the random ranker's AUC,
+   with paired bootstrap intervals; an explicit implementation-noise section (replicate
+   disagreement caps the AUC any ranker can reach and confounds success by tier); and the
+   correlation between presentation position and ranker key, as a check.

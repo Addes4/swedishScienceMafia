@@ -215,10 +215,13 @@ class IdeaTable:
             out = {}
             groups = [sum(data["batches"], [])] if getattr(ranker, "all_at_once", False) else data["batches"]
             for b, ids in enumerate(groups):
+                # Each ranker sees each batch in its own random order (position bias); positions are recorded.
+                ids = list(ids)
+                random.Random(f"{ORDER_SEED}:{name}:{b}").shuffle(ids)
                 ideas = [text[i] for i in ids]
                 ranks = self._rank_batch(ranker, name, b, parent, ideas, meta)
-                for i, r in zip(ids, ranks):
-                    out[i] = r.to_dict()
+                for pos, (i, r) in enumerate(zip(ids, ranks)):
+                    out[i] = dict(r.to_dict(), batch=b, position=pos)
             meta.update(seconds=round(time.time() - t0, 2), cost=round(sum(r["cost"] for r in out.values()), 6))
             data["rankers"][name] = {"meta": meta, "ideas": out}
             _write_json(path, data)

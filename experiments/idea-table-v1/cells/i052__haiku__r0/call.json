@@ -1,0 +1,19 @@
+{
+  "cell": "i052__haiku__r0",
+  "idea_id": "i052",
+  "idea": "Use OR-Tools CP-SAT, if importable, with optional 2D intervals (AddNoOverlap2D) on an integer L\u00d7L board. Each candidate square has a size variable chosen from a domain, presence literals are constrained to sum to n, and the objective is the total of the sides. Iterate L over 6..16 with time slices and fall back to the closed-form constructions if the library is absent.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791053977.651753,
+  "cost": 0.012792,
+  "input_tokens": 797,
+  "output_tokens": 2399,
+  "llm_seconds": 14.02,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "5d8a05fa4e536e20096a120ea5052450631553ba35402a37d080756b7a3274ed"
+}
