@@ -52,6 +52,7 @@ answering one design question for the final framework.
 | 22:00 | Claude Code session limit on the second account (incident 2). User switched accounts; agents resumed two at a time. |
 | 22:15 | User asked for another route than Anthropic credit. The HF router was verified and tournament-v2 started on open models. |
 | 22:15-22:30 | bp-ceiling, memory-ablation and idea-table finished and were written up. |
+| 22:32-23:03 | The tournament-v2 smoke grid (5 arms, $0.03 each) took 30 minutes. LLM calls took 18–36 s, but programs written from scratch took up to 611 s per evaluation, running erdos_squares' 13 instances in sequence at up to 60 s each. The tournament agent was told to evaluate instances in parallel and, if still needed, to lower per-instance time limits equally across arms as a disclosed pre-launch amendment. |
 
 ## Incidents
 
