@@ -91,7 +91,8 @@ def main(out: str = 'experiments/bp-ceiling-v1', seeds: int = 20, evaluations: i
         batch = [j for j in jobs if j['regime'] == regime]
         if not batch:
             continue
-        for job, result in zip(batch, FUNCTIONS[regime].map(batch, return_exceptions=True)):
+        for index, result in enumerate(FUNCTIONS[regime].map(batch, return_exceptions=True)):
+            job = batch[index]
             name = run_name(job['regime'], job['representation'], job['optimizer'], job['seed'])
             entry = {'run': name, 'ok': not isinstance(result, BaseException), 'time': time.time()}
             if entry['ok']:

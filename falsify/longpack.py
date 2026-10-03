@@ -31,7 +31,7 @@ def _lib():
         source = Path(__file__).with_name('longpack.cpp')
         binary = source.with_name('_longpack.dylib' if sys.platform == 'darwin' else '_longpack.so')
         if not binary.exists() or binary.stat().st_mtime < source.stat().st_mtime:
-            subprocess.run(['c++', '-O3', '-std=c++17', '-shared', '-fPIC', str(source), '-o', str(binary)],
+            subprocess.run(['c++', '-O3', '-std=c++17', '-ffp-contract=off', '-shared', '-fPIC', str(source), '-o', str(binary)],
                            check=True)
         lib = ctypes.CDLL(str(binary))
         lib.pack_rule.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_int, ctypes.c_int,
