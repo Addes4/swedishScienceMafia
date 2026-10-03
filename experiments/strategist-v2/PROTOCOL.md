@@ -193,6 +193,24 @@ Further dev observations: the best configurations overall all remove crossover r
 every benchmark; the `upper90` leave test helps Heilbronn (+0.41) but hurts LABS (−0.50) and NK (−0.31).
 These are dev-seed numbers, chosen as the maximum of a grid, and expected to shrink on new seeds.
 
+## Stage 3: validation result (before the confirmatory run)
+
+Validation seeds 240-439 ran once on the frozen design (`validation/`). No design change followed.
+
+- v2's J fell from +0.236 on dev to **+0.132** on validation: the winner's curse is about 45% of the
+  dev gain over v1.
+- v2 − v1: LABS +0.101 [0.001, 0.201] (sign test p = 0.061), Heilbronn +0.00017 [−0.00026, 0.00059],
+  NK +0.0023 [−0.0015, 0.0060]. Not significant after Holm on any benchmark.
+- v2 − patience_dev: LABS −0.305, NK −0.0075 (both worse, Holm p < 0.05); Heilbronn +0.00059 (better).
+- `v2_crossover_removed` (J = +0.244) did better than v2 (J = +0.132), and patience_dev (+0.384) better
+  than both.
+
+The confirmatory run goes ahead unchanged, once, with the arms and analysis fixed in stage 1:
+
+    python -m strategist.v2 confirm --modal
+    python -m strategist.v2 confirm --costs uniform --modal
+    python -m strategist.v2 forks --modal
+
 ## Disclosed changes
 
 (none yet)
