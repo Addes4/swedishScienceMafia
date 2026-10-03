@@ -1,12 +1,12 @@
 # Related work, addendum: papers on the open questions
 
-Written early on 4 October 2026, after the overnight experiments. The main review is
+Written late on 3 October 2026, after the overnight experiments. The main review is
 [related-work.md](related-work.md). This addendum searched arXiv for the five questions the
 experiments left open. It is based on **abstracts only**: no full texts were read, so treat every
 claim below as the abstract's own claim. Papers already in the main review are marked *(in
 review)*.
 
-Search method: 15 arXiv API queries (about 6–8 results each), on 4 October 2026. The queries
+Search method: 15 arXiv API queries (about 6–8 results each), on 3 October 2026. The queries
 covered:
 - LLM heuristic design for online bin packing;
 - LLM versus classical tuning;
