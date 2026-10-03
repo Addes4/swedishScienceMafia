@@ -1,0 +1,89 @@
+{
+  "candidate": {
+    "name": "tight_or_roomy_moderate",
+    "hypothesis": "Intermediate compromise between best-fit and the small-family benefit observed in v1.",
+    "weights": [
+      0.25,
+      0,
+      3,
+      1,
+      -0.02,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "audit_seed": 15485863,
+  "cases": 10000,
+  "by_family": [
+    {
+      "family": "uniform",
+      "n": 1250,
+      "mean_excess_bins": 0.0016,
+      "wins": 1,
+      "ties": 1246,
+      "losses": 3
+    },
+    {
+      "family": "small",
+      "n": 1250,
+      "mean_excess_bins": -0.0008,
+      "wins": 2,
+      "ties": 1247,
+      "losses": 1
+    },
+    {
+      "family": "large",
+      "n": 1250,
+      "mean_excess_bins": 0,
+      "wins": 0,
+      "ties": 1250,
+      "losses": 0
+    },
+    {
+      "family": "bimodal",
+      "n": 1250,
+      "mean_excess_bins": 0.008,
+      "wins": 0,
+      "ties": 1240,
+      "losses": 10
+    },
+    {
+      "family": "complementary",
+      "n": 1250,
+      "mean_excess_bins": 0,
+      "wins": 0,
+      "ties": 1250,
+      "losses": 0
+    },
+    {
+      "family": "near_thirds",
+      "n": 1250,
+      "mean_excess_bins": 0,
+      "wins": 0,
+      "ties": 1250,
+      "losses": 0
+    },
+    {
+      "family": "near_halves",
+      "n": 1250,
+      "mean_excess_bins": 0,
+      "wins": 0,
+      "ties": 1250,
+      "losses": 0
+    },
+    {
+      "family": "bands",
+      "n": 1250,
+      "mean_excess_bins": 0,
+      "wins": 0,
+      "ties": 1250,
+      "losses": 0
+    }
+  ],
+  "mean_excess_bins": 0.0011
+}
