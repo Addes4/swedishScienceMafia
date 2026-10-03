@@ -1,0 +1,374 @@
+{
+  "backend": "weights20_synthetic80",
+  "seeds": [
+    100,
+    101
+  ],
+  "arms": {
+    "none": {
+      "final_audit_excess": 0.0,
+      "harmful_fraction": 0.9833333333333334,
+      "harmful_or_invalid_fraction": 0.9833333333333334,
+      "mean_proposal_diagnostic_excess": 0.7128125000000001,
+      "repeated_failed": 0.0,
+      "same_as_incumbent": 0.5,
+      "repeated_failed_not_incumbent": 0.0,
+      "mean_fixed_excess_not_incumbent": 0.5982399425287357,
+      "best_fixed_excess": 0.0025,
+      "promotions": 0.0,
+      "beneficial_proposals": 0.0,
+      "invalid_or_failed_calls": 0.0,
+      "shadow_gate_pass_rate": 0.1,
+      "memory_tokens_mean": 0.0,
+      "memory_counterexamples_mean": 0.0,
+      "memory_entries_mean": 0.0,
+      "input_tokens": 62970.0,
+      "output_tokens": 12481.0,
+      "cost_usd": 0.125375,
+      "runs": 2,
+      "final_is_baseline": 2,
+      "by_family": {
+        "uniform": 0.0,
+        "small": 0.0,
+        "large": 0.0,
+        "bimodal": 0.0,
+        "complementary": 0.0,
+        "near_thirds": 0.0,
+        "near_halves": 0.0,
+        "bands": 0.0
+      }
+    },
+    "prose": {
+      "final_audit_excess": 0.0,
+      "harmful_fraction": 0.13333333333333333,
+      "harmful_or_invalid_fraction": 0.13333333333333333,
+      "mean_proposal_diagnostic_excess": 0.015541666666666667,
+      "repeated_failed": 27.0,
+      "same_as_incumbent": 28.0,
+      "repeated_failed_not_incumbent": 0.0,
+      "mean_fixed_excess_not_incumbent": 0.15416666666666667,
+      "best_fixed_excess": 0.0,
+      "promotions": 0.0,
+      "beneficial_proposals": 0.0,
+      "invalid_or_failed_calls": 0.0,
+      "shadow_gate_pass_rate": 0.9333333333333333,
+      "memory_tokens_mean": 1257.9166666666665,
+      "memory_counterexamples_mean": 0.0,
+      "memory_entries_mean": 6.3,
+      "input_tokens": 100527.5,
+      "output_tokens": 13251.0,
+      "cost_usd": 0.1667825,
+      "runs": 2,
+      "final_is_baseline": 2,
+      "by_family": {
+        "uniform": 0.0,
+        "small": 0.0,
+        "large": 0.0,
+        "bimodal": 0.0,
+        "complementary": 0.0,
+        "near_thirds": 0.0,
+        "near_halves": 0.0,
+        "bands": 0.0
+      }
+    },
+    "executable": {
+      "final_audit_excess": 0.0,
+      "harmful_fraction": 0.3833333333333333,
+      "harmful_or_invalid_fraction": 0.3833333333333333,
+      "mean_proposal_diagnostic_excess": 0.09418750000000001,
+      "repeated_failed": 21.5,
+      "same_as_incumbent": 20.0,
+      "repeated_failed_not_incumbent": 2.5,
+      "mean_fixed_excess_not_incumbent": 0.16556318681318682,
+      "best_fixed_excess": 0.0,
+      "promotions": 0.0,
+      "beneficial_proposals": 0.0,
+      "invalid_or_failed_calls": 0.0,
+      "shadow_gate_pass_rate": 0.7333333333333334,
+      "memory_tokens_mean": 1160.1166666666668,
+      "memory_counterexamples_mean": 4.033333333333333,
+      "memory_entries_mean": 2.333333333333333,
+      "input_tokens": 97593.5,
+      "output_tokens": 12635.0,
+      "cost_usd": 0.16076849999999998,
+      "runs": 2,
+      "final_is_baseline": 2,
+      "by_family": {
+        "uniform": 0.0,
+        "small": 0.0,
+        "large": 0.0,
+        "bimodal": 0.0,
+        "complementary": 0.0,
+        "near_thirds": 0.0,
+        "near_halves": 0.0,
+        "bands": 0.0
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "comparison": "executable - none",
+      "metric": "final_audit_excess",
+      "mean": 0.0,
+      "bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "paired_seed_differences": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "comparison": "executable - none",
+      "metric": "harmful_fraction",
+      "mean": -0.6000000000000001,
+      "bootstrap_95": [
+        -0.7333333333333334,
+        -0.4666666666666667
+      ],
+      "paired_seed_differences": [
+        -0.4666666666666667,
+        -0.7333333333333334
+      ]
+    },
+    {
+      "comparison": "executable - none",
+      "metric": "mean_proposal_diagnostic_excess",
+      "mean": -0.618625,
+      "bootstrap_95": [
+        -0.6432916666666667,
+        -0.5939583333333333
+      ],
+      "paired_seed_differences": [
+        -0.6432916666666667,
+        -0.5939583333333333
+      ]
+    },
+    {
+      "comparison": "executable - none",
+      "metric": "repeated_failed",
+      "mean": 21.5,
+      "bootstrap_95": [
+        21.0,
+        22.0
+      ],
+      "paired_seed_differences": [
+        21,
+        22
+      ]
+    },
+    {
+      "comparison": "executable - none",
+      "metric": "same_as_incumbent",
+      "mean": 19.5,
+      "bootstrap_95": [
+        17.0,
+        22.0
+      ],
+      "paired_seed_differences": [
+        17,
+        22
+      ]
+    },
+    {
+      "comparison": "executable - none",
+      "metric": "repeated_failed_not_incumbent",
+      "mean": 2.5,
+      "bootstrap_95": [
+        0.0,
+        5.0
+      ],
+      "paired_seed_differences": [
+        5,
+        0
+      ]
+    },
+    {
+      "comparison": "executable - prose",
+      "metric": "final_audit_excess",
+      "mean": 0.0,
+      "bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "paired_seed_differences": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "comparison": "executable - prose",
+      "metric": "harmful_fraction",
+      "mean": 0.25,
+      "bootstrap_95": [
+        0.06666666666666668,
+        0.43333333333333335
+      ],
+      "paired_seed_differences": [
+        0.43333333333333335,
+        0.06666666666666668
+      ]
+    },
+    {
+      "comparison": "executable - prose",
+      "metric": "mean_proposal_diagnostic_excess",
+      "mean": 0.07864583333333333,
+      "bootstrap_95": [
+        0.042,
+        0.11529166666666667
+      ],
+      "paired_seed_differences": [
+        0.11529166666666667,
+        0.042
+      ]
+    },
+    {
+      "comparison": "executable - prose",
+      "metric": "repeated_failed",
+      "mean": -5.5,
+      "bootstrap_95": [
+        -7.0,
+        -4.0
+      ],
+      "paired_seed_differences": [
+        -7,
+        -4
+      ]
+    },
+    {
+      "comparison": "executable - prose",
+      "metric": "same_as_incumbent",
+      "mean": -8.0,
+      "bootstrap_95": [
+        -12.0,
+        -4.0
+      ],
+      "paired_seed_differences": [
+        -12,
+        -4
+      ]
+    },
+    {
+      "comparison": "executable - prose",
+      "metric": "repeated_failed_not_incumbent",
+      "mean": 2.5,
+      "bootstrap_95": [
+        0.0,
+        5.0
+      ],
+      "paired_seed_differences": [
+        5,
+        0
+      ]
+    },
+    {
+      "comparison": "prose - none",
+      "metric": "final_audit_excess",
+      "mean": 0.0,
+      "bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "paired_seed_differences": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "comparison": "prose - none",
+      "metric": "harmful_fraction",
+      "mean": -0.8500000000000001,
+      "bootstrap_95": [
+        -0.9,
+        -0.8
+      ],
+      "paired_seed_differences": [
+        -0.9,
+        -0.8
+      ]
+    },
+    {
+      "comparison": "prose - none",
+      "metric": "mean_proposal_diagnostic_excess",
+      "mean": -0.6972708333333333,
+      "bootstrap_95": [
+        -0.7585833333333334,
+        -0.6359583333333333
+      ],
+      "paired_seed_differences": [
+        -0.7585833333333334,
+        -0.6359583333333333
+      ]
+    },
+    {
+      "comparison": "prose - none",
+      "metric": "repeated_failed",
+      "mean": 27.0,
+      "bootstrap_95": [
+        26.0,
+        28.0
+      ],
+      "paired_seed_differences": [
+        28,
+        26
+      ]
+    },
+    {
+      "comparison": "prose - none",
+      "metric": "same_as_incumbent",
+      "mean": 27.5,
+      "bootstrap_95": [
+        26.0,
+        29.0
+      ],
+      "paired_seed_differences": [
+        29,
+        26
+      ]
+    },
+    {
+      "comparison": "prose - none",
+      "metric": "repeated_failed_not_incumbent",
+      "mean": 0.0,
+      "bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "paired_seed_differences": [
+        0,
+        0
+      ]
+    }
+  ],
+  "incomplete_runs": [],
+  "audit_seed": 117994974852159,
+  "diagnostic_seed": 136480251067372,
+  "trace_digest": "6b50d88fb43f7c20c8e23becff69b8a174d42a23fa4a2551d9be3b1ce87c742d",
+  "audit_cases": 1600,
+  "diagnostic_cases": 800,
+  "audit_source_sha256": {
+    "falsify____init__.py": "b4667c850d6869a576836d498bcc96c614dcdb8abb3aded3bd16de62ec65aed4",
+    "falsify__anthropic_propose.py": "b4154155f318eb43e924794aa0050c083010b671ba71a6a1d739d64035036ba9",
+    "falsify__backends.py": "2fc4873885dc9ac6d27b9f0f6097e3382274a2693422a73441109c08fc865837",
+    "falsify__closed_loop.py": "03dd61c608cd85ed1ca473832d393f36ded90d01b8804ce90061374ab2e0a010",
+    "falsify__contextual.cpp": "a2f397707b22aea7a80b78797388090c06b1eb9657736d8ee525b718c275ea10",
+    "falsify__contextual.py": "f4241e604d976321069be7c59df2c5ff9ee37d950cb1906978ece435882b58e6",
+    "falsify__core.py": "34355544f09d7a14d1b483a6365cbbc688abc6c8e4866db5c951981622e025b2",
+    "falsify__gated_search.py": "c1db987c838b19cca0032c21fffd16404628f5235e3492a23a10b1bce4a98490",
+    "falsify__llm.py": "696f5499075c5e45d0780c6ca61981e983b3b66592b6bfe0a159215a79115022",
+    "falsify__memory.py": "5962732c29837db45f03146ef3a196f01468fc4838ed1e2eb5a1fd9bf4a96143",
+    "falsify__packing.cpp": "7b3d6e3566fcd8912aafc06653e05ec4a7c1024fff5bdeafa22eb0288fd35034",
+    "falsify__pilot.py": "d5ec263196582a44e3c002ac6dc5a1ce4c2478217dd05cb21eeb2058243661c1",
+    "falsify__report.py": "70bf3c6ecd8023c94ffa9ebada2381b3cc009a03442135b6b0812f8474a57274",
+    "falsify__search.py": "9d8eaafeff1df72f2623d17cb8589b10d1dae9ccfcad243e0cd036ebb62f7071",
+    "falsify__simplify.py": "340f7ef0215c32a416ae2320217757af556a6fcc2b3d3cb1bfd35670e1099bde",
+    "falsify__soft_gates.py": "a34a14722df5a478adbdc0b440fa2ff26d5b8fc7e6ba5ffcc7bdcb64a51a0091"
+  },
+  "usage": {
+    "charged_usd": 0.905852,
+    "message_attempts": 180,
+    "message_failures": 0,
+    "count_tokens_calls": 96
+  }
+}

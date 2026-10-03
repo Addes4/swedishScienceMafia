@@ -200,11 +200,6 @@ def run_one(seed, arm, backend, proposer, cfg, trace_path):
     return trace
 
 
-def source_hashes():
-    files = [p for p in (ROOT / 'falsify').iterdir() if p.suffix in ('.py', '.cpp')]
-    return {f'{p.parent.name}__{p.name}': hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
-
-
 def snapshot_sources(out):
     source = out / 'source'
     source.mkdir(parents=True, exist_ok=True)
@@ -309,12 +304,6 @@ def run_metrics(trace, audit_result, diag):
             'mean_proposal_diagnostic_excess': mean(d['mean_excess_bins'] for d in diag) if diag else None,
             'repeated_failed': sum(r.get('repeat_of_failed_call') is not None for r in valid),
             'same_as_incumbent': sum(bool(r.get('same_as_incumbent')) for r in valid),
-            # Added after the pilot: repeats of an earlier failure that are not copies of the incumbent.
-            'repeated_failed_not_incumbent': sum(r.get('repeat_of_failed_call') is not None
-                                                 and not r.get('same_as_incumbent') for r in valid),
-            'mean_fixed_excess_not_incumbent': (mean(r['fixed']['mean_excess'] for r in valid if not r.get('same_as_incumbent'))
-                                                if any(not r.get('same_as_incumbent') for r in valid) else None),
-            'best_fixed_excess': min((r['fixed']['mean_excess'] for r in valid), default=None),
             'shadow_gate_pass_rate': mean(r['shadow_gate']['pass'] for r in valid) if valid else None,
             'memory_tokens_mean': mean(r['memory']['tokens'] for r in hist) if hist else 0,
             'memory_counterexamples_mean': mean(r['memory']['counterexamples'] for r in hist) if hist else 0,
@@ -369,8 +358,7 @@ def cmd_audit(args):
                                      'metrics': run_metrics(t, result, valid_diag),
                                      'final': t['final']}
     keys = ['final_audit_excess', 'harmful_fraction', 'harmful_or_invalid_fraction', 'mean_proposal_diagnostic_excess',
-            'repeated_failed', 'same_as_incumbent', 'repeated_failed_not_incumbent', 'mean_fixed_excess_not_incumbent',
-            'best_fixed_excess', 'promotions', 'beneficial_proposals', 'invalid_or_failed_calls',
+            'repeated_failed', 'same_as_incumbent', 'promotions', 'beneficial_proposals', 'invalid_or_failed_calls',
             'shadow_gate_pass_rate', 'memory_tokens_mean', 'memory_counterexamples_mean', 'memory_entries_mean',
             'input_tokens', 'output_tokens', 'cost_usd']
     arms = {}
@@ -386,8 +374,7 @@ def cmd_audit(args):
     for a, b in [('executable', 'none'), ('executable', 'prose'), ('prose', 'none')]:
         if a not in config['arms'] or b not in config['arms']:
             continue
-        for k in ['final_audit_excess', 'harmful_fraction', 'mean_proposal_diagnostic_excess', 'repeated_failed',
-                  'same_as_incumbent', 'repeated_failed_not_incumbent']:
+        for k in ['final_audit_excess', 'harmful_fraction', 'mean_proposal_diagnostic_excess', 'repeated_failed']:
             diffs = []
             for s in config['seeds']:
                 x, y = per_run[f'{a}-s{s}']['metrics'][k], per_run[f'{b}-s{s}']['metrics'][k]
@@ -402,7 +389,6 @@ def cmd_audit(args):
                'incomplete_runs': [f'{a}-s{s}' for s, a in incomplete],
                'audit_seed': audit_seed, 'diagnostic_seed': diagnostic_seed, 'trace_digest': digest,
                'audit_cases': len(cases), 'diagnostic_cases': len(diag_cases),
-               'audit_source_sha256': source_hashes(),
                'usage': {'charged_usd': sum(u.get('charged_usd', 0.0) for u in usage),
                          'message_attempts': sum(u['kind'] == 'messages' for u in usage),
                          'message_failures': sum(u['kind'] == 'messages' and u['status'] != 'ok' for u in usage),

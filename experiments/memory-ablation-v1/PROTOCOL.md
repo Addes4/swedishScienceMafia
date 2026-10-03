@@ -166,4 +166,14 @@ counterexamples, memory token counts and promotion decision), `usage.jsonl`,
 
 ## Amendments
 
-None yet.
+1. After the pilot (Saturday evening, before any confirmatory run): three descriptive
+   metrics were added to the audit, because the pilot showed that "repeated failed
+   ideas" was dominated by proposals that pack exactly like the incumbent: repeats that
+   are not copies of the incumbent, mean fixed-suite excess of proposals that are not
+   copies, and the best fixed-suite excess per run. The two counts in secondary 2 remain
+   as defined above. The pilot audit was re-run with these metrics; the audit is a pure
+   function of the saved traces, so no earlier number changed.
+2. Evaluator work follows one rule in every arm, but its amount is not equal across arms:
+   shrinking runs only on proposals that lose probes (pilot: about 45,000, 21,000 and
+   27,000 packer executions per run for none, prose and executable). It is a few seconds
+   of CPU per run and is reported, not matched.
