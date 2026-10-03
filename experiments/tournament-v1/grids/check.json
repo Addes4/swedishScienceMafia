@@ -1,0 +1,18 @@
+{
+  "name": "check-v1",
+  "mode": "live",
+  "description": "Live check of the two arms the smoke run did not exercise (ShinkaEvolve's messages.create path, triage with the Jev ranker) before the full grid. Not part of the comparison.",
+  "budget_usd": 0.25,
+  "budget_by_arm": {"triage": 0.45},
+  "seeds": [0],
+  "problems": ["erdos_squares"],
+  "arms": {
+    "shinka": {"type": "shinka", "model": "claude-sonnet-5-5", "effort": "high", "max_tokens": 32000},
+    "triage": {"type": "triage", "ranker": "jev"}
+  },
+  "anthropic_cap_usd": 0.70,
+  "modal_cap_usd": 2,
+  "wall_limit_s": 1800,
+  "cpu": 4,
+  "memory_mb": 6144
+}

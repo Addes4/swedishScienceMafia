@@ -1,0 +1,19 @@
+{
+  "cell": "i056__sonnet__r0",
+  "idea_id": "i056",
+  "idea": "Two-orientation hybrid in one block: replace an m\u00d7m block of cells by a 45\u00b0-rotated grid of diamonds of side s. Fill the four corner triangles of that block with axis-aligned staircases of tiny squares. Choose s and the diamond count analytically so the block gains count at a sum cost below the Erd\u0151s\u2013Soifer replacement's, then insert the block via the existing knapsack.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055633.080482,
+  "cost": 0.108868,
+  "input_tokens": 969,
+  "output_tokens": 10693,
+  "llm_seconds": 89.69,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "2901bb1d236fcde075c582784174126c0d22f0a8dc844a2f8d41cc8bd652f8c7"
+}

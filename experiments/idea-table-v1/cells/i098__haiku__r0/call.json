@@ -1,0 +1,19 @@
+{
+  "cell": "i098__haiku__r0",
+  "idea_id": "i098",
+  "idea": "Recursive frame-peeling search. Choose a corner square of side 1\u2212t, then fill the L-shaped border of width t with two arms of equal squares of side t/j (stacked j deep where possible). Recurse into any rectangle left over. Enumerate t \u2208 {p/q : q \u2264 12} and depth \u2264 3, keeping the exact count n via the best (count, sum) Pareto lists of the sub-rectangles.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055770.066678,
+  "cost": 0.00712,
+  "input_tokens": 810,
+  "output_tokens": 1262,
+  "llm_seconds": 9.05,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "296374280761884d20b1067356f82b6e366e9b14eb3de90ed689bc7de5c8d8ae"
+}

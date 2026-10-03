@@ -1,0 +1,19 @@
+{
+  "cell": "i082__haiku__r0",
+  "idea_id": "i082",
+  "idea": "Keep several layouts per count in the substitution/partition DP rather than only the max-sum one. Use a Pareto front on (sum, largest side) and also (sum, smallest side). A slightly worse layout with one big square is often the better host for later substitution or splitting steps. Prune dominated states only at the end.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055655.0881379,
+  "cost": 0.009854,
+  "input_tokens": 774,
+  "output_tokens": 1816,
+  "llm_seconds": 14.91,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "46b89bfd38f7a515ac553fd3df2b41a2483c13df071aaf5d76fdc3ee38146487"
+}

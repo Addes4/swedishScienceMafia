@@ -1,0 +1,19 @@
+{
+  "cell": "i014__sonnet__r0",
+  "idea_id": "i014",
+  "idea": "Dynamic program over multisets of square sizes. Moves are splitting a square of side s into j\u00d7j squares of side s/j (adding j\u00b2\u22121 squares and gaining (j\u22121)s), or merging an aligned j\u00d7j group back into one. Run best-first search from every k\u00d7k grid to fill a table best[n] and its realising layout, keeping the geometry as an explicit quadtree-like tree.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055921.8187032,
+  "cost": 0.09857,
+  "input_tokens": 965,
+  "output_tokens": 9664,
+  "llm_seconds": 83.22,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "3111a08cfe54e1b2e4517918d6dda9dc22b76c7c44c55d7f3afde56f4d0edf0d"
+}

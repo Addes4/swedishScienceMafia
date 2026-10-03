@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.2148148148148148,
+    "public": {
+      "n=5": null,
+      "n=6": null,
+      "n=7": 2.333333333333333,
+      "n=8": 2.6666666666666665,
+      "n=11": null,
+      "n=12": null,
+      "n=13": null,
+      "n=14": null,
+      "n=15": null
+    },
+    "private": {
+      "hidden_normalized": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_mean": 0.0,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: invalid construction: squares 0 and 4 overlap\nn=6: invalid construction: squares 0 and 4 overlap\nn=7: score 2.33333 (best known 2.5)\nn=8: score 2.66667 (best known 2.66667)\nn=11: invalid construction: squares 4 and 9 overlap\nn=12: invalid construction: squares 4 and 9 overlap\nn=13: invalid construction: squares 4 and 9 overlap\nn=14: invalid construction: squares 4 and 9 overlap\nn=15: invalid construction: squares 4 and 9 overlap"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0012088700000001396,
+        "reason": "squares 0 and 4 overlap"
+      },
+      {
+        "label": "n=6",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011878379999998856,
+        "reason": "squares 0 and 4 overlap"
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 2.333333333333333,
+        "normalized": 0.9333333333333332,
+        "seconds": 0.0011915720000001961,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 2.6666666666666665,
+        "normalized": 1.0,
+        "seconds": 0.0012050940000003507,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.00122468800000064,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=12",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011949109999997987,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=13",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011976219999993987,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=14",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011891710000000444,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=15",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.001197415000000035,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=18",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011867089999988423,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=21",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011989229999986861,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=23",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0012165399999997106,
+        "reason": "squares 4 and 9 overlap"
+      },
+      {
+        "label": "n=27",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0011963110000010602,
+        "reason": "squares 4 and 9 overlap"
+      }
+    ]
+  },
+  "seconds": 9.39,
+  "container_seconds": 9.39,
+  "host": "modal"
+}

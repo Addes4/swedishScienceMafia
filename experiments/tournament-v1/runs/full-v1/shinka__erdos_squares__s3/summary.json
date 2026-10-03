@@ -1,0 +1,85 @@
+{
+  "job_id": "shinka__erdos_squares__s3",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "erdos_squares",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 1.048456,
+  "within_cap": true,
+  "tokens": 211732,
+  "calls": 30,
+  "failed_calls": 0,
+  "refusals": 54,
+  "stop_reason_counts": {
+    "end_turn": 30
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 30
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 1.048456
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 9,
+  "retries": 0,
+  "evals": 19,
+  "valid_evals": 19,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 1.0,
+  "final_hidden": 1.0,
+  "final_sha": "92cf427fffb5a840",
+  "max_public_seen": 1.0,
+  "hidden_of_max_public_seen": 1.0,
+  "improvements": 2,
+  "usd_per_improvement": 0.524228,
+  "tokens_per_improvement": 105866,
+  "auc": 0.990479,
+  "auc_gain": 0.933801,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 524.0,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 1.048456,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 7.5,
+      "t": 1791055319.2537267,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.068016,
+      "budget_frac": 0.061833,
+      "tokens": 8124,
+      "wall_s": 64.9,
+      "t": 1791055376.6494837,
+      "incumbent_public": 0.992100492100492,
+      "incumbent_hidden": 0.98556539197456,
+      "sha": "87814f33905bc75a"
+    },
+    {
+      "spent_usd": 0.155462,
+      "budget_frac": 0.141329,
+      "tokens": 18191,
+      "wall_s": 79.6,
+      "t": 1791055391.3313198,
+      "incumbent_public": 1.0,
+      "incumbent_hidden": 1.0,
+      "sha": "92cf427fffb5a840"
+    }
+  ]
+}

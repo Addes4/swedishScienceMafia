@@ -1,0 +1,76 @@
+{
+  "job_id": "independent__circle_packing__s0",
+  "arm": "independent",
+  "arm_type": "independent",
+  "problem": "circle_packing",
+  "seed": 0,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.136272,
+  "within_cap": true,
+  "tokens": 17080,
+  "calls": 10,
+  "failed_calls": 6,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 4,
+    "None": 6
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 10
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 0.136272
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 5,
+  "valid_evals": 4,
+  "initial_public": 0.38059330863684226,
+  "initial_hidden": null,
+  "final_public": 0.9999999999014743,
+  "final_hidden": null,
+  "final_sha": "9f61a81e460d353a",
+  "max_public_seen": 0.9999999999014743,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.136272,
+  "tokens_per_improvement": 17080,
+  "auc": 0.979566,
+  "auc_gain": 0.967011,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1158.4,
+  "status": "ok",
+  "arm_result": "api_errors",
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056206.655937,
+  "spend_at_first_error_usd": 0.136272,
+  "valid_spend_usd": 0.136272,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.4,
+      "t": 1791055319.5750551,
+      "incumbent_public": 0.38059330863684226,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.036288,
+      "budget_frac": 0.032989,
+      "tokens": 4492,
+      "wall_s": 222.7,
+      "t": 1791055541.867331,
+      "incumbent_public": 0.9999999999014743,
+      "incumbent_hidden": null,
+      "sha": "9f61a81e460d353a"
+    }
+  ]
+}

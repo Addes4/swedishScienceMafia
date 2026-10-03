@@ -1,0 +1,48 @@
+{
+  "job_id": "shinka__erdos_squares__s1",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "erdos_squares",
+  "seed": 1,
+  "mock": true,
+  "cap_usd": 0.5,
+  "spent_usd": 0.492474,
+  "within_cap": true,
+  "tokens": 63765,
+  "calls": 15,
+  "failed_calls": 0,
+  "refusals": 87,
+  "stop_reason_counts": {
+    "end_turn": 13,
+    "max_tokens": 2
+  },
+  "evals": 11,
+  "valid_evals": 7,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.8561716061716061,
+  "final_hidden": 0.9127792599779017,
+  "final_sha": "5ca1aa946ee89389",
+  "max_public_seen": 0.8561716061716061,
+  "hidden_of_max_public_seen": 0.9127792599779017,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.856172,
+  "auc_gain": 0.0,
+  "flags": [],
+  "wall_s": 26.6,
+  "status": "ok",
+  "arm_result": "budget",
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.3,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i058__sonnet__r0",
+  "idea_id": "i058",
+  "idea": "Contact-graph flipping search: represent the axis-aligned packing by its horizontal and vertical constraint graphs. Make local moves that flip one adjacency (left-of becomes below-of) or merge or split a node, re-solving the sum-maximising LP after each move with warm-started dual simplex. This is a cheaper neighbourhood than full sequence pairs and lets tabu search explore thousands of topologies per second.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055498.613983,
+  "cost": 0.124026,
+  "input_tokens": 978,
+  "output_tokens": 12207,
+  "llm_seconds": 95.01,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "5ff0209a36b8d0def9b7f65e7f6da2af1cf517f8b9b514fb73d7e7330ed1d3d1"
+}

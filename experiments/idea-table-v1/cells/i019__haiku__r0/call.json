@@ -1,0 +1,19 @@
+{
+  "cell": "i019__haiku__r0",
+  "idea_id": "i019",
+  "idea": "Recursive \u201cone big square plus two rectangles\u201d construction: put a square of side s in a corner and split the remaining L-shape into two rectangles. Fill each rectangle optimally by a memoised recursion on (aspect ratio, count), where a rectangle a\u00d7b with count m is filled by a grid of \u230ab/a\u230b-style columns or recursion. Optimise s over a fine set of rationals.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055388.413146,
+  "cost": 0.008557,
+  "input_tokens": 797,
+  "output_tokens": 1552,
+  "llm_seconds": 12.96,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "8989f6ce179535b3b5366e3d4855610a2dd1e2bdbb86031cbdc82292a2a8cfde"
+}

@@ -1,0 +1,80 @@
+{
+  "job_id": "triage__circle_packing__s1",
+  "arm": "triage",
+  "arm_type": "triage",
+  "problem": "circle_packing",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.681761,
+  "within_cap": true,
+  "tokens": 83819,
+  "calls": 16,
+  "failed_calls": 1,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 15,
+    "None": 1
+  },
+  "calls_by_model": {
+    "claude-opus-5-5": 6,
+    "claude-sonnet-5-5": 6,
+    "claude-haiku-4-5": 4
+  },
+  "usd_by_model": {
+    "claude-haiku-4-5": 0.06142,
+    "claude-opus-5-5": 0.351584,
+    "claude-sonnet-5-5": 0.267502
+  },
+  "external_usd": 0.00125521,
+  "idea_calls": 3,
+  "truncated_calls": 0,
+  "shortened_calls": 1,
+  "retries": 0,
+  "evals": 14,
+  "valid_evals": 12,
+  "initial_public": 0.385198846005876,
+  "initial_hidden": null,
+  "final_public": 0.9999999999901238,
+  "final_hidden": null,
+  "final_sha": "6f69e7683c166c28",
+  "max_public_seen": 0.9999999999989985,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.681761,
+  "tokens_per_improvement": 83819,
+  "auc": 0.852793,
+  "auc_gain": 0.760562,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 934.2,
+  "status": "error: BadRequestError",
+  "arm_result": null,
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056248.5822597,
+  "spend_at_first_error_usd": 0.681761,
+  "valid_spend_usd": 0.681761,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.6,
+      "t": 1791055315.0746849,
+      "incumbent_public": 0.385198846005876,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.263382,
+      "budget_frac": 0.239438,
+      "tokens": 27839,
+      "wall_s": 146.7,
+      "t": 1791055461.1262555,
+      "incumbent_public": 0.9999999999901238,
+      "incumbent_hidden": null,
+      "sha": "6f69e7683c166c28"
+    }
+  ]
+}

@@ -119,12 +119,23 @@ class ClaudeRanker:
         out = []
         for i in range(len(ideas)):
             it = items[i] if i < len(items) and isinstance(items[i], dict) else {}
-            tier = it.get("promise") if it.get("promise") in TIERS else "middle"
+            # Models sometimes return lists or nulls here; KINDS is a dict, so only test strings.
+            promise, kind = it.get("promise"), it.get("kind")
+            tier = promise if isinstance(promise, str) and promise in TIERS else "middle"
             out.append(Ranking(promise={t: float(t == tier) for t in TIERS},
-                               p_improve=float(it.get("p_improve", 0.5)), p_repeat=float(it.get("p_repeat", 0.0)),
-                               kind=it.get("kind") if it.get("kind") in KINDS else "other",
+                               p_improve=_prob(it.get("p_improve"), 0.5), p_repeat=_prob(it.get("p_repeat"), 0.0),
+                               kind=kind if isinstance(kind, str) and kind in KINDS else "other",
                                cost=res.cost / len(ideas), seconds=res.seconds / len(ideas)))
         return out
+
+
+def _prob(value, default: float) -> float:
+    """A probability from a model's JSON, or the default if it is missing or not a number in [0, 1]."""
+    try:
+        p = float(value)
+    except (TypeError, ValueError):
+        return default
+    return p if 0.0 <= p <= 1.0 else default
 
 
 class RandomRanker:

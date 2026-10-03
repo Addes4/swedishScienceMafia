@@ -1,0 +1,9 @@
+{
+  "problem": "erdos_squares",
+  "path": "problems/erdos_squares/initial.py",
+  "code": "# EVOLVE-BLOCK-START\n\"\"\"Baseline: the largest k x k grid that fits, plus size-zero squares for the rest.\"\"\"\nimport math\n\n\ndef solve(n):\n    \"\"\"Return n squares (centre_x, centre_y, angle, side) inside the unit square,\n    with disjoint interiors, maximising the sum of the sides.\"\"\"\n    k = math.isqrt(n)\n    side = 1.0 / k\n    squares = [((i + 0.5) * side, (j + 0.5) * side, 0.0, side) for i in range(k) for j in range(k)]\n    squares += [(0.5, 0.5, 0.0, 0.0)] * (n - len(squares))\n    return squares[:n]\n# EVOLVE-BLOCK-END\n",
+  "sha256": "5ca1aa946ee893890a74225e94e94440886ac43790eed1f700bafb4fbe205acf",
+  "score": 0.8561716061716061,
+  "hidden_mean": 0.9127792599779017,
+  "feedback": "n=5: score 2 (best known 2)\nn=6: score 2 (best known 2.33333)\nn=7: score 2 (best known 2.5)\nn=8: score 2 (best known 2.66667)\nn=11: score 3 (best known 3.25)\nn=12: score 3 (best known 3.33333)\nn=13: score 3 (best known 3.5)\nn=14: score 3 (best known 3.66667)\nn=15: score 3 (best known 3.75)"
+}

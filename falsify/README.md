@@ -42,7 +42,37 @@ of these matter:
   to 3.8 points on 100,000-item Weibull instances. Falsify instances have 80 items.
 - The item distributions differ.
 
-A direct next step is to add OR-Library and Weibull instances as Falsify families.
+[bp-ceiling-v1](../experiments/bp-ceiling-v1/RESULTS.md) tested which difference matters.
+- **80-item instances:** nothing beats best fit by more than 0.09 percentage points of the
+  L2 bound. FunSearch's own Weibull heuristic is 15 pp worse.
+- **5,000-item Weibull instances:** the existing 20-feature space beats best fit by 1.2 pp.
+  Adding one feature that lets the rule open a new bin while an open one still fits reaches
+  3.3 pp, level with FunSearch's code. A grid-tuned two-threshold rule also gets there.
+- **Our evaluator** (`longpack.py`, `longpack.cpp`) reproduces FunSearch's published figures
+  exactly on its released test data: best fit 3.98%, first fit 4.23%, FunSearch 0.68%.
+
+The online benchmark built from this is
+[problems/bin_packing_online](../problems/bin_packing_online/). There, a candidate supplies
+`priority(item, bins)` and the integrity gate calls it once per arriving item, so it cannot look
+ahead.
+
+## Closed-loop LLM memory ablation
+
+[memory-ablation-v1](../experiments/memory-ablation-v1/RESULTS.md) is the first autonomous LLM
+test of Falsify's claim. Claude Haiku 4.5 wrote `priority(item, bins)` code on Weibull 5k in
+30-call closed loops, 10 seeds per arm. The arms compared no memory, a prose summary of past
+failures, and executable counterexamples.
+- **Final policy:** executable counterexamples did not improve the audited result. Executable
+  minus prose was +4.73 bins per instance [−0.23, +12.96]; executable minus none was +1.29
+  [+0.00, +3.86].
+- **Behaviour:** memory of either kind cut harmful proposals from 80% to 15–20%, but mostly by
+  making the model propose no-op changes (65–82% of proposals).
+- **Use counterexamples** as a diagnostic and regression guard, not as a proven way to improve
+  proposals.
+
+The loop is in `closed_loop.py` and `closed_loop_code.py`, the memory sections in `memory.py`
+and `memory_code.py`, and the spend-capped client in `llm.py`. Programs are evaluated in a
+sandbox by `code_eval.py`, locally or on Modal.
 
 ## Run locally
 

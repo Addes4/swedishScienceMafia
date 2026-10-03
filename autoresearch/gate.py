@@ -8,19 +8,29 @@ Problem contract (problems/<name>/verify.py), all scores higher-is-better:
     FUNCTION = "solve"                 # function the candidate defines; called as solve(**instance)
     PUBLIC = [{...}, ...]              # instances whose results the LLM sees
     HIDDEN = [{...}, ...]              # instances it never sees (overfitting check)
-    TIMEOUT_S = 60                     # per-instance time limit
+    TIMEOUT_S = 60                     # per-instance time limit (GATE_TIMEOUT_S overrides it for a whole run)
     def check(construction, instance) -> {"valid": bool, "score": float, "reason": str}
     def best_known(instance) -> float | None
     def check_strict(construction, instance) -> bool       # optional, independent re-check
     def label(instance) -> str                              # optional, for feedback text
+
+Optional online protocol (for problems where the candidate must decide per input, e.g. online
+bin packing). If verify.py defines both of these, the gate does not call FUNCTION(**instance):
+    DRIVER = "def drive(fn, header, next_input, emit): ..."   # trusted source run in the child
+    def online(instance) -> (header: dict, inputs: list)     # inputs revealed one at a time
+The parent sends input k+1 only after the child has emitted its decision for input k, so the
+candidate never holds future inputs. The construction passed to check() is the list of decisions.
 """
 import importlib.util
+import io
 import json
 import os
 import re
+import tokenize
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .sandbox import run_candidate
+from .sandbox import run_candidate, run_online
 
 GENERIC_REJECTION = "rejected by the integrity gate"
 # Any gain over the best known value above float noise triggers the independent strict check.
@@ -46,8 +56,38 @@ def _load_verify(problem_dir: Path):
     return mod
 
 
+def _blank_literals(source: str) -> str:
+    """Return source with comment and string-literal *contents* blanked out (replaced by
+    spaces, positions preserved), so the static scan reacts to code, not to words that merely
+    appear in a comment or string. Code tokens and their adjacency are untouched, so e.g.
+    `open(` is still caught while `obj.eval(` (a method, not the builtin) still is not.
+    Falls back to the raw source if it will not tokenise (such a program fails to run anyway)."""
+    try:
+        toks = list(tokenize.generate_tokens(io.StringIO(source).readline))
+    except (tokenize.TokenError, IndentationError, SyntaxError):
+        return source
+    blank = {tokenize.STRING, tokenize.COMMENT}
+    for name in ("FSTRING_MIDDLE",):  # 3.12+ splits f-strings; blank only their literal text
+        if hasattr(tokenize, name):
+            blank.add(getattr(tokenize, name))
+    rows = [list(line) for line in source.splitlines(keepends=True)]
+    for tok in toks:
+        if tok.type not in blank:
+            continue
+        (sr, sc), (er, ec) = tok.start, tok.end
+        for r in range(sr, er + 1):
+            row = rows[r - 1]
+            a = sc if r == sr else 0
+            b = ec if r == er else len(row)
+            for c in range(a, min(b, len(row))):
+                if row[c] != "\n":
+                    row[c] = " "
+    return "".join("".join(r) for r in rows)
+
+
 def static_violations(source: str) -> list:
-    return sorted({why for pattern, why in _FORBIDDEN if re.search(pattern, source)})
+    scanned = _blank_literals(source)
+    return sorted({why for pattern, why in _FORBIDDEN if re.search(pattern, scanned)})
 
 
 def _label(verify, instance) -> str:
@@ -56,9 +96,32 @@ def _label(verify, instance) -> str:
     return ", ".join(f"{k}={v}" for k, v in instance.items()) or "default"
 
 
+_POOL = None
+
+
+def _pool():
+    """GATE_WORKERS > 1: one process-wide pool, so concurrent evaluations share the CPU budget.
+    Each instance still runs in its own child process; its time limit starts when it starts."""
+    global _POOL
+    workers = int(os.environ.get("GATE_WORKERS") or 1)
+    if workers <= 1:
+        return None
+    if _POOL is None or _POOL._max_workers != workers:
+        _POOL = ThreadPoolExecutor(max_workers=workers, thread_name_prefix="gate")
+    return _POOL
+
+
+def _timeout(verify) -> float:
+    return float(os.environ.get("GATE_TIMEOUT_S") or verify.TIMEOUT_S)
+
+
 def _run_instance(verify, program_path, instance) -> dict:
     rec = {"instance": instance, "label": _label(verify, instance)}
-    run = run_candidate(program_path, verify.FUNCTION, instance, verify.TIMEOUT_S)
+    if hasattr(verify, "online") and hasattr(verify, "DRIVER"):
+        header, inputs = verify.online(instance)
+        run = run_online(program_path, verify.FUNCTION, verify.DRIVER, header, inputs, _timeout(verify))
+    else:
+        run = run_candidate(program_path, verify.FUNCTION, instance, _timeout(verify))
     rec["seconds"] = run.seconds
     if not run.ok:
         rec.update(status="error", score=None, normalized=0.0, reason=run.error)
@@ -100,8 +163,11 @@ def evaluate(problem_dir, program_path: str, results_dir: str) -> dict:
         _write(results_dir, metrics, correct=False, error=GENERIC_REJECTION, integrity=integrity_log)
         return metrics
 
-    public = [_run_instance(verify, program_path, inst) for inst in verify.PUBLIC]
-    hidden = [_run_instance(verify, program_path, inst) for inst in getattr(verify, "HIDDEN", [])]
+    instances = list(verify.PUBLIC) + list(getattr(verify, "HIDDEN", []))
+    pool = _pool()   # instances in parallel if GATE_WORKERS > 1; results are identical, in instance order
+    one = lambda inst: _run_instance(verify, program_path, inst)
+    records = list(pool.map(one, instances)) if pool else [one(inst) for inst in instances]
+    public, hidden = records[:len(verify.PUBLIC)], records[len(verify.PUBLIC):]
     integrity_log["public"], integrity_log["hidden"] = public, hidden
 
     caught = [r for r in public + hidden if r["status"] == "integrity"]

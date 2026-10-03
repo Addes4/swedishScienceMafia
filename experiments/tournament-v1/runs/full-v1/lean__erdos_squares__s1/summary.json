@@ -1,0 +1,75 @@
+{
+  "job_id": "lean__erdos_squares__s1",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "erdos_squares",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 1.072212,
+  "within_cap": true,
+  "tokens": 182574,
+  "calls": 36,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "end_turn": 36
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 36
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 1.072212
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 9,
+  "retries": 0,
+  "evals": 37,
+  "valid_evals": 37,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.9999999999,
+  "final_hidden": 0.9999999999,
+  "final_sha": "c704e4c50176f572",
+  "max_public_seen": 0.9999999999999998,
+  "hidden_of_max_public_seen": 0.9999999999999998,
+  "improvements": 1,
+  "usd_per_improvement": 1.072212,
+  "tokens_per_improvement": 182574,
+  "auc": 0.991159,
+  "auc_gain": 0.938531,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 707.6,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 1.072212,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 2.6,
+      "t": 1791055318.4287648,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.067616,
+      "budget_frac": 0.061469,
+      "tokens": 7524,
+      "wall_s": 62.5,
+      "t": 1791055378.280496,
+      "incumbent_public": 0.9999999999,
+      "incumbent_hidden": 0.9999999999,
+      "sha": "c704e4c50176f572"
+    }
+  ]
+}

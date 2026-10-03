@@ -1,0 +1,19 @@
+{
+  "cell": "i015__opus__r0",
+  "idea_id": "i015",
+  "idea": "Column-strip construction: split the unit square into vertical strips of widths w_i, and stack c_i equal squares of side min(w_i, 1/c_i) in each strip. Each strip may also be recursively split horizontally into sub-strips. Optimise the integers c_i by DP, setting the widths to w_i = 1/c_i where possible and giving any leftover width to a final strip, to cover counts the square-grid families miss.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791053997.348004,
+  "cost": 0.195516,
+  "input_tokens": 979,
+  "output_tokens": 9580,
+  "llm_seconds": 108.69,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "37385232cfd934e1253b020ab3ced88e9a7fc4b3998201919deaa3efb0f00dc7"
+}

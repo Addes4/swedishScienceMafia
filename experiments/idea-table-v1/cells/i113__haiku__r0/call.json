@@ -1,0 +1,19 @@
+{
+  "cell": "i113__haiku__r0",
+  "idea_id": "i113",
+  "idea": "Implement the Pareto-front substitution DP restricted to the four corner sub-squares. Split the unit square into one sub-square of side t and the L-shaped complement, decomposed into two rectangles. Each rectangle uses its best uniform grid, t ranges over rationals p/q with q \u2264 2\u221an+2, and the count is matched exactly by combining the per-rectangle count/sum lists.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056022.915663,
+  "cost": 0.010098,
+  "input_tokens": 793,
+  "output_tokens": 1861,
+  "llm_seconds": 11.66,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "b6a20b31c059c9fbc11d2b9e48fba7e620a087608c801a896d21043d4cce9b00"
+}

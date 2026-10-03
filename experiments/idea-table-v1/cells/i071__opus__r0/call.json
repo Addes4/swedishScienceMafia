@@ -1,0 +1,14 @@
+{
+  "cell": "i071__opus__r0",
+  "idea_id": "i071",
+  "idea": "Monotone-staircase DP: on an L\u00d7L integer board, restrict layouts to those built by placing squares into the inner corners of a Young-diagram-shaped occupied region growing from the bottom-left corner. States are monotone lattice paths, giving far fewer states than general skyline search, so L can reach about 20\u201324. This finds non-guillotine integer dissections, such as corner-heavy optima, exactly.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056131.4457579,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs998DtDVZ6Z1F6fbrz'}",
+  "cost": 0.0
+}

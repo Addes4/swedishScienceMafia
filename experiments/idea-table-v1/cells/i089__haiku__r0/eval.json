@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.1111111111111111,
+    "public": {
+      "n=5": 2.0,
+      "n=6": null,
+      "n=7": null,
+      "n=8": null,
+      "n=11": null,
+      "n=12": null,
+      "n=13": null,
+      "n=14": null,
+      "n=15": null
+    },
+    "private": {
+      "hidden_normalized": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_mean": 0.0,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 2 (best known 2)\nn=6: invalid construction: square 5: every value must lie in [0, 1]\nn=7: invalid construction: square 5: every value must lie in [0, 1]\nn=8: invalid construction: square 5 sticks out of the unit square\nn=11: invalid construction: square 9: every value must lie in [0, 1]\nn=12: invalid construction: square 9: every value must lie in [0, 1]\nn=13: invalid construction: square 9: every value must lie in [0, 1]\nn=14: invalid construction: square 9: every value must lie in [0, 1]\nn=15: invalid construction: square 9: every value must lie in [0, 1]"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 1.0,
+        "seconds": 7.16599999999179e-05,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 2.901999999993521e-05,
+        "reason": "square 5: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=7",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 2.8490000000047644e-05,
+        "reason": "square 5: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=8",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 2.815099999997628e-05,
+        "reason": "square 5 sticks out of the unit square"
+      },
+      {
+        "label": "n=11",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 2.943000000010798e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=12",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 4.7870000000393986e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=13",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 3.8720000000047605e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=14",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 3.595000000000681e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=15",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 4.1750000000284615e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=18",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 3.971000000024816e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=21",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 3.5049999999703374e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=23",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 4.790000000021166e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=27",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 5.093000000000458e-05,
+        "reason": "square 9: every value must lie in [0, 1]"
+      }
+    ]
+  },
+  "seconds": 2.27,
+  "container_seconds": 2.27,
+  "host": "modal"
+}

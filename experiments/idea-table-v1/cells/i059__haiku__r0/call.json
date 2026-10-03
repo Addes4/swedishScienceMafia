@@ -1,0 +1,14 @@
+{
+  "cell": "i059__haiku__r0",
+  "idea_id": "i059",
+  "idea": "Asymmetric corner-merge family: in a k\u00d7k grid, merge an a\u00d7a block in one corner and a b\u00d7b block in the opposite corner (with a \u2260 b allowed). Also split c cells into 2\u00d72, giving count k\u00b2 \u2212 a\u00b2 \u2212 b\u00b2 + 2 + 3c and sum k + (a + b \u2212 a\u00b2 \u2212 b\u00b2 + c)/k... wait, corrected: (k\u00b2 \u2212 a\u00b2 \u2212 b\u00b2 + a + b + c)/k. Enumerate all (k, a, b, c) in closed form to cover even and odd residues near n that single-block replacements miss.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056127.005643,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs8pKP3L8wrRahiAMM6'}",
+  "cost": 0.0
+}

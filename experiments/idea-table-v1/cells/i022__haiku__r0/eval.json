@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.0,
+    "public": {
+      "n=5": null,
+      "n=6": null,
+      "n=7": null,
+      "n=8": null,
+      "n=11": null,
+      "n=12": null,
+      "n=13": null,
+      "n=14": null,
+      "n=15": null
+    },
+    "private": {
+      "hidden_normalized": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_mean": 0.0,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: invalid construction: square 0 sticks out of the unit square\nn=6: invalid construction: square 0 sticks out of the unit square\nn=7: invalid construction: square 0 sticks out of the unit square\nn=8: invalid construction: square 0 sticks out of the unit square\nn=11: invalid construction: square 0 sticks out of the unit square\nn=12: invalid construction: square 0 sticks out of the unit square\nn=13: invalid construction: square 0 sticks out of the unit square\nn=14: invalid construction: square 0 sticks out of the unit square\nn=15: program failed: timed out after 60s"
+  },
+  "correct": {
+    "correct": false,
+    "error": "no valid construction on public instances"
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0015708580000000083,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=6",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.00686068800000017,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=7",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.014480266999999714,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=8",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0587821540000002,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=11",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 1.274520753,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=12",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 6.020980036000001,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=13",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 12.01111181,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=14",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 53.139376122,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=15",
+        "status": "error",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": null,
+        "reason": "timed out after 60s"
+      },
+      {
+        "label": "n=18",
+        "status": "error",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": null,
+        "reason": "timed out after 60s"
+      },
+      {
+        "label": "n=21",
+        "status": "error",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": null,
+        "reason": "timed out after 60s"
+      },
+      {
+        "label": "n=23",
+        "status": "error",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": null,
+        "reason": "timed out after 60s"
+      },
+      {
+        "label": "n=27",
+        "status": "error",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": null,
+        "reason": "timed out after 60s"
+      }
+    ]
+  },
+  "seconds": 374.23,
+  "container_seconds": 374.24,
+  "host": "modal"
+}

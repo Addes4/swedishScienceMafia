@@ -1,0 +1,64 @@
+# Experiments
+
+Every study in this project, in the order it was run, with where to find its protocol, write-up and
+raw data. Numbers below are copied from each study's write-up, which is the authority. Intervals are
+95% paired bootstrap intervals over seeds unless a write-up says otherwise.
+
+## How a study folder is organised
+
+| File | Contents |
+|---|---|
+| `PROTOCOL.md` | Question, arms, primary endpoint, seeds and budgets, written before the main run; later changes are disclosed in place |
+| `RESULTS.md` (`EXPERIMENT.md` for simplify-v1) | Question and answer first, then method, results, limitations, cost, reproduce commands and an index of the folder's files |
+| `summary.json` | Headline numbers in machine-readable form |
+| `config.json`, `grids/` | The exact configuration that ran |
+| `*.json.gz`, `runs/`, `traces/`, `cells/` | Raw traces: per-seed searches, every LLM prompt and response, every evaluation |
+| `audit*.json` | The final audit on fresh instances, generated only after search ended |
+| `usage.jsonl` | Every paid API call: model, tokens, dollars, outcome (failures included) |
+| `source/`, `source_hashes.json` | A snapshot of the code that produced the data |
+
+## First round: search mechanisms without LLM calls (3 October, day)
+
+All on online bin packing (capacity 100, 80-item instances) with a fixed C++ packer, local CPU only.
+The candidates are weighted feature vectors scoring each bin; best-fit is one of them.
+
+| Study | Folder | Protocol | Write-up | Question | Main result |
+|---|---|---|---|---|---|
+| Falsify v1 | [local-v1](local-v1/) | [PROTOCOL.md](PROTOCOL.md) | [RESULTS.md](RESULTS.md), [HANDOFF.md](HANDOFF.md) | Does keeping counterexamples for replay beat random replay at equal evaluator work? | 20 seeds × 120 generations: −0.0047 excess bins vs random replay, CI [−0.012, 0.0019]; inconclusive |
+| Falsify v2 | [local-v2](local-v2/) | [PROTOCOL-v2.md](PROTOCOL-v2.md) | [RESULTS.md](RESULTS.md) | The same, with neutral drift, 50 seeds and 500 generations | Counterexample replay 0.000725 vs random 0.023 excess bins; −0.0223, CI [−0.0378, −0.0108]. Less drift away from best-fit, not better than best-fit |
+| Recovery from first-fit | [local-firstfit](local-firstfit/) | [PROTOCOL-v2.md](PROTOCOL-v2.md) | [RESULTS.md](RESULTS.md) | Starting from a weak policy, do counterexample arms recover more? | All arms recovered from 0.33 excess bins; counterexample arms got closer to best-fit (−0.0106 vs random, CI [−0.0182, −0.0032]) |
+| Codex pilot | [codex-pilot-v1](codex-pilot-v1/), [codex-pilot-v2](codex-pilot-v2/) | - | [RESULTS.md](RESULTS.md); candidates in [codex_candidates.json](codex_candidates.json), [codex_revision.json](codex_revision.json) | Do model-proposed heuristics survive a fresh audit? | A revision with 1 win / 0 losses on 1,000 cases had 3 wins / 14 losses on 10,000 fresh cases |
+| Promotion gates v3 | [gate-v3](gate-v3/) | [PROTOCOL-v3.md](PROTOCOL-v3.md) | [gate-v3/RESULTS.md](gate-v3/RESULTS.md) | On an identical proposal stream, does a counterexample gate beat score-only promotion and a random-input gate? | Beats score-only (−0.0022, CI [−0.0041, −0.0006]); against a random gate, inconclusive |
+| Soft gates v4 | [soft-gate-v4](soft-gate-v4/) | [PROTOCOL-v4.md](PROTOCOL-v4.md) | [soft-gate-v4/RESULTS.md](soft-gate-v4/RESULTS.md) | Can bounded losses backed by fresh validation keep good proposals and still block bad ones? | Let through 15/16 beneficial and blocked 328/599 harmful sampled proposals (strict gate: 14/16, 270/599); no final-quality gain |
+| Simplify | [simplify-v1](simplify-v1/) | [SIMPLIFY_PROTOCOL.md](SIMPLIFY_PROTOCOL.md) | [simplify-v1/EXPERIMENT.md](simplify-v1/EXPERIMENT.md), corrections in [SIMPLIFY_REVIEW_ADDENDUM.md](SIMPLIFY_REVIEW_ADDENDUM.md) | Can an evolved rule be reduced to a short rule with the same measured quality? | The 11-term "winner" is exactly best-fit. One-sided simplification also *repaired* worse candidates (26 of 43 improved beyond tolerance), so explanations need a two-sided check |
+| Strategist v1 | [strategist-v1](strategist-v1/) | [../strategist/PROTOCOL.md](../strategist/PROTOCOL.md) | [../strategist/RESULTS.md](../strategist/RESULTS.md) | Does learning when to edit, rewrite, cross over or restart beat fixed move mixes, and is it timing or luck? | Beats fixed mixes on LABS and NK; timing matters on Heilbronn (130/0/70 vs shuffled timing); a post-hoc tuned patience rule beats it on LABS and NK |
+
+[report.html](report.html) is an interactive Falsify report, best opened in a browser after cloning. [example_prompt.txt](example_prompt.txt) is the
+prompt format for the optional Anthropic proposal adapter in `falsify/anthropic_propose.py`.
+
+## Overnight: real LLM runs, new benchmark, controls (3 October, night)
+
+The decisions, approvals, incidents and spend behind these six studies are in
+[OVERNIGHT-2026-10-03.md](OVERNIGHT-2026-10-03.md). The Anthropic credit ran out at about 21:30,
+which cut two of them short; the write-ups say exactly which runs are affected.
+
+| Study | Folder | Question | Main result | Status |
+|---|---|---|---|---|
+| Bin-packing ceiling | [bp-ceiling-v1](bp-ceiling-v1/RESULTS.md) | Is the best-fit ceiling the feature set or the 80-item instances? | The instances. On FunSearch's 5,000-item Weibull instances, a 21-weight linear rule tuned on CPU reaches −3.28 pp vs best-fit (FunSearch's heuristic: −3.33). Our evaluator reproduces FunSearch's published 3.98% / 4.23% / 0.68% exactly | Complete |
+| Memory ablation | [memory-ablation-v1](memory-ablation-v1/RESULTS.md) | In a closed LLM loop, do executable counterexamples in the prompt beat no memory and prose memory? | No: all primary intervals include zero (executable − prose +4.73 bins, CI [−0.23, +12.96]). Memory cut harmful proposals mainly by making the model propose no-ops | Complete; memory was not token-matched (disclosed) |
+| Idea table | [idea-table-v1](idea-table-v1/RESULTS.md) | Does ranking ideas before implementation predict success, and which routing policy is best per dollar? | The implementing model decided success (Opus 62/62, Sonnet 60/62, Haiku 10/62); rankers near chance (Codex AUC 0.600, Jev 0.484); ranked triage no better than random tiers | Partial: 62 of 114 ideas complete for all three models |
+| Tournament v1 | [tournament-v1](tournament-v1/RESULTS.md) | Which complete framework gets furthest at an equal dollar budget? | At a common early spend, the single-model loops led ShinkaEvolve and triage trailed; final scores tied; two of three problems saturate within 1–3 calls | Partial: 17 of 60 runs complete; not budget-matched |
+| Tournament v2 | [tournament-v2](tournament-v2/RESULTS.md) | The same grid on open models through the Hugging Face router | Route and smoke runs only on this branch. A Flash call cost about $0.002; program evaluation, not the model, set the wall time | Smoke only (see the overnight log for any later grid run) |
+| Strategist v2 | [strategist-v2](strategist-v2/RESULTS.md) | Do v1's three proposed fixes help, on fresh seeds with a dev/validation/confirmatory split? | Better than v1 on LABS (+0.137) and NK, mostly via the crossover gate; a patience rule tuned on dev seeds still wins on LABS | Complete |
+| Gate red-team | [gate-redteam-v1](gate-redteam-v1/RESULTS.md) | Can candidate programs obtain a score they did not earn? | 0 of 68 attempts (28 hand-written, 40 by Sonnet and Haiku told to cheat) gained a material unearned score | Complete |
+
+## Demo runs of the one-command loop
+
+[../runs/](../runs/README.md) holds two committed runs of `python -m autoresearch.loop`: a live
+bin-packing run on an open model and a mock Erdős squares run, with the live-demo plan.
+
+## Related work
+
+How these results relate to published work is in [../context/related-work.md](../context/related-work.md)
+(about 60 papers) and [../context/related-work-addendum.md](../context/related-work-addendum.md)
+(open questions).

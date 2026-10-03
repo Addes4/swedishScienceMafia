@@ -1,0 +1,19 @@
+{
+  "cell": "i031__haiku__r0",
+  "idea_id": "i031",
+  "idea": "Exact rectangle table g(p,q,m): for integer rectangles p\u00d7q up to about 12 and counts m up to n, store the best sum from a single square, a uniform grid, or one guillotine cut. Compute it with memoised DP in exact Fractions. The unit square is then filled by trying every split of the 1\u00d71 board at rational cut positions with denominators up to 12, which captures nested L-shapes and asymmetric cuts in one table.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055945.3948941,
+  "cost": 0.007772,
+  "input_tokens": 812,
+  "output_tokens": 1392,
+  "llm_seconds": 8.97,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "d2ac4f4129516138cd713dbd1a7118ab41c3697c06835de498d9f71e7ebeb59c"
+}

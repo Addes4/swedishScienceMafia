@@ -1,0 +1,19 @@
+{
+  "cell": "i036__opus__r0",
+  "idea_id": "i036",
+  "idea": "Upper-bound-pruned exhaustive search for small n (\u226420): enumerate axis-aligned dissections in bottom-left skyline order with side choices from {i/L : L\u226412}. Prune with the Cauchy\u2013Schwarz bound sum \u2264 current + \u221a(m\u00b7remaining area) and with the best known lower bound, so the exact discrete optimum is found within the time limit.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055411.70676,
+  "cost": 0.162044,
+  "input_tokens": 966,
+  "output_tokens": 7909,
+  "llm_seconds": 94.46,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "8f5cec497ae70dfac3c7e74d5910556a3e361efe7a59de665cfdca42b09dcfe2"
+}

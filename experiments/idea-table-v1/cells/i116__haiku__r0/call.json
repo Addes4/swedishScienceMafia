@@ -1,0 +1,19 @@
+{
+  "cell": "i116__haiku__r0",
+  "idea_id": "i116",
+  "idea": "Run a small exact integer-board DP (a skyline or profile DP on an L\u00d7L board, L \u2264 10, with square sides 1..L). The DP tracks the best sum for every count, so the true optimal axis-aligned integer dissection is found for small n. Prune it with a time cap and keep it as one of the candidates.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056047.580103,
+  "cost": 0.007499,
+  "input_tokens": 784,
+  "output_tokens": 1343,
+  "llm_seconds": 9.59,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "dd55de577ec19e7aa57baa9b719787e81df78317c1da5465a8cf23a6183d86a3"
+}

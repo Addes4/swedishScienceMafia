@@ -1,0 +1,47 @@
+{
+  "job_id": "triage__circle_packing__s0",
+  "arm": "triage",
+  "arm_type": "triage",
+  "problem": "circle_packing",
+  "seed": 0,
+  "mock": true,
+  "cap_usd": 0.5,
+  "spent_usd": 0.474666,
+  "within_cap": true,
+  "tokens": 47546,
+  "calls": 13,
+  "failed_calls": 0,
+  "refusals": 2,
+  "stop_reason_counts": {
+    "end_turn": 13
+  },
+  "evals": 12,
+  "valid_evals": 12,
+  "initial_public": 0.38211917523171446,
+  "initial_hidden": null,
+  "final_public": 0.38211917523171446,
+  "final_hidden": null,
+  "final_sha": "a586cda41d88a0b8",
+  "max_public_seen": 0.38211917523171446,
+  "hidden_of_max_public_seen": null,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.382119,
+  "auc_gain": 0.0,
+  "flags": [],
+  "wall_s": 2.0,
+  "status": "ok",
+  "arm_result": "budget",
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.4,
+      "incumbent_public": 0.38211917523171446,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    }
+  ]
+}

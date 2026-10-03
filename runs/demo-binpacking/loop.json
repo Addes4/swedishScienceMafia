@@ -1,0 +1,34 @@
+{
+  "argv": [
+    "problems/bin_packing_online",
+    "--budget",
+    "0.15",
+    "--provider",
+    "hf",
+    "--max-iters",
+    "8",
+    "--gate-workers",
+    "8",
+    "--out",
+    "runs/demo-binpacking"
+  ],
+  "config": {
+    "budget": 0.15,
+    "provider": "hf",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "max_iters": 8,
+    "wall": 3600,
+    "seed": 0,
+    "no_gate": false,
+    "patience": null,
+    "independent": false,
+    "gate_workers": 8,
+    "explain_evals": 40,
+    "mock": false
+  },
+  "timings": {
+    "search_s": 43.5,
+    "baselines_s": 8.4,
+    "explain_s": 0.0
+  }
+}

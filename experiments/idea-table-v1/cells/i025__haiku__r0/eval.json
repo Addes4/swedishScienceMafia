@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.0,
+    "public": {
+      "n=5": null,
+      "n=6": 0.0,
+      "n=7": null,
+      "n=8": 0.0,
+      "n=11": null,
+      "n=12": null,
+      "n=13": null,
+      "n=14": 0.0,
+      "n=15": 0.0
+    },
+    "private": {
+      "hidden_normalized": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hidden_mean": 0.0,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: invalid construction: square 4: every value must lie in [0, 1]\nn=6: score 0 (best known 2.33333)\nn=7: invalid construction: square 6: every value must lie in [0, 1]\nn=8: score 0 (best known 2.66667)\nn=11: invalid construction: square 10: every value must lie in [0, 1]\nn=12: invalid construction: square 4 sticks out of the unit square\nn=13: invalid construction: square 8: every value must lie in [0, 1]\nn=14: score 0 (best known 3.66667)\nn=15: score 0 (best known 3.75)"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 1.3604559550000004,
+        "reason": "square 4: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 0.0,
+        "normalized": 0.0,
+        "seconds": 1.5279193759999998,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 1.3984333429999998,
+        "reason": "square 6: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 0.0,
+        "normalized": 0.0,
+        "seconds": 2.9772259870000006,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 2.793925762999999,
+        "reason": "square 10: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=12",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 2.9270214549999984,
+        "reason": "square 4 sticks out of the unit square"
+      },
+      {
+        "label": "n=13",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 3.499590974,
+        "reason": "square 8: every value must lie in [0, 1]"
+      },
+      {
+        "label": "n=14",
+        "status": "valid",
+        "score": 0.0,
+        "normalized": 0.0,
+        "seconds": 4.2873815529999995,
+        "reason": ""
+      },
+      {
+        "label": "n=15",
+        "status": "valid",
+        "score": 0.0,
+        "normalized": 0.0,
+        "seconds": 11.21337135,
+        "reason": ""
+      },
+      {
+        "label": "n=18",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 9.272834545000002,
+        "reason": "square 14 sticks out of the unit square"
+      },
+      {
+        "label": "n=21",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 25.788117410000005,
+        "reason": "square 10 sticks out of the unit square"
+      },
+      {
+        "label": "n=23",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 47.39181495899999,
+        "reason": "square 0 sticks out of the unit square"
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 0.0,
+        "normalized": 0.0,
+        "seconds": 24.007929489999995,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 147.57,
+  "container_seconds": 147.57,
+  "host": "modal"
+}

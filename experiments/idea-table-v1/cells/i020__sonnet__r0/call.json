@@ -1,0 +1,19 @@
+{
+  "cell": "i020__sonnet__r0",
+  "idea_id": "i020",
+  "idea": "Substitution DP: any square of side s in a packing can be replaced by a scaled copy of a packing of m squares, so f(n+m\u22121) \u2265 f(n) \u2212 s + s\u00b7f(m). Fill a table best[n] bottom-up from the k\u00d7k grids, keeping each layout as an explicit tree. At each step substitute into either the largest or the smallest square, and try every m that has already been solved.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055462.275058,
+  "cost": 0.034506,
+  "input_tokens": 968,
+  "output_tokens": 3257,
+  "llm_seconds": 25.72,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "c53df6380f0998db71e67b1468edd035911b95ec9a25a554859ce61a34e6b710"
+}

@@ -1,0 +1,1737 @@
+{
+  "experiment": "idea-table-v1",
+  "question": "Does ranking ideas before implementation predict which ideas improve the program, and which triage policy gives the best result per dollar?",
+  "problem": "erdos_squares",
+  "parent_score": 0.8561716061716061,
+  "parent_hidden": 0.9127792599779017,
+  "n_ideas": 62,
+  "n_cells": 342,
+  "excluded_ideas": [
+    "i065",
+    "i070",
+    "i007",
+    "i025",
+    "i059",
+    "i069",
+    "i077",
+    "i026",
+    "i001",
+    "i076",
+    "i044",
+    "i046",
+    "i054",
+    "i034",
+    "i066",
+    "i064",
+    "i008",
+    "i071",
+    "i062",
+    "i048",
+    "i061",
+    "i078",
+    "i004",
+    "i041",
+    "i011",
+    "i074",
+    "i067",
+    "i002",
+    "i030",
+    "i039",
+    "i027",
+    "i032",
+    "i116",
+    "i097",
+    "i090",
+    "i087",
+    "i092",
+    "i101",
+    "i119",
+    "i088",
+    "i115",
+    "i105",
+    "i094",
+    "i093",
+    "i103",
+    "i081",
+    "i085",
+    "i080",
+    "i118",
+    "i109",
+    "i091",
+    "i114"
+  ],
+  "cells_by_model": {
+    "claude-haiku-4-5": {
+      "cells": 62,
+      "success_rate": 0.16129032258064516,
+      "mean_cost": 0.00861706451612903,
+      "mean_output_tokens": 1564.4516129032259,
+      "mean_llm_seconds": 11.209032258064514,
+      "refusals": 0,
+      "max_score": 0.992100492100492,
+      "outcomes": {
+        "improved": 10,
+        "not_better": 33,
+        "invalid": 19
+      }
+    },
+    "claude-sonnet-5-5": {
+      "cells": 62,
+      "success_rate": 0.967741935483871,
+      "mean_cost": 0.06445032258064516,
+      "mean_output_tokens": 6251.629032258064,
+      "mean_llm_seconds": 51.8432258064516,
+      "refusals": 0,
+      "max_score": 1.0,
+      "outcomes": {
+        "improved": 60,
+        "invalid": 2
+      }
+    },
+    "claude-opus-5-5": {
+      "cells": 62,
+      "success_rate": 1.0,
+      "mean_cost": 0.2093332258064516,
+      "mean_output_tokens": 10273.258064516129,
+      "mean_llm_seconds": 112.48451612903227,
+      "refusals": 0,
+      "max_score": 1.0,
+      "outcomes": {
+        "improved": 62
+      }
+    }
+  },
+  "ideas_improved_by_any_model": 62,
+  "rankers": {
+    "random": {
+      "auc_pooled": {
+        "mean": 0.499,
+        "lo": 0.45,
+        "hi": 0.549
+      },
+      "auc_haiku": {
+        "mean": 0.496,
+        "lo": 0.292,
+        "hi": 0.704
+      },
+      "auc_sonnet": {
+        "mean": 0.492,
+        "lo": 0.075,
+        "hi": 0.951
+      },
+      "auc_opus": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "auc_any": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "spearman_gain": {
+        "mean": -0.009,
+        "lo": -0.248,
+        "hi": 0.245
+      },
+      "brier_pooled": {
+        "mean": 0.334,
+        "lo": 0.294,
+        "hi": 0.375
+      },
+      "auc_solved_pooled": {
+        "mean": 0.497,
+        "lo": 0.439,
+        "hi": 0.559
+      },
+      "usd_per_idea": 0.0
+    },
+    "claude-haiku-4-5": {
+      "auc_pooled": {
+        "mean": 0.516,
+        "lo": 0.474,
+        "hi": 0.558
+      },
+      "auc_haiku": {
+        "mean": 0.596,
+        "lo": 0.411,
+        "hi": 0.767
+      },
+      "auc_sonnet": {
+        "mean": 0.392,
+        "lo": 0.197,
+        "hi": 0.607
+      },
+      "auc_opus": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "auc_any": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "spearman_gain": {
+        "mean": -0.095,
+        "lo": -0.329,
+        "hi": 0.145
+      },
+      "brier_pooled": {
+        "mean": 0.26,
+        "lo": 0.24,
+        "hi": 0.28
+      },
+      "auc_solved_pooled": {
+        "mean": 0.474,
+        "lo": 0.409,
+        "hi": 0.542
+      },
+      "usd_per_idea": 0.0004869736842105263,
+      "auc_pooled_minus_random": {
+        "mean": 0.017,
+        "lo": -0.053,
+        "hi": 0.082
+      }
+    },
+    "claude-opus-5-5": {
+      "auc_pooled": {
+        "mean": 0.564,
+        "lo": 0.518,
+        "hi": 0.617
+      },
+      "auc_haiku": {
+        "mean": 0.76,
+        "lo": 0.597,
+        "hi": 0.889
+      },
+      "auc_sonnet": {
+        "mean": 0.646,
+        "lo": 0.23,
+        "hi": 1.0
+      },
+      "auc_opus": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "auc_any": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "spearman_gain": {
+        "mean": 0.195,
+        "lo": -0.073,
+        "hi": 0.435
+      },
+      "brier_pooled": {
+        "mean": 0.271,
+        "lo": 0.238,
+        "hi": 0.304
+      },
+      "auc_solved_pooled": {
+        "mean": 0.487,
+        "lo": 0.429,
+        "hi": 0.542
+      },
+      "usd_per_idea": 0.003897473684210526,
+      "auc_pooled_minus_random": {
+        "mean": 0.065,
+        "lo": -0.002,
+        "hi": 0.14
+      }
+    },
+    "codex": {
+      "auc_pooled": {
+        "mean": 0.6,
+        "lo": 0.543,
+        "hi": 0.66
+      },
+      "auc_haiku": {
+        "mean": 0.929,
+        "lo": 0.852,
+        "hi": 0.983
+      },
+      "auc_sonnet": {
+        "mean": 0.629,
+        "lo": 0.205,
+        "hi": 1.0
+      },
+      "auc_opus": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "auc_any": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "spearman_gain": {
+        "mean": 0.262,
+        "lo": -0.022,
+        "hi": 0.521
+      },
+      "brier_pooled": {
+        "mean": 0.262,
+        "lo": 0.225,
+        "hi": 0.296
+      },
+      "auc_solved_pooled": {
+        "mean": 0.467,
+        "lo": 0.404,
+        "hi": 0.527
+      },
+      "usd_per_idea": 0.0,
+      "auc_pooled_minus_random": {
+        "mean": 0.102,
+        "lo": 0.028,
+        "hi": 0.178
+      }
+    },
+    "jev": {
+      "auc_pooled": {
+        "mean": 0.484,
+        "lo": 0.431,
+        "hi": 0.538
+      },
+      "auc_haiku": {
+        "mean": 0.418,
+        "lo": 0.215,
+        "hi": 0.629
+      },
+      "auc_sonnet": {
+        "mean": 0.542,
+        "lo": 0.15,
+        "hi": 0.928
+      },
+      "auc_opus": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "auc_any": {
+        "mean": NaN,
+        "lo": null,
+        "hi": null
+      },
+      "spearman_gain": {
+        "mean": -0.069,
+        "lo": -0.315,
+        "hi": 0.183
+      },
+      "brier_pooled": {
+        "mean": 0.222,
+        "lo": 0.212,
+        "hi": 0.231
+      },
+      "auc_solved_pooled": {
+        "mean": 0.482,
+        "lo": 0.419,
+        "hi": 0.547
+      },
+      "usd_per_idea": 4.372807017543859e-05,
+      "auc_pooled_minus_random": {
+        "mean": -0.015,
+        "lo": -0.092,
+        "hi": 0.054
+      }
+    }
+  },
+  "policies": {
+    "uniform:haiku": {
+      "cost": {
+        "mean": 0.5343,
+        "lo": 0.5037,
+        "hi": 0.5655
+      },
+      "improvements": {
+        "mean": 10.0,
+        "lo": 5.0,
+        "hi": 16.0
+      },
+      "improvements_per_dollar": {
+        "mean": 18.7175,
+        "lo": 8.9775,
+        "hi": 30.2669
+      },
+      "best_public": {
+        "mean": 0.9921,
+        "lo": 0.9441,
+        "hi": 0.9921
+      },
+      "best_hidden": {
+        "mean": 0.9789,
+        "lo": 0.9555,
+        "hi": 0.9789
+      },
+      "recall_any": {
+        "mean": 0.1613,
+        "lo": 0.0806,
+        "hi": 0.2581
+      },
+      "dollars_per_improvement": 0.0534258
+    },
+    "uniform:sonnet": {
+      "cost": {
+        "mean": 3.9959,
+        "lo": 3.5906,
+        "hi": 4.4336
+      },
+      "improvements": {
+        "mean": 60.0,
+        "lo": 57.0,
+        "hi": 62.0
+      },
+      "improvements_per_dollar": {
+        "mean": 15.0153,
+        "lo": 13.3438,
+        "hi": 16.8555
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9974,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.9677,
+        "lo": 0.9194,
+        "hi": 1.0
+      },
+      "dollars_per_improvement": 0.06659866666666664
+    },
+    "uniform:opus": {
+      "cost": {
+        "mean": 12.9787,
+        "lo": 11.5353,
+        "hi": 14.4866
+      },
+      "improvements": {
+        "mean": 62.0,
+        "lo": 62.0,
+        "hi": 62.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.7771,
+        "lo": 4.2798,
+        "hi": 5.3748
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9985,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "dollars_per_improvement": 0.2093332258064516
+    },
+    "tiers:random": {
+      "cost": {
+        "mean": 5.9197,
+        "lo": 5.0446,
+        "hi": 6.8265
+      },
+      "improvements": {
+        "mean": 44.644,
+        "lo": 41.0,
+        "hi": 48.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.5676,
+        "lo": 6.3567,
+        "hi": 8.9598
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.998,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.7201,
+        "lo": 0.6613,
+        "hi": 0.7742
+      },
+      "dollars_per_improvement": 0.13259735736045153
+    },
+    "tiers+swap:random": {
+      "cost": {
+        "mean": 5.891,
+        "lo": 4.7657,
+        "hi": 7.2346
+      },
+      "improvements": {
+        "mean": 44.518,
+        "lo": 39.0,
+        "hi": 49.025
+      },
+      "improvements_per_dollar": {
+        "mean": 7.6064,
+        "lo": 6.2137,
+        "hi": 9.2474
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.998,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.718,
+        "lo": 0.629,
+        "hi": 0.7907
+      },
+      "dollars_per_improvement": 0.13232801513994336
+    },
+    "inverse-tiers:random": {
+      "cost": {
+        "mean": 5.7146,
+        "lo": 4.8862,
+        "hi": 6.6101
+      },
+      "improvements": {
+        "mean": 43.594,
+        "lo": 40.0,
+        "hi": 47.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.653,
+        "lo": 6.427,
+        "hi": 9.1581
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9981,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.7031,
+        "lo": 0.6452,
+        "hi": 0.7581
+      },
+      "dollars_per_improvement": 0.13108771826398125
+    },
+    "top1-opus:random": {
+      "cost": {
+        "mean": 2.2823,
+        "lo": 1.724,
+        "hi": 2.9587
+      },
+      "improvements": {
+        "mean": 11.0,
+        "lo": 11.0,
+        "hi": 11.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.8987,
+        "lo": 3.7178,
+        "hi": 6.3807
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9984,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.1774,
+        "lo": 0.1774,
+        "hi": 0.1774
+      },
+      "dollars_per_improvement": 0.2074834552727273
+    },
+    "top2-opus:random": {
+      "cost": {
+        "mean": 4.6052,
+        "lo": 3.7573,
+        "hi": 5.5072
+      },
+      "improvements": {
+        "mean": 22.0,
+        "lo": 22.0,
+        "hi": 22.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.8087,
+        "lo": 3.9948,
+        "hi": 5.8553
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9985,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.3548,
+        "lo": 0.3548,
+        "hi": 0.3548
+      },
+      "dollars_per_improvement": 0.20932822545454546
+    },
+    "top3-opus:random": {
+      "cost": {
+        "mean": 6.7119,
+        "lo": 5.6507,
+        "hi": 7.7493
+      },
+      "improvements": {
+        "mean": 32.0,
+        "lo": 32.0,
+        "hi": 32.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.7834,
+        "lo": 4.1294,
+        "hi": 5.663
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9985,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.5161,
+        "lo": 0.5161,
+        "hi": 0.5161
+      },
+      "dollars_per_improvement": 0.20974680899999998
+    },
+    "tiers:claude-haiku-4-5": {
+      "cost": {
+        "mean": 5.4678,
+        "lo": 4.7971,
+        "hi": 6.2062
+      },
+      "improvements": {
+        "mean": 43.06,
+        "lo": 40.0,
+        "hi": 47.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.8856,
+        "lo": 6.7971,
+        "hi": 9.221
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9983,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6945,
+        "lo": 0.6452,
+        "hi": 0.7581
+      },
+      "dollars_per_improvement": 0.12698012392988972
+    },
+    "tiers+swap:claude-haiku-4-5": {
+      "cost": {
+        "mean": 5.5469,
+        "lo": 4.5367,
+        "hi": 6.7729
+      },
+      "improvements": {
+        "mean": 43.23,
+        "lo": 38.0,
+        "hi": 48.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.8295,
+        "lo": 6.5332,
+        "hi": 9.44
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9981,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6973,
+        "lo": 0.6129,
+        "hi": 0.7742
+      },
+      "dollars_per_improvement": 0.12831203901043375
+    },
+    "inverse-tiers:claude-haiku-4-5": {
+      "cost": {
+        "mean": 6.3463,
+        "lo": 5.3245,
+        "hi": 7.3854
+      },
+      "improvements": {
+        "mean": 43.968,
+        "lo": 40.0,
+        "hi": 48.0
+      },
+      "improvements_per_dollar": {
+        "mean": 6.9372,
+        "lo": 5.8174,
+        "hi": 8.4345
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9969,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.7092,
+        "lo": 0.6452,
+        "hi": 0.7742
+      },
+      "dollars_per_improvement": 0.14433872640149772
+    },
+    "top1-opus:claude-haiku-4-5": {
+      "cost": {
+        "mean": 1.9381,
+        "lo": 1.5393,
+        "hi": 2.38
+      },
+      "improvements": {
+        "mean": 11.0,
+        "lo": 11.0,
+        "hi": 11.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.7062,
+        "lo": 4.6218,
+        "hi": 7.146
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9997,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.1774,
+        "lo": 0.1774,
+        "hi": 0.1774
+      },
+      "dollars_per_improvement": 0.17619464512918662
+    },
+    "top2-opus:claude-haiku-4-5": {
+      "cost": {
+        "mean": 4.1341,
+        "lo": 3.4769,
+        "hi": 4.8607
+      },
+      "improvements": {
+        "mean": 22.0,
+        "lo": 22.0,
+        "hi": 22.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.3376,
+        "lo": 4.5261,
+        "hi": 6.3275
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9996,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.3548,
+        "lo": 0.3548,
+        "hi": 0.3548
+      },
+      "dollars_per_improvement": 0.18791450656459333
+    },
+    "top3-opus:claude-haiku-4-5": {
+      "cost": {
+        "mean": 6.1585,
+        "lo": 5.3559,
+        "hi": 7.0876
+      },
+      "improvements": {
+        "mean": 32.0,
+        "lo": 32.0,
+        "hi": 32.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.2048,
+        "lo": 4.5149,
+        "hi": 5.9747
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9993,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.5161,
+        "lo": 0.5161,
+        "hi": 0.5161
+      },
+      "dollars_per_improvement": 0.1924539427631579
+    },
+    "tiers:claude-opus-5-5": {
+      "cost": {
+        "mean": 5.6171,
+        "lo": 4.8836,
+        "hi": 6.4123
+      },
+      "improvements": {
+        "mean": 42.328,
+        "lo": 40.0,
+        "hi": 45.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.5465,
+        "lo": 6.5751,
+        "hi": 8.7133
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9978,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6827,
+        "lo": 0.6452,
+        "hi": 0.7258
+      },
+      "dollars_per_improvement": 0.13270320280715012
+    },
+    "tiers+swap:claude-opus-5-5": {
+      "cost": {
+        "mean": 5.7255,
+        "lo": 4.6126,
+        "hi": 6.9524
+      },
+      "improvements": {
+        "mean": 42.648,
+        "lo": 38.0,
+        "hi": 47.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.4805,
+        "lo": 6.2833,
+        "hi": 9.0365
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9976,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6879,
+        "lo": 0.6129,
+        "hi": 0.7581
+      },
+      "dollars_per_improvement": 0.13425122524903982
+    },
+    "inverse-tiers:claude-opus-5-5": {
+      "cost": {
+        "mean": 6.6535,
+        "lo": 5.833,
+        "hi": 7.5354
+      },
+      "improvements": {
+        "mean": 46.532,
+        "lo": 42.0,
+        "hi": 51.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.0014,
+        "lo": 5.9094,
+        "hi": 8.1955
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9983,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.7505,
+        "lo": 0.6774,
+        "hi": 0.8226
+      },
+      "dollars_per_improvement": 0.14298699773104642
+    },
+    "top1-opus:claude-opus-5-5": {
+      "cost": {
+        "mean": 2.2064,
+        "lo": 1.7654,
+        "hi": 2.7184
+      },
+      "improvements": {
+        "mean": 11.0,
+        "lo": 11.0,
+        "hi": 11.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.0189,
+        "lo": 4.0465,
+        "hi": 6.2309
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9972,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.1774,
+        "lo": 0.1774,
+        "hi": 0.1774
+      },
+      "dollars_per_improvement": 0.20057734258373205
+    },
+    "top2-opus:claude-opus-5-5": {
+      "cost": {
+        "mean": 4.2579,
+        "lo": 3.5365,
+        "hi": 5.0138
+      },
+      "improvements": {
+        "mean": 22.0,
+        "lo": 22.0,
+        "hi": 22.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.1838,
+        "lo": 4.3879,
+        "hi": 6.2209
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9979,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.3548,
+        "lo": 0.3548,
+        "hi": 0.3548
+      },
+      "dollars_per_improvement": 0.1935419654736842
+    },
+    "top3-opus:claude-opus-5-5": {
+      "cost": {
+        "mean": 6.2088,
+        "lo": 5.2716,
+        "hi": 7.2414
+      },
+      "improvements": {
+        "mean": 32.0,
+        "lo": 32.0,
+        "hi": 32.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.163,
+        "lo": 4.419,
+        "hi": 6.0703
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9981,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.5161,
+        "lo": 0.5161,
+        "hi": 0.5161
+      },
+      "dollars_per_improvement": 0.19402609801315787
+    },
+    "tiers:codex": {
+      "cost": {
+        "mean": 4.9504,
+        "lo": 4.3117,
+        "hi": 5.73
+      },
+      "improvements": {
+        "mean": 41.632,
+        "lo": 40.0,
+        "hi": 43.0
+      },
+      "improvements_per_dollar": {
+        "mean": 8.4239,
+        "lo": 7.2482,
+        "hi": 9.7191
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9976,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6715,
+        "lo": 0.6452,
+        "hi": 0.6935
+      },
+      "dollars_per_improvement": 0.1189076565622598
+    },
+    "tiers+swap:codex": {
+      "cost": {
+        "mean": 5.1411,
+        "lo": 4.1017,
+        "hi": 6.366
+      },
+      "improvements": {
+        "mean": 42.044,
+        "lo": 38.0,
+        "hi": 47.0
+      },
+      "improvements_per_dollar": {
+        "mean": 8.2236,
+        "lo": 6.8578,
+        "hi": 9.965
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9974,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6781,
+        "lo": 0.6129,
+        "hi": 0.7581
+      },
+      "dollars_per_improvement": 0.12227919294072874
+    },
+    "inverse-tiers:codex": {
+      "cost": {
+        "mean": 6.4817,
+        "lo": 5.599,
+        "hi": 7.4184
+      },
+      "improvements": {
+        "mean": 48.804,
+        "lo": 44.0,
+        "hi": 53.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.5407,
+        "lo": 6.3611,
+        "hi": 8.9773
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9981,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.7872,
+        "lo": 0.7097,
+        "hi": 0.8548
+      },
+      "dollars_per_improvement": 0.1328101842062126
+    },
+    "top1-opus:codex": {
+      "cost": {
+        "mean": 1.6522,
+        "lo": 1.2513,
+        "hi": 2.1287
+      },
+      "improvements": {
+        "mean": 11.0,
+        "lo": 11.0,
+        "hi": 11.0
+      },
+      "improvements_per_dollar": {
+        "mean": 6.7112,
+        "lo": 5.1675,
+        "hi": 8.7906
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9981,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.1774,
+        "lo": 0.1774,
+        "hi": 0.1774
+      },
+      "dollars_per_improvement": 0.15020225745454543
+    },
+    "top2-opus:codex": {
+      "cost": {
+        "mean": 3.6116,
+        "lo": 2.9752,
+        "hi": 4.3702
+      },
+      "improvements": {
+        "mean": 22.0,
+        "lo": 22.0,
+        "hi": 22.0
+      },
+      "improvements_per_dollar": {
+        "mean": 6.1139,
+        "lo": 5.0341,
+        "hi": 7.3945
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9981,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.3548,
+        "lo": 0.3548,
+        "hi": 0.3548
+      },
+      "dollars_per_improvement": 0.16416205927272726
+    },
+    "top3-opus:codex": {
+      "cost": {
+        "mean": 5.6893,
+        "lo": 4.7905,
+        "hi": 6.6753
+      },
+      "improvements": {
+        "mean": 32.0,
+        "lo": 32.0,
+        "hi": 32.0
+      },
+      "improvements_per_dollar": {
+        "mean": 5.635,
+        "lo": 4.7938,
+        "hi": 6.6799
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.998,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.5161,
+        "lo": 0.5161,
+        "hi": 0.5161
+      },
+      "dollars_per_improvement": 0.17778931875
+    },
+    "tiers:jev": {
+      "cost": {
+        "mean": 6.4435,
+        "lo": 5.4723,
+        "hi": 7.4945
+      },
+      "improvements": {
+        "mean": 45.936,
+        "lo": 42.0,
+        "hi": 50.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.1341,
+        "lo": 5.93,
+        "hi": 8.6069
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9982,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.7409,
+        "lo": 0.6774,
+        "hi": 0.8065
+      },
+      "dollars_per_improvement": 0.14027119780457323
+    },
+    "tiers+swap:jev": {
+      "cost": {
+        "mean": 6.3185,
+        "lo": 5.0622,
+        "hi": 7.6741
+      },
+      "improvements": {
+        "mean": 45.57,
+        "lo": 40.0,
+        "hi": 51.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.2434,
+        "lo": 5.9456,
+        "hi": 8.86
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9983,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.735,
+        "lo": 0.6452,
+        "hi": 0.8226
+      },
+      "dollars_per_improvement": 0.13865587839260204
+    },
+    "inverse-tiers:jev": {
+      "cost": {
+        "mean": 5.4518,
+        "lo": 4.6292,
+        "hi": 6.3455
+      },
+      "improvements": {
+        "mean": 43.358,
+        "lo": 40.0,
+        "hi": 47.0
+      },
+      "improvements_per_dollar": {
+        "mean": 7.9628,
+        "lo": 6.6892,
+        "hi": 9.5048
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9977,
+        "lo": 0.9879,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.6993,
+        "lo": 0.6452,
+        "hi": 0.7581
+      },
+      "dollars_per_improvement": 0.12573976466513392
+    },
+    "top1-opus:jev": {
+      "cost": {
+        "mean": 2.7176,
+        "lo": 1.9014,
+        "hi": 3.5439
+      },
+      "improvements": {
+        "mean": 11.0,
+        "lo": 11.0,
+        "hi": 11.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.072,
+        "lo": 3.1039,
+        "hi": 5.7851
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9982,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.1774,
+        "lo": 0.1774,
+        "hi": 0.1774
+      },
+      "dollars_per_improvement": 0.24705161494098882
+    },
+    "top2-opus:jev": {
+      "cost": {
+        "mean": 5.1174,
+        "lo": 4.1352,
+        "hi": 6.1634
+      },
+      "improvements": {
+        "mean": 22.0,
+        "lo": 22.0,
+        "hi": 22.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.305,
+        "lo": 3.5695,
+        "hi": 5.3202
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9987,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.3548,
+        "lo": 0.3548,
+        "hi": 0.3548
+      },
+      "dollars_per_improvement": 0.23260707728867624
+    },
+    "top3-opus:jev": {
+      "cost": {
+        "mean": 7.1469,
+        "lo": 6.1038,
+        "hi": 8.3025
+      },
+      "improvements": {
+        "mean": 32.0,
+        "lo": 32.0,
+        "hi": 32.0
+      },
+      "improvements_per_dollar": {
+        "mean": 4.4805,
+        "lo": 3.8543,
+        "hi": 5.2427
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9988,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 0.5161,
+        "lo": 0.5161,
+        "hi": 0.5161
+      },
+      "dollars_per_improvement": 0.2233415983859649
+    },
+    "oracle-cheapest": {
+      "cost": {
+        "mean": 3.7789,
+        "lo": 3.1984,
+        "hi": 4.4055
+      },
+      "improvements": {
+        "mean": 62.0,
+        "lo": 62.0,
+        "hi": 62.0
+      },
+      "improvements_per_dollar": {
+        "mean": 16.407,
+        "lo": 14.0734,
+        "hi": 19.385
+      },
+      "best_public": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "best_hidden": {
+        "mean": 0.9972,
+        "lo": 0.9904,
+        "hi": 1.0
+      },
+      "recall_any": {
+        "mean": 1.0,
+        "lo": 1.0,
+        "hi": 1.0
+      },
+      "dollars_per_improvement": 0.06094959677419355
+    }
+  },
+  "contrasts_primary": {
+    "tiers:claude-haiku-4-5 - tiers:random | improvements": {
+      "mean": -1.584,
+      "lo": -5.0,
+      "hi": 3.0
+    },
+    "tiers:claude-opus-5-5 - tiers:random | improvements": {
+      "mean": -2.316,
+      "lo": -6.0,
+      "hi": 2.0
+    },
+    "tiers:codex - tiers:random | improvements": {
+      "mean": -3.012,
+      "lo": -7.0,
+      "hi": 1.0
+    },
+    "tiers:jev - tiers:random | improvements": {
+      "mean": 1.292,
+      "lo": -3.0,
+      "hi": 5.0
+    }
+  },
+  "noise": {
+    "pairs": 0,
+    "eval_repeats": 12,
+    "eval_outcome_disagreement": 0.0,
+    "eval_max_abs_score_diff": 0.0
+  },
+  "cross_model_agreement": {
+    "kappa_haiku_sonnet": {
+      "mean": 0.013,
+      "lo": 0.0,
+      "hi": 0.038
+    },
+    "agree_haiku_sonnet": {
+      "mean": 0.194,
+      "lo": 0.097,
+      "hi": 0.29
+    },
+    "kappa_haiku_opus": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+    },
+    "agree_haiku_opus": {
+      "mean": 0.161,
+      "lo": 0.081,
+      "hi": 0.258
+    },
+    "kappa_sonnet_opus": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+    },
+    "agree_sonnet_opus": {
+      "mean": 0.968,
+      "lo": 0.919,
+      "hi": 1.0
+    }
+  },
+  "position_check": {
+    "random": {
+      "spearman": 0.028270707955249184,
+      "p_value": 0.8273378570301169,
+      "n": 62,
+      "max_position": 5
+    },
+    "claude-haiku-4-5": {
+      "spearman": -0.44290636209811696,
+      "p_value": 0.0003123211774035806,
+      "n": 62,
+      "max_position": 5
+    },
+    "claude-opus-5-5": {
+      "spearman": -0.06588939569164215,
+      "p_value": 0.6108863011841764,
+      "n": 62,
+      "max_position": 5
+    },
+    "jev": {
+      "spearman": -0.13121341266869802,
+      "p_value": 0.30936628800227056,
+      "n": 62,
+      "max_position": 5
+    },
+    "codex": {
+      "spearman": 0.1243954139596289,
+      "p_value": 0.3353943724168527,
+      "n": 62,
+      "max_position": 113
+    }
+  },
+  "cost": {
+    "anthropic_usd_total": 19.725,
+    "anthropic_usd_by_step": {
+      "ideas": 1.496,
+      "implement": 17.7265,
+      "rank": 0.5025
+    },
+    "anthropic_calls_by_step": {
+      "ideas": 12,
+      "implement": 398,
+      "rank": 39
+    },
+    "anthropic_failed_calls": 202,
+    "input_tokens": 330748,
+    "output_tokens": 1225929,
+    "jev_usd": 0.004985,
+    "codex_usd_marginal": 0.0,
+    "modal_usd_estimate": 0.3914,
+    "modal_containers": 218,
+    "gate_evaluations": 208
+  },
+  "bootstrap": {
+    "n_boot": 2000,
+    "n_point": 500,
+    "seed": 0
+  },
+  "contrasts_post_hoc": {
+    "inverse-tiers:claude-haiku-4-5 - tiers:random | improvements": {
+      "mean": -0.676,
+      "lo": -5.0,
+      "hi": 4.0
+    },
+    "inverse-tiers:claude-opus-5-5 - tiers:random | improvements": {
+      "mean": 1.888,
+      "lo": -2.0,
+      "hi": 6.0
+    },
+    "inverse-tiers:codex - tiers:random | improvements": {
+      "mean": 4.16,
+      "lo": 0.0,
+      "hi": 8.0
+    },
+    "inverse-tiers:jev - tiers:random | improvements": {
+      "mean": -1.286,
+      "lo": -5.0,
+      "hi": 3.0
+    }
+  },
+  "missingness": {
+    "design_ideas": 114,
+    "design_cells": 342,
+    "missing_cells": 146,
+    "missing_by_model": {
+      "haiku": 45,
+      "sonnet": 49,
+      "opus": 52
+    },
+    "ideas_complete": 62,
+    "ideas_no_cell": 45,
+    "ideas_partial": 7,
+    "partial_detail": {
+      "i065": {
+        "position": 25,
+        "done": [
+          "haiku",
+          "sonnet"
+        ]
+      },
+      "i070": {
+        "position": 35,
+        "done": [
+          "haiku",
+          "sonnet"
+        ]
+      },
+      "i007": {
+        "position": 36,
+        "done": [
+          "haiku"
+        ]
+      },
+      "i025": {
+        "position": 37,
+        "done": [
+          "haiku"
+        ]
+      },
+      "i116": {
+        "position": 94,
+        "done": [
+          "haiku",
+          "sonnet"
+        ]
+      },
+      "i097": {
+        "position": 95,
+        "done": [
+          "haiku"
+        ]
+      },
+      "i090": {
+        "position": 96,
+        "done": [
+          "haiku"
+        ]
+      }
+    },
+    "generation_call_share_late": {
+      "design": 0.2982456140350877,
+      "complete": 0.22580645161290322
+    },
+    "ranker_key_complete_vs_missing": {
+      "claude-haiku-4-5": {
+        "mean_complete": 0.4464516129032258,
+        "mean_missing": 0.3968269230769232,
+        "mann_whitney_p": 0.22424733842402422
+      },
+      "claude-opus-5-5": {
+        "mean_complete": 0.3844354838709678,
+        "mean_missing": 0.3134615384615384,
+        "mann_whitney_p": 0.16042548195639816
+      },
+      "jev": {
+        "mean_complete": 0.528991935483871,
+        "mean_missing": 0.4860096153846154,
+        "mann_whitney_p": 0.5202827747251335
+      },
+      "codex": {
+        "mean_complete": 0.63775,
+        "mean_missing": 0.4822115384615385,
+        "mann_whitney_p": 0.05165496272147032
+      }
+    }
+  },
+  "solved_by_model": {
+    "claude-haiku-4-5": {
+      "solved_public": 0,
+      "hidden_mean_1": 0,
+      "cells": 62
+    },
+    "claude-sonnet-5-5": {
+      "solved_public": 31,
+      "hidden_mean_1": 21,
+      "cells": 62
+    },
+    "claude-opus-5-5": {
+      "solved_public": 54,
+      "hidden_mean_1": 45,
+      "cells": 62
+    }
+  },
+  "brier_base_rate_predictor": {
+    "base_rate": 0.7096774193548387,
+    "brier": 0.2060353798126951
+  },
+  "fill_command": "python -m autoresearch.ideatable fill experiments/idea-table-v1",
+  "fill_estimate": {
+    "cells": 158,
+    "by_model": {
+      "haiku": 49,
+      "sonnet": 53,
+      "opus": 56
+    },
+    "ideas_touched": 60,
+    "mean_cost_per_cell": {
+      "haiku": 0.0087,
+      "sonnet": 0.0639,
+      "opus": 0.2093
+    },
+    "max_cost_per_cell": {
+      "haiku": 0.014,
+      "sonnet": 0.1465,
+      "opus": 0.4858
+    },
+    "estimate_usd": 15.53,
+    "spent_so_far": 19.725,
+    "cap": 40.0,
+    "fits_cap": true
+  }
+}

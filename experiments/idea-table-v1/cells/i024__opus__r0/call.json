@@ -1,0 +1,19 @@
+{
+  "cell": "i024__opus__r0",
+  "idea_id": "i024",
+  "idea": "Inflation multi-start for rotated packings: start from many random centres, angles and tiny sides. Run a Lubachevsky\u2013Stillinger-style growth in which each square's side grows at a rate proportional to its slack. Resolve overlaps with separating-axis push-apart moves plus rotation, then run a final SLSQP polish on sum(sides) with exact separating-axis constraints.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055478.836027,
+  "cost": 0.465088,
+  "input_tokens": 967,
+  "output_tokens": 23061,
+  "llm_seconds": 244.23,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "2a004b9a40e1c9a5a15a88bac690a74da746fc5e310f480ae4cbbc2d99731d7b"
+}

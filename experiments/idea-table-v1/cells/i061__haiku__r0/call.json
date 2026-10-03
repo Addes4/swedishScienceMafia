@@ -1,0 +1,14 @@
+{
+  "cell": "i061__haiku__r0",
+  "idea_id": "i061",
+  "idea": "Run Monte Carlo Tree Search over bottom-left skyline placements. Each move picks the side of the next square at the lowest-leftmost skyline corner from a small set of rational sizes, and rollouts finish greedily, with the remaining squares counted at their best feasible equal size. Use UCT statistics shared through a transposition table keyed on the skyline profile.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056131.705856,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9AHQqWWh3ZfWtYrHw'}",
+  "cost": 0.0
+}

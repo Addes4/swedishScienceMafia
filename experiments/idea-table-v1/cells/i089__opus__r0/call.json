@@ -1,0 +1,19 @@
+{
+  "cell": "i089__opus__r0",
+  "idea_id": "i089",
+  "idea": "Build an \"Egyptian-row\" family. Stack horizontal rows where row i holds c_i squares of side 1/c_i, so each full row contributes exactly 1 to the sum and \u03a31/c_i \u2264 1. Choose the vectors (c_i) by enumerating Egyptian-fraction decompositions with \u03a3c_i close to n. Fill the leftover strip of height 1\u2212\u03a31/c_i with the transposed version of the same construction, recursing two levels, and zero-pad or delete to reach exactly n.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055859.353295,
+  "cost": 0.173352,
+  "input_tokens": 1013,
+  "output_tokens": 8465,
+  "llm_seconds": 83.7,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "f372bdb83245123d6eae7ee743117bb52d3742b24c6160ffcec7db1a219604b7"
+}

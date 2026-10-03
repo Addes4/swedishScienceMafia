@@ -9,6 +9,7 @@ problem means adding a folder, with no changes to `autoresearch/`.
 | `erdos_squares` | geometry | problem 55 | k + c/k for n = k² + 2c + 1 (exact, every n) |
 | `erdos_discrepancy` | number theory / combinatorics | problem 40 | 1160 (the maximum for C = 2) |
 | `sum_difference` | additive combinatorics | problem 43 | 1.2715 (asymptotic; AlphaEvolve unaided ≈ 1.21); the gate's reference adds the 0.01 maximum size bonus |
+| `bin_packing_online` | online algorithms | FunSearch (Nature 2024) Weibull 5k | score = L2 bound / bins; best fit 0.962, FunSearch heuristic 0.993 (no record flag) |
 
 Problem numbers refer to the repository accompanying Georgiev, Gómez-Serrano, Tao and Wagner,
 *Mathematical exploration and discovery at scale* (2025),
@@ -23,6 +24,8 @@ problems/<name>/
   initial.py    seed program; the evolvable part sits between EVOLVE-BLOCK-START / EVOLVE-BLOCK-END
   evaluate.py   ShinkaEvolve entry point (identical in every folder; calls autoresearch.gate)
   verify.py     scoring and integrity checks; never shown to the LLM
+  baselines/    optional: *.py candidate programs that `autoresearch.loop` scores on the same
+                instances and reports next to the search result (never shown to the LLM)
 ```
 
 `verify.py` defines (all scores higher-is-better):
@@ -37,6 +40,13 @@ def best_known(instance) -> float | None
 def check_strict(construction, instance) -> bool    # optional independent re-check
 def label(instance) -> str                          # optional
 ```
+
+**Online problems.** If `verify.py` also defines `DRIVER` (trusted source that runs in the child and
+calls the candidate once per input) and `online(instance) -> (header, inputs)`, the gate reveals the
+inputs one at a time over a private pipe and sends input k+1 only after reading the decision for
+input k. Future inputs never exist in the candidate's process, so it cannot look ahead or reorder;
+`check()` receives the list of decisions. `bin_packing_online` uses this: the candidate writes
+FunSearch's `priority(item, bins)` and the driver applies it per arriving item.
 
 ## What the gate does (`autoresearch/gate.py`)
 
@@ -58,6 +68,7 @@ def label(instance) -> str                          # optional
 
 ```bash
 pip install -r requirements.txt
+python -m autoresearch.loop problems/erdos_squares --mock            # the whole loop, no network, no cost
 python -m autoresearch.check --all                                   # score every initial.py, no LLM
 python -m autoresearch.check problems/erdos_squares my_program.py     # score any program
 python -m pytest tests/ -q                                            # integrity gate tests
@@ -71,3 +82,6 @@ reject, and does not know their prices).
 
 Credits: ShinkaEvolve (Sakana AI, Apache-2.0); problem statements, scoring rules and the n = 26
 circle construction from the AlphaEvolve problem repository (Apache-2.0 / CC-BY 4.0).
+`problems/bin_packing_online/baselines/` holds FunSearch's published OR and Weibull heuristics,
+verbatim from github.com/google-deepmind/funsearch (Copyright 2023 DeepMind Technologies Limited,
+Apache-2.0); best fit is `initial.py`.

@@ -9,3 +9,15 @@ falsify/_packing.dylib
 falsify/_packing.so
 falsify/_contextual.dylib
 falsify/_contextual.so
+falsify/_longpack.dylib
+falsify/_longpack.so
+
+# Papers downloaded by context/fetch_papers.py (not redistributable; see context/related-work.md)
+context/related-papers/
+
+# Runs of `python -m autoresearch.loop`; only the committed demo runs are tracked
+runs/*
+!runs/demo-*/
+
+# Notes on the committed runs and the live demo plan
+!runs/README.md
