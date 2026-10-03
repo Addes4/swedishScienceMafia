@@ -85,7 +85,14 @@ def main(grid: str, only: str = "", dry_run: bool = False):
         keep = set(only.split(","))
         job_list = [j for j in job_list if j["job_id"] in keep or j["arm"] in keep or j["problem"] in keep]
     caps = grids.check_caps(g, job_list)
-    print(f"grid {g['name']} ({g['mode']}): {caps}")
+    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
+    dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"], cwd=REPO, capture_output=True,
+                           text=True).stdout.strip()
+    if g["mode"] == "live" and dirty and not dry_run:
+        raise SystemExit("tracked files have uncommitted changes; commit before a live launch so runs name their code")
+    for j in job_list:
+        j["launch_commit"], j["launch_dirty"] = commit, bool(dirty)
+    print(f"grid {g['name']} ({g['mode']}): {caps}, commit {commit[:10]}{' (dirty)' if dirty else ''}")
     if dry_run:
         for j in job_list:
             print("  ", j["job_id"], f"${j['budget_usd']:.2f}")

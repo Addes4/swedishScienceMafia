@@ -37,7 +37,8 @@ def jobs(grid: dict) -> list:
         cfg.setdefault("type", arm)
         for problem in grid["problems"]:
             for seed in grid["seeds"]:
-                budget = grid.get("budget_overrides", {}).get(problem, grid["budget_usd"])
+                budget = grid.get("budget_by_arm", {}).get(arm, grid["budget_usd"])   # only for checks; the
+                # comparison grids give every arm and problem the same budget
                 out.append({"job_id": f"{arm}__{problem}__s{seed}", "grid": grid["name"], "arm": arm,
                             "arm_config": cfg, "problem": problem, "seed": seed, "budget_usd": budget,
                             "wall_limit_s": grid.get("wall_limit_s", 3 * 3600),

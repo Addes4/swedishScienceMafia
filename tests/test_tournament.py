@@ -134,3 +134,13 @@ def test_triage_end_to_end_with_mock_api(tmp_path):
             os.environ.pop(key, None)
     s = summarize(out)
     assert s["within_cap"] and s["calls"] >= 4 and s["evals"] >= 4
+
+
+def test_report_statistics():
+    from tournament.report import bootstrap_p_greater, holm, sign_flip_p
+    assert sign_flip_p([1.0, 1.0, 1.0]) == 2 / 8          # all positive: only the two extreme sign patterns
+    assert sign_flip_p([1.0, -1.0]) == 1.0
+    adj = holm({"a": 0.01, "b": 0.04, "c": 0.5})
+    assert adj == {"a": 0.03, "b": 0.08, "c": 0.5}
+    p, ci = bootstrap_p_greater([1.0, 0.0, -1.0, 1.0])
+    assert p == (2 + 0.5) / 4 and ci[0] <= p <= ci[1]

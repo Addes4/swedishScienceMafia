@@ -81,6 +81,30 @@ def bootstrap_p_greater(diffs, reps=10_000, seed=1):
     return score(diffs), (sims[int(0.025 * reps)], sims[int(0.975 * reps) - 1])
 
 
+def sign_flip_p(diffs, reps=100_000, seed=2):
+    """Two-sided paired permutation p-value for mean difference = 0 (exact up to 16 units)."""
+    n = len(diffs)
+    if n == 0:
+        return None
+    obs = abs(sum(diffs)) - 1e-12
+    if n <= 16:
+        hits = sum(abs(sum(d if (mask >> i) & 1 else -d for i, d in enumerate(diffs))) >= obs for mask in range(2 ** n))
+        return hits / 2 ** n
+    rng = random.Random(seed)
+    hits = sum(abs(sum(d if rng.random() < 0.5 else -d for d in diffs)) >= obs for _ in range(reps))
+    return (hits + 1) / (reps + 1)
+
+
+def holm(pvalues: dict) -> dict:
+    """Holm-adjusted p-values for a family {name: p}."""
+    items = sorted((p, k) for k, p in pvalues.items() if p is not None)
+    out, running = {}, 0.0
+    for i, (p, k) in enumerate(items):
+        running = max(running, min(1.0, (len(items) - i) * p))
+        out[k] = running
+    return out
+
+
 def paired(runs, reference, metric):
     """Arm minus reference on matched (problem, seed) units."""
     by = {(r["arm"], r["problem"], r["seed"]): r for r in runs}
@@ -93,9 +117,26 @@ def paired(runs, reference, metric):
             ci = bootstrap_ci(diffs)
             p_greater, p_ci = bootstrap_p_greater(diffs)
             out[arm] = {"n": len(diffs), "mean_diff": statistics.fmean(diffs), "ci95": ci,
-                        "p_greater": p_greater, "p_greater_ci95": p_ci,
+                        "p_greater": p_greater, "p_greater_ci95": p_ci, "p_value": sign_flip_p(diffs),
                         "wins": sum(d > 1e-9 for d in diffs), "ties": sum(abs(d) <= 1e-9 for d in diffs),
                         "losses": sum(d < -1e-9 for d in diffs)}
+    adjusted = holm({arm: c["p_value"] for arm, c in out.items()})
+    for arm, c in out.items():
+        c["p_holm"] = adjusted.get(arm)
+    return out
+
+
+SECONDARY = (("lean_gate_patience", "lean"), ("lean", "independent"))
+
+
+def secondary_contrasts(runs, arms):
+    """First arm minus second on matched units, for the protocol's secondary questions."""
+    out = {}
+    for first, second in SECONDARY:
+        if first in arms and second in arms:
+            sub = [r for r in runs if r["arm"] in (first, second)]
+            out[f"{first} - {second}"] = {m: paired(sub, second, m)[first] for m in ("auc_gain", "final_public")
+                                          if first in paired(sub, second, m)}
     return out
 
 
@@ -201,7 +242,7 @@ TABLE_COLS = [("problem", "problem"), ("arm", "arm"), ("runs", "runs"), ("final_
               ("all_within_cap", "within cap")]
 
 
-def markdown(title, runs, rows, comparisons, reference):
+def markdown(title, runs, rows, comparisons, reference, contrasts=None):
     total = sum(r["spent_usd"] for r in runs if not r.get("mock"))
     lines = [f"# {title}", "", f"{len(runs)} runs. Anthropic spend (live runs only): ${total:.2f}. "
              "Scores are normalized so 1.0 matches the best known result; higher is better. AUC gain is the "
@@ -214,14 +255,26 @@ def markdown(title, runs, rows, comparisons, reference):
         lines.append("| " + " | ".join(_fmt(row[k], 1 if k in counts else 4) for k, _ in TABLE_COLS) + " |")
     if comparisons:
         lines += ["", f"## Paired differences against `{reference}` (matched problem and seed)", "",
-                  "| metric | arm | n | mean difference | bootstrap 95% CI | P(arm > reference) | 95% CI | wins / ties / losses |",
-                  "|---|---|---|---|---|---|---|---|"]
+                  "Sign-flip permutation p-values, Holm-adjusted within each metric across the arms compared.", "",
+                  "| metric | arm | n | mean difference | bootstrap 95% CI | P(arm > reference) | 95% CI | "
+                  "wins / ties / losses | p | p (Holm) |",
+                  "|---|---|---|---|---|---|---|---|---|---|"]
         for metric, comp in comparisons.items():
             for arm, c in comp.items():
                 ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
                 pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
                 lines.append(f"| {metric} | {arm} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
-                             f"{c['wins']} / {c['ties']} / {c['losses']} |")
+                             f"{c['wins']} / {c['ties']} / {c['losses']} | {_fmt(c['p_value'], 3)} | {_fmt(c['p_holm'], 3)} |")
+    if contrasts:
+        lines += ["", "## Secondary contrasts (matched problem and seed)", "",
+                  "| contrast | metric | n | mean difference | bootstrap 95% CI | P(first > second) | 95% CI | "
+                  "wins / ties / losses | p |", "|---|---|---|---|---|---|---|---|---|"]
+        for name, by_metric in contrasts.items():
+            for metric, c in by_metric.items():
+                ci = f"[{c['ci95'][0]:.4f}, {c['ci95'][1]:.4f}]" if c["ci95"] else "–"
+                pci = f"[{c['p_greater_ci95'][0]:.2f}, {c['p_greater_ci95'][1]:.2f}]" if c["p_greater_ci95"] else "–"
+                lines.append(f"| {name} | {metric} | {c['n']} | {c['mean_diff']:.4f} | {ci} | {c['p_greater']:.2f} | {pci} | "
+                             f"{c['wins']} / {c['ties']} / {c['losses']} | {_fmt(c['p_value'], 3)} |")
     flags = [dict(f, run=r["run_dir"]) for r in runs for f in r.get("record_flags") or []]
     if flags:
         lines += ["", "## Scores above the best known value", "",
@@ -301,7 +354,8 @@ def main(argv=None):
     if a.reference in arms:
         comparisons = {m: paired(runs, a.reference, m) for m in ("auc_gain", "final_public", "final_hidden")}
     title = f"Tournament report: {folder.name}"
-    md_text = markdown(title, runs, rows, comparisons, a.reference)
+    contrasts = secondary_contrasts(runs, arms)
+    md_text = markdown(title, runs, rows, comparisons, a.reference, contrasts)
     (folder / "report.md").write_text(md_text)
     (folder / "report.html").write_text(html_report(title, md_text, runs, arms))
     with open(folder / "all_curves.csv", "w", newline="") as f:
@@ -310,7 +364,7 @@ def main(argv=None):
         for r in runs:
             for c in r["curve"]:
                 w.writerow([r["run_dir"], r["arm"], r["problem"], r["seed"], r["cap_usd"]] + [c.get(k) for k in CURVE_FIELDS])
-    (folder / "results.json").write_text(json.dumps({"groups": rows, "comparisons": comparisons,
+    (folder / "results.json").write_text(json.dumps({"groups": rows, "comparisons": comparisons, "contrasts": contrasts,
                                                      "runs": [{k: v for k, v in r.items() if k != "curve"} for r in runs]},
                                                     indent=2, default=str))
     print(md_text)
