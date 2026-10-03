@@ -11,10 +11,12 @@ whose threshold is tuned on development seeds?
   (+0.137 merit factor [0.043, 0.236], 110/14/76 seed wins/ties/losses, Holm p = 0.031) and NK
   (+0.00577 fitness [0.00236, 0.00915], 118/0/82, Holm p = 0.039). On Heilbronn there is no difference
   (+0.00007 [−0.00040, 0.00052], 105/0/95).
-- **Almost all of the gain comes from the crossover gate.** v1 with only the gate gains +0.111 on LABS
-  [0.027, 0.195]; removing the gate from v2 costs 0.182 [0.089, 0.278]. The excursion cap and the new
-  leave test show no effect on the final score, alone or inside v2. Gating crossover did no better than
-  removing it (all three benchmarks: no clear difference).
+- **Most of the gain comes from the crossover gate.** Without the gate, v2 is no better than v1
+  (J = +0.002, where J is the mean standardised gain over v1 across the three benchmarks); v1 with the
+  gate alone gets two-thirds of v2's gain (J = +0.139 against +0.209). On LABS, removing the gate from
+  v2 costs 0.182 [0.089, 0.278]. The excursion cap and the new leave test show no effect on the final
+  score, alone or inside v2. Gating crossover did no better than removing it (no clear difference on
+  any benchmark).
 - **A patience rule tuned on dev seeds still wins on LABS, and probably on NK.** v2 minus patience_dev:
   LABS −0.220 [−0.307, −0.132] (53/15/132, Holm p = 2.3e-08); NK −0.00505 [−0.00821, −0.00189]
   (84/0/116; the interval excludes 0 but the sign test misses after Holm, p = 0.056); Heilbronn
@@ -82,15 +84,15 @@ patience T chosen on dev seeds held up (J = +0.384 validation, +0.381 confirmato
 
 1. **Pilot** on dev seeds 40-49 (12 configurations, `dev/pilot.py`) to check that each option changes
    behaviour. Disclosed in the protocol.
-2. **Bug found before any dev run: the first crossover gate never gated.** It compared crossover's
-   posterior with v1's optimistic prior, so one failed edit was enough to unlock crossover. A unit test
+2. **Bug found before any dev run: the first crossover gate never gated.** It gave untried crossover
+   v1's optimistic prior, so a single failed edit made crossover look best and unlocked it. A unit test
    caught it. Fixed with the sceptical prior and a probe rate.
-3. **Dead end: a realised-yield leave test.** Tracing dev seed 41 on Heilbronn showed a v1 behaviour:
-   the leader is sometimes left at stall 0 or 1, so the next excursion inherits a patience of one move,
-   and dozens of one-move excursions follow. A test on the leader's realised recent yield did not stop
-   this, because the explore rate it is compared with starts from the run's average progress rate,
-   which early gains inflate. We added the simpler recent-improvement test and kept the yield test as a
-   grid level; the grid chose the former.
+3. **Dead end: a realised-yield leave test.** On dev seed 41 (Heilbronn), v1 left the leader 24 of 35
+   times when it had stalled for 3 moves or fewer, so the excursions that followed inherited a patience
+   of 1-3 moves. Our first version of change (c) compared the leader's realised recent yield with the
+   explore rate. On that seed it made things worse (302 restarts; most excursions lasted 1-3 moves), because
+   the explore rate starts from the run's average progress rate, which early gains inflate. We added the
+   simpler recent-improvement test and kept the yield test as a grid level; the grid chose the former.
 4. **"Cap" read two ways.** We implemented both `cap` (min of inherited and cap) and `fixed` (always
    the cap) and let the dev grid choose; it chose `cap64`.
 5. **Dev grid** (99 configurations, 66,000 runs, 229 s on Modal) chose `gate02/cap64/improving16`.
