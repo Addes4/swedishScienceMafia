@@ -144,3 +144,23 @@ def test_circle_inf_radius_rejected_at_parse(tmp_path):
             return {{"centers": d["centers"], "radii": r}}
     """)
     assert not correct["correct"] and metrics["combined_score"] == 0.0
+
+
+def test_static_ignores_comments_and_strings(tmp_path):
+    # An honest program that only *mentions* forbidden words in a comment/string must pass.
+    from autoresearch.gate import static_violations
+    honest = (
+        "def solve():\n"
+        "    # we do not use subprocess, eval or open here\n"
+        "    note = 'avoid importlib and os.system'\n"
+        "    return [0, 1, 3]\n"
+    )
+    assert static_violations(honest) == []
+
+
+def test_static_still_catches_real_code_and_method_calls_unaffected():
+    from autoresearch.gate import static_violations
+    assert "file access" in static_violations("def solve():\n    return open('x').read()\n")
+    assert "dynamic code execution" in static_violations("def solve():\n    return eval('1')\n")
+    # a method named eval is not the builtin and must stay un-flagged, as before
+    assert static_violations("def solve(o):\n    return o.eval(1)\n") == []

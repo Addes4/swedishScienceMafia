@@ -15,9 +15,11 @@ Problem contract (problems/<name>/verify.py), all scores higher-is-better:
     def label(instance) -> str                              # optional, for feedback text
 """
 import importlib.util
+import io
 import json
 import os
 import re
+import tokenize
 from pathlib import Path
 
 from .sandbox import run_candidate
@@ -46,8 +48,38 @@ def _load_verify(problem_dir: Path):
     return mod
 
 
+def _blank_literals(source: str) -> str:
+    """Return source with comment and string-literal *contents* blanked out (replaced by
+    spaces, positions preserved), so the static scan reacts to code, not to words that merely
+    appear in a comment or string. Code tokens and their adjacency are untouched, so e.g.
+    `open(` is still caught while `obj.eval(` (a method, not the builtin) still is not.
+    Falls back to the raw source if it will not tokenise (such a program fails to run anyway)."""
+    try:
+        toks = list(tokenize.generate_tokens(io.StringIO(source).readline))
+    except (tokenize.TokenError, IndentationError, SyntaxError):
+        return source
+    blank = {tokenize.STRING, tokenize.COMMENT}
+    for name in ("FSTRING_MIDDLE",):  # 3.12+ splits f-strings; blank only their literal text
+        if hasattr(tokenize, name):
+            blank.add(getattr(tokenize, name))
+    rows = [list(line) for line in source.splitlines(keepends=True)]
+    for tok in toks:
+        if tok.type not in blank:
+            continue
+        (sr, sc), (er, ec) = tok.start, tok.end
+        for r in range(sr, er + 1):
+            row = rows[r - 1]
+            a = sc if r == sr else 0
+            b = ec if r == er else len(row)
+            for c in range(a, min(b, len(row))):
+                if row[c] != "\n":
+                    row[c] = " "
+    return "".join("".join(r) for r in rows)
+
+
 def static_violations(source: str) -> list:
-    return sorted({why for pattern, why in _FORBIDDEN if re.search(pattern, source)})
+    scanned = _blank_literals(source)
+    return sorted({why for pattern, why in _FORBIDDEN if re.search(pattern, scanned)})
 
 
 def _label(verify, instance) -> str:
