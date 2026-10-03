@@ -53,6 +53,7 @@ answering one design question for the final framework.
 | 22:15 | User asked for another route than Anthropic credit. The HF router was verified and tournament-v2 started on open models. |
 | 22:15-22:30 | bp-ceiling, memory-ablation and idea-table finished and were written up. |
 | 22:32-23:03 | The tournament-v2 smoke grid (5 arms, $0.03 each) took 30 minutes. LLM calls took 18–36 s, but programs written from scratch took up to 611 s per evaluation, running erdos_squares' 13 instances in sequence at up to 60 s each. The tournament agent was told to evaluate instances in parallel and, if still needed, to lower per-instance time limits equally across arms as a disclosed pre-launch amendment. |
+| 23:10 | The user decided not to run the tournament-v2 grid. Tournament-v1's partial data already answered the main question: two of three problems saturate within 1–3 Sonnet calls, and the single-model loops led ShinkaEvolve at low spend while triage trailed. The remaining time goes to the submission: consolidating branches, a single runnable framework, the README and the video. Tournament-v2 is documented as the HF route plus its smoke test, with the protocol marked "not executed". |
 
 ## Incidents
 
