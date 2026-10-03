@@ -27,7 +27,7 @@ def main(argv=None):
     if target.exists():
         shutil.rmtree(target)
     modal = str(Path(sys.executable).with_name("modal"))
-    subprocess.run([modal, "volume", "get", VOLUME_NAME, f"/{a.grid}", str(dest)], check=True)
+    subprocess.run([modal, "volume", "get", "--force", VOLUME_NAME, f"/{a.grid}", str(dest)], check=True)
     print(f"pulled {len(list(target.glob('*/summary.json')))} finished runs into {target}")
     if not a.no_report:
         from .report import main as report
