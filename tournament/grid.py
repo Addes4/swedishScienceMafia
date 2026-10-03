@@ -8,6 +8,8 @@ A grid is JSON:
      "jobs": ["lean__erdos_squares__s0", ...],        # optional: run only these jobs of the cross product
      "experiment": "tournament-v2",                   # optional: folder under experiments/ (default tournament-v1)
      "provider": "hf", "hf_models": ["model:provider", ...],   # optional: Hugging Face router instead of Anthropic
+     "gate_workers": 8,                               # optional: evaluate instances in parallel (scores unchanged)
+     "timeout_overrides": {"erdos_squares": 20},      # optional: per-instance time limit, told to the model too
      "anthropic_cap_usd": 0, "modal_cap_usd": 5,
      "experiment_cap_usd": 75,                        # optional: cap on all live spend in the experiment
      "wall_limit_s": 1800, "cpu": 2, "memory_mb": 4096}
@@ -61,7 +63,8 @@ def jobs(grid: dict) -> list:
                             "arm_config": cfg, "problem": problem, "seed": seed, "budget_usd": budget,
                             "wall_limit_s": grid.get("wall_limit_s", 3 * 3600),
                             "mock": grid["mode"] == "mock", "mock_latency": grid.get("mock_latency", 0.05),
-                            "provider": grid.get("provider", "anthropic"), "hf_models": grid.get("hf_models", [])})
+                            "provider": grid.get("provider", "anthropic"), "hf_models": grid.get("hf_models", []),
+                            "gate_workers": grid.get("gate_workers"), "timeout_overrides": grid.get("timeout_overrides")})
     if "jobs" in grid:
         wanted = list(grid["jobs"])
         unknown = sorted(set(wanted) - {j["job_id"] for j in out})

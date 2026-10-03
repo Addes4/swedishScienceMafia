@@ -8,7 +8,8 @@ Completion. A run is budget-matched ("budget") only if its budget was used up (t
 call because the cap could not pay for it) before any API error. A run with an API error first is
 "truncated_api_error"; its valid part is everything before the first error, and valid_spend_usd
 is what it had spent by then. A run without a run_end event was stopped from outside
-("incomplete"); one that ended for another reason (wall clock, iteration limit) is "stopped_early".
+("incomplete"); one stopped by its wall-clock limit is "wall_limit"; one that ended for another
+reason (e.g. an iteration limit) is "stopped_early".
 Truncated runs must not be compared with complete ones at the full budget; compare them at a
 spend checkpoint below every run's valid spend (score_at, auc_to).
 
@@ -132,6 +133,8 @@ def summarize(run_dir) -> dict:
         completion = "truncated_api_error"
     elif not end:
         completion = "incomplete"
+    elif end.get("status") == "wall_hard_stop" or end.get("arm_result") == "wall":
+        completion = "wall_limit"
     elif t_cap is not None:
         completion = "budget"
     else:
@@ -157,6 +160,8 @@ def summarize(run_dir) -> dict:
         "shortened_calls": sum(1 for r in calls if (r.get("granted_max_tokens") or 0) < (r.get("requested_max_tokens") or 0)),
         "retries": sum(1 for r in usage if r.get("event") == "retry"),
         "evals": len(evals), "valid_evals": len(valid),
+        "evals_with_timeout": sum(1 for e in evals if e.get("instance_timeouts")),
+        "instance_timeouts": sum(e.get("instance_timeouts") or 0 for e in evals),
         "initial_public": y0, "initial_hidden": initial["incumbent_hidden"] if initial else None,
         "final_public": final["incumbent_public"] if final else None,
         "final_hidden": final["incumbent_hidden"] if final else None,

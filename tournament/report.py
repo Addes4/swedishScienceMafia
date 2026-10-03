@@ -176,6 +176,7 @@ def group_table(runs):
             "calls": _mean(r["calls"] for r in rs), "idea_calls": _mean(r.get("idea_calls") for r in rs),
             "evals": _mean(r["evals"] for r in rs),
             "valid_evals": _mean(r["valid_evals"] for r in rs), "wall_s": _mean(r["wall_s"] for r in rs),
+            "evals_with_timeout": _mean(r.get("evals_with_timeout") for r in rs),
             "all_within_cap": all(r["within_cap"] for r in rs),
             "matches_record": sum((r["final_public"] or 0) >= MATCHES_RECORD for r in rs),
         })
@@ -329,8 +330,9 @@ TABLE_COLS = [("problem", "problem"), ("arm", "arm"), ("runs", "runs"), ("final_
               ("final_min", "min"), ("final_max", "max"), ("auc_gain", "AUC gain"), ("final_hidden", "final hidden"),
               ("spent_usd", "$ spent"), ("calls", "calls"), ("idea_calls", "idea calls (triage rounds)"),
               ("evals", "evals"), ("valid_evals", "valid evals"), ("improvements", "improvements"),
-              ("usd_per_improvement", "$/improvement"), ("wall_s", "wall s"), ("matches_record", "runs at record")]
-COUNT_COLS = {"improvements", "calls", "idea_calls", "valid_evals", "evals", "wall_s"}
+              ("usd_per_improvement", "$/improvement"), ("evals_with_timeout", "evals hitting a time limit"),
+              ("wall_s", "wall s"), ("matches_record", "runs at record")]
+COUNT_COLS = {"improvements", "calls", "idea_calls", "valid_evals", "evals", "wall_s", "evals_with_timeout"}
 
 
 def _comparison_lines(comparisons, reference, title):
@@ -406,6 +408,18 @@ def markdown(title, runs, analysis, reference):
         for f in flags:
             lines.append(f"| {f['run']} | {f['label']} | {f['score']:.12g} | {f['reference']:.12g} | {f['margin']:.3g} | "
                          f"{f['n_x_tolerance']:.3g} | {f['worth_review']} |")
+    by_arm = defaultdict(lambda: defaultdict(int))
+    for r in runs:
+        by_arm[r["arm"]][r.get("completion")] += 1
+        by_arm[r["arm"]]["evals"] += r["evals"]
+        by_arm[r["arm"]]["evals_with_timeout"] += r.get("evals_with_timeout") or 0
+    kinds = sorted({r.get("completion") for r in runs})
+    lines += ["", "## Completion and time limits by arm", "",
+              "| arm | " + " | ".join(kinds) + " | evaluations | evaluations with an instance at its time limit |",
+              "|---|" + "---|" * (len(kinds) + 2)]
+    for arm in sorted(by_arm):
+        c = by_arm[arm]
+        lines.append(f"| {arm} | " + " | ".join(str(c[k]) for k in kinds) + f" | {c['evals']} | {c['evals_with_timeout']} |")
     lines += ["", "## Runs", "",
               "$ spent includes reservations charged for calls whose billing was unknown. Last public / hidden: the "
               "run's last incumbent, which for a truncated run is not a full-budget result. AUC gain over the full "
@@ -492,7 +506,8 @@ def headline(analysis, runs, reference):
     """Machine-readable headline numbers for cross-experiment summaries."""
     live = [r for r in runs if not r.get("mock")]
     keep = ("problem", "arm", "runs", "seeds", "final_public", "final_min", "final_max", "auc_gain", "final_hidden",
-            "spent_usd", "calls", "idea_calls", "evals", "improvements", "matches_record", "wall_s")
+            "spent_usd", "calls", "idea_calls", "evals", "improvements", "matches_record", "wall_s",
+            "evals_with_timeout")
     return {
         "runs": len(runs), "reference_arm": reference, "completion_counts": analysis["completion_counts"],
         "anthropic_usd_recorded": round(sum(r["spent_usd"] for r in live), 4),

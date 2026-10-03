@@ -49,6 +49,8 @@ def shinka(ctx: Context):
     from autoresearch import run as shinka_run
     o = ctx.option
     os.environ[PROBLEM_ENV] = str(ctx.problem_dir)
+    if os.environ.get("GATE_WORKERS"):   # its eval jobs are separate processes: share the cores between them
+        os.environ["GATE_WORKERS"] = str(max(1, int(os.environ["GATE_WORKERS"]) // int(o("eval_jobs", 2))))
     model = o("model", "claude-sonnet-5-5")
     if ctx.provider == "hf":   # ShinkaEvolve's own OpenAI-compatible client, pointed at the router
         from .hf import base_url

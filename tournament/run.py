@@ -56,9 +56,23 @@ def resolve_problem(name: str) -> Path:
 
 
 def max_eval_seconds(problem_dir: Path) -> float:
-    from autoresearch.gate import _load_verify
+    from autoresearch.gate import _load_verify, _timeout
     v = _load_verify(problem_dir)
-    return (len(v.PUBLIC) + len(getattr(v, "HIDDEN", []))) * float(v.TIMEOUT_S)
+    return (len(v.PUBLIC) + len(getattr(v, "HIDDEN", []))) * _timeout(v)
+
+
+AMENDMENT = ("\n\nTime limit in this run: {t:g} seconds per instance (this replaces any limit stated above). "
+             "A program that runs longer on an instance fails on it.\n")
+
+
+def apply_time_limit(problem_dir: Path, out: Path, seconds: float) -> Path:
+    """Copy the problem folder into the run and tell the model the run's per-instance limit.
+    verify.py is copied unchanged; the gate applies the limit through GATE_TIMEOUT_S."""
+    copy = out / "problem"
+    shutil.copytree(problem_dir, copy, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    (copy / "problem.md").write_text((problem_dir / "problem.md").read_text().rstrip("\n") + AMENDMENT.format(t=seconds))
+    os.environ["GATE_TIMEOUT_S"] = str(seconds)
+    return copy
 
 
 class Finisher:
@@ -169,6 +183,13 @@ def main(argv=None):
 
     os.chdir(out)  # ShinkaEvolve loads .env from the launch directory; keep it away from the repo's
     provider = job.get("provider", "anthropic")
+    if job.get("gate_workers"):
+        os.environ["GATE_WORKERS"] = str(int(job["gate_workers"]))
+    limit = (job.get("timeout_overrides") or {}).get(Path(job["problem"]).name)
+    if limit:
+        problem_dir = apply_time_limit(problem_dir, out, float(limit))
+        job.update(time_limit_s=float(limit), problem_amendment=AMENDMENT.format(t=float(limit)).strip())
+        (out / "job.json").write_text(json.dumps(job, indent=2))
     mock = None
     if job.get("mock"):
         from .mockapi import MockAnthropic
@@ -212,7 +233,7 @@ def main(argv=None):
     threading.Thread(target=watchdog, args=(budget, deadline, grace, lambda s: finish(s, pack=not a.no_pack), finish),
                      daemon=True).start()
 
-    print(f"[start] {job['job_id']}: arm {job['arm']} ({arm_type}) on {problem_dir.name}, seed {job['seed']}, "
+    print(f"[start] {job['job_id']}: arm {job['arm']} ({arm_type}) on {Path(job["problem"]).name}, seed {job['seed']}, "
           f"cap ${budget.cap:.2f}{' (mock API)' if mock else ''}", flush=True)
     status, result = "ok", None
     try:

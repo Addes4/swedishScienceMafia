@@ -70,6 +70,8 @@ def record(program_path, results_dir, metrics, t0, tag=None) -> dict:
         "hidden_normalized": private.get("hidden_normalized"),
         "hidden_mean": private.get("hidden_mean"),
         "integrity_rejections": private.get("integrity_rejections"),
+        "instance_timeouts": sum("timed out" in str(r.get("reason") or "")
+                                 for r in public + integrity.get("hidden", [])),
         "flags": private.get("flags"),
     }
 
