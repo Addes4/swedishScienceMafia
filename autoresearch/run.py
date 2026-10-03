@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("problem", help="path to problems/<name>")
     ap.add_argument("--generations", type=int, default=50)
@@ -25,7 +25,9 @@ def main():
     ap.add_argument("--max-cost", type=float, default=None, help="stop after this many dollars of API spend")
     ap.add_argument("--eval-jobs", type=int, default=2)
     ap.add_argument("--proposal-jobs", type=int, default=2)
-    args = ap.parse_args()
+    ap.add_argument("--eval-program", default=None,
+                    help="evaluation program ShinkaEvolve runs (default: the problem's evaluate.py)")
+    args = ap.parse_args(argv)
 
     from . import shinka_compat
     shinka_compat.apply(effort=args.effort)
@@ -55,7 +57,7 @@ def main():
         use_text_feedback=not args.no_text_feedback,
         max_api_costs=args.max_cost,
     )
-    job = LocalJobConfig(eval_program_path=str(problem / "evaluate.py"))
+    job = LocalJobConfig(eval_program_path=args.eval_program or str(problem / "evaluate.py"))
     runner = ShinkaEvolveRunner(
         evo_config=evo, job_config=job, db_config=DatabaseConfig(),
         max_evaluation_jobs=args.eval_jobs, max_proposal_jobs=args.proposal_jobs,

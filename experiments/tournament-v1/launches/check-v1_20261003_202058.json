@@ -1,0 +1,121 @@
+{
+  "grid": {
+    "name": "check-v1",
+    "mode": "live",
+    "description": "Live check of the two arms the smoke run did not exercise (ShinkaEvolve's messages.create path, triage with the Jev ranker) before the full grid. Not part of the comparison.",
+    "budget_usd": 0.25,
+    "budget_by_arm": {
+      "triage": 0.45
+    },
+    "seeds": [
+      0
+    ],
+    "problems": [
+      "erdos_squares"
+    ],
+    "arms": {
+      "shinka": {
+        "type": "shinka",
+        "model": "claude-sonnet-5-5",
+        "effort": "high",
+        "max_tokens": 32000
+      },
+      "triage": {
+        "type": "triage",
+        "ranker": "jev"
+      }
+    },
+    "anthropic_cap_usd": 0.7,
+    "modal_cap_usd": 2,
+    "wall_limit_s": 1800,
+    "cpu": 4,
+    "memory_mb": 6144
+  },
+  "caps": {
+    "jobs": 2,
+    "anthropic_worst_usd": 0.7,
+    "modal_worst_usd": 0.43
+  },
+  "results": [
+    {
+      "job_id": "shinka__erdos_squares__s0",
+      "returncode": 0,
+      "container_seconds": 215.5,
+      "arm": "shinka",
+      "arm_type": "shinka",
+      "problem": "erdos_squares",
+      "seed": 0,
+      "mock": false,
+      "cap_usd": 0.25,
+      "spent_usd": 0.232978,
+      "within_cap": true,
+      "tokens": 32101,
+      "calls": 4,
+      "failed_calls": 0,
+      "refusals": 38,
+      "stop_reason_counts": {
+        "end_turn": 3,
+        "max_tokens": 1
+      },
+      "evals": 4,
+      "valid_evals": 4,
+      "initial_public": 0.8561716061716061,
+      "initial_hidden": 0.9127792599779017,
+      "final_public": 1.0,
+      "final_hidden": 0.9904041016519793,
+      "final_sha": "a33ff858fe87a72b",
+      "max_public_seen": 1.0,
+      "hidden_of_max_public_seen": 0.9904041016519793,
+      "improvements": 2,
+      "usd_per_improvement": 0.116489,
+      "tokens_per_improvement": 16050,
+      "auc": 0.963266,
+      "auc_gain": 0.7446,
+      "flags": [],
+      "record_flags": [],
+      "wall_s": 210.8,
+      "status": "ok",
+      "arm_result": "budget"
+    },
+    {
+      "job_id": "triage__erdos_squares__s0",
+      "returncode": 0,
+      "container_seconds": 264.8,
+      "arm": "triage",
+      "arm_type": "triage",
+      "problem": "erdos_squares",
+      "seed": 0,
+      "mock": false,
+      "cap_usd": 0.45,
+      "spent_usd": 0.435512,
+      "within_cap": true,
+      "tokens": 26719,
+      "calls": 4,
+      "failed_calls": 0,
+      "refusals": 4,
+      "stop_reason_counts": {
+        "end_turn": 3,
+        "max_tokens": 1
+      },
+      "evals": 3,
+      "valid_evals": 3,
+      "initial_public": 0.8561716061716061,
+      "initial_hidden": 0.9127792599779017,
+      "final_public": 1.0,
+      "final_hidden": 1.0,
+      "final_sha": "8b128b43cc1c7954",
+      "max_public_seen": 1.0,
+      "hidden_of_max_public_seen": 1.0,
+      "improvements": 1,
+      "usd_per_improvement": 0.435512,
+      "tokens_per_improvement": 26719,
+      "auc": 0.936058,
+      "auc_gain": 0.555427,
+      "flags": [],
+      "record_flags": [],
+      "wall_s": 258.8,
+      "status": "ok",
+      "arm_result": "budget"
+    }
+  ]
+}

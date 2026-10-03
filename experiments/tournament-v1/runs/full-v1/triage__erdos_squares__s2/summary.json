@@ -1,0 +1,79 @@
+{
+  "job_id": "triage__erdos_squares__s2",
+  "arm": "triage",
+  "arm_type": "triage",
+  "problem": "erdos_squares",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 1.079985,
+  "within_cap": true,
+  "tokens": 63552,
+  "calls": 7,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "end_turn": 7
+  },
+  "calls_by_model": {
+    "claude-opus-5-5": 4,
+    "claude-sonnet-5-5": 1,
+    "claude-haiku-4-5": 2
+  },
+  "usd_by_model": {
+    "claude-haiku-4-5": 0.017476,
+    "claude-opus-5-5": 1.027096,
+    "claude-sonnet-5-5": 0.035148
+  },
+  "external_usd": 0.00026548,
+  "idea_calls": 1,
+  "truncated_calls": 0,
+  "shortened_calls": 1,
+  "retries": 0,
+  "evals": 7,
+  "valid_evals": 5,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 1.0,
+  "final_hidden": 0.9920170048777859,
+  "final_sha": "c94b34c4c9a544d6",
+  "max_public_seen": 1.0,
+  "hidden_of_max_public_seen": 0.9920170048777859,
+  "improvements": 1,
+  "usd_per_improvement": 1.079985,
+  "tokens_per_improvement": 63552,
+  "auc": 0.986439,
+  "auc_gain": 0.905715,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 873.9,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 1.079985,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 3.3,
+      "t": 1791055317.567859,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.103713,
+      "budget_frac": 0.094285,
+      "tokens": 12384,
+      "wall_s": 134.1,
+      "t": 1791055448.3686106,
+      "incumbent_public": 1.0,
+      "incumbent_hidden": 0.9920170048777859,
+      "sha": "c94b34c4c9a544d6"
+    }
+  ]
+}

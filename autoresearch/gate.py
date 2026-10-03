@@ -8,7 +8,7 @@ Problem contract (problems/<name>/verify.py), all scores higher-is-better:
     FUNCTION = "solve"                 # function the candidate defines; called as solve(**instance)
     PUBLIC = [{...}, ...]              # instances whose results the LLM sees
     HIDDEN = [{...}, ...]              # instances it never sees (overfitting check)
-    TIMEOUT_S = 60                     # per-instance time limit
+    TIMEOUT_S = 60                     # per-instance time limit (GATE_TIMEOUT_S overrides it for a whole run)
     def check(construction, instance) -> {"valid": bool, "score": float, "reason": str}
     def best_known(instance) -> float | None
     def check_strict(construction, instance) -> bool       # optional, independent re-check
@@ -27,6 +27,7 @@ import json
 import os
 import re
 import tokenize
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from .sandbox import run_candidate, run_online
@@ -95,13 +96,32 @@ def _label(verify, instance) -> str:
     return ", ".join(f"{k}={v}" for k, v in instance.items()) or "default"
 
 
+_POOL = None
+
+
+def _pool():
+    """GATE_WORKERS > 1: one process-wide pool, so concurrent evaluations share the CPU budget.
+    Each instance still runs in its own child process; its time limit starts when it starts."""
+    global _POOL
+    workers = int(os.environ.get("GATE_WORKERS") or 1)
+    if workers <= 1:
+        return None
+    if _POOL is None or _POOL._max_workers != workers:
+        _POOL = ThreadPoolExecutor(max_workers=workers, thread_name_prefix="gate")
+    return _POOL
+
+
+def _timeout(verify) -> float:
+    return float(os.environ.get("GATE_TIMEOUT_S") or verify.TIMEOUT_S)
+
+
 def _run_instance(verify, program_path, instance) -> dict:
     rec = {"instance": instance, "label": _label(verify, instance)}
     if hasattr(verify, "online") and hasattr(verify, "DRIVER"):
         header, inputs = verify.online(instance)
-        run = run_online(program_path, verify.FUNCTION, verify.DRIVER, header, inputs, verify.TIMEOUT_S)
+        run = run_online(program_path, verify.FUNCTION, verify.DRIVER, header, inputs, _timeout(verify))
     else:
-        run = run_candidate(program_path, verify.FUNCTION, instance, verify.TIMEOUT_S)
+        run = run_candidate(program_path, verify.FUNCTION, instance, _timeout(verify))
     rec["seconds"] = run.seconds
     if not run.ok:
         rec.update(status="error", score=None, normalized=0.0, reason=run.error)
@@ -143,8 +163,11 @@ def evaluate(problem_dir, program_path: str, results_dir: str) -> dict:
         _write(results_dir, metrics, correct=False, error=GENERIC_REJECTION, integrity=integrity_log)
         return metrics
 
-    public = [_run_instance(verify, program_path, inst) for inst in verify.PUBLIC]
-    hidden = [_run_instance(verify, program_path, inst) for inst in getattr(verify, "HIDDEN", [])]
+    instances = list(verify.PUBLIC) + list(getattr(verify, "HIDDEN", []))
+    pool = _pool()   # instances in parallel if GATE_WORKERS > 1; results are identical, in instance order
+    one = lambda inst: _run_instance(verify, program_path, inst)
+    records = list(pool.map(one, instances)) if pool else [one(inst) for inst in instances]
+    public, hidden = records[:len(verify.PUBLIC)], records[len(verify.PUBLIC):]
     integrity_log["public"], integrity_log["hidden"] = public, hidden
 
     caught = [r for r in public + hidden if r["status"] == "integrity"]

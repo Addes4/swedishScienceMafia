@@ -1,0 +1,76 @@
+{
+  "job_id": "independent__circle_packing__s1",
+  "arm": "independent",
+  "arm_type": "independent",
+  "problem": "circle_packing",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.126442,
+  "within_cap": true,
+  "tokens": 16097,
+  "calls": 10,
+  "failed_calls": 6,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 4,
+    "None": 6
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 10
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 0.126442
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 5,
+  "valid_evals": 3,
+  "initial_public": 0.3305203630487954,
+  "initial_hidden": null,
+  "final_public": 0.9999999999993212,
+  "final_hidden": null,
+  "final_sha": "a5f2fc4315b61154",
+  "max_public_seen": 0.9999999999993212,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.126442,
+  "tokens_per_improvement": 16097,
+  "auc": 0.980148,
+  "auc_gain": 0.970347,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1244.9,
+  "status": "ok",
+  "arm_result": "api_errors",
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056296.3522882,
+  "spend_at_first_error_usd": 0.126442,
+  "valid_spend_usd": 0.126442,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.9,
+      "t": 1791055323.352225,
+      "incumbent_public": 0.3305203630487954,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.032618,
+      "budget_frac": 0.029653,
+      "tokens": 4125,
+      "wall_s": 252.3,
+      "t": 1791055574.776843,
+      "incumbent_public": 0.9999999999993212,
+      "incumbent_hidden": null,
+      "sha": "a5f2fc4315b61154"
+    }
+  ]
+}

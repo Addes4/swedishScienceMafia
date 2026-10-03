@@ -1,0 +1,124 @@
+[
+  {
+    "run": "local-smoke-v2/lean__erdos_squares__s0",
+    "arm": "lean",
+    "completion": "wall_limit",
+    "calls": 12,
+    "spent": 0.022959,
+    "wall_s": 1277.2,
+    "evals": 13,
+    "eval_s_median": 1.1,
+    "eval_s_max": 508.3,
+    "eval_s_total": 1069.9,
+    "llm_s_median": 15.6,
+    "llm_s_max": 33.4,
+    "start": 0.8562,
+    "final_public": 0.9267,
+    "final_hidden": 0.9449,
+    "models": {
+      "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 12
+    }
+  },
+  {
+    "run": "smoke-v2/independent__erdos_squares__s0",
+    "arm": "independent",
+    "completion": "wall_limit",
+    "calls": 6,
+    "spent": 0.012864,
+    "wall_s": 2183.1,
+    "evals": 7,
+    "eval_s_median": 255.0,
+    "eval_s_max": 665.2,
+    "eval_s_total": 2022.3,
+    "llm_s_median": 27.4,
+    "llm_s_max": 36.3,
+    "start": 0.8562,
+    "final_public": 0.96,
+    "final_hidden": 0.2381,
+    "models": {
+      "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 6
+    }
+  },
+  {
+    "run": "smoke-v2/lean__erdos_squares__s0",
+    "arm": "lean",
+    "completion": "budget",
+    "calls": 17,
+    "spent": 0.02732,
+    "wall_s": 677.1,
+    "evals": 18,
+    "eval_s_median": 1.9,
+    "eval_s_max": 137.0,
+    "eval_s_total": 345.0,
+    "llm_s_median": 13.0,
+    "llm_s_max": 78.2,
+    "start": 0.8562,
+    "final_public": 0.9791,
+    "final_hidden": 0.9712,
+    "models": {
+      "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 17
+    }
+  },
+  {
+    "run": "smoke-v2/lean_gate_patience__erdos_squares__s0",
+    "arm": "lean_gate_patience",
+    "completion": "budget",
+    "calls": 12,
+    "spent": 0.026934,
+    "wall_s": 1168.5,
+    "evals": 13,
+    "eval_s_median": 24.2,
+    "eval_s_max": 344.3,
+    "eval_s_total": 863.4,
+    "llm_s_median": 17.8,
+    "llm_s_max": 52.0,
+    "start": 0.8562,
+    "final_public": 0.896,
+    "final_hidden": 0.8759,
+    "models": {
+      "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 12
+    }
+  },
+  {
+    "run": "smoke-v2/shinka__erdos_squares__s0",
+    "arm": "shinka",
+    "completion": "budget",
+    "calls": 9,
+    "spent": 0.027045,
+    "wall_s": 674.8,
+    "evals": 8,
+    "eval_s_median": 1.9,
+    "eval_s_max": 12.3,
+    "eval_s_total": 24.1,
+    "llm_s_median": 26.8,
+    "llm_s_max": 334.7,
+    "start": 0.8562,
+    "final_public": 0.9485,
+    "final_hidden": 0.9566,
+    "models": {
+      "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 9
+    }
+  },
+  {
+    "run": "smoke-v2/triage__erdos_squares__s0",
+    "arm": "triage",
+    "completion": "budget",
+    "calls": 7,
+    "spent": 0.023931,
+    "wall_s": 1198.2,
+    "evals": 7,
+    "eval_s_median": 12.0,
+    "eval_s_max": 568.7,
+    "eval_s_total": 746.0,
+    "llm_s_median": 27.5,
+    "llm_s_max": 481.1,
+    "start": 0.8562,
+    "final_public": 0.9234,
+    "final_hidden": 0.8993,
+    "models": {
+      "deepseek-ai/DeepSeek-V4-Pro:deepinfra": 3,
+      "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 2,
+      "Qwen/Qwen3.5-9B:together": 2
+    }
+  }
+]
