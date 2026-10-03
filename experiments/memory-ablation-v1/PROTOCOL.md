@@ -177,8 +177,9 @@ counterexamples, memory token counts and promotion decision), `usage.jsonl`,
    shrinking runs only on proposals that lose probes (pilot: about 45,000, 21,000 and
    27,000 packer executions per run for none, prose and executable). It is a few seconds
    of CPU per run and is reported, not matched.
-3. **Confirmatory regime fixed (Saturday 3 October, about 21:00 BST, before any
-   confirmatory call).** The coordinator chose the Weibull 5k code regime. The full
+3. **Confirmatory regime fixed (committed in 96f217d at 20:22:17 BST on Saturday 3
+   October, before the first confirmatory call at 20:22:41).** (This line originally said
+   "about 21:00 BST"; the time was corrected after launch from the commit and usage logs.) The coordinator chose the Weibull 5k code regime. The full
    design is in the section "Confirmatory study" below and supersedes "Confirmatory run"
    above wherever they differ. It adds, identically in all three arms, one sentence to
    the "This call" section of the prompt: "A proposal that packs every fixed-suite

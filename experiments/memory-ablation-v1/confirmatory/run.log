@@ -1,0 +1,33 @@
+ANTHROPIC_API_KEY is set and takes precedence over the SDK's profile / federation auto-discovery; unset ANTHROPIC_API_KEY to use the auto-discovered credential.
+30 runs; earlier Anthropic spend $0.9414; cap $9.00 (total $15.00)
+none-s0: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+prose-s0: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+executable-s0: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+none-s1: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+prose-s1: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+executable-s1: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+none-s2: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5175
+prose-s2: calls=30 promotions=3 final=best_fit_with_adaptive_gap_penalty vs_best_fit=-4.6 stopped=None anthropic=$1.5519
+executable-s2: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5519
+none-s3: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.5519
+prose-s3: calls=30 promotions=2 final=best_fit_with_refined_trap_zone vs_best_fit=-5.8 stopped=None anthropic=$1.6881
+executable-s3: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.6881
+none-s4: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.6881
+prose-s4: calls=30 promotions=1 final=best_fit_with_precise_gap_penalty vs_best_fit=-0.2 stopped=None anthropic=$1.6881
+executable-s4: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$1.6881
+none-s5: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.4508
+prose-s5: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.7730
+executable-s5: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.7730
+none-s6: calls=30 promotions=7 final=fragmentation_gap_predictor vs_best_fit=-15.4 stopped=None anthropic=$2.8755
+prose-s6: calls=30 promotions=2 final=best_fit_with_extended_dead_space vs_best_fit=-0.8 stopped=None anthropic=$2.8755
+executable-s6: calls=30 promotions=1 final=first_fit_decreasing_threshold vs_best_fit=-4.8 stopped=None anthropic=$2.8755
+none-s7: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+prose-s7: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+executable-s7: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+none-s8: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+prose-s8: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+executable-s8: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+none-s9: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+prose-s9: calls=30 promotions=1 final=first_fit_with_waste_penalty vs_best_fit=-40.6 stopped=None anthropic=$2.8755
+executable-s9: calls=30 promotions=0 final=best_fit vs_best_fit=+0.0 stopped=None anthropic=$2.8755
+done; Anthropic charged $2.8755 in this invocation
