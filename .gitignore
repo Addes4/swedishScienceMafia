@@ -9,3 +9,5 @@ falsify/_packing.dylib
 falsify/_packing.so
 falsify/_contextual.dylib
 falsify/_contextual.so
+falsify/_longpack.dylib
+falsify/_longpack.so
