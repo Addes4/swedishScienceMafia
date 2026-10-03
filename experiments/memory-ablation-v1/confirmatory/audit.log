@@ -1,0 +1,27 @@
+{
+ "none": {
+  "final_audit_excess": -1.5237500000000002,
+  "harmful_fraction": 0.8030592396109638,
+  "no_op_fraction": 0.13320954907161803,
+  "promotions": 0.7,
+  "memory_tokens_mean": 0.0,
+  "cost_usd": 0.0816522
+ },
+ "prose": {
+  "final_audit_excess": -4.9645,
+  "harmful_fraction": 0.20232348111658455,
+  "no_op_fraction": 0.6501970443349754,
+  "promotions": 0.9,
+  "memory_tokens_mean": 1172.4966666666667,
+  "cost_usd": 0.113702
+ },
+ "executable": {
+  "final_audit_excess": -0.2375,
+  "harmful_fraction": 0.14726600985221674,
+  "no_op_fraction": 0.8148029556650247,
+  "promotions": 0.1,
+  "memory_tokens_mean": 934.18,
+  "cost_usd": 0.092199
+ }
+}
+exit 0

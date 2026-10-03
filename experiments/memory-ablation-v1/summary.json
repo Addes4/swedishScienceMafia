@@ -1,0 +1,58 @@
+{
+  "experiment": "memory-ablation-v1",
+  "question": "Does executable counterexample memory beat no memory or token-matched prose memory in a closed-loop LLM search, on audited final quality?",
+  "pilot": {
+    "regime": "weights20_synthetic80",
+    "seeds": [
+      100,
+      101
+    ],
+    "calls_per_run": 30,
+    "arms": {
+      "none": {
+        "final_audit_excess": 0.0,
+        "harmful_fraction": 0.9833333333333334,
+        "mean_proposal_diagnostic_excess": 0.7128125000000001,
+        "same_as_incumbent": 0.5,
+        "promotions": 0.0,
+        "memory_tokens_mean": 0.0,
+        "cost_usd": 0.125375
+      },
+      "prose": {
+        "final_audit_excess": 0.0,
+        "harmful_fraction": 0.13333333333333333,
+        "mean_proposal_diagnostic_excess": 0.015541666666666667,
+        "same_as_incumbent": 28.0,
+        "promotions": 0.0,
+        "memory_tokens_mean": 1257.9166666666665,
+        "cost_usd": 0.1667825
+      },
+      "executable": {
+        "final_audit_excess": 0.0,
+        "harmful_fraction": 0.3833333333333333,
+        "mean_proposal_diagnostic_excess": 0.09418750000000001,
+        "same_as_incumbent": 20.0,
+        "promotions": 0.0,
+        "memory_tokens_mean": 1160.1166666666668,
+        "cost_usd": 0.16076849999999998
+      }
+    },
+    "verdict": "primary endpoint at its floor: no promotions, every final incumbent is best-fit"
+  },
+  "spend": {
+    "anthropic_usd_by_folder": {
+      "checks/live-code": 0.026319000000000002,
+      "checks/modal-mock": 0,
+      "confirmatory": 0.896138,
+      "pilot": 0.905852,
+      "smoke": 0.009223
+    },
+    "anthropic_usd_total": 1.837532,
+    "modal_usd_estimate_by_folder": {
+      "checks/live-code": 0.01033275694348335,
+      "checks/modal-mock": 0.009338611299552916,
+      "confirmatory": 0.025280039855890273
+    },
+    "modal_usd_estimate_total": 0.04495140809892654
+  }
+}
