@@ -1,11 +1,16 @@
 """Run the hand-crafted exploit catalogue (Part A) through the real gate and classify it.
 
-    python experiments/gate-redteam-v1/run_part_a.py
+    python experiments/gate-redteam-v1/run_part_a.py [--out PATH]
 
-Writes results_part_a.json next to this file and prints a table. Nothing calls an LLM here.
-The one timeout exploit is checked via sandbox.run_candidate with a short timeout so the
-run does not block for the full per-problem TIMEOUT_S.
+Writes results_part_a.json next to this file (or --out) and prints a table. Nothing calls an
+LLM here. The one timeout exploit is checked via sandbox.run_candidate with a short timeout so
+the run does not block for the full per-problem TIMEOUT_S.
+
+WARNING: this overwrites results_part_a.json, which is the record of the gate's behaviour
+BEFORE the Part C fixes. Use --out results_part_a_after_fixes.json when re-running with fixes
+applied.
 """
+import argparse
 import json
 import sys
 import tempfile
@@ -131,6 +136,13 @@ def run_one(item):
 
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--out", default=str(HERE / "results_part_a.json"),
+                    help="where to write the results JSON (default: results_part_a.json)")
+    args = ap.parse_args()
+    out_path = Path(args.out)
+
     rows = []
     for item in exploits_mod.catalogue():
         r = run_one(item)
@@ -142,7 +154,7 @@ def main():
         sv = "" if r.get("strict_valid") is None else f" strict_valid={r['strict_valid']}"
         print(f"{mark} [{r['layer']:>14}] {r['problem']:>16} {r['name']:<28} "
               f"score={r['combined_score']:<10}{sv}{note}")
-    (HERE / "results_part_a.json").write_text(json.dumps(rows, indent=2))
+    out_path.write_text(json.dumps(rows, indent=2))
 
     caught = sum(1 for r in rows if r["caught"])
     flagged = sum(1 for r in rows if r["layer"] == "flagged-review")
