@@ -1,0 +1,13 @@
+{
+  "pilot.py": "d5ec263196582a44e3c002ac6dc5a1ce4c2478217dd05cb21eeb2058243661c1",
+  "contextual.py": "f4241e604d976321069be7c59df2c5ff9ee37d950cb1906978ece435882b58e6",
+  "__init__.py": "b4667c850d6869a576836d498bcc96c614dcdb8abb3aded3bd16de62ec65aed4",
+  "core.py": "34355544f09d7a14d1b483a6365cbbc688abc6c8e4866db5c951981622e025b2",
+  "soft_gates.py": "a34a14722df5a478adbdc0b440fa2ff26d5b8fc7e6ba5ffcc7bdcb64a51a0091",
+  "contextual.cpp": "a2f397707b22aea7a80b78797388090c06b1eb9657736d8ee525b718c275ea10",
+  "packing.cpp": "7b3d6e3566fcd8912aafc06653e05ec4a7c1024fff5bdeafa22eb0288fd35034",
+  "search.py": "9d8eaafeff1df72f2623d17cb8589b10d1dae9ccfcad243e0cd036ebb62f7071",
+  "gated_search.py": "c1db987c838b19cca0032c21fffd16404628f5235e3492a23a10b1bce4a98490",
+  "anthropic_propose.py": "b4154155f318eb43e924794aa0050c083010b671ba71a6a1d739d64035036ba9",
+  "report.py": "69f91f9884fb6fb2d56b55b46a1b70624ff1e6c3e8bb9e6ca601da6c682f44ce"
+}

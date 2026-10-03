@@ -1,0 +1,190 @@
+{
+  "arms": [
+    {
+      "arm": "strict",
+      "seeds": 40,
+      "mean_excess_bins": 0.0073906250000000005,
+      "mean_promotions": 73.825,
+      "mean_gate_rejections": 91.325,
+      "executions_per_seed": 108800,
+      "by_family": {
+        "uniform": 0.022375,
+        "small": 0.010374999999999999,
+        "large": 0.002875,
+        "bimodal": 0.007375,
+        "complementary": 0.00025000000000000006,
+        "near_thirds": -0.00625,
+        "near_halves": 0.0,
+        "bands": 0.022125
+      }
+    },
+    {
+      "arm": "loss_budget",
+      "seeds": 40,
+      "mean_excess_bins": 0.0100625,
+      "mean_promotions": 84.875,
+      "mean_gate_rejections": 35.975,
+      "executions_per_seed": 108800,
+      "by_family": {
+        "uniform": 0.03225,
+        "small": 0.011625,
+        "large": 0.00625,
+        "bimodal": 0.008875000000000001,
+        "complementary": 0.003,
+        "near_thirds": -0.008749999999999999,
+        "near_halves": 0.001125,
+        "bands": 0.026125
+      }
+    },
+    {
+      "arm": "validated_budget",
+      "seeds": 40,
+      "mean_excess_bins": 0.007453125,
+      "mean_promotions": 71.05,
+      "mean_gate_rejections": 103.975,
+      "executions_per_seed": 108800,
+      "by_family": {
+        "uniform": 0.021875,
+        "small": 0.01075,
+        "large": 0.002,
+        "bimodal": 0.00775,
+        "complementary": 0.000375,
+        "near_thirds": -0.00925,
+        "near_halves": 0.0,
+        "bands": 0.026125
+      }
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "arm_minus_strict": "loss_budget",
+      "mean": 0.0026718749999999998,
+      "bootstrap_95_interval": [
+        0.00024999999999999995,
+        0.006125
+      ],
+      "paired_seed_differences": [
+        0.0,
+        0.0,
+        0.0031249999999999993,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009375000000000001,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0018749999999999982,
+        0.05375,
+        0.006875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.031875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.005624999999999998,
+        0.0,
+        -0.005624999999999998,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "arm_minus_strict": "validated_budget",
+      "mean": 6.24999999999999e-05,
+      "bootstrap_95_interval": [
+        -0.0005937500000000003,
+        0.0006093749999999999
+      ],
+      "paired_seed_differences": [
+        0.0,
+        0.0,
+        0.0031249999999999993,
+        0.0018750000000000001,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0018749999999999982,
+        0.005,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.010000000000000002,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0025000000000000022,
+        -0.0018750000000000017,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "proposal_diagnostics": {
+    "better": {
+      "n": 16,
+      "gate_rejections": {
+        "strict": 2,
+        "loss_budget": 0,
+        "validated_budget": 1
+      }
+    },
+    "worse": {
+      "n": 599,
+      "gate_rejections": {
+        "strict": 270,
+        "loss_budget": 120,
+        "validated_budget": 328
+      }
+    },
+    "tied": {
+      "n": 345,
+      "gate_rejections": {
+        "strict": 4,
+        "loss_budget": 0,
+        "validated_budget": 11
+      }
+    }
+  },
+  "total_search_executions": 13056000,
+  "common_initialization_executions": 1600,
+  "final_audit_executions": 193600,
+  "diagnostic_executions": 768800
+}

@@ -1,0 +1,188 @@
+{
+  "arms": [
+    {
+      "arm": "fixed_only",
+      "seeds": 40,
+      "mean_excess_bins": 0.014000000000000002,
+      "mean_promotions": 185.4,
+      "mean_gate_rejections": 0.0,
+      "executions_per_seed": 89600,
+      "by_family": {
+        "uniform": 0.0395,
+        "small": 0.014875,
+        "large": 0.0085,
+        "bimodal": 0.01025,
+        "complementary": 0.004625,
+        "near_thirds": -0.012375,
+        "near_halves": 0.001,
+        "bands": 0.045625
+      }
+    },
+    {
+      "arm": "random_gate",
+      "seeds": 40,
+      "mean_excess_bins": 0.012859375000000001,
+      "mean_promotions": 162.2,
+      "mean_gate_rejections": 126.325,
+      "executions_per_seed": 89600,
+      "by_family": {
+        "uniform": 0.036375000000000005,
+        "small": 0.013000000000000001,
+        "large": 0.0085,
+        "bimodal": 0.00975,
+        "complementary": 0.00425,
+        "near_thirds": -0.011,
+        "near_halves": 0.001,
+        "bands": 0.040999999999999995
+      }
+    },
+    {
+      "arm": "counterexample_gate",
+      "seeds": 40,
+      "mean_excess_bins": 0.011828125,
+      "mean_promotions": 145.75,
+      "mean_gate_rejections": 192.6,
+      "executions_per_seed": 89600,
+      "by_family": {
+        "uniform": 0.0315,
+        "small": 0.010875,
+        "large": 0.007250000000000001,
+        "bimodal": 0.00825,
+        "complementary": 0.005625,
+        "near_thirds": -0.009875,
+        "near_halves": 0.002375,
+        "bands": 0.038625
+      }
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "counterexample_minus": "fixed_only",
+      "mean": -0.002171875,
+      "paired_seed_differences": [
+        0.0049999999999999975,
+        0.0,
+        -0.00625,
+        -0.0018750000000000017,
+        0.0,
+        0.0,
+        0.0,
+        -0.0024999999999999988,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.010000000000000002,
+        -0.021250000000000005,
+        -0.02375,
+        0.0,
+        0.0,
+        -0.0075,
+        0.0,
+        -0.0018750000000000017,
+        0.0,
+        -0.004999999999999999,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0025000000000000022,
+        0.0,
+        -0.015,
+        0.0,
+        0.0,
+        0.0006250000000000006,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bootstrap_95_interval": [
+        -0.004109375,
+        -0.0006093750000000003
+      ]
+    },
+    {
+      "counterexample_minus": "random_gate",
+      "mean": -0.00103125,
+      "paired_seed_differences": [
+        0.0049999999999999975,
+        0.0,
+        -0.00625,
+        -0.0018750000000000017,
+        0.0,
+        0.0006250000000000001,
+        0.0,
+        -0.0024999999999999988,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.018125000000000002,
+        0.0,
+        0.0,
+        0.0,
+        -0.0075,
+        0.0,
+        0.0012500000000000011,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0025000000000000022,
+        0.0,
+        -0.015,
+        0.0,
+        0.0006250000000000006,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bootstrap_95_interval": [
+        -0.002390625,
+        4.6875000000000096e-05
+      ]
+    }
+  ],
+  "proposal_diagnostics": {
+    "better": {
+      "n": 62,
+      "gate_rejections": {
+        "random_gate": 13,
+        "counterexample_gate": 25
+      }
+    },
+    "worse": {
+      "n": 424,
+      "gate_rejections": {
+        "random_gate": 152,
+        "counterexample_gate": 201
+      }
+    },
+    "tied": {
+      "n": 474,
+      "gate_rejections": {
+        "random_gate": 34,
+        "counterexample_gate": 52
+      }
+    }
+  },
+  "common_initialization_executions": 1600,
+  "final_audit_executions": 193600,
+  "diagnostic_executions": 153760,
+  "total_search_executions": 10752000,
+  "mean_seconds_all_arms_per_seed": 3.963001959276153
+}
