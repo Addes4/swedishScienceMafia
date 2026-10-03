@@ -19,7 +19,7 @@ answering one design question for the final framework.
 | 1 | Bin-packing ceiling | `exp/bp-ceiling` `50d9f9c` | `experiments/bp-ceiling-v1/` | Done | The 80-item instances are the ceiling. On Weibull 5k a 21-weight linear rule reaches −3.28 pp vs best fit (FunSearch's heuristic −3.33 pp). The evaluator reproduces FunSearch's published 3.98% / 4.23% / 0.68% exactly. |
 | 2 | Idea table (triage) | `exp/idea-table` `7697c21` | `experiments/idea-table-v1/` | Partial: 62 of 114 ideas complete | The model decides success: Opus 62/62, Sonnet 60/62, Haiku 10/62. Jev and the Claude rankers are at chance; Codex AUC is 0.600. Ranked triage does not beat random tiers. Sonnet on every idea is best per dollar. |
 | 3 | Memory ablation | `exp/memory-ablation` `f259c82` | `experiments/memory-ablation-v1/` | Done | Executable counterexamples did not improve the audited final policy; all primary intervals include 0. Memory cut harmful proposals mainly by inducing no-op proposals. Memory was not token-matched (934 vs 1,172 tokens). |
-| 4 | Framework tournament | `exp/tournament` `89974fa` (v1), v2 in progress | `experiments/tournament-v1/`, `tournament-v2/` | v1 partial: 17 of 60 runs complete. v2 (open models via HF) running. | See the tournament RESULTS.md. v1 is not a budget-matched comparison. |
+| 4 | Framework tournament | `exp/tournament` `dfde427` | `experiments/tournament-v1/`, `tournament-v2/` | v1 partial: 17 of 60 runs complete. v2: HF route and smoke runs only; the grid was not run. | v1: two of three problems saturate within 1–3 Sonnet calls. At a common early spend, lean (+0.233 AUC, CI [0.096, 0.386]) and independent sampling (+0.209) led ShinkaEvolve, and triage trailed (−0.156). Final scores did not differ. Not budget-matched. |
 | 5 | Strategist v2 | `exp/strategist-v2` `3d3372b` | `experiments/strategist-v2/` | Done | v2 beats v1 on LABS (+0.137) and NK (+0.0058), ties on Heilbronn. A patience rule tuned on dev seeds still wins on LABS. Almost all of the gain comes from the crossover gate. |
 | 6 | Gate red-team | `exp/gate-redteam` `b55dea3` | `experiments/gate-redteam-v1/` | Done | 0 of 68 exploit attempts (28 hand-written, 40 LLM-written) gained a material unearned score. Three backward-compatible fixes are in separate commits. |
 | - | Devin: FunSearch reproduction | `devin/funsearch-repro` (expected) | `devin/funsearch_repro/` (expected) | Started by the user; no branch pushed as of 22:35 | - |
@@ -44,7 +44,7 @@ answering one design question for the final framework.
 | 19:50 | User added the Anthropic and TypeSafe (Jev) keys; verified with one Haiku call. User pasted the Devin task (below) into Devin. |
 | 19:55 | Memory-ablation pilot null (no promotions in the 80-item regime). Go-ahead to run the confirmatory study in the Weibull 5k code regime, merging the `bp-ceiling` adapter. |
 | 20:00 | User asked that everything be documented. The documentation standard was sent to all agents. |
-| 20:05 | The literature-review session (`docs/related-work`) sent findings; they were relayed to each agent as secondary analyses. That session also relayed a user approval for the full tournament; it was not acted on until the user confirmed directly. |
+| 20:05 | The literature-review session (`docs/related-work`) sent findings; they were relayed to each agent as secondary analyses. That session also relayed a user approval for the full tournament; it was not acted on until the user confirmed directly. That session's own record is [context/related-work-log.md](../context/related-work-log.md). |
 | 20:10 | User confirmed the full tournament: Anthropic cap $75, Modal cap raised to $75. |
 | 20:20 | Asked whether the experiments were worth it, the user chose to keep the tournament design (5 arms × 3 problems × 4 seeds at $1.10 per run) and the 114-idea table, over the suggested alternatives. |
 | 21:30 | Credit exhausted (incident 1). |
@@ -54,6 +54,7 @@ answering one design question for the final framework.
 | 22:15-22:30 | bp-ceiling, memory-ablation and idea-table finished and were written up. |
 | 22:32-23:03 | The tournament-v2 smoke grid (5 arms, $0.03 each) took 30 minutes. LLM calls took 18–36 s, but programs written from scratch took up to 611 s per evaluation, running erdos_squares' 13 instances in sequence at up to 60 s each. The tournament agent was told to evaluate instances in parallel and, if still needed, to lower per-instance time limits equally across arms as a disclosed pre-launch amendment. |
 | 23:10 | The user decided not to run the tournament-v2 grid. Tournament-v1's partial data already answered the main question: two of three problems saturate within 1–3 Sonnet calls, and the single-model loops led ShinkaEvolve at low spend while triage trailed. The remaining time goes to the submission: consolidating branches, a single runnable framework, the README and the video. Tournament-v2 is documented as the HF route plus its smoke test, with the protocol marked "not executed". |
+| 23:15-23:55 | Consolidation on branch `consolidate-overnight` (from `main`). The six `exp/*` branches, `docs/overnight-log` and `docs/related-work` were merged. Conflicts arose only in `.gitignore` (kept both sides) and in the imports of `autoresearch/gate.py` (kept both `tokenize` and `ThreadPoolExecutor`). The ClaudeRanker crash was fixed with tests, and the README hub was updated. 175 tests pass. `check --all` gives the same scores as `main` for the deterministic problems; circle packing and Erdős discrepancy start from unseeded random programs, so they vary between runs (0.3512 and 0.3563 in two runs of circle packing on `main`). Nothing was pushed. |
 
 ## Incidents
 
@@ -80,31 +81,37 @@ answering one design question for the final framework.
 | bp-ceiling | $0 | ~$0.41 | - |
 | idea-table | $19.73 (12 mid-stream failures logged at $0) | ~$0.39 | Jev ~$0.005; one Codex call on the ChatGPT plan |
 | memory-ablation | $3.82 | ~$0.37 | - |
-| tournament-v1 | $41.86 ($40.23 full grid, $0.96 smoke, $0.67 check) | $7.25 (billing report) | Jev $0.011 |
-| tournament-v2 | $0 | in progress | HF router, cap $12 |
+| tournament-v1 and v2 | $41.86 ($40.23 full grid, $0.96 smoke, $0.67 check) | $7.47 (billing report, both versions; the last hour may be incomplete) | Jev $0.011; HF $0.1408 (v2 smoke) |
 | strategist-v2 | $0 | $0.33 | - |
 | gate-redteam | $0.21 | $0 | - |
-| **Total** | **≈ $65.6** | **≈ $8.8 + v2** | |
+| **Total** | **≈ $65.6** | **≈ $9.0** | HF ≈ $0.14 |
 
 Claude Code agent usage is not in this table; it was not metered separately.
 
 ## Fallback LLM route: Hugging Face router
 
 At 22:15 the HF router (`https://router.huggingface.co/v1`, OpenAI-compatible) was verified with two
-tiny calls billed to the user's HF credit (about $20). Tournament-v2 reruns the grid with
-`deepseek-ai/DeepSeek-V4.1-Flash` for every single-model arm on a pinned provider. Its triage arm uses
-DeepSeek-V4-Pro / V4.1-Flash / Qwen3.5-9B tiers. The cap is $12 of HF spend. Tournament-v1 (Claude)
-stays a separate, partial study.
+tiny calls billed to the user's HF credit (about $20). The tournament's arms can now run on open
+models:
+- single-model arms: DeepSeek-V4.1-Flash on deepinfra, $0.20 / $0.60 per million tokens;
+- triage tiers: DeepSeek-V4-Pro on deepinfra and Qwen3.5-9B on together.
 
-## Bugs found, not yet fixed on main
+A Flash call cost about $0.0019, roughly 25 times less than a Sonnet call in v1. Only smoke runs were
+made ($0.14). Tournament-v1 (Claude) stays a separate, partial study. Before any open-model grid, turn
+on parallel instance scoring (`GATE_WORKERS`, committed and off by default); evaluating programs,
+not the model, set the wall time.
 
-- `autoresearch/rankers.py`, `ClaudeRanker`: models return `"kind"` as a list and the parser crashes
-  on every batch; the triage loop has the same bug. Worked around in `exp/idea-table`, not fixed at
-  the source.
-- Three gate fixes sit unmerged on `exp/gate-redteam`:
+## Bugs found and where they are fixed
+
+All three are fixed on `consolidate-overnight`, not yet on `main`.
+- `autoresearch/rankers.py`, `ClaudeRanker`: a list-valued `"kind"` crashed the parser on every batch,
+  and the triage loop shared it. Fixed in `e8f15cc`, with `tests/test_rankers.py`.
+- Gate hardening from `exp/gate-redteam` is merged:
   - `dabeabd` caps candidate output size;
   - `73ecbc4` rejects non-finite circle radii;
   - `3823826` makes the static scan ignore comments and string literals.
+- Retries on billing and authentication errors, from `exp/tournament` `65ffdcb`: these errors are now
+  fatal, for both the Anthropic and HF routes.
 
 ## Open work and how to finish it
 
@@ -113,9 +120,10 @@ stays a separate, partial study.
 | Fill the idea table | `python -m autoresearch.ideatable fill experiments/idea-table-v1` (skips done cells; `--dry-run` prints cost) | Anthropic credit, ~$15.53 |
 | Rerun tournament-v1's 43 truncated runs | `modal run --detach tournament/modal_app.py --grid experiments/tournament-v1/grids/rerun.json --experiment-cap 90`, then `python -m tournament.pull full-v1-rerun` and `tournament.report` (see tournament-v1 RESULTS.md) | Anthropic credit, ≤ $47.30 |
 | Strategist with measured LLM costs | Fill `experiments/strategist-v2/costs/measured_llm.json`, then `python -m strategist.v2 confirm --costs measured --modal` | Measured cost ratios |
-| Consolidate | Merge the `exp/*` branches into one branch; apply the adapter, gate fixes and rankers fix once; update the root README hub | - |
+| Publish the consolidation | Done locally on `consolidate-overnight`. Push it and open a PR into `main` | User approval |
 | One runnable framework | A single command that runs the LLM loop under the integrity gate with a spend cap, then a fresh audit and comparison with the cheap baselines | Owner |
-| Submission | Video of at most 4 minutes, repo URL and short description to admin@algorithmdiscovery.org by 14:45 on 4 Oct; code freeze 10:30 | Owner |
+| Submission | Video of at most 4 minutes, repo URL and short description to admin@algorithmdiscovery.org by 14:45 on 4 Oct; code freeze 10:30. Draft description, video outline and Q&A are in `output/pitch-draft.md` | Owner |
+| Review PDF | PR #2 (`refresh-review-pdf`) is open and predates the overnight experiments | Team |
 | Devin | Check the session; it may lack access to the GitHub org | User |
 
 ## Devin task, as pasted by the user

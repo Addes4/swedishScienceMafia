@@ -103,7 +103,7 @@ small evaluators. Run everything from the repository root.
 
 ```bash
 pip install -r requirements.txt
-python -m pytest tests -q                                 # 138 tests, no API calls
+python -m pytest tests -q                                 # 175 tests, no API calls
 python3 -m strategist.demo --benchmark labs --seed 1000   # one research run, narrated
 python3 -m falsify.pilot --out experiments/my-pilot        # evaluate hypotheses, shrink failures
 python3 -m falsify.simplify --out experiments/my-simplify  # simplify and explain (~25 s)
