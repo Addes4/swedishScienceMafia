@@ -169,8 +169,7 @@ class IdeaTable:
                                    "output_tokens": res.output_tokens, "seconds": round(res.seconds, 2),
                                    "refused": res.refused, "n_parsed": len(raw), "n_kept": len(new),
                                    "response": res.text})
-            self._assign_order(state)
-            _write_json(path, state)
+            _write_json(path, state)          # order is assigned once, over the whole new batch, below
             print(f"[ideas] call {c}: parsed {len(raw)}, kept {len(new)}, pool {len(state['ideas'])}, "
                   f"spent ${self.ledger.spent:.3f}")
         self._assign_order(state)
@@ -413,6 +412,50 @@ class IdeaTable:
                 f.write(json.dumps(r) + "\n")
         return rows
 
+    def size(self, probe_ideas=3, reserve=6.0, replicates=12) -> dict:
+        """The protocol's sizing rule: largest multiple of BATCH with
+        spent + reserve + N*c + (replicates/3)*c <= cap, where c = mean probe cost per idea."""
+        ideas = self.ideas_in_order()
+        costs = []
+        for idea in ideas[:probe_ideas]:
+            recs = [_read_json(self.cell_dir(idea["id"], m, 0) / "call.json") for m in MODELS]
+            if any(r is None for r in recs):
+                raise SystemExit(f"probe incomplete for {idea['id']}")
+            costs.append(sum(r.get("cost") or 0.0 for r in recs))
+        c = sum(costs) / len(costs)
+        rep_cost = replicates / len(MODELS) * c
+        avail = self.ledger.cap - self.ledger.spent - reserve - rep_cost
+        n = min(len(ideas), int(avail // c)) // BATCH * BATCH
+        out = {"probe_cost_per_idea": costs, "c": c, "spent_after_probe": self.ledger.spent, "reserve": reserve,
+               "replicate_cost_estimate": rep_cost, "pool": len(ideas), "N": n,
+               "soft_stop": round(self.ledger.cap - rep_cost - 1.0, 4)}
+        _write_json(self.out / "sizing.json", out)
+        return out
+
+    def provenance(self) -> dict:
+        """config.json: settings, package versions and SHA-256 of every source file the study depends on."""
+        import platform
+        import numpy
+        import scipy
+        files = ["autoresearch/claude.py", "autoresearch/rankers.py", "autoresearch/gate.py", "autoresearch/sandbox.py",
+                 "autoresearch/triage.py", "autoresearch/spend.py", "autoresearch/ideatable.py",
+                 "autoresearch/evalcode.py", "autoresearch/modal_eval.py", "autoresearch/policy_eval.py",
+                 "autoresearch/mock_claude.py", f"problems/{self.problem_dir.name}/problem.md",
+                 f"problems/{self.problem_dir.name}/initial.py", f"problems/{self.problem_dir.name}/verify.py"]
+        cfg = {"problem": self.problem_dir.name, "cap_usd": self.ledger.cap, "models": list(MODELS),
+               "effort": EFFORT, "impl_max_tokens": IMPL_MAX_TOKENS, "idea_model": IDEA_MODEL,
+               "idea_effort": IDEA_EFFORT, "idea_max_tokens": IDEA_MAX_TOKENS, "batch": BATCH,
+               "order_seed": ORDER_SEED, "replicate_seed": REPLICATE_SEED, "max_attempts": MAX_ATTEMPTS,
+               "python": platform.python_version(), "numpy": numpy.__version__, "scipy": scipy.__version__,
+               "source_sha256": {f: sha256((ROOT / f).read_text()) for f in files if (ROOT / f).exists()}}
+        try:
+            import anthropic
+            cfg["anthropic"] = anthropic.__version__
+        except ImportError:
+            pass
+        _write_json(self.out / "config.json", cfg)
+        return cfg
+
     def status(self) -> dict:
         rows = self.build_table() if (self.out / "cells").exists() else []
         from collections import Counter
@@ -579,7 +622,7 @@ def _span(s: str):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("step", choices=["ideas", "rank", "implement", "evaluate", "table", "status"])
+    ap.add_argument("step", choices=["ideas", "rank", "implement", "evaluate", "table", "status", "provenance", "size"])
     ap.add_argument("out")
     ap.add_argument("--problem", default="problems/erdos_squares")
     ap.add_argument("--cap", type=float, default=40.0, help="hard Anthropic spend cap in dollars (whole folder)")
@@ -620,6 +663,10 @@ def main():
     elif args.step == "table":
         rows = t.build_table()
         print(f"[table] {len(rows)} rows -> {t.out / 'table.jsonl'}")
+    elif args.step == "provenance":
+        t.provenance()
+    elif args.step == "size":
+        print(json.dumps(t.size(replicates=args.replicates or 12), indent=2))
     print(json.dumps(t.status(), indent=2))
 
 
