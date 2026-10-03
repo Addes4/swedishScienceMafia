@@ -172,6 +172,24 @@ class Proposer:
         raise AssertionError('unreachable')
 
 
+MOCK_PROGRAMS = [
+    'import numpy as np\n\ndef priority(item, bins):\n    return -(bins - item)\n',
+    'import numpy as np\n\ndef priority(item, bins):\n    return bins - item\n',
+    ('import numpy as np\n\ndef priority(item, bins):\n    gap = bins - item\n    s = -gap.astype(float)\n'
+     '    s[(gap > 0) & (gap < {t})] -= {p}\n    return s\n'),
+    ('import numpy as np\n\ndef priority(item, bins):\n    max_bin_cap = max(bins)\n'
+     '    score = (bins - max_bin_cap)**2 / item + bins**2 / (item**2)\n    score += bins**2 / item**3\n'
+     '    score[bins > item] = -score[bins > item]\n    score[1:] -= score[:-1]\n    return score\n'),
+    'def priority(item, bins):\n    raise ValueError("mock failure")\n',
+    'def priority(item, bins):\n    open("x")\n    return bins\n',
+]
+
+
+def mock_program(rng):
+    template = rng.choices(MOCK_PROGRAMS, weights=[2, 1, 4, 2, 1, 1])[0]
+    return template.format(t=rng.randint(2, 30), p=round(rng.uniform(0.5, 40), 2))
+
+
 class MockClient:
     """Offline stand-in shaped like anthropic.Anthropic for end-to-end tests.
 
@@ -203,6 +221,14 @@ class MockClient:
                 raise anthropic.APIConnectionError(request=httpx2.Request('POST', 'https://mock.invalid'))
             prompt = system + messages[-1]['content']
             rng = random.Random(hashlib.sha256(f'{self.rng.random()}{prompt}'.encode()).hexdigest())
+        properties = ((output_config or {}).get('format', {}).get('schema', {}).get('properties', {}))
+        if 'code' in properties:
+            body = json.dumps({'name': f'mock_{rng.randrange(10**6)}', 'hypothesis': 'Mock program.',
+                               'falsification': 'More bins than the incumbent.', 'code': mock_program(rng)})
+            usage = SimpleNamespace(input_tokens=self._tokens(prompt), output_tokens=self._tokens(body),
+                                    cache_read_input_tokens=0, cache_creation_input_tokens=0)
+            return SimpleNamespace(content=[SimpleNamespace(type='text', text=body)], stop_reason='end_turn',
+                                   model=model, usage=usage, id=f'mock_{self.calls}')
         keys = self.keys
         try:  # use the weight keys of the requested schema when there is one
             keys = output_config['format']['schema']['properties']['weights']['required']
