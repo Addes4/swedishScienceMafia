@@ -11,3 +11,6 @@ falsify/_contextual.dylib
 falsify/_contextual.so
 falsify/_longpack.dylib
 falsify/_longpack.so
+
+# Papers downloaded by context/fetch_papers.py (not redistributable; see context/related-work.md)
+context/related-papers/

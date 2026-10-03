@@ -92,6 +92,9 @@ adaptive controller. Matching FunSearch took a tuned 21-weight rule, not an LLM.
 bin packing by evolving code that sees every bin. [falsify/README.md](falsify/README.md#relation-to-funsearch)
 explains how our setup differs. The triage loop uses ShinkaEvolve as its baseline, and
 the math problems come from Georgiev, Gómez-Serrano, Tao and Wagner (2025).
+[context/related-work.md](context/related-work.md) reviews about 60 related papers. It covers
+which of our results are new, which independently reproduce published findings, and what
+the literature implies for each part.
 
 ## Quick start
 
@@ -144,7 +147,7 @@ problems/       circle packing, Erdős squares, Erdős discrepancy, sum-differen
 experiments/    one folder per experiment: protocol, config, traces, audits, source snapshot
 tests/          all tests
 output/pdf/     experiment review and addenda
-context/        hackathon brief, website text and the supplied papers
+context/        hackathon brief, website text, the supplied papers and a literature review
 ```
 
 ## Credits
