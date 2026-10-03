@@ -370,9 +370,27 @@ def pack_shard(payload):
                 out['bins'].append(out['best_fit'][-1])
                 continue
             try:
-                out['bins'].append(pack_fresh(path, items, payload['timeout_s'])[0])
+                bins, decisions, _ = pack_fresh(path, items, payload['timeout_s'])
+                out['bins'].append(bins)
+                if payload.get('return_decisions'):
+                    out.setdefault('decisions', []).append(decisions)
             except CandidateError as exc:
                 out['bins'].append(None)
                 out['error'] = str(exc)[-300:]
     out['seconds'] = time.monotonic() - started
     return out
+
+
+def agreement(items, decisions, priority):
+    """Share of steps at which trusted `priority` (e.g. FunSearch's heuristic), shown the
+    bins of the candidate's own trajectory, would pick a bin with the same remaining
+    capacity as the candidate did. 1.0 means the same policy up to equivalent ties."""
+    import numpy as np
+    bins = np.full(len(items), CAPACITY, dtype=np.int64)
+    same = 0
+    for item, chosen in zip(items, decisions):
+        valid = np.nonzero((bins - item) >= 0)[0]
+        ref = int(valid[np.argmax(priority(item, bins[valid]))])
+        same += int(bins[ref] == bins[chosen])
+        bins[chosen] -= item
+    return same / len(items)

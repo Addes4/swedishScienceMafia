@@ -25,8 +25,10 @@ from . import code_eval
 from .closed_loop import audit_seeds, bootstrap, harness_seed, mean
 from .core import read_json, write_json
 from .funsearch_heuristics import SOURCE as FUNSEARCH_SOURCE
+from .funsearch_heuristics import best_fit as best_fit_priority
+from .funsearch_heuristics import funsearch_weibull
 from .llm import BudgetExceeded, MockClient, Proposer, SpendLedger, prior_spend
-from .longpack import l2_bound, weibull_items
+from .longpack import l2_bound, pack_priority, weibull_items
 from .memory import ARMS, TokenFitter
 from .memory_code import memory_section
 
@@ -343,11 +345,24 @@ def cmd_audit(args):
     diag_keys = list(proposals)
     diag_payloads = [{'code': proposals[sha], 'instances': diag_specs, 'timeout_s': cfg['timeout_s']} for sha in diag_keys]
     diag_payloads.append({'code': None, 'instances': diag_specs, 'timeout_s': cfg['timeout_s']})
+    # Similarity to FunSearch's published heuristic for every promoted or final candidate.
+    similarity_seed = int(digest[24:36], 16)
+    sim_specs = [[f'{NAMESPACE}/similarity', similarity_seed + i, cfg['items']] for i in range(2)]
+    promoted = {}
+    for t in traces.values():
+        for r in t['history']:
+            if r.get('promoted'):
+                promoted[code_sha(r['code'])] = r['code']
+    sim_keys = list(promoted)
+    sim_payloads = [{'code': promoted[sha], 'instances': sim_specs, 'timeout_s': cfg['timeout_s'],
+                     'return_decisions': True} for sha in sim_keys]
     started = time.time()
     with make_executor(args, out) as executor:
         audit_results = executor.shards(audit_payloads, tag='audit')
         executor.close_phase('audit')
         diag_results = executor.shards(diag_payloads, tag='diagnostic')
+        executor.close_phase('diagnostic')
+        sim_results = executor.shards(sim_payloads, tag='similarity') if sim_payloads else []
     audit_bins = {}
     for sha, res in zip(audit_keys, audit_results):
         audit_bins.setdefault(sha, {'bins': [], 'best_fit': [], 'l2': [], 'errors': []})
@@ -381,6 +396,19 @@ def cmd_audit(args):
         res = diag[code_sha(code)] if code else diag['best_fit']
         return None if res.get('error') or None in (res.get('bins') or [None]) else mean(res['bins'])
 
+    sim_items = [weibull_items(sd, n, ns) for ns, sd, n in sim_specs]
+    fs_hashes = [code_eval.packing_hash(pack_priority(funsearch_weibull, items, trace=True)[1]) for items in sim_items]
+    similarity = {}
+    for sha, res in zip(sim_keys, sim_results):
+        if res.get('error') or not res.get('decisions'):
+            similarity[sha] = {'error': res.get('error') or 'no decisions'}
+            continue
+        fs = [code_eval.agreement(items, d, funsearch_weibull) for items, d in zip(sim_items, res['decisions'])]
+        bf = [code_eval.agreement(items, d, best_fit_priority) for items, d in zip(sim_items, res['decisions'])]
+        similarity[sha] = {'agreement_with_funsearch': mean(fs), 'agreement_with_best_fit': mean(bf),
+                           'identical_to_funsearch': [code_eval.packing_hash(d) for d in res['decisions']] == fs_hashes,
+                           'near_copy_of_funsearch': mean(fs) >= 0.99}
+
     per_run = {}
     for (seed, arm), t in sorted(traces.items()):
         hist = t['history']
@@ -400,6 +428,8 @@ def cmd_audit(args):
                 worse_than_inc += 1
         final_sha = code_sha(None if t['final']['is_best_fit'] else t['final']['code'])
         row = policy_rows[final_sha]
+        promoted_sims = [similarity.get(code_sha(r['code']), {}) for r in hist if r.get('promoted')]
+        final_sim = similarity.get(final_sha, {}) if not t['final']['is_best_fit'] else {}
         n_valid = len(valid)
         metrics = {
             'final_audit_excess': row['mean_excess_vs_best_fit'],
@@ -425,10 +455,15 @@ def cmd_audit(args):
             'shrink_trials': sum(m['trials'] for r in valid for w, m in r['mining'].items()
                                  if w == 'incumbent' or r['incumbent_before'] != 'best_fit'),
             'short_stream_executions': sum(r['evaluation'].get('short_executions', 0) for r in valid),
-            'evaluation_seconds': sum(r['evaluation'].get('seconds', 0) for r in hist if 'evaluation' in r)}
+            'evaluation_seconds': sum(r['evaluation'].get('seconds', 0) for r in hist if 'evaluation' in r),
+            'promoted_near_copies_of_funsearch': sum(bool(x.get('near_copy_of_funsearch')) for x in promoted_sims),
+            'final_agreement_with_funsearch': final_sim.get('agreement_with_funsearch'),
+            'final_agreement_with_best_fit': final_sim.get('agreement_with_best_fit'),
+            'final_is_near_copy_of_funsearch': bool(final_sim.get('near_copy_of_funsearch'))}
         per_run[f'{arm}-s{seed}'] = {'seed': seed, 'arm': arm, 'complete': t['complete'], 'metrics': metrics,
                                     'final_code_sha': final_sha, 'labels': labels}
-    keys = [k for k in next(iter(per_run.values()))['metrics'] if k != 'final_is_best_fit']
+    keys = [k for k in next(iter(per_run.values()))['metrics']
+            if k not in ('final_is_best_fit', 'final_is_near_copy_of_funsearch')]
     arms = {}
     for arm in config['arms']:
         rows = [v['metrics'] for v in per_run.values() if v['arm'] == arm]
@@ -436,6 +471,7 @@ def cmd_audit(args):
                      for k in keys}
         arms[arm]['runs'] = len(rows)
         arms[arm]['final_is_best_fit'] = sum(r['final_is_best_fit'] for r in rows)
+        arms[arm]['final_near_copies_of_funsearch'] = sum(r['final_is_near_copy_of_funsearch'] for r in rows)
     comparisons = []
     for a, b in [('executable', 'prose'), ('executable', 'none'), ('prose', 'none')]:
         if a not in config['arms'] or b not in config['arms']:
@@ -463,6 +499,8 @@ def cmd_audit(args):
                'audit_seed': audit_seed, 'diagnostic_seed': diagnostic_seed, 'trace_digest': digest,
                'audit_instances': len(audit_specs), 'diagnostic_instances': len(diag_specs),
                'distinct_final_policies': len(finals) - 1, 'distinct_valid_proposals': len(proposals),
+               'distinct_promoted_candidates': len(promoted),
+               'promoted_near_copies_of_funsearch': sum(bool(v.get('near_copy_of_funsearch')) for v in similarity.values()),
                'audit_source_sha256': {f'falsify__{p.name}': hashlib.sha256(p.read_bytes()).hexdigest()
                                        for p in sorted((ROOT / 'falsify').glob('*.py'))},
                'audit_wall_seconds': time.time() - started,
@@ -471,7 +509,8 @@ def cmd_audit(args):
                          'message_failures': sum(u['kind'] == 'messages' and u['status'] != 'ok' for u in usage),
                          'count_tokens_calls': sum(u['kind'] == 'count_tokens' for u in usage),
                          'modal_estimated_usd': sum(u.get('estimated_usd', 0.0) for u in modal_usage)}}
-    write_json(out / 'audit.json', {'per_run': per_run, 'policies': policy_rows,
+    write_json(out / 'audit.json', {'per_run': per_run, 'policies': policy_rows, 'similarity': similarity,
+                                    'similarity_instances': sim_specs,
                                     'diagnostic_mean_bins': {k: (mean(v['bins']) if not v.get('error') and None not in (v.get('bins') or [None]) else None)
                                                              for k, v in diag.items()},
                                     'diagnostic_best_fit_mean_bins': bf_diag,

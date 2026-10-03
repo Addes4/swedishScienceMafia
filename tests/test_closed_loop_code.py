@@ -82,6 +82,16 @@ class SandboxTests(unittest.TestCase):
         self.assertEqual(set(r2['mining']), {'incumbent', 'best_fit'})
         self.assertEqual(r2['mining']['best_fit']['losses'], 0)
 
+    def test_agreement_with_funsearch(self):
+        from falsify.funsearch_heuristics import best_fit as bf_priority
+        items = weibull_items(9, 1500, 'test')
+        with tempfile.TemporaryDirectory() as tmp:
+            _, fs_dec, _ = ce.pack_fresh(write(tmp, 'fs', FUNSEARCH), items, 30)
+            _, bf_dec, _ = ce.pack_fresh(write(tmp, 'bf', BEST_FIT_CODE), items, 30)
+        self.assertEqual(ce.agreement(items, fs_dec, funsearch_weibull), 1.0)
+        self.assertEqual(ce.agreement(items, bf_dec, bf_priority), 1.0)
+        self.assertLess(ce.agreement(items, bf_dec, funsearch_weibull), 0.9)
+
     def test_divergence_handles_new_bins_and_relabelling(self):
         d = ce.divergence([39, 16], [0, 7], [0, 0])
         self.assertTrue(d['candidate_new'])
@@ -159,6 +169,11 @@ class CliTests(unittest.TestCase):
             self.assertEqual(fs['wins'] + fs['ties'] + fs['losses'], 40)
             self.assertIn('no_op_fraction', summary['arms']['prose'])
             self.assertTrue(any(c['comparison'] == 'executable - prose' for c in summary['comparisons']))
+            self.assertIn('final_near_copies_of_funsearch', summary['arms']['none'])
+            audit = json.loads((out / 'audit.json').read_text())
+            for sim in audit['similarity'].values():
+                if 'agreement_with_funsearch' in sim:
+                    self.assertTrue(0 <= sim['agreement_with_funsearch'] <= 1)
 
 
 if __name__ == '__main__':
