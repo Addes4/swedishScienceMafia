@@ -65,7 +65,11 @@ On FunSearch's Weibull heuristic this keeps `(bins - max_bin_cap) ** 2 / item`, 
 the differencing step, and drops the `bins ** 2 / item ** 2` and `bins ** 2 / item ** 3` terms
 (public 0.9925 → 0.9920, hidden 0.9928 → 0.9925).
 Simplifying evolved programs is standard in genetic programming (survey: Javed, Gobet and Lane
-2022); the two-sided check is there so the explanation describes the program actually found.
+2022, [doi:10.1007/s10618-022-00830-7](https://doi.org/10.1007/s10618-022-00830-7)); the two-sided
+check is there so the explanation describes the program actually found.
+
+Design decisions, deviations from the spec, bugs fixed, limitations and the spec itself:
+[LOOP.md](LOOP.md).
 
 ## Triage: System 1 decides where to look, System 2 does the work
 
@@ -179,6 +183,7 @@ sort key, which is why the tier comes from a Choice question and P(improve) only
 |---|---|
 | `loop.py` | the one-command loop: search, audit, baselines, explanation, report |
 | `explain_code.py` | two-sided ablation of a program's statements and sum terms |
+| `LOOP.md` | design notes and build log of `loop.py` and `explain_code.py` |
 | `triage.py` | the triage loop and CLI |
 | `rankers.py` | Jev, Claude and random rankers |
 | `claude.py` | idea proposal and implementation calls, prompts, cost accounting |

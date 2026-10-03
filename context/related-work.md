@@ -93,6 +93,10 @@ property-testing library (de Vries 2023).
 - Pelleriti et al. † (121 runs, 10,672 programs) find that constant tuning is the most common
   edit. About 30% of added lines re-add previously deleted code. On 13 of 15 runs, 24 Bayesian
   optimisation calls on an intermediate program's constants matched the run's final best.
+- Javed, Gobet & Lane 2022 survey program simplification in genetic programming. `autoresearch/explain_code.py`
+  (the explanation step of `python -m autoresearch.loop`) is an instance of it: single-part ablation, then
+  a greedy minimal program accepted only within ±0.002 on both sides, so repairs are not reported as
+  explanations.
 - Classic genetic-programming work (Nordin et al. 1996; Langdon & Poli 1998) explains why inert
   terms accumulate under selection, as 8 of our winner's 11 terms did.
 
@@ -287,6 +291,7 @@ By part:
   - Pelleriti et al. 2026 † ([2605.20086](https://arxiv.org/abs/2605.20086)).
   - Li et al. 2026 (DeepMind), distilling AlphaEvolve discoveries by hand ([2602.16928](https://arxiv.org/abs/2602.16928)).
   - Langdon & Poli 1998; Nordin, Francone & Banzhaf 1996.
+  - Javed, Gobet & Lane 2022, survey of GP simplification ([doi:10.1007/s10618-022-00830-7](https://doi.org/10.1007/s10618-022-00830-7)); Kinzett, Zhang & Johnston 2010 on noise in numerical simplification ([doi:10.1109/CEC.2010.5586181](https://doi.org/10.1109/CEC.2010.5586181)).
 - **Strategist:**
   - Restarts: MetaMax, György & Kocsis 2011 † ([1401.3894](https://arxiv.org/abs/1401.3894)); Luby, Sinclair & Zuckerman 1993; bet-and-run (Friedrich, Kötzing & Wagner 2017).
   - Adaptive operator selection: Da Costa et al. 2008; Fialho et al. 2008, 2010.

@@ -42,7 +42,8 @@ Every default is the setting that won one of our controlled experiments; the res
    program actually found. One-sided simplification repaired 21 of 43 worse candidates toward
    best-fit in [simplify-v1](experiments/simplify-v1/EXPERIMENT.md); here a removal that raises the
    score is labelled `REPAIRED (not an explanation)`. Program simplification itself is standard in
-   genetic programming (survey: Javed, Gobet and Lane 2022).
+   genetic programming (survey: Javed, Gobet and Lane 2022,
+   [doi:10.1007/s10618-022-00830-7](https://doi.org/10.1007/s10618-022-00830-7)).
 6. **Compare** with the problem's baselines on the same public and hidden instances. Cheap baselines
    can match FunSearch ([bp-ceiling-v1](experiments/bp-ceiling-v1/RESULTS.md)), so a gain is
    stated against them.
@@ -58,6 +59,7 @@ Off by default, available as flags or modules:
 | `--no-gate` | For problems with one public instance the gate has nothing to archive; elsewhere it is on |
 
 All flags: `python -m autoresearch.loop --help` and [autoresearch/README.md](autoresearch/README.md#one-command-loop).
+Design decisions, limitations and the build log: [autoresearch/LOOP.md](autoresearch/LOOP.md).
 
 ### Add a problem
 
