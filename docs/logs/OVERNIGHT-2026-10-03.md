@@ -48,7 +48,7 @@ answering one design question for the final framework.
 | 19:50 | User added the Anthropic and TypeSafe (Jev) keys; verified with one Haiku call. User pasted the Devin task (below) into Devin. |
 | 19:55 | Memory-ablation pilot null (no promotions in the 80-item regime). Go-ahead to run the confirmatory study in the Weibull 5k code regime, merging the `bp-ceiling` adapter. |
 | 20:00 | User asked that everything be documented. The documentation standard was sent to all agents. |
-| 20:05 | The literature-review session (`docs/related-work`) sent findings; they were relayed to each agent as secondary analyses. That session also relayed a user approval for the full tournament; it was not acted on until the user confirmed directly. That session's own record is [docs/logs/related-work-log.md](related-work-log.md). |
+| 20:05 | The literature-review session (`docs/related-work`) sent findings; they were relayed to each agent as secondary analyses. That session also relayed a user approval for the full tournament; it was not acted on until the user confirmed directly. That session's own record is [docs/logs/related-work-log.md](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/docs/logs/related-work-log.md). |
 | 20:10 | User confirmed the full tournament: Anthropic cap $75, Modal cap raised to $75. |
 | 20:20 | Asked whether the experiments were worth it, the user chose to keep the tournament design (5 arms × 3 problems × 4 seeds at $1.10 per run) and the 114-idea table, over the suggested alternatives. |
 | 21:30 | Credit exhausted (incident 1). |

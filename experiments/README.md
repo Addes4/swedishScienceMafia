@@ -58,4 +58,4 @@ bin-packing run on an open model and a mock Erdős squares run, with the live-de
 
 How these results relate to published work is in [docs/literature/related-work.md](../docs/literature/related-work.md)
 (about 60 papers) and [docs/literature/related-work-addendum.md](../docs/literature/related-work-addendum.md)
-(open questions). Independent reviews of four studies are in [docs/reviews/](../docs/reviews/README.md).
+(open questions). Independent reviews of three studies are in [docs/reviews/](../docs/reviews/README.md).
