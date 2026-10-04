@@ -1,0 +1,165 @@
+[loop] bp_sh_b200 -> /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_b200-s3
+[start] loop__bp_sh_b200__s3: arm lean (lean) on bp_sh_b200, seed 3, cap $0.20
+  initial          score 0.9444
+  step  1 edit    not_better    score 0.9444  best 0.9444  $0.0003  Replace pure best-fit with a "best-fit among sufficiently-fu
+  step  2 edit    not_better    score 0.9444  best 0.9444  $0.0003  Replace pure best-fit with a balance-aware rule that is the 
+  step  3 edit    not_better    score 0.9444  best 0.9444  $0.0007  Add a small residual-usefulness bonus to best fit: score by 
+  step  4 edit    not_better    score 0.6039  best 0.9444  $0.0004  Replace pure best-fit with a hybrid rule: use best-fit when 
+  step  5 edit    not_better    score 0.9444  best 0.9444  $0.0005  Replace pure best-fit with a bounded "waste" rule: score bin
+  step  6 edit    not_better    score 0.7056  best 0.9444  $0.0004  I'll implement a follow-up-aware rule based on the "sum of s
+  step  7 edit    not_better    score 0.9444  best 0.9444  $0.0005  I'll implement a "best fit with a stay-small tie-break" rule
+  step  8 edit    not_better    score 0.9444  best 0.9444  $0.0005  I'll replace pure best-fit with a mathematically-grounded ru
+  step  9 edit    not_better    score 0.9444  best 0.9444  $0.0004  I'll try a tie-broken best-fit that uses bin index awareness
+  step 10 edit    improved      score 0.9446  best 0.9446  $0.0005  Replace pure best-fit with a randomized variant of Best-Fit 
+  step 11 edit    not_better    score 0.9444  best 0.9446  $0.0006  Replace the crude occasional least-full diversion with a sof
+  step 12 edit    not_better    score 0.9444  best 0.9446  $0.0006  Replace the periodic least-full diversion with an adaptive b
+  step 13 edit    not_better    score 0.9446  best 0.9446  $0.0005  I will add a lightweight "reserve large bins" tweak: keep be
+  step 14 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the crude periodic least-full diversion with a 
+  step 15 edit    not_better    score 0.9444  best 0.9446  $0.0006  I will replace the periodic least-full diversion with a dete
+  step 16 edit    not_better    score 0.9442  best 0.9446  $0.0005  I'll implement a proper "best fit decreasing"-style approach
+  step 17 edit    not_better    score 0.9446  best 0.9446  $0.0005  I'll replace pure best-fit with a "sum-of-squares" best fit:
+  step 18 edit    not_better    score 0.9444  best 0.9446  $0.0005  I will switch the bin-choice rule from best-fit (minimize po
+  step 19 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the crude periodic least-full diversion with a 
+  step 20 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the periodic least-full diversion with a bounde
+  step 21 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the crude periodic least-full diversion with a 
+  step 22 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the rule with a Gaussian-fit / "residual value"
+  step 23 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll switch to a "best fit with future-aware residual reject
+  step 24 edit    not_better    score 0.9444  best 0.9446  $0.0007  I'll replace the fixed periodic least-full diversion with an
+  step 25 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the crude periodic diversion with a "fuller-bin
+  step 26 edit    not_better    score 0.9444  best 0.9446  $0.0005  I will replace the periodic least-full diversion with an ada
+  step 27 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the rule with an "adaptive best-fit plus a pers
+  step 28 edit    not_better    score 0.9444  best 0.9446  $0.0005  I will use a proper "best fit decreasing-like" trick adapted
+  step 29 edit    not_better    score 0.9444  best 0.9446  $0.0005  Add a small deterministic tie-break that prefers bins with m
+  step 30 edit    not_better    score 0.9444  best 0.9446  $0.0005  Replace the deterministic periodic least-full diversion with
+  step 31 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the periodic least-full diversion with a determ
+  step 32 edit    not_better    score 0.9444  best 0.9446  $0.0005  Replace the ad-hoc periodic diversion with a deterministic, 
+  step 33 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc periodic diversion with strict best-
+  step 34 edit    not_better    score 0.5080  best 0.9446  $0.0005  I'll replace best-fit with a "best-fit with residual-gap awa
+  step 35 edit    not_better    score 0.9444  best 0.9446  $0.0006  I will replace the periodic least-full diversion with a "bes
+  step 36 edit    not_better    score 0.9433  best 0.9446  $0.0005  The periodic least-full diversion currently uses a fixed 50-
+  step 37 edit    not_better    score 0.9444  best 0.9446  $0.0006  I will replace the ad-hoc periodic least-full diversion with
+  step 38 edit    not_better    score 0.9439  best 0.9446  $0.0006  I'll replace the priority rule with a "best-fit that only fi
+  step 39 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the periodic least-full diversion with a statef
+  step 40 edit    not_better    score 0.9346  best 0.9446  $0.0005  I'll replace the periodic deterministic diversion with a rar
+  step 41 edit    not_better    score 0.9444  best 0.9446  $0.0007  I'll tune the existing diversification: change the diversion
+  step 42 edit    not_better    score 0.9424  best 0.9446  $0.0005  I will replace the fragile periodic diversion with a tuned d
+  step 43 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc periodic diversion with a principled
+  step 44 edit    not_better    score 0.9226  best 0.9446  $0.0004  I will replace the periodic diversion with a state-free rule
+  step 45 edit    not_better    score 0.9444  best 0.9446  $0.0006  I will replace the periodic diversification with a classic, 
+  step 46 edit    not_better    score 0.9444  best 0.9446  $0.0006  Replace the periodic worst-fit diversion with a proper harmo
+  step 47 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll combine best-fit with a "best-fit-decreasing-style" sub
+  step 48 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll switch from the periodic worst-fit diversion to the wel
+  step 49 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc periodic diversion with a principled
+  step 50 edit    not_better    score 0.9437  best 0.9446  $0.0005  I will replace the arbitrary periodic worst-fit diversion wi
+  step 51 edit    not_better    score 0.8857  best 0.9446  $0.0006  I'll replace the ad-hoc periodic diversion with the well-kno
+  step 52 edit    not_better    score 0.9426  best 0.9446  $0.0005  I will keep the proven best-fit-plus-periodic-diversion stru
+  step 53 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the periodic worst-fit diversion with a determi
+  step 54 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the periodic worst-fit diversion with a smoothe
+  step 55 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll keep pure best-fit as the base but add a small, sharply
+  step 56 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc periodic diversion with a principled
+  step 57 edit    not_better    score 0.8699  best 0.9446  $0.0006  I'll replace the periodic worst-fit diversion with a "best f
+  step 58 edit    not_better    score 0.9437  best 0.9446  $0.0005  I'll replace the arbitrary periodic single-bin diversion wit
+  step 59 edit    improved      score 0.9453  best 0.9453  $0.0005  I will replace the ad-hoc periodic diversion with a hybrid t
+  step 60 edit    not_better    score 0.9282  best 0.9453  $0.0006  I will make the periodic diversion self-tuning: instead of a
+  step 61 edit    not_better    score 0.9430  best 0.9453  $0.0005  I'll replace the fixed-period modulo diversion with a self-t
+  step 62 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the single fixed modulo target with a "match co
+  step 63 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll keep the periodic modulo-consolidation diversion but bl
+  step 64 edit    not_better    score 0.9442  best 0.9453  $0.0006  
+  step 65 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll replace the periodic modulo diversion with a stateless 
+  step 66 edit    not_better    score 0.9285  best 0.9453  $0.0005  I'll switch from best-fit to a "least-loaded-bin-that-still-
+  step 67 edit    not_better    score 0.9444  best 0.9453  $0.0006  Replace the weak periodic modulo diversion with a well-known
+  step 68 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll replace the periodic heuristic entirely with a clean sc
+  step 69 edit    not_better    score 0.9444  best 0.9453  $0.0005  The current periodic diversion is too rare and uses a fixed 
+  step 70 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the periodic modulo diversion with a proper alw
+  step 71 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll switch from best-fit to a "harmonic/score-based" packin
+  step 72 edit    not_better    score 0.9444  best 0.9453  $0.0006  Replace the rare periodic modulo diversion with an always-on
+  step 73 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll replace the periodic modulo diversion with an always-on
+  step 74 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll replace the weak periodic modulo-consolidation with an 
+  step 75 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the fragile, heuristic scoring with a principle
+  step 76 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll switch from best-fit to worst-fit-within-window: among 
+  step 77 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the heuristics with a standardized best-fit var
+  step 78 edit    not_better    score 0.9444  best 0.9453  $0.0009  I'll replace best-fit with a "best-fit by matching to a cano
+  step 79 edit    not_better    score 0.9444  best 0.9453  $0.0019  Instead of ad-hoc residual preferences, I'll use a principle
+  step 80 edit    not_better    score 0.9444  best 0.9453  $0.0006  I will replace the ad-hoc heuristic with a principled best-f
+  step 81 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the ineffective periodic modulo heuristic with 
+  step 82 edit    not_better    score 0.9444  best 0.9453  $0.0006  Replace best-fit with a "tighten to fill" rule: rank bins so
+  step 83 edit    not_better    score 0.9444  best 0.9453  $0.0005  The best-fit baseline is solid; I'll add a small determinist
+  step 84 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the rare periodic diversion with an always-on b
+  step 85 edit    not_better    score 0.9426  best 0.9453  $0.0007  I'll switch from best-fit to a "worst-fit among nearly-full 
+  step 86 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll abandon the ineffective residual-modulo heuristics and 
+  step 87 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the ad-hoc periodic diversion with the classic 
+  step 88 edit    not_better    score 0.9444  best 0.9453  $0.0006  Replace best-fit with a portfolio-free "least-loaded bin tha
+  step 89 edit    not_better    score 0.9444  best 0.9453  $0.0005  Replace the heuristic with a scaled "best fit plus gentle wo
+  step 90 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the heuristic with a proper harmonic-style rank
+  step 91 edit    not_better    score 0.9404  best 0.9453  $0.0007  I'll implement a "best-fit with bounded worst-fit tie-break"
+  step 92 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the ineffective periodic modulo diversion with 
+  step 93 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the heuristic with a tuned online "subset-sum a
+  step 94 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the periodic modulo diversion with pure best-fi
+  step 95 edit    invalid       score 0.0000  best 0.9453  $0.0006  I'll replace the periodic diversion with a consistently stro
+  step 96 edit    not_better    score 0.9444  best 0.9453  $0.0005  Replace the intermittent modulo diversion with a steady, wel
+  step 97 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the periodic modulo diversion with a stateful "
+  step 98 edit    not_better    score 0.9444  best 0.9453  $0.0005  Replace the ineffective periodic modulo diversion with a ful
+  step 99 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the rule with classic "Best Fit" (smallest post
+  step 100 edit    not_better    score 0.9448  best 0.9453  $0.0008  Make the modulo-consolidation diversion trigger based on the
+  step 101 edit    invalid       score 0.0000  best 0.9453  $0.0006  I'll replace the heuristic with a stateful "match-pair" rule
+  step 102 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll make the modulo-consolidation diversion more aggressive
+  step 103 edit    not_better    score 0.9442  best 0.9453  $0.0008  Replace the modulo diversion with a safe online item-size hi
+  step 104 edit    not_better    score 0.9444  best 0.9453  $0.0005  Pure best-fit is a strong baseline, but ties among bins with
+  step 105 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll add a stateful tie-break that, when several bins give t
+  step 106 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll switch to a stateful best-fit variant that tracks the e
+  step 107 edit    not_better    score 0.9444  best 0.9453  $0.0006  Replace the fragile modulo-periodic diversion with a robust 
+  step 108 edit    not_better    score 0.9444  best 0.9453  $0.0007  Refine tie-breaking: keep best-fit as the dominant term but 
+  step 109 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the fragile periodic modulo-diversion with a ro
+  step 110 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll implement a proper O(1) perceptron-style online learnin
+  step 111 edit    not_better    score 0.9444  best 0.9453  $0.0007  I'll replace the fragile periodic modulo-diversion with a ro
+  step 112 edit    not_better    score 0.9444  best 0.9453  $0.0005  The periodic modulo diversion hurt more than it helped; I'll
+  step 113 edit    not_better    score 0.9444  best 0.9453  $0.0007  (no description)
+  step 114 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace best-fit with a stateful "best fit plus lookahe
+  step 115 edit    not_better    score 0.9393  best 0.9453  $0.0006  I'll make the diversion less fragile: instead of a fixed mod
+  step 116 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace best-fit with a distribution-aware "fit-plus-wa
+  step 117 edit    not_better    score 0.9413  best 0.9453  $0.0005  I'll replace the fragile periodic modulo diversion with a de
+  step 118 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the fragile periodic modulo diversion with a sm
+  step 119 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the fragile periodic modulo diversion with a ro
+  step 120 edit    not_better    score 0.9444  best 0.9453  $0.0005  Replace the fragile scoring with pure best-fit implemented a
+  step 121 edit    not_better    score 0.9444  best 0.9453  $0.0005  I'll switch from pure best-fit to a "best fit plus avoid-new
+  step 122 edit    not_better    score 0.9426  best 0.9453  $0.0005  I'll use a randomized "best-fit with small probability of wo
+  step 123 edit    not_better    score 0.9444  best 0.9453  $0.0008  I'll replace the fragile periodic modulo diversion with an a
+  step 124 edit    not_better    score 0.9453  best 0.9453  $0.0006  I'll switch to a tuned "best fit" variant that only diverts 
+  step 125 edit    not_better    score 0.9444  best 0.9453  $0.0006  Replace the arbitrary periodic modulo diversion with the "sm
+  step 126 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll keep best-fit as the dominant rule but replace the nois
+  step 127 edit    not_better    score 0.9444  best 0.9453  $0.0005  Replace the fragile periodic modulo diversion with a robust 
+  step 128 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the noisy periodic modulo diversion with a prin
+  step 129 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the noisy periodic modulo diversion with a prin
+  step 130 edit    not_better    score 0.9444  best 0.9453  $0.0005  Use pure best-fit but break ties toward the bin whose residu
+  step 131 edit    not_better    score 0.9444  best 0.9453  $0.0006  I'll replace the noisy periodic modulo diversion with a dete
+  step 132 edit    improved      score 0.9471  best 0.9471  $0.0005  I'll keep best-fit dominant but strengthen the periodic cons
+  step 133 edit    not_better    score 0.9444  best 0.9471  $0.0005  The current periodic diversion is noisy; instead I'll make t
+  step 134 edit    not_better    score 0.9469  best 0.9471  $0.0005  I'll make the consolidation diversion adaptive and stronger:
+  step 135 edit    not_better    score 0.9444  best 0.9471  $0.0006  
+  step 136 edit    improved      score 0.9478  best 0.9478  $0.0005  I'll replace the noisy fixed-period modulo diversion with an
+  step 137 edit    not_better    score 0.9458  best 0.9478  $0.0005  I'll make diversion much more selective and tie it to the ac
+  step 138 edit    not_better    score 0.9446  best 0.9478  $0.0005  I'll replace the noisy periodic diversion with a smooth, alw
+  step 139 edit    not_better    score 0.9444  best 0.9478  $0.0005  I'll replace the modulo-of-mean diversion with a "worst-fit-
+  step 140 edit    not_better    score 0.9417  best 0.9478  $0.0006  I'll replace the noisy modulo-mean diversion with a principl
+  step 141 edit    not_better    score 0.9442  best 0.9478  $0.0006  Replace the fixed period-3 modulo diversion with a diversion
+  step 142 edit    not_better    score 0.7469  best 0.9478  $0.0006  I'll replace the heuristic modulo-mean diversion with a stro
+  step 143 edit    not_better    score 0.9290  best 0.9478  $0.0006  I'll replace the diversion criterion with a smooth, always-o
+  step 144 edit    not_better    score 0.8913  best 0.9478  $0.0006  I'll make diversion deterministic and targeted: always use b
+  step 145 edit    not_better    score 0.9444  best 0.9478  $0.0006  I'll keep best-fit as the default but make the diversion dep
+  step 146 edit    not_better    score 0.9444  best 0.9478  $0.0006  Use a deterministic "sliver-aware best fit": default to best
+  step 147 edit    not_better    score 0.9173  best 0.9478  $0.0006  Replace the noisy fixed-period modulo-mean diversion with a 
+  step 148 edit    not_better    score 0.9426  best 0.9478  $0.0006  Replace the modulo-mean diversion with a proper "floor best-
+  step 149 edit    not_better    score 0.9478  best 0.9478  $0.0006  I'll keep the same modulo-consolidation diversion structure 
+  step 150 edit    not_better    score 0.9444  best 0.9478  $0.0005  I'll replace the best-fit base with a harmonic-style "smooth
+[done] loop__bp_sh_b200__s3: status ok, spent $0.0868 of $0.20, 150 calls, 151 evals, public 0.9443906996297546 -> 0.9477577412656857, hidden 0.9640868145500341
+  baseline funsearch_or           public 0.9552  hidden 0.9711
+  baseline funsearch_weibull      public 0.8723  hidden 0.9937
+  baseline sum_of_squares         public 0.9200  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bp_sh_b200: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.0868 of $0.20 cap, 150 calls, 151 evals, search 1326 s
+public    0.9444 -> 0.9478   (initial -> final incumbent; selected on)
+hidden    0.9634 -> 0.9641   (fresh audit, never selected on)
+baselines funsearch_or 0.9552/0.9711, funsearch_weibull 0.8723/0.9937, sum_of_squares 0.9200/0.9950
+explain   14 parts: 1 can go, 0 REPAIRED; minimal program public 0.9478, hidden 0.9641
+report    /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_b200-s3/report.md

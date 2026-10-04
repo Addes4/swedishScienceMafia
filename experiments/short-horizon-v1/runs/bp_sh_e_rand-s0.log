@@ -1,0 +1,165 @@
+[loop] bp_sh_e_rand -> /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_e_rand-s0
+[start] loop__bp_sh_e_rand__s0: arm lean (lean) on bp_sh_e_rand, seed 0, cap $0.20
+  initial          score 0.9727
+  step  1 edit    not_better    score 0.9727  best 0.9727  $0.0003  Replace pure best-fit with a hybrid rule: mostly best-fit, b
+  step  2 edit    not_better    score 0.9727  best 0.9727  $0.0003  I'll implement a "best fit with bounded waste" variant of fi
+  step  3 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace pure best-fit with a two-region rule: prefer th
+  step  4 edit    not_better    score 0.9727  best 0.9727  $0.0004  The previous attempts all stayed close to best-fit and lost 
+  step  5 edit    invalid       score 0.0000  best 0.9727  $0.0006  I'll implement a small, safe twist on best-fit: keep pure be
+  step  6 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace pure best-fit with a score that adds a learned 
+  step  7 edit    improved      score 0.9761  best 0.9761  $0.0005  I'll implement a harmonic-style rule: prefer best-fit but wi
+  step  8 edit    not_better    score 0.9698  best 0.9761  $0.0005  I'll switch to the classic "Best Fit with harmonic residual 
+  step  9 edit    not_better    score 0.9753  best 0.9761  $0.0005  I'll generalize the residual-waste penalty so any residual a
+  step 10 edit    not_better    score 0.9685  best 0.9761  $0.0006  I'll replace the fixed waste threshold with a dynamic one de
+  step 11 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the fixed waste penalty with a width-adaptive "
+  step 12 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll implement a "smart best-fit with active-bin concentrati
+  step 13 edit    not_better    score 0.9753  best 0.9761  $0.0006  Build on the current harmonic best-fit by adding a mild "gap
+  step 14 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the fixed waste threshold with a scale-invarian
+  step 15 edit    not_better    score 0.9739  best 0.9761  $0.0006  I'll implement the classic Harmonic-K style bin-choice: rank
+  step 16 edit    not_better    score 0.9761  best 0.9761  $0.0006  I'll add a small tie-breaking bonus that favors leaving a re
+  step 17 edit    not_better    score 0.9685  best 0.9761  $0.0006  I'll shift from a fixed waste threshold to a scale-relative 
+  step 18 edit    not_better    score 0.9736  best 0.9761  $0.0007  I'll replace the waste-threshold penalty with a cleaner "res
+  step 19 edit    not_better    score 0.9633  best 0.9761  $0.0005  I'll make the waste penalty finer-grained: instead of a flat
+  step 20 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the fixed waste penalty with a learned approach
+  step 21 edit    not_better    score 0.9727  best 0.9761  $0.0007  Replace the threshold-based waste penalty with a smooth scal
+  step 22 edit    not_better    score 0.9727  best 0.9761  $0.0006  Switch the base rule from best-fit (fullest bin) to a "resid
+  step 23 edit    not_better    score 0.9727  best 0.9761  $0.0005  Replace the hand-tuned waste penalty with a principled bound
+  step 24 edit    not_better    score 0.9761  best 0.9761  $0.0006  I'll implement a proper Harmonic-style ranking: instead of p
+  step 25 edit    gate_rejected score 0.9769  best 0.9761  $0.0006  Replace pure best-fit with the classic Harmonic rule: partit
+  step 26 edit    not_better    score 0.9719  best 0.9761  $0.0006  Replace the flat waste penalty with a "least-waste best-fit"
+  step 27 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll switch the tie-break from "waste penalty" to a scale-fr
+  step 28 edit    not_better    score 0.9761  best 0.9761  $0.0005  I'll replace the hand-tuned waste penalty with a proper Harm
+  step 29 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll implement a proper Harmonic-style class rule: classify 
+  step 30 edit    not_better    score 0.9718  best 0.9761  $0.0005  I will replace the ad-hoc waste penalty with a bounded "best
+  step 31 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll keep best-fit as the primary key but replace the flat w
+  step 32 edit    invalid       score 0.0000  best 0.9761  $0.0006  I'll replace the heuristic with a principled "best-fit with 
+  step 33 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the heuristic scoring with a proper Harmonic-st
+  step 34 edit    not_better    score 0.9727  best 0.9761  $0.0005  I will add a second-phase tie-break that prefers placing int
+  step 35 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll implement the classic "best fit plus a small constant b
+  step 36 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the fixed waste penalty with a data-driven "res
+  step 37 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll switch from a heuristic waste penalty to a first-fit-de
+  step 38 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll replace the ad-hoc waste penalty with a bounded score t
+  step 39 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll replace the heuristic with a Djang & Finch-style "best 
+  step 40 edit    not_better    score 0.9682  best 0.9761  $0.0006  I will implement a "rank by best-fit but skip bins that woul
+  step 41 edit    not_better    score 0.9727  best 0.9761  $0.0004  I'll switch the rule to classic Best-Fit (rank by smallest p
+  step 42 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll switch to a Harmonic-style rule: partition bin capaciti
+  step 43 edit    not_better    score 0.9718  best 0.9761  $0.0007  Implement a learned online "residual value" ranking: maintai
+  step 44 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a capacity-class 
+  step 45 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll add a bounded bonus for bins whose post-placement resid
+  step 46 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll replace the ad-hoc waste penalty with the classic Best-
+  step 47 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll tune the existing best-fit-plus-waste-penalty rule by m
+  step 48 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll add a smarter tie-break: rank primarily by smallest pos
+  step 49 edit    not_better    score 0.9727  best 0.9761  $0.0005  The waste penalty should only punish residuals too small to 
+  step 50 edit    not_better    score 0.9742  best 0.9761  $0.0005  Introduce a two-term score that combines the classic "best f
+  step 51 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc penalty with a proper "least-likely-
+  step 52 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll switch from the hand-tuned waste penalty to a cleaner f
+  step 53 edit    invalid       score 0.0000  best 0.9761  $0.0005  I'll replace the ad-hoc waste penalty with a principled rule
+  step 54 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll implement a "best fit with harmonic/almost-worst tie ha
+  step 55 edit    not_better    score 0.9724  best 0.9761  $0.0005  Replace the ad-hoc waste penalty with a "best fit decreasing
+  step 56 edit    not_better    score 0.9725  best 0.9761  $0.0005  I'll try the classic "harmonic/dominant" online heuristic: r
+  step 57 edit    not_better    score 0.9701  best 0.9761  $0.0005  I'll replace the ad-hoc waste penalty with the classic "Best
+  step 58 edit    not_better    score 0.9718  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a score based on 
+  step 59 edit    not_better    score 0.9730  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a "best fit plus 
+  step 60 edit    not_better    score 0.9718  best 0.9761  $0.0007  The current waste penalty is a fixed threshold applied unifo
+  step 61 edit    not_better    score 0.7236  best 0.9761  $0.0005  I'll replace the ad-hoc waste penalty with "Worst Fit" among
+  step 62 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the fixed-threshold waste penalty with an onlin
+  step 63 edit    not_better    score 0.9708  best 0.9761  $0.0005  I'll change the base rule from best-fit to a scaled "almost-
+  step 64 edit    not_better    score 0.9535  best 0.9761  $0.0005  The current rule is best-fit with a small waste penalty. The
+  step 65 edit    not_better    score 0.6509  best 0.9761  $0.0006  I'll replace the fixed waste threshold with a data-driven pe
+  step 66 edit    not_better    score 0.9747  best 0.9761  $0.0006  I'll switch the base rule from best-fit to worst-fit-among-f
+  step 67 edit    not_better    score 0.9738  best 0.9761  $0.0005  I'll refine the waste penalty to use a two-tier scheme with 
+  step 68 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the ad-hoc fixed waste penalty with a principle
+  step 69 edit    invalid       score 0.0000  best 0.9761  $0.0007  I'll add a small data-driven residual-matching bonus/penalty
+  step 70 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll replace the simplistic fixed-threshold waste penalty wi
+  step 71 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the fixed waste penalty with a smooth, adaptive
+  step 72 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the ad-hoc waste penalty with an online-learned
+  step 73 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a principled "mat
+  step 74 edit    not_better    score 0.9761  best 0.9761  $0.0005  I'll revert to the simple best-fit plus flat waste penalty (
+  step 75 edit    not_better    score 0.9724  best 0.9761  $0.0006  I'll replace the flat waste penalty with an asymmetric rule:
+  step 76 edit    not_better    score 0.9759  best 0.9761  $0.0005  I'll switch from pure best-fit to a "best fit with a residua
+  step 77 edit    not_better    score 0.9761  best 0.9761  $0.0005  I'll add a small tie-breaking bonus that prefers placing the
+  step 78 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the ad-hoc waste penalty with a smooth, distrib
+  step 79 edit    not_better    score 0.9727  best 0.9761  $0.0006  Replace the ad-hoc waste penalty with the well-known Harmoni
+  step 80 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll replace the tie-breaking-only tweaks with a genuinely d
+  step 81 edit    not_better    score 0.9725  best 0.9761  $0.0005  I'll bias best-fit toward keeping bins on the "capacity clas
+  step 82 edit    not_better    score 0.9727  best 0.9761  $0.0007  Best-fit alone ignores whether the leftover capacity is usab
+  step 83 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll switch to a scale-aware best-fit rule that derives the 
+  step 84 edit    not_better    score 0.9727  best 0.9761  $0.0007  I will replace the wasteful heuristic tweaks with a principl
+  step 85 edit    not_better    score 0.9727  best 0.9761  $0.0007  (no description)
+  step 86 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the current heuristic with a scale-aware "resid
+  step 87 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll switch from the ad-hoc waste penalty to a well-aged "be
+  step 88 edit    not_better    score 0.9728  best 0.9761  $0.0005  I'll replace the ad-hoc waste heuristic with a proper Worst-
+  step 89 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll discard the ad-hoc waste penalty and go back to a clean
+  step 90 edit    not_better    score 0.9725  best 0.9761  $0.0007  Implement the classic Harmonic (H_k) online bin-packing rule
+  step 91 edit    not_better    score 0.9728  best 0.9761  $0.0006  Refine the waste penalty to be maximized for the smallest no
+  step 92 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll implement a "best fit with aging/spread" variant used i
+  step 93 edit    not_better    score 0.9727  best 0.9761  $0.0008  Add an online-learned "waste" correction: track the empirica
+  step 94 edit    not_better    score 0.9704  best 0.9761  $0.0006  I'll replace the flat waste penalty with a data-driven "resi
+  step 95 edit    not_better    score 0.9716  best 0.9761  $0.0005  I'll replace the ad-hoc penalty with a classic, theory-backe
+  step 96 edit    not_better    score 0.6047  best 0.9761  $0.0006  The current rule is essentially Best Fit plus a small penalt
+  step 97 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll keep the best-fit base but replace the flat tiny-residu
+  step 98 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc residual penalty with the classic Be
+  step 99 edit    not_better    score 0.8689  best 0.9761  $0.0006  I'll replace the residual-threshold heuristic with a proper 
+  step 100 edit    not_better    score 0.9724  best 0.9761  $0.0005  The current best-fit-plus-small-waste-penalty is strong; I'l
+  step 101 edit    not_better    score 0.9716  best 0.9761  $0.0005  I'll add a small deterministic tie-breaking refinement: keep
+  step 102 edit    not_better    score 0.9727  best 0.9761  $0.0005  Strengthen the pure best-fit rule by removing the destabiliz
+  step 103 edit    not_better    score 0.9727  best 0.9761  $0.0005  Best Fit alone is already near-optimal here, so I'll switch 
+  step 104 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the fixed waste penalty with an adaptive "best-
+  step 105 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll discard the ad-hoc waste penalty and implement a proper
+  step 106 edit    not_better    score 0.9727  best 0.9761  $0.0005  Replace the fragile hand-tuned waste penalty with pure, exac
+  step 107 edit    not_better    score 0.9733  best 0.9761  $0.0008  I'll implement a proper harmonic-style bucketing on the item
+  step 108 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll keep the strong best-fit core but replace the fixed was
+  step 109 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a proper Best-Fit
+  step 110 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a harmonic-class 
+  step 111 edit    not_better    score 0.9727  best 0.9761  $0.0008  I'll replace the ad-hoc heuristic with a proper Best-Fit-Dec
+  step 112 edit    not_better    score 0.9728  best 0.9761  $0.0005  I'll strengthen the original waste-penalty idea into a princ
+  step 113 edit    not_better    score 0.9727  best 0.9761  $0.0005  The ad-hoc fixed-threshold waste penalty is fragile; I'll re
+  step 114 edit    not_better    score 0.9652  best 0.9761  $0.0005  I'll replace the ad-hoc fixed waste penalty with an exact Be
+  step 115 edit    not_better    score 0.9738  best 0.9761  $0.0007  I'll replace the ad-hoc fixed waste penalty with a principle
+  step 116 edit    not_better    score 0.9722  best 0.9761  $0.0005  I'll switch the core ranking from "best fit" (which greedily
+  step 117 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll generalize the ad-hoc fixed waste penalty into a tunabl
+  step 118 edit    not_better    score 0.9725  best 0.9761  $0.0006  The fixed waste penalty is too blunt; I'll replace it with a
+  step 119 edit    not_better    score 0.9687  best 0.9761  $0.0006  I'll switch to a lower-bound-aware "score = -remaining unles
+  step 120 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll keep the best-fit core but replace the blunt fixed-thre
+  step 121 edit    not_better    score 0.9727  best 0.9761  $0.0006  I notice instances 1 and 2 score ~0.964 while instance 3 is 
+  step 122 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll switch from a heuristic penalty to a proper online-lear
+  step 123 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll try the classic Harmonic-style rule directly: for each 
+  step 124 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the ad-hoc residual-waste penalty with a proper
+  step 125 edit    gate_rejected score 0.9775  best 0.9761  $0.0005  I'll replace the whole scoring rule with the classic online 
+  step 126 edit    not_better    score 0.9750  best 0.9761  $0.0006  I'll keep the proven best-fit core but make the waste penalt
+  step 127 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll keep the best-fit core but replace the ad-hoc residual 
+  step 128 edit    not_better    score 0.9722  best 0.9761  $0.0005  I'll gate the tiniest-residual waste penalty on the item's o
+  step 129 edit    not_better    score 0.9711  best 0.9761  $0.0006  I'll keep the best-fit core but add a directional penalty ba
+  step 130 edit    not_better    score 0.9727  best 0.9761  $0.0006  Replace the fixed residual waste penalty with a principled "
+  step 131 edit    not_better    score 0.9724  best 0.9761  $0.0006  I'll switch the waste penalty from a hard threshold to a smo
+  step 132 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the heuristic waste penalty with a proper harmo
+  step 133 edit    not_better    score 0.9725  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with the well-known "b
+  step 134 edit    not_better    score 0.9727  best 0.9761  $0.0007  The fixed waste penalty threshold of 19 is arbitrary; I'll i
+  step 135 edit    not_better    score 0.9727  best 0.9761  $0.0005  Replace the ad-hoc best-fit-with-waste-penalty with the clas
+  step 136 edit    not_better    score 0.9752  best 0.9761  $0.0008  I'll replace the fixed residual waste threshold (19) with an
+  step 137 edit    not_better    score 0.9727  best 0.9761  $0.0005  I will replace the ad-hoc waste penalty with the classic "be
+  step 138 edit    not_better    score 0.9484  best 0.9761  $0.0006  I'll strengthen the concentration effect by making the resid
+  step 139 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the hard-threshold waste penalty with a princip
+  step 140 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll keep the strong best-fit core but replace the fixed res
+  step 141 edit    invalid       score 0.0000  best 0.9761  $0.0005  I'll replace the ad-hoc waste penalty with a refinement of t
+  step 142 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll keep the best-fit core but replace the ad-hoc waste pen
+  step 143 edit    not_better    score 0.9727  best 0.9761  $0.0006  I'll replace the ad-hoc waste penalty with a principled "res
+  step 144 edit    not_better    score 0.9727  best 0.9761  $0.0007  I'll replace the sharp-threshold waste penalty with a soft r
+  step 145 edit    not_better    score 0.9727  best 0.9761  $0.0005  I will replace the ad-hoc penalty with the classic "best fit
+  step 146 edit    not_better    score 0.9728  best 0.9761  $0.0005  I'll switch from the fixed best-fit-plus-waste rule to a har
+  step 147 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll replace the fixed residual-waste penalty with a smooth,
+  step 148 edit    not_better    score 0.9727  best 0.9761  $0.0005  I'll switch to the standard "best fit decreasing"-inspired r
+  step 149 edit    not_better    score 0.9731  best 0.9761  $0.0005  The previous attempts all hovered near 0.972 while the curre
+  step 150 edit    not_better    score 0.9713  best 0.9761  $0.0005  I'll use a two-phase rule: keep the strong best-fit concentr
+[done] loop__bp_sh_e_rand__s0: status ok, spent $0.0857 of $0.20, 150 calls, 151 evals, public 0.9726805391172123 -> 0.9760859062206612, hidden 0.9654889691006243
+  baseline funsearch_or           public 0.9802  hidden 0.9711
+  baseline funsearch_weibull      public 0.9958  hidden 0.9937
+  baseline sum_of_squares         public 0.9968  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bp_sh_e_rand: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.0857 of $0.20 cap, 150 calls, 151 evals, search 2000 s
+public    0.9727 -> 0.9761   (initial -> final incumbent; selected on)
+hidden    0.9634 -> 0.9655   (fresh audit, never selected on)
+baselines funsearch_or 0.9802/0.9711, funsearch_weibull 0.9958/0.9937, sum_of_squares 0.9968/0.9950
+explain   7 parts: 0 can go, 0 REPAIRED; minimal program public 0.9761, hidden 0.9655
+report    /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_e_rand-s0/report.md

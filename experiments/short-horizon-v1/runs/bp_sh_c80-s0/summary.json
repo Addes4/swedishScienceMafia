@@ -1,0 +1,77 @@
+{
+  "job_id": "loop__bp_sh_c80__s0",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/problems/bp_sh_c80",
+  "seed": 0,
+  "mock": false,
+  "cap_usd": 0.2,
+  "spent_usd": 0.090931,
+  "within_cap": true,
+  "tokens": 311191,
+  "calls": 150,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 150
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 150
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.090931
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 151,
+  "valid_evals": 149,
+  "evals_with_timeout": 1,
+  "instance_timeouts": 2,
+  "initial_public": 0.9348974407823712,
+  "initial_hidden": 0.9633920746934446,
+  "final_public": 0.9351125218343016,
+  "final_hidden": 0.9624633310551027,
+  "final_sha": "0d5e1e3543740c25",
+  "max_public_seen": 0.9351125218343016,
+  "hidden_of_max_public_seen": 0.9624633310551027,
+  "improvements": 1,
+  "usd_per_improvement": 0.090931,
+  "tokens_per_improvement": 311191,
+  "auc": 0.935061,
+  "auc_gain": 0.002505,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1606.4,
+  "status": "ok",
+  "arm_result": "max_iters",
+  "completion": "stopped_early",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.090931,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.8,
+      "t": 1791089177.289706,
+      "incumbent_public": 0.9348974407823712,
+      "incumbent_hidden": 0.9633920746934446,
+      "sha": "609927c5ea619a94"
+    },
+    {
+      "spent_usd": 0.048343,
+      "budget_frac": 0.241715,
+      "tokens": 162240,
+      "wall_s": 886.8,
+      "t": 1791090058.245047,
+      "incumbent_public": 0.9351125218343016,
+      "incumbent_hidden": 0.9624633310551027,
+      "sha": "0d5e1e3543740c25"
+    }
+  ]
+}

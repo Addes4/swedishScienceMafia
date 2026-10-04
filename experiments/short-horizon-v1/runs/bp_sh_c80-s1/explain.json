@@ -1,0 +1,166 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 25,
+  "original": {
+    "public": 0.9351125218343016,
+    "hidden": 0.9633920746934446,
+    "code": "\"\"\"Best fit with an online penalty for stranding improbable small residuals.\"\"\"\nimport numpy as np\n_HIST = np.zeros(101, dtype=np.float64)\n_TOTAL = 0.0\n_RECOMPUTE_EVERY = 50\n_CACHED_PROB = np.zeros(101, dtype=np.float64)\n\ndef _refresh_prob():\n    global _CACHED_PROB\n    if _TOTAL <= 0:\n        _CACHED_PROB = np.zeros(101, dtype=np.float64)\n        return\n    p = _HIST / _TOTAL\n    _CACHED_PROB = p\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every fitting bin; highest score wins (first on ties).\n\n    Base is best fit (smallest post-placement residual).  We add a penalty when the\n    residual r is a size that the empirical item distribution almost never produces,\n    since such a gap is likely to be stranded forever.\n    \"\"\"\n    global _TOTAL, _RECOMPUTE_EVERY\n    _HIST[item] += 1.0\n    _TOTAL += 1.0\n    if int(_TOTAL) % _RECOMPUTE_EVERY == 0:\n        _refresh_prob()\n    residual = bins - item\n    base = -residual.astype(np.float64)\n    prob = _CACHED_PROB[residual]\n    penalty = 60.0 * (1.0 - prob)\n    return base - penalty\n"
+  },
+  "minimal": {
+    "public": 0.9348974407823712,
+    "hidden": 0.9633920746934446,
+    "code": "\"\"\"Best fit with an online penalty for stranding improbable small residuals.\"\"\"\nimport numpy as np\n_HIST = np.zeros(101, dtype=np.float64)\n_TOTAL = 0.0\n_RECOMPUTE_EVERY = 50\n_CACHED_PROB = np.zeros(101, dtype=np.float64)\n\ndef _refresh_prob():\n    global _CACHED_PROB\n    if _TOTAL <= 0:\n        _CACHED_PROB = np.zeros(101, dtype=np.float64)\n        return\n    p = _HIST / _TOTAL\n    _CACHED_PROB = p\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every fitting bin; highest score wins (first on ties).\n\n    Base is best fit (smallest post-placement residual).  We add a penalty when the\n    residual r is a size that the empirical item distribution almost never produces,\n    since such a gap is likely to be stranded forever.\n    \"\"\"\n    residual = bins\n    base = -residual.astype(np.float64)\n    prob = _CACHED_PROB[residual]\n    return base\n",
+    "removed": [
+      0,
+      1,
+      2,
+      3,
+      7,
+      10,
+      12
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 30,
+      "text": "global _TOTAL, _RECOMPUTE_EVERY",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 33,
+      "text": "_HIST[item] += 1.0",
+      "inside": [],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 34,
+      "text": "_TOTAL += 1.0",
+      "inside": [],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 35,
+      "text": "if int(_TOTAL) % _RECOMPUTE_EVERY == 0: ...",
+      "inside": [],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 36,
+      "text": "_refresh_prob()",
+      "inside": [
+        3
+      ],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 38,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 6,
+      "kind": "term",
+      "line": 38,
+      "text": "term + bins",
+      "inside": [
+        5
+      ],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "term",
+      "line": 38,
+      "text": "term - item",
+      "inside": [
+        5
+      ],
+      "delta": 1.7055280754352253e-07,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 39,
+      "text": "base = -residual.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 43,
+      "text": "prob = _CACHED_PROB[residual]",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 47,
+      "text": "penalty = 60.0 * (1.0 - prob)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 11,
+      "kind": "term",
+      "line": 49,
+      "text": "term + base",
+      "inside": [],
+      "delta": -0.04718952005396504,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 12,
+      "kind": "term",
+      "line": 49,
+      "text": "term - penalty",
+      "inside": [],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "can go"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_c80-s1/best_program.py"
+}

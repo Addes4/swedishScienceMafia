@@ -1,0 +1,188 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 28,
+  "original": {
+    "public": 0.9477577412656857,
+    "hidden": 0.9640868145500341,
+    "code": "\"\"\"Best fit with adaptive modulo-consolidation diversion.\n\nPure best fit leaves many small slivers for this distribution. On some steps we\ndivert to the bin whose residual after placement is closest to a multiple of\nthe mean item size (~40), which consolidates leftovers into fuller slots.\nBest-fit stays dominant otherwise. Diversion fires only for smaller items\n(where slivers form) and uses a fractional-phase period so consolidation is\nspread evenly rather than in bursts.\n\"\"\"\nimport numpy as np\n_state = {'n': 0}\n_MEAN = 40.0\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin; highest score wins (first on ties).\"\"\"\n    n = _state['n']\n    _state['n'] = n + 1\n    better_fit = -(bins - item)\n    if item < 60 and n % 3 == 0:\n        resid = bins - item\n        m = np.round(resid / _MEAN)\n        dist = np.abs(resid - m * _MEAN)\n        return -dist * 100.0 + better_fit\n    return better_fit\n"
+  },
+  "minimal": {
+    "public": 0.9477577412656857,
+    "hidden": 0.9640868145500341,
+    "code": "\"\"\"Best fit with adaptive modulo-consolidation diversion.\n\nPure best fit leaves many small slivers for this distribution. On some steps we\ndivert to the bin whose residual after placement is closest to a multiple of\nthe mean item size (~40), which consolidates leftovers into fuller slots.\nBest-fit stays dominant otherwise. Diversion fires only for smaller items\n(where slivers form) and uses a fractional-phase period so consolidation is\nspread evenly rather than in bursts.\n\"\"\"\nimport numpy as np\n_state = {'n': 0}\n_MEAN = 40.0\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin; highest score wins (first on ties).\"\"\"\n    n = _state['n']\n    _state['n'] = n + 1\n    better_fit = -(bins - item)\n    if item < 60 and n % 3 == 0:\n        resid = bins - item\n        m = np.round(resid / _MEAN)\n        dist = np.abs(resid - m * _MEAN)\n        return -dist * 100.0\n    return better_fit\n",
+    "removed": [
+      13
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 19,
+      "text": "n = _state['n']",
+      "inside": [],
+      "delta": -0.9477577412656857,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 20,
+      "text": "_state['n'] = n + 1",
+      "inside": [],
+      "delta": -0.004913080889355381,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 2,
+      "kind": "term",
+      "line": 20,
+      "text": "term + n",
+      "inside": [
+        1
+      ],
+      "delta": -0.003367041635931045,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 3,
+      "kind": "term",
+      "line": 20,
+      "text": "term + 1",
+      "inside": [
+        1
+      ],
+      "delta": -0.004913080889355381,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 23,
+      "text": "better_fit = -(bins - item)",
+      "inside": [],
+      "delta": -0.9477577412656857,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 27,
+      "text": "if item < 60 and n % 3 == 0: ...",
+      "inside": [],
+      "delta": -0.003367041635931045,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 28,
+      "text": "resid = bins - item",
+      "inside": [
+        5
+      ],
+      "delta": -0.9477577412656857,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "term",
+      "line": 28,
+      "text": "term + bins",
+      "inside": [
+        5,
+        6
+      ],
+      "delta": -0.003367041635931045,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 8,
+      "kind": "term",
+      "line": 28,
+      "text": "term - item",
+      "inside": [
+        5,
+        6
+      ],
+      "delta": -0.011567966625273374,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 29,
+      "text": "m = np.round(resid / _MEAN)",
+      "inside": [
+        5
+      ],
+      "delta": -0.9477577412656857,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 30,
+      "text": "dist = np.abs(resid - m * _MEAN)",
+      "inside": [
+        5
+      ],
+      "delta": -0.9477577412656857,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 31,
+      "text": "return -dist * 100.0 + better_fit",
+      "inside": [
+        5
+      ],
+      "delta": -0.003367041635931045,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 12,
+      "kind": "term",
+      "line": 31,
+      "text": "term + -dist * 100.0",
+      "inside": [
+        5,
+        11
+      ],
+      "delta": -0.003367041635931045,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 13,
+      "kind": "term",
+      "line": 31,
+      "text": "term + better_fit",
+      "inside": [
+        5,
+        11
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_b200-s3/best_program.py"
+}
