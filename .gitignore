@@ -5,3 +5,4 @@ runs/
 .DS_Store
 *.log
 baselines/out/
+.trash/

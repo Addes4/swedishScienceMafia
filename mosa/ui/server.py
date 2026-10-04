@@ -230,9 +230,25 @@ class Handler(SimpleHTTPRequestHandler):
             spec = json.loads(self.rfile.read(length) or b"{}")
             if url.path == "/api/launch":
                 return self.send_json(launch(spec))
+            if url.path == "/api/delete":
+                return self.send_json(delete(spec["workspace"]))
         except (KeyError, ValueError, TypeError) as error:
             return self.send_json({"error": str(error)}, 400)
         return self.send_json({"error": "not found"}, 404)
+
+
+def delete(workspace):
+    """Move a workspace out of the workbench, into .trash/ (restore by moving it back). Not while it runs."""
+    import shutil
+    path = notebooks().get(workspace)
+    if path is None:
+        raise ValueError(f"unknown workspace {workspace}")
+    if summary(workspace, path)["running"]:
+        raise ValueError("this workspace is still running; delete it when it has finished")
+    trash = ROOT/".trash"/f"{Path(workspace).name}-{time.strftime('%Y%m%d-%H%M%S')}"
+    trash.parent.mkdir(exist_ok=True)
+    shutil.move(str(ROOT/workspace), str(trash))
+    return {"moved_to": str(trash.relative_to(ROOT))}
 
 
 def serve(runs="runs", port=8777):

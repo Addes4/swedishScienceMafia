@@ -58,7 +58,7 @@ a:hover, .link:hover { text-decoration: underline; }
 .item .star { color: var(--star); }
 .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: breathe 1.6s ease-in-out infinite; flex: none; }
 @keyframes breathe { 50% { opacity: .3; } }
-.side-foot { padding: 8px 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.side-foot { padding: 8px 12px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; }
 .icon-btn { width: 26px; height: 26px; border-radius: 4px; display: grid; place-items: center; color: var(--muted); }
 .icon-btn:hover { background: var(--hover); color: var(--strong); }
 .icon-btn svg { width: 16px; height: 16px; }
@@ -244,3 +244,7 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
 .composer .where { display: flex; align-items: center; gap: 2px; margin-top: 6px; color: var(--faint); font-size: 12px; }
 .composer .where button { color: var(--muted); padding: 1px 6px; border-radius: 4px; }
 .composer .where button.on { color: var(--strong); background: var(--hover); }
+.item .del { display: none; color: var(--faint); width: 16px; height: 16px; place-items: center; border-radius: 3px; flex: none; }
+.item:hover .del { display: grid; }
+.item .del:hover { color: var(--strong); background: var(--line); }
+.item .del svg { width: 12px; height: 12px; }

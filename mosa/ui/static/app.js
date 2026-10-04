@@ -231,7 +231,7 @@ function renderSide() {
   const labs = S.labs.map((l) => {
     const found = Object.keys(l.records).length;
     return `<button class="item ${S.lab === l.id && !S.compose ? "on" : ""}" data-act="lab" data-id="${esc(l.id)}">
-      <span class="name">${esc(labTitle(l))}</span>${l.running ? '<span class="live-dot" title="running"></span>' : found ? `<span class="aside"><span class="star">★</span> ${found}</span>` : ""}</button>`;
+      <span class="name">${esc(labTitle(l))}</span>${l.running ? '<span class="live-dot" title="running"></span>' : found ? `<span class="aside"><span class="star">★</span> ${found}</span>` : ""}${l.running ? "" : `<span class="del" data-act="delete" data-id="${esc(l.id)}" title="Delete workspace">${ICON.close}</span>`}</button>`;
   }).join("");
   const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
@@ -254,12 +254,8 @@ function renderMain() {
   }
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
   const L = m.lab, brief = (m.sessions.filter((x) => x && x.brief).slice(-1)[0] || {}).brief || "";  // what the researchers are told now
-  const replay = S.replay && S.replay.lab === S.lab
-    ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
-        <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
-        <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
-    : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio">${esc(brief)}</p>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio">${esc(brief)}</p>` : ""}</div></div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -637,6 +633,16 @@ document.addEventListener("click", (ev) => {
   const d = el.dataset;
   switch (d.act) {
     case "lab": selectLab(d.id); break;
+    case "delete": {
+      const l = summary(d.id);
+      if (!confirm(`Delete “${labTitle(l)}”? It is moved to .trash/ and can be restored from there.`)) break;
+      api("/api/delete", { workspace: d.id }).then(async () => {
+        if (S.lab === d.id) { S.lab = null; S.sel = null; }
+        delete S.books[d.id];
+        await refresh(); render();
+      }).catch((e) => alert(e.message));
+      break;
+    }
     case "idea": selectIdea(S.lab, d.idea); break;
     case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n, problem: d.p || undefined }; S.view = "after"; S.compose = null; render(); break;
     case "unselect": S.sel = null; render(); break;
