@@ -92,7 +92,7 @@ one small experiment shows no advantage. Some of Mosa's budget went to strategie
 - **The LLM works at the level of search strategy.** It never places pieces. Each round, a researcher picks a method, often one imported from another field, explains why that method's assumptions match the measured landscape, and writes it as code for a small evolutionary template.
 - **The tools do the numerical work, and they are trusted.** Strategy code can only propose candidates. It cannot touch the relaxation, the polish or the verifier, so there is no route to grading its own homework.
 - **Feedback is graded, not pass/fail.** Researchers see per-size, per-seed gaps and **near misses**: how close their best other basin came. With only pass/fail, one noisy failure made them drop each idea after a single round.
-- **You say what to research; a planning agent sets it up.** "Beat the best known packings of squares near n = 125" becomes a workspace: the planner picks the problem, the instances, the number of researchers, rounds and seeds (sized to the compute), and writes their brief, and records its reasoning.
+- **You direct the research in a conversation.** "Beat the best known packings of squares near n = 125" becomes a workspace: the research agent picks the problem, the instances, the number of researchers, rounds and seeds (sized to the compute), writes their brief and says why. Later messages expand or redirect the research, or ask about it.
 - **The workspace is the unit of shared context.** A workspace is a problem, its instances and a memory: the best solution found for every instance and the ideas that broke records. Everything that runs in it sees that memory, so what was found for n = 118 is offered when working on n = 88. You choose what shares context by choosing what goes in the same workspace. A strategy designed for n = 101–132 carried over to n = 88.
 - **Everything is replayable.** Every prompt, answer, run and certificate is appended to a notebook (`events.jsonl`). The workbench reads it live, or replays it.
 
@@ -128,7 +128,7 @@ python -m unittest tests.test_lab tests.test_sandbox  # end-to-end sessions with
 - **The selection** (right), in plain sentences:
   - **An idea:** its outcome in one sentence, why the researcher expected it to work, and what it does. The results per instance, the code and the exact prompt are folded away. **Run on more instances** adds results to the same idea.
   - **An instance:** its best solution (a packing, or charges on a sphere), how it compares with the best known, how it was verified, and the idea that found it.
-- **New workspace** is one prompt: say what to research, and the planning agent chooses the rest. **Research here** is a prompt too; it continues the same researchers in the current workspace.
+- **The conversation** (right, whenever nothing is selected): talk to the workspace's research agent. Ask it to expand or redirect the research ("add 88–90", "focus on 126 and borrow from 125") and it plans and starts a session, continuing the same researchers; ask it a question ("why did researcher 2's idea fail?") and it answers from the workspace's state. A note appears when a session finishes. **New workspace** is the first message of a new conversation.
 
 Arrow keys move between ideas; Esc closes the selection.
 
@@ -159,7 +159,7 @@ mosa/
   sandbox.py           runs model-written initialize/vary (integrity scan, time limit, validation, fresh namespace)
   evaluate.py          the evolutionary template and budget; gap, near miss, initial gap; neighbours from memory
   research.py          workspaces: sessions, researchers that continue, shared memory, library, record verification
-  orchestrator.py      the planning agent: a request in plain words becomes a session plan
+  orchestrator.py      the research agent: answers questions about a workspace, or plans and starts a session
   backends.py          local process or Modal containers; modal_app.py defines the workers
   llm.py               one structured model call per round (Codex CLI; prompt/answer kept per round)
   store.py             the append-only notebook (one per workspace)

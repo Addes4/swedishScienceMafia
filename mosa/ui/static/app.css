@@ -202,3 +202,18 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
   #side { display: none; }
   .lab-head, .map, .compose { padding-left: 16px; padding-right: 16px; }
 }
+
+/* conversation */
+#detail.chat-mode { overflow: hidden; }
+.chat { display: flex; flex-direction: column; height: 100%; }
+.messages { flex: 1; overflow: auto; padding: 22px 24px 10px; display: flex; flex-direction: column; gap: 12px; }
+.msg { max-width: 92%; line-height: 1.5; }
+.msg.user { align-self: flex-end; background: var(--select); color: var(--strong); padding: 8px 12px; border-radius: 10px 10px 2px 10px; }
+.msg.agent { align-self: flex-start; color: var(--text); }
+.msg.agent .plan { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.msg.note { align-self: stretch; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 8px; }
+.msg.thinking { display: flex; gap: 8px; align-items: center; color: var(--muted); }
+.msg.thinking .ring { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--line-strong); border-top-color: var(--accent); animation: spin .9s linear infinite; }
+.composer { border-top: 1px solid var(--line); padding: 12px 16px; display: flex; gap: 8px; align-items: flex-end; }
+.composer textarea { flex: 1; resize: none; background: var(--side); border: 1px solid var(--line-strong); border-radius: 6px; padding: 8px 10px; outline: none; font: 13px/1.45 var(--ui); max-height: 160px; }
+.composer textarea:focus { border-color: var(--accent); }

@@ -224,10 +224,8 @@ function renderMain() {
     ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
-    : `<div class="head-actions">${m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : ""}<button class="text-btn" data-act="research">${ICON.plus} Research here</button></div>`;
-  const plan = m.plans[m.plans.length - 1];
-  const planLine = plan ? `<div class="plan-line" title="${esc(plan.request)}">${esc(plan.reasoning)}</div>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div>${planLine}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+    : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div></div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -280,11 +278,21 @@ function mapHTML(m) {
 // ---------- detail: the selection ----------
 function renderDetail() {
   const el = $("#detail");
-  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : S.sel.type === "instance" ? instanceView() : briefView()) : "";
+  const chat = !S.sel && S.lab && !S.compose;
+  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : S.sel.type === "instance" ? instanceView() : briefView()) : chat ? chatView() : "";
   el.hidden = !html;
+  el.classList.toggle("chat-mode", !!chat);
   if (!html) return;
+  if (chat) {
+    const draft = $("#chat-input")?.value || "", list = el.querySelector(".messages"), atEnd = !list || list.scrollHeight - list.scrollTop - list.clientHeight < 40;
+    el.innerHTML = html;
+    if (draft) $("#chat-input").value = draft;
+    const fresh = el.querySelector(".messages");
+    if (atEnd) fresh.scrollTop = fresh.scrollHeight; else fresh.scrollTop = list.scrollTop;
+    return;
+  }
   const top = el.scrollTop, open = [...el.querySelectorAll("details[open] > summary")].map((s) => s.textContent);
-  el.innerHTML = `<button class="icon-btn close" data-act="unselect" title="Close (Esc)">${ICON.close}</button>${html}`;
+  el.innerHTML = `<button class="icon-btn close" data-act="unselect" title="Back to the conversation (Esc)">${ICON.close}</button>${html}`;
   el.querySelectorAll("details > summary").forEach((s) => { if (open.includes(s.textContent)) s.parentElement.open = true; });
   if (window.hljs) el.querySelectorAll("code.language-python").forEach((c) => window.hljs.highlightElement(c));
   el.scrollTop = top;
@@ -388,6 +396,42 @@ function sphere(points) {
   const ps = points.map(([x, y, z]) => { const r = Math.hypot(x, y, z); return [x / r, (y * c - z * s) / r, (y * s + z * c) / r]; }).sort((a, b) => a[2] - b[2]);
   return `<svg viewBox="-1.08 -1.08 2.16 2.16" xmlns="http://www.w3.org/2000/svg"><circle r="1" style="fill:var(--paper);stroke:var(--sq-edge)" stroke-width="1" vector-effect="non-scaling-stroke"/>` +
     ps.map(([x, y, z]) => `<circle cx="${x.toFixed(4)}" cy="${(-y).toFixed(4)}" r="0.028" style="fill:${z > 0 ? "var(--strong)" : "none"};stroke:${z > 0 ? "var(--strong)" : "var(--faint)"}" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("") + "</svg>";
+}
+
+// The workspace's conversation: your messages, the agent's replies and plans, and a note when a session finishes.
+function chatView() {
+  const book = S.books[S.lab];
+  if (!book) return "";
+  const items = [];
+  let waiting = false;
+  for (const e of book.events) {
+    if (e.type === "request") { items.push(`<div class="msg user">${esc(e.request)}</div>`); waiting = true; }
+    else if (e.type === "reply") { items.push(`<div class="msg agent">${esc(e.reply)}</div>`); waiting = false; }
+    else if (e.type === "plan") {
+      items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
+      waiting = false;
+    } else if (e.type === "done") {
+      const s = e.session ?? 0, recs = [...new Set(book.events.filter((x) => x.type === "record" && x.record && (x.session ?? 0) === s).map((x) => x.n))].sort((a, b) => a - b);
+      const results = book.events.filter((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.gap != null);
+      const reached = (book.model?.lab?.domain || "squares") !== "squares" ? [...new Set(results.filter((x) => x.gap <= 1e-6).map((x) => x.n))].sort((a, b) => a - b) : [];
+      const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
+        : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
+      items.push(`<div class="msg note">Session finished · ${note}</div>`);
+    }
+  }
+  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> Thinking…</div>`);
+  if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
+  return `<div class="chat"><div class="messages">${items.join("")}</div>
+    <div class="composer"><textarea id="chat-input" rows="2" placeholder="Direct the research, or ask about it…"></textarea><button class="btn" data-act="send">Send</button></div></div>`;
+}
+
+async function send() {
+  const box = $("#chat-input"), text = box.value.trim();
+  if (!text) return;
+  const m = model(S.lab), backend = (m?.sessions.filter(Boolean).slice(-1)[0] || {}).backend || "modal";
+  box.value = "";
+  try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend }); await refresh(); render(); }
+  catch (e) { box.value = text; alert(e.message); }
 }
 
 function briefView() {
@@ -514,7 +558,7 @@ document.addEventListener("click", (ev) => {
     case "unselect": S.sel = null; render(); break;
     case "view": S.view = d.v; renderDetail(); break;
     case "compose": S.compose = { kind: "run", backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
-    case "research": S.compose = { kind: "run", workspace: S.lab, backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
+    case "send": send(); break;
     case "example": $("#f-prompt").value = el.textContent; $("#f-prompt").focus(); break;
     case "apply": {
       const m = model(S.sel.lab), r = m.ideas.get(S.sel.idea);
@@ -546,6 +590,7 @@ document.addEventListener("input", (ev) => {
   renderDetail(); renderStatus();
 });
 document.addEventListener("keydown", (ev) => {
+  if (ev.target.id === "chat-input" && ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); send(); return; }
   if (ev.target.closest("input, textarea")) return;
   if (ev.key === "Escape") { S.sel = null; render(); }
   else if (ev.key === "ArrowRight") { move(1, 0); ev.preventDefault(); }
