@@ -79,7 +79,7 @@ def step(domain, code, kind, payload, count, seed, n, cores=1):
         problems = violations(code)
         if problems:
             raise PermissionError("integrity scan: "+", ".join(problems))
-        namespace = {"np": np, "math": math, "numba": numba, "n": n}  # n: the size of this run
+        namespace = {"np": np, "math": math, "numba": numba, "n": n, "problem": domain.name}  # the instance of this run
         exec(code, namespace)
         _CURRENT.update(namespace=namespace, payload=payload)
         workers = max(1, min(cores, count//8))

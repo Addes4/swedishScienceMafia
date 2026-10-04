@@ -1,7 +1,8 @@
-"""The Thomson problem: n unit charges on a sphere, minimizing the Coulomb energy sum_{i<j} 1/|x_i - x_j|.
+"""Points on a sphere: n unit charges minimizing the Riesz s-energy sum_{i<j} 1/|x_i - x_j|^s.
 
-Best known energies (putative global minima) come from the Cambridge Cluster Database
-(data/thomson/reference.json). Strategies get no known configuration: they start from nothing but what their
+s = 1 is the Thomson problem (Coulomb energy); its best known energies (putative global minima) come from the Cambridge
+Cluster Database (data/thomson/reference.json). Other exponents have no published table here: they are problems no
+model can have memorized, and results are compared between methods. Strategies get no known configuration: they start from nothing but what their
 workspace has already found for other sizes. A candidate is (points, value) with points an (n, 3) array (any nonzero
 rows; they are projected onto the unit sphere) and value ignored.
 """
@@ -22,8 +23,8 @@ DATA = Path(__file__).resolve().parents[3]/"data"/"thomson"
 
 
 @njit(cache=True)
-def energy_gradient(y):
-    """Energy of the points y_i/|y_i| and its gradient with respect to the unconstrained y (flat, 3n)."""
+def energy_gradient(y, s=1.):
+    """Riesz s-energy of the points y_i/|y_i| and its gradient with respect to the unconstrained y (flat, 3n)."""
     n = len(y)//3
     x = np.empty((n, 3))
     norms = np.empty(n)
@@ -38,14 +39,14 @@ def energy_gradient(y):
             d0, d1, d2 = x[i, 0]-x[j, 0], x[i, 1]-x[j, 1], x[i, 2]-x[j, 2]
             r2 = d0*d0+d1*d1+d2*d2
             r = math.sqrt(r2)
-            e += 1./r
-            s = 1./(r2*r)
-            g[i, 0] -= d0*s
-            g[i, 1] -= d1*s
-            g[i, 2] -= d2*s
-            g[j, 0] += d0*s
-            g[j, 1] += d1*s
-            g[j, 2] += d2*s
+            e += r**-s
+            f = s*r**(-s-2.)
+            g[i, 0] -= d0*f
+            g[i, 1] -= d1*f
+            g[i, 2] -= d2*f
+            g[j, 0] += d0*f
+            g[j, 1] += d1*f
+            g[j, 2] += d2*f
     out = np.empty(3*n)
     for i in range(n):
         dot = g[i, 0]*x[i, 0]+g[i, 1]*x[i, 1]+g[i, 2]*x[i, 2]
@@ -54,19 +55,24 @@ def energy_gradient(y):
     return e, out
 
 
-def _minimize(x, gtol, ftol):
+def _minimize(x, gtol, ftol, s=1.):
     y = (np.asarray(x, dtype=float)/np.linalg.norm(x, axis=1, keepdims=True)).ravel()
-    result = minimize(energy_gradient, y, jac=True, method="L-BFGS-B", options={"maxiter": 50000, "gtol": gtol, "ftol": ftol})
+    result = minimize(energy_gradient, y, args=(float(s),), jac=True, method="L-BFGS-B", options={"maxiter": 50000, "gtol": gtol, "ftol": ftol})
     points = result.x.reshape(-1, 3)
     points /= np.linalg.norm(points, axis=1, keepdims=True)
-    return points, float(energy_gradient(points.ravel())[0]), int(result.nfev)
+    return points, float(energy_gradient(points.ravel(), float(s))[0]), int(result.nfev)
 
 
-class Thomson(Domain):
-    name = "thomson"
-    title = "Charges on a sphere (the Thomson problem)"
-    problem = ("Place n identical unit point charges on the unit sphere to minimize their Coulomb energy, the sum over all pairs "
-               "of 1/distance. The objective is the energy.")
+class Riesz(Domain):
+    """Riesz s-energy on the sphere; Riesz(1) is the Thomson problem."""
+    family = "points on a sphere"
+
+    def __init__(self, s=1.):
+        self.s = float(s)
+        self.name = "thomson" if self.s == 1. else f"riesz-{s:g}"
+        self.title = "Charges on a sphere (the Thomson problem)" if self.s == 1. else f"Riesz {s:g}-energy on the sphere"
+        self.problem = (f"Place n identical points on the unit sphere to minimize the sum over all pairs of 1/distance^{s:g}"
+                        f"{' (the Coulomb energy)' if self.s == 1. else ''}. The objective is the energy.")
     evidence = """What is known about this landscape (from the literature; no measurements of our own yet):
 - The number of local minima grows roughly exponentially with n; random starts relaxed by gradient descent land in many
   different minima above the best known energy for n beyond about 100.
@@ -89,20 +95,23 @@ def vary(parents, rng, count):
 
     @cached_property
     def _reference(self):
+        if self.s != 1.:
+            return {}
         return {int(k): v for k, v in json.loads((DATA/"reference.json").read_text())["energies"].items()}
 
     def targets(self):
-        return sorted(self._reference)
+        return sorted(self._reference) if self._reference else list(range(10, 1001))
 
     def reference(self, n):
-        return None, self._reference[n]["energy"]
+        return None, self.best_known(n)
 
     def best_known(self, n):
-        return self._reference[n]["energy"]
+        return self._reference[n]["energy"] if n in self._reference else None
 
     def info(self, n):
-        return {"best_known": self.best_known(n), "point_group": self._reference[n].get("point_group"),
-                "source": "Cambridge Cluster Database"}
+        entry = self._reference.get(n, {})
+        return {"best_known": self.best_known(n), "point_group": entry.get("point_group"),
+                "source": "Cambridge Cluster Database" if entry else "no published value"}
 
     def validate(self, x, value, n):
         x = np.asarray(x, dtype=float)
@@ -118,10 +127,10 @@ def vary(parents, rng, count):
         return x
 
     def relax(self, x, value=None):
-        return _minimize(x, 1e-9, 1e-14)
+        return _minimize(x, 1e-9, 1e-14, self.s)
 
     def polish(self, x, value=None):
-        points, energy, _ = _minimize(x, 1e-12, 1e-16)
+        points, energy, _ = _minimize(x, 1e-12, 1e-16, self.s)
         return points, energy
 
     def verify(self, x, n):
@@ -139,12 +148,13 @@ def vary(parents, rng, count):
                 for j in range(i):
                     r = mp.sqrt(sum((p[i][k]-p[j][k])**2 for k in range(3)))
                     closest = min(closest, r)
-                    energy += 1/r
+                    energy += r**(-mp.mpf(self.s))
             value = float(energy)
         best = self.best_known(n)
         valid = len(p) == n and closest > 1e-9
-        return {"n": n, "value": value, "side": value, "reference_side": best, "improvement": best-value, "valid": bool(valid),
-                "record": bool(valid and value < best-1e-6), "reached": bool(valid and abs(value-best) <= 1e-6),
+        return {"n": n, "value": value, "side": value, "reference_side": best, "improvement": None if best is None else best-value,
+                "valid": bool(valid), "record": bool(valid and best is not None and value < best-1e-6),
+                "reached": bool(valid and best is not None and abs(value-best) <= 1e-6),
                 "min_distance": float(closest), "high_precision": [{"digits": 50, "valid": bool(valid), "energy": mp.nstr(energy, 20)}],
                 "poses": np.asarray(x).tolist(), "float_zero_tolerance": bool(valid), "min_pair_clearance": float(closest)}
 
@@ -156,3 +166,6 @@ def vary(parents, rng, count):
                        for u, v, w in sorted(p.tolist(), key=lambda q: q[2]))
         return (f'<svg viewBox="-1.1 -1.1 2.2 2.2" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="1" '
                 f'style="fill:var(--paper);stroke:var(--sq-edge)" stroke-width="0.008"/>{dots}</svg>')
+
+
+Thomson = Riesz

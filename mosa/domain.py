@@ -19,6 +19,7 @@ from __future__ import annotations
 
 class Domain:
     name = ""
+    family = ""  # problems in one family share a representation: one strategy can run on all of them
     title = ""
     problem = ""
     evidence = ""
@@ -57,7 +58,22 @@ def get(name):
     if name == "squares":
         from .domains.squares import Squares
         return Squares()
-    if name == "thomson":
-        from .domains.thomson import Thomson
-        return Thomson()
-    raise ValueError(f"unknown domain {name!r}")
+    if name == "thomson" or name.startswith("riesz-"):
+        from .domains.thomson import Riesz
+        return Riesz(1. if name == "thomson" else float(name.split("-", 1)[1]))
+    raise ValueError(f"unknown problem {name!r}")
+
+
+# The problem library: what the research agent can choose from. Problems in one family share a representation, so one
+# strategy can run on all of them and a workspace may hold instances of several.
+LIBRARY = [
+    {"name": "squares", "family": "unit squares", "title": "Unit squares in the smallest square",
+     "about": "Pack n unit squares, free to rotate, in the smallest square. Best known values for n up to 324 (Friedman and Ellsworth's catalogue).",
+     "sizes": "non-trivial n between 5 and 324"},
+    {"name": "thomson", "family": "points on a sphere", "title": "Charges on a sphere (the Thomson problem)",
+     "about": "n unit charges on a sphere minimizing the Coulomb energy (sum of 1/r). Best known energies for n = 10-972 (Cambridge Cluster Database).",
+     "sizes": "10-972"},
+    {"name": "riesz-<s>", "family": "points on a sphere", "title": "Riesz s-energy on the sphere, for any s > 0",
+     "about": "As the Thomson problem with the sum of 1/r^s. No published values for most s: nothing to memorize, so methods are compared with each other.",
+     "sizes": "any n from 10 to 1000"},
+]

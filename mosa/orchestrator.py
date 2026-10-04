@@ -14,15 +14,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .domain import get
+from .domain import LIBRARY, get
 from .llm import ask
 from .store import Notebook
 
-DOMAINS = ("squares", "thomson")
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "name", "domain", "targets", "researchers", "rounds", "seeds", "brief", "references"],
+          "required": ["action", "reply", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
           "properties": {"action": {"type": "string", "enum": ["start", "answer"]}, "reply": {"type": "string"},
-                         "name": {"type": "string"}, "domain": {"type": "string", "enum": list(DOMAINS)},
+                         "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
                          "brief": {"type": "string"}, "references": {"type": "array", "items": {"type": "integer"}}}}
@@ -52,15 +51,13 @@ def workspace_state(events):
                 i["best_gap"] = e["gap"] if i["best_gap"] is None else min(i["best_gap"], e["gap"])
         elif e["type"] == "record" and e.get("record") and key in ideas:
             ideas[key]["records"].append(e["n"])
-    return {"problem": head.get("domain"), "instances": sorted({n for e in events if e["type"] == "lab" for n in e.get("targets", [])}),
+    instances = sorted({tuple(i) for e in events if e["type"] == "lab" for i in (e.get("instances") or [[e.get("domain"), n] for n in e.get("targets", [])])})
+    return {"family": get(head.get("domain")).family, "instances": [f"{p} n={n}" for p, n in instances],
             "best_gap_per_instance": best, "ideas": list(ideas.values()),
             "running": sum(e["type"] == "lab" for e in events) > sum(e["type"] == "done" for e in events)}
 
 
 def respond(message, events=(), model=None, directory=None, backend="modal"):
-    domains = {name: get(name) for name in DOMAINS}
-    catalogue = {name: {"title": d.title, "problem": d.problem, "sizes_with_best_known": f"{min(d.targets())}-{max(d.targets())}"}
-                 for name, d in domains.items()}
     events = list(events)
     state = workspace_state(events)
     conversation = [{"user": e["request"]} if e["type"] == "request" else {"agent": e["reply"]}
@@ -69,8 +66,9 @@ def respond(message, events=(), model=None, directory=None, backend="modal"):
 optimization problems and trusted tools test every strategy on every instance at equal budget; a workspace is one problem,
 its instances, and a shared memory of what has been found.
 
-Available problems (harnesses):
-{json.dumps(catalogue, indent=1)}
+The problem library (each problem has a trusted harness; problems in one family share a representation, so one strategy
+runs on all of them; "riesz-<s>" stands for any exponent, e.g. riesz-2 or riesz-0.5):
+{json.dumps(LIBRARY, indent=1)}
 
 Workspace state: {json.dumps(state, separators=(",", ":")) if state else "new workspace, nothing run yet"}
 Conversation so far: {json.dumps(conversation, separators=(",", ":"))}
@@ -80,20 +78,31 @@ The user says: {message}
 
 Either answer in words (action "answer": questions, explanations, or when nothing should run; the plan fields are then
 ignored, fill them with anything valid), or plan and start a research session (action "start"). A session's plan: the
-problem (an existing workspace keeps its problem); instances (sizes n with a best known value, 4-24 of them; contiguous
-blocks let researchers share what they find between neighbouring sizes); researchers (2-6, more for open questions);
+problems from the library (one or more, all from one family; an existing workspace keeps its family; related problems
+in one workspace share what they find); the sizes n to run on each of them (4-24 in all; contiguous blocks let
+researchers share what they find between neighbouring sizes; for problems with published values, sizes that have one); researchers (2-6, more for open questions);
 rounds per researcher (2-5); seeds per instance (1-4, more when single runs are noisy); reference sizes whose best
 solutions strategies may borrow from (may be empty); a workspace name of 2-5 words; and a brief for the researchers from
 the user's request. In an existing workspace, researchers continue from their earlier ideas. "reply" is what you say to
 the user: one to three sentences, plain and specific (for a session: what will run and why)."""
     answer = ask(text, SCHEMA, directory or Path("runs")/".agent", model, timeout=600)
-    known = set(domains[answer["domain"]].targets())
-    answer["targets"] = sorted({n for n in answer["targets"] if n in known})[:24] or sorted(known)[:6]
+    problems = []
+    for p in answer["problems"]:
+        try:
+            problems.append(get(p.strip().lower()))
+        except ValueError:
+            pass
+    head = next((e for e in events if e["type"] == "lab"), None)
+    family = get(head["domain"]).family if head else (problems[0].family if problems else "unit squares")
+    problems = [d for d in problems if d.family == family] or [get(head["domain"] if head else "squares")]
+    answer["problems"] = [d.name for d in problems]
+    answer["instances"] = [[d.name, n] for d in problems for n in sorted(set(answer["targets"])) if n in set(d.targets())][:24] \
+        or [[problems[0].name, n] for n in problems[0].targets()[:6]]
     answer["researchers"] = max(1, min(6, answer["researchers"]))
     answer["rounds"] = max(1, min(5, answer["rounds"]))
     answer["seeds"] = max(1, min(4, answer["seeds"]))
     if backend == "local":  # keep a local session small enough to finish
-        answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, targets=answer["targets"][:4])
+        answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:4])
     return answer
 
 
@@ -107,8 +116,7 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None):
     if p["action"] == "answer":
         book.write("reply", reply=p["reply"])
         return
-    if first:
-        p["domain"] = first["domain"]  # a workspace keeps one problem family
-    lab = Lab(p["domain"], backend, out, budget, p["references"], workers)
+    lab = Lab(p["instances"][0][0], backend, out, budget, p["references"], workers)
     lab.write("plan", request=message, **p)
-    lab.lab(p["targets"], p["researchers"], p["rounds"], list(range(p["seeds"])), p["brief"], model, None if first else p["name"])
+    lab.lab([tuple(i) for i in p["instances"]], p["researchers"], p["rounds"], list(range(p["seeds"])), p["brief"], model,
+            None if first else p["name"])

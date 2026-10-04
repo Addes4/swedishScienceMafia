@@ -20,6 +20,7 @@ DATA = Path(__file__).resolve().parents[3]/"data"/"squares"
 
 class Squares(Domain):
     name = "squares"
+    family = "unit squares"
     title = "Unit squares in the smallest square"
     problem = ("Pack n identical unit squares, each free to translate and rotate, without overlap into the smallest "
                "square container. The objective is the container side.")

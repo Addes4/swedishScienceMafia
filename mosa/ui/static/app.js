@@ -65,8 +65,9 @@ function buildModel(events, until = Infinity) {
     m.start = m.start === null ? e.time : Math.min(m.start, e.time);
     m.end = m.end === null ? e.time : Math.max(m.end, e.time);
     const s = e.session ?? 0;
-    if (e.type === "plan") m.plans.push(e);
-    else if (e.type === "request") m.requests.push(e);
+    if (e.type === "plan") { m.plans.push(e); m.waiting = false; }
+    else if (e.type === "request") { m.requests.push(e); m.waiting = true; }
+    else if (e.type === "reply") m.waiting = false;
     else if (e.type === "lab") {
       m.sessions[s] = { ...e, index: s, done: false };
       if (!m.lab) m.lab = e;
@@ -210,22 +211,20 @@ function renderMain() {
   const el = $("#main");
   if (S.compose) { el.innerHTML = composeView(); return; }
   const m = model(S.lab), l = summary(S.lab);
-  if (m && !m.lab && m.requests.length) {
-    el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1><div class="sub">planning</div></div></div>
-      <div class="planning"><div class="request">“${esc(m.requests[m.requests.length - 1].request)}”</div><div class="thinking"><span class="ring spin"></span> The planning agent is choosing the problem, instances, researchers and rounds…</div></div>`;
+  if (m && !m.lab && m.requests.length) {  // nothing has run yet: the conversation (right) is where things happen
+    el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1></div></div>
+      <div class="planning">${m.waiting ? `<div class="thinking"><span class="ring spin"></span> The research agent is reading your request…</div>` : ""}</div>`;
     return;
   }
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
   const L = m.lab, briefs = m.sessions.filter((x) => x && x.brief).length;
-  const parts = [`${m.targets.length} instance${m.targets.length === 1 ? "" : "s"}`];
-  if (l?.running) parts.push("running");
-  if (briefs) parts.push(`<a data-act="brief">brief</a>`);
+  const parts = briefs ? [`<a data-act="brief">brief</a>`] : [];
   const replay = S.replay && S.replay.lab === S.lab
     ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
     : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div></div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${parts.length ? `<div class="sub">${parts.join(" · ")}</div>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -492,19 +491,8 @@ async function start() {
 }
 
 // ---------- status ----------
-function renderStatus() {
-  if (S.replay) { $("#status").innerHTML = `Replaying ${esc(labTitle(summary(S.replay.lab)))} · ${clock(S.replay.t)}`; return; }
-  const live = [];
-  for (const l of S.labs.filter((x) => x.running)) {
-    const m = S.books[l.id]?.model;
-    const r = m && [...m.ideas.values()].find((x) => x.live || (!x.strategy && x.prompt && !x.error));
-    const o = r && outcome(r, m);
-    live.push(`${labTitle(l)}${r ? ` · Researcher ${r.chain + 1} ${o.kind === "wait" ? "is writing a strategy" : `is testing “${idea(r.strategy).name}” (${o.short?.replace("testing · ", "")})`}` : ""}`);
-  }
-  $("#status").innerHTML = live.length ? `<span class="live-dot"></span>${esc(live[0])}${live.length > 1 ? ` · and ${live.length - 1} more` : ""}` : "No labs running";
-}
 
-function render() { renderSide(); renderMain(); renderDetail(); renderStatus(); }
+function render() { renderSide(); renderMain(); renderDetail(); }
 
 // ---------- navigation ----------
 function selectLab(id) {
@@ -541,7 +529,7 @@ function replayRun() {
   timer = setInterval(() => {
     r.t = Math.min(r.end, r.t + step);
     if (r.t >= r.end) { r.playing = false; clearInterval(timer); }
-    renderMain(); renderDetail(); renderStatus();
+    renderMain(); renderDetail();
   }, 100);
   render();
 }
@@ -587,7 +575,7 @@ document.addEventListener("input", (ev) => {
   $(".map").outerHTML = mapHTML(model(S.lab));
   $(".replay .time").textContent = clock(S.replay.t);
   $(".replay .icon-btn").innerHTML = ICON.play;
-  renderDetail(); renderStatus();
+  renderDetail();
 });
 document.addEventListener("keydown", (ev) => {
   if (ev.target.id === "chat-input" && ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); send(); return; }

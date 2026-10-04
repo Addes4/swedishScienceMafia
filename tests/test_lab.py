@@ -65,7 +65,7 @@ class LabTest(unittest.TestCase):
                 research.Lab("squares", "local", out, Budget(16, 16, 1, 4, 2), workers=2).lab([40], 1, 1, [0])
                 second = research.Lab("squares", "local", out, Budget(16, 16, 1, 4, 2), workers=2)
                 self.assertEqual(second.session, 1)
-                self.assertIn(40, second.memory)  # what session 0 found is in the workspace's memory
+                self.assertIn(("squares", 40), second.memory)  # what session 0 found is in the workspace memory
                 second.apply(None, "idea 0:0:1", [41], [1], idea=(0, 0, 1))
                 events = Notebook(out).read()
         finally:

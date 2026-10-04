@@ -41,9 +41,22 @@ def span(targets):
     return f"{targets[0]}-{targets[-1]}" if targets == list(range(targets[0], targets[-1]+1)) else ", ".join(map(str, targets))
 
 
-def prompt(domain, targets, seeds, budget, focus, history, library, brief):
+def describe(instances):
+    """Instances in words: n = 124-127, or per problem when the session spans several related problems."""
+    by = {}
+    for p, n in instances:
+        by.setdefault(p, []).append(n)
+    if len(by) == 1:
+        return f"n = {span(next(iter(by.values())))}"
+    return "; ".join(f"{get(p).title}, n = {span(ns)}" for p, ns in by.items())
+
+
+def prompt(domain, instances, seeds, budget, focus, history, library, brief):
+    problems = sorted({p for p, _ in instances})
+    related = "" if len(problems) == 1 else (f" The instances span related problems ({', '.join(problems)}); they share the "
+                                             "representation below, and the global `problem` names the one your code is running on.")
     text = [f"""You are a researcher developing search strategies for a hard optimization problem. {domain.problem} The goal is
-to beat the best known solutions for n = {span(targets)}. You write the strategy, not individual solutions.
+to beat the best known solutions for {describe(instances)}.{related} You write the strategy, not individual solutions.
 
 {domain.evidence}
 
@@ -96,12 +109,13 @@ class Lab:
 
     def __init__(self, domain, backend, out, budget=None, references=(), workers=None):
         self.domain, self.backend, self.budget, self.references = get(domain), backend, budget or Budget(), tuple(references)
+        self.domains = {self.domain.name: self.domain}
         self.notebook = Notebook(out)
         self.out = Path(out)
         past = self.notebook.read()
         first = next((e for e in past if e["type"] == "lab"), None)
-        if first and first.get("domain") != self.domain.name:
-            raise ValueError(f"this workspace is for {first.get('domain')}, not {self.domain.name}")
+        if first and get(first.get("domain")).family != self.domain.family:
+            raise ValueError(f"this workspace holds {get(first['domain']).family} problems, not {self.domain.family}")
         self.session = sum(e["type"] == "lab" for e in past)
         self.past = past
         # the workspace's library: its ideas that produced verified records, offered to every researcher in it
@@ -109,12 +123,23 @@ class Lab:
         self.ideas = {tuple(e.get("idea") or (e.get("session", 0), e.get("chain", 0), e.get("round", 1))): e.get("code", "")
                       for e in past if e["type"] == "strategy"}
         self.lock = threading.Lock()
-        self.memory = {}  # the workspace's shared memory: best solution found so far for each size, {n: (x, value)}
+        # the workspace's shared memory: best solution found so far for each instance, {(problem, n): (x, value)}
+        self.memory = {}
         for e in past:
-            if e["type"] == "result" and e.get("best") and (e["n"] not in self.memory or e["best"]["value"] < self.memory[e["n"]][1]):
-                self.memory[e["n"]] = (e["best"]["x"], e["best"]["value"])
+            key = (e.get("problem") or (first or {}).get("domain"), e.get("n"))
+            if e["type"] == "result" and e.get("best") and (key not in self.memory or e["best"]["value"] < self.memory[key][1]):
+                self.memory[key] = (e["best"]["x"], e["best"]["value"])
         self.pool = ProcessPoolExecutor(workers or max(1, (os.cpu_count() or 2)-1)) if backend == "local" else None
-        self.remote = Modal(self.domain) if backend == "modal" else None
+        self.remote = {}
+
+    def problem(self, name):
+        if name not in self.domains:
+            self.domains[name] = get(name)
+        return self.domains[name]
+
+    def instances(self, targets):
+        """Instances as (problem, n): a bare n means this session's default problem."""
+        return [tuple(t) if isinstance(t, (list, tuple)) else (self.domain.name, int(t)) for t in targets]
 
     def write(self, event, **fields):
         self.notebook.write(event, session=self.session, **fields)
@@ -122,41 +147,52 @@ class Lab:
     def tag(self, chain, round_, idea=None):
         return {"idea": list(idea or (self.session, chain, round_)), "chain": chain, "round": round_}
 
-    def runs(self, code, targets, seeds, tag):
-        """Run code on every target and seed; write each result (and verified record) to the notebook as it arrives."""
-        jobs = [(n, seed) for n in targets for seed in seeds]
+    def runs(self, code, instances, seeds, tag):
+        """Run code on every instance and seed; write each result (and verified record) to the notebook as it arrives."""
+        jobs = [(p, n, seed) for p, n in instances for seed in seeds]
         if self.pool:
-            futures = [self.pool.submit(_local_run, (self.domain.name, code, n, seed, asdict(self.budget), self.neighbours(n),
-                                                     self.notebook.path.parent, {**tag, "session": self.session})) for n, seed in jobs]
+            futures = [self.pool.submit(_local_run, (p, code, n, seed, asdict(self.budget), self.neighbours(p, n),
+                                                     self.notebook.path.parent, {**tag, "session": self.session, "problem": p}))
+                       for p, n, seed in jobs]
             return [self.keep(f.result(), tag) for f in futures]
 
         def one(job):
-            n, seed = job
-            result = run(self.domain, self.remote, code, n, seed, self.budget, self.neighbours(n),
-                         progress=lambda g, best: self.write("progress", **tag, n=n, seed=seed, generation=g, best=best))
+            p, n, seed = job
+            if p not in self.remote:
+                self.remote[p] = Modal(self.problem(p))
+            result = run(self.problem(p), self.remote[p], code, n, seed, self.budget, self.neighbours(p, n),
+                         progress=lambda g, best: self.write("progress", **tag, problem=p, n=n, seed=seed, generation=g, best=best))
             return self.keep(result, tag)
         with ThreadPoolExecutor(len(jobs)) as pool:
             return list(pool.map(one, jobs))
 
-    def neighbours(self, n):
+    def neighbours(self, p, n):
+        """Best solutions for nearby sizes of the same problem; under key n itself, the best solution of the same size under
+        a related problem in this workspace (when this problem has none yet)."""
         with self.lock:
-            return neighbours_for(self.domain, n, self.references, dict(self.memory))
+            memory = dict(self.memory)
+        own = neighbours_for(self.problem(p), n, self.references, {m: v for (q, m), v in memory.items() if q == p})
+        related = [v for (q, m), v in memory.items() if m == n and q != p]
+        if related and n not in own:
+            own[n] = min(related, key=lambda v: v[1])
+        return own
 
     def keep(self, result, tag):
         self.write("result", **tag, **result)
         if result.get("best"):
             with self.lock:
-                n, value = result["n"], result["best"]["value"]
-                if n not in self.memory or value < self.memory[n][1]:
-                    self.memory[n] = (result["best"]["x"], value)
+                key, value = (result.get("problem", self.domain.name), result["n"]), result["best"]["value"]
+                if key not in self.memory or value < self.memory[key][1]:
+                    self.memory[key] = (result["best"]["x"], value)
         if result.get("record"):
             n, seed = result["n"], result["seed"]
-            certificate = self.domain.verify(result["best"]["x"], n)
+            domain = self.problem(result.get("problem", self.domain.name))
+            certificate = domain.verify(result["best"]["x"], n)
             self.write("record", **tag, seed=seed, **certificate)
             name = self.out/"records"/f"n{n}-idea{'-'.join(map(str, tag['idea']))}-seed{seed}"
             name.parent.mkdir(exist_ok=True)
             name.with_suffix(".json").write_text(json.dumps(certificate))
-            name.with_suffix(".svg").write_text(self.domain.svg(certificate["poses"], certificate["side"]))
+            name.with_suffix(".svg").write_text(domain.svg(certificate["poses"], certificate["side"]))
             result["verified"] = certificate["record"]
         return result
 
@@ -181,7 +217,7 @@ class Lab:
                 key = e.get("idea") or [e.get("session", 0), e["chain"], e["round"]]
                 results = [x for x in self.past if x["type"] == "result" and (x.get("idea") or [x.get("session", 0), x.get("chain"), x.get("round")]) == key]
                 out.append({"round": e["round"], "decision": e.get("decision"), "source": e.get("source"), "strategy": e.get("strategy"),
-                            "code": e.get("code"), "results": {f"{x['n']}/seed{x['seed']}": {k: x[k] for k in SHOWN if k in x} for x in results}})
+                            "code": e.get("code"), "results": {f"{x.get('problem', '')} {x['n']}/seed{x['seed']}".strip(): {k: x[k] for k in SHOWN if k in x} for x in results}})
         return sorted(out, key=lambda h: h["round"])
 
     def chain(self, index, rounds, targets, seeds, brief, model):
@@ -206,7 +242,9 @@ class Lab:
             self.write("round", **tag, records=sum(bool(x.get("verified")) for x in results), errors=sum("error" in x for x in results))
 
     def lab(self, targets, chains, rounds, seeds, brief="", model=None, name=None):
-        self.write("lab", kind="lab", name=name, domain=self.domain.name, title=self.domain.title, targets=list(targets),
+        targets = self.instances(targets)
+        self.write("lab", kind="lab", name=name, domain=self.domain.name, title=self.domain.title, family=self.domain.family,
+                   instances=[list(i) for i in targets], targets=sorted({n for _, n in targets}), problems=sorted({p for p, _ in targets}),
                             chains=chains, rounds=rounds, seeds=list(seeds), backend=self.backend, brief=brief,
                             references=list(self.references), budget=asdict(self.budget), model=model,
                             library=[e["source"] for e in self.library], foci=FOCI[:chains])
@@ -218,11 +256,13 @@ class Lab:
     def apply(self, code, source, targets, seeds, idea=None, name=None):
         """Run one strategy (no model) on targets and seeds. With idea = (session, researcher, round), the code is that
         idea's and its results are added to it; otherwise the strategy (e.g. a baseline file) becomes a new idea."""
+        targets = self.instances(targets)
         if idea:
             code, tag = self.ideas[tuple(idea)], self.tag(idea[1], idea[2], idea)
         else:
             tag = self.tag(0, 1)
-        self.write("lab", kind="apply", name=name, domain=self.domain.name, title=self.domain.title, targets=list(targets),
+        self.write("lab", kind="apply", name=name, domain=self.domain.name, title=self.domain.title, family=self.domain.family,
+                   instances=[list(i) for i in targets], targets=sorted({n for _, n in targets}), problems=sorted({p for p, _ in targets}),
                    seeds=list(seeds), backend=self.backend, references=list(self.references), budget=asdict(self.budget),
                    source=source, idea=list(idea) if idea else None)
         if not idea:

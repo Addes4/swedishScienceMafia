@@ -76,7 +76,8 @@ def run(domain, backend, code, n, seed, budget=Budget(), neighbours=None, progre
     xs, values = relaxed(made)
     if not len(values):
         return {"n": n, "seed": seed, "error": "initialize: no candidate relaxed"}
-    initial_gap = float(values.min())-domain.best_known(n)
+    known = domain.best_known(n)  # None for problems without a published value
+    initial_gap = None if known is None else float(values.min())-known
     if record is None:  # no known solution for this size: the population is built from the candidates alone
         population = distinct(xs, values, budget.population, domain.same)
     else:
@@ -94,11 +95,14 @@ def run(domain, backend, code, n, seed, budget=Budget(), neighbours=None, progre
         if progress:
             progress(g+1, population[0][1])
     polished = sorted(backend.polish(population[:budget.polish]), key=lambda p: p[1])
-    best_known = domain.best_known(n)
-    others = [p for p in polished if p[1] > best_known+1e-7]  # basins other than the best known one
+    best_known = known
+    floor = polished[0][1] if best_known is None else best_known
+    others = [p for p in polished if p[1] > floor+1e-7]  # basins other than the best known (or the best found) one
     best = polished[0]
-    return {"n": n, "seed": seed, "best_known": best_known, "polished": best[1], "gap": best[1]-best_known,
-            "record": bool(best[1] < best_known-1e-9), "runner_up_gap": others[0][1]-best_known if others else None,
+    return {"problem": domain.name, "n": n, "seed": seed, "best_known": best_known, "polished": best[1],
+            "gap": None if best_known is None else best[1]-best_known,
+            "record": bool(best_known is not None and best[1] < best_known-1e-9),
+            "runner_up_gap": others[0][1]-floor if others else None,
             "initial_gap": initial_gap, "generations": history, "dropped": dropped, "failed": failed,
             "evaluations": evaluations, "budget": asdict(budget),
             "best": {"x": np.asarray(best[0]).tolist(), "value": best[1]},
