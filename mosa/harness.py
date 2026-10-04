@@ -10,6 +10,7 @@ safeguards; researchers' strategies still cannot touch them.
 """
 from __future__ import annotations
 
+import ast
 import importlib
 import json
 from pathlib import Path
@@ -24,6 +25,11 @@ from .llm import ask
 from .sandbox import violations
 
 GENERATED = Path(__file__).resolve().parent/"domains"/"generated"
+# What a harness may import: exactly what the Modal image installs (mosa/modal_app.py) plus the standard library pieces
+# below. A harness importing anything else would run here but crash in the workers, so its self-test fails instead.
+ALLOWED = {"numpy", "scipy", "numba", "mpmath", "math", "cmath", "itertools", "functools", "collections", "dataclasses",
+           "typing", "__future__", "random", "heapq", "bisect", "fractions", "decimal", "statistics", "time", "warnings",
+           "operator", "copy", "enum", "mosa"}
 SCHEMA = {"type": "object", "additionalProperties": False, "required": ["name", "title", "family", "about", "code", "test_sizes"],
           "properties": {"name": {"type": "string"}, "title": {"type": "string"}, "family": {"type": "string"},
                          "about": {"type": "string"}, "code": {"type": "string"},
@@ -102,6 +108,13 @@ with "name" (a short slug, letters, digits and dashes), "title", "family", "abou
     flagged = violations(answer["code"])
     if flagged:  # the same static scan as strategies: a harness has no business with files, processes or the network
         return name, answer, {"passed": False, "error": "integrity scan: "+", ".join(flagged)}
+    try:
+        missing = imports_outside(answer["code"])
+    except SyntaxError as error:
+        return name, answer, {"passed": False, "error": f"SyntaxError: {error.msg} (line {error.lineno})"}
+    if missing:
+        return name, answer, {"passed": False, "error": f"imports {', '.join(missing)}, which the workers do not have; use only "
+                                                         "numpy, scipy, numba, mpmath and the standard math modules"}
     GENERATED.mkdir(exist_ok=True)
     (GENERATED/"__init__.py").touch()
     path = GENERATED/(name.replace("-", "_")+".py")
@@ -109,6 +122,17 @@ with "name" (a short slug, letters, digits and dashes), "title", "family", "abou
     (GENERATED/(name.replace("-", "_")+".json")).write_text(json.dumps({"name": name, "title": answer["title"],
                                                                         "family": answer["family"], "about": answer["about"]}))
     return name, answer, self_test(name, answer["test_sizes"])
+
+
+def imports_outside(code):
+    """Top-level modules the code imports that the workers do not have."""
+    found = set()
+    for node in ast.walk(ast.parse(code)):
+        if isinstance(node, ast.Import):
+            found |= {a.name.split(".")[0] for a in node.names}
+        elif isinstance(node, ast.ImportFrom) and node.module and not node.level:
+            found.add(node.module.split(".")[0])
+    return sorted(found-ALLOWED)
 
 
 def load(name):

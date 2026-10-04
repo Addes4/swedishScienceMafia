@@ -58,8 +58,8 @@ def main():
     runp.add_argument("--workers", type=int, default=None)
     runp.add_argument("--model", default=None)
     runp.add_argument("--context", default=None, help='what the message is about, as JSON: {"idea": "0:1:2"} or {"n": 125}')
-    for field, value in vars(Budget()).items():
-        runp.add_argument(f"--{field}", type=int, default=value)
+    for field in vars(Budget()):  # unset: the research agent's scale decides (quick sessions use a small budget)
+        runp.add_argument(f"--{field}", type=int, default=None)
     verify = sub.add_parser("verify")
     verify.add_argument("--domain", default="squares")
     verify.add_argument("--n", type=int, required=True)
@@ -102,7 +102,8 @@ def session(args, out):
     """run, lab or apply: one session in the workspace at out."""
     if args.command == "run":
         from .orchestrator import run
-        run(args.request, out, args.backend, args.model, args.workers, Budget(**{field: getattr(args, field) for field in vars(Budget())}),
+        given = {field: getattr(args, field) for field in vars(Budget()) if getattr(args, field) is not None}
+        run(args.request, out, args.backend, args.model, args.workers, Budget(**{**vars(Budget()), **given}) if given else None,
             json.loads(args.context) if args.context else None)
         print(f"workspace: {out}")
     else:

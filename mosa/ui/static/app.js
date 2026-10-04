@@ -237,7 +237,7 @@ function renderSide() {
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
     <button class="new" data-act="compose">${ICON.plus} New workspace</button>
     <div class="list"><div class="heading">Workspaces</div>${labs}</div>
-    <div class="side-foot">${spendHTML()}<button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
+    <div class="side-foot"><button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
 }
 
 // ---------- main: the lab ----------
@@ -501,6 +501,8 @@ function messagesHTML() {
     }
   }
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
+  const pending = S.pending && S.pending.lab === S.lab && book.events.filter((e) => e.type === "request").length <= S.pending.since ? S.pending : null;
+  if (pending) { items.push(`<div class="msg user">${contextHTML(book, pending.context)}${esc(pending.text)}</div>`); waiting = "Thinking"; }
   if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}${draft
     ? ` <span class="elapsed">${Math.floor(draft.seconds / 60)} min</span>${draft.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}` : ""}</div>`);
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
@@ -537,8 +539,10 @@ async function send() {
   const context = S.sel?.type === "idea" ? { idea: S.sel.idea } : S.sel?.type === "instance" ? { n: S.sel.n, problem: S.sel.problem } : undefined;
   box.value = "";
   S.sel = null;  // back to the conversation, where the answer appears
+  S.pending = { lab: S.lab, text, context, since: (S.books[S.lab]?.events || []).filter((e) => e.type === "request").length };
+  renderDetail();
   try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend, context }); await refresh(); render(); }
-  catch (e) { box.value = text; alert(e.message); }
+  catch (e) { S.pending = null; box.value = text; renderDetail(); alert(e.message); }
 }
 
 // ---------- new lab ----------

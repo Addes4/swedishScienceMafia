@@ -19,13 +19,15 @@ from .llm import ask
 from .store import Notebook
 
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "problem_request", "idea", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
+          "required": ["action", "reply", "problem_request", "idea", "scale", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
           "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply"]}, "reply": {"type": "string"},
                          "problem_request": {"type": "string"}, "idea": {"type": "string"},
+                         "scale": {"type": "string", "enum": ["quick", "full"]},
                          "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
                          "brief": {"type": "string"}, "references": {"type": "array", "items": {"type": "integer"}}}}
+QUICK_BUDGET = dict(init=96, children=32, generations=5, population=16, polish=8)
 COMPUTE = {"modal": "Modal (a few hundred cores, on a limited budget): up to 4 researchers, 3 rounds, 8 instances and 3 seeds per instance.",
            "local": "this machine (a few cores, each run takes minutes): at most 2 researchers, 2 rounds, 4 instances and 1 seed."}
 
@@ -82,7 +84,9 @@ Either answer in words (action "answer": questions, explanations, or when nothin
 ignored, fill them with anything valid); or, when the user wants to research a problem that is NOT in the library, ask
 for a harness to be drafted for it (action "draft": put a precise statement of the problem as a minimization over sizes n
 in "problem_request"; it will be built and self-tested, and you will be asked again with it in the library); or plan and
-start a research session (action "start"); or run an existing idea of this workspace, as it is and without a
+start a research session (action "start"). A session is "quick" (a first look or proof of concept: 2 researchers, 2
+rounds, 1 seed, up to 3 instances, a small budget per run; it finishes in minutes) unless the user asks for a thorough,
+large or long run ("full"); a new workspace starts quick; or run an existing idea of this workspace, as it is and without a
 researcher, on more instances (action "apply": its id in "idea", the sizes in "targets", and seeds). A session's plan: the
 problems from the library (one or more, all from one family; an existing workspace keeps its family; related problems
 in one workspace share what they find); the sizes n to run on each of them (4-24 in all; contiguous blocks let
@@ -108,6 +112,8 @@ the user: one to three sentences, plain and specific (for a session: what will r
     answer["rounds"] = max(1, min(3, answer["rounds"]))
     answer["seeds"] = max(1, min(3, answer["seeds"]))
     answer["instances"] = answer["instances"][:8]
+    if answer["scale"] != "full":  # a quick look: minutes, not hours
+        answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:3])
     if backend == "local":  # keep a local session small enough to finish
         answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:4])
     return answer
@@ -172,6 +178,9 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
     if p["action"] in ("answer", "apply"):
         book.write("reply", reply=p["reply"])
         return
+    if p.get("scale") != "full" and budget is None:  # a quick session also runs each strategy at a small budget
+        from .evaluate import Budget
+        budget = Budget(**QUICK_BUDGET)
     lab = Lab(p["instances"][0][0], backend, out, budget, p["references"], workers)
     lab.write("plan", request=message, **p)
     lab.lab([tuple(i) for i in p["instances"]], p["researchers"], p["rounds"], list(range(p["seeds"])), p["brief"], model,
