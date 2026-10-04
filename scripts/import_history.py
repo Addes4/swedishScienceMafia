@@ -66,18 +66,18 @@ def answer(round_directory):
     raise ValueError(f"no answer in {round_directory}")
 
 
-def lab(name, directory, brief="", references=(), polish=4):
+def lab(name, directory, brief="", references=(), polish=4, title=None, save=True, book=None, session=0):
     directory = Path(directory)
     summary = json.loads((directory/"strategy_lab.json").read_text()) if (directory/"strategy_lab.json").exists() else {}
     chains = sorted(directory.glob("chain-*"), key=lambda p: int(p.name.split("-")[1]))
     first = min(mtime(next(c.glob("round-01")) / "prompt.txt") for c in chains)
-    book = Book(name)
+    book = book or Book(name)
     targets = sorted({int(k.split("/")[0]) for c in chains for r in json.loads((c/"chain.json").read_text())["rounds"]
                       for k in r["results"]})
     seeds = sorted({k.split("/")[1] for c in chains for r in json.loads((c/"chain.json").read_text())["rounds"]
                     for k in r["results"] if "/" in k}) or ["0"]
     rounds = max(len(json.loads((c/"chain.json").read_text())["rounds"]) for c in chains)
-    book.add("lab", first-1, kind="lab", domain="squares", title=D.title, targets=targets, chains=len(chains),
+    book.add("lab", first-1, session=session, kind="lab", name=title, domain="squares", title=D.title, targets=targets, chains=len(chains),
              rounds=rounds, seeds=list(range(len(seeds))), backend="modal", brief=brief, references=list(references),
              budget={**OLD_BUDGET, "polish": polish}, model="codex", library=[],
              foci=[json.loads((c/"chain.json").read_text())["focus"] for c in chains], imported_from=str(directory))
@@ -87,7 +87,7 @@ def lab(name, directory, brief="", references=(), polish=4):
         for r in data["rounds"]:
             k = r["round"]
             rd = c/f"round-{k:02}"
-            tag = {"chain": index, "round": k}
+            tag = {"session": session, "idea": [session, index, k], "chain": index, "round": k}
             book.add("prompt", mtime(rd/"prompt.txt"), **tag, focus=data["focus"], prompt=(rd/"prompt.txt").read_text())
             a = answer(rd)
             book.add("strategy", mtime(rd/"events.jsonl"), **tag, **{f: a[f] for f in ("source", "mapping", "strategy", "code")},
@@ -111,64 +111,89 @@ def lab(name, directory, brief="", references=(), polish=4):
                         verified += 1
             book.add("round", finished-0.3, **tag, records=verified, errors=sum("error" in v for v in r["results"].values()))
     if summary.get("wall_seconds"):
-        book.add("done", first+summary["wall_seconds"])
-    book.save()
+        book.add("done", first+summary["wall_seconds"], session=session)
+    if save:
+        book.save()
+    return book
 
 
-def candidates(name, directory, source, targets, seeds):
-    """A rerun of one fixed strategy whose process ended before writing its results: only its records were saved."""
+def rerun(book, session, directory, idea, source, targets=None, seeds=None, begun=None):
+    """A later session that ran an existing idea on more instances: its results and records attach to that idea. Runs
+    that ended before writing apply.json kept only their record-breaking packings."""
     directory = Path(directory)
+    rows = json.loads((directory/"apply.json").read_text())["rows"] if (directory/"apply.json").exists() else None
     files = sorted(directory.glob("candidate-record-*.npy"), key=mtime)
-    if not files:
+    times = [mtime(f) for f in files]+([mtime(directory/"apply.json")] if rows else [])
+    if not times:
         return
-    book = Book(name)
-    start = min(map(mtime, files))-60
-    book.add("lab", start, kind="apply", domain="squares", title=D.title, targets=targets, seeds=seeds, backend="modal",
-             source=source, results_saved="records only", imported_from=str(directory))
-    book.add("strategy", start, chain=0, round=1, decision="apply", builds_on=source, source=source, mapping="", strategy="", code="")
+    start, end = begun or min(times)-60, max(times)
+    tag = {"session": session, "idea": list(idea), "chain": idea[1], "round": idea[2]}
+    book.add("lab", start, session=session, kind="apply", domain="squares", title=D.title, idea=list(idea), source=source,
+             targets=targets or sorted({r["n"] for r in rows}), seeds=seeds or sorted({r["seed"] for r in rows}), backend="modal",
+             results_saved=None if rows else "records only", imported_from=str(directory))
+    for r in rows or []:
+        book.add("result", end-1, **tag, n=r["n"], seed=r["seed"], best_known=r.get("best_known"), polished=r.get("polished"),
+                 gap=r.get("gap"), record=r.get("beaten", False), runner_up_gap=r.get("runner_up_gap"),
+                 initial_gap=r.get("initial_population_best_gap"), dropped=r.get("invalid_candidates_dropped", 0), failed=0)
+    verified = 0
     for f in files:
         n = int(re.search(r"n(\d+)", f.name).group(1))
         seed = int(m.group(1)) if (m := re.search(r"seed(\d+)", f.name)) else 0
-        record(book, mtime(f), n, f, chain=0, round=1, seed=seed)
-    end = max(map(mtime, files))
-    book.add("round", end+1, chain=0, round=1, records=sum(e["type"] == "record" for e in book.events), errors=0, results_saved="records only")
-    book.add("done", end+2)
-    book.save()
+        verified += record(book, mtime(f), n, f, **tag, seed=seed)["record"]
+    book.add("round", end+1, **tag, records=verified, errors=0)
+    book.add("done", end+2, session=session)
 
 
-def applied(name, directory, source):
-    """A finished rerun of one fixed strategy, with every run's result (apply.json)."""
+def single(book, session, directory, source, targets, seeds, title=None):
+    """A session with one fixed strategy (no researcher), imported from its saved records."""
     directory = Path(directory)
-    data = json.loads((directory/"apply.json").read_text())
-    rows = data["rows"]
-    end, book = mtime(directory/"apply.json"), Book(name)
-    start = mtime(directory)-60 if mtime(directory) < end else end-3600
-    book.add("lab", start, kind="apply", domain="squares", title=D.title, targets=sorted({r["n"] for r in rows}),
-             seeds=sorted({r["seed"] for r in rows}), backend="modal", source=source, imported_from=str(directory))
-    book.add("strategy", start, chain=0, round=1, decision="apply", builds_on=source, source=source, mapping="", strategy="", code="")
-    for r in rows:
-        book.add("result", end-1, chain=0, round=1, n=r["n"], seed=r["seed"], best_known=r.get("best_known"),
-                 polished=r.get("polished"), gap=r.get("gap"), record=r.get("beaten", False), runner_up_gap=r.get("runner_up_gap"),
-                 initial_gap=r.get("initial_population_best_gap"), dropped=r.get("invalid_candidates_dropped", 0), failed=0,
-                 **({"error": r["error"]} if "error" in r else {}))
-    book.add("round", end, chain=0, round=1, records=sum(bool(r.get("beaten")) for r in rows), errors=sum("error" in r for r in rows))
-    book.add("done", end+1)
-    book.save()
+    files = sorted(directory.glob("candidate-record-*.npy"), key=mtime)
+    start, end = min(map(mtime, files))-60, max(map(mtime, files))
+    tag = {"session": session, "idea": [session, 0, 1], "chain": 0, "round": 1}
+    book.add("lab", start, session=session, kind="apply", name=title, domain="squares", title=D.title, targets=targets, seeds=seeds,
+             backend="modal", source=source, results_saved="records only", imported_from=str(directory))
+    book.add("strategy", start, **tag, decision="apply", builds_on=source, source=source, mapping="", strategy="", code="")
+    for f in files:
+        record(book, mtime(f), int(re.search(r"n(\d+)", f.name).group(1)), f, **tag, seed=1)
+    book.add("round", end+1, **tag, records=len(files), errors=0)
+    book.add("done", end+2, session=session)
+
+
+def started(directory):
+    """When a run began: its folder's creation time (each run created its folder first)."""
+    return os.stat(directory).st_birthtime
 
 
 def main(runs):
+    """All of the night's squares work becomes one workspace, its runs sessions in time order, as Mosa would run it now.
+    (These sessions ran before workspaces existed, so they did not yet share memory with each other.)"""
     runs = Path(runs)
-    lab("2026-10-04-strategy-lab", runs/"strategy-lab")
-    if (runs/"lab-67").exists():
-        lab("2026-10-04-lab-67-goebel", runs/"lab-67", brief=(OUT.parent/"briefs"/"n67-goebel.md").read_text()
-            if (OUT.parent/"briefs"/"n67-goebel.md").exists() else "", references=[17], polish=16)
+    for old in [*OUT.glob("2026-10-04-*")]:  # earlier imports: one notebook per run
+        for f in sorted(old.rglob("*"), reverse=True):
+            f.unlink() if f.is_file() else f.rmdir()
+        old.rmdir()
     below_100 = [n for n in D.targets() if 11 <= n < 100]
-    candidates("2026-10-04-splice-126", runs/"splice-126", "Cut-and-splice recombination (Deaven & Ho 1995), a method chosen by hand",
-               [126], [1])
-    candidates("2026-10-04-apply-below-100", runs/"modal-below-100", CUT_AND_SPLICE, below_100, list(range(101, 109)))
-    candidates("2026-10-04-apply-local", runs/"local-below-100", CUT_AND_SPLICE, [37, 54, 70, 83, 88], list(range(2, 22)))
-    if (runs/"modal-67"/"apply.json").exists():
-        applied("2026-10-04-apply-67", runs/"modal-67", CUT_AND_SPLICE)
+    sessions = sorted([(started(runs/d), d) for d in ("splice-126", "strategy-lab", "local-below-100", "modal-below-100", "modal-67", "lab-67")
+                       if (runs/d).exists()])
+    index = {d: k for k, (_, d) in enumerate(sessions)}
+    cut_and_splice = (index["strategy-lab"], 3, 3)  # Researcher 4, round 3 of the researchers on n = 101-132
+    book = Book("squares")
+    for d, k in index.items():
+        if d == "splice-126":
+            single(book, k, runs/d, "Cut-and-splice recombination (Deaven & Ho 1995), a method chosen by hand", [126], [1], "Squares in a square")
+        elif d == "strategy-lab":
+            lab(None, runs/d, book=book, session=k, save=False)
+        elif d == "lab-67":
+            lab(None, runs/d, brief=(OUT.parent/"briefs"/"n67-goebel.md").read_text(), references=[17], polish=16, book=book, session=k, save=False)
+        elif d == "local-below-100":
+            rerun(book, k, runs/d, cut_and_splice, CUT_AND_SPLICE, [37, 54, 70, 83, 88], list(range(2, 22)), begun=started(runs/d))
+        elif d == "modal-below-100":
+            rerun(book, k, runs/d, cut_and_splice, CUT_AND_SPLICE, below_100, list(range(101, 109)), begun=started(runs/d))
+        else:
+            rerun(book, k, runs/d, cut_and_splice, CUT_AND_SPLICE, begun=started(runs/d))
+    book.add("name", min(e["time"] for e in book.events)-2, name="Squares in a square")
+    book.save()
+    print("sessions:", [d for _, d in sessions])
 
 if __name__ == "__main__":
     main(sys.argv[1])

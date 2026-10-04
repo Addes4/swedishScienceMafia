@@ -43,7 +43,8 @@ def main():
         p.add_argument("--targets", nargs="+", required=True, help="sizes, e.g. 88 101-110 122-132")
         p.add_argument("--seeds", type=int, nargs="+", default=[0] if name == "lab" else [1])
         p.add_argument("--backend", choices=["local", "modal"], default="modal")
-        p.add_argument("--out", default=None, help="notebook directory (default runs/<command>-<time>)")
+        p.add_argument("--out", default=None, help="workspace directory: a new session is added if it exists (default runs/<command>-<time>)")
+        p.add_argument("--name", default=None, help="workspace name")
         p.add_argument("--references", type=int, nargs="*", default=[], help="extra sizes whose best solutions strategies receive")
         p.add_argument("--library", default=None, help="strategy library (default: data/strategy-library.json for squares, "
                                                       "data/<domain>-library.json otherwise)")
@@ -55,7 +56,8 @@ def main():
     lab.add_argument("--rounds", type=int, default=3)
     lab.add_argument("--brief", default=None, help="text file of target-specific evidence for the researchers")
     lab.add_argument("--model", default=None)
-    sub.choices["apply"].add_argument("--strategy", required=True, help="library:<index> or a .py file")
+    sub.choices["apply"].add_argument("--strategy", default=None, help="library:<index> or a .py file")
+    sub.choices["apply"].add_argument("--idea", default=None, help="session:researcher:round of an idea in the workspace (--out)")
     verify = sub.add_parser("verify")
     verify.add_argument("--domain", default="squares")
     verify.add_argument("--n", type=int, required=True)
@@ -75,10 +77,13 @@ def main():
         lab = Lab(args.domain, args.backend, out, budget, args.references, library, args.workers)
         if args.command == "lab":
             brief = Path(args.brief).read_text() if args.brief else ""
-            lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model)
+            lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model, args.name)
+        elif args.idea:
+            idea = tuple(int(x) for x in args.idea.split(":"))
+            lab.apply(None, f"idea {args.idea}", sizes(args.targets), args.seeds, idea, args.name)
         else:
             code, source = _strategy(args.strategy, library)
-            lab.apply(code, source, sizes(args.targets), args.seeds)
+            lab.apply(code, source, sizes(args.targets), args.seeds, name=args.name)
         print(f"notebook: {out}/events.jsonl")
     elif args.command == "verify":
         from .domain import get

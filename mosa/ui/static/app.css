@@ -86,6 +86,10 @@ a:hover, .link:hover { text-decoration: underline; }
 .inst:hover { background: var(--hover); }
 .inst.on { background: var(--select); color: var(--strong); }
 .figure.sphere { max-width: 360px; margin-left: auto; margin-right: auto; }
+.session-head { color: var(--muted); font-size: 12px; margin: 10px 0 2px; padding-top: 10px; border-top: 1px solid var(--line); }
+.session-head:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.head-actions { display: flex; gap: 14px; }
+.mark .ring.full { background: var(--strong); border-color: var(--strong); }
 .map { padding: 18px 36px 48px; display: flex; flex-direction: column; gap: 14px; }
 .who { color: var(--muted); font-size: 12px; padding-left: 12px; }
 .thread { display: flex; }
@@ -116,6 +120,7 @@ a:hover, .link:hover { text-decoration: underline; }
 .pane .from { color: var(--muted); margin-top: 2px; }
 .outcome { margin: 16px 0 4px; display: flex; gap: 9px; align-items: flex-start; color: var(--strong); }
 .outcome svg, .outcome .ring { flex: none; margin-top: 3px; }
+.outcome .ring.full { background: var(--strong); border-color: var(--strong); }
 .outcome .ring { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--faint); margin-left: 2px; }
 .section { margin-top: 22px; }
 .section-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }

@@ -48,9 +48,13 @@ def summary(lab_id, path):
         if e["type"] == "record" and e.get("record"):
             if e["n"] not in records or e["side"] < records[e["n"]]:
                 records[e["n"]] = e["side"]
-    done = any(e["type"] == "done" for e in ev)
+    done = sum(e["type"] == "done" for e in ev) >= max(1, sum(e["type"] == "lab" for e in ev))  # every session finished
     updated = ev[-1]["time"] if ev else 0
-    return {"id": lab_id, "name": path.parent.name, "folder": lab_id.split("/")[0], "kind": head.get("kind", "lab"),
+    sessions = [e for e in ev if e["type"] == "lab"]
+    names = [e["name"] for e in ev if e["type"] == "name"] or [head.get("name")]  # a rename appends a name event
+    targets = sorted({n for e in sessions for n in e.get("targets", [])})
+    return {"id": lab_id, "name": path.parent.name, "label": names[-1], "folder": lab_id.split("/")[0], "kind": head.get("kind", "lab"),
+            "sessions": len(sessions), "all_targets": targets,
             "title": head.get("title", ""), "domain": head.get("domain", ""), "started": ev[0]["time"] if ev else 0,
             "updated": updated, "done": done, "running": not done and time.time()-updated < 900,
             "chains": head.get("chains", 1), "rounds": head.get("rounds", 1), "targets": head.get("targets", []),
@@ -83,29 +87,32 @@ def records():
 
 
 def launch(spec):
+    """Start a session: in an existing workspace (spec["workspace"], a lab id) or a new one. kind "lab" runs researchers;
+    kind "apply" runs an existing idea (spec["idea"] = [session, researcher, round]) on more instances."""
     kind = spec.get("kind", "lab")
     if kind not in ("lab", "apply"):
         raise ValueError("kind must be lab or apply")
-    out = f"runs/{kind}-{time.strftime('%Y%m%d-%H%M%S')}"
+    workspace = spec.get("workspace")
+    if workspace and workspace not in notebooks():
+        raise ValueError(f"unknown workspace {workspace}")
+    out = workspace or f"runs/{time.strftime('%Y%m%d-%H%M%S')}"
     command = [sys.executable, "-m", "mosa", kind, "--out", out, "--backend", spec.get("backend", "modal"),
+               "--domain", spec.get("domain", "squares"),
                "--targets", *map(str, spec["targets"]), "--seeds", *map(str, spec.get("seeds") or [0 if kind == "lab" else 1])]
     if spec.get("references"):
         command += ["--references", *map(str, spec["references"])]
+    if spec.get("name"):
+        command += ["--name", spec["name"]]
+    (ROOT/out).mkdir(parents=True, exist_ok=True)
     if kind == "lab":
         command += ["--chains", str(int(spec.get("chains", 4))), "--rounds", str(int(spec.get("rounds", 3)))]
         if spec.get("brief"):
-            brief = ROOT/out/"brief.md"
-            brief.parent.mkdir(parents=True, exist_ok=True)
+            brief = ROOT/out/f"brief-{time.strftime('%H%M%S')}.md"
             brief.write_text(spec["brief"])
             command += ["--brief", str(brief)]
-    elif spec.get("code"):  # a strategy from any round: run it as a file
-        (ROOT/out).mkdir(parents=True, exist_ok=True)
-        (ROOT/out/"strategy.py").write_text(spec["code"])
-        command += ["--strategy", str(ROOT/out/"strategy.py")]
     else:
-        command += ["--strategy", spec["strategy"]]
-    (ROOT/out).mkdir(parents=True, exist_ok=True)
-    with open(ROOT/out/"process.log", "w") as log:
+        command += ["--idea", ":".join(map(str, spec["idea"]))]
+    with open(ROOT/out/"process.log", "a") as log:
         subprocess.Popen(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
     return {"id": out, "command": " ".join(command)}
 

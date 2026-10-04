@@ -46,29 +46,41 @@ async function reference(n, domain = "squares") {
   return S.refs[n];
 }
 
+const ideaKey = (e) => (e.idea ? e.idea.join(":") : `${e.session ?? 0}:${e.chain ?? 0}:${e.round ?? 1}`);
+
 function buildModel(events, until = Infinity) {
-  const m = { lab: null, chains: new Map(), start: null, end: null, done: false };
-  const round = (e) => {
-    const c = e.chain ?? 0, k = e.round ?? 1;
-    if (!m.chains.has(c)) m.chains.set(c, new Map());
-    const rounds = m.chains.get(c);
-    if (!rounds.has(k)) rounds.set(k, { chain: c, round: k, results: [], records: [], progress: {}, prompt: null, strategy: null, done: false, error: null });
-    return rounds.get(k);
+  const m = { lab: null, sessions: [], ideas: new Map(), start: null, end: null, done: false };
+  const idea = (e) => {
+    const key = ideaKey(e);
+    if (!m.ideas.has(key)) {
+      const [session, chain, round] = key.split(":").map(Number);
+      m.ideas.set(key, { key, session, chain, round, results: [], records: [], progress: {}, prompt: null, strategy: null, done: false,
+        error: null, sessions: new Set(), expected: 0 });
+    }
+    return m.ideas.get(key);
   };
+  const runs = (s) => (s.targets || []).length * (s.seeds && s.seeds.length ? s.seeds.length : 1);
   for (const e of events) {
     if (e.time > until) continue;
     m.start = m.start === null ? e.time : Math.min(m.start, e.time);
     m.end = m.end === null ? e.time : Math.max(m.end, e.time);
-    if (e.type === "lab") m.lab = e;
-    else if (e.type === "prompt") round(e).prompt = e;
-    else if (e.type === "strategy") round(e).strategy = e;
-    else if (e.type === "progress") round(e).progress[`${e.n}/${e.seed}`] = e;
-    else if (e.type === "result") { const r = round(e); r.results.push(e); delete r.progress[`${e.n}/${e.seed}`]; }
-    else if (e.type === "record" && e.record) round(e).records.push(e);
-    else if (e.type === "round") round(e).done = true;
-    else if (e.type === "error" && e.chain !== undefined) round(e).error = e;
-    else if (e.type === "done") m.done = true;
+    const s = e.session ?? 0;
+    if (e.type === "lab") {
+      m.sessions[s] = { ...e, index: s, done: false };
+      if (!m.lab) m.lab = e;
+      if (e.idea) { const r = idea({ idea: e.idea }); r.sessions.add(s); r.expected += runs(e); }
+    } else if (e.type === "prompt") idea(e).prompt = e;
+    else if (e.type === "strategy") { const r = idea(e); r.strategy = e; r.sessions.add(s); r.expected += runs(m.sessions[s] || {}); }
+    else if (e.type === "progress") idea(e).progress[`${e.n}/${e.seed}/${s}`] = e;
+    else if (e.type === "result") { const r = idea(e); r.results.push(e); delete r.progress[`${e.n}/${e.seed}/${s}`]; }
+    else if (e.type === "record" && e.record) idea(e).records.push(e);
+    else if (e.type === "round") idea(e).done = true;
+    else if (e.type === "error" && e.chain !== undefined) idea(e).error = e;
+    else if (e.type === "done" && m.sessions[s]) m.sessions[s].done = true;
   }
+  m.done = m.sessions.length > 0 && m.sessions.every((x) => !x || x.done);
+  for (const r of m.ideas.values()) r.live = [...r.sessions].some((s) => m.sessions[s] && !m.sessions[s].done) && r.results.length < r.expected;
+  m.targets = [...new Set(m.sessions.flatMap((x) => (x && x.targets) || []))].sort((a, b) => a - b);
   return m;
 }
 
@@ -99,8 +111,7 @@ const sizesWord = (k) => `${k} size${k === 1 ? "" : "s"}`;
 
 function labTitle(l) {
   if (!l) return "";
-  const sizes = `n = ${span(l.targets || [])}`;
-  return l.kind === "apply" ? `${sizes} · rerun` : sizes;
+  return l.label || `n = ${span(l.all_targets || l.targets || [])}`;
 }
 
 // "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization: …" ->
@@ -121,39 +132,41 @@ const seeds = (lab) => (lab && lab.seeds && lab.seeds.length ? lab.seeds.length 
 const recordSizes = (r) => [...new Set(r.records.map((x) => x.n))].sort((a, b) => a - b);
 
 function outcome(r, m) {
-  const sizes = (m.lab?.targets || []).length, expected = sizes * seeds(m.lab);
   if (r.error) return { kind: "fail", text: "The model call failed." };
   if (!r.strategy) return { kind: "wait", text: "Writing a strategy…" };
-  if (r.done && !r.results.length) {  // imported reruns that kept only their record-breaking runs
-    const found = recordSizes(r);
-    const note = " Only the record-breaking runs of this rerun were saved.";
-    return found.length ? { kind: "star", text: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found)}.${note}`,
-      html: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.${note}`, short: `n = ${found.join(", ")}` }
-      : { kind: "none", text: "No results were saved for this run." };
-  }
-  if (!r.done && r.results.length < expected) {
-    return { kind: "live", text: `Testing on ${seeds(m.lab) > 1 ? `${expected} runs` : sizesWord(sizes)}: ${r.results.length} finished.`, short: `testing · ${r.results.length} of ${expected}` };
-  }
+  if (r.live) return { kind: "live", text: `Testing: ${r.results.length} of ${r.expected} runs finished.`, short: `testing · ${r.results.length} of ${r.expected}` };
   const found = recordSizes(r);
+  const links = (ns) => listN(ns.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`));
+  if (!r.results.length) {  // imported reruns that kept only their record-breaking runs
+    const note = " Only the record-breaking runs were saved.";
+    return found.length ? { kind: "star", text: `New best-known for n = ${listN(found)}.${note}`, html: `New best-known for n = ${links(found)}.${note}`, short: `n = ${found.join(", ")}` }
+      : { kind: "none", text: "No results were saved." };
+  }
+  const sizes = [...new Set(r.results.map((x) => x.n))];
   const errors = r.results.filter((x) => x.error);
   if (found.length) {
-    const held = sizes - found.length;
+    const held = sizes.filter((n) => !found.includes(n)).length;
     const rest = held > 0 ? ` The best known held on the other ${sizesWord(held)}.` : "";
-    const links = listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`));
-    return { kind: "star", text: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found)}.${rest}`,
-      html: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${links}.${rest}`, short: `n = ${found.join(", ")}` };
+    return { kind: "star", text: `New best-known for n = ${listN(found)}.${rest}`, html: `New best-known for n = ${links(found)}.${rest}`, short: `n = ${found.join(", ")}` };
   }
-  if (r.results.length && errors.length === r.results.length) {
-    return { kind: "fail", text: `The code failed on every size: ${lastLine(errors[0].error)}`, short: "code failed" };
+  if (errors.length === r.results.length) return { kind: "fail", text: `The code failed on every size: ${lastLine(errors[0].error)}`, short: "code failed" };
+  const best = (n) => Math.min(...r.results.filter((x) => x.n === n && !x.error).map((x) => x.gap));
+  const tried = sizes.filter((n) => Number.isFinite(best(n)));
+  const reached = knownGiven(m) ? [] : tried.filter((n) => best(n) <= 1e-6).sort((a, b) => a - b);
+  let text;
+  if (reached.length) text = `Reached the best known on ${reached.length} of ${sizesWord(tried.length)} (n = ${listN(reached)}).`;
+  else if (!knownGiven(m)) {
+    const closest = tried.map((n) => [n, best(n)]).sort((a, b) => a[1] - b[1])[0];
+    text = `Did not reach the best known; closest ${plain(closest[1])} above it (n = ${closest[0]}).`;
+  } else {
+    const near = r.results.filter((x) => x.runner_up_gap > 0).sort((a, b) => a.runner_up_gap - b.runner_up_gap)[0];
+    text = near ? `No improvement. The closest other solution came within ${plain(near.runner_up_gap)} of the best known (n = ${near.n}).` : `No improvement on any of the ${sizesWord(sizes.length)}.`;
   }
-  const near = r.results.filter((x) => x.runner_up_gap > 0).sort((a, b) => a.runner_up_gap - b.runner_up_gap)[0];
-  let text = near ? `No improvement. The closest other packing came within ${plain(near.runner_up_gap)} of the best known (n = ${near.n}).`
-    : `No improvement on any of the ${sizesWord(sizes)}.`;
   if (errors.length) text += ` The code failed on ${errors.length} of ${r.results.length} runs.`;
-  return { kind: "none", text };
+  return { kind: reached.length ? "reached" : "none", text, short: reached.length ? `reached ${reached.length} of ${tried.length}` : "" };
 }
 const lastLine = (e) => String(e || "").split("\n").map((s) => s.trim()).filter(Boolean).slice(-1)[0] || "";
-const markHTML = (kind) => (kind === "star" ? ICON.star : kind === "fail" ? ICON.fail : `<span class="ring ${kind === "live" ? "spin" : kind === "wait" ? "wait" : ""}"></span>`);
+const markHTML = (kind) => (kind === "star" ? ICON.star : kind === "fail" ? ICON.fail : `<span class="ring ${kind === "live" ? "spin" : kind === "wait" ? "wait" : kind === "reached" ? "full" : ""}"></span>`);
 
 // ---------- packings ----------
 function figure(poses, side) {
@@ -183,8 +196,8 @@ function renderSide() {
   }).join("");
   const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
-    <button class="new" data-act="compose">${ICON.plus} New lab</button>
-    <div class="list"><div class="heading">Labs</div>${labs}</div>
+    <button class="new" data-act="compose">${ICON.plus} New workspace</button>
+    <div class="list"><div class="heading">Workspaces</div>${labs}</div>
     <div class="side-foot"><button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
 }
 
@@ -195,19 +208,17 @@ function renderMain() {
   const m = model(S.lab), l = summary(S.lab);
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No labs yet. Start one with New lab."}</div>`; return; }
   const L = m.lab;
-  const parts = [];
-  if (L.kind === "apply") parts.push(`rerun of “${esc(idea({ source: L.source }).name)}”`, ...(L.seeds ? [`${seeds(L)} seed${seeds(L) > 1 ? "s" : ""} per size`] : []));
-  else parts.push(`${L.chains} researcher${L.chains > 1 ? "s" : ""} × ${L.rounds} round${L.rounds > 1 ? "s" : ""}`,
-    `each idea tested on ${sizesWord((L.targets || []).length)}${seeds(L) > 1 ? ` × ${seeds(L)} seeds` : ""}`);
+  const parts = [esc(L.title || ""), `${m.targets.length} instance${m.targets.length === 1 ? "" : "s"}`];
+  if (m.sessions.length > 1) parts.push(`${m.sessions.length} sessions`);
   parts.push(`started ${clock(m.start)}`);
   if (m.done) parts.push(`took ${duration(m.end - m.start)}`);
   else if (l?.running) parts.push("running");
-  if (L.brief) parts.push(`<a data-act="brief">brief</a>`);
+  if (m.sessions.length === 1 && L.brief) parts.push(`<a data-act="brief">brief</a>`);
   const replay = S.replay && S.replay.lab === S.lab
     ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
-    : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
+    : `<div class="head-actions">${m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : ""}<button class="text-btn" data-act="research">${ICON.plus} Research here</button></div>`;
   el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div></div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
@@ -215,15 +226,15 @@ function renderMain() {
 // solution was given to start from); ○ not reached.
 const knownGiven = (m) => (m.lab?.domain || "squares") === "squares";
 function instanceState(m, n) {
-  const rounds = [...m.chains.values()].flatMap((rs) => [...rs.values()]);
+  const rounds = [...m.ideas.values()];
   const records = rounds.flatMap((r) => r.records).filter((x) => x.n === n).sort((a, b) => a.side - b.side);
-  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, chain: r.chain, round: r.round }))).filter((x) => x.n === n && !x.error && x.gap != null);
+  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, key: r.key }))).filter((x) => x.n === n && !x.error && x.gap != null);
   const best = results.sort((a, b) => a.gap - b.gap)[0] || null;
   const kind = records.length ? "star" : !knownGiven(m) && best && best.gap <= 1e-6 ? "reached" : "none";
   return { n, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
 function instancesHTML(m) {
-  const targets = [...(m.lab.targets || [])].sort((a, b) => a - b);
+  const targets = m.targets;
   if (targets.length < 2) return "";
   const states = targets.map((n) => instanceState(m, n));
   const stars = states.filter((s) => s.kind === "star").length, reached = states.filter((s) => s.kind === "reached").length;
@@ -233,21 +244,38 @@ function instancesHTML(m) {
     `<button class="inst ${s.kind} ${S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n ? "on" : ""}" data-act="instance" data-n="${s.n}" title="${s.best ? `best found ${plain(Math.abs(s.best.gap))} ${s.best.gap < 0 ? "below" : "above"} the best known` : "no result"}"><span>${glyph(s.kind)}</span>${s.n}</button>`).join("")}</div></div>`;
 }
 
+function threads(m) {
+  const out = new Map();
+  for (const r of m.ideas.values()) {
+    if (!r.strategy && !r.prompt && !r.error) continue;
+    const key = `${r.session}:${r.chain}`;
+    if (!out.has(key)) out.set(key, { session: r.session, chain: r.chain, ideas: [] });
+    out.get(key).ideas.push(r);
+  }
+  return [...out.values()].sort((a, b) => a.session - b.session || a.chain - b.chain).map((x) => ({ ...x, ideas: x.ideas.sort((a, b) => a.round - b.round) }));
+}
+
 function mapHTML(m) {
-  const L = m.lab;
-  const rows = [...m.chains.entries()].sort((a, b) => a[0] - b[0]).map(([c, rounds]) => {
-    const ideas = [...rounds.values()].sort((a, b) => a.round - b.round).map((r) => {
+  const all = threads(m), many = new Set(all.map((x) => x.session)).size > 1;
+  let html = "", last = null;
+  for (const th of all) {
+    const s = m.sessions[th.session] || {};
+    if (many && th.session !== last) {
+      html += `<div class="session-head">Session ${th.session + 1} · n = ${esc(span(s.targets || []))} · ${clock(s.time)}${s.brief ? ` · <a data-act="brief" data-s="${th.session}">brief</a>` : ""}</div>`;
+      last = th.session;
+    }
+    const ideas = th.ideas.map((r) => {
       const o = outcome(r, m), it = idea(r.strategy);
-      const on = S.sel?.type === "idea" && S.sel.lab === S.lab && S.sel.chain === c && S.sel.round === r.round;
-      return `<button class="idea ${o.kind} ${on ? "on" : ""}" data-act="idea" data-chain="${c}" data-round="${r.round}">
+      const on = S.sel?.type === "idea" && S.sel.lab === S.lab && S.sel.idea === r.key;
+      return `<button class="idea ${o.kind} ${on ? "on" : ""}" data-act="idea" data-idea="${r.key}">
         <span class="mark">${markHTML(o.kind)}</span>
         <div class="title">${esc(it.name || (o.kind === "wait" ? "Thinking…" : "—"))}</div>
         ${it.field ? `<div class="field">${esc(it.field)}</div>` : ""}
-        ${o.kind === "star" ? `<div class="found">★ ${esc(o.short)}</div>` : o.short && o.kind !== "none" ? `<div class="state">${esc(o.short)}</div>` : ""}</button>`;
+        ${o.kind === "star" ? `<div class="found">★ ${esc(o.short)}</div>` : o.short ? `<div class="state">${esc(o.short)}</div>` : ""}</button>`;
     }).join("");
-    return `<div class="lane"><div class="who">${L.kind === "apply" ? "Strategy" : `Researcher ${c + 1}`}</div><div class="thread">${ideas}</div></div>`;
-  }).join("");
-  return `<div class="map">${rows}</div>`;
+    html += `<div class="lane"><div class="who">${s.kind === "apply" ? "Strategy" : `Researcher ${th.chain + 1}`}</div><div class="thread">${ideas}</div></div>`;
+  }
+  return `<div class="map">${html}</div>`;
 }
 
 // ---------- detail: the selection ----------
@@ -284,11 +312,12 @@ function resultsTable(r, m) {
 }
 
 function ideaView() {
-  const m = model(S.sel.lab), r = m && m.chains.get(S.sel.chain)?.get(S.sel.round);
+  const m = model(S.sel.lab), r = m && m.ideas.get(S.sel.idea);
   if (!r) return "";
   const o = outcome(r, m), it = idea(r.strategy), s = r.strategy || {};
   const kind = { new: "new idea", refine: "refinement", combine: "combination" }[s.decision];
-  const who = m.lab.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1} · round ${r.round}${kind ? ` · ${kind}` : ""}`;
+  const ses = m.sessions[r.session] || {};
+  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1} · round ${r.round}${m.sessions.length > 1 ? ` · session ${r.session + 1}` : ""}${kind ? ` · ${kind}` : ""}`;
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
@@ -298,7 +327,7 @@ function ideaView() {
     ${r.results.length ? `<details><summary>Results on each size</summary>${resultsTable(r, m)}</details>` : ""}
     ${s.code ? `<details><summary>Code</summary><pre class="code"><code class="language-python">${esc(s.code)}</code></pre></details>` : ""}
     ${r.prompt ? `<details><summary>What the researcher was told</summary><pre class="code plain">${esc(r.prompt.prompt)}</pre></details>` : ""}
-    ${s.code ? `<div class="section"><button class="btn quiet" data-act="apply">Run on more sizes</button></div>` : ""}
+    ${s.code ? `<div class="section"><button class="btn quiet" data-act="apply">Run on more instances</button></div>` : ""}
   </div>`;
 }
 
@@ -309,10 +338,11 @@ function instanceView() {
   const what = domain === "thomson" ? `${n} charges on a sphere` : `${n} squares in a square`;
   const by = (x) => {
     if (!x) return "";
-    const r = m.chains.get(x.chain ?? 0)?.get(x.round ?? 1);
+    const key = x.key || ideaKey(x), r = m.ideas.get(key);
     const it = r ? idea(r.strategy) : idea({ source: m.lab.source });
-    return m.lab.kind === "lab" ? `<a data-act="idea" data-chain="${x.chain}" data-round="${x.round}">Researcher ${x.chain + 1}, round ${x.round}</a>: ${esc(it.name)}`
-      : `A rerun of “${esc(it.name)}”`;
+    const ses = m.sessions[r?.session ?? 0] || {};
+    const later = x.session !== undefined && r && x.session !== r.session ? `, when run on more instances in session ${x.session + 1}` : "";
+    return ses.kind === "apply" ? `${esc(it.name)}${later}` : `<a data-act="idea" data-idea="${key}">Researcher ${r.chain + 1}, round ${r.round}${m.sessions.length > 1 ? ` (session ${r.session + 1})` : ""}</a>: ${esc(it.name)}${later}`;
   };
   if (st.record) return discoveryView(st.record, what, by(st.record));
   const b = st.best;
@@ -362,28 +392,34 @@ function sphere(points) {
 }
 
 function briefView() {
-  const m = model(S.sel.lab);
+  const m = model(S.sel.lab), ses = m?.sessions[S.sel.session ?? 0];
   return `<div class="pane"><div class="eyebrow">Brief</div><h2>What the researchers were told about these sizes</h2>
-    <div class="section"><pre class="code plain">${esc(m?.lab?.brief || "")}</pre></div></div>`;
+    <div class="section"><pre class="code plain">${esc(ses?.brief || "")}</pre></div></div>`;
 }
 
 // ---------- new lab ----------
 function composeView() {
-  const c = S.compose;
-  const apply = c.kind === "apply";
+  const c = S.compose, apply = c.kind === "apply", fresh = !c.workspace;
+  const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const stepper = (key, label) => `<div class="field-row"><label>${label}</label><div class="stepper"><button data-act="step" data-k="${key}" data-d="-1">−</button><span>${c[key]}</span><button data-act="step" data-k="${key}" data-d="1">+</button></div></div>`;
+  const problems = [["squares", "Squares in a square"], ["thomson", "Charges on a sphere (Thomson)"]];
   return `<div class="compose">
-    <h1>${apply ? `Run “${esc(c.name)}” on more sizes` : "New lab"}</h1>
-    <div class="sub">${apply ? "The same strategy, without a researcher, on the sizes and seeds you choose." : "Researchers write search strategies for these sizes, test them, and learn from the results."}</div>
-    <div class="field-row"><label for="f-sizes">Sizes</label><input id="f-sizes" value="${esc(c.sizes)}"><div class="hint">For example 67, or 101–110, 122–132.</div></div>
+    <h1>${apply ? `Run “${esc(c.name)}” on more instances` : fresh ? "New workspace" : `Research in ${esc(here)}`}</h1>
+    <div class="sub">${apply ? "The same idea, without a researcher. Its results on these instances are added to the idea."
+      : fresh ? "A workspace is a problem, its instances and a shared memory: everything found in it is offered to every strategy that runs in it."
+      : "A new session in this workspace. Its researchers see everything the workspace has found so far."}</div>
+    ${fresh && !apply ? `<div class="field-row"><label for="f-name">Name</label><input id="f-name" value="${esc(c.name || "")}" placeholder="e.g. Squares near 120"></div>
+      <div class="field-row"><label>Problem</label><div class="choice">${problems.map(([v, label]) => `<label><input type="radio" name="f-domain" value="${v}" ${c.domain === v ? "checked" : ""}> ${label}</label>`).join("")}</div>
+      <div class="hint">Packing problems use the built-in harness. New problems need a harness: a fast local optimizer, a refiner and an independent verifier (see docs/NOTES.md).</div></div>` : ""}
+    <div class="field-row"><label for="f-sizes">Instances</label><input id="f-sizes" value="${esc(c.sizes)}"><div class="hint">Sizes n, for example 67, or 101–110, 122–132.</div></div>
     ${apply ? "" : `<div class="pair">${stepper("chains", "Researchers")}${stepper("rounds", "Rounds")}</div>
-      <div class="field-row"><label for="f-brief">Brief <span style="color:var(--muted);font-weight:400">(optional)</span></label><textarea id="f-brief" placeholder="Anything the researchers should know about these sizes.">${esc(c.brief)}</textarea></div>`}
+      <div class="field-row"><label for="f-brief">Brief <span style="color:var(--muted);font-weight:400">(optional)</span></label><textarea id="f-brief" placeholder="Anything the researchers should know about these instances.">${esc(c.brief)}</textarea></div>`}
     <details ${apply ? "open" : ""}><summary>More options</summary>
-      <div class="field-row" style="margin-top:12px"><label for="f-seeds">Seeds per size</label><input id="f-seeds" value="${esc(c.seeds)}" style="width:160px"><div class="hint">Each seed is an independent run. One run is a noisy sample.</div></div>
+      <div class="field-row" style="margin-top:12px"><label for="f-seeds">Seeds per instance</label><input id="f-seeds" value="${esc(c.seeds)}" style="width:160px"><div class="hint">Each seed is an independent run. One run is a noisy sample.</div></div>
       <div class="field-row"><label>Compute</label><div class="choice"><label><input type="radio" name="f-compute" value="modal" ${c.backend === "modal" ? "checked" : ""}> Modal</label><label><input type="radio" name="f-compute" value="local" ${c.backend === "local" ? "checked" : ""}> This machine</label></div></div>
-      <div class="field-row"><label for="f-refs">Reference sizes</label><input id="f-refs" value="${esc(c.refs)}" style="width:160px"><div class="hint">Best packings of other sizes that the strategies may borrow from.</div></div>
+      <div class="field-row"><label for="f-refs">Reference sizes</label><input id="f-refs" value="${esc(c.refs)}" style="width:160px"><div class="hint">Best solutions of other sizes that strategies may borrow from, beyond the workspace's own.</div></div>
     </details>
-    <div style="margin-top:22px"><button class="btn" data-act="start">${apply ? "Run" : "Start lab"}</button><span class="note" id="f-note"></span></div>
+    <div style="margin-top:22px"><button class="btn" data-act="start">${apply ? "Run" : fresh ? "Create and start" : "Start session"}</button><span class="note" id="f-note"></span></div>
   </div>`;
 }
 
@@ -395,9 +431,10 @@ const parseSizes = (text) => String(text).split(/[\s,]+/).filter(Boolean).flatMa
 async function start() {
   const c = S.compose, note = $("#f-note");
   const spec = { kind: c.kind, targets: parseSizes($("#f-sizes").value), seeds: parseSizes($("#f-seeds").value),
-    backend: document.querySelector("input[name=f-compute]:checked")?.value || "modal", references: parseSizes($("#f-refs").value) };
-  if (c.kind === "lab") Object.assign(spec, { chains: c.chains, rounds: c.rounds, brief: $("#f-brief").value });
-  else Object.assign(spec, { code: c.code, name: c.name });
+    backend: document.querySelector("input[name=f-compute]:checked")?.value || "modal", references: parseSizes($("#f-refs").value),
+    workspace: c.workspace || undefined, domain: document.querySelector("input[name=f-domain]:checked")?.value || c.domain || "squares" };
+  if (c.kind === "lab") Object.assign(spec, { chains: c.chains, rounds: c.rounds, brief: $("#f-brief").value, name: $("#f-name")?.value || undefined });
+  else spec.idea = c.idea;
   if (!spec.targets.length) { note.textContent = "Give at least one size."; return; }
   note.textContent = "Starting…";
   try {
@@ -414,7 +451,7 @@ function renderStatus() {
   const live = [];
   for (const l of S.labs.filter((x) => x.running)) {
     const m = S.books[l.id]?.model;
-    const r = m && [...m.chains.values()].flatMap((rs) => [...rs.values()]).find((x) => !x.done && !x.error);
+    const r = m && [...m.ideas.values()].find((x) => x.live || (!x.strategy && x.prompt && !x.error));
     const o = r && outcome(r, m);
     live.push(`${labTitle(l)}${r ? ` · Researcher ${r.chain + 1} ${o.kind === "wait" ? "is writing a strategy" : `is testing “${idea(r.strategy).name}” (${o.short?.replace("testing · ", "")})`}` : ""}`);
   }
@@ -430,21 +467,19 @@ function selectLab(id) {
   if (!S.books[id]) loadBook(id).then(render);
   render();
 }
-function selectIdea(lab, chain, round) {
+function selectIdea(lab, key) {
   if (S.lab !== lab) { S.lab = lab; if (!S.books[lab]) loadBook(lab).then(render); }
   S.compose = null;
-  S.sel = { type: "idea", lab, chain, round };
+  S.sel = { type: "idea", lab, idea: key };
   render();
 }
 function move(dx, dy) {
   if (S.sel?.type !== "idea") return;
-  const m = model(S.lab);
-  const chains = [...m.chains.keys()].sort((a, b) => a - b);
-  const ci = chains.indexOf(S.sel.chain) + dy;
-  if (ci < 0 || ci >= chains.length) return;
-  const rounds = m.chains.get(chains[ci]);
-  const round = Math.max(1, Math.min(Math.max(...rounds.keys()), S.sel.round + dx));
-  if (rounds.has(round)) selectIdea(S.lab, chains[ci], round);
+  const m = model(S.lab), all = threads(m), r = m.ideas.get(S.sel.idea);
+  const i = all.findIndex((th) => th.session === r.session && th.chain === r.chain) + dy;
+  if (i < 0 || i >= all.length) return;
+  const ideas = all[i].ideas, j = Math.max(0, Math.min(ideas.length - 1, ideas.findIndex((x) => x.round === r.round) + dx));
+  selectIdea(S.lab, (ideas[j] || ideas[ideas.length - 1]).key);
 }
 
 let timer = null;
@@ -471,20 +506,20 @@ document.addEventListener("click", (ev) => {
   const d = el.dataset;
   switch (d.act) {
     case "lab": selectLab(d.id); break;
-    case "idea": selectIdea(S.lab, +d.chain, +d.round); break;
-    case "idea-in": selectIdea(d.lab, +d.chain, +d.round); break;
+    case "idea": selectIdea(S.lab, d.idea); break;
     case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n }; S.view = "after"; S.compose = null; render(); break;
-    case "brief": S.sel = { type: "brief", lab: S.lab }; render(); break;
+    case "brief": S.sel = { type: "brief", lab: S.lab, session: +(d.s || 0) }; render(); break;
     case "unselect": S.sel = null; render(); break;
     case "view": S.view = d.v; renderDetail(); break;
-    case "compose": S.compose = { kind: "lab", sizes: "101–110, 122–132", chains: 4, rounds: 3, brief: "", seeds: "0", backend: "modal", refs: "" }; S.sel = null; render(); break;
+    case "compose": S.compose = { kind: "lab", domain: "squares", name: "", sizes: "101–110, 122–132", chains: 4, rounds: 3, brief: "", seeds: "0", backend: "modal", refs: "" }; S.sel = null; render(); break;
+    case "research": { const m = model(S.lab); S.compose = { kind: "lab", workspace: S.lab, domain: m.lab.domain || "squares", sizes: span(m.targets), chains: 4, rounds: 3, brief: "", seeds: "0", backend: "modal", refs: "" }; S.sel = null; render(); break; }
     case "apply": {
-      const r = model(S.sel.lab).chains.get(S.sel.chain).get(S.sel.round);
-      S.compose = { kind: "apply", name: idea(r.strategy).name, code: r.strategy.code, sizes: "", seeds: "1 2 3 4", backend: "modal", refs: "" };
+      const m = model(S.sel.lab), r = m.ideas.get(S.sel.idea);
+      S.compose = { kind: "apply", workspace: S.sel.lab, idea: r.key.split(":").map(Number), domain: m.lab.domain || "squares", name: idea(r.strategy).name, sizes: "", seeds: "1 2 3 4", backend: "modal", refs: "" };
       S.sel = null; render(); $("#f-sizes")?.focus();
       break;
     }
-    case "step": { const c = S.compose; c[d.k] = Math.max(1, Math.min(d.k === "chains" ? 8 : 10, c[d.k] + +d.d)); c.sizes = $("#f-sizes").value; c.brief = $("#f-brief")?.value ?? c.brief; renderMain(); break; }
+    case "step": { const c = S.compose; c[d.k] = Math.max(1, Math.min(d.k === "chains" ? 8 : 10, c[d.k] + +d.d)); c.sizes = $("#f-sizes").value; c.brief = $("#f-brief")?.value ?? c.brief; c.name = $("#f-name")?.value ?? c.name; c.domain = document.querySelector("input[name=f-domain]:checked")?.value || c.domain; renderMain(); break; }
     case "start": start(); break;
     case "theme": {
       const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";
