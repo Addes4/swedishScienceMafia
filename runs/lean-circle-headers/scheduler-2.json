@@ -1,0 +1,5 @@
+{
+  "state": "lead/fresh",
+  "policy": "patience",
+  "cost_unit": "measured milli-USD; initial forecasts only"
+}

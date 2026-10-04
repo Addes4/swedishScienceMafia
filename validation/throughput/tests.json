@@ -1,0 +1,8 @@
+{
+  "command": "/private/tmp/ssm-throughput-env/bin/python -m pytest -q",
+  "date": "2026-10-03",
+  "exit_code": 0,
+  "passed": 75,
+  "seconds": 4.64,
+  "scope": "Full repository suite, including rate scheduler and concurrent evaluation checks"
+}

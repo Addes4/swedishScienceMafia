@@ -1,0 +1,313 @@
+{
+  "problem": "circle",
+  "approach": "lean",
+  "llm_used": false,
+  "status": "completed",
+  "search_seconds": 0.11428120898199268,
+  "usage": {
+    "actual_usd": 0,
+    "attempts": 0
+  },
+  "evaluation_work": {
+    "physical_executions": 12,
+    "physical_item_steps": 0,
+    "evaluation_seconds": 0.6915054170240182
+  },
+  "audit": {
+    "score_only": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -0.9427619177600803,
+      "reference_objective": -0.9427619177600803
+    },
+    "random_strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -0.9427619177600803,
+      "reference_objective": -0.9427619177600803
+    },
+    "strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -0.9427619177600803,
+      "reference_objective": -0.9427619177600803
+    },
+    "validated_budget": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 8,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 8,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 8,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 8,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -0.9427619177600803,
+      "reference_objective": -0.9427619177600803
+    }
+  },
+  "final_candidate": "a586cda41d88a0b889d7bdbdbe4367dd36506f70830260b28fa4df0cbe696970",
+  "simplification_packing_executions": 0,
+  "claims_limit": "Single pilot; gate controls share proposals; no causal memory or efficiency claim."
+}

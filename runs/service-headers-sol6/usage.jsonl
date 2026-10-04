@@ -1,0 +1,1 @@
+{"id": "ff6848a5cd494e8e8371823f12f1b362", "tag": "service_check", "model": "gpt-6-sol", "served_model": "gpt-6-sol", "status": "completed", "usage": {"input_tokens": 16, "input_tokens_details": {"cache_write_tokens": 0, "cached_tokens": 0}, "output_tokens": 6, "output_tokens_details": {"reasoning_tokens": 0}, "total_tokens": 22}, "usd": 9.2e-05, "seconds": 1.0513424999953713}

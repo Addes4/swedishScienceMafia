@@ -1,0 +1,28 @@
+{
+  "state": "trail/slowing",
+  "policy": "adaptive",
+  "cost_unit": "measured milli-USD; initial forecasts only",
+  "moves": {
+    "edit": {
+      "p_improve": 0.5,
+      "gain": 1.0,
+      "cost": 0.001,
+      "yield": 500.0
+    },
+    "rewrite": {
+      "p_improve": 0.5,
+      "gain": 1.0,
+      "cost": 0.001,
+      "yield": 500.0
+    },
+    "crossover": {
+      "p_improve": 0.12594141205511197,
+      "gain": 1.0,
+      "cost": 0.001,
+      "yield": 125.94141205511197
+    }
+  },
+  "stay": 500.0,
+  "explore": 0.0,
+  "resumed_leader": true
+}

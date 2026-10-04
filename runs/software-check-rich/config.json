@@ -1,0 +1,28 @@
+{
+  "problem": "rich",
+  "approach": "lean",
+  "model": "gpt-6.1-sol",
+  "steps": 1,
+  "seed": 7101,
+  "budget": 3.0,
+  "ledger": "/private/tmp/ssm-all-approaches/runs/campaign_usage.jsonl",
+  "out": "runs/software-check-rich",
+  "ranker": "openai",
+  "scheduler": null,
+  "gate": null,
+  "timeout": 30,
+  "mock": true,
+  "git_head": "3bb715a4b785570a439200cab04e9b1ec4346b32",
+  "counts": {
+    "fixed": 2,
+    "stress": 2,
+    "validation": 2,
+    "probes": 2,
+    "audit": 8,
+    "simplify": 8
+  },
+  "actual_gate": "strict",
+  "live_mode_requested": false,
+  "started_utc": "2026-10-03T18:52:27Z",
+  "note": "One pilot trajectory; fresh audit never feeds selection. Full ranker identity is explicit."
+}

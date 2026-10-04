@@ -1,0 +1,82 @@
+{
+  "85316598c4d1a3f9cb2cdce0e3df71d4bfd23aeb7185e4c49c28d5afae76af26": {
+    "payload": "import numpy as np\n\n\ndef priority(item, bins):\n    bins = np.asarray(bins, dtype=float)\n    if bins.size == 0:\n        return bins\n\n    x = float(item)\n    c = max(float(bins.max()), x, 1.0)\n\n    left = bins - x\n    feasible = left >= -1e-12\n    r = np.maximum(left, 0.0)\n\n    # Exact / near-exact fits.\n    near = np.exp(-r / (0.035 * c + 1.0))\n    ultra = np.exp(-r / (0.008 * c + 1.0))\n    exact_bonus = 8.0 * c * ultra + 1.8 * c * near\n\n    # Small-item sweet-spot shaping.\n    size_ratio = x / c\n    small_item = np.clip((0.62 - size_ratio) / 0.62, 0.0, 1.0)\n\n    sweet = np.array([0.0, 0.10 * c, 0.20 * c, 0.25 * c, 0.33 * c, 0.50 * c])\n    dist = np.abs(r[:, None] - sweet)\n    tau = 0.055 * c + 1.0\n    sweet_reward = tau * np.log(np.sum(np.exp(-dist / tau), axis=1) + 1e-12)\n\n    small_gap_penalty = np.where(r < 0.12 * c, (0.12 * c - r) ** 1.25, 0.0)\n\n    # Mild preference against opening new bins when partial bins exist.\n    is_unused = bins >= (c - 1e-9)\n    open_penalty = np.where(is_unused & np.any(feasible & ~is_unused), 0.12 * c, 0.0)\n\n    scores = (\n        -3.0 * r\n        + exact_bonus\n        + small_item * (0.95 * c * sweet_reward - 1.8 * small_gap_penalty)\n        - open_penalty\n    )\n\n    return np.where(feasible, scores, -1e30)\n",
+    "details": {
+      "comparison": {
+        "valid": true,
+        "n": 6,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 6,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 3,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 3,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 3,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 3,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "preserved": true,
+      "simpler": true,
+      "candidate": "import numpy as np\n\n\ndef priority(item, bins):\n    bins = np.asarray(bins, dtype=float)\n    if bins.size == 0:\n        return bins\n\n    x = float(item)\n    c = max(float(bins.max()), x, 1.0)\n\n    left = bins - x\n    feasible = left >= -1e-12\n    r = np.maximum(left, 0.0)\n\n    # Exact / near-exact fits.\n    near = np.exp(-r / (0.035 * c + 1.0))\n    ultra = np.exp(-r / (0.008 * c + 1.0))\n    exact_bonus = 8.0 * c * ultra + 1.8 * c * near\n\n    # Small-item sweet-spot shaping.\n    size_ratio = x / c\n    small_item = np.clip((0.62 - size_ratio) / 0.62, 0.0, 1.0)\n\n    sweet = np.array([0.0, 0.10 * c, 0.20 * c, 0.25 * c, 0.33 * c, 0.50 * c])\n    dist = np.abs(r[:, None] - sweet)\n    tau = 0.055 * c + 1.0\n    sweet_reward = tau * np.log(np.sum(np.exp(-dist / tau), axis=1) + 1e-12)\n\n    small_gap_penalty = np.where(r < 0.12 * c, (0.12 * c - r) ** 1.25, 0.0)\n\n    # Mild preference against opening new bins when partial bins exist.\n    is_unused = bins >= (c - 1e-9)\n    open_penalty = np.where(is_unused & np.any(feasible & ~is_unused), 0.12 * c, 0.0)\n\n    scores = (\n        -3.0 * r\n        + exact_bonus\n        + small_item * (0.95 * c * sweet_reward - 1.8 * small_gap_penalty)\n        - open_penalty\n    )\n\n    return np.where(feasible, scores, -1e30)\n",
+      "classification": "preservation"
+    }
+  },
+  "aa4da5a136c1f5c8b4782f0c4ac5252d92fefd2a091f92262f33ff3bfb7f2fe2": {
+    "payload": "import numpy as np\n\n\ndef priority(item, bins):\n    c = np.asarray(bins, dtype=float)\n    if c.size == 0:\n        return np.empty_like(c)\n\n    item = float(item)\n    cap = max(float(c.max()), item, 1.0)\n    leftover = np.maximum(c - item, 0.0)\n\n    unused = c >= cap - 1e-9\n    partial_count = np.count_nonzero(~unused)\n\n    gap = leftover / (0.06 * cap)\n    scores = -leftover - (0.26 * cap) * gap * np.exp(1.0 - gap)\n\n    scores -= (0.18 * cap * max(partial_count - 1, 0) / (max(partial_count - 1, 0) + 3.0)) * unused\n    return scores\n",
+    "details": {
+      "comparison": {
+        "valid": true,
+        "n": 6,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 6,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 3,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 3,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 3,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 3,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "preserved": true,
+      "simpler": true,
+      "candidate": "import numpy as np\n\n\ndef priority(item, bins):\n    c = np.asarray(bins, dtype=float)\n    if c.size == 0:\n        return np.empty_like(c)\n\n    item = float(item)\n    cap = max(float(c.max()), item, 1.0)\n    leftover = np.maximum(c - item, 0.0)\n\n    unused = c >= cap - 1e-9\n    partial_count = np.count_nonzero(~unused)\n\n    gap = leftover / (0.06 * cap)\n    scores = -leftover - (0.26 * cap) * gap * np.exp(1.0 - gap)\n\n    scores -= (0.18 * cap * max(partial_count - 1, 0) / (max(partial_count - 1, 0) + 3.0)) * unused\n    return scores\n",
+      "classification": "preservation"
+    }
+  }
+}

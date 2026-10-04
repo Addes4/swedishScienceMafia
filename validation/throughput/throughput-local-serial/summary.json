@@ -1,0 +1,26 @@
+{
+  "purpose": "Execution-path smoke and artificial latency fixture; no search-quality inference",
+  "backend": "local",
+  "workers": 1,
+  "host": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "setup_seconds": 0.00013266599853523076,
+  "best_fit_wall_seconds": 0.6037267499777954,
+  "best_fit_bins": [
+    56,
+    2097,
+    54,
+    2111
+  ],
+  "latency_fixture_wall_seconds": 8.738626667007338,
+  "circle_score": 0.9285387089611934,
+  "timeout_rejected": true,
+  "wall_seconds": 11.52351037497283,
+  "evaluations": {
+    "physical_executions": 9,
+    "physical_item_steps": 20600,
+    "evaluation_seconds": 11.344651043007616,
+    "evaluation_wall_seconds": 11.350467250973452,
+    "backend": "local",
+    "workers": 1
+  }
+}

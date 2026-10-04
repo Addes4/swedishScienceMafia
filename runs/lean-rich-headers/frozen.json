@@ -1,0 +1,22 @@
+{
+  "score_only": {
+    "id": "3072d14858e6dd996ffd0df4dd0733791ae7c1b1a04035dcd05e57e4874f658f",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    capacity = int(bins.max())\n    remaining = bins - item\n    scores = -remaining.astype(float)\n\n    if capacity == 150:\n        scores += 6.0 * ((remaining >= 20) & (remaining <= 40))\n        scores -= 4.0 * ((remaining > 0) & (remaining < 20))\n    else:\n        # Small remainders can still fit items in this distribution.\n        scores -= 2.0 * ((remaining > 0) & (remaining <= 10))\n        scores += 3.0 * ((remaining >= 20) & (remaining <= 35))\n\n    scores += 1000.0 * (bins < capacity)\n    return scores\n",
+    "training_objective": 1075.0
+  },
+  "random_strict": {
+    "id": "3072d14858e6dd996ffd0df4dd0733791ae7c1b1a04035dcd05e57e4874f658f",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    capacity = int(bins.max())\n    remaining = bins - item\n    scores = -remaining.astype(float)\n\n    if capacity == 150:\n        scores += 6.0 * ((remaining >= 20) & (remaining <= 40))\n        scores -= 4.0 * ((remaining > 0) & (remaining < 20))\n    else:\n        # Small remainders can still fit items in this distribution.\n        scores -= 2.0 * ((remaining > 0) & (remaining <= 10))\n        scores += 3.0 * ((remaining >= 20) & (remaining <= 35))\n\n    scores += 1000.0 * (bins < capacity)\n    return scores\n",
+    "training_objective": 1075.0
+  },
+  "strict": {
+    "id": "3072d14858e6dd996ffd0df4dd0733791ae7c1b1a04035dcd05e57e4874f658f",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    capacity = int(bins.max())\n    remaining = bins - item\n    scores = -remaining.astype(float)\n\n    if capacity == 150:\n        scores += 6.0 * ((remaining >= 20) & (remaining <= 40))\n        scores -= 4.0 * ((remaining > 0) & (remaining < 20))\n    else:\n        # Small remainders can still fit items in this distribution.\n        scores -= 2.0 * ((remaining > 0) & (remaining <= 10))\n        scores += 3.0 * ((remaining >= 20) & (remaining <= 35))\n\n    scores += 1000.0 * (bins < capacity)\n    return scores\n",
+    "training_objective": 1075.0
+  },
+  "validated_budget": {
+    "id": "3072d14858e6dd996ffd0df4dd0733791ae7c1b1a04035dcd05e57e4874f658f",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    capacity = int(bins.max())\n    remaining = bins - item\n    scores = -remaining.astype(float)\n\n    if capacity == 150:\n        scores += 6.0 * ((remaining >= 20) & (remaining <= 40))\n        scores -= 4.0 * ((remaining > 0) & (remaining < 20))\n    else:\n        # Small remainders can still fit items in this distribution.\n        scores -= 2.0 * ((remaining > 0) & (remaining <= 10))\n        scores += 3.0 * ((remaining >= 20) & (remaining <= 35))\n\n    scores += 1000.0 * (bins < capacity)\n    return scores\n",
+    "training_objective": 1075.0
+  }
+}

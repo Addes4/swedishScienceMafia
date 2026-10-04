@@ -1,0 +1,42 @@
+{
+  "44a5ed20eeed950b6f386aeecce698105a920f93a0b129a94bad7c7a1a1c5f38": {
+    "payload": "import numpy as np\n\n\ndef priority(item, bins):\n    c = np.asarray(bins, dtype=float)\n    if c.size == 0:\n        return np.empty_like(c)\n\n    item = float(item)\n    r = c - item\n    cap = float(c.max())\n\n    gate = np.clip((0.42 * cap - item) / (0.18 * cap), 0.0, 1.0)\n    s = -r\n\n    if gate > 0.0:\n        target, width, strength = (29.0, 18.0, 17.0) if cap > 125.0 else (35.0, 20.0, 20.0)\n        b = np.maximum(0.0, 1.0 - ((r - target) / width) ** 2)\n        s += gate * strength * b\n\n    s += 0.5 * cap * (r == 0.0)\n    s -= 2.0 * cap * (c == cap)\n    return s\n",
+    "details": {
+      "comparison": {
+        "valid": true,
+        "n": 6,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 6,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 3,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 3,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 3,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 3,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "preserved": true,
+      "simpler": true,
+      "candidate": "import numpy as np\n\n\ndef priority(item, bins):\n    c = np.asarray(bins, dtype=float)\n    if c.size == 0:\n        return np.empty_like(c)\n\n    item = float(item)\n    r = c - item\n    cap = float(c.max())\n\n    gate = np.clip((0.42 * cap - item) / (0.18 * cap), 0.0, 1.0)\n    s = -r\n\n    if gate > 0.0:\n        target, width, strength = (29.0, 18.0, 17.0) if cap > 125.0 else (35.0, 20.0, 20.0)\n        b = np.maximum(0.0, 1.0 - ((r - target) / width) ** 2)\n        s += gate * strength * b\n\n    s += 0.5 * cap * (r == 0.0)\n    s -= 2.0 * cap * (c == cap)\n    return s\n",
+      "classification": "preservation"
+    }
+  }
+}

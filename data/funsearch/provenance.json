@@ -1,0 +1,16 @@
+{
+  "source": "https://github.com/google-deepmind/funsearch",
+  "commit": "cc53f274237d7ab05c19df939edbc1f9616a7c19",
+  "notebook_sha256": "eec45846a8661722addbb856179327cf2ede0bc502e32be4ad58a6ac54e0aca6",
+  "datasets": {
+    "OR3": 20,
+    "Weibull 5k": 5
+  },
+  "note": "Public evaluation data, not fresh generated audit; notebook uses L1, paper L2.",
+  "files": {
+    "priority_weibull.py": "480e2b84cf8dc76cc0701387c071690cf52aa43181d5e34a5e9af45733c930bd",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "datasets.json": "f59c159ef72180dc8366b5306e81741a088ac395624fa9ca95b50c088ca82cf0",
+    "priority_or.py": "da0b71274c2393b2bad66c2bdb4db1c1ba53bb58bf7368493f7954cc7492f098"
+  }
+}

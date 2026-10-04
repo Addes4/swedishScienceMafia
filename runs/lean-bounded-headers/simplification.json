@@ -1,0 +1,61 @@
+{
+  "909dba05acc2bb53c4a3da171580ecef2f538df99b077cee5a03e83e8832b66c": {
+    "payload": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "details": {
+      "weights": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "terms": 1,
+      "original_terms": 1,
+      "steps": [
+        {
+          "step": "start",
+          "weights": [
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mean_bins": 41.229
+        }
+      ],
+      "packing_executions": 1000,
+      "budget_exhausted": false,
+      "tolerance": 0.002,
+      "mode": "explain"
+    },
+    "explanation": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "payload": {
+    "model": "gpt-6-luna",
+    "instructions": "You are validating a transport.",
+    "input": "Reply with exactly OK.",
+    "max_output_tokens": 256,
+    "store": false,
+    "service_tier": "default",
+    "reasoning": {
+      "effort": "low"
+    }
+  },
+  "counted_input_tokens": 21
+}

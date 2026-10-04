@@ -1,0 +1,628 @@
+{
+  "problem": "rich",
+  "approach": "full",
+  "llm_used": true,
+  "status": "RuntimeError: OpenAI HTTP 429; code=rate_limit_exceeded; response body withheld",
+  "search_seconds": 2195.9336359580047,
+  "usage": {
+    "actual_usd": 0.2122048,
+    "reserved_usd": 0.075,
+    "committed_usd": 0.2872048,
+    "unresolved_requests": 1,
+    "attempts": 18,
+    "settled_requests": 17,
+    "input_tokens": 26693,
+    "output_tokens": 8815
+  },
+  "evaluation_work": {
+    "physical_executions": 409,
+    "physical_item_steps": 944880,
+    "evaluation_seconds": 431.2484873630747
+  },
+  "conditional_replay_work_per_arm": {
+    "score_only": {
+      "logical_executions": 396,
+      "logical_item_steps": 1013760
+    },
+    "random_strict": {
+      "logical_executions": 396,
+      "logical_item_steps": 1013760
+    },
+    "strict": {
+      "logical_executions": 396,
+      "logical_item_steps": 1013760
+    },
+    "validated_budget": {
+      "logical_executions": 396,
+      "logical_item_steps": 1013760
+    }
+  },
+  "audit": {
+    "score_only": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -8.0,
+        "bootstrap_95_interval": [
+          -9.15,
+          -6.949999999999999
+        ],
+        "wins": 18,
+        "ties": 2,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": -2.1,
+            "wins": 8,
+            "ties": 2,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": -13.9,
+            "wins": 10,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 20,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -8.0,
+        "bootstrap_95_interval": [
+          -9.15,
+          -6.949999999999999
+        ],
+        "wins": 18,
+        "ties": 2,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": -2.1,
+            "wins": 8,
+            "ties": 2,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": -13.9,
+            "wins": 10,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "original_objective": 1142.25,
+      "reference_objective": 1150.25
+    },
+    "random_strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -8.0,
+        "bootstrap_95_interval": [
+          -9.15,
+          -6.949999999999999
+        ],
+        "wins": 18,
+        "ties": 2,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": -2.1,
+            "wins": 8,
+            "ties": 2,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": -13.9,
+            "wins": 10,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 20,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -8.0,
+        "bootstrap_95_interval": [
+          -9.15,
+          -6.949999999999999
+        ],
+        "wins": 18,
+        "ties": 2,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": -2.1,
+            "wins": 8,
+            "ties": 2,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": -13.9,
+            "wins": 10,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "original_objective": 1142.25,
+      "reference_objective": 1150.25
+    },
+    "strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 20,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 20,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 20,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "original_objective": 1150.25,
+      "reference_objective": 1150.25
+    },
+    "validated_budget": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -8.0,
+        "bootstrap_95_interval": [
+          -9.15,
+          -6.949999999999999
+        ],
+        "wins": 18,
+        "ties": 2,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": -2.1,
+            "wins": 8,
+            "ties": 2,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": -13.9,
+            "wins": 10,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 20,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 10,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -8.0,
+        "bootstrap_95_interval": [
+          -9.15,
+          -6.949999999999999
+        ],
+        "wins": 18,
+        "ties": 2,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "or_uniform": {
+            "n": 10,
+            "mean_difference": -2.1,
+            "wins": 8,
+            "ties": 2,
+            "losses": 0
+          },
+          "weibull_5k": {
+            "n": 10,
+            "mean_difference": -13.9,
+            "wins": 10,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "original_objective": 1142.25,
+      "reference_objective": 1150.25
+    },
+    "first_fit_vs_best_fit": {
+      "valid": true,
+      "n": 20,
+      "mean_difference": 4.1,
+      "bootstrap_95_interval": [
+        3.4499999999999997,
+        4.8999999999999995
+      ],
+      "wins": 1,
+      "ties": 2,
+      "losses": 17,
+      "worst_loss": 12.0,
+      "by_family": {
+        "or_uniform": {
+          "n": 10,
+          "mean_difference": 0.7,
+          "wins": 1,
+          "ties": 2,
+          "losses": 7
+        },
+        "weibull_5k": {
+          "n": 10,
+          "mean_difference": 7.5,
+          "wins": 0,
+          "ties": 0,
+          "losses": 10
+        }
+      },
+      "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+      "identical_packings": 0.0
+    },
+    "public_OR3": {
+      "candidate_vs_best_fit": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -2.4,
+        "bootstrap_95_interval": [
+          -2.95,
+          -1.85
+        ],
+        "wins": 19,
+        "ties": 1,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "OR3": {
+            "n": 20,
+            "mean_difference": -2.4,
+            "wins": 19,
+            "ties": 1,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "published_vs_best_fit": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": -4.55,
+        "bootstrap_95_interval": [
+          -5.15,
+          -3.85
+        ],
+        "wins": 19,
+        "ties": 1,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "OR3": {
+            "n": 20,
+            "mean_difference": -4.55,
+            "wins": 19,
+            "ties": 1,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "first_fit_vs_best_fit": {
+        "valid": true,
+        "n": 20,
+        "mean_difference": 0.75,
+        "bootstrap_95_interval": [
+          0.3,
+          1.25
+        ],
+        "wins": 2,
+        "ties": 6,
+        "losses": 12,
+        "worst_loss": 3.0,
+        "by_family": {
+          "OR3": {
+            "n": 20,
+            "mean_difference": 0.75,
+            "wins": 2,
+            "ties": 6,
+            "losses": 12
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "mean_l1": 201.2,
+      "relative_excess_l1": {
+        "candidate": 0.04174950298210739,
+        "best_fit": 0.05367793240556666,
+        "funsearch": 0.03106361829025845,
+        "first_fit": 0.057405566600397674
+      },
+      "note": "Public fixed dataset; L1 as notebook, not paper L2; used only after candidate freeze."
+    },
+    "public_Weibull 5k": {
+      "candidate_vs_best_fit": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -15.4,
+        "bootstrap_95_interval": [
+          -18.0,
+          -12.8
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -12.0,
+        "by_family": {
+          "Weibull 5k": {
+            "n": 5,
+            "mean_difference": -15.4,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "published_vs_best_fit": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -65.6,
+        "bootstrap_95_interval": [
+          -70.8,
+          -60.6
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -57.0,
+        "by_family": {
+          "Weibull 5k": {
+            "n": 5,
+            "mean_difference": -65.6,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "first_fit_vs_best_fit": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": 4.8,
+        "bootstrap_95_interval": [
+          2.4,
+          7.2
+        ],
+        "wins": 0,
+        "ties": 0,
+        "losses": 5,
+        "worst_loss": 8.0,
+        "by_family": {
+          "Weibull 5k": {
+            "n": 5,
+            "mean_difference": 4.8,
+            "wins": 0,
+            "ties": 0,
+            "losses": 5
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 0.0
+      },
+      "mean_l1": 1987.8,
+      "relative_excess_l1": {
+        "candidate": 0.03209578428413319,
+        "best_fit": 0.03984304255961367,
+        "funsearch": 0.0068417345809438255,
+        "first_fit": 0.04225777241171155
+      },
+      "note": "Public fixed dataset; L1 as notebook, not paper L2; used only after candidate freeze."
+    }
+  },
+  "final_candidate": "ca787f7d28a26157a74a9ebaa28227fc99c909a38a9a5bf457a822212ff56da4",
+  "simplification_packing_executions": 0,
+  "claims_limit": "Single pilot; gate controls share proposals; no causal memory or efficiency claim."
+}

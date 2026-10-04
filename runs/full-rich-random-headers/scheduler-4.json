@@ -1,0 +1,27 @@
+{
+  "state": "lead/warm",
+  "policy": "adaptive",
+  "cost_unit": "measured milli-USD; initial forecasts only",
+  "moves": {
+    "edit": {
+      "p_improve": 0.12594141205511197,
+      "gain": 1.0,
+      "cost": 7.776456238847177,
+      "yield": 0.016195219028684742
+    },
+    "rewrite": {
+      "p_improve": 0.07227523969820346,
+      "gain": 1.0,
+      "cost": 14.841541084475274,
+      "yield": 0.004869793459238924
+    },
+    "crossover": {
+      "p_improve": 0.5,
+      "gain": 1.0,
+      "cost": 31.946213233561156,
+      "yield": 0.01565130728779848
+    }
+  },
+  "stay": 0.016195219028684742,
+  "explore": 1.7591971433030317e-06
+}

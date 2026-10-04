@@ -1,0 +1,41 @@
+{
+  "problem": "rich",
+  "approach": "full",
+  "model": "gpt-6.1-sol",
+  "steps": 1,
+  "seed": 7101,
+  "budget": 3.0,
+  "ledger": "runs/throughput-loop-usage.jsonl",
+  "out": "runs/throughput-loop-mock",
+  "ranker": "openai",
+  "scheduler": null,
+  "gate": null,
+  "timeout": 30,
+  "api_scheduler": "headers",
+  "eval_backend": "local",
+  "eval_workers": 4,
+  "env_file": null,
+  "mock": true,
+  "git_head": "ed5f8820ed9cde3de5f58259737113e561ea275a",
+  "counts": {
+    "fixed": 2,
+    "stress": 2,
+    "validation": 2,
+    "probes": 2,
+    "audit": 8,
+    "simplify": 8
+  },
+  "actual_gate": "validated_budget",
+  "effective_eval_workers": 4,
+  "live_mode_requested": false,
+  "started_utc": "2026-10-03T19:59:47Z",
+  "note": "One pilot trajectory; fresh audit never feeds selection. Full ranker identity is explicit.",
+  "evaluation_profile": {
+    "backend": "local",
+    "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+    "python": "3.14.8",
+    "numpy": "2.5.3",
+    "worker_threads": 1,
+    "cpu_limit": "host shared"
+  }
+}

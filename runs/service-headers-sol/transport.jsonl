@@ -1,0 +1,1 @@
+{"endpoint": "responses/input_tokens", "model": "gpt-6.1-sol", "attempt": 1, "http_status": 200, "code": null, "queue_seconds": 0.00017924999701790512, "http_seconds": 0.3343642499821726, "cooldown_seconds": 0.0, "rate_headers": {}}

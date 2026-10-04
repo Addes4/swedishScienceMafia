@@ -1,0 +1,8 @@
+{
+  "autoresearch/throughput.py": "d7c550f456c5d4a75f3bdc660f04b0d101e79bb59c99a36d56bc3d573b5c249d",
+  "autoresearch/evidence_adapters.py": "14a381d15ea07c427e1ec64c8cbccb9f25902a46cbae154414c8dad2bea013a0",
+  "autoresearch/modal_evaluator.py": "8c9d958421636b6c01fd0129454350c1b79c2f5a4a2275d6f0a0c73bf8d01062",
+  "autoresearch/throughput_smoke.py": "6ac31bdb23b9368ae6b5d178fdc53cb99844a32230cd3b18a713ee37ac114fd4",
+  "autoresearch/research_worker.py": "e99e2a75172d33f089a8c9cc308f6dd097f8e071973168288f0945005dd61a9e",
+  "autoresearch/evidence_loop.py": "e3bc02b7312fa17022219d06c46321d158bf664dc38e31bf614215a44af30712"
+}

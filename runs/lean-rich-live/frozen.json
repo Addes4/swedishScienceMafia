@@ -1,0 +1,22 @@
+{
+  "score_only": {
+    "id": "9d6b465dbbf7f3b21a676e9320e57e41617eeb1ab1507162118dad54470c18a0",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    return -(bins - item)\n",
+    "training_objective": 1077.1666666666667
+  },
+  "random_strict": {
+    "id": "9d6b465dbbf7f3b21a676e9320e57e41617eeb1ab1507162118dad54470c18a0",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    return -(bins - item)\n",
+    "training_objective": 1077.1666666666667
+  },
+  "strict": {
+    "id": "9d6b465dbbf7f3b21a676e9320e57e41617eeb1ab1507162118dad54470c18a0",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    return -(bins - item)\n",
+    "training_objective": 1077.1666666666667
+  },
+  "validated_budget": {
+    "id": "9d6b465dbbf7f3b21a676e9320e57e41617eeb1ab1507162118dad54470c18a0",
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    return -(bins - item)\n",
+    "training_objective": 1077.1666666666667
+  }
+}

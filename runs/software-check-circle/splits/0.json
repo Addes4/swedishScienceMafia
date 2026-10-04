@@ -1,0 +1,29 @@
+{
+  "fixed": [
+    {
+      "n": 26,
+      "seed": 710100001,
+      "family": "circle26"
+    },
+    {
+      "n": 26,
+      "seed": 710100002,
+      "family": "circle26"
+    }
+  ],
+  "stress": [],
+  "random": [],
+  "validation": [
+    {
+      "n": 26,
+      "seed": 710100101,
+      "family": "circle26"
+    },
+    {
+      "n": 26,
+      "seed": 710100102,
+      "family": "circle26"
+    }
+  ],
+  "probes": []
+}

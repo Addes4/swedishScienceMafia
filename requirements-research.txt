@@ -1,0 +1,6 @@
+# Additional reproducible research runner requirements; no cloud runtime.
+numpy==2.5.3
+scipy==1.18.1
+pytest==9.1.1
+matplotlib==3.11.2
+typesafe-sdk==0.7.2

@@ -1,0 +1,8 @@
+{
+  "9d6b465dbbf7f3b21a676e9320e57e41617eeb1ab1507162118dad54470c18a0": {
+    "payload": "import numpy as np\n\ndef priority(item, bins):\n    return -(bins - item)\n",
+    "details": {
+      "simplification": "not requested / unsupported"
+    }
+  }
+}

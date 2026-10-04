@@ -1,0 +1,1010 @@
+{
+  "problem": "bounded",
+  "approach": "lean",
+  "llm_used": false,
+  "status": "RuntimeError: OpenAI network request failed; response body withheld",
+  "search_seconds": 0.015912665985524654,
+  "usage": {
+    "actual_usd": 0,
+    "reserved_usd": 0,
+    "committed_usd": 0,
+    "unresolved_requests": 0,
+    "attempts": 0,
+    "settled_requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "evaluation_work": {
+    "physical_executions": 3224,
+    "physical_item_steps": 257920,
+    "evaluation_seconds": 0.04883890924975276
+  },
+  "conditional_replay_work_per_arm": {
+    "score_only": {
+      "logical_executions": 0,
+      "logical_item_steps": 0
+    },
+    "random_strict": {
+      "logical_executions": 0,
+      "logical_item_steps": 0
+    },
+    "strict": {
+      "logical_executions": 0,
+      "logical_item_steps": 0
+    },
+    "validated_budget": {
+      "logical_executions": 0,
+      "logical_item_steps": 0
+    }
+  },
+  "audit": {
+    "score_only": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "original_objective": 40.415625,
+      "reference_objective": 40.415625
+    },
+    "random_strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "original_objective": 40.415625,
+      "reference_objective": 40.415625
+    },
+    "strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "original_objective": 40.415625,
+      "reference_objective": 40.415625
+    },
+    "validated_budget": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 1600,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 1600,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "bands": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "bimodal": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "complementary": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "large": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_halves": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "near_thirds": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "small": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          },
+          "uniform": {
+            "n": 200,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 200,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+        "identical_packings": 1.0
+      },
+      "original_objective": 40.415625,
+      "reference_objective": 40.415625
+    },
+    "first_fit_vs_best_fit": {
+      "valid": true,
+      "n": 1600,
+      "mean_difference": 0.3075,
+      "bootstrap_95_interval": [
+        0.284375,
+        0.32937500000000003
+      ],
+      "wins": 6,
+      "ties": 1127,
+      "losses": 467,
+      "worst_loss": 3.0,
+      "by_family": {
+        "bands": {
+          "n": 200,
+          "mean_difference": 0.42,
+          "wins": 1,
+          "ties": 116,
+          "losses": 83
+        },
+        "bimodal": {
+          "n": 200,
+          "mean_difference": 0.045,
+          "wins": 1,
+          "ties": 189,
+          "losses": 10
+        },
+        "complementary": {
+          "n": 200,
+          "mean_difference": 0.54,
+          "wins": 0,
+          "ties": 102,
+          "losses": 98
+        },
+        "large": {
+          "n": 200,
+          "mean_difference": 0.4,
+          "wins": 0,
+          "ties": 126,
+          "losses": 74
+        },
+        "near_halves": {
+          "n": 200,
+          "mean_difference": 0.485,
+          "wins": 0,
+          "ties": 109,
+          "losses": 91
+        },
+        "near_thirds": {
+          "n": 200,
+          "mean_difference": 0.0,
+          "wins": 4,
+          "ties": 192,
+          "losses": 4
+        },
+        "small": {
+          "n": 200,
+          "mean_difference": 0.02,
+          "wins": 0,
+          "ties": 196,
+          "losses": 4
+        },
+        "uniform": {
+          "n": 200,
+          "mean_difference": 0.55,
+          "wins": 0,
+          "ties": 97,
+          "losses": 103
+        }
+      },
+      "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory.",
+      "identical_packings": 0.071875
+    }
+  },
+  "final_candidate": "909dba05acc2bb53c4a3da171580ecef2f538df99b077cee5a03e83e8832b66c",
+  "simplification_packing_executions": 1000,
+  "claims_limit": "Single pilot; gate controls share proposals; no causal memory or efficiency claim."
+}

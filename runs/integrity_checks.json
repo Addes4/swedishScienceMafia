@@ -1,0 +1,159 @@
+{
+  "runs": [
+    {
+      "run": "full-circle-headers",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "full-circle-live",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "full-rich-headers",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "full-rich-live",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "full-rich-random-headers",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "full-rich-random-live",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-bounded-headers",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-bounded-live",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-bounded-live-network",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-bounded-paced",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-circle-headers",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-circle-live",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-circle-paced",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-rich-headers",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-rich-live",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    },
+    {
+      "run": "lean-rich-paced",
+      "source_hashes_match": true,
+      "audit_development_overlap": 0,
+      "audit_simplification_overlap": 0,
+      "invalid_promotions": [],
+      "note": "Checks recorded inputs and decisions; does not re-execute candidates or prove adversarial isolation.",
+      "passed": true
+    }
+  ],
+  "campaign_under_ceiling": true,
+  "ledger": {
+    "actual_usd": 3.718923825,
+    "reserved_usd": 0.90208,
+    "committed_usd": 4.621003825,
+    "unresolved_requests": 12,
+    "attempts": 213,
+    "settled_requests": 201,
+    "input_tokens": 369415,
+    "output_tokens": 143628
+  }
+}

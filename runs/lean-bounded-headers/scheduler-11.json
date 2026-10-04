@@ -1,0 +1,5 @@
+{
+  "state": "trail/warm",
+  "policy": "patience",
+  "cost_unit": "measured milli-USD; initial forecasts only"
+}

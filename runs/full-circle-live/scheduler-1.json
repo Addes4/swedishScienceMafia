@@ -1,0 +1,6 @@
+{
+  "state": "lead/warm",
+  "policy": "adaptive",
+  "cost_unit": "measured milli-USD; initial forecasts only",
+  "warmup": true
+}

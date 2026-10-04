@@ -1,0 +1,337 @@
+{
+  "problem": "circle",
+  "approach": "lean",
+  "llm_used": true,
+  "status": "RuntimeError: OpenAI HTTP 429; code=rate_limit_exceeded; response body withheld",
+  "search_seconds": 1640.810067708022,
+  "usage": {
+    "actual_usd": 0.1432255,
+    "reserved_usd": 0.075,
+    "committed_usd": 0.21822550000000002,
+    "unresolved_requests": 1,
+    "attempts": 8,
+    "settled_requests": 7,
+    "input_tokens": 14010,
+    "output_tokens": 10856
+  },
+  "evaluation_work": {
+    "physical_executions": 62,
+    "physical_item_steps": 0,
+    "evaluation_seconds": 31.951379998994526
+  },
+  "conditional_replay_work_per_arm": {
+    "score_only": {
+      "logical_executions": 70,
+      "logical_item_steps": 0
+    },
+    "random_strict": {
+      "logical_executions": 70,
+      "logical_item_steps": 0
+    },
+    "strict": {
+      "logical_executions": 70,
+      "logical_item_steps": 0
+    },
+    "validated_budget": {
+      "logical_executions": 70,
+      "logical_item_steps": 0
+    }
+  },
+  "audit": {
+    "score_only": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 5,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 5,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -2.606614652062608,
+      "reference_objective": -0.9604257659620006
+    },
+    "random_strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 5,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 5,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -2.606614652062608,
+      "reference_objective": -0.9604257659620006
+    },
+    "strict": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 5,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 5,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -2.606614652062608,
+      "reference_objective": -0.9604257659620006
+    },
+    "validated_budget": {
+      "original_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_original": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": 0.0,
+        "bootstrap_95_interval": [
+          0.0,
+          0.0
+        ],
+        "wins": 0,
+        "ties": 5,
+        "losses": 0,
+        "worst_loss": 0.0,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": 0.0,
+            "wins": 0,
+            "ties": 5,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "simplified_vs_reference": {
+        "valid": true,
+        "n": 5,
+        "mean_difference": -1.6461888861006078,
+        "bootstrap_95_interval": [
+          -1.6974410776249882,
+          -1.5949366945762269
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "worst_loss": -1.5795522089587875,
+        "by_family": {
+          "circle26": {
+            "n": 5,
+            "mean_difference": -1.6461888861006078,
+            "wins": 5,
+            "ties": 0,
+            "losses": 0
+          }
+        },
+        "uncertainty": "Stratified paired case bootstrap, conditional on this one search trajectory."
+      },
+      "original_objective": -2.606614652062608,
+      "reference_objective": -0.9604257659620006
+    }
+  },
+  "final_candidate": "f2d83430779c5a14a26a10af1d240ced745178e1a5c06014ed0cb31f1cd4643b",
+  "simplification_packing_executions": 0,
+  "claims_limit": "Single pilot; gate controls share proposals; no causal memory or efficiency claim."
+}

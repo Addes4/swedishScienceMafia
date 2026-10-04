@@ -1,0 +1,28 @@
+{
+  "problem": "circle",
+  "approach": "full",
+  "model": "gpt-6.1-sol",
+  "steps": 6,
+  "seed": 7105,
+  "budget": 4.0,
+  "ledger": "/private/tmp/ssm-all-approaches/runs/campaign_usage.jsonl",
+  "out": "runs/full-circle-live",
+  "ranker": "openai",
+  "scheduler": null,
+  "gate": null,
+  "timeout": 30,
+  "mock": false,
+  "git_head": "cf026352dd48a58781f48e93b83773c019ada528",
+  "counts": {
+    "fixed": 3,
+    "stress": 0,
+    "validation": 2,
+    "probes": 0,
+    "audit": 5,
+    "simplify": 3
+  },
+  "actual_gate": "strict",
+  "live_mode_requested": true,
+  "started_utc": "2026-10-03T19:07:16Z",
+  "note": "One pilot trajectory; fresh audit never feeds selection. Full ranker identity is explicit."
+}

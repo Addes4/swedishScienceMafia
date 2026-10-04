@@ -1,0 +1,22 @@
+{
+  "id": "4daea7a15d846bfb8f0d9fbc9a0232077dd3795d27fef86f2eeff4c247a9a8d2",
+  "payload": [
+    -1.0,
+    0.0,
+    0.0,
+    0.0,
+    0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "move": "edit",
+  "hypothesis": "MOCK fixture",
+  "parents": [
+    "752c8c6b1376cb24593ae5ba460b03195f78ff9bbdf10fbd96170ea7b185ad5c"
+  ]
+}

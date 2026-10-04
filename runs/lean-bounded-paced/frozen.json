@@ -1,0 +1,74 @@
+{
+  "score_only": {
+    "id": "909dba05acc2bb53c4a3da171580ecef2f538df99b077cee5a03e83e8832b66c",
+    "payload": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "training_objective": 40.208333333333336
+  },
+  "random_strict": {
+    "id": "909dba05acc2bb53c4a3da171580ecef2f538df99b077cee5a03e83e8832b66c",
+    "payload": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "training_objective": 40.208333333333336
+  },
+  "strict": {
+    "id": "909dba05acc2bb53c4a3da171580ecef2f538df99b077cee5a03e83e8832b66c",
+    "payload": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "training_objective": 40.208333333333336
+  },
+  "validated_budget": {
+    "id": "909dba05acc2bb53c4a3da171580ecef2f538df99b077cee5a03e83e8832b66c",
+    "payload": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "training_objective": 40.208333333333336
+  }
+}

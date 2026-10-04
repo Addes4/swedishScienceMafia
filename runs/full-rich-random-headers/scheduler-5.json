@@ -1,0 +1,27 @@
+{
+  "state": "lead/slowing",
+  "policy": "adaptive",
+  "cost_unit": "measured milli-USD; initial forecasts only",
+  "moves": {
+    "edit": {
+      "p_improve": 0.12594141205511197,
+      "gain": 1.0,
+      "cost": 7.776456238847177,
+      "yield": 0.016195219028684742
+    },
+    "rewrite": {
+      "p_improve": 0.12880340151361422,
+      "gain": 1.0,
+      "cost": 14.841541084475274,
+      "yield": 0.0086785732546566
+    },
+    "crossover": {
+      "p_improve": 0.12594141205511197,
+      "gain": 1.0,
+      "cost": 26.002019713140967,
+      "yield": 0.004843524212523514
+    }
+  },
+  "stay": 0.016195219028684742,
+  "explore": 1.6342553936982485e-06
+}
