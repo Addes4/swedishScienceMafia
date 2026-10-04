@@ -166,7 +166,7 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
                 base = None  # not a library problem: draft from scratch
             name, answer, report = draft(request, Path(out)/"harness", model, base)
             book.write("harness", name=name, title=answer["title"], family=answer["family"], about=answer["about"],
-                       code=answer["code"], report=report, forked_from=report.get("forked_from"))
+                       code=answer["code"], report=report, forked_from=report.get("forked_from"), sources=answer.get("sources", []))
             if report.get("passed"):
                 break
             request = f"{p['problem_request']}\n\nA previous draft failed its self-test: {json.dumps(report)[:1500]}"

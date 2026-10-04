@@ -21,7 +21,7 @@ import traceback
 
 import numpy as np
 
-from .llm import ask
+from .llm import SOURCES, SOURCES_PROMPT, ask
 from .sandbox import violations
 
 GENERATED = Path(__file__).resolve().parent/"domains"/"generated"
@@ -30,16 +30,17 @@ GENERATED = Path(__file__).resolve().parent/"domains"/"generated"
 ALLOWED = {"numpy", "scipy", "numba", "mpmath", "math", "cmath", "itertools", "functools", "collections", "dataclasses",
            "typing", "__future__", "random", "heapq", "bisect", "fractions", "decimal", "statistics", "time", "warnings",
            "operator", "copy", "enum", "mosa"}
-SCHEMA = {"type": "object", "additionalProperties": False, "required": ["name", "title", "family", "about", "code", "test_sizes"],
+SCHEMA = {"type": "object", "additionalProperties": False, "required": ["name", "title", "family", "about", "code", "test_sizes", "sources"],
           "properties": {"name": {"type": "string"}, "title": {"type": "string"}, "family": {"type": "string"},
                          "about": {"type": "string"}, "code": {"type": "string"},
-                         "test_sizes": {"type": "array", "items": {"type": "integer"}}}}
+                         "test_sizes": {"type": "array", "items": {"type": "integer"}}, "sources": SOURCES}}
 CONTRACT = '''import math
 import numpy as np
 from scipy.optimize import minimize
 from mosa.domain import Domain
 
-KNOWN = {}  # published best values {n: value} you are confident about (cite the source in `evidence`); may be empty
+KNOWN = {}      # published best values {n: value}, looked up (cite every source); may be empty
+REFERENCE = {}  # published coordinates of those best solutions {n: x}, only where a source gives them; may be empty
 
 
 class Problem(Domain):
@@ -58,8 +59,8 @@ def vary(parents, rng, count):
     def targets(self):            # the sizes n this harness supports
         return list(range(2, 201))
 
-    def reference(self, n):       # no stored coordinates: (None, best known value or None)
-        return None, KNOWN.get(n)
+    def reference(self, n):       # the published best solution (x, value) where coordinates are given, else (None, value)
+        return (np.asarray(REFERENCE[n], dtype=float), KNOWN[n]) if n in REFERENCE and n in KNOWN else (None, KNOWN.get(n))
 
     def best_known(self, n):
         return KNOWN.get(n)
@@ -124,10 +125,13 @@ the smallest circle": minimize the container radius). Write a complete Python mo
 
 Requirements: relax must always return a feasible solution (repair it, e.g. by scaling apart or growing the container)
 and be fast (well under a second for n around 20); verify must not reuse relax's computations and must reject infeasible
-solutions; KNOWN holds only values you are confident are published best values for this exact formulation. Return JSON
+solutions. Look up the published best known values for this exact problem and formulation before writing KNOWN: for
+example Erich Friedman's Packing Center (erich-friedman.github.io/packing), Packomania (packomania.com), Sloane's tables,
+or papers. Convert each to the objective's convention (smaller is better), put coordinates into REFERENCE only where a
+source publishes them, and never invent a value: leave KNOWN empty if you find none. In "sources", """+SOURCES_PROMPT.split(";")[0]+""". Return JSON
 with "name" (a short slug, letters, digits and dashes), "title", "family", "about" (one sentence for a problem library),
-"code" (the module) and "test_sizes" (3 sizes between 5 and 30 for the self-test, ideally ones in KNOWN)."""
-    answer = ask(text, SCHEMA, directory, model, timeout=900)
+"code" (the module), "test_sizes" (3 sizes between 5 and 30 for the self-test, ideally ones in KNOWN) and "sources"."""
+    answer = ask(text, SCHEMA, directory, model, timeout=900, search=True)
     name = "gen-"+re.sub(r"[^a-z0-9-]+", "-", answer["name"].lower()).strip("-")[:40]
     flagged = violations(answer["code"])
     if flagged:  # the same static scan as strategies: a harness has no business with files, processes or the network
@@ -147,6 +151,12 @@ with "name" (a short slug, letters, digits and dashes), "title", "family", "abou
     meta.write_text(json.dumps({"name": name, "title": answer["title"], "family": answer["family"], "about": answer["about"],
                                 "forked_from": base if fork else None}))
     report = self_test(name, answer["test_sizes"])
+    try:  # the published values the harness carries, for the conversation
+        module = importlib.import_module(f"mosa.domains.generated.{name.replace('-', '_')}")
+        report["published"] = {str(k): float(v) for k, v in sorted(getattr(module, "KNOWN", {}).items())}
+        report["published_coordinates"] = sorted(int(k) for k in getattr(module, "REFERENCE", {}))
+    except Exception:
+        report["published"] = {}
     if not report.get("passed"):  # the library only holds harnesses that passed; the code stays in the notebook
         path.unlink(missing_ok=True)
         meta.unlink(missing_ok=True)

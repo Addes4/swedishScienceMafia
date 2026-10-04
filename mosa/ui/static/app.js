@@ -560,6 +560,9 @@ function harnessHTML(e) {
     <div class="harness-verdict ${r.passed ? "ok" : "bad"}">${verdict}</div>
     ${rows ? `<ul class="checks">${rows}${r.rejects_malformed === false ? "<li>does not reject malformed solutions</li>" : ""}</ul>` : ""}
     ${r.error ? `<pre class="code plain">${esc(lastLine(r.error))}</pre>` : ""}
+    ${Object.keys(r.published || {}).length ? `<div class="harness-about">Published best known: ${Object.entries(r.published).slice(0, 6).map(([n, v]) => `n = ${n}: <span class="mono">${Math.abs(v).toPrecision(8)}</span>`).join(", ")}${Object.keys(r.published).length > 6 ? ", and more" : ""}${(r.published_coordinates || []).length ? `; coordinates for n = ${esc(span(r.published_coordinates))}` : ""}.</div>`
+      : r.passed ? `<div class="harness-about">No published values found; results are compared with each other.</div>` : ""}
+    ${sourcesHTML(e)}
     <details><summary>Harness code</summary><pre class="code"><code class="language-python">${esc(e.code || "")}</code></pre></details></div>`;
 }
 
