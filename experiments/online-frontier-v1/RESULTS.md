@@ -13,9 +13,13 @@ guarantees for i.i.d. item sizes?
   lines, and uses fewer bins than FunSearch's heuristic on every Weibull set:
   - −2.65 bins per instance [−3.07, −2.24] on 100 fresh 5,000-item instances (84 wins, 11 ties,
     5 losses);
-  - −4.0 [−7.2, −0.4] on FunSearch's own 5 released test instances.
-- SS restricted to what FunSearch's stateless `priority(item, bins)` interface shows is no better
-  than best fit (81 bins against 79). The interface hides the state SS needs.
+  - on FunSearch's own 5 released test instances, mean −4.0 with 4 wins in 5. That is consistent,
+    but too few instances for an interval: the t-interval is [−9.55, +1.55] and the sign test
+    p = 0.38. These instances were also seen in the exploratory probe before the protocol.
+- A natural stateless restriction of SS, which sees only the bins the current item fits in (as
+  FunSearch's `priority(item, bins)` template does), is no better than best fit: 81 bins against
+  79. That view hides N(g) for gaps smaller than the item, which SS needs. FunSearch's evaluator
+  does let a function keep state between calls; only its template is stateless.
 - On the OR-Library instances (OR1–OR4) FunSearch's OR heuristic is the best policy tested. SS is
   4–8 bins per instance worse than it, though better than FunSearch's Weibull heuristic there.
 - The Gupta–Radovanović primal-dual algorithm, which has an O(√(BT)) guarantee for every
@@ -49,8 +53,13 @@ The same results in FunSearch's metric (excess over L1, %):
 | W10k-fresh | 3.910 | 0.330 | **0.253** |
 | W100k-fresh | 3.795 | 0.036 | **0.027** |
 
-FunSearch's paper reports 3.98%, 0.68%, 0.32% and 0.03% for best fit and its heuristic at 5k, 10k
-and 100k. Our best-fit and FunSearch numbers reproduce these.
+- **5k, FunSearch's released data:** our best fit (3.984%) and FunSearch heuristic (0.684%)
+  reproduce FunSearch's published 3.98% and 0.68% exactly.
+- **10k and 100k:** FunSearch reports 0.32% and 0.03% for its heuristic, and best fit 3.90% at 10k
+  (its SI A.3). On fresh instances from our generator we get 0.330% and 0.036%, and best fit
+  3.910% and 3.795%. That is consistent with the published values, not a reproduction: the
+  instances differ.
+- **OR1–OR4:** our FS-OR excesses (5.30, 4.19, 3.11, 2.47%) equal FunSearch's published OR numbers.
 
 Primary contrasts, in bins per instance, with 95% paired bootstrap intervals over instances:
 
@@ -65,27 +74,35 @@ Primary contrasts, in bins per instance, with 95% paired bootstrap intervals ove
 | OR3 | −11.40 | +35.30 | +8.05 [+7.45, +8.60], 0/0/20 | +54.75 |
 | OR4 | −16.85 | +83.20 | +5.85 [+5.05, +6.65], 0/0/20 | +105.90 |
 
-- All 32 intervals exclude 0. Full intervals and sign tests are in [tables.md](tables.md).
+- **Pre-registered contrasts:** P1 and P2 on the four Weibull sets, P3 and P4 on the four OR sets.
+  All 16 intervals exclude 0. The other 16 cells (cross-domain contrasts) are supplementary.
+- **The two 5-instance sets:** their percentile-bootstrap intervals under-cover at n = 5, so they
+  are descriptive only.
+- Full intervals and sign tests are in [tables.md](tables.md).
 - On W5k-fresh the Holm-adjusted sign test gives p = 1.4e-19 for SS − FS-W and p ≤ 6.3e-30 for
   the other three contrasts.
 
 ## What this means
 
-1. **FunSearch's Weibull heuristic is close to optimal, and a 2006 algorithm is closer.** Both it
-   and SS keep their waste bounded as instances grow, so both reach the asymptotic optimum's growth
-   rate. SS's constant is about 20–30% lower: 10.9 against 13.5 bins at 5k; 10.8 against 14.4 at
-   100k.
+1. **FunSearch's Weibull heuristic is close to optimal, and a 2006 algorithm is closer.** From 5k
+   to 100k items, both have roughly constant waste above the optimum. That is consistent with
+   bounded waste, though three lengths, with only 5 instances at 100k, cannot establish an
+   asymptotic rate. SS's guarantee on bounded-waste distributions is O(log n). SS's waste is about
+   20–30% lower: 10.9 against 13.5 bins at 5k; 10.8 against 14.4 at 100k.
    - The distribution is bounded-waste (below), so an online policy could in principle stay within
      O(1) bins of the optimum.
    - SS gets about 10 bins. A separate session reports a known-horizon, distribution-learning
-     policy near 2 bins in exploratory tuning (`exp/online-beyond-ss`; not yet confirmed).
-2. **The benchmark's interface decides which algorithms are reachable.** FunSearch's `priority`
-   function sees only the bins the current item fits in, and has no memory between calls.
-   - SS restricted to that view loses all its advantage: 81.1 bins above the optimum, best fit 79.2.
+     policy at 1.6–2.1 bins in its confirmatory study (online-beyond-ss-v1; see Next steps).
+2. **SS needs state that FunSearch's template does not present.** FunSearch's `priority`
+   function template sees only the bins the current item fits in, and is written as a pure
+   function. Its evaluator does allow module-level state; a sibling study ran a stateful
+   `priority` through FunSearch's full evaluator and got identical bin counts.
+   - SS restricted to that view (SS-view) loses all its advantage: 81.1 bins above the optimum,
+     best fit 79.2.
    - The same rule with its own placement history reaches 10.9.
-   - So FunSearch's heuristic is a strong solution within a restricted interface, and the ceiling
-     it was measured against is the interface's ceiling, not the problem's. Our
-     `problems/bin_packing_online` lets the function keep state, so an LLM loop could find SS there.
+   - We tested only this one stateless restriction, so we did not measure the best that a stateless
+     function can do. FS-W itself reaches 13.5 within that view.
+   - Our `problems/bin_packing_online` states explicitly that the function may keep state.
 3. **The comparison set matters.** FunSearch, Herrmann & Pallez and Sim et al. compare evolved
    heuristics with Any-Fit rules only.
    - Best fit is 79 bins above the optimum on Weibull 5k, which makes a 65-bin gain look large.
@@ -94,10 +111,11 @@ Primary contrasts, in bins per instance, with 95% paired bootstrap intervals ove
    bins per instance, and best fit is within 0.25 bins of it on OR1.
    - The OR generator (uniform 20–100, capacity 150) is also bounded-waste by our LP, so SS's loss
      there is not the linear-waste failure the theory warns about.
-   - SS's waste over the optimum grows from 6.7 to 15.8 bins between 120 and 1,000 items, so these
-     instances are too short for SS's asymptotic behaviour.
-5. **Guarantees are not performance at these sizes.** PD-exp's O(√(BT)) guarantee for every
-   distribution comes with constants that cost 250 bins at 5,000 items and 1,137 at 100,000. An
+   - SS's waste over the optimum grows from 6.7 to 15.8 bins between 120 and 1,000 items. A
+     hypothesis, untested here: these instances are too short for SS's asymptotic behaviour.
+5. **Guarantees are not performance at these sizes.** PD-exp's guarantee holds for every
+   distribution: √(8BT) for the open-ended version (their Theorem 3), which is 2,000 bins at
+   B = 100, T = 5,000. That allows the 250 bins it wastes at 5,000 items and 1,137 at 100,000. An
    implementation check on the paper's own Figure 3 distributions reproduces its qualitative
    behaviour (below), so this is the algorithm, not a bug.
 6. **Herrmann & Pallez's tuned rule does not scale with length.** ab-WorstFit (1, 21), tuned for
@@ -134,7 +152,7 @@ Sources: `distribution_class.json`, `distribution_class_or.json`.
 optimal; at most 43 s.
 
 **Work log** (times in BST; details in `RUN_LOG.md`).
-- **Before 01:34, exploratory probe** (`sos_probe.py`, `sos_probe.log`). SS against best fit and
+- **Before about 01:46, exploratory probe** (`sos_probe.py`, `sos_probe.log`). SS against best fit and
   FunSearch on the released data and fresh instances from other seed ranges. It found SS ahead on
   Weibull and behind on OR3. The probe is disclosed in the protocol, and its instances are not
   reused.
@@ -167,7 +185,14 @@ optimal; at most 43 s.
   - This matches the paper, so the implementation is kept as specified.
 - **02:19–02:30, confirmatory run** (`run.py`, 2 processes). 210 instances, 1,313 CPU-seconds, of
   which 1,075 were the optimum solves.
-- **Deviations from the protocol:** none.
+- **Deviations from the protocol.**
+  - The pre-registered check "OPT must equal OR-Library's listed optimum on all 80" came out 76/80.
+    It was resolved by an unplanned script, `verify_opt.py`: explicit packings meeting L1 for the 4
+    mismatched instances. This affects bins above OPT on OR1 and OR2 by 0.10 per instance; paired
+    contrasts are unchanged.
+  - `PROTOCOL.md` names the results file `results.json`; it is `results.jsonl`.
+  - The protocol's "4 contrasts × 8 sets" conflicts with its own definition of P1–P4 by domain.
+    The 16 domain-matched contrasts are treated as primary.
 - **Machine load.** Load averages reached 55 during the checks because of another session's
   `llm-long-search-v1` audit (2 × 8 workers). This affects wall times only, not results; every
   policy is deterministic.
@@ -200,7 +225,7 @@ optimal; at most 43 s.
 
 ## Cost
 
-$0 of API calls. About 22 CPU-minutes for the confirmatory run, plus about 10 for the checks and
+$0 of API calls. About 22 CPU-minutes for the confirmatory run, plus about 25 for the checks and
 the probe, all on the local machine. No Modal.
 
 ## Reproduce
@@ -246,10 +271,15 @@ python sos_probe.py          # the earlier exploratory probe (needs --or3 <datas
    - Without the horizon, the same weights do worse than plain SS. So plain SS remains the best
      horizon-free policy found.
    - On OR3 and OR4, FWSS beats FS-OR.
-2. **Ask whether an LLM loop finds SS when the interface allows state.** Run
-   `python -m autoresearch.loop problems/bin_packing_online` with SS and FunSearch's heuristic as
-   baselines, and measure decision agreement with SS. The cost is a few dollars of open-model
-   calls.
+2. **Ask whether an LLM loop finds SS when the interface allows state.** Partly answered by
+   llm-long-search-v1 (merged in PR #5): 4 × 300 DeepSeek steps for $0.80.
+   - The best rules kept a running histogram of item sizes and reached 96.8% of FunSearch's gain
+     over best fit.
+   - SS beat all four runs, and FunSearch too (−0.17 pp [−0.20, −0.14]).
+   - Follow-up `llm-from-ss-v1` (branch `exp/llm-from-ss`, $1.10 of HF credit) started the loop
+     from SS. All 4 runs beat SS on 100 fresh instances. The best is a (100/g)^0.8-weighted SS at
+     8.37 bins above OPT against SS's 10.68 (−2.31 [−2.58, −2.04]), and it does not use the item
+     count.
 3. **Explain why ab-WorstFit (1, 21) degrades with length** while FunSearch's heuristic does not.
    Tune ab per length to see whether a two-threshold rule can stay at O(1) waste.
 4. **Test SS′ and SS*** for the theoretical O(1) constant. Test SS variants on the short OR
@@ -257,3 +287,37 @@ python sos_probe.py          # the earlier exploratory probe (needs --or3 <datas
 5. **Write up.** A short note: "FunSearch's bin-packing benchmark: optimum, classical baselines,
    and interface". It updates the bin-packing headroom paper draft, whose headroom framing should
    now be measured against the optimum, not best fit.
+
+## Corrections after independent review (4 October 2026)
+
+An independent reviewer (a subagent of session b1, at the user's request) recomputed every number
+from `results.jsonl` and found no mismatch and no code bug that changes a conclusion. It
+re-implemented SS and FunSearch's full evaluator on 2 released instances and got the same bin
+counts. Its report is `docs/reviews/2026-10-04-online-frontier-v1.md`, on branch
+`fix/obss-u250-12` when this was written.
+
+Corrections made, each checked here against the data or the source:
+
+1. **The interface claim.** The overreaching "interface's ceiling" claim is replaced. Only one
+   stateless restriction was tested, and FunSearch's evaluator permits state (§ What this means,
+   2).
+2. **A failed pre-registered check** (OR optima, 76/80) is now listed as a deviation, together
+   with two smaller ones.
+3. **The 5-instance released set** is reported descriptively, with the t-interval and sign test.
+4. **The contrast count.** "32/32" is replaced by 16/16 pre-registered contrasts; the other 16 are
+   labelled supplementary.
+5. **Asymptotic language** is softened, and the OR explanation is labelled a hypothesis.
+6. **The comparison with FunSearch's published numbers** is restated per length: the 5k and OR
+   values are exact reproductions; 10k and 100k are consistent.
+7. **PD-exp's bound** is now Theorem 3's √(8BT) = 2,000 for the open-ended version (checked in the
+   paper). `RUN_LOG.md`'s √(4BT) applied to PD-exp-T.
+8. **Documentation errors.**
+   - The OR data SHA-256 hashes are now in `RUN_LOG.md`.
+   - Checks plus probe took about 25 CPU-minutes, not 10. The OR optima alone took 1,475 s.
+   - The probe ran before about 01:46, not "before 01:34".
+   - `frontier.py`'s compact-evaluator docstring now points to the argument here: positions past
+     top + 2 all score as position top + 2 does. The reviewer checked this analytically for FS-W,
+     FS-OR, ab-WF and SS-view.
+   - The sibling study is no longer described as unconfirmed.
+9. **u250_13.** The MILP also proves OR-Library's listed 103 optimal (dual bound 103 > L2 = 102),
+   although OR-Library lists it as unproven.

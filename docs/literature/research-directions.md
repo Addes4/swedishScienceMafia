@@ -10,6 +10,26 @@ One direction was also probed on CPU (no API spend): [probes/sos_probe.py](probe
 its output in [probes/sos_probe.log](probes/sos_probe.log). The probe is exploratory, not
 pre-registered.
 
+## Status (updated 4 October 2026, 09:10 BST)
+
+The session's decisions, timeline and spend are in [research-directions-log.md](../logs/research-directions-log.md).
+
+| # | Direction | Status |
+|---|---|---|
+| 1 | Classical algorithms against FunSearch | **Done; reviewed and corrected:** `exp/online-frontier` (online-frontier-v1). OPT = L1 on Weibull; SS is 10–11 bins above OPT, FunSearch 13–14. Extended by session b1 (`exp/online-beyond-ss`): a known-horizon weighted SS gets 1.6–2.1. Follow-up `exp/llm-from-ss` (llm-from-ss-v1): a loop started from SS beat it in all 4 runs. The best, a (100/g)^0.8-weighted SS, gets 8.37 bins above OPT against SS's 10.68, without using the item count. |
+| 2 | Adaptive overfitting and promotion rules | **Done (replay); reviewed and corrected:** `exp/overfit-gates` (overfit-gates-v1). Selection overfitting was small. Strict, random and soft vetoes all blocked the best run; the archived counterexamples are mostly 2 items long. |
+| 3 | Timing-shuffle controls on LLM frameworks | Not started (deferred: setup and spend). |
+| 4 | Behavioural no-ops and dedup | Not started (deferred). |
+| 5 | Short-horizon bias | **Done:** `exp/short-horizon` (short-horizon-v1, $1.84). Selecting on 200- or 80-item streams, or gating on short inputs, leaves the loop near best fit (−0.09 to −0.58 pp), against −2.61 pp when selecting on 5k streams. A short random gate behaves like a short counterexample gate. |
+| 6 | Unprompted exploitation canaries | Not started. |
+| 1b | Does the weak-baseline pattern hold beyond bin packing? | **Interim (session 2d):** `exp/tsp-construct`, TSP step-by-step construction on MCTS-AHD's released test sets, at n = 50/100/200.
+
+- **Farthest insertion (1977)** gets 5.53 / 7.49 / 9.03%. It beats every row of MCTS-AHD's Table 1 and the CALM, MoH, Clade-AHD and PathWise results. It does not beat the best newer LLM results: TIDE 4.76, SimpleEvol 6.47 and HiFo 8.88%.
+- **A 60-line greedy edge + 2-opt + Or-opt**, which the interface allows, gets 1.85 / 2.44 / 2.85% and beats all published LLM results.
+- **A reference error:** MCTS-AHD's n = 200 optimum reference is 0.46% too low.
+
+These are 2d's numbers, not re-checked here. |
+
 ## Summary
 
 | # | Direction | Literature verdict | What we already have | Cost to a first result |
