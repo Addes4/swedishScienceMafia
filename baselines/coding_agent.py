@@ -1,7 +1,7 @@
 """Baseline: a plain coding agent asked to beat the records, with the same harness and the same evaluation budget.
 
-    python baselines/coding_agent.py --targets 85-90 --out runs/coding-agent
-    python baselines/coding_agent.py --problem circle-radii --targets 26 --relaxes 73728 --polishes 576 --out runs/coding-agent-radii
+    python baselines/coding_agent.py --targets 85-90 --out baselines/out/squares
+    python baselines/coding_agent.py --problem circle-radii --targets 26 --relaxes 73728 --polishes 576 --out baselines/out/radii
 
 The agent (Codex, the model Mosa's researchers use) works free-form in its own directory: it can write and run any
 code. It gets the problem in words, the best known packing for each size, and the harness as a small library
@@ -109,7 +109,7 @@ def main():
     parser.add_argument("--targets", nargs="+", default=["85-90"])
     parser.add_argument("--relaxes", type=int, default=RELAXES)
     parser.add_argument("--polishes", type=int, default=POLISHES)
-    parser.add_argument("--out", default="runs/coding-agent")
+    parser.add_argument("--out", default="baselines/out/coding-agent", help="the agent's working directory (not runs/: that holds Mosa's workspaces)")
     parser.add_argument("--model", default=None)
     parser.add_argument("--timeout", type=int, default=5400, help="seconds")
     args = parser.parse_args()
@@ -130,7 +130,7 @@ def main():
     if args.model:
         command += ["--model", args.model]
     started = time.time()
-    with open(out/"events.jsonl", "w") as events, open(out/"stderr.txt", "w") as errors:
+    with open(out/"codex-events.jsonl", "w") as events, open(out/"stderr.txt", "w") as errors:
         try:
             subprocess.run(command+["-"], input=prompt, text=True, stdout=events, stderr=errors, timeout=args.timeout,
                            env={k: v for k, v in os.environ.items() if not k.endswith("_API_KEY") or k == "OPENAI_API_KEY"})

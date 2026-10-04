@@ -77,3 +77,4 @@ mosa/domains/generated/
 # Mosa: workspaces live in runs/ (ignored above, except the autoresearch demo runs); harnesses drafted on the spot
 /*.log
 mosa/domains/generated/
+baselines/out/

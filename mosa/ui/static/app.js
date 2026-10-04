@@ -227,7 +227,10 @@ function renderSide() {
 // ---------- main: the lab ----------
 function renderMain() {
   const el = $("#main");
-  if (S.compose) { el.innerHTML = composeView(); return; }
+  if (S.compose) {  // built once: the periodic refresh must not wipe what is being typed
+    if (!el.querySelector(".compose")) el.innerHTML = composeView();
+    return;
+  }
   const m = model(S.lab), l = summary(S.lab);
   if (m && !m.lab && m.requests.length) {  // nothing has run yet: the conversation (right) is where things happen
     el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1></div></div>`;

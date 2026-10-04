@@ -16,6 +16,9 @@ trusted harnesses, or writes and self-tests a harness for a new one.
   1979; four came from strategies the LLM researchers wrote.
 - A problem library beyond packing: points on a sphere for any Riesz exponent (Smale's logarithmic energy, Thomson,
   Tammes), and the circles-in-a-square benchmark that AlphaEvolve and ShinkaEvolve report.
+- **Measured honestly:** at equal budget, a plain coding agent, a one-shot LLM strategy and basin hopping matched Mosa on
+  original sphere problems, and the coding agent beat it on the n = 26 benchmark. With strong trusted tools, the method
+  on top matters little ([details](MOSA.md#head-to-head-at-equal-budget-mosa-does-not-beat-simpler-methods)).
 
 ```bash
 python -m mosa serve     # the workbench at http://127.0.0.1:8777

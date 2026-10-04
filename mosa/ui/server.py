@@ -22,11 +22,23 @@ STATIC = Path(__file__).resolve().parent/"static"
 FOLDERS = ("runs", "history")
 
 
+def _is_notebook(path):
+    """A Mosa notebook: its events carry a type and a time (other tools' event logs are skipped)."""
+    with open(path) as f:
+        first = f.readline()
+    try:
+        event = json.loads(first)
+    except ValueError:
+        return not first.strip()
+    return "type" in event and "time" in event
+
+
 def notebooks():
     out = {}
     for folder in FOLDERS:
         for path in sorted((ROOT/folder).glob("*/events.jsonl")):
-            out[f"{folder}/{path.parent.name}"] = path
+            if _is_notebook(path):
+                out[f"{folder}/{path.parent.name}"] = path
         for path in sorted((ROOT/folder).glob("*/process.log")):  # a workspace whose planner has not written yet
             out.setdefault(f"{folder}/{path.parent.name}", path.parent/"events.jsonl")
     return out
