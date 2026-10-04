@@ -10,6 +10,26 @@ One direction was also probed on CPU (no API spend): [probes/sos_probe.py](probe
 its output in [probes/sos_probe.log](probes/sos_probe.log). The probe is exploratory, not
 pre-registered.
 
+## Status (updated 4 October 2026, 09:10 BST)
+
+The session's decisions, timeline and spend are in [research-directions-log.md](../logs/research-directions-log.md).
+
+| # | Direction | Status |
+|---|---|---|
+| 1 | Classical algorithms against FunSearch | **Done; reviewed and corrected:** `exp/online-frontier` (online-frontier-v1). OPT = L1 on Weibull; SS is 10–11 bins above OPT, FunSearch 13–14. Extended by session b1 (`exp/online-beyond-ss`): a known-horizon weighted SS gets 1.6–2.1. Follow-up running: `exp/llm-from-ss` (can the loop improve on SS?). |
+| 2 | Adaptive overfitting and promotion rules | **Done (replay); reviewed and corrected:** `exp/overfit-gates` (overfit-gates-v1). Selection overfitting was small. Strict, random and soft vetoes all blocked the best run; the archived counterexamples are mostly 2 items long. |
+| 3 | Timing-shuffle controls on LLM frameworks | Not started (deferred: setup and spend). |
+| 4 | Behavioural no-ops and dedup | Not started (deferred). |
+| 5 | Short-horizon bias | **Running:** `exp/short-horizon` (short-horizon-v1), HF cap $4. |
+| 6 | Unprompted exploitation canaries | Not started. |
+| 1b | Does the weak-baseline pattern hold beyond bin packing? | **Interim (session 2d):** `exp/tsp-construct`, TSP step-by-step construction on MCTS-AHD's released test sets, at n = 50/100/200.
+
+- **Farthest insertion (1977)** gets 5.53 / 7.49 / 9.03%. It beats every row of MCTS-AHD's Table 1 and the CALM, MoH, Clade-AHD and PathWise results. It does not beat the best newer LLM results: TIDE 4.76, SimpleEvol 6.47 and HiFo 8.88%.
+- **A 60-line greedy edge + 2-opt + Or-opt**, which the interface allows, gets 1.85 / 2.44 / 2.85% and beats all published LLM results.
+- **A reference error:** MCTS-AHD's n = 200 optimum reference is 0.46% too low.
+
+These are 2d's numbers, not re-checked here. |
+
 ## Summary
 
 | # | Direction | Literature verdict | What we already have | Cost to a first result |
