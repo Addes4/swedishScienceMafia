@@ -1,0 +1,314 @@
+[loop] bin_packing_online -> /Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s1
+[start] loop__bin_packing_online__s1: arm lean (lean) on bin_packing_online, seed 1, cap $0.75
+  initial          score 0.9616
+  step  1 edit    not_better    score 0.9233  best 0.9616  $0.0004  Add a small "almost-full bin" bias plus periodic smart measu
+  step  2 edit    not_better    score 0.9616  best 0.9616  $0.0003  Replace pure best fit with a score that mixes best-fit tight
+  step  3 edit    invalid       score 0.0000  best 0.9616  $0.0005  Replace pure best-fit with a restarted harmonic-style rankin
+  step  4 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll combine best-fit with a residual-aware rule: for each c
+  step  5 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll replace pure best-fit with a "best-fit with harmonic-cl
+  step  6 edit    not_better    score 0.9616  best 0.9616  $0.0004  (no description)
+  step  7 edit    not_better    score 0.9616  best 0.9616  $0.0005  The best available online bin-packing heuristic for this dis
+  step  8 edit    not_better    score 0.9614  best 0.9616  $0.0005  Replace pure best-fit with best-fit plus a history-learned "
+  step  9 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll replace pure best-fit with a "best-fit + smart-worst-fi
+  step 10 edit    not_better    score 0.9616  best 0.9616  $0.0005  Replace pure best-fit with a score that adds a small residua
+  step 11 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll replace pure best-fit with a "best-fit + tighter sliver
+  step 12 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll switch from best-fit to a "best-fit with amortized item
+  step 13 edit    not_better    score 0.9614  best 0.9616  $0.0005  I'll replace pure best-fit with a two-phase rule that levera
+  step 14 edit    not_better    score 0.9616  best 0.9616  $0.0005  Pure best-fit ignores that an item nearly filling a bin is o
+  step 15 edit    not_better    score 0.9616  best 0.9616  $0.0004  Try a tuned parametric score that blends best-fit tightness 
+  step 16 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll implement a size-class-aware "harmonic" score inspired 
+  step 17 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace pure best-fit with a probabilistic variant that
+  step 18 edit    not_better    score 0.9616  best 0.9616  $0.0004  Replace pure best-fit with a policy that first tries to comp
+  step 19 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace pure best-fit with a size-class "complement pai
+  step 20 edit    not_better    score 0.9616  best 0.9616  $0.0005  Replace pure best-fit with a hybrid that adds an online-lear
+  step 21 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace the pure best-fit with a score that prefers the
+  step 22 edit    not_better    score 0.9616  best 0.9616  $0.0006  I will replace pure best-fit with a "Best Fit with lookahead
+  step 23 edit    not_better    score 0.9616  best 0.9616  $0.0005  Replace pure best-fit with a score that exploits the item-si
+  step 24 edit    not_better    score 0.9499  best 0.9616  $0.0006  I'll switch the primary criterion from smallest residual to 
+  step 25 edit    not_better    score 0.9614  best 0.9616  $0.0006  I'll switch from best-fit to a scaled/quantized first-fit-li
+  step 26 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll implement a size-class-aware best fit that boosts bins 
+  step 27 edit    not_better    score 0.8992  best 0.9616  $0.0006  I'll replace pure best-fit with a harmonic-style rule: bins 
+  step 28 edit    not_better    score 0.9616  best 0.9616  $0.0004  Implement the classic "best fit with a small bias toward lea
+  step 29 edit    not_better    score 0.9402  best 0.9616  $0.0005  The classic improvement over pure best fit for Weibull-ish s
+  step 30 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll try a small refinement of pure best fit that specifical
+  step 31 edit    not_better    score 0.9616  best 0.9616  $0.0004  I will switch the ranking from pure best-fit to a smoothed "
+  step 32 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace pure best-fit with a "best fit plus a bonus for
+  step 33 edit    not_better    score 0.9616  best 0.9616  $0.0006  I'll replace pure best-fit with a "compatibility-aware best 
+  step 34 edit    not_better    score 0.9616  best 0.9616  $0.0005  Replace pure best-fit with a rule based on the classic Sum-o
+  step 35 edit    not_better    score 0.9616  best 0.9616  $0.0006  I'll implement the classic "harmonic/maximum-utilization" id
+  step 36 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace pure best-fit with a score that combines tight 
+  step 37 edit    not_better    score 0.9616  best 0.9616  $0.0004  Recent attempts show local tweaks to best-fit do not help. I
+  step 38 edit    not_better    score 0.9616  best 0.9616  $0.0006  I'll replace pure best-fit with a rule that also considers t
+  step 39 edit    invalid       score 0.0000  best 0.9616  $0.0005  Replace best-fit with a two-regime rule: track a coarse hist
+  step 40 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll switch from best-fit to a "minimum waste plus double-bi
+  step 41 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll test a fundamentally different rule: instead of pure be
+  step 42 edit    not_better    score 0.9616  best 0.9616  $0.0005  Add a tiny index-based tiebreaker to best-fit so that among 
+  step 43 edit    not_better    score 0.9501  best 0.9616  $0.0005  I'll add a "reserve the last bin" adaptation of Harmonic-sty
+  step 44 edit    not_better    score 0.9616  best 0.9616  $0.0007  Replace pure best-fit with an "almost worst fit / best fit h
+  step 45 edit    not_better    score 0.9616  best 0.9616  $0.0004  Best-fit is near-optimal for this distribution, but a known 
+  step 46 edit    invalid       score 0.0000  best 0.9616  $0.0008  I'll replace the static best-fit with an online learned mode
+  step 47 edit    not_better    score 0.9616  best 0.9616  $0.0005  Best-fit leaves many bins with small unusable residuals. I'l
+  step 48 edit    not_better    score 0.9614  best 0.9616  $0.0004  Implement "best fit decreasing-style pairing" online: prefer
+  step 49 edit    not_better    score 0.9616  best 0.9616  $0.0004  Replace pure best-fit with a rule that prefers exact fits, b
+  step 50 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll switch the tie-breaking and score shape: keep best-fit 
+  step 51 edit    improved      score 0.9621  best 0.9621  $0.0005  Replace pure best-fit with a score that still favors tight f
+  step 52 edit    not_better    score 0.9621  best 0.9621  $0.0006  Add a stateful "exact-fit reservation" rule: track how many 
+  step 53 edit    not_better    score 0.9621  best 0.9621  $0.0007  Add lightweight state tracking a histogram of seen item size
+  step 54 edit    not_better    score 0.5269  best 0.9621  $0.0008  Replace the heuristic scoring with an online learned predict
+  step 55 edit    not_better    score 0.9549  best 0.9621  $0.0007  Replace the ad-hoc penalty with a proper expected-waste valu
+  step 56 edit    not_better    score 0.9616  best 0.9621  $0.0005  Keep the exact-fit bonus and best-fit ordering, but replace 
+  step 57 edit    improved      score 0.9623  best 0.9623  $0.0006  Add a lookahead-aware "leftover usability" term using a stat
+  step 58 edit    not_better    score 0.9619  best 0.9623  $0.0006  Replace the concave mean-peaked bonus with a sharper "reusab
+  step 59 edit    not_better    score 0.9614  best 0.9623  $0.0007  Replace the concave mean-peaked residual bonus with a smooth
+  step 60 edit    not_better    score 0.9623  best 0.9623  $0.0007  I will replace the ad-hoc residual shaping with a best-fit r
+  step 61 edit    not_better    score 0.9616  best 0.9623  $0.0006  Simplify and regularize: use a dominant best-fit term plus a
+  step 62 edit    not_better    score 0.9623  best 0.9623  $0.0007  Add a scale-aware exact-fit-adjacent lookahead: instead of a
+  step 63 edit    not_better    score 0.9612  best 0.9623  $0.0007  Add a small stateful "energy" term that biases toward bins w
+  step 64 edit    not_better    score 0.9616  best 0.9623  $0.0007  Replace the fixed 1000 exact-fit bonus and ad-hoc residual p
+  step 65 edit    not_better    score 0.9616  best 0.9623  $0.0007  Replace the heuristic residual shaping with a dynamic-progra
+  step 66 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the noisy histogram-based residual shaping with
+  step 67 edit    not_better    score 0.9619  best 0.9623  $0.0006  I'll add a stateful "pairing" term that prefers placing an i
+  step 68 edit    not_better    score 0.9609  best 0.9623  $0.0006  Replace the noisy bonus/penalty shaping with a pure best-fit
+  step 69 edit    not_better    score 0.9616  best 0.9623  $0.0006  Add a size-aware pairing term that favors placing an item in
+  step 70 edit    not_better    score 0.9619  best 0.9623  $0.0007  I'll add a second-order "future pair" term: after tentativel
+  step 71 edit    not_better    score 0.9616  best 0.9623  $0.0005  I will simplify to a pure best-fit rule with only a strong e
+  step 72 edit    not_better    score 0.9616  best 0.9623  $0.0006  I will replace the ad-hoc geometric residual shaping with a 
+  step 73 edit    not_better    score 0.9616  best 0.9623  $0.0006  Add a stateful "damage-minimizing" tie-breaker: keep the dom
+  step 74 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the fixed geometric shaping with an adaptive "r
+  step 75 edit    not_better    score 0.9616  best 0.9623  $0.0007  I will replace the pure best-fit-with-exact-fit-bonus core b
+  step 76 edit    not_better    score 0.9619  best 0.9623  $0.0007  I'll use a distribution-aware expected-waste model: instead 
+  step 77 edit    not_better    score 0.9616  best 0.9623  $0.0007  Replace the ad-hoc residual shaping with a principled harmon
+  step 78 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the ad-hoc residual shaping with a simple, well
+  step 79 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll adopt a hybrid of best-fit and worst-fit: keep best-fit
+  step 80 edit    not_better    score 0.9619  best 0.9623  $0.0007  I'll add a stateful "sum-of-squares" (energy) tie-breaker: k
+  step 81 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll replace the reshaping with pure best-fit (tightest resi
+  step 82 edit    not_better    score 0.9616  best 0.9623  $0.0008  I will replace the heuristic "small residual" penalty with a
+  step 83 edit    not_better    score 0.9616  best 0.9623  $0.0007  I'll switch from scoring by residual to a worst-fit-style ra
+  step 84 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll make the exact-fit bonus dominant at a level that clear
+  step 85 edit    not_better    score 0.9616  best 0.9623  $0.0007  Replace the direct-residual scoring with a "best fit decreas
+  step 86 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the ad-hoc residual shaping with a cleaner "bes
+  step 87 edit    invalid       score 0.0000  best 0.9623  $0.0006  I'll keep exact-fit preference but make the ranking purely l
+  step 88 edit    not_better    score 0.9616  best 0.9623  $0.0007  I'll use a sum-of-two-criteria approach: keep best-fit domin
+  step 89 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the ad-hoc shaping with a strict lexicographic 
+  step 90 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the heuristic scoring with a proper "best fit d
+  step 91 edit    not_better    score 0.5228  best 0.9623  $0.0007  I'll replace the heuristic scoring with a proper distributio
+  step 92 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll make the scoring a pure best-fit rule with a dominant e
+  step 93 edit    not_better    score 0.9616  best 0.9623  $0.0005  The current scoring already dominates with best-fit plus exa
+  step 94 edit    not_better    score 0.9614  best 0.9623  $0.0006  I'll add a "sum-of-item-sizes" tie-break so that among bins 
+  step 95 edit    not_better    score 0.9612  best 0.9623  $0.0006  I will replace the smooth bonus with a dominant best-fit ord
+  step 96 edit    not_better    score 0.9616  best 0.9623  $0.0006  Replace the heuristic shaping with a strict best-fit rule pl
+  step 97 edit    not_better    score 0.9616  best 0.9623  $0.0007  I'll strengthen the reuse term: instead of a small linear bo
+  step 98 edit    not_better    score 0.9616  best 0.9623  $0.0008  I'll replace the weak reuse/pairing heuristics with a proper
+  step 99 edit    not_better    score 0.9595  best 0.9623  $0.0005  I'll keep the proven best-fit with exact-fit bonus and add a
+  step 100 edit    not_better    score 0.9616  best 0.9623  $0.0008  I'll replace the weak shaping with a proper distribution-awa
+  step 101 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll replace the heuristic shaping with best-fit plus a stro
+  step 102 edit    not_better    score 0.9616  best 0.9623  $0.0006  I will replace the heuristic scoring with a strict best-fit 
+  step 103 edit    not_better    score 0.9616  best 0.9623  $0.0009  Replace the heuristic with a distribution-based one-step loo
+  step 104 edit    not_better    score 0.9614  best 0.9623  $0.0021  Keep the proven "best fit + exact-fit bonus + leave-at-least
+  step 105 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll simplify to a pure best-fit with a dominant exact-fit b
+  step 106 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll add a moderate bonus for placing an item into a bin who
+  step 107 edit    not_better    score 0.9621  best 0.9623  $0.0006  I'll implement a score that rewards the bin whose resulting 
+  step 108 edit    not_better    score 0.9616  best 0.9623  $0.0005  Replace the weak residual shaping with a symmetry-aware best
+  step 109 edit    not_better    score 0.9614  best 0.9623  $0.0006  I'll replace the pure best-fit rule with an empirical one-st
+  step 110 edit    not_better    score 0.9616  best 0.9623  $0.0007  I'll keep the proven exact-fit and best-fit core but replace
+  step 111 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll add a strong bonus for the resulting residual being exa
+  step 112 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll switch from pure best-fit to a harmonic-style rule that
+  step 113 edit    not_better    score 0.9616  best 0.9623  $0.0007  I will add a small "almost-fit" penalty/bonus asymmetry tune
+  step 114 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll replace the ad-hoc residual shaping with a principled "
+  step 115 edit    not_better    score 0.9616  best 0.9623  $0.0006  I'll use a "least-loaded residual that still fits nicely" hy
+  step 116 edit    not_better    score 0.9616  best 0.9623  $0.0007  Replace the ad-hoc residual shaping with a direct "best fit 
+  step 117 edit    not_better    score 0.9616  best 0.9623  $0.0005  I'll replace the hand-tuned residual shaping with a learned-
+  step 118 edit    not_better    score 0.9616  best 0.9623  $0.0006  Strip everything down to strict pure best-fit with exact-fit
+  step 119 edit    not_better    score 0.9616  best 0.9623  $0.0007  I'll implement a principled expected-waste rule: score each 
+  step 120 edit    not_better    score 0.9616  best 0.9623  $0.0007  I'll reverse the residual-shaping intuition by adding a smal
+  step 121 edit    not_better    score 0.5224  best 0.9623  $0.0006  I'll switch from best-fit to a "worst-fit among fitting, wit
+  step 122 edit    improved      score 0.9912  best 0.9912  $0.0006  I'll keep exact-fit dominance but replace pure best-fit with
+  step 123 edit    not_better    score 0.7531  best 0.9912  $0.0006  I'll refine the residual-target objective so exact fits stay
+  step 124 edit    improved      score 0.9925  best 0.9925  $0.0007  I'll replace the single fixed target residual with a small s
+  step 125 edit    not_better    score 0.9903  best 0.9925  $0.0007  I'll make exact-fill dominance absolute (a very large consta
+  step 126 edit    not_better    score 0.9861  best 0.9925  $0.0007  I'll replace the min-distance-to-nearest-seen-size objective
+  step 127 edit    not_better    score 0.9925  best 0.9925  $0.0007  I'll cap the fallback term so it only acts as a mild tie-bre
+  step 128 edit    not_better    score 0.9848  best 0.9925  $0.0007  The current min-distance-to-nearest-seen-size lookup is nois
+  step 129 edit    not_better    score 0.9853  best 0.9925  $0.0007  Replace the min-distance-to-nearest-seen-size objective with
+  step 130 edit    not_better    score 0.9682  best 0.9925  $0.0007  The current score uses min-distance to any seen size in a no
+  step 131 edit    not_better    score 0.9616  best 0.9925  $0.0005  I'll simplify to a robust "best fit" rule (smallest residual
+  step 132 edit    not_better    score 0.9640  best 0.9925  $0.0009  I'll keep the winning min-distance-to-nearest-seen-size term
+  step 133 edit    not_better    score 0.9920  best 0.9925  $0.0008  Add a "perfect-completion" term that scores a bin higher whe
+  step 134 edit    not_better    score 0.9654  best 0.9925  $0.0007  The current min-distance lookup treats a residual of 1 as ha
+  step 135 edit    not_better    score 0.9619  best 0.9925  $0.0007  The min-distance-to-nearest-seen-size lookup is fragile and 
+  step 136 edit    not_better    score 0.9875  best 0.9925  $0.0008  I'll refine the current winning min-distance objective so th
+  step 137 edit    not_better    score 0.9626  best 0.9925  $0.0007  I will replace the fragile min-distance-to-nearest-seen-size
+  step 138 edit    not_better    score 0.9917  best 0.9925  $0.0008  I'll keep the exact same winning min-distance-to-nearest-see
+  step 139 edit    not_better    score 0.9920  best 0.9925  $0.0008  I'll keep the winning min-distance-to-nearest-seen-size term
+  step 140 edit    not_better    score 0.9547  best 0.9925  $0.0007  I'll replace the arbitrary -0.05*|res-mean| fallback with a 
+  step 141 edit    not_better    score 0.9822  best 0.9925  $0.0008  I'll replace the fragile O(101×K) min-distance lookup with a
+  step 142 edit    not_better    score 0.9824  best 0.9925  $0.0007  The current min-distance lookup is expensive and noisy; I'll
+  step 143 edit    not_better    score 0.9925  best 0.9925  $0.0007  I'll keep the winning min-distance-to-nearest-seen-size obje
+  step 144 edit    not_better    score 0.9742  best 0.9925  $0.0008  I'll replace the noisy per-bin min-distance-to-seen-size loo
+  step 145 edit    not_better    score 0.9616  best 0.9925  $0.0006  I'll simplify and stabilize the scoring: replace the fragile
+  step 146 edit    not_better    score 0.9893  best 0.9925  $0.0007  Replace the fragile recency-weighted "seen" set with a value
+  step 147 edit    not_better    score 0.9910  best 0.9925  $0.0008  Blend the winning min-distance-to-nearest-seen-size objectiv
+  step 148 edit    not_better    score 0.9925  best 0.9925  $0.0008  Add a penalty for residuals larger than the maximum observed
+  step 149 edit    not_better    score 0.9912  best 0.9925  $0.0007  Replace the noisy per-item recency "seen" set (last-hundreds
+  step 150 edit    not_better    score 0.9616  best 0.9925  $0.0008  Replace the noisy recency-weighted "nearest seen size" looku
+  step 151 edit    not_better    score 0.9637  best 0.9925  $0.0008  Replace the fragile recency-based "nearest seen size" surrog
+  step 152 edit    not_better    score 0.9807  best 0.9925  $0.0007  I'll replace the noisy min-distance-to-nearest-recently-seen
+  step 153 edit    not_better    score 0.9751  best 0.9925  $0.0008  Add a small monotone tie-breaker that prefers the smallest p
+  step 154 edit    not_better    score 0.9920  best 0.9925  $0.0008  Add a small "best-fit"-style monotone tie-breaker that prefe
+  step 155 edit    not_better    score 0.9900  best 0.9925  $0.0007  I'll replace the noisy recency-decay "seen" set with a stabl
+  step 156 edit    not_better    score 0.9905  best 0.9925  $0.0007  I'll replace the fragile "nearest recently-seen size" surrog
+  step 157 edit    not_better    score 0.9910  best 0.9925  $0.0008  I will replace the fragile recency-decay lookup with a smoot
+  step 158 edit    not_better    score 0.9614  best 0.9925  $0.0007  Replace the noisy recency-decay "nearest seen size" with a d
+  step 159 edit    not_better    score 0.9925  best 0.9925  $0.0008  Keep the proven nearest-seen-size scoring but make the recen
+  step 160 edit    not_better    score 0.9908  best 0.9925  $0.0008  Reduce the recency decay to 0.998 so the "recently-seen size
+  step 161 edit    not_better    score 0.9621  best 0.9925  $0.0008  I'll soften the exact-fill bonus from a binary 1000-point sp
+  step 162 edit    not_better    score 0.9754  best 0.9925  $0.0007  Replace the decaying presence array (which accumulates noise
+  step 163 edit    not_better    score 0.9612  best 0.9925  $0.0008  Replace the noisy recency-decay distance-to-nearest-seen-siz
+  step 164 edit    not_better    score 0.9925  best 0.9925  $0.0007  Replace the noisy recency-decay nearest-seen-size lookup wit
+  step 165 edit    not_better    score 0.9682  best 0.9925  $0.0008  I'll replace the recency-weighted "nearest seen size" heuris
+  step 166 edit    not_better    score 0.9903  best 0.9925  $0.0007  I'll keep the proven exact-fill dominance but replace the no
+  step 167 edit    not_better    score 0.9915  best 0.9925  $0.0008  Add a standard Best-Fit tie-break: among residuals with the 
+  step 168 edit    not_better    score 0.9718  best 0.9925  $0.0007  Avoid the O(len(bins)*101) distance-matrix computation each 
+  step 169 edit    not_better    score 0.9737  best 0.9925  $0.0007  I'll keep the exact-fill dominance but make the reusable-res
+  step 170 edit    not_better    score 0.9915  best 0.9925  $0.0007  I will keep the proven exact-fill dominance and the reusable
+  step 171 edit    not_better    score 0.9915  best 0.9925  $0.0008  The recency-decay presence array with 0.999 multiplier never
+  step 172 edit    not_better    score 0.9903  best 0.9925  $0.0008  I'll keep the proven exact-fill dominance and the reusable-r
+  step 173 edit    not_better    score 0.9922  best 0.9925  $0.0008  I'll replace the expensive O(101·bins) distance-matrix recom
+  step 174 edit    not_better    score 0.9861  best 0.9925  $0.0007  Replace the noisy distance-to-nearest-recently-seen-size sig
+  step 175 edit    not_better    score 0.9925  best 0.9925  $0.0007  I'll keep the proven exact-fill dominance and the reusable-r
+  step 176 edit    not_better    score 0.9616  best 0.9925  $0.0008  I'll make the reusable-residual signal secondary to true bes
+  step 177 edit    not_better    score 0.9614  best 0.9925  $0.0006  Replace the noisy recency-decay "reusable residual" signal w
+  step 178 edit    not_better    score 0.9912  best 0.9925  $0.0007  I'll keep the proven exact-fill dominance and reusable-resid
+  step 179 edit    not_better    score 0.9903  best 0.9925  $0.0008  I'll keep the exact-fill dominance and nearest-common-residu
+  step 180 edit    not_better    score 0.9616  best 0.9925  $0.0008  The prior best used a recency-decay `_seen` array; I'll repl
+  step 181 edit    not_better    score 0.9920  best 0.9925  $0.0008  I'll add a periodic "shuffle-to-front" style tie-break that 
+  step 182 edit    not_better    score 0.9912  best 0.9925  $0.0008  I will keep the current best structure (exact-fill dominance
+  step 183 edit    not_better    score 0.9925  best 0.9925  $0.0009  I'll add a "generalized fill" signal: for each candidate res
+  step 184 edit    not_better    score 0.9912  best 0.9925  $0.0007  I'll replace the fragile recency-decay "_seen" array with a 
+  step 185 edit    not_better    score 0.9616  best 0.9925  $0.0009  Replace the nearest-seen-size term with a histogram-weighted
+  step 186 edit    not_better    score 0.9614  best 0.9925  $0.0006  I'll keep the proven exact-fill dominance, but replace the b
+  step 187 edit    not_better    score 0.9925  best 0.9925  $0.0008  I'll keep the proven exact-fill dominance and the successful
+  step 188 edit    not_better    score 0.9614  best 0.9925  $0.0007  The current residual-matching uses a nearest-seen-size dista
+  step 189 edit    not_better    score 0.9616  best 0.9925  $0.0006  Replace the score with a classic Best-Fit (smallest residual
+  step 190 edit    not_better    score 0.9920  best 0.9925  $0.0009  Add a generalized-fill bonus computed from the histogram: fo
+  step 191 edit    not_better    score 0.9915  best 0.9925  $0.0008  I'll keep the proven exact-fill dominance and the "nearest r
+  step 192 edit    invalid       score 0.0000  best 0.9925  $0.0008  The current "nearest seen size" distance term is coarse (int
+  step 193 edit    not_better    score 0.9885  best 0.9925  $0.0008  Replace the brittle integer "nearest seen size" metric with 
+  step 194 edit    not_better    score 0.9898  best 0.9925  $0.0009  I'll replace the coarse integer "nearest seen size" distance
+  step 195 edit    not_better    score 0.9903  best 0.9925  $0.0008  Replace the brittle nearest-seen-size distance (which satura
+  step 196 edit    not_better    score 0.9616  best 0.9925  $0.0007  I'll replace the coarse integer nearest-seen-size distance w
+  step 197 edit    not_better    score 0.9900  best 0.9925  $0.0008  I'll replace the coarse integer “nearest seen size” term wit
+  step 198 edit    not_better    score 0.9863  best 0.9925  $0.0008  Keep the exact-fill dominance and nearest-seen-size matching
+  step 199 edit    not_better    score 0.9715  best 0.9925  $0.0008  I'll replace the coarse "nearest seen size" integer-distance
+  step 200 edit    not_better    score 0.9661  best 0.9925  $0.0008  The current nearest-seen-size metric saturates into many tie
+  step 201 edit    not_better    score 0.9903  best 0.9925  $0.0007  I'll replace the brittle nearest-seen-size distance with a s
+  step 202 edit    not_better    score 0.9616  best 0.9925  $0.0005  Simplify to a classic Best-Fit rule (prefer the smallest non
+  step 203 edit    not_better    score 0.9619  best 0.9925  $0.0006  The nearest-seen-size term saturates and creates many ties, 
+  step 204 edit    not_better    score 0.9912  best 0.9925  $0.0008  I'll keep the existing nearest-seen-size distance term (whic
+  step 205 edit    not_better    score 0.9730  best 0.9925  $0.0008  I'll keep exact-fill dominance but replace the brittle "near
+  step 206 edit    not_better    score 0.9915  best 0.9925  $0.0008  I'll keep the proven nearest-seen-size distance term but rep
+  step 207 edit    not_better    score 0.9616  best 0.9925  $0.0008  The current rule ignores the known strength of Best-Fit; I'l
+  step 208 edit    not_better    score 0.9912  best 0.9925  $0.0006  I'll replace the brittle nearest-seen-size distance with a q
+  step 209 edit    not_better    score 0.9905  best 0.9925  $0.0008  I'll add a recency-weighted histogram "reuse" bonus computed
+  step 210 edit    not_better    score 0.9917  best 0.9925  $0.0008  The nearest-seen-size distance term is essentially binary at
+  step 211 edit    invalid       score 0.0000  best 0.9925  $0.0009  Replace the nearest-seen-size distance (which saturates into
+  step 212 edit    not_better    score 0.9917  best 0.9925  $0.0008  The current nearest-seen-size distance saturates into ties; 
+  step 213 edit    not_better    score 0.9616  best 0.9925  $0.0005  The nearest-seen-size tie saturation is the core weakness; I
+  step 214 edit    not_better    score 0.9920  best 0.9925  $0.0008  I'll make the reuse guidance distribution-aware instead of b
+  step 215 edit    not_better    score 0.9761  best 0.9925  $0.0008  Point the reuse bonus at the actual capacity-100 target inst
+  step 216 edit    not_better    score 0.9579  best 0.9925  $0.0007  (no description)
+  step 217 edit    not_better    score 0.9917  best 0.9925  $0.0009  I'll add an "aging"/best-fit tie-break refinement: when resi
+  step 218 edit    not_better    score 0.9642  best 0.9925  $0.0008  Replace the saturating nearest-seen-size distance with a two
+  step 219 edit    not_better    score 0.9898  best 0.9925  $0.0008  I'll keep the exact-fill bonus and the reuse logic, but repl
+  step 220 edit    not_better    score 0.9666  best 0.9925  $0.0007  I'll replace the saturating nearest-seen-size distance (whic
+  step 221 edit    not_better    score 0.9616  best 0.9925  $0.0005  Replace the noisy nearest-seen-size reuse signal with a Sum-
+  step 222 edit    not_better    score 0.9614  best 0.9925  $0.0008  The current scoring saturates because the distance-to-neares
+  step 223 edit    not_better    score 0.9616  best 0.9925  $0.0005  I will replace the saturating nearest-seen-size distance wit
+  step 224 edit    not_better    score 0.9616  best 0.9925  $0.0005  Replace the reuse/nearest-seen scoring with a simple Best-Fi
+  step 225 edit    not_better    score 0.9616  best 0.9925  $0.0005  I will replace the saturating nearest-seen-size distance (wh
+  step 226 edit    not_better    score 0.7688  best 0.9925  $0.0006  Replace the saturating nearest-seen-size distance with a dir
+  step 227 edit    not_better    score 0.9915  best 0.9925  $0.0007  I'll keep the exact-fill bonus and mean-residual fallback, b
+  step 228 edit    not_better    score 0.9839  best 0.9925  $0.0008  I'll refine the reuse signal by scaling it: instead of the r
+  step 229 edit    not_better    score 0.9920  best 0.9925  $0.0008  Replace the discrete nearest-seen-size reuse signal with a s
+  step 230 edit    not_better    score 0.9616  best 0.9925  $0.0006  I'll replace the current recomputed-per-call nearest-seen ta
+  step 231 edit    not_better    score 0.9751  best 0.9925  $0.0007  Keep the dominant exact-fill bonus and the recency-weighted 
+  step 232 edit    not_better    score 0.9905  best 0.9925  $0.0007  I'll replace the costly per-call distance table with a cheap
+  step 233 edit    not_better    score 0.7976  best 0.9925  $0.0007  I'll keep the exact-fill bonus and reuse signal but replace 
+  step 234 edit    not_better    score 0.9912  best 0.9925  $0.0006  Replace the brittle nearest-seen-size table with a direct be
+  step 235 edit    not_better    score 0.9910  best 0.9925  $0.0006  The recency-weighted nearest-seen-size signal is noisy and s
+  step 236 edit    not_better    score 0.9616  best 0.9925  $0.0006  I'll replace the noisy nearest-seen-size reuse signal with a
+  step 237 edit    not_better    score 0.9616  best 0.9925  $0.0006  Replace the noisy recency-weighted nearest-seen-size reuse t
+  step 238 edit    not_better    score 0.9922  best 0.9925  $0.0007  Reintroduce the recency-weighted "reusable residual" signal,
+  step 239 edit    not_better    score 0.9905  best 0.9925  $0.0008  Keep the current recency-weighted nearest-seen-size reuse si
+  step 240 edit    not_better    score 0.9917  best 0.9925  $0.0009  Add a "sum-of-two-items" reuse signal: build a recency-weigh
+  step 241 edit    not_better    score 0.9922  best 0.9925  $0.0007  I'll replace the noisy per-item recency nearest-seen-distanc
+  step 242 edit    not_better    score 0.9616  best 0.9925  $0.0006  The current nearest-seen-size table is brittle and the exact
+  step 243 edit    not_better    score 0.9903  best 0.9925  $0.0006  The recency-weighted nearest-seen-size table is noisy and it
+  step 244 edit    not_better    score 0.9910  best 0.9925  $0.0008  The current nearest-seen-size table is recomputed with an O(
+  step 245 edit    not_better    score 0.9912  best 0.9925  $0.0007  Introduce a tunable family of "reuse payoff" signals summari
+  step 246 edit    not_better    score 0.9711  best 0.9925  $0.0008  Introduce a learned-lookahead: maintain a recency-decayed hi
+  step 247 edit    not_better    score 0.9616  best 0.9925  $0.0006  Replace the noisy nearest-seen-size reuse signal and mean fa
+  step 248 edit    not_better    score 0.9602  best 0.9925  $0.0009  Replace the brittle nearest-seen-size table and weak mean te
+  step 249 edit    not_better    score 0.9910  best 0.9925  $0.0009  I'll replace the brittle nearest-seen-size lookup with a "re
+  step 250 edit    not_better    score 0.9905  best 0.9925  $0.0007  The strong exact-fill bonus (worth 1000) dominates everythin
+  step 251 edit    not_better    score 0.9735  best 0.9925  $0.0007  I'll simplify to a well-tested classic: exact-fill first, th
+  step 252 edit    not_better    score 0.9616  best 0.9925  $0.0007  Simplify to a fast, robust rule that avoids the noisy per-ca
+  step 253 edit    not_better    score 0.9616  best 0.9925  $0.0006  Replace the costly/noisy nearest-seen-distance table with a 
+  step 254 edit    not_better    score 0.9616  best 0.9925  $0.0007  I will keep the dominant exact-fill rule but replace the noi
+  step 255 edit    not_better    score 0.9670  best 0.9925  $0.0007  I'll replace the noisy nearest-seen-size table with an exact
+  step 256 edit    not_better    score 0.9616  best 0.9925  $0.0007  I will keep the strong exact-fill rule but replace the britt
+  step 257 edit    not_better    score 0.9616  best 0.9925  $0.0007  The current rule's near-best performance suggests keeping th
+  step 258 edit    not_better    score 0.9616  best 0.9925  $0.0006  The current nearest-seen-size table only checks if a residua
+  step 259 edit    not_better    score 0.9890  best 0.9925  $0.0008  Replace the nearest-seen-distance table (which is brittle an
+  step 260 edit    not_better    score 0.9920  best 0.9925  $0.0008  The nearest-seen-distance table is noisy and stale; I'll rep
+  step 261 edit    not_better    score 0.9616  best 0.9925  $0.0007  Replace the brittle nearest-seen-size distance table with a 
+  step 262 edit    not_better    score 0.9649  best 0.9925  $0.0008  I'll keep the dominant exact-fill bonus but replace the brit
+  step 263 edit    not_better    score 0.9649  best 0.9925  $0.0008  The nearest-seen-size signal is essentially binary and noisy
+  step 264 edit    invalid       score 0.0000  best 0.9925  $0.0008  I'll keep the dominant exact-fill bonus and the nearest-rece
+  step 265 edit    not_better    score 0.9558  best 0.9925  $0.0007  Keep the dominant exact-fill bonus and the nearest-recently-
+  step 266 edit    not_better    score 0.9870  best 0.9925  $0.0008  I'll keep the winning structure (dominant exact-fill bonus p
+  step 267 edit    not_better    score 0.9616  best 0.9925  $0.0005  I'll keep the exact-fill bonus but replace the brittle "near
+  step 268 edit    not_better    score 0.9883  best 0.9925  $0.0007  I will keep the exact-fill bonus and the nearest-recently-se
+  step 269 edit    not_better    score 0.9905  best 0.9925  $0.0008  I'll keep the winning structure (exact-fill bonus plus reuse
+  step 270 edit    not_better    score 0.9922  best 0.9925  $0.0008  I'll keep the exact-fill bonus and the nearest-recently-seen
+  step 271 edit    not_better    score 0.9908  best 0.9925  $0.0007  Keep the exact-fill bonus and nearest-recently-seen-size reu
+  step 272 edit    not_better    score 0.9751  best 0.9925  $0.0008  Keep the exact-fill bonus and the nearest-recently-seen-size
+  step 273 edit    not_better    score 0.9917  best 0.9925  $0.0008  I'll make the reuse signal symmetric by treating residual r 
+  step 274 edit    not_better    score 0.9925  best 0.9925  $0.0008  I'll keep the winning exact-fill bonus plus nearest-recently
+  step 275 edit    not_better    score 0.9910  best 0.9925  $0.0007  I'll change the reuse table to track only the distribution o
+  step 276 edit    not_better    score 0.9579  best 0.9925  $0.0007  Keep the exact-fill bonus and nearest-recently-seen-size reu
+  step 277 edit    not_better    score 0.9920  best 0.9925  $0.0007  I'll tune the magnitude of the exact-fill bonus and the fall
+  step 278 edit    not_better    score 0.9240  best 0.9925  $0.0008  Restrict the reuse table to seen item sizes above a threshol
+  step 279 edit    not_better    score 0.9912  best 0.9925  $0.0008  Replace the brittle "distance to nearest seen size" reuse ta
+  step 280 edit    not_better    score 0.9910  best 0.9925  $0.0007  I'll replace the "distance to nearest seen size" reuse signa
+  step 281 edit    not_better    score 0.9863  best 0.9925  $0.0007  Replace the brittle "nearest recently-seen size" reuse signa
+  step 282 edit    not_better    score 0.9708  best 0.9925  $0.0007  I'll replace the noisy nearest-seen-size reuse signal with a
+  step 283 edit    not_better    score 0.9910  best 0.9925  $0.0010  Replace the brittle Boolean nearest-seen-size distance with 
+  step 284 edit    not_better    score 0.5688  best 0.9925  $0.0008  The fallback tiebreaker should reward residuals that match c
+  step 285 edit    not_better    score 0.9616  best 0.9925  $0.0007  I'll add a stronger, more stable exact-fill mechanism: preco
+  step 286 edit    not_better    score 0.9616  best 0.9925  $0.0006  Replace the reuse-table scoring with a simpler, more robust 
+  step 287 edit    not_better    score 0.9696  best 0.9925  $0.0007  Replace the fragile nearest-seen-size reuse signal with a pr
+  step 288 edit    not_better    score 0.9616  best 0.9925  $0.0005  Keep the strong exact-fill bonus, but simplify the fallback 
+  step 289 edit    not_better    score 0.9616  best 0.9925  $0.0006  I'll strengthen the exact-fill mechanism by adding a capped 
+  step 290 edit    not_better    score 0.5224  best 0.9925  $0.0005  Replace the noisy nearest-seen-size objective with the class
+  step 291 edit    not_better    score 0.9614  best 0.9925  $0.0007  Replace the noisy nearest-seen-size table with a hybrid: a s
+  step 292 edit    not_better    score 0.9614  best 0.9925  $0.0007  Replace the O(101×seen) nearest-seen lookups and best-fit fa
+  step 293 edit    not_better    score 0.9637  best 0.9925  $0.0007  I'll add a strong, capped "reusable residual" bonus: keep th
+  step 294 edit    not_better    score 0.9740  best 0.9925  $0.0007  I'll replace the noisy nearest-seen-distance term with a cle
+  step 295 edit    not_better    score 0.9917  best 0.9925  $0.0007  Keep the current exact-fill and nearest-seen-size reuse logi
+  step 296 edit    not_better    score 0.9917  best 0.9925  $0.0008  I will make the nearest-seen-size lookup much sharper by rep
+  step 297 edit    not_better    score 0.9616  best 0.9925  $0.0006  I'll replace the noisy "nearest recently-seen size" lookup (
+  step 298 edit    not_better    score 0.9925  best 0.9925  $0.0008  Add a penalty for leaving very small residuals (which essent
+  step 299 edit    not_better    score 0.9616  best 0.9925  $0.0005  Replace the fragile "nearest seen size" reuse table with the
+  step 300 edit    not_better    score 0.9616  best 0.9925  $0.0005  Replace the fragile nearest-seen-size objective with a "best
+[done] loop__bin_packing_online__s1: status ok, spent $0.2010 of $0.75, 300 calls, 301 evals, public 0.9616415083396637 -> 0.9924857006816661, hidden 0.9917608960849518
+  baseline funsearch_or           public 0.9699  hidden 0.9702
+  baseline funsearch_weibull      public 0.9925  hidden 0.9928
+  explaining best_program.py (up to 40 evaluations)
+== bin_packing_online: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.2010 of $0.75 cap, 300 calls, 301 evals, search 1981 s
+public    0.9616 -> 0.9925   (initial -> final incumbent; selected on)
+hidden    0.9604 -> 0.9918   (fresh audit, never selected on)
+baselines funsearch_or 0.9699/0.9702, funsearch_weibull 0.9925/0.9928
+explain   23 parts: 4 can go, 0 REPAIRED; minimal program public 0.9925, hidden 0.9918
+report    /Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s1/report.md
