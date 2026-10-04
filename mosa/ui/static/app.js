@@ -232,7 +232,7 @@ function renderSide() {
   const labs = S.labs.map((l) => {
     const found = Object.keys(l.records).length;
     return `<button class="item ${S.lab === l.id && !S.compose ? "on" : ""}" data-act="lab" data-id="${esc(l.id)}">
-      <span class="name">${esc(labTitle(l))}</span>${l.running ? '<span class="live-dot" title="running"></span>' : found ? `<span class="aside"><span class="star">★</span> ${found}</span>` : ""}${l.running ? "" : `<span class="del" data-act="delete" data-id="${esc(l.id)}" title="Delete workspace">${ICON.close}</span>`}</button>`;
+      <span class="name">${esc(labTitle(l))}</span>${l.running ? '<span class="live-dot" title="running"></span>' : found ? `<span class="aside"><span class="star">★</span> ${found}</span>` : ""}</button>`;
   }).join("");
   const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
