@@ -5,3 +5,4 @@ runs/
 .DS_Store
 *.log
 mosa/domains/generated/
+baselines/out/
