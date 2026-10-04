@@ -56,3 +56,10 @@ runs/*
 /docs/plans/
 /docs/papers/review/
 /docs/hackathon/
+
+# tournament-v2 raw data not needed for its results (every table recomputes identically without it).
+# Kept on disk and in tag archive/full-research-2026-10-04.
+/experiments/tournament-v2/runs/**/artifacts.tar.gz
+/experiments/tournament-v2/runs/**/stdout.log.gz
+/experiments/tournament-v2/runs/full-v2/
+/experiments/tournament-v2/runs/full-v2b/shinka__sum_difference__s1/shinka/
