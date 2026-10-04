@@ -45,6 +45,10 @@ enough.
 
 - **Pre-registration.** `PROTOCOL.md`, committed in e2e4b81 at 05:43:37 BST on 4 October 2026, before
   any run.
+  - The runs ran at that commit.
+  - When the branch was rebased onto main, the commit became c1de65d. It keeps the same author date, and
+    `PROTOCOL.md` and the problem folder are byte-identical.
+  - The original commit is kept as tag `prereg/llm-informed-v1`.
 - **Problem.** `problems/bin_packing_online_informed` is `problems/bin_packing_online`, with an identical
   `verify.py`, instances, scoring, starting program and time limit. Only one paragraph is added to
   `problem.md`, "What your function can know":

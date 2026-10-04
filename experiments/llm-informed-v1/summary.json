@@ -1,7 +1,7 @@
 {
  "experiment": "llm-informed-v1",
  "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (HF router)",
- "protocol_commit": "e2e4b81",
+ "protocol_commit": "e2e4b81 (runs ran at this commit; tag prereg/llm-informed-v1); rebased onto main as c1de65d, same author date 05:43:37 BST, identical PROTOCOL.md",
  "audit_seeds": [
   30000,
   30099
