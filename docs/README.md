@@ -36,11 +36,11 @@ Tag [`archive/full-research-2026-10-04`](https://github.com/swedishScienceMafia/
 holds the complete research record from before `main` was slimmed on 4 October:
 - the studies of features we dropped (counterexample replay and gates, the Strategist controller, prompt
   memory, idea triage), with their code;
-- the superseded design plans and the 3 October review PDF;
-- the Track 1 brief and the papers supplied with the track, which are not redistributed on `main`.
+- the superseded design plans.
 
-Research papers are not in the repository: the papers supplied with the track, the literature-review
-downloads, and our own paper drafts, outlines and pitch draft are kept by the team outside GitHub.
+Research papers are not on `main` or in the archive tags: the papers supplied with the track and its
+brief, the literature-review downloads, the experiment review PDF, and our own paper drafts, outlines
+and pitch draft are kept by the team outside GitHub.
 
 Other archived work is in tags `archive/all-approaches` (the four-approach live campaign) and
 `archive/refresh-review-pdf`.
