@@ -1,0 +1,14 @@
+{
+  "generation": 29,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 2,
+  "patch_name": "targeted_sum_compaction",
+  "patch_description": "The current program relies on random element perturbations in its final local search, which only weakly attacks the denominator |A+A| of the log-ratio. Prior feedback flags this as the binding constraint. I propose adding a targeted sum-set compaction move to the local-search loop: pick a random index i, compute the current difference set and sum set, then scan candidate replacement values v in a small window around a[i] and pick the v that minimizes |A+A| subject to keeping |A-A| at least 95% of its current size. This directly reduces the denominator while protecting the numerator, and is cheap since we maintain base_diffs/base_sums incrementally over the candidate window. I also add a periodic \"compaction sweep\" that iterates over all indices once with the same rule.\n\nTo implement this efficiently I compute the multiset contribution of each element to sums/diffs. For a candidate v replacing a[i], the new sum set is (base_sums minus sums involving a[i]) union {v + x for x in A\\{a[i]}}. Since A is small (typically <= few hundred), a full recompute per candidate is acceptable within the 120s budget if we cap the window.\n\nI add a helper `_sum_compaction_step(A, rng, window=30)` that performs one such move, and call it inside the final local-search loop with some probability, interleaved with the existing random perturbation. This keeps the existing exploration while adding a greedy descent on |A+A|.\n\nThe window size and the 0.95 floor are tunable; I set window=25 and floor=0.97 to be conservative so we do not degrade |A-A| too much. I also add a small trial count so the cost stays bounded.\n\nThe helper must be defined before `solve()` uses it. I add it just before `solve()`.\n\nAdditionally, I replace the existing final local-search block with a version that alternates random perturbation and `_sum_compaction_step`. The rest of the program is unchanged.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:53:28.970090",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

@@ -4,7 +4,7 @@ The validation-backed gate offers an encouraging proposal-level tradeoff, but di
 
 ## Design
 
-Completed 40 paired seeds × 200 generations, using identical proposals across three arms. All arms incurred the same evaluation budget. Rules were fixed before the audit; see [the protocol](../PROTOCOL-v4.md). This reuses the first 200 generations of V3's proposal trajectory, so it is not an independent search replication. Audit inputs are fresh.
+Completed 40 paired seeds × 200 generations, using identical proposals across three arms. All arms incurred the same evaluation budget. Rules were fixed before the audit; see [the protocol](PROTOCOL.md). This reuses the first 200 generations of V3's proposal trajectory, so it is not an independent search replication. Audit inputs are fresh.
 
 - **Strict:** reject any observed stress-case regression against best-fit.
 - **Loss budget:** allow at most two one-bin regressions, with a total loss allowance of one bin plus measured training gains.

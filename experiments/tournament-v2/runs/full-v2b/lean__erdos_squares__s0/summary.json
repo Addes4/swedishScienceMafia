@@ -1,0 +1,87 @@
+{
+  "job_id": "lean__erdos_squares__s0",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "erdos_squares",
+  "seed": 0,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.132414,
+  "within_cap": true,
+  "tokens": 332066,
+  "calls": 45,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 45
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 45
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.132414
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 1,
+  "retries": 0,
+  "evals": 46,
+  "valid_evals": 37,
+  "evals_with_timeout": 37,
+  "instance_timeouts": 272,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.8606766875473418,
+  "final_hidden": 0.0,
+  "final_sha": "22dbc673e282b92b",
+  "max_public_seen": 0.8606766875473418,
+  "hidden_of_max_public_seen": 0.0,
+  "improvements": 2,
+  "usd_per_improvement": 0.066207,
+  "tokens_per_improvement": 166033,
+  "auc": 0.860397,
+  "auc_gain": 0.02938,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 8303.4,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.132414,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 3.0,
+      "t": 1791069837.5472438,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.005695,
+      "budget_frac": 0.037967,
+      "tokens": 11695,
+      "wall_s": 295.0,
+      "t": 1791070129.5494244,
+      "incumbent_public": 0.8593729923365395,
+      "incumbent_hidden": 0.0,
+      "sha": "af1922bb2218e253"
+    },
+    {
+      "spent_usd": 0.018163,
+      "budget_frac": 0.121087,
+      "tokens": 43137,
+      "wall_s": 1027.7,
+      "t": 1791070862.2632322,
+      "incumbent_public": 0.8606766875473418,
+      "incumbent_hidden": 0.0,
+      "sha": "22dbc673e282b92b"
+    }
+  ]
+}

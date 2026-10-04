@@ -1,0 +1,185 @@
+<NAME>
+topk_seed_pool_with_adaptive_restart</NAME>
+
+<DESCRIPTION>
+The current program's SA watchdog restarts from a freshly constructed dense-Golomb seed each time, which tends to re-enter the same basin and limits exploration. I propose introducing a persistent top-K seed pool that collects the best distinct seeds encountered during the run, and having the watchdog restart from a randomly sampled member of this pool (with occasional fresh construction to preserve diversity). This pairs richer seeding with explicit exploration pressure, matching the observation that low acceptance (~0.02–0.03) restricts exploration in prior generations.
+
+Concretely:
+1. Add a global-ish `_TOP_K` list maintained inside `_budget_adaptive_sa` (passed in/out via a mutable list argument) that keeps the K best-scoring seeds seen so far (deduplicated by a canonical tuple key).
+2. Change the watchdog to sample from the top-K pool with prob 0.7 and fall back to `restart_fn` otherwise. This steers restarts toward promising basins while still injecting fresh structure.
+3. Update `solve()` to create the pool once and pass it through all SA invocations, so learning accumulates across phases.
+
+I keep the budget-adaptive T and the acceptance floor as-is to remain consistent with the existing design and avoid regression risk; the pool mechanism is a purely additive change that only affects what seed the watchdog jumps to.
+</DESCRIPTION>
+
+<DIFF>
+<<<<<<< SEARCH
+def _budget_adaptive_sa(seed, deadline, rng, restart_fn=None,
+                        watchdog=20.0, total_budget=110.0):
+    """SA with T derived from remaining budget and a no-improvement watchdog."""
+    cur = sorted(set(seed))
+    cur_score = _score_fast(cur)
+    best = cur[:]
+    best_score = cur_score
+    last_improve = time.time()
+    start = time.time()
+    while True:
+        now = time.time()
+        if now >= deadline:
+            break
+        remaining = max(0.0, deadline - now)
+        # Budget-adaptive temperature: broad early, tight late.
+        T = 0.15 * (remaining / total_budget) + 0.005
+        cand = _mutate(cur, rng)
+        if len(cand) < 2:
+            continue
+        s = _score_fast(cand)
+        if s > cur_score:
+            cur, cur_score = cand, s
+            if s > best_score:
+                best, best_score = cand[:], s
+                last_improve = now
+        else:
+            # Non-improving acceptance with a floor that decays with budget.
+            floor = 0.10 if (now - start) < 30.0 else 0.02
+            p = max(floor, math.exp((s - cur_score) / max(T, 1e-9)))
+            if rng.random() < p:
+                cur, cur_score = cand, s
+        if rng.random() < 0.005:
+            cur = best[:]
+            cur_score = best_score
+        # Watchdog: restart from a fresh structured seed if stuck too long.
+        if restart_fn is not None and (now - last_improve) > watchdog:
+            seed2 = restart_fn(rng)
+            cur = sorted(set(seed2))
+            cur_score = _score_fast(cur)
+            last_improve = now
+    return best, best_score
+=======
+def _pool_insert(pool, cand, score, k=8):
+    """Insert (score, tuple(cand)) into a top-K pool, deduplicated by value set."""
+    key = tuple(sorted(set(cand)))
+    for i, (s, kk) in enumerate(pool):
+        if kk == key:
+            if score > s:
+                pool[i] = (score, key)
+                pool.sort(key=lambda t: -t[0])
+            return
+    pool.append((score, key))
+    pool.sort(key=lambda t: -t[0])
+    if len(pool) > k:
+        del pool[k:]
+
+
+def _budget_adaptive_sa(seed, deadline, rng, restart_fn=None,
+                        watchdog=20.0, total_budget=110.0, pool=None):
+    """SA with T derived from remaining budget and a no-improvement watchdog.
+
+    If `pool` (a list of (score, tuple) pairs) is provided, the watchdog
+    restarts from a randomly sampled top-K seed most of the time, occasionally
+    falling back to `restart_fn` for fresh structural diversity.
+    """
+    cur = sorted(set(seed))
+    cur_score = _score_fast(cur)
+    best = cur[:]
+    best_score = cur_score
+    last_improve = time.time()
+    start = time.time()
+    if pool is not None:
+        _pool_insert(pool, cur, cur_score)
+    while True:
+        now = time.time()
+        if now >= deadline:
+            break
+        remaining = max(0.0, deadline - now)
+        # Budget-adaptive temperature: broad early, tight late.
+        T = 0.15 * (remaining / total_budget) + 0.005
+        cand = _mutate(cur, rng)
+        if len(cand) < 2:
+            continue
+        s = _score_fast(cand)
+        if s > cur_score:
+            cur, cur_score = cand, s
+            if s > best_score:
+                best, best_score = cand[:], s
+                last_improve = now
+                if pool is not None:
+                    _pool_insert(pool, best, best_score)
+        else:
+            # Non-improving acceptance with a floor that decays with budget.
+            floor = 0.10 if (now - start) < 30.0 else 0.02
+            p = max(floor, math.exp((s - cur_score) / max(T, 1e-9)))
+            if rng.random() < p:
+                cur, cur_score = cand, s
+        if rng.random() < 0.005:
+            cur = best[:]
+            cur_score = best_score
+        # Watchdog: restart from top-K pool (mostly) or fresh construction.
+        if (now - last_improve) > watchdog:
+            chosen = None
+            if pool is not None and len(pool) > 0 and rng.random() < 0.7:
+                # Bias toward the best entries but allow some spread.
+                idx = int((rng.random() ** 1.5) * len(pool))
+                chosen = list(pool[min(idx, len(pool) - 1)][1])
+            elif restart_fn is not None:
+                chosen = restart_fn(rng)
+            if chosen is not None:
+                cur = sorted(set(chosen))
+                cur_score = _score_fast(cur)
+                last_improve = now
+    return best, best_score
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    rng = random.Random(987654321)
+    total_budget = 110.0
+    deadline = time.time() + total_budget
+
+    best = [7, 15, 18, 22, -3, -2]
+    best_score = _score_fast(best)
+=======
+    rng = random.Random(987654321)
+    total_budget = 110.0
+    deadline = time.time() + total_budget
+
+    # Persistent top-K seed pool shared across all SA phases so that watchdog
+    # restarts can revisit promising basins instead of always rebuilding fresh.
+    seed_pool = []
+
+    best = [7, 15, 18, 22, -3, -2]
+    best_score = _score_fast(best)
+    _pool_insert(seed_pool, best, best_score)
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+            cand, s = _budget_adaptive_sa(
+                seed, sub_end, rng,
+                restart_fn=lambda r: _build_of_size(n_target, r),
+                watchdog=15.0, total_budget=total_budget)
+=======
+            cand, s = _budget_adaptive_sa(
+                seed, sub_end, rng,
+                restart_fn=lambda r: _build_of_size(n_target, r),
+                watchdog=15.0, total_budget=total_budget, pool=seed_pool)
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+        cand, s = _budget_adaptive_sa(
+            best, sub, rng, restart_fn=_restart,
+            watchdog=20.0, total_budget=total_budget)
+=======
+        cand, s = _budget_adaptive_sa(
+            best, sub, rng, restart_fn=_restart,
+            watchdog=20.0, total_budget=total_budget, pool=seed_pool)
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+        cand, s = _budget_adaptive_sa(
+            seed, sub, rng, restart_fn=_restart_any,
+            watchdog=20.0, total_budget=total_budget)
+=======
+        cand, s = _budget_adaptive_sa(
+            seed, sub, rng, restart_fn=_restart_any,
+            watchdog=20.0, total_budget=total_budget, pool=seed_pool)
+>>>>>>> REPLACE
+</DIFF>

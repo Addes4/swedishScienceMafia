@@ -1,0 +1,127 @@
+--- a/original.py
++++ b/original.py
+@@ -1,38 +1,109 @@
+ # EVOLVE-BLOCK-START
+-"""Baseline: random local search over small integer sets (the official starting program, shortened)."""
++"""Improved: structured Sidon-like constructions + local search."""
+ import math
+ import random
+ import time
+ 
+ 
+ def _score(a):
+     a = set(a)
+     if len(a) < 2:
+         return 0.0
+     diffs = {x - y for x in a for y in a}
+     sums = {x + y for x in a for y in a}
++    if len(sums) == 0:
++        return 0.0
+     return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / len(a)) / 100
+ 
+ 
++def _quadratic_set(p):
++    """Bose-Chowla-like Sidon set: A = {i + p*(i^2 mod p) : i in 0..p-1}."""
++    return [i + p * ((i * i) % p) for i in range(p)]
++
++
++def _greedy_sidon(n, seed=0):
++    """Greedily build a Sidon set of size ~n within a bounded range."""
++    rng = random.Random(seed)
++    A = []
++    used_sums = set()
++    used_diffs = set()
++    cand = list(range(1, 4 * n * n + 10))
++    rng.shuffle(cand)
++    for x in cand:
++        ok = True
++        new_sums = set()
++        new_diffs = set()
++        for a in A:
++            s = x + a
++            if s in used_sums or s in new_sums:
++                ok = False
++                break
++            new_sums.add(s)
++            d1 = x - a
++            d2 = a - x
++            if d1 in used_diffs or d2 in used_diffs or d1 in new_diffs or d2 in new_diffs:
++                ok = False
++                break
++            new_diffs.add(d1)
++            new_diffs.add(d2)
++        if ok:
++            A.append(x)
++            used_sums |= new_sums | {2 * x}
++            used_diffs |= new_diffs
++        if len(A) >= n:
++            break
++    return A
++
++
+ def solve():
+-    """Return a list of distinct integers A making |A - A| large and |A + A| small:
+-    maximise log|A - A| / log|A + A|."""
+-    best = [7, 15, 18, 22, -3, -2]
+-    best_score = _score(best)
++    """Return a list of distinct integers A making |A - A| large and |A + A| small."""
++    best = None
++    best_score = -1.0
++
++    # Try structured quadratic constructions for a range of primes.
++    primes = [p for p in range(11, 200) if all(p % d for d in range(2, int(p ** 0.5) + 1))]
++    for p in primes:
++        cand = _quadratic_set(p)
++        s = _score(cand)
++        if s > best_score:
++            best_score = s
++            best = cand[:]
++
++    # Also try greedy Sidon sets of various sizes.
++    for n in [30, 50, 80, 120, 150]:
++        cand = _greedy_sidon(n, seed=n)
++        if len(cand) >= 2:
++            s = _score(cand)
++            if s > best_score:
++                best_score = s
++                best = cand[:]
++
++    if best is None:
++        best = [7, 15, 18, 22, -3, -2]
++        best_score = _score(best)
++
++    # Local search: perturb elements, accept improvements.
+     cur = best[:]
+-    deadline = time.time() + 20
++    cur_score = best_score
++    deadline = time.time() + 100
++    step = max(1, (max(cur) - min(cur)) // 50) if len(cur) > 1 else 1
+     while time.time() < deadline:
+         cand = cur[:]
+         i = random.randrange(len(cand))
+-        cand[i] += random.randint(-3, 3)
+-        if random.random() < 0.05:
+-            cand.append(random.randint(1, 20))
+-        if random.random() < 0.03 and len(cand) > 5:
+-            cand = cand[1:]
++        delta = random.randint(-step, step)
++        if delta == 0:
++            delta = 1
++        cand[i] += delta
++        cand = list(set(cand))
++        if len(cand) < 2:
++            continue
+         s = _score(cand)
+-        if s >= best_score:
+-            best, best_score, cur = cand[:], s, cand
+-        elif random.random() < 0.1:
+-            cur = best[:]
++        if s >= cur_score:
++            cur, cur_score = cand, s
++            if s > best_score:
++                best, best_score = cand[:], s
++        elif random.random() < 0.02:
++            cur = cand
++
+     return sorted(set(best))
+ # EVOLVE-BLOCK-END

@@ -1,0 +1,14 @@
+{
+  "generation": 23,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "adaptive_sa_golomb_restart",
+  "patch_description": "The prior program plateaus around 1.137 because its local search uses a fixed small step and a fixed 0.03 acceptance floor, so exploration collapses early. This rewrite keeps the structured Sidon/Bose-Chowla seeding but replaces the local search with a budget-adaptive simulated-annealing schedule and adds a no-improvement watchdog that restarts from a fresh dense Golomb/Sidon construction with a new random seed. Concretely:\n\n1. **Budget-adaptive temperature.** `T = 0.15 * (remaining/110) + 0.005`, so early refinement explores broadly and late refinement exploits. Non-improving moves are accepted with `exp(-\u0394/T)` plus a floor of 0.10 during the first 30 seconds, directly addressing the low-acceptance blame from prior feedback.\n\n2. **Multi-scale perturbations.** Steps are drawn from a mix of small/medium/large scales relative to the current span, with occasional \"add element\" and \"drop element\" moves to allow |A| to grow (the (1-1/|A|)/100 bonus rewards larger sets).\n\n3. **20-second no-improvement watchdog.** If no improvement occurs for 20s, restart from `_build_dense_golomb` with a new random seed, breaking plateau-with-diverse-seeds.\n\n4. **Dense Golomb builder.** A randomized greedy that places elements in a tight span with strong sum-uniqueness pressure (priority to candidates minimizing new sum collisions), producing sets with small |A+A| and large |A-A|.\n\n5. **Final polish.** Reflections and small shifts on the best set.\n\nThe result keeps the same `solve()` signature returning a sorted list of distinct ints, bounded to \u22644000 elements and |x|\u22641e15.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:47:50.860122",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

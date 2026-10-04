@@ -1,12 +1,34 @@
-# Tournament v2: open models through the Hugging Face router (infrastructure and smoke only)
+# Tournament v2: five frameworks on open models through the Hugging Face router
 
 **Question.** Can the tournament run every arm on cheap open models, and what would a v2 grid
 cost in money and time?
 
-**Answer.** Yes; the route works for all five arms. The confirmatory v2 grid in PROTOCOL.md was
-**not run**: tournament-v1's partial data already answered the main question (at a low budget,
-single-call loops are as good as or better than the structured frameworks, and the problems
-saturate quickly), and the remaining time went to the submission.
+**Answer.** Yes, the route works for all five arms. The full grid was run as `full-v2b`.
+
+**Status note.** The grid was first cancelled at 23:05 on 3 October, and the text below the grid
+section describes that state. Another session then re-opened it, with a pre-launch amendment at the
+end of PROTOCOL.md. It ran as `full-v2b` from 00:23 BST on 4 October, and its results were committed
+at 05:28. The coordinating session added the [full-v2b results](#results-full-grid-full-v2b) at
+about 06:00 from `summary.json`.
+
+Full-grid headline:
+- **No framework differs significantly from ShinkaEvolve.** The grid had 60 runs (5 arms × 3
+  problems × 4 seeds) at $0.15 each on DeepSeek-V4.1-Flash, and 47 used their full budget. After
+  Holm correction, no arm's area under the score-versus-dollars curve or final public score differs
+  from ShinkaEvolve's (all p ≥ 0.25). Triage's curve area is lower: −0.186 [−0.347, −0.041].
+- **Results depend on the problem:**
+  - on bin packing the single-model loops ended highest (mean final public score 0.983, against
+    0.976 for ShinkaEvolve), and triage stayed at best-fit;
+  - on Erdős squares ShinkaEvolve ended highest and held up on hidden instances (0.986);
+  - on sum-difference only 9 of 20 runs finished their budget.
+- **Hidden instances exposed programs that do not scale.** The two complete lean runs on Erdős
+  squares averaged 0.994 public but 0.125 hidden (0 and 0.25). Of their evaluations, 34 of 46 and
+  15 of 50 hit an instance time limit, so their programs scored 0 on the larger hidden instances.
+  ShinkaEvolve's seed-0 run had no timeouts.
+- **Cost:** $8.04 of HF credit, 19.6 million tokens and 5,284 evaluations. Every run stayed within its
+  cap.
+
+Smoke results (before the grid):
 
 - **Route.** Every arm (ShinkaEvolve, triage, lean, lean_gate_patience, independent) ran live on
   the Hugging Face router under the same hard dollar cap, with prices read from the router.
@@ -59,6 +81,58 @@ The Jev ranker was checked with one call ($0.000025) and used for triage.
   added parallel instance scoring and run-wide time limits that are also stated to the model
   (commit 764c093), and drafted a pre-launch amendment. Neither was used: the grid was cancelled.
 
+## Results: full grid (full-v2b)
+
+Grid: [grids/full.json](grids/full.json) as amended (bin_packing_online replaced circle_packing; 4 gate
+workers, 4 cores and a 4-hour wall limit per run). It covers 5 arms × sum_difference, erdos_squares
+and bin_packing_online × seeds 0–3, with $0.15 of HF credit per run. The reference arm is ShinkaEvolve. All
+numbers below come from [summary.json](summary.json); per-run data is in `runs/full-v2b/`.
+
+**Completion.**
+- 47 of 60 runs used their full budget.
+- 13 were stopped before it, with no final status: 11 on sum_difference, where each evaluation is
+  slow, and 2 lean runs on erdos_squares, where 37 of 46 and 30 of 45 evaluations hit an instance
+  time limit.
+- They are excluded from the full-budget table below. They count in the checkpoint comparison at
+  $0.10, which covers bin packing and Erdős squares only.
+
+### Runs that used their full budget
+
+The public score is the mean over the visible instances, normalised to the reference (higher is
+better); hidden instances are never used for selection. Sum-difference has no hidden instances.
+
+| Problem | Arm | Complete runs | Final public, mean (min–max) | Final hidden | Calls per run |
+|---|---|---|---|---|---|
+| bin_packing_online | lean | 4 | 0.9831 (0.9640–0.9927) | 0.9818 | 189 |
+| bin_packing_online | lean_gate_patience | 4 | 0.9825 (0.9642–0.9927) | 0.9822 | 222 |
+| bin_packing_online | independent | 4 | 0.9797 (0.9654–0.9910) | 0.9795 | 276 |
+| bin_packing_online | shinka | 4 | 0.9755 (0.9616–0.9920) | 0.9747 | 174 |
+| bin_packing_online | triage | 4 | 0.9618 (0.9616–0.9619) | 0.9607 | 49 |
+| erdos_squares | shinka | 4 | 0.9965 (0.9917–1.0000) | 0.9864 | 54 |
+| erdos_squares | lean | 2 | 0.9940 (0.9881–1.0000) | 0.1250 | 48 |
+| erdos_squares | lean_gate_patience | 4 | 0.9778 (0.9570–1.0000) | 0.5480 | 52 |
+| erdos_squares | independent | 4 | 0.9717 (0.9582–0.9920) | 0.8331 | 76 |
+| erdos_squares | triage | 4 | 0.9598 (0.9393–0.9984) | 0.6524 | 22 |
+| sum_difference | triage | 4 | 0.9037 (0.8874–0.9350) | – | 38 |
+| sum_difference | shinka | 4 | 0.8928 (0.8874–0.9090) | – | 84 |
+| sum_difference | lean_gate_patience | 1 | 0.8886 | – | 85 |
+
+For scale on bin packing: best-fit scores 0.9616 public and FunSearch's heuristic 0.9925.
+
+### Each arm against ShinkaEvolve (paired by problem and seed, complete runs)
+
+| Arm | Pairs | Δ area under curve [95% CI] | W/T/L | Holm p | Δ final public [95% CI] | W/T/L | Holm p |
+|---|---|---|---|---|---|---|---|
+| lean | 6 | −0.004 [−0.182, +0.183] | 3/0/3 | 1.0 | +0.0054 [+0.0000, +0.0116] | 5/0/1 | 0.52 |
+| lean_gate_patience | 9 | +0.012 [−0.228, +0.238] | 5/0/4 | 1.0 | −0.0051 [−0.0183, +0.0083] | 4/1/4 | 0.56 |
+| independent | 8 | −0.113 [−0.335, +0.114] | 2/0/6 | 1.0 | −0.0103 [−0.0241, +0.0049] | 3/0/5 | 0.56 |
+| triage | 12 | −0.186 [−0.347, −0.041] | 5/2/5 | 0.25 | −0.0132 [−0.0281, +0.0029] | 2/2/8 | 0.52 |
+
+At the $0.10 checkpoint (all runs, bin packing and Erdős squares), triage's curve area is again lower
+(−0.307 [−0.495, −0.120], Holm p = 0.25), and the other arms do not differ from ShinkaEvolve.
+Two Erdős-squares scores were flagged above the reference, by 4.5e-12 and 1.3e-11. Both margins are
+below n × tolerance (8e-9 and 1.5e-8), so they are not record claims.
+
 ## Results: smoke runs (erdos_squares, seed 0)
 
 Scores are fractions of the reference (higher is better). "Completion": budget = the cap was used;
@@ -79,8 +153,13 @@ lean reached the reference on erdos_squares in two calls; with Flash it reached 
 
 ## What it means and what it does not show
 
-- The route and the cap work for every arm; a v2 grid could be launched with one command
-  (PROTOCOL.md). It was not, so there is no v2 comparison.
+- **The full grid** (full-v2b) agrees with tournament-v1 and the literature. With a cheap open model
+  and $0.15 per run, no framework is reliably better than ShinkaEvolve or the simple loops. Which
+  framework does best depends on the problem, and triage gets started slowest.
+- **Hidden instances matter most on Erdős squares,** where many LLM-written programs are too slow
+  on the larger hidden instances. A public score near 1.0 can sit next to a hidden score near 0.1.
+- **Limits:** 4 seeds per cell, one budget, and 13 runs stopped before using their budget, mostly on
+  sum-difference. The runs were not budget-matched on that problem.
 - Open models give many more calls per dollar, but then program evaluation sets the pace:
   sequential instances with 60 s limits make some evaluations take 10 minutes. Parallel instance
   scoring (`gate_workers`) keeps scores identical and cuts wall time by up to the number of
@@ -92,7 +171,8 @@ lean reached the reference on erdos_squares in two calls; with Flash it reached 
 
 | Item | Amount |
 |---|---|
-| Hugging Face credit (recorded, at listed prices) | $0.1408 (Modal smoke $0.1178, local smoke $0.0230) |
+| Hugging Face credit, full-v2b grid (recorded, at listed prices) | $8.04 (19.6 million tokens, 5,284 evaluations) |
+| Hugging Face credit, smoke runs | $0.1408 (Modal smoke $0.1178, local smoke $0.0230) |
 | Jev | $0.00028 |
 | Modal, smoke-v2 app (billing report, last hour possibly incomplete) | $0.22 |
 | Modal, whole tournament (v1 and v2, app ssm-tournament, 3 Oct) | $7.47 |
@@ -119,18 +199,22 @@ python -m tournament.run --out /tmp/hf-lean --job '{"job_id": "x", "grid": "adho
 
 | Path | Contents |
 |---|---|
-| `PROTOCOL.md` | Drafted design of the v2 grid, marked not executed |
+| `PROTOCOL.md` | Design of the v2 grid with the pre-launch amendment under which full-v2b ran |
+| `PROTOCOL-before-amendment.md`, `grids/full-v2-unamended.json` | The protocol and grid before the amendment (renamed from `PROTOCOL 2.md` and `grids/full 2.json`) |
+| `runs/full-v2b/` | The 60 runs of the full grid |
+| `runs/full-v2/` | Two stopped launches of the unamended grid (spend only; see the amendment) |
 | `RESULTS.md` | This file |
 | `summary.json` | Headline numbers, machine-readable |
 | `smoke_summary.json` | The smoke table above, computed from the run folders |
-| `grids/smoke.json`, `grids/full.json` | Smoke grid (run) and confirmatory grid (not run) |
+| `grids/smoke.json`, `grids/full.json` | Smoke grid and the amended full grid (run as full-v2b) |
 | `launches/smoke-v2_*.json` | Launch record of the Modal smoke |
 | `runs/smoke-v2/<arm>__erdos_squares__s0/`, `runs/local-smoke-v2/` | Per run: `job.json` (with prices), `usage.jsonl`, `evals.jsonl`, `events.jsonl`, `summary.json`, `curve.csv`, `best_program.py`, `artifacts.tar.gz` |
 
 ## Next steps
 
-If the comparison is wanted later: launch `grids/full.json` with `"gate_workers": 8` and more cores
-per container, after recording that change in PROTOCOL.md; it costs at most $9.00 of HF credit.
+- Rerun sum-difference with longer wall limits or faster evaluation, so that runs finish their
+  budget.
+- Add more seeds per cell before claiming any difference between frameworks.
 
 ## Suggested README text
 

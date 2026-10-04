@@ -10,13 +10,19 @@ reach. This repository contains:
 - a loop that runs with one command;
 - the components we built to catch those failures;
 - a series of controlled experiments testing which components earn their place, indexed in
-  [experiments/README.md](experiments/README.md).
+  [experiments/README.md](experiments/README.md);
+- the literature review, coordination logs, plans and paper material, mapped in
+  [docs/README.md](docs/README.md).
 
 **In short:** the checks earned their place, but the search add-ons we tested did not beat simple
 alternatives. On FunSearch's bin-packing benchmark, a 21-weight rule tuned in minutes of CPU matched
 the LLM-evolved heuristic. Our one-command loop, at about $0.20 per run on an open model, reached 97% of FunSearch's
-gain on unseen instances with a new, readable rule; the classic Sum-of-Squares rule beats both. Every number below links to a write-up with its protocol, raw data and
-reproduce commands.
+gain on unseen instances with a new, readable rule; the classic Sum-of-Squares rule beats both. A
+later study measured the gap to the proved optimum. FunSearch's heuristic ends about 14 bins above it
+per instance, and a new classical-style policy, FWSS, about 2. FWSS beats every published LLM-designed
+heuristic we could compare against; this result is pre-registered but not yet independently
+re-checked. Every number below links to a write-up with its protocol, raw data and reproduce
+commands.
 
 ## Contents
 
@@ -68,7 +74,10 @@ Every default is the setting our controlled experiments supported; the rest are 
 3. **Keep** a candidate only if its public score improves and it does not regress on instances where
    earlier candidates regressed. This is Falsify's archive, used as a gate
    ([gate-v3](experiments/gate-v3/RESULTS.md)). Used as prompt memory instead, it mostly produced
-   no-op proposals ([memory-ablation-v1](experiments/memory-ablation-v1/RESULTS.md)).
+   no-op proposals ([memory-ablation-v1](experiments/memory-ablation-v1/RESULTS.md)). **Caveat:**
+   replayed on LLM proposals, the strict archive veto blocked the largest real gains and behaved like
+   a random veto with inputs of the same length ([overfit-gates-v1](experiments/overfit-gates-v1/RESULTS.md)).
+   Treat it as a conservative safety guard, and consider `--no-gate` for problems with many instances.
 4. **Audit** the final program on hidden instances that are never used for selection. It flags
    `OVERFIT?` if the public score rose while the hidden score fell. Hidden instances caught a
    program scoring 0.960 public and 0.238 hidden ([tournament-v2](experiments/tournament-v2/RESULTS.md)).
@@ -102,9 +111,10 @@ The full list of studies, with protocols and data, is in
 
 | Finding | Evidence |
 |---|---|
+| **FunSearch's benchmark is about 2 bins from optimal, not 14.** On FunSearch's Weibull instances the proved offline optimum equals the L1 bound (484 of 486 instances checked). FunSearch's heuristic ends 13–14 bins above it per instance and Sum-of-Squares 10–11. FWSS, Sum-of-Squares weighted by how hard each gap is to fill plus a best-fit finish, ends about 2 above. It beats FunSearch by 11.6 bins per instance [11.2, 12.1] on 200 fresh 5k instances (200/0/0), and is below the best published LLM result in 15 of 15 settings of the MoH/HMACE leaderboard (new draws, since their instances are not public). Pre-registered; not yet independently re-checked. | [online-frontier-v1](experiments/online-frontier-v1/RESULTS.md), [online-beyond-ss-v1](experiments/online-beyond-ss-v1/RESULTS.md) |
 | **Cheap LLM runs get close to FunSearch, but a classical rule beats it.** Four 300-step runs of `autoresearch.loop` (about $0.20 each, DeepSeek-V4.1-Flash) all beat best-fit on 100 unseen 5,000-item instances. The best reached −3.20 pp of excess over the L2 bound against best-fit [−3.25, −3.15], 97% of FunSearch's −3.31, but stayed 0.11 pp [0.07, 0.15] behind it, with a different rule (6% of decisions in common). Sum-of-Squares (2006), added as a post-hoc reference, reached −3.48 and beats FunSearch. | [llm-long-search-v1](experiments/llm-long-search-v1/RESULTS.md) |
 | **Best-fit is unbeatable on short instances; on long ones a tuned formula matches FunSearch.** On 80-item instances no rule we tried beats best-fit, and FunSearch's Weibull heuristic is 15 points worse. On 5,000-item Weibull instances, excess over the L2 bound relative to best-fit is −3.28 pp [−3.32, −3.22] for a 21-weight linear rule tuned on CPU, −3.31 for a tuned two-threshold rule and −3.33 for FunSearch's heuristic. Our evaluator reproduces FunSearch's published 3.98% / 4.23% / 0.68% exactly. | [bp-ceiling-v1](experiments/bp-ceiling-v1/RESULTS.md) |
-| **Counterexamples work as a gate, not as prompt memory.** A counterexample gate beat score-only promotion (−0.0022 excess bins, CI [−0.0041, −0.0006]); against a random-input gate the result is inconclusive. In a closed LLM loop (900 Haiku calls), counterexamples in the prompt did not improve the audited result (executable − prose memory +4.73 bins, CI [−0.23, +12.96]). Memory cut harmful proposals from 80% to 15–20%, mostly by making the model propose changes that do nothing. | [gate-v3](experiments/gate-v3/RESULTS.md), [memory-ablation-v1](experiments/memory-ablation-v1/RESULTS.md) |
+| **Counterexample gates are conservative, and their value is unproven with LLM proposals.** In mutation search, a counterexample gate beat score-only promotion (−0.0022 excess bins, CI [−0.0041, −0.0006]); against a random-input gate the result is inconclusive. Replayed on LLM proposals, the strict archive veto cut the final fresh gain from 2.28 to 0.29 bins per instance, blocked the best run (+40.6 bins), and behaved like a random veto of the same input lengths ([overfit-gates-v1](experiments/overfit-gates-v1/RESULTS.md)); 554 of its 635 archived inputs were 2 items long. In a closed LLM loop (900 Haiku calls), counterexamples in the prompt did not improve the audited result (executable − prose memory +4.73 bins, CI [−0.23, +12.96]). Memory cut harmful proposals from 80% to 15–20%, mostly by making the model propose changes that do nothing. | [gate-v3](experiments/gate-v3/RESULTS.md), [memory-ablation-v1](experiments/memory-ablation-v1/RESULTS.md) |
 | **The implementing model decides success, not the idea.** Opus improved the program on 62/62 ideas, Sonnet on 60/62, Haiku on 10/62. Codex and Claude Opus ranked ideas better than chance (AUC 0.600 and 0.564; random 0.499), Jev and Claude Haiku did not (0.484, 0.516), and ranked triage did not beat random tiers. | [idea-table-v1](experiments/idea-table-v1/RESULTS.md) |
 | **Simple loops are hard to beat.** At a common early spend, lean (+0.233 AUC, CI [0.096, 0.386]) and independent sampling (+0.209) were ahead of ShinkaEvolve, and triage was behind (−0.156). Final scores tied, because two of three problems saturate within 1–3 calls. Partial study. | [tournament-v1](experiments/tournament-v1/RESULTS.md) |
 | **Fresh audits catch overfitting.** A Codex revision with 1 win / 0 losses on 1,000 cases had 3 wins / 14 losses on 10,000 fresh cases. Hidden instances caught a program scoring 0.960 public and 0.238 hidden. | [experiments/RESULTS.md](experiments/RESULTS.md), [tournament-v2](experiments/tournament-v2/RESULTS.md) |
@@ -114,7 +124,7 @@ The full list of studies, with protocols and data, is in
 ## How we kept ourselves honest
 
 - **Protocols written before each run**, with any later design change disclosed
-  ([example](experiments/PROTOCOL-v3.md)).
+  ([example](experiments/gate-v3/PROTOCOL.md)).
 - **Matched budgets.** Every arm pays for the same evaluator calls, including ones it ignores.
 - **Fresh audits.** Final test inputs are generated only after search ends and never feed back.
 - **Controls designed to catch luck:** random-input gates, timing-shuffled replays, counterfactual
@@ -126,7 +136,7 @@ The full list of studies, with protocols and data, is in
   before it could pass its cap, and every call is logged to `usage.jsonl`.
 - **Cheap baselines first.** An LLM search has to beat what minutes of CPU tuning reach.
 - **A public record of what went wrong.** Credit exhaustion, cut-short runs, corrections and
-  decisions are logged in [experiments/OVERNIGHT-2026-10-03.md](experiments/OVERNIGHT-2026-10-03.md).
+  decisions are logged in [docs/logs/OVERNIGHT-2026-10-03.md](docs/logs/OVERNIGHT-2026-10-03.md).
 
 ## Components
 
@@ -191,11 +201,15 @@ falsify/        bin-packing evaluators (C++), replay/gate/soft-gate search, simp
 strategist/     adaptive strategy controller (v1, v2), benchmarks, forks, statistics, report
 tournament/     whole-framework comparison on Modal at equal dollar budgets
 problems/       circle packing, Erdős squares, Erdős discrepancy, sum-difference, online bin packing
-experiments/    one folder per study (index: experiments/README.md) and the overnight log
+experiments/    one folder per study, with protocol, write-up and raw data (index: experiments/README.md)
 runs/           committed example runs of autoresearch.loop (other runs are git-ignored)
 tests/          all tests
-context/        hackathon brief, website text, supplied papers, literature review and addendum
-output/         experiment review PDF, pitch draft, paper outlines
+docs/           everything else (map: docs/README.md)
+  literature/     related-work review, addendum, research directions
+  logs/           coordination log of decisions, incidents and spend; literature-review log
+  plans/          superseded design plans
+  papers/         paper outlines, pitch draft, experiment review PDF
+  hackathon/      track brief, event resource page, supplied papers
 ```
 
 ## Related work
@@ -205,17 +219,21 @@ output/         experiment review PDF, pitch draft, paper outlines
   explains how our setup differs.
 - The math problems come from Georgiev, Gómez-Serrano, Tao and Wagner (2025). ShinkaEvolve is the
   external baseline.
-- [context/related-work.md](context/related-work.md) reviews about 60 papers: which of our results are
+- [docs/literature/related-work.md](docs/literature/related-work.md) reviews about 60 papers: which of our results are
   new, which independently reproduce published findings, and what the literature implies for each
   component.
-- [context/related-work-addendum.md](context/related-work-addendum.md) adds papers on the questions
+- [docs/literature/related-work-addendum.md](docs/literature/related-work-addendum.md) adds papers on the questions
   the experiments left open. For example, our CPU-tuned bin-packing result is an extreme case of
   separating algorithm structure from parameter tuning (LLaMEA-HPO, TIDE).
 
 ## Status and limitations
 
-- **No new algorithm.** We did not find an algorithm better than published ones. Our contribution is
-  the checking machinery and the controlled comparisons.
+- **One new algorithm, not yet independently re-checked.** FWSS ([online-beyond-ss-v1](experiments/online-beyond-ss-v1/RESULTS.md))
+  is a classical-style policy, not an LLM output. In its pre-registered run it beats FunSearch's
+  heuristic and every published LLM-designed heuristic we could compare against, but on new draws
+  from the same generators, since those papers' instances are not public. Our LLM loops did not
+  beat FunSearch. The main contribution remains the checking machinery and the controlled
+  comparisons.
 - **Two partial studies.** The Anthropic credit ran out during the overnight runs. The idea table has
   62 of 114 ideas complete for all three models, and the tournament has 17 of 60 complete runs. Both
   write-ups give the one-command reruns and their cost.
@@ -230,7 +248,7 @@ output/         experiment review PDF, pitch draft, paper outlines
 ShinkaEvolve (Sakana AI, Apache-2.0). Problem statements, scoring rules and the n = 26 circle
 construction come from the AlphaEvolve problem repository (Apache-2.0 / CC-BY 4.0). FunSearch's
 bin-packing heuristics in `problems/bin_packing_online/baselines/` come from google-deepmind/funsearch
-(Apache-2.0). The supplied papers are in `context/`. Code was written during the event with help
+(Apache-2.0). The supplied papers are in `docs/hackathon/track-1-papers/`. Code was written during the event with help
 from Codex and Claude.
 
 To cite this repository: Swedish Science Mafia (2026), *Autoresearch that checks its own claims*,

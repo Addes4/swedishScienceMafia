@@ -1,0 +1,14 @@
+{
+  "generation": 22,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "budget_adaptive_sa_golomb",
+  "patch_description": "The previous program plateaus around 1.137 because its simulated annealing uses a fixed low temperature T=0.05 that decays slowly, leading to an acceptance rate of only ~0.02\u20130.03 \u2014 practically a hill-climber. Richer seeding alone did not break through. \n\nThis rewrite keeps the strong hybrid dense-core + Golomb construction but makes the search explicitly budget-adaptive and adds a restart watchdog:\n\n1. **Budget-adaptive temperature.** `T` is recomputed each step from the remaining budget: `T = 0.15 * (remaining/110) + 0.005`. Early on this gives broad exploration (T\u22480.155), and it decays smoothly toward exploitation (T\u22480.005). This raises non-improving acceptance above 0.10 during the first ~30s without hand-tuned multiplicative decay.\n\n2. **No-improvement watchdog (20s).** If `best_score` has not improved for 20s, we abandon the current basin and restart `_build_dense_golomb` with a fresh random seed, then continue SA. This directly targets the \"plateau-with-diverse-seeds\" failure mode where the prior code kept polishing the same basin.\n\n3. **Faster scoring.** `_score` uses counting dicts and reuses the inner loop instead of two set comprehensions; `_score_fast` avoids re-`set()`-ing already-unique lists.\n\n4. **Richer, still-structured moves.** Reflection moves about quantile/pair midpoints are retained but interleaved with the SA loop so the watchdog can fire during search, and stride/scale variations of the dense core (already present in the prior version) are preserved.\n\n5. **Phase schedule.** A short systematic scan over `(m, gs, gap, stride, scale)` seeds the best, then the watchdog-driven SA loop consumes the remaining budget. Reflection hill-climb is applied as a cheap polish whenever a new best is found.\n\nThe final answer is a sorted list of distinct integers, matching the original interface.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:47:28.795529",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

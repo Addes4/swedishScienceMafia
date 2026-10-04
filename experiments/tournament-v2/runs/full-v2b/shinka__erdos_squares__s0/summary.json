@@ -1,0 +1,87 @@
+{
+  "job_id": "shinka__erdos_squares__s0",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "erdos_squares",
+  "seed": 0,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.135578,
+  "within_cap": true,
+  "tokens": 476599,
+  "calls": 53,
+  "failed_calls": 0,
+  "refusals": 54,
+  "stop_reason_counts": {
+    "stop": 53
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 53
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.135578
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 3,
+  "retries": 1,
+  "evals": 28,
+  "valid_evals": 24,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 1.0,
+  "final_hidden": 1.0,
+  "final_sha": "2c9b45e5d178cfa0",
+  "max_public_seen": 1.0,
+  "hidden_of_max_public_seen": 1.0,
+  "improvements": 2,
+  "usd_per_improvement": 0.067789,
+  "tokens_per_improvement": 238299,
+  "auc": 0.983532,
+  "auc_gain": 0.8855,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 939.5,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.135578,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.8,
+      "t": 1791069836.3375757,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.003479,
+      "budget_frac": 0.023193,
+      "tokens": 7043,
+      "wall_s": 30.2,
+      "t": 1791069860.788954,
+      "incumbent_public": 0.9077949827949827,
+      "incumbent_hidden": 0.9344166868784866,
+      "sha": "d8481188eabfe9bb"
+    },
+    {
+      "spent_usd": 0.024843,
+      "budget_frac": 0.16562,
+      "tokens": 61630,
+      "wall_s": 278.1,
+      "t": 1791070108.6715446,
+      "incumbent_public": 1.0,
+      "incumbent_hidden": 1.0,
+      "sha": "2c9b45e5d178cfa0"
+    }
+  ]
+}

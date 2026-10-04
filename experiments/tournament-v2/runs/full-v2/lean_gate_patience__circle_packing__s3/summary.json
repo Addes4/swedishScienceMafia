@@ -1,0 +1,87 @@
+{
+  "job_id": "lean_gate_patience__circle_packing__s3",
+  "arm": "lean_gate_patience",
+  "arm_type": "lean",
+  "problem": "circle_packing",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.005834,
+  "within_cap": true,
+  "tokens": 14143,
+  "calls": 4,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 4
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 4
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.005834
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 4,
+  "valid_evals": 3,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.358917624390054,
+  "initial_hidden": null,
+  "final_public": 0.8324488027801058,
+  "final_hidden": null,
+  "final_sha": "b1b0df4bb46b8058",
+  "max_public_seen": 0.8324488027801058,
+  "hidden_of_max_public_seen": null,
+  "improvements": 2,
+  "usd_per_improvement": 0.002917,
+  "tokens_per_improvement": 7071,
+  "auc": 0.828222,
+  "auc_gain": 0.73205,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 134.3,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.005834,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 2.1,
+      "t": 1791069480.1647053,
+      "incumbent_public": 0.358917624390054,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.00108,
+      "budget_frac": 0.0072,
+      "tokens": 2360,
+      "wall_s": 15.2,
+      "t": 1791069493.2460833,
+      "incumbent_public": 0.7411771195217725,
+      "incumbent_hidden": null,
+      "sha": "63fc795fbb5ded69"
+    },
+    {
+      "spent_usd": 0.002423,
+      "budget_frac": 0.016153,
+      "tokens": 5803,
+      "wall_s": 34.9,
+      "t": 1791069512.9303122,
+      "incumbent_public": 0.8324488027801058,
+      "incumbent_hidden": null,
+      "sha": "b1b0df4bb46b8058"
+    }
+  ]
+}

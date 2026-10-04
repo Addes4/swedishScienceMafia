@@ -1,0 +1,518 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.9836113591404427,
+    "hidden": 0.9790866255889814,
+    "code": "\"\"\"Competitive best-fit with future-fill viability (histogram reachability).\n\nPure best fit leaves a few bins with tiny residuals that no future item can\never use, and it never rebalances toward bins that can still accept typical\nitems.  Since sizes come from a fixed Weibull-like distribution (mean ~40),\na residual is *useful* only if some future item fits it, and it is *valuable*\nif future items are likely to exactly fill it.\n\nThis rule keeps best-fit as the core (score = -residual) but:\n  * penalizes residuals below the empirical median item size,\n  * rewards residuals whose size has high empirical histogram mass,\n  * gives a strong reward for residuals that equal 0 (perfect seal),\n  * rewards residuals reachable by common small future items (one-step\n    reachability via the empirical histogram),\n  * mildly nudges residuals toward sizes that admit typical items.\n\"\"\"\nimport numpy as np\n_n_items = None\n_seen = 0\n_residuals = None\n_hist = None\n_sum = 0\n_cum = None\n\ndef _init(n):\n    global _n_items, _seen, _residuals, _hist, _sum, _cum\n    _n_items = n\n    _seen = 0\n    _residuals = np.full(n, 100, dtype=np.int64)\n    _hist = np.zeros(101, dtype=np.int64)\n    _sum = 0\n    _cum = np.zeros(101, dtype=np.float64)\n\ndef priority(item, bins):\n    global _seen, _sum\n    n = len(bins)\n    if _n_items is None or _n_items != n or _residuals is None or (len(_residuals) != n):\n        _init(n)\n    _seen += 1\n    _hist[item] += 1\n    _sum += item\n    residual = bins - item\n    total = max(_seen - 1, 1)\n    mean = _sum / _seen\n    target = 0.5 * total\n    cum = 0.0\n    median = 1\n    for s in range(1, 101):\n        cum += _hist[s]\n        if cum >= target:\n            median = s\n            break\n    _cum[:] = np.cumsum(_hist) / total\n    r = residual.astype(np.float64)\n    idx = np.clip(residual, 0, 100)\n    fill_mass = _hist[idx].astype(np.float64) / total\n    fit_mass = _cum[idx]\n    score = -r * 1.0\n    score += (residual == 0).astype(np.float64) * 70.0\n    too_small = ((residual > 0) & (residual < median)).astype(np.float64)\n    score -= too_small * 35.0\n    score += fill_mass * 45.0\n    pair_score = np.zeros_like(r)\n    if _seen > 1:\n        useful = fill_mass * fit_mass\n        pair_score = useful * 15.0\n    score += pair_score\n    reach = np.zeros_like(r)\n    small_mass = _hist[1:].astype(np.float64)\n    mid_lo = 20.0\n    mid_hi = 70.0\n    in_mid = ((residual >= mid_lo) & (residual <= mid_hi)).astype(np.float64)\n    score += in_mid * 3.0\n    score += fit_mass * 8.0\n    if mean > 0:\n        near_mean = np.abs(r - mean)\n        score += np.exp(-(near_mean / (0.5 * mean + 1.0)) ** 2) * 4.0\n        score += (r >= median).astype(np.float64) * 2.0\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9836113591404427,
+    "hidden": 0.9790866255889814,
+    "code": "\"\"\"Competitive best-fit with future-fill viability (histogram reachability).\n\nPure best fit leaves a few bins with tiny residuals that no future item can\never use, and it never rebalances toward bins that can still accept typical\nitems.  Since sizes come from a fixed Weibull-like distribution (mean ~40),\na residual is *useful* only if some future item fits it, and it is *valuable*\nif future items are likely to exactly fill it.\n\nThis rule keeps best-fit as the core (score = -residual) but:\n  * penalizes residuals below the empirical median item size,\n  * rewards residuals whose size has high empirical histogram mass,\n  * gives a strong reward for residuals that equal 0 (perfect seal),\n  * rewards residuals reachable by common small future items (one-step\n    reachability via the empirical histogram),\n  * mildly nudges residuals toward sizes that admit typical items.\n\"\"\"\nimport numpy as np\n_n_items = None\n_seen = 0\n_residuals = None\n_hist = None\n_sum = 0\n_cum = None\n\ndef _init(n):\n    global _n_items, _seen, _residuals, _hist, _sum, _cum\n    _n_items = n\n    _seen = 0\n    _residuals = np.full(n, 100, dtype=np.int64)\n    _hist = np.zeros(101, dtype=np.int64)\n    _sum = 0\n    _cum = np.zeros(101, dtype=np.float64)\n\ndef priority(item, bins):\n    global _seen, _sum\n    n = len(bins)\n    if _n_items is None or _n_items != n or _residuals is None or (len(_residuals) != n):\n        _init(n)\n    _seen += 1\n    _hist[item] += 1\n    _sum += item\n    residual = bins - item\n    total = max(_seen - 1, 1)\n    mean = _sum / _seen\n    target = 0.5 * total\n    cum = 0.0\n    for s in range(1, 101):\n        cum += _hist[s]\n        if cum >= target:\n            median = s\n            break\n    _cum[:] = np.cumsum(_hist) / total\n    r = residual.astype(np.float64)\n    idx = np.clip(residual, 0, 100)\n    fill_mass = _hist[idx].astype(np.float64) / total\n    fit_mass = _cum[idx]\n    score = -r * 1.0\n    score += (residual == 0).astype(np.float64) * 70.0\n    too_small = ((residual > 0) & (residual < median)).astype(np.float64)\n    score -= too_small * 35.0\n    score += fill_mass * 45.0\n    pair_score = np.zeros_like(r)\n    if _seen > 1:\n        useful = fill_mass * fit_mass\n        pair_score = useful * 15.0\n    score += pair_score\n    reach = np.zeros_like(r)\n    small_mass = _hist[1:].astype(np.float64)\n    mid_lo = 20.0\n    mid_hi = 70.0\n    in_mid = ((residual >= mid_lo) & (residual <= mid_hi)).astype(np.float64)\n    score += in_mid * 3.0\n    score += fit_mass * 8.0\n    if mean > 0:\n        near_mean = np.abs(r - mean)\n        score += np.exp(-(near_mean / (0.5 * mean + 1.0)) ** 2) * 4.0\n        score += (r >= median).astype(np.float64) * 2.0\n    return score\n",
+    "removed": [
+      14
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 39,
+      "text": "global _seen, _sum",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 41,
+      "text": "n = len(bins)",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 42,
+      "text": "if _n_items is None or _n_items != n or _residuals is None or (len(_residuals) != n): ...",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 43,
+      "text": "_init(n)",
+      "inside": [
+        2
+      ],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 45,
+      "text": "_seen += 1",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 46,
+      "text": "_hist[item] += 1",
+      "inside": [],
+      "delta": -0.022668385605513763,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 47,
+      "text": "_sum += item",
+      "inside": [],
+      "delta": -0.006310473904552749,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 49,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "term",
+      "line": 49,
+      "text": "term + bins",
+      "inside": [
+        7
+      ],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "term",
+      "line": 49,
+      "text": "term - item",
+      "inside": [
+        7
+      ],
+      "delta": -0.02243452582783645,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 51,
+      "text": "total = max(_seen - 1, 1)",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 52,
+      "text": "mean = _sum / _seen",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 55,
+      "text": "target = 0.5 * total",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 56,
+      "text": "cum = 0.0",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 57,
+      "text": "median = 1",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 58,
+      "text": "for s in range(1, 101): ...",
+      "inside": [],
+      "delta": -0.020801332406013562,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 59,
+      "text": "cum += _hist[s]",
+      "inside": [
+        15
+      ],
+      "delta": -0.020801332406013562,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 17,
+      "kind": "statement",
+      "line": 60,
+      "text": "if cum >= target: ...",
+      "inside": [
+        15
+      ],
+      "delta": -0.020801332406013562,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 18,
+      "kind": "statement",
+      "line": 61,
+      "text": "median = s",
+      "inside": [
+        15,
+        17
+      ],
+      "delta": -0.020801332406013562,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 62,
+      "text": "break",
+      "inside": [
+        15,
+        17
+      ],
+      "delta": -0.020801332406013562,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 20,
+      "kind": "statement",
+      "line": 65,
+      "text": "_cum[:] = np.cumsum(_hist) / total",
+      "inside": [],
+      "delta": -0.014439667192913452,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 21,
+      "kind": "statement",
+      "line": 67,
+      "text": "r = residual.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 22,
+      "kind": "statement",
+      "line": 68,
+      "text": "idx = np.clip(residual, 0, 100)",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 23,
+      "kind": "statement",
+      "line": 69,
+      "text": "fill_mass = _hist[idx].astype(np.float64) / total",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 24,
+      "kind": "statement",
+      "line": 70,
+      "text": "fit_mass = _cum[idx]",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 25,
+      "kind": "statement",
+      "line": 73,
+      "text": "score = -r * 1.0",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 26,
+      "kind": "statement",
+      "line": 76,
+      "text": "score += (residual == 0).astype(np.float64) * 70.0",
+      "inside": [],
+      "delta": -0.023368937234552023,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 27,
+      "kind": "statement",
+      "line": 80,
+      "text": "too_small = ((residual > 0) & (residual < median)).astype(np.float64)",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 28,
+      "kind": "statement",
+      "line": 81,
+      "text": "score -= too_small * 35.0",
+      "inside": [],
+      "delta": -0.02056701731612176,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 29,
+      "kind": "statement",
+      "line": 84,
+      "text": "score += fill_mass * 45.0",
+      "inside": [],
+      "delta": -0.000976778219571539,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 30,
+      "kind": "statement",
+      "line": 90,
+      "text": "pair_score = np.zeros_like(r)",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 31,
+      "kind": "statement",
+      "line": 91,
+      "text": "if _seen > 1: ...",
+      "inside": [],
+      "delta": -0.00024455848120430446,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 32,
+      "kind": "statement",
+      "line": 93,
+      "text": "useful = fill_mass * fit_mass",
+      "inside": [
+        31
+      ],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 33,
+      "kind": "statement",
+      "line": 94,
+      "text": "pair_score = useful * 15.0",
+      "inside": [
+        31
+      ],
+      "delta": -0.00024455848120430446,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 34,
+      "kind": "statement",
+      "line": 95,
+      "text": "score += pair_score",
+      "inside": [],
+      "delta": -0.00024455848120430446,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 35,
+      "kind": "statement",
+      "line": 103,
+      "text": "reach = np.zeros_like(r)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 36,
+      "kind": "statement",
+      "line": 106,
+      "text": "small_mass = _hist[1:].astype(np.float64)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 37,
+      "kind": "statement",
+      "line": 109,
+      "text": "mid_lo = 20.0",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 38,
+      "kind": "statement",
+      "line": 110,
+      "text": "mid_hi = 70.0",
+      "inside": [],
+      "delta": -0.9836113591404427,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 39,
+      "kind": "statement",
+      "line": 111,
+      "text": "in_mid = ((residual >= mid_lo) & (residual <= mid_hi)).astype(np.float64)",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 40,
+      "kind": "statement",
+      "line": 112,
+      "text": "score += in_mid * 3.0",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 41,
+      "kind": "statement",
+      "line": 115,
+      "text": "score += fit_mass * 8.0",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 42,
+      "kind": "statement",
+      "line": 120,
+      "text": "if mean > 0: ...",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 43,
+      "kind": "statement",
+      "line": 121,
+      "text": "near_mean = np.abs(r - mean)",
+      "inside": [
+        42
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 44,
+      "kind": "statement",
+      "line": 122,
+      "text": "score += np.exp(-(near_mean / (0.5 * mean + 1.0)) ** 2) * 4.0",
+      "inside": [
+        42
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 45,
+      "kind": "statement",
+      "line": 126,
+      "text": "score += (r >= median).astype(np.float64) * 2.0",
+      "inside": [
+        42
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    }
+  ],
+  "repaired": [],
+  "untested": [
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45
+  ],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-beyond-ss/experiments/llm-informed-v1/runs/s1/best_program.py"
+}

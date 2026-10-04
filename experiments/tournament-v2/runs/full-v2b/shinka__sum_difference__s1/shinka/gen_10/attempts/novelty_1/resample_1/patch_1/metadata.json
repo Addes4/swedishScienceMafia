@@ -1,0 +1,14 @@
+{
+  "generation": 10,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "hybrid_golomb_sa_v2",
+  "patch_description": "This crossover combines the strengths of the two prior programs:\n\n1. From the \"Hybrid Golomb + dense-core\" program: the structured construction `_build_dense_golomb` (dense core plus offset Golomb ruler), the `_greedy_golomb` builder, and the systematic enumeration of structured constructions in Phase 1. These give a strong, diverse set of starting points that already reach a decent score.\n\n2. From the \"Greedy + SA\" program: the `_greedy_build` heuristic that chooses each new element to directly maximize the objective, which explores a complementary region of the search space.\n\nThe new program performs:\n- Phase 1a: enumerate structured dense-core + Golomb constructions (many combinations of core size, Golomb size, and gap).\n- Phase 1b: try pure dense intervals and pure greedy Golomb rulers.\n- Phase 1c: run `_greedy_build` for several sizes and ranges to add objective-driven seeds.\n- Phase 2: apply the improved simulated-annealing `_local_search` (with rebuild-from-dense-core jumps) to the best candidate.\n- Phase 3: repeatedly restart local search from fresh structured seeds while time remains, keeping the global best.\n\nThis hybrid keeps the strong structured initializations of the Golomb program while adding the objective-driven greedy seeds from the other program, and uses the more effective SA operator set (including large structured jumps) for refinement. The result should be a better exploration/exploitation balance and a higher combined score.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:34:39.073214",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}
