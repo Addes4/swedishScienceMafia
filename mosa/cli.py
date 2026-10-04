@@ -1,7 +1,8 @@
 """Command line: python -m mosa {lab, apply, verify, targets, serve}.
 
-    python -m mosa lab --targets 101 102 103 --chains 4 --rounds 3 --backend modal --library data/strategy-library.json
-    python -m mosa apply --strategy library:2 --targets 88 --seeds 1 2 3 --backend local
+    python -m mosa lab --targets 101-110 --chains 4 --rounds 3 --backend modal --out runs/squares
+    python -m mosa apply --out runs/squares --idea 0:3:3 --targets 88 --seeds 1 2 3 --backend local
+    python -m mosa apply --domain thomson --strategy baselines/thomson-basin-hopping.py --targets 300-305 --out runs/baseline
     python -m mosa serve
 """
 from __future__ import annotations
@@ -27,13 +28,6 @@ def sizes(tokens):
     return out
 
 
-def _strategy(spec, library):
-    if spec.startswith("library:"):
-        entry = json.loads(Path(library).read_text())[int(spec.split(":")[1])]
-        return entry["code"], entry["source"]
-    return Path(spec).read_text(), Path(spec).stem
-
-
 def main():
     parser = argparse.ArgumentParser(prog="mosa", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -46,8 +40,6 @@ def main():
         p.add_argument("--out", default=None, help="workspace directory: a new session is added if it exists (default runs/<command>-<time>)")
         p.add_argument("--name", default=None, help="workspace name")
         p.add_argument("--references", type=int, nargs="*", default=[], help="extra sizes whose best solutions strategies receive")
-        p.add_argument("--library", default=None, help="strategy library (default: data/strategy-library.json for squares, "
-                                                      "data/<domain>-library.json otherwise)")
         p.add_argument("--workers", type=int, default=None, help="local processes (default: cores - 1)")
         for field, value in vars(Budget()).items():
             p.add_argument(f"--{field}", type=int, default=value)
@@ -56,7 +48,7 @@ def main():
     lab.add_argument("--rounds", type=int, default=3)
     lab.add_argument("--brief", default=None, help="text file of target-specific evidence for the researchers")
     lab.add_argument("--model", default=None)
-    sub.choices["apply"].add_argument("--strategy", default=None, help="library:<index> or a .py file")
+    sub.choices["apply"].add_argument("--strategy", default=None, help="a .py file with initialize and vary (e.g. a baseline)")
     sub.choices["apply"].add_argument("--idea", default=None, help="session:researcher:round of an idea in the workspace (--out)")
     verify = sub.add_parser("verify")
     verify.add_argument("--domain", default="squares")
@@ -73,8 +65,7 @@ def main():
         from .research import Lab
         budget = Budget(**{field: getattr(args, field) for field in vars(Budget())})
         out = args.out or f"runs/{args.command}-{time.strftime('%Y%m%d-%H%M%S')}"
-        library = args.library or ("data/strategy-library.json" if args.domain == "squares" else f"data/{args.domain}-library.json")
-        lab = Lab(args.domain, args.backend, out, budget, args.references, library, args.workers)
+        lab = Lab(args.domain, args.backend, out, budget, args.references, args.workers)
         if args.command == "lab":
             brief = Path(args.brief).read_text() if args.brief else ""
             lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model, args.name)
@@ -82,8 +73,7 @@ def main():
             idea = tuple(int(x) for x in args.idea.split(":"))
             lab.apply(None, f"idea {args.idea}", sizes(args.targets), args.seeds, idea, args.name)
         else:
-            code, source = _strategy(args.strategy, library)
-            lab.apply(code, source, sizes(args.targets), args.seeds, name=args.name)
+            lab.apply(Path(args.strategy).read_text(), Path(args.strategy).stem, sizes(args.targets), args.seeds, name=args.name)
         print(f"notebook: {out}/events.jsonl")
     elif args.command == "verify":
         from .domain import get

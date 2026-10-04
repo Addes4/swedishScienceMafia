@@ -22,11 +22,9 @@ class SandboxTest(unittest.TestCase):
     def test_scan_reads_code_not_words(self):
         self.assertEqual(violations("def vary(p, rng, c):\n    # never open( files or use urllib\n    return 'open(' and p"), [])
 
-    def test_every_real_strategy_passes(self):
-        codes = [e["code"] for e in json.loads((ROOT/"data"/"strategy-library.json").read_text())]
-        for path in (ROOT/"history").glob("*/events.jsonl"):
-            codes += [e["code"] for e in map(json.loads, path.read_text().splitlines()) if e["type"] == "strategy" and e.get("code")]
-        self.assertGreater(len(codes), 20)
+    def test_real_strategies_pass(self):
+        from tests.test_lab import CODE
+        codes = [CODE]+[p.read_text() for p in (ROOT/"baselines").glob("*.py")]
         self.assertEqual([c for c in codes if violations(c)], [])
 
     def test_rejected_code_never_runs(self):

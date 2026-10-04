@@ -8,12 +8,31 @@ import mosa.research as research
 from mosa.evaluate import Budget
 from mosa.store import Notebook
 
-LIBRARY = Path(__file__).resolve().parents[1]/"data"/"strategy-library.json"
+CODE = """
+def initialize(record, neighbours, rng, count):
+    poses, side = record
+    out = []
+    for _ in range(count):
+        p = poses.copy()
+        p[rng.integers(len(p), size=3), :2] += rng.normal(scale=0.3, size=(3, 2))
+        out.append((p, side*1.02))
+    return out
+
+
+def vary(parents, rng, count):
+    out = []
+    for _ in range(count):
+        poses, side = parents[rng.integers(len(parents))]
+        p = poses.copy()
+        p[rng.integers(len(p), size=3), :2] += rng.normal(scale=0.2, size=(3, 2))
+        out.append((p, side*1.02))
+    return out
+"""
 
 
 class LabTest(unittest.TestCase):
     def test_round_writes_strategy_progress_results(self):
-        code = json.loads(LIBRARY.read_text())[2]["code"]
+        code = CODE
         stub = {"name": "stub", "decision": "new", "builds_on": "none", "source": "stub", "mapping": "m", "strategy": "s", "code": code,
                 "model_seconds": 0}
         original, research.ask = research.ask, lambda *a, **k: stub
@@ -37,7 +56,7 @@ class LabTest(unittest.TestCase):
             self.assertEqual(r["idea"], [0, 0, 1])
 
     def test_sessions_share_memory_and_reruns_attach_to_the_idea(self):
-        code = json.loads(LIBRARY.read_text())[2]["code"]
+        code = CODE
         stub = {"name": "stub", "decision": "new", "builds_on": "none", "source": "stub", "mapping": "m", "strategy": "s", "code": code,
                 "model_seconds": 0}
         original, research.ask = research.ask, lambda *a, **k: stub

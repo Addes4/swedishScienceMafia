@@ -7,7 +7,7 @@ decision (new idea, refinement or combination), the idea's source and why it fit
 (see evaluate.py). The framework runs that code on every target and seed, verifies any candidate record independently
 and writes everything to the lab's notebook (store.py), which the workbench reads.
 
-    python -m mosa lab --targets 101 102 103 --chains 4 --rounds 3 --backend modal --out runs/lab
+    python -m mosa lab --targets 101-110 --chains 4 --rounds 3 --backend modal --out runs/squares
 """
 from __future__ import annotations
 
@@ -94,7 +94,7 @@ class Lab:
     found for n = 118 is offered to strategies working on n = 88 in the next. Ideas are identified by
     (session, researcher, round); running an idea on more instances adds results to that same idea."""
 
-    def __init__(self, domain, backend, out, budget=None, references=(), library_path=None, workers=None):
+    def __init__(self, domain, backend, out, budget=None, references=(), workers=None):
         self.domain, self.backend, self.budget, self.references = get(domain), backend, budget or Budget(), tuple(references)
         self.notebook = Notebook(out)
         self.out = Path(out)
@@ -104,10 +104,10 @@ class Lab:
             raise ValueError(f"this workspace is for {first.get('domain')}, not {self.domain.name}")
         self.session = sum(e["type"] == "lab" for e in past)
         self.past = past
+        # the workspace's library: its ideas that produced verified records, offered to every researcher in it
+        self.library = [{k: e[k] for k in ("source", "strategy", "code", "records_broken")} for e in past if e["type"] == "library"]
         self.ideas = {tuple(e.get("idea") or (e.get("session", 0), e.get("chain", 0), e.get("round", 1))): e.get("code", "")
                       for e in past if e["type"] == "strategy"}
-        self.library_path = Path(library_path) if library_path else None
-        self.library = json.loads(self.library_path.read_text()) if self.library_path and self.library_path.exists() else []
         self.lock = threading.Lock()
         self.memory = {}  # the workspace's shared memory: best solution found so far for each size, {n: (x, value)}
         for e in past:
@@ -168,9 +168,7 @@ class Lab:
         entry = {"source": answer["source"], "strategy": answer["strategy"], "code": answer["code"], "records_broken": records,
                  "origin": origin}
         with self.lock:
-            self.library.append(entry)
-            if self.library_path:
-                self.library_path.write_text(json.dumps(self.library, indent=1))
+            self.library.append({k: entry[k] for k in ("source", "strategy", "code", "records_broken")})
         self.write("library", **entry)
 
     def history_of(self, index):

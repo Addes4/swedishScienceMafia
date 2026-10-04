@@ -10,11 +10,11 @@ code is organised, how it generalizes, and what makes this a strong Track 1 entr
   - strategies are evaluated on Modal or locally, at equal budget across sizes × seeds;
   - candidate records are verified independently;
   - everything goes into an append-only notebook that the workbench shows live or replays.
-- **Five verified new best-known packings:** n = 88, 123, 126, 129, 130. See the README table, `results/` and `history/`.
+- **Five verified new best-known packings:** n = 88, 123, 126, 129, 130. See the README table; the packings and the night's notebooks are on the branch `results-2026-10-04`.
 - **Validated against the prototype.** Mosa reproduces the n = 88 discovery:
   - the compiled relaxation and the polish give the same sides as the prototype to 1e-15;
   - the same strategy and seed give the same record locally (9.8877007312) and on Modal (9.886746030783).
-- **Still running when this was written:** the targeted n = 67 lab and the n < 100 sweep, on the prototype (branch `squarelab-wip`, folder `swedishScienceMafia/runs/`). To pull new results into `history/` and re-verify every record, run `python scripts/import_history.py ../swedishScienceMafia/runs`.
+- **Workspaces:** a workspace is a problem, its instances and a shared memory (best solution per instance, the ideas that broke records). Sessions append to it; researchers continue across sessions; running an idea on more instances adds results to that idea. The `mosa` branch holds only the code and reference data; results live on `results-2026-10-04`.
 
 ## Positioning: what Mosa is, and is not
 
@@ -83,7 +83,7 @@ This is the core of the pitch, and it should guide every product decision.
 3. **Make feedback graded and replicated:** near misses, initial gaps, errors, several seeds.
 4. **Hold a fixed template and equal budgets.** Strategies stay comparable, and the code's power is bounded.
 5. **Separate proposer from verifier,** and make the verifier stricter than the search.
-6. **Keep memory at three timescales:** the round history (within a researcher), the library (across labs) and the notebook (everything, replayable).
+6. **Keep memory at three timescales:** the round history (within a researcher), the library (within a workspace) and the notebook (everything, replayable).
 7. **Let the human steer at the level of evidence:** briefs, reference instances, choice of targets. A human chose cut-and-splice for n = 126; a brief carries the Göbel-strip analysis for n = 67.
 
 ## How it generalizes: adding a problem
@@ -125,13 +125,11 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - researcher chains with brief, references, seeds, library and new / refine / combine decisions;
 - independent verification;
 - the notebook;
-- the history importer;
 - the workbench: labs, a map of each lab's ideas (one row per researcher), idea and discovery panes in plain sentences, replay, New lab and Run on more sizes, dark and light themes;
 - the CLI;
 - an end-to-end test with a stub researcher.
 
 **Next, in priority order. Small, elegant steps first:**
-1. **Re-import history** when the n = 67 lab and the sweep finish (one command, see above).
 2. **Record a demo** from the workbench (script below).
 3. **A Claude researcher option** in `llm.ask`. Today it calls the Codex CLI, which is what found the records. Keep the call structured.
 4. **A circles adapter** to show generality, if there is time. Reproducing known optima is enough for the demo.
@@ -187,5 +185,5 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - **Workbench:** `python -m mosa serve` serves http://127.0.0.1:8777. Port 8765 was taken on the dev machine.
 - **Known limits:**
   - The first imported lab has no researcher-decision field, because the prototype didn't record one.
-  - Comparison PNGs were never generated (the catalogue site rate-limited us). The workbench's record view replaces them, and the catalogue-format SVGs are in `results/`.
+  - Comparison PNGs were never generated (the catalogue site rate-limited us). The workbench's record view replaces them, and the catalogue-format SVGs are on the `results-2026-10-04` branch.
   - Replay runs a whole lab in about 40 seconds.

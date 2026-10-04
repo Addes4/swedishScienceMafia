@@ -230,16 +230,12 @@ function instanceState(m, n) {
   const kind = records.length ? "star" : !knownGiven(m) && best && best.gap <= 1e-6 ? "reached" : "none";
   return { n, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
+// The workspace's instances: plain numbers, with a new best-known (★) or a reached best known (●) standing out.
 function instancesHTML(m) {
   const states = m.targets.map((n) => instanceState(m, n));
-  const stars = states.filter((s) => s.kind === "star"), reached = states.filter((s) => s.kind === "reached");
-  const link = (s) => `<a class="inst-link ${S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n ? "on" : ""}" data-act="instance" data-n="${s.n}">${s.n}</a>`;
-  if (stars.length) return `<div class="instances"><span class="star">★</span> New best-known: ${stars.map(link).join(" · ")}</div>`;
-  if (!knownGiven(m) && states.some((s) => s.tried)) {
-    return `<div class="instances">${reached.length ? `<span class="dot-full"></span> Reached the best known: ${reached.map(link).join(" · ")}` : "Best known not reached yet"}
-      <span class="muted"> · closest elsewhere: ${states.filter((s) => s.kind !== "reached" && s.best).sort((a, b) => a.best.gap - b.best.gap).slice(0, 3).map((s) => `${link(s)} (+${plain(s.best.gap)})`).join(", ")}</span></div>`;
-  }
-  return "";
+  if (!states.length) return "";
+  const on = (s) => S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n;
+  return `<div class="instances">${states.map((s) => `<a class="inst-link ${s.kind} ${on(s) ? "on" : ""}" data-act="instance" data-n="${s.n}">${s.kind === "star" ? "★" : s.kind === "reached" ? "●" : ""}${s.n}</a>`).join("")}</div>`;
 }
 
 function threads(m) {

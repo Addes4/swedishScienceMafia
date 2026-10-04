@@ -14,7 +14,7 @@ came from strategies written by the LLM researchers themselves.
 | 129 | 11.881306218090 (Ellsworth 2024) | **11.872029851656** | 9.28e-3 | LLM researcher: cut-and-splice, reinvented after two failed rounds |
 | 130 | 11.911187706549 (official 11.911190520159) | **11.909544620011** | 1.64e-3 | same researcher and round as n = 129 |
 
-Each packing was checked for overlap at zero tolerance and audited at 80 and 160 digits. Every pair of squares, and every square and wall, is at least 2e-10 apart. The checks run independently of the search. The packings, with their catalogue-format SVGs, are in [`results/`](results).
+Each packing was checked for overlap at zero tolerance and audited at 80 and 160 digits. Every pair of squares, and every square and wall, is at least 2e-10 apart. The checks run independently of the search. The packings, with their catalogue-format SVGs, are on the branch [`results-2026-10-04`](../../tree/results-2026-10-04/results), with the night's research notebooks.
 
 We are not claiming these are optimal. They have been submitted to the squares-in-squares catalogue for verification.
 
@@ -64,6 +64,8 @@ These follow the standards of the team's checking framework on `main` (*autorese
              ┌──────────── brief · evidence · library · own history with near misses ────────────┐
              ▼                                                                                   │
   LLM researcher ──► strategy (idea, source field, why it fits, code: initialize + vary)          │
+                         │      every strategy also sees the workspace's memory: the best         │
+                         │      solution found so far for each instance                           │
                          │                                                                       │
                          ▼   sandboxed, time-limited, invalid candidates dropped                 │
   evaluator: same budget on every size × seed ── relax (compiled) ── keep distinct basins ──      │
@@ -76,36 +78,39 @@ These follow the standards of the team's checking framework on `main` (*autorese
 - **The LLM works at the level of search strategy.** It never places pieces. Each round, a researcher picks a method, often one imported from another field, explains why that method's assumptions match the measured landscape, and writes it as code for a small evolutionary template.
 - **The tools do the numerical work, and they are trusted.** Strategy code can only propose candidates. It cannot touch the relaxation, the polish or the verifier, so there is no route to grading its own homework.
 - **Feedback is graded, not pass/fail.** Researchers see per-size, per-seed gaps and **near misses**: how close their best other basin came. With only pass/fail, one noisy failure made them drop each idea after a single round.
-- **A library holds the strategies that broke records.** Later researchers build on these strategies or combine them. A strategy designed for n = 101–132 carried over to n = 88.
+- **The workspace is the unit of shared context.** A workspace is a problem, its instances and a memory: the best solution found for every instance and the ideas that broke records. Everything that runs in it sees that memory, so what was found for n = 118 is offered when working on n = 88. You choose what shares context by choosing what goes in the same workspace. A strategy designed for n = 101–132 carried over to n = 88.
 - **Everything is replayable.** Every prompt, answer, run and certificate is appended to a notebook (`events.jsonl`). The workbench reads it live, or replays it.
 
 ## Quick start
 
 ```bash
 uv venv --python 3.12 && uv pip install -r requirements.txt
-python -m mosa serve                      # workbench at http://127.0.0.1:8777 (labs from history/ and runs/)
+python -m mosa serve                      # workbench at http://127.0.0.1:8777 (workspaces in runs/)
 
-# a research lab: 4 researchers x 3 rounds on 20 sizes, evaluated on Modal (needs `modal token set` and the `codex` CLI)
-python -m mosa lab --targets 101-110 122-132 --chains 4 --rounds 3 --backend modal
+# a workspace with 4 researchers x 3 rounds on 20 sizes, evaluated on Modal (needs `modal token set` and the `codex` CLI)
+python -m mosa lab --targets 101-110 122-132 --chains 4 --rounds 3 --backend modal --out runs/squares --name "Squares near 120"
 
-# run a library strategy on more sizes and seeds, on this machine (no model needed)
-python -m mosa apply --strategy library:2 --targets 88 --seeds 1 2 --backend local --init 64 --children 64 --generations 2 --population 8 --polish 4
+# continue the same researchers in that workspace, or run one of its ideas on more instances (no model needed)
+python -m mosa lab --out runs/squares --targets 88 123-130 --rounds 2 --backend modal
+python -m mosa apply --out runs/squares --idea 0:3:3 --targets 88 --seeds 1 2 3 --backend local
 
-python -m mosa verify --n 88 --file results/n88.json  # independent certificate for any packing
-python -m unittest tests.test_lab                     # end-to-end lab round with a stub researcher
+# another problem: the Thomson problem, and its basin-hopping baseline at the same budget
+python -m mosa lab --domain thomson --targets 300-305 --out runs/thomson --name "Thomson problem"
+python -m mosa apply --domain thomson --strategy baselines/thomson-basin-hopping.py --targets 300-305 --seeds 1 2 3 --out runs/thomson-baseline
+
+python -m unittest tests.test_lab tests.test_sandbox  # end-to-end sessions with a stub researcher; the integrity scan
 ```
-
 
 ## The workbench
 
-`python -m mosa serve` (http://127.0.0.1:8777). It shows three things and offers one action.
+`python -m mosa serve` (http://127.0.0.1:8777).
 
-- **Labs** (left): each named by its question, i.e. the sizes it attacks. A running lab breathes; a finished one shows how many discoveries it made.
-- **The lab** (centre): a map of the research. One row per researcher, ideas left to right in the order they were tried. Each idea is a name, the field it was borrowed from, and one mark: ★ a new best-known packing, ○ none, ✕ the code failed. Finished labs can be replayed on their real timeline.
+- **Workspaces** (left), each with a name. A running one breathes.
+- **The workspace** (centre): its instances, with ★ a new best-known and ● the best known reached standing out, then a map of the research. One row per researcher, ideas left to right in the order they were tried. Each idea is a name, the field it was borrowed from, and one mark: ★ new best-known, ● best known reached, ○ neither, ✕ the code failed. Finished workspaces can be replayed on their real timeline.
 - **The selection** (right), in plain sentences:
-  - **An idea:** its outcome in one sentence, why the researcher expected it to work, and what it does. The results per size, the code and the exact prompt are folded away.
-  - **A discovery:** the packing, with a toggle to the previous best and the rearranged squares marked; the numbers in one sentence; how it was verified; the idea that found it; the catalogue-format SVG.
-- **New lab:** sizes, researchers, rounds and an optional brief. Seeds, compute and reference sizes sit under "More options". From any idea, **Run on more sizes** reruns its strategy elsewhere.
+  - **An idea:** its outcome in one sentence, why the researcher expected it to work, and what it does. The results per instance, the code and the exact prompt are folded away. **Run on more instances** adds results to the same idea.
+  - **An instance:** its best solution (a packing, or charges on a sphere), how it compares with the best known, how it was verified, and the idea that found it.
+- **New workspace** (name, problem, instances, researchers, rounds, optional brief) and **Research here**, which continues the same researchers in the current workspace.
 
 Arrow keys move between ideas; Esc closes the selection.
 
@@ -132,18 +137,17 @@ Arrow keys move between ideas; Esc closes the selection.
 mosa/
   domain.py            what a problem must provide (the only problem-specific code)
   domains/squares/     compiled relaxation, SQP polish, high-precision audit, catalogue data, SVG
-  sandbox.py           runs model-written initialize/vary (time limit, validation, fresh namespace)
-  evaluate.py          the evolutionary template and budget; gap, near miss, initial gap
-  research.py          researcher chains, prompt, decisions, library, record verification
+  domains/thomson/     Coulomb energy on the sphere, relaxation, 50-digit verifier
+  sandbox.py           runs model-written initialize/vary (integrity scan, time limit, validation, fresh namespace)
+  evaluate.py          the evolutionary template and budget; gap, near miss, initial gap; neighbours from memory
+  research.py          workspaces: sessions, researchers that continue, shared memory, library, record verification
   backends.py          local process or Modal containers; modal_app.py defines the workers
   llm.py               one structured model call per round (Codex CLI; prompt/answer kept per round)
-  store.py             the append-only notebook
+  store.py             the append-only notebook (one per workspace)
   ui/                  workbench server and single-page app (no build step)
-data/                  best known packings (jlevy/squares witnesses), catalogue sides and notes, strategy library
-history/               the night's labs as notebooks (records re-verified on import: scripts/import_history.py)
-briefs/                research briefs (e.g. n = 67 and the Göbel strip)
-results/               verified records (JSON + catalogue-format SVG)
+baselines/             strategies run without a researcher (basin hopping for the Thomson problem)
+data/                  reference data: best known packings (jlevy/squares), catalogue sides and notes, Thomson energies
 docs/NOTES.md          what worked, design principles, how this generalizes, submission guide, next steps
 ```
 
-Data sources: the [squares-in-squares catalogue](https://kingbird.myphotos.cc/packing/squares_in_squares.html) (Erich Friedman, David Ellsworth) and the known-best witnesses from [jlevy/squares](https://github.com/jlevy/squares).
+Data sources: the [Cambridge Cluster Database](https://www-wales.ch.cam.ac.uk/~wales/CCD/Thomson/table.html) (Thomson energies), the [squares-in-squares catalogue](https://kingbird.myphotos.cc/packing/squares_in_squares.html) (Erich Friedman, David Ellsworth) and the known-best witnesses from [jlevy/squares](https://github.com/jlevy/squares).

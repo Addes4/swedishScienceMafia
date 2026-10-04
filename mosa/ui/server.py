@@ -150,11 +150,6 @@ class Handler(SimpleHTTPRequestHandler):
             if url.path == "/api/targets":
                 d = domain()
                 return self.send_json([{"n": n, **d.info(n)} for n in d.targets()])
-            if url.path == "/api/library":
-                path = ROOT/"data"/"strategy-library.json"
-                return self.send_json(json.loads(path.read_text()) if path.exists() else [])
-            if url.path == "/api/briefs":
-                return self.send_json([{"name": p.name, "text": p.read_text()} for p in sorted((ROOT/"briefs").glob("*.md"))])
         except (KeyError, ValueError) as error:
             return self.send_json({"error": str(error)}, 400)
         if url.path.startswith("/api/"):
