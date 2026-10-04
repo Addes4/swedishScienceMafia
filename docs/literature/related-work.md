@@ -83,6 +83,18 @@ property-testing library (de Vries 2023).
   needs checking; our per-bin features cannot express it.
 - `bp-ceiling-v1` already tests the main question this raises: whether the instances (length,
   distribution) or the representation holds us at best-fit.
+- **Update, 4 October morning: the headroom has now been measured.**
+  - [online-frontier-v1](../../experiments/online-frontier-v1/RESULTS.md) finds OPT = L1 on
+    129 of 130 of FunSearch-style Weibull instances. Untuned Sum-of-Squares beats FunSearch's heuristic.
+  - [online-beyond-ss-v1](../../experiments/online-beyond-ss-v1/RESULTS.md) adds FWSS, which knows the
+    item count and keeps state. It ends about 2 bins above the optimum at 1k–100k items, against about
+    14 for FunSearch.
+  - FWSS is below the best published number in 15/15 settings of the MoH/HMACE leaderboard.
+  - Its literature check (`experiments/online-beyond-ss-v1/literature.md`, 38 LLM-AHD papers in full
+    text) found no LLM-AHD paper that compares with Sum-of-Squares, primal–dual or re-solving
+    policies.
+  - [llm-informed-v1](../../experiments/llm-informed-v1/RESULTS.md) is a null result. Telling the LLM
+    what its function can know did not lead it to such rules.
 
 ### Simplify
 
@@ -246,7 +258,8 @@ tournament (v2) on open models.
 - Most 2026 papers are preprints without peer review.
 - Papers not marked † were judged from abstracts and key sections, and some numbers in read
   papers come from figures.
-- The Sum-of-Squares feature `N(gap+item) − N(gap)` is our own derivation and untested.
+- The Sum-of-Squares feature `N(gap+item) − N(gap)` is our own derivation and untested as a per-bin
+  feature. Sum-of-Squares itself was later run in full; see the 4 October update above.
 
 **Cost.** No API or compute spend on experiments. The review used this Claude Code session and
 its subagents only.
