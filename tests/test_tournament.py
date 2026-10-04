@@ -61,7 +61,7 @@ def test_area_and_incumbents():
 
 
 def test_grid_expansion_and_caps():
-    g = grids.load(ROOT / "experiments" / "tournament-v1" / "grids" / "mock.json")
+    g = grids.load(ROOT / "tests" / "fixtures" / "tournament_mock_grid.json")
     jobs = grids.jobs(g)
     assert len(jobs) == len(g["arms"]) * len(g["problems"]) * len(g["seeds"])
     assert len({j["job_id"] for j in jobs}) == len(jobs)
