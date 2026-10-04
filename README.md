@@ -84,7 +84,7 @@ it varied: on n = 250, 4 of 12 for Mosa, 7 of 12 for the one-shot strategy and 4
 | Plain coding agent (11 minutes, 12% of its budget) | **2.6359830849** | 0 (our verifier) |
 | ThetaEvolve, best published | 2.63598308 | 1e-6 |
 | ShinkaEvolve | 2.63598283 | 1e-7 |
-| Mosa (17 of 36 runs) | 2.6359773947 | 0 |
+| Mosa (all 36 runs: 4 researchers × 3 rounds × 3 seeds) | 2.6359773947 | 0 |
 | AlphaEvolve | 2.63586276 | 0 |
 
 **Squares, n = 85–88.** Mosa and the coding agent held the best-known packings on 85, 86 and 88; both were 2.2e-6 short
