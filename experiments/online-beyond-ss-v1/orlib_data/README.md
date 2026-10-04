@@ -4,5 +4,9 @@ Falkenauer's u120, u250, u500 and u1000 sets, 20 instances each, capacity 150. F
 OR1–OR4. They come from J. E. Beasley's OR-Library (people.brunel.ac.uk/~mastjjb/jeb/orlib/binpackinfo.html),
 via online-frontier-v1's `data/` folder.
 
-Some listed optima are known to be wrong. Arc flow proves 50 for u120_08 and 49 for u120_19, and 103 for
-u250_07, each below the listed value; see `../tables.md`.
+Some listed optima are known to be wrong:
+- Arc flow proves 50 for u120_08, 49 for u120_19 and 103 for u250_07, each below the listed value.
+- u250_12 (listed 106) packs in 105 bins = L1. The packing is in `u250_12_packing_105.json`, from
+  online-frontier-v1, and is verified by `../verify_overrides.py`.
+
+See `../tables.md`.

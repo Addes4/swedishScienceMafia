@@ -134,14 +134,23 @@ The full timestamped log is `RUN_LOG.md`. The points that matter for a reader:
 - **Dead end:** a smarter finish. A one-step rollout finish gains only ~0.1 bin (`v2/rollout.c`), so the
   remaining ~2 bins are not a weak finish.
 - **Timing bug.** Early RUN_LOG rows had guessed times; they were corrected from `date`.
-- **Label bug (fixed after the run).** In `results.json`, `opt_source` for the 3 corrected OR instances
+- **Correction (4 October, after review): u250_12's optimum.**
+  - The original tables used OR-Library's listed 106 for u250_12, because this study's arc-flow solve was
+    unproved (incumbent 129, bound 105).
+  - An independent review found that online-frontier-v1 packs it in 105 bins, which equals L1. The
+    packing was re-verified here (`verify_overrides.py`, `opt_overrides.json`), and `report.py` now uses 105.
+  - Effect: OR2's "bins above OPT" rises by 0.05 for every policy (`tables.md`, section 2), and OR2's
+    OPT − L1 is now 0.05.
+  - Unchanged: excess over L1 and every paired contrast.
+  - So four OR-Library listings are not optimal: u120_08, u120_19, u250_07 and u250_12.
+- **Label bug (fixed after the run).** In `results.json`, `opt_source` for the 3 OR instances whose optimum arc flow proved below the listing
   wrongly says "OR-Library listed optimum". The `opt` value itself is the proved one. The true source is in
   `arcflow.proved`.
 - **Slow run.** `run.py` wrote results only at the end and spent ~50 min on capacity-500 MILPs that hit
   their 300 s limit. Lesson: write results incrementally.
 - **OR-Library listings.** Arc flow proved lower optima than OR-Library lists for u120_08, u120_19 and
   u250_07. These are known corrections in the literature (e.g. MDPI Mathematics 9:1540; BPPLib). The
-  proved values are used.
+  proved values are used. u250_12 is a fourth such instance; see the correction above.
 
 ## Results (from `tables.md`; excess over L1 in %, lower is better)
 
@@ -254,7 +263,10 @@ On OR1–OR3 plain SS is worse than best fit, but not on OR4. FWSS is better tha
 - **Unproved optima.**
   - At C = 500, 6 of 21 EoH instances did not prove optimality within 300 s and are left out of "bins
     above OPT".
-  - In OR2, 2 instances (u250_10, u250_12) use OR-Library's listed optimum.
+  - In OR2, arc flow did not prove 2 instances within 300 s.
+    - u250_10 uses OR-Library's listed optimum, which online-frontier-v1 proved.
+    - u250_12 originally used the listed 106, which is not optimal. It is corrected to 105, from a verified
+      105-bin packing (see the correction below).
   - In fresh 1k, 2 instances are unproved and left out.
 - **Exploratory checks are not confirmatory.** These are the horizon-free variants, the rollout finish
   and the mechanism numbers, all measured on tuning seeds only.
@@ -278,6 +290,7 @@ cc -O3 -shared -fPIC -o csrc/libwss.so csrc/wss.c -lm      # build the C packer
 python check_c.py && python check_priority.py               # C = Python reference = FunSearch-interface version
 python run.py --workers 2                                   # 587 test instances + exact OPT -> results.json (~80 min)
 python run_moh.py --workers 2                               # 1,500 leaderboard instances -> results_moh.json (~4 min)
+python verify_overrides.py                                  # checks the u250_12 packing used for its optimum
 python report.py && python report_moh.py                    # tables.md, tables_moh.md, summary*.json
 python fig.py && python fig_moh.py                          # the two figures
 python mechanism.py                                         # inventory decomposition (tuning seeds)
@@ -298,6 +311,7 @@ python ../../problems/bin_packing_online/evaluate.py --program_path priority_fss
 | `run.py` → `results.json` | Per-instance bins for 10 policies, L1 and arc-flow OPT, 19 test sets |
 | `run_moh.py` → `results_moh.json` | Per-instance bins, 15 leaderboard settings |
 | `report.py` → `tables.md`, `summary.json` | Excess, bins above OPT, paired contrasts, EoH positive control |
+| `opt_overrides.json`, `verify_overrides.py`, `orlib_data/u250_12_packing_105.json` | The verified u250_12 optimum (105), applied by `report.py` |
 | `report_moh.py` → `tables_moh.md`, `summary_moh.json` | Leaderboard comparison; published numbers transcribed from the PDFs |
 | `fig_bins_above_opt.png`, `fig_leaderboard.png` | Figures (`fig.py`, `fig_moh.py`) |
 | `mechanism.py` → `mechanism.json` | Open-bin inventory at the switch and at the end (tuning seeds) |

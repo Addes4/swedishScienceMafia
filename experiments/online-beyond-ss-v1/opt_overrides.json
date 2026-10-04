@@ -1,0 +1,2 @@
+{"u250_12": {"opt": 105, "packing_file": "orlib_data/u250_12_packing_105.json",
+             "reason": "this study's arc-flow solve did not prove u250_12 within 300 s (incumbent 129, bound 105), so run.py fell back to OR-Library's listed 106, which is not optimal; online-frontier-v1 found a 105-bin packing (= L1), re-verified by verify_overrides.py"}}
