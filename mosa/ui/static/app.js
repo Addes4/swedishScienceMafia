@@ -405,11 +405,11 @@ function instanceView() {
   };
   if (domain !== "squares") return otherInstance(m, n, st, domain, by);
   if (st.record) return discoveryView(st.record, what, by(st.record));
-  const ref = S.refs[n];
+  const b = st.best, ref = S.refs[n];
   if (!ref) reference(n, domain);
   return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
     ${ref && ref !== "loading" && ref.poses ? `<div class="figure">${figure(ref.poses, ref.side)}</div>` : ""}
-    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : "Not tried yet."}</div>
+    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : `Not tried yet. Shown: the best known packing${ref && ref.side ? `, side <span class="mono">${side6(ref.side)}</span>` : ""}.`}</div>
     ${b && b.runner_up_gap > 0 ? `<div class="section">The closest other packing came within ${plain(b.runner_up_gap)} of it.</div>` : ""}</div>`;
 }
 
