@@ -1,0 +1,64 @@
+{
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-beyond-ss/problems/bin_packing_online_informed/baselines/funsearch_weibull.py",
+  "static_violations": [],
+  "public": [
+    {
+      "instance": {
+        "name": "instance 1",
+        "seed": 101,
+        "n": 5000
+      },
+      "label": "instance 1 (5000 items, lower bound 1980 bins)",
+      "seconds": 1.8712449170125183,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9949748743718593,
+      "reason": "1990 bins",
+      "normalized": 0.9949748743718593
+    },
+    {
+      "instance": {
+        "name": "instance 2",
+        "seed": 102,
+        "n": 5000
+      },
+      "label": "instance 2 (5000 items, lower bound 1981 bins)",
+      "seconds": 1.9084031249803957,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9900049975012494,
+      "reason": "2001 bins",
+      "normalized": 0.9900049975012494
+    }
+  ],
+  "hidden": [
+    {
+      "instance": {
+        "name": "hidden 1",
+        "seed": 901,
+        "n": 5000
+      },
+      "label": "hidden 1 (5000 items, lower bound 1976 bins)",
+      "seconds": 1.8814507909992244,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9914701455092825,
+      "reason": "1993 bins",
+      "normalized": 0.9914701455092825
+    },
+    {
+      "instance": {
+        "name": "hidden 2",
+        "seed": 902,
+        "n": 5000
+      },
+      "label": "hidden 2 (5000 items, lower bound 2001 bins)",
+      "seconds": 1.8818635000206996,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9940387481371088,
+      "reason": "2013 bins",
+      "normalized": 0.9940387481371088
+    }
+  ]
+}

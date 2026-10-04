@@ -315,7 +315,8 @@ python ../../problems/bin_packing_online/evaluate.py --program_path priority_fss
    - FunSearch's benchmark is nearly solved by classical stochastic packing plus a known-horizon finish;
    - the waste decomposition explains why;
    - the stateless `priority(item, bins)` interface hides exactly the state the good algorithms need.
-2. **Rediscovery by an LLM.** Does an LLM loop rediscover SS or FWSS when the interface allows state and
+2. **Rediscovery by an LLM (done: [llm-informed-v1](../llm-informed-v1/RESULTS.md)).** Spelling out the
+   information did not help: 0/4 runs beat FunSearch, none tracked open bins. Original plan: Does an LLM loop rediscover SS or FWSS when the interface allows state and
    the prompt mentions the item count? llm-long-search-v1 (300 DeepSeek steps, state allowed; unmerged
    branch `exp/llm-long-search`) reached about 0.81% over L2, so it did not.
 3. **A horizon-free policy that beats SS.** The best tuning variant gains ~2 bins at 5k but is worse at
