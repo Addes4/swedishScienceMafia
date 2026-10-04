@@ -168,6 +168,19 @@ td .err { color: var(--error); }
 .field-row input:focus, .field-row textarea:focus { border-color: var(--accent); }
 .field-row textarea { min-height: 120px; resize: vertical; font: 12.5px/1.5 var(--mono); }
 .pair { display: flex; gap: 28px; }
+.field-row input[type=radio] { width: auto; padding: 0; margin: 0; }
+textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px; }
+.examples { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
+.examples a { color: var(--muted); font-size: 12.5px; cursor: pointer; }
+.examples a:hover { color: var(--strong); text-decoration: none; }
+.examples a::before { content: "→ "; color: var(--faint); }
+.choice.compute { align-items: center; color: var(--muted); }
+.choice.compute > span { margin-right: 4px; }
+.plan-line { color: var(--muted); margin-top: 6px; max-width: 760px; font-size: 12.5px; }
+.planning { padding: 20px 36px; }
+.planning .request { color: var(--strong); font-size: 15px; margin-bottom: 14px; max-width: 720px; }
+.thinking { display: flex; gap: 10px; align-items: center; color: var(--muted); }
+.thinking .ring { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--line-strong); border-top-color: var(--accent); animation: spin .9s linear infinite; }
 .stepper { display: inline-flex; align-items: center; border: 1px solid var(--line-strong); border-radius: 4px; }
 .stepper button { width: 28px; height: 28px; display: grid; place-items: center; color: var(--muted); }
 .stepper button:hover { color: var(--strong); background: var(--hover); }

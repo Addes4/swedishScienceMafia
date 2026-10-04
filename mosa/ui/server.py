@@ -27,6 +27,8 @@ def notebooks():
     for folder in FOLDERS:
         for path in sorted((ROOT/folder).glob("*/events.jsonl")):
             out[f"{folder}/{path.parent.name}"] = path
+        for path in sorted((ROOT/folder).glob("*/process.log")):  # a workspace whose planner has not written yet
+            out.setdefault(f"{folder}/{path.parent.name}", path.parent/"events.jsonl")
     return out
 
 
@@ -36,6 +38,8 @@ def _events(path, stamp):
 
 
 def events(path):
+    if not os.path.exists(path):
+        return []
     stat = os.stat(path)
     return _events(str(path), (stat.st_mtime_ns, stat.st_size))
 
@@ -51,12 +55,13 @@ def summary(lab_id, path):
     done = sum(e["type"] == "done" for e in ev) >= max(1, sum(e["type"] == "lab" for e in ev))  # every session finished
     updated = ev[-1]["time"] if ev else 0
     sessions = [e for e in ev if e["type"] == "lab"]
+    request = next((e["request"] for e in ev if e["type"] == "request"), None)
     names = [e["name"] for e in ev if e["type"] == "name"] or [head.get("name")]  # a rename appends a name event
     targets = sorted({n for e in sessions for n in e.get("targets", [])})
-    return {"id": lab_id, "name": path.parent.name, "label": names[-1], "folder": lab_id.split("/")[0], "kind": head.get("kind", "lab"),
+    return {"id": lab_id, "name": path.parent.name, "label": names[-1], "request": request, "folder": lab_id.split("/")[0], "kind": head.get("kind", "lab"),
             "sessions": len(sessions), "all_targets": targets,
-            "title": head.get("title", ""), "domain": head.get("domain", ""), "started": ev[0]["time"] if ev else 0,
-            "updated": updated, "done": done, "running": not done and time.time()-updated < 900,
+            "title": head.get("title", ""), "domain": head.get("domain", ""), "started": ev[0]["time"] if ev else os.path.getmtime(path.parent),
+            "updated": updated, "done": done, "running": not done and time.time()-(updated or os.path.getmtime(path.parent)) < 900,
             "chains": head.get("chains", 1), "rounds": head.get("rounds", 1), "targets": head.get("targets", []),
             "seeds": head.get("seeds", []), "backend": head.get("backend"), "events": len(ev),
             "records": {str(k): v for k, v in sorted(records.items())}, "source": head.get("source"), "brief": bool(head.get("brief"))}
@@ -90,12 +95,22 @@ def launch(spec):
     """Start a session: in an existing workspace (spec["workspace"], a lab id) or a new one. kind "lab" runs researchers;
     kind "apply" runs an existing idea (spec["idea"] = [session, researcher, round]) on more instances."""
     kind = spec.get("kind", "lab")
-    if kind not in ("lab", "apply"):
-        raise ValueError("kind must be lab or apply")
+    if kind not in ("lab", "apply", "run"):
+        raise ValueError("kind must be run, lab or apply")
     workspace = spec.get("workspace")
     if workspace and workspace not in notebooks():
         raise ValueError(f"unknown workspace {workspace}")
     out = workspace or f"runs/{time.strftime('%Y%m%d-%H%M%S')}"
+    if kind == "run":  # a request in plain words: the planning agent sets up and runs the session
+        if not spec.get("prompt", "").strip():
+            raise ValueError("describe what to research")
+        (ROOT/out).mkdir(parents=True, exist_ok=True)
+        command = [sys.executable, "-m", "mosa", "run", spec["prompt"], "--out", out, "--backend", spec.get("backend", "modal")]
+        if spec.get("backend") == "local":  # a smaller budget per run, so a session on a few cores finishes
+            command += ["--init", "96", "--children", "32", "--generations", "5", "--population", "16", "--polish", "8", "--workers", "4"]
+        with open(ROOT/out/"process.log", "a") as log:
+            subprocess.Popen(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+        return {"id": out, "command": " ".join(command)}
     command = [sys.executable, "-m", "mosa", kind, "--out", out, "--backend", spec.get("backend", "modal"),
                "--domain", spec.get("domain", "squares"),
                "--targets", *map(str, spec["targets"]), "--seeds", *map(str, spec.get("seeds") or [0 if kind == "lab" else 1])]

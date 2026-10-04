@@ -49,7 +49,7 @@ async function reference(n, domain = "squares") {
 const ideaKey = (e) => (e.idea ? e.idea.join(":") : `${e.session ?? 0}:${e.chain ?? 0}:${e.round ?? 1}`);
 
 function buildModel(events, until = Infinity) {
-  const m = { lab: null, sessions: [], ideas: new Map(), start: null, end: null, done: false };
+  const m = { lab: null, sessions: [], ideas: new Map(), start: null, end: null, done: false, plans: [], requests: [] };
   const idea = (e) => {
     const key = ideaKey(e);
     if (!m.ideas.has(key)) {
@@ -65,7 +65,9 @@ function buildModel(events, until = Infinity) {
     m.start = m.start === null ? e.time : Math.min(m.start, e.time);
     m.end = m.end === null ? e.time : Math.max(m.end, e.time);
     const s = e.session ?? 0;
-    if (e.type === "lab") {
+    if (e.type === "plan") m.plans.push(e);
+    else if (e.type === "request") m.requests.push(e);
+    else if (e.type === "lab") {
       m.sessions[s] = { ...e, index: s, done: false };
       if (!m.lab) m.lab = e;
       if (e.idea) { const r = idea({ idea: e.idea }); r.sessions.add(s); r.expected += runs(e); }
@@ -111,7 +113,9 @@ const sizesWord = (k) => `${k} size${k === 1 ? "" : "s"}`;
 
 function labTitle(l) {
   if (!l) return "";
-  return l.label || `n = ${span(l.all_targets || l.targets || [])}`;
+  if (l.label) return l.label;
+  if ((l.all_targets || []).length) return `n = ${span(l.all_targets)}`;
+  return l.request ? (l.request.length > 34 ? l.request.slice(0, 32) + "…" : l.request) : l.name;
 }
 
 // "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization: …" ->
@@ -206,7 +210,12 @@ function renderMain() {
   const el = $("#main");
   if (S.compose) { el.innerHTML = composeView(); return; }
   const m = model(S.lab), l = summary(S.lab);
-  if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No labs yet. Start one with New lab."}</div>`; return; }
+  if (m && !m.lab && m.requests.length) {
+    el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1><div class="sub">planning</div></div></div>
+      <div class="planning"><div class="request">“${esc(m.requests[m.requests.length - 1].request)}”</div><div class="thinking"><span class="ring spin"></span> The planning agent is choosing the problem, instances, researchers and rounds…</div></div>`;
+    return;
+  }
+  if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
   const L = m.lab, briefs = m.sessions.filter((x) => x && x.brief).length;
   const parts = [`${m.targets.length} instance${m.targets.length === 1 ? "" : "s"}`];
   if (l?.running) parts.push("running");
@@ -216,7 +225,9 @@ function renderMain() {
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
     : `<div class="head-actions">${m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : ""}<button class="text-btn" data-act="research">${ICON.plus} Research here</button></div>`;
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div></div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+  const plan = m.plans[m.plans.length - 1];
+  const planLine = plan ? `<div class="plan-line" title="${esc(plan.request)}">${esc(plan.reasoning)}</div>` : "";
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div>${planLine}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -387,29 +398,29 @@ function briefView() {
 
 // ---------- new lab ----------
 function composeView() {
-  const c = S.compose, apply = c.kind === "apply", fresh = !c.workspace;
+  const c = S.compose, apply = c.kind === "apply";
+  if (apply) {
+    return `<div class="compose"><h1>Run “${esc(c.name)}” on more instances</h1>
+      <div class="sub">The same idea, without a researcher. Its results on these instances are added to the idea.</div>
+      <div class="field-row"><label for="f-sizes">Instances</label><input id="f-sizes" value="${esc(c.sizes)}"><div class="hint">Sizes n, for example 88, or 120–131.</div></div>
+      <div class="field-row"><label for="f-seeds">Seeds per instance</label><input id="f-seeds" value="${esc(c.seeds)}" style="width:160px"></div>
+      ${computeRow(c)}
+      <div style="margin-top:22px"><button class="btn" data-act="start">Run</button><span class="note" id="f-note"></span></div></div>`;
+  }
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
-  const stepper = (key, label) => `<div class="field-row"><label>${label}</label><div class="stepper"><button data-act="step" data-k="${key}" data-d="-1">−</button><span>${c[key]}</span><button data-act="step" data-k="${key}" data-d="1">+</button></div></div>`;
-  const problems = [["squares", "Squares in a square"], ["thomson", "Charges on a sphere (Thomson)"]];
+  const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
+    : ["Beat the best known packings of squares near n = 120", "Find low-energy configurations of 300–305 charges on a sphere", "Try to beat the 1980 record for 67 squares"];
   return `<div class="compose">
-    <h1>${apply ? `Run “${esc(c.name)}” on more instances` : fresh ? "New workspace" : `Research in ${esc(here)}`}</h1>
-    <div class="sub">${apply ? "The same idea, without a researcher. Its results on these instances are added to the idea."
-      : fresh ? "A workspace is a problem, its instances and a shared memory: everything found in it is offered to every strategy that runs in it."
-      : "A new session in this workspace. Its researchers see everything the workspace has found so far."}</div>
-    ${fresh && !apply ? `<div class="field-row"><label for="f-name">Name</label><input id="f-name" value="${esc(c.name || "")}" placeholder="e.g. Squares near 120"></div>
-      <div class="field-row"><label>Problem</label><div class="choice">${problems.map(([v, label]) => `<label><input type="radio" name="f-domain" value="${v}" ${c.domain === v ? "checked" : ""}> ${label}</label>`).join("")}</div>
-      <div class="hint">Packing problems use the built-in harness. New problems need a harness: a fast local optimizer, a refiner and an independent verifier (see docs/NOTES.md).</div></div>` : ""}
-    <div class="field-row"><label for="f-sizes">Instances</label><input id="f-sizes" value="${esc(c.sizes)}"><div class="hint">Sizes n, for example 67, or 101–110, 122–132.</div></div>
-    ${apply ? "" : `<div class="pair">${stepper("chains", "Researchers")}${stepper("rounds", "Rounds")}</div>
-      <div class="field-row"><label for="f-brief">Brief <span style="color:var(--muted);font-weight:400">(optional)</span></label><textarea id="f-brief" placeholder="Anything the researchers should know about these instances.">${esc(c.brief)}</textarea></div>`}
-    <details ${apply ? "open" : ""}><summary>More options</summary>
-      <div class="field-row" style="margin-top:12px"><label for="f-seeds">Seeds per instance</label><input id="f-seeds" value="${esc(c.seeds)}" style="width:160px"><div class="hint">Each seed is an independent run. One run is a noisy sample.</div></div>
-      <div class="field-row"><label>Compute</label><div class="choice"><label><input type="radio" name="f-compute" value="modal" ${c.backend === "modal" ? "checked" : ""}> Modal</label><label><input type="radio" name="f-compute" value="local" ${c.backend === "local" ? "checked" : ""}> This machine</label></div></div>
-      <div class="field-row"><label for="f-refs">Reference sizes</label><input id="f-refs" value="${esc(c.refs)}" style="width:160px"><div class="hint">Best solutions of other sizes that strategies may borrow from, beyond the workspace's own.</div></div>
-    </details>
-    <div style="margin-top:22px"><button class="btn" data-act="start">${apply ? "Run" : fresh ? "Create and start" : "Start session"}</button><span class="note" id="f-note"></span></div>
+    <h1>${c.workspace ? `Research in ${esc(here)}` : "New workspace"}</h1>
+    <div class="sub">${c.workspace ? "Say what to do next. The planning agent continues the same researchers; they see everything this workspace has found."
+      : "Say what you want to research. A planning agent chooses the problem, the instances, the researchers and rounds, and writes their brief."}</div>
+    <div class="field-row"><textarea id="f-prompt" class="prompt" placeholder="${esc(examples[0])}">${esc(c.prompt || "")}</textarea>
+      <div class="examples">${examples.map((x) => `<a data-act="example">${esc(x)}</a>`).join("")}</div></div>
+    ${computeRow(c)}
+    <div style="margin-top:18px"><button class="btn" data-act="start">${c.workspace ? "Start" : "Create and start"}</button><span class="note" id="f-note"></span></div>
   </div>`;
 }
+const computeRow = (c) => `<div class="field-row"><div class="choice compute"><span>Compute</span><label><input type="radio" name="f-compute" value="modal" ${c.backend === "modal" ? "checked" : ""}> Modal</label><label><input type="radio" name="f-compute" value="local" ${c.backend === "local" ? "checked" : ""}> This machine</label></div></div>`;
 
 const parseSizes = (text) => String(text).split(/[\s,]+/).filter(Boolean).flatMap((p) => {
   const m = p.match(/^(\d+)[-–](\d+)$/);
@@ -418,12 +429,15 @@ const parseSizes = (text) => String(text).split(/[\s,]+/).filter(Boolean).flatMa
 
 async function start() {
   const c = S.compose, note = $("#f-note");
-  const spec = { kind: c.kind, targets: parseSizes($("#f-sizes").value), seeds: parseSizes($("#f-seeds").value),
-    backend: document.querySelector("input[name=f-compute]:checked")?.value || "modal", references: parseSizes($("#f-refs").value),
-    workspace: c.workspace || undefined, domain: document.querySelector("input[name=f-domain]:checked")?.value || c.domain || "squares" };
-  if (c.kind === "lab") Object.assign(spec, { chains: c.chains, rounds: c.rounds, brief: $("#f-brief").value, name: $("#f-name")?.value || undefined });
-  else spec.idea = c.idea;
-  if (!spec.targets.length) { note.textContent = "Give at least one size."; return; }
+  const backend = document.querySelector("input[name=f-compute]:checked")?.value || "modal";
+  let spec;
+  if (c.kind === "apply") {
+    spec = { kind: "apply", workspace: c.workspace, idea: c.idea, domain: c.domain, targets: parseSizes($("#f-sizes").value), seeds: parseSizes($("#f-seeds").value), backend };
+    if (!spec.targets.length) { note.textContent = "Give at least one instance."; return; }
+  } else {
+    spec = { kind: "run", workspace: c.workspace || undefined, prompt: $("#f-prompt").value.trim(), backend };
+    if (!spec.prompt) { note.textContent = "Say what to research."; return; }
+  }
   note.textContent = "Starting…";
   try {
     const r = await api("/api/launch", spec);
@@ -499,15 +513,15 @@ document.addEventListener("click", (ev) => {
     case "brief": S.sel = { type: "brief", lab: S.lab, session: +(d.s || 0) }; render(); break;
     case "unselect": S.sel = null; render(); break;
     case "view": S.view = d.v; renderDetail(); break;
-    case "compose": S.compose = { kind: "lab", domain: "squares", name: "", sizes: "101–110, 122–132", chains: 4, rounds: 3, brief: "", seeds: "0", backend: "modal", refs: "" }; S.sel = null; render(); break;
-    case "research": { const m = model(S.lab); S.compose = { kind: "lab", workspace: S.lab, domain: m.lab.domain || "squares", sizes: span(m.targets), chains: 4, rounds: 3, brief: "", seeds: "0", backend: "modal", refs: "" }; S.sel = null; render(); break; }
+    case "compose": S.compose = { kind: "run", backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
+    case "research": S.compose = { kind: "run", workspace: S.lab, backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
+    case "example": $("#f-prompt").value = el.textContent; $("#f-prompt").focus(); break;
     case "apply": {
       const m = model(S.sel.lab), r = m.ideas.get(S.sel.idea);
       S.compose = { kind: "apply", workspace: S.sel.lab, idea: r.key.split(":").map(Number), domain: m.lab.domain || "squares", name: idea(r.strategy).name, sizes: "", seeds: "1 2 3 4", backend: "modal", refs: "" };
       S.sel = null; render(); $("#f-sizes")?.focus();
       break;
     }
-    case "step": { const c = S.compose; c[d.k] = Math.max(1, Math.min(d.k === "chains" ? 8 : 10, c[d.k] + +d.d)); c.sizes = $("#f-sizes").value; c.brief = $("#f-brief")?.value ?? c.brief; c.name = $("#f-name")?.value ?? c.name; c.domain = document.querySelector("input[name=f-domain]:checked")?.value || c.domain; renderMain(); break; }
     case "start": start(); break;
     case "theme": {
       const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";

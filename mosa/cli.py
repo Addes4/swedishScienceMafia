@@ -50,6 +50,14 @@ def main():
     lab.add_argument("--model", default=None)
     sub.choices["apply"].add_argument("--strategy", default=None, help="a .py file with initialize and vary (e.g. a baseline)")
     sub.choices["apply"].add_argument("--idea", default=None, help="session:researcher:round of an idea in the workspace (--out)")
+    runp = sub.add_parser("run", help="describe what to research; the planning agent sets up and runs the session")
+    runp.add_argument("request")
+    runp.add_argument("--out", default=None, help="workspace directory (default: a new one in runs/)")
+    runp.add_argument("--backend", choices=["local", "modal"], default="modal")
+    runp.add_argument("--workers", type=int, default=None)
+    runp.add_argument("--model", default=None)
+    for field, value in vars(Budget()).items():
+        runp.add_argument(f"--{field}", type=int, default=value)
     verify = sub.add_parser("verify")
     verify.add_argument("--domain", default="squares")
     verify.add_argument("--n", type=int, required=True)
@@ -61,7 +69,12 @@ def main():
     serve.add_argument("--port", type=int, default=8777)
     args = parser.parse_args()
 
-    if args.command in ("lab", "apply"):
+    if args.command == "run":
+        from .orchestrator import run
+        out = args.out or f"runs/{time.strftime('%Y%m%d-%H%M%S')}"
+        run(args.request, out, args.backend, args.model, args.workers, Budget(**{field: getattr(args, field) for field in vars(Budget())}))
+        print(f"workspace: {out}")
+    elif args.command in ("lab", "apply"):
         from .research import Lab
         budget = Budget(**{field: getattr(args, field) for field in vars(Budget())})
         out = args.out or f"runs/{args.command}-{time.strftime('%Y%m%d-%H%M%S')}"
