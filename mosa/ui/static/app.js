@@ -521,7 +521,7 @@ function composeView() {
   const c = S.compose;
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
-    : ["Beat the 2024 records for packing 85–90 unit squares in a square",
+    : ["Beat the best known packings of 85–90 unit squares in a square",
        "Points on a sphere for n = 30–33: Smale's logarithmic energy, Thomson's Coulomb energy and Tammes' largest smallest distance, side by side",
        "Beat AlphaEvolve and ShinkaEvolve on 26 circles in a square, maximizing the sum of radii",
        "Heilbronn's triangle problem: place 8–12 points in a unit square so that the smallest triangle is as large as possible"];
