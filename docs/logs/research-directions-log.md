@@ -98,6 +98,7 @@ With online-frontier-v1 and online-beyond-ss-v1, the weak-baseline pattern now h
 | 08:53 | llm-from-ss-v1 finished (commits 1c6bc88 pre-registration at 05:41, 0b0e7e9 results). Three runs hit the 5,400 s wall limit at 293, 264 and 286 steps because of machine load; this is recorded as a deviation. One evaluation in 1,147 timed out, and it would not have been accepted. The loop's own OVERFIT? flag on s0–s2, from 2 hidden instances, was overturned by the 100-instance audit. |
 | ≈ 09:05 | short-horizon-v1 finished (aa16408). Incidents, all logged in its RUN_LOG: its run monitor expired, so the audit started 22 minutes late (this session prompted it); a false monitor alert; a leftover load-logger loop was killed. Public-instance timeouts: 2/599 in A, 1/600 in D, 0 in B, C and E. The control arm plausibly lost one promotion to load, which biases the contrasts toward zero. |
 | 09:05 | Session 2d told it may raise its worker cap: no timeout-sensitive work of this session is running. |
+| 09:12 | Session 2d raised its TSP study to 8 workers (load about 4). It also reported interim results, its numbers and not re-checked here. Re-run under the same evaluation, HiFo-Prompt's released heuristic is 10.66% above optimal at n = 100 (12 s per instance) and MCTS-AHD's is 11.25% at n = 200 (30 s). Both are Pareto-dominated, and farthest insertion beats both with 95% CIs below 0. |
 
 ## Decisions and why
 
