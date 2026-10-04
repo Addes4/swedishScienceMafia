@@ -44,6 +44,20 @@ Mosa moves the model one level up, **from editing programs to doing research.** 
 
 **Connection to Track 1 (AI automated discovery of algorithms):** what Mosa discovers *are* algorithms, namely search strategies, each with a stated hypothesis. They are validated by new results on a benchmark studied since 1979 and verified independently of the system that found them. The framework itself is the autoresearcher: it decides what to try next from its own evidence. The only problem-specific code is a small domain adapter.
 
+## How we know it is real, and what we have not shown
+
+These follow the standards of the team's checking framework on `main` (*autoresearch that checks its own claims*):
+
+- **Every record is verified independently.** A strategy can only hand over coordinates. Mosa recomputes every clearance at zero tolerance and at 80 and 160 digits; a strategy never reports its own score.
+- **Integrity scan.** We adopted the static gate from `main`: strategy code that touches files, processes, the network, the import system or the evaluator is rejected before it runs. All 35 strategies written tonight pass it, and it rejects deliberate cheats (`tests/test_sandbox.py`).
+- **Held-out sizes.** The cut-and-splice strategy was designed while attacking n = 101–132. On sizes it never saw (n = 11–99), it broke n = 88 on 7 of 8 seeds.
+- **Equal budgets.** Every strategy gets the same template and candidate counts, on the same sizes and seeds.
+- **Seeds as a control for luck.** One run is a noisy sample. n = 88 fell on 7 of 8 seeds, and n = 123 was found by two different strategies.
+- **Not shown yet:**
+  - Our fixed-operator baselines were not run at a budget matched to the LLM strategies.
+  - We have not run Mosa head-to-head with code evolution (the team's loop or ShinkaEvolve) on the same problem and budget. That is the experiment that would settle the novelty claim.
+  - n = 67 resisted everything.
+
 ## How it works
 
 ```
