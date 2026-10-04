@@ -201,6 +201,7 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 
 - **Environment:** `uv venv --python 3.12 && uv pip install -r requirements.txt`.
 - **Modal:** `modal token set` once (the active profile in `~/.modal.toml` is used). Defaults are moderate: 8 solver containers of 32 cores (`MOSA_MODAL_CONTAINERS`, `MOSA_MODAL_CORES`) plus 8 polish and 8 strategy containers, a peak of about 500 cores. The planner caps a Modal session at 4 researchers, 3 rounds, 8 instances and 3 seeds.
+- **Spend and failures:** the workbench shows the Modal workspace's spend this month (from Modal's billing, about an hour behind) and, per Mosa workspace, what its sessions cost (apps are tagged with their workspace). Start `serve` with `MOSA_MODAL_CREDIT=<granted credit>` to also see what is left. A session that dies writes the reason to its notebook (spend limit, missing module, model call), and the conversation shows it.
 - **Labs need the `codex` CLI, logged in.** `apply`, `verify` and the workbench do not.
 - **Workbench:** `python -m mosa serve` serves http://127.0.0.1:8777. Port 8765 was taken on the dev machine.
 - **Known limits:**

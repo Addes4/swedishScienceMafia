@@ -81,7 +81,8 @@ def summary(lab_id, path):
         if e["type"] == "record" and e.get("record"):
             if e["n"] not in records or e["side"] < records[e["n"]]:
                 records[e["n"]] = e["side"]
-    done = sum(e["type"] == "done" for e in ev) >= max(1, sum(e["type"] == "lab" for e in ev))  # every session finished
+    done = sum(e["type"] == "done" for e in ev) >= max(1, sum(e["type"] == "lab" for e in ev)) \
+        or bool(ev and ev[-1]["type"] == "failed")  # every session finished, or the last one stopped with an error
     updated = ev[-1]["time"] if ev else 0
     sessions = [e for e in ev if e["type"] == "lab"]
     request = next((e["request"] for e in ev if e["type"] == "request"), None)
@@ -206,6 +207,9 @@ class Handler(SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(body)
                 return
+            if url.path == "/api/spend":
+                from mosa.spend import snapshot
+                return self.send_json(snapshot())
             if url.path == "/api/records":
                 return self.send_json(records())
             if url.path == "/api/targets":

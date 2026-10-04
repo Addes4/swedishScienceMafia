@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import time
 
@@ -69,28 +70,19 @@ def main():
     serve.add_argument("--runs", default="runs")
     serve.add_argument("--port", type=int, default=8777)
     args = parser.parse_args()
+    if args.command in ("run", "lab", "apply"):
+        out = args.out or f"runs/{(args.command+'-') if args.command != 'run' else ''}{time.strftime('%Y%m%d-%H%M%S')}"
+        os.environ["MOSA_WORKSPACE"] = Path(out).name  # tags the Modal app, so billing can be attributed to this workspace
+        try:
+            session(args, out)
+        except BaseException as error:  # say why in the notebook, then fail loudly as before
+            from .failure import record
+            from .store import Notebook
+            record(Notebook(out), error)
+            raise
+        return
 
-    if args.command == "run":
-        from .orchestrator import run
-        out = args.out or f"runs/{time.strftime('%Y%m%d-%H%M%S')}"
-        run(args.request, out, args.backend, args.model, args.workers, Budget(**{field: getattr(args, field) for field in vars(Budget())}),
-            json.loads(args.context) if args.context else None)
-        print(f"workspace: {out}")
-    elif args.command in ("lab", "apply"):
-        from .research import Lab
-        budget = Budget(**{field: getattr(args, field) for field in vars(Budget())})
-        out = args.out or f"runs/{args.command}-{time.strftime('%Y%m%d-%H%M%S')}"
-        lab = Lab(args.domain, args.backend, out, budget, args.references, args.workers)
-        if args.command == "lab":
-            brief = Path(args.brief).read_text() if args.brief else ""
-            lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model, args.name)
-        elif args.idea:
-            idea = tuple(int(x) for x in args.idea.split(":"))
-            lab.apply(None, f"idea {args.idea}", sizes(args.targets), args.seeds, idea, args.name)
-        else:
-            lab.apply(Path(args.strategy).read_text(), Path(args.strategy).stem, sizes(args.targets), args.seeds, name=args.name)
-        print(f"notebook: {out}/events.jsonl")
-    elif args.command == "verify":
+    if args.command == "verify":
         from .domain import get
         data = json.loads(Path(args.file).read_text())
         certificate = get(args.domain).verify(data.get("poses", data.get("x")), args.n)
@@ -104,3 +96,25 @@ def main():
     elif args.command == "serve":
         from .ui.server import serve
         serve(args.runs, args.port)
+
+
+def session(args, out):
+    """run, lab or apply: one session in the workspace at out."""
+    if args.command == "run":
+        from .orchestrator import run
+        run(args.request, out, args.backend, args.model, args.workers, Budget(**{field: getattr(args, field) for field in vars(Budget())}),
+            json.loads(args.context) if args.context else None)
+        print(f"workspace: {out}")
+    else:
+        from .research import Lab
+        budget = Budget(**{field: getattr(args, field) for field in vars(Budget())})
+        lab = Lab(args.domain, args.backend, out, budget, args.references, args.workers)
+        if args.command == "lab":
+            brief = Path(args.brief).read_text() if args.brief else ""
+            lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model, args.name)
+        elif args.idea:
+            idea = tuple(int(x) for x in args.idea.split(":"))
+            lab.apply(None, f"idea {args.idea}", sizes(args.targets), args.seeds, idea, args.name)
+        else:
+            lab.apply(Path(args.strategy).read_text(), Path(args.strategy).stem, sizes(args.targets), args.seeds, name=args.name)
+        print(f"notebook: {out}/events.jsonl")
