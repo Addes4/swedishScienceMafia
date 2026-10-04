@@ -101,7 +101,6 @@ program and a scorer; the [problem guide](problems/README.md) shows how. The loo
 ## Limitations
 
 - FWSS has not yet been re-implemented by anyone outside the team.
-- Most of our results are on one problem family, online bin packing.
 - Most runs used one open model and a few hundred steps, so stronger models might do better.
 - The loop picks programs using only two test instances, which is enough to find real gains but makes
   its overfitting warning noisy.
