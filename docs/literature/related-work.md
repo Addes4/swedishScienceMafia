@@ -3,12 +3,12 @@
 Literature review done on 3 October 2026, during the hackathon. We searched for work on each of
 our four parts and checked that every paper exists on arXiv or a publisher page. The 22 most
 relevant papers were read in full (marked †), and the key numbers quoted here were checked
-against the papers. `python3 context/fetch_papers.py` downloads them into
-`context/related-papers/`. That folder is git-ignored because most of the PDFs cannot be
+against the papers. `python3 docs/literature/fetch_papers.py` downloads them into
+`docs/literature/related-papers/`. That folder is git-ignored because most of the PDFs cannot be
 redistributed; the links below lead to every paper. [How the review was done](#how-this-review-was-done)
 records the method, decisions and corrections. [What changed in our experiments](#what-changed-in-our-experiments)
-records what the review changed in the running experiments. [related-work-log.md](related-work-log.md)
-is the session's timeline, decisions, incidents and cost. [output/paper-outlines/](../output/paper-outlines/README.md)
+records what the review changed in the running experiments. [related-work-log.md](../logs/related-work-log.md)
+is the session's timeline, decisions, incidents and cost. [docs/papers/outlines/](../papers/outlines/README.md)
 turns the findings into two candidate research papers.
 
 ## Question and answer
@@ -167,7 +167,7 @@ property-testing library (de Vries 2023).
 ## How the finished runs line up with the literature
 
 Results as of 23:10 on 3 October. Each run's RESULTS.md on its `exp/*` branch is the authority
-for its numbers. The coordination log (`experiments/OVERNIGHT-2026-10-03.md` on branch
+for its numbers. The coordination log (`docs/logs/OVERNIGHT-2026-10-03.md` on branch
 `docs/overnight-log`) records how the runs went. Overall, every finished run agrees with the
 literature; none contradicts it.
 
@@ -251,7 +251,7 @@ tournament (v2) on open models.
 **Cost.** No API or compute spend on experiments. The review used this Claude Code session and
 its subagents only.
 
-**Reproduce.** `python3 context/fetch_papers.py` downloads every available paper; add
+**Reproduce.** `python3 docs/literature/fetch_papers.py` downloads every available paper; add
 `--only <text>` to fetch a subset. The papers it cannot fetch are printed with links at the end.
 
 **Next steps.**
@@ -260,7 +260,7 @@ its subagents only.
 - Rerun the tournament with credit, budget-matched, on problems that do not saturate.
 - Consider ASRO-style instance generators and the Sum-of-Squares feature for a Falsify v5, in the
   Weibull regime where bp-ceiling found headroom.
-- Research papers: see [output/paper-outlines/](../output/paper-outlines/README.md).
+- Research papers: see [docs/papers/outlines/](../papers/outlines/README.md).
 
 ## Reading list
 

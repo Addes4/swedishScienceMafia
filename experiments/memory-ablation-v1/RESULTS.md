@@ -251,7 +251,7 @@ pure function of the traces: `audit --force` reproduces the saved audit.
   windows mid-stream, so that executable evidence does not penalise long-horizon moves.
 - Add a cost for no-op proposals, or reject them before the call counts, so that caution cannot
   replace progress.
-- The team's literature review (`context/related-work.md` on `docs/related-work`) cites Karimi
+- The team's literature review (`docs/literature/related-work.md` on `docs/related-work`) cites Karimi
   et al. (2510.08755): LLM-distilled diagnoses of counterexamples beat raw counterexamples in the
   prompt. This suggests a fourth arm for a follow-up study; it was not tested here.
 - More seeds. With 30 calls, most runs never leave best-fit, so an informative primary contrast

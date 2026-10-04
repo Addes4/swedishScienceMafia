@@ -140,7 +140,7 @@ python -m autoresearch.explain_code problems/bin_packing_online problems/bin_pac
 | `problems/bin_packing_online/baselines/` | FunSearch's OR and Weibull heuristics, verbatim, Apache-2.0 |
 | `runs/demo-binpacking/`, `runs/demo-erdos-mock/` | The two committed runs: `report.md`, logs, `job.json` with source hashes |
 | `runs/README.md` | What the runs show, and the 1:30 live demo plan |
-| `experiments/OVERNIGHT-2026-10-03.md` | Timeline entry (23:39), spend ledger row, open-work row |
+| `docs/logs/OVERNIGHT-2026-10-03.md` | Timeline entry (23:39), spend ledger row, open-work row |
 
 ## Next steps
 
@@ -168,7 +168,7 @@ Hard limit: about 4 hours of building. No new experiments. Default to wiring, no
 
 ## Why
 
-The track brief (`context/Instructions/…pdf`) asks for "a system that can discover good algorithms",
+The track brief (`docs/hackathon/…pdf`) asks for "a system that can discover good algorithms",
 "a reusable research system rather than … hard-coded to one benchmark", with install/run
 instructions, a high-level design, and integrated benchmark examples. It judges ease of use
 ("understand, run, and apply to new problems … reproduce experiments") and research efficiency.

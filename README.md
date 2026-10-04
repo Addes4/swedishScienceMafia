@@ -10,7 +10,9 @@ reach. This repository contains:
 - a loop that runs with one command;
 - the components we built to catch those failures;
 - a series of controlled experiments testing which components earn their place, indexed in
-  [experiments/README.md](experiments/README.md).
+  [experiments/README.md](experiments/README.md);
+- the literature review, coordination logs, plans and paper material, mapped in
+  [docs/README.md](docs/README.md).
 
 **In short:** the checks earned their place, but the search add-ons we tested did not beat simple
 alternatives. On FunSearch's bin-packing benchmark, a 21-weight rule tuned in minutes of CPU matched
@@ -122,7 +124,7 @@ The full list of studies, with protocols and data, is in
 ## How we kept ourselves honest
 
 - **Protocols written before each run**, with any later design change disclosed
-  ([example](experiments/PROTOCOL-v3.md)).
+  ([example](experiments/gate-v3/PROTOCOL.md)).
 - **Matched budgets.** Every arm pays for the same evaluator calls, including ones it ignores.
 - **Fresh audits.** Final test inputs are generated only after search ends and never feed back.
 - **Controls designed to catch luck:** random-input gates, timing-shuffled replays, counterfactual
@@ -134,7 +136,7 @@ The full list of studies, with protocols and data, is in
   before it could pass its cap, and every call is logged to `usage.jsonl`.
 - **Cheap baselines first.** An LLM search has to beat what minutes of CPU tuning reach.
 - **A public record of what went wrong.** Credit exhaustion, cut-short runs, corrections and
-  decisions are logged in [experiments/OVERNIGHT-2026-10-03.md](experiments/OVERNIGHT-2026-10-03.md).
+  decisions are logged in [docs/logs/OVERNIGHT-2026-10-03.md](docs/logs/OVERNIGHT-2026-10-03.md).
 
 ## Components
 
@@ -199,11 +201,15 @@ falsify/        bin-packing evaluators (C++), replay/gate/soft-gate search, simp
 strategist/     adaptive strategy controller (v1, v2), benchmarks, forks, statistics, report
 tournament/     whole-framework comparison on Modal at equal dollar budgets
 problems/       circle packing, Erdős squares, Erdős discrepancy, sum-difference, online bin packing
-experiments/    one folder per study (index: experiments/README.md) and the overnight log
+experiments/    one folder per study, with protocol, write-up and raw data (index: experiments/README.md)
 runs/           committed example runs of autoresearch.loop (other runs are git-ignored)
 tests/          all tests
-context/        hackathon brief, website text, supplied papers, literature review and addendum
-output/         experiment review PDF, pitch draft, paper outlines
+docs/           everything else (map: docs/README.md)
+  literature/     related-work review, addendum, research directions
+  logs/           coordination log of decisions, incidents and spend; literature-review log
+  plans/          superseded design plans
+  papers/         paper outlines, pitch draft, experiment review PDF
+  hackathon/      track brief, event resource page, supplied papers
 ```
 
 ## Related work
@@ -213,10 +219,10 @@ output/         experiment review PDF, pitch draft, paper outlines
   explains how our setup differs.
 - The math problems come from Georgiev, Gómez-Serrano, Tao and Wagner (2025). ShinkaEvolve is the
   external baseline.
-- [context/related-work.md](context/related-work.md) reviews about 60 papers: which of our results are
+- [docs/literature/related-work.md](docs/literature/related-work.md) reviews about 60 papers: which of our results are
   new, which independently reproduce published findings, and what the literature implies for each
   component.
-- [context/related-work-addendum.md](context/related-work-addendum.md) adds papers on the questions
+- [docs/literature/related-work-addendum.md](docs/literature/related-work-addendum.md) adds papers on the questions
   the experiments left open. For example, our CPU-tuned bin-packing result is an extreme case of
   separating algorithm structure from parameter tuning (LLaMEA-HPO, TIDE).
 
@@ -242,7 +248,7 @@ output/         experiment review PDF, pitch draft, paper outlines
 ShinkaEvolve (Sakana AI, Apache-2.0). Problem statements, scoring rules and the n = 26 circle
 construction come from the AlphaEvolve problem repository (Apache-2.0 / CC-BY 4.0). FunSearch's
 bin-packing heuristics in `problems/bin_packing_online/baselines/` come from google-deepmind/funsearch
-(Apache-2.0). The supplied papers are in `context/`. Code was written during the event with help
+(Apache-2.0). The supplied papers are in `docs/hackathon/track-1-papers/`. Code was written during the event with help
 from Codex and Claude.
 
 To cite this repository: Swedish Science Mafia (2026), *Autoresearch that checks its own claims*,

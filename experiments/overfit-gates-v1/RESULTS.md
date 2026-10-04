@@ -229,7 +229,7 @@ Scoring is deterministic: a re-run reproduces every bin count.
 2. **Test horizon-preserving counterexamples.** Use mid-stream windows of 500–1,000 items instead
    of shrunk 2-item inputs. This study suggests that the short length of the inputs, not their
    provenance, is what blocks long-horizon gains. That is research direction 5 in
-   `context/research-directions.md` on branch `docs/research-directions`.
+   `docs/literature/research-directions.md` on branch `docs/research-directions`.
 3. **Repeat the selection-gap measurement where overfitting can bite:** public sets of 1–2
    instances, or 80-item instances, and the AlphaEvolve problems with one public instance.
    Proposals would come from a cheap model with logged public and fresh scores.

@@ -250,7 +250,7 @@ def main():
     confirmation = suite(7000003,800,TRAIN_FAMILIES+SHIFT_FAMILIES)
     original = normalize(winner['weights'])
     ob, sb, rb = bins(original,confirmation), bins(simple['weights'],confirmation), bins(BEST_FIT,confirmation)
-    report = {'protocol':'experiments/SIMPLIFY_PROTOCOL.md',
+    report = {'protocol':'experiments/simplify-v1/PROTOCOL.md',
         'winner':{**winner,'normalized':original,'terms':len(terms(original))},
         'simplified':simple,'explanation':explain(simple['weights']),
         'confirmation':{'simplified vs original':compare(simple['weights'],original,confirmation,sb,ob),

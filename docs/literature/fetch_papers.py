@@ -1,12 +1,12 @@
-"""Download the papers reviewed in context/related-work.md into context/related-papers/.
+"""Download the papers reviewed in docs/literature/related-work.md into docs/literature/related-papers/.
 
 The PDFs are not committed: the repository is public and most of them may not be
 redistributed. This script fetches them again from arXiv or the authors' and publishers'
 open copies. Existing valid files are skipped, every download is checked to be a real PDF
 (or PostScript/HTML where noted), and arXiv requests are spaced 3 seconds apart as arXiv asks.
 
-    python3 context/fetch_papers.py              # everything
-    python3 context/fetch_papers.py --only RAISE # entries whose file name contains "RAISE"
+    python3 docs/literature/fetch_papers.py              # everything
+    python3 docs/literature/fetch_papers.py --only RAISE # entries whose file name contains "RAISE"
 
 Papers behind a bot check or paywall are listed at the end with a link to open in a browser.
 Standard library only.

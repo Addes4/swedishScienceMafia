@@ -2,11 +2,15 @@
 
 This log records what the literature-review session did, decided and produced. The session was a
 separate Claude Code session from the one coordinating the overnight experiments. Findings are in
-[related-work.md](related-work.md), paper plans in
-[output/paper-outlines/](../output/paper-outlines/README.md) and the pitch draft in
-[output/pitch-draft.md](../output/pitch-draft.md). The experiments are recorded in their own
-RESULTS.md files and in the coordination log (`experiments/OVERNIGHT-2026-10-03.md` on branch
+[related-work.md](../literature/related-work.md), paper plans in
+[docs/papers/outlines/](../papers/outlines/README.md) and the pitch draft in
+[docs/papers/pitch-draft.md](../papers/pitch-draft.md). The experiments are recorded in their own
+RESULTS.md files and in the coordination log (`docs/logs/OVERNIGHT-2026-10-03.md` on branch
 `docs/overnight-log`). Times are BST and approximate unless they come from commits.
+
+> **Paths.** On 4 October at about 06:20 this log moved from `context/` to `docs/logs/`, and the
+> files it describes moved into `docs/` ([map](../README.md)). Paths below were updated to the new
+> locations, including in entries describing earlier commits.
 
 ## What was asked
 
@@ -25,15 +29,15 @@ RESULTS.md files and in the coordination log (`experiments/OVERNIGHT-2026-10-03.
 |---|---|
 | before 19:30 | Read every component's README, results and stated next steps, and the hackathon brief. Four search agents ran in parallel (Falsify; Strategist; Triage and integrity; comparable 2026 systems). About 20 of the reported papers were opened on arXiv by hand to confirm them. First recommendations given. |
 | 19:30 | Asked to download everything. Three reading agents started on 22 key papers. All 44 arXiv IDs checked against the arXiv API; every title matched. |
-| 19:35–19:45 | Downloaded 56 PDFs, one PostScript file and one HTML page into `context/related-papers/`, with a local index. Six papers could not be fetched (bot check, paywall or no open copy). |
+| 19:35–19:45 | Downloaded 56 PDFs, one PostScript file and one HTML page into `docs/literature/related-papers/`, with a local index. Six papers could not be fetched (bot check, paywall or no open copy). |
 | 19:45–19:55 | Reading agents reported. Their most consequential claims were re-checked against the papers: RAISE's tables, Gupta et al.'s Holm p-value and ASRO's table. |
 | 19:58 | Plan given for the remaining time; the user asked for the findings to be documented first and the next steps carried out after. |
-| 20:03 | Commit `fc2e9a4`: `context/related-work.md` and a README link. |
+| 20:03 | Commit `fc2e9a4`: `docs/literature/related-work.md` and a README link. |
 | 20:05 | Commit `a9b0659`: pitch draft. Findings sent to the coordinating session to relay to the six experiment agents. |
 | 20:08 | The user asked to run the experiments now. This session told the user to approve the tournament in the coordinating session, and did not launch anything itself (see Decisions). |
 | 20:10 | The coordinating session confirmed the user approved the full tournament directly ($75 Anthropic, $75 Modal). |
 | 21:46 | Commit `503df2f`: pitch draft updated with strategist-v2, gate-redteam and the memory-ablation pilot. |
-| 21:54 | Commit `5b2d9bb`: method, decisions and corrections recorded in related-work.md; `context/fetch_papers.py` added and tested. |
+| 21:54 | Commit `5b2d9bb`: method, decisions and corrections recorded in related-work.md; `docs/literature/fetch_papers.py` added and tested. |
 | 22:10 | Commit `34ec6b2`: two paper outlines. |
 | 23:10 | Documents updated with bp-ceiling, the memory-ablation confirmatory study, idea-table and the partial tournament. Paper-outline index and this log written. |
 | 23:15 | Commit `1e28890`. The coordinating session merged `docs/related-work` into its local branch `consolidate-overnight` (merge `91633c9`); this session checked that the merged files match. The overnight log's 20:05 entry now links this log. |
@@ -45,14 +49,14 @@ branch is merged into the local branch `consolidate-overnight`; neither has been
 
 | File | Content |
 |---|---|
-| `context/related-work.md` | The review. It covers: what is new and what is not; the literature by part; how each finished run lines up with the literature; what the review changed in the experiments; method, decisions, corrections and limitations; the reading list. |
-| `context/fetch_papers.py` | Re-downloads every available paper into the git-ignored `context/related-papers/`, and lists the six that need a browser. |
-| `context/related-work-log.md` | This log. |
-| `output/pitch-draft.md` | Short description, video outline, demo plan, track criteria, likely questions with answers, submission checklist. All result slots are filled. |
-| `output/paper-outlines/` | Index plus outline A (Strategist) and outline B (checking the claims of autoresearch loops). |
-| `README.md`, `.gitignore` | A link to the review; `context/related-papers/` ignored. |
+| `docs/literature/related-work.md` | The review. It covers: what is new and what is not; the literature by part; how each finished run lines up with the literature; what the review changed in the experiments; method, decisions, corrections and limitations; the reading list. |
+| `docs/literature/fetch_papers.py` | Re-downloads every available paper into the git-ignored `docs/literature/related-papers/`, and lists the six that need a browser. |
+| `docs/logs/related-work-log.md` | This log. |
+| `docs/papers/pitch-draft.md` | Short description, video outline, demo plan, track criteria, likely questions with answers, submission checklist. All result slots are filled. |
+| `docs/papers/outlines/` | Index plus outline A (Strategist) and outline B (checking the claims of autoresearch loops). |
+| `README.md`, `.gitignore` | A link to the review; `docs/literature/related-papers/` ignored. |
 
-Outside git: `context/related-papers/` in the main checkout holds the downloaded papers and a
+Outside git: `docs/literature/related-papers/` in the main checkout holds the downloaded papers and a
 local `README.md` index with a verdict for each paper.
 
 ## Decisions
@@ -105,15 +109,15 @@ local `README.md` index with a verdict for each paper.
 
 ```sh
 git log --oneline main..docs/related-work          # this session's commits
-python3 context/fetch_papers.py                     # re-download the papers (run on the branch)
-python3 context/fetch_papers.py --only Herrmann     # one paper
+python3 docs/literature/fetch_papers.py                     # re-download the papers (run on the branch)
+python3 docs/literature/fetch_papers.py --only Herrmann     # one paper
 ```
 
 ## Open work
 
 - **Push and open a PR:** the user decides. The work now travels in `consolidate-overnight`,
   which already links related-work.md from the README.
-- **The coordinating session** owns the final pitch and can use `output/pitch-draft.md` as input.
+- **The coordinating session** owns the final pitch and can use `docs/papers/pitch-draft.md` as input.
 - **Download six papers by hand** (listed by `fetch_papers.py`).
 - **Before writing any paper:** run the gaps listed in each outline, and search the literature
   again.

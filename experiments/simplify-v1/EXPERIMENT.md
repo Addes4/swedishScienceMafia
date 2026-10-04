@@ -1,6 +1,6 @@
 # Discover → Simplify → Explain: experiment write-up (simplify-v1)
 
-Branch: `simplify-explain` · Code: `falsify/simplify.py` · Tests: `tests/test_simplify.py` · Protocol: `experiments/SIMPLIFY_PROTOCOL.md` · Raw results: `experiments/simplify-v1/report.json`, `report.md`
+Branch: `simplify-explain` · Code: `falsify/simplify.py` · Tests: `tests/test_simplify.py` · Protocol: `experiments/simplify-v1/PROTOCOL.md` · Raw results: `experiments/simplify-v1/report.json`, `report.md`
 
 ## 1. Question
 

@@ -28,9 +28,9 @@ The candidates are weighted feature vectors scoring each bin; best-fit is one of
 | Falsify v2 | [local-v2](local-v2/) | [PROTOCOL-v2.md](PROTOCOL-v2.md) | [RESULTS.md](RESULTS.md) | The same, with neutral drift, 50 seeds and 500 generations | Counterexample replay 0.000725 vs random 0.023 excess bins; −0.0223, CI [−0.0378, −0.0108]. Less drift away from best-fit, not better than best-fit |
 | Recovery from first-fit | [local-firstfit](local-firstfit/) | [PROTOCOL-v2.md](PROTOCOL-v2.md) | [RESULTS.md](RESULTS.md) | Starting from a weak policy, do counterexample arms recover more? | All arms recovered from 0.33 excess bins; counterexample arms got closer to best-fit (−0.0106 vs random, CI [−0.0182, −0.0032]) |
 | Codex pilot | [codex-pilot-v1](codex-pilot-v1/), [codex-pilot-v2](codex-pilot-v2/) | - | [RESULTS.md](RESULTS.md); candidates in [codex_candidates.json](codex_candidates.json), [codex_revision.json](codex_revision.json) | Do model-proposed heuristics survive a fresh audit? | A revision with 1 win / 0 losses on 1,000 cases had 3 wins / 14 losses on 10,000 fresh cases |
-| Promotion gates v3 | [gate-v3](gate-v3/) | [PROTOCOL-v3.md](PROTOCOL-v3.md) | [gate-v3/RESULTS.md](gate-v3/RESULTS.md) | On an identical proposal stream, does a counterexample gate beat score-only promotion and a random-input gate? | Beats score-only (−0.0022, CI [−0.0041, −0.0006]); against a random gate, inconclusive |
-| Soft gates v4 | [soft-gate-v4](soft-gate-v4/) | [PROTOCOL-v4.md](PROTOCOL-v4.md) | [soft-gate-v4/RESULTS.md](soft-gate-v4/RESULTS.md) | Can bounded losses backed by fresh validation keep good proposals and still block bad ones? | Let through 15/16 beneficial and blocked 328/599 harmful sampled proposals (strict gate: 14/16, 270/599); no final-quality gain |
-| Simplify | [simplify-v1](simplify-v1/) | [SIMPLIFY_PROTOCOL.md](SIMPLIFY_PROTOCOL.md) | [simplify-v1/EXPERIMENT.md](simplify-v1/EXPERIMENT.md), corrections in [SIMPLIFY_REVIEW_ADDENDUM.md](SIMPLIFY_REVIEW_ADDENDUM.md) | Can an evolved rule be reduced to a short rule with the same measured quality? | The 11-term "winner" is exactly best-fit. One-sided simplification also *repaired* worse candidates (26 of 43 improved beyond tolerance), so explanations need a two-sided check |
+| Promotion gates v3 | [gate-v3](gate-v3/) | [PROTOCOL.md](gate-v3/PROTOCOL.md) | [gate-v3/RESULTS.md](gate-v3/RESULTS.md) | On an identical proposal stream, does a counterexample gate beat score-only promotion and a random-input gate? | Beats score-only (−0.0022, CI [−0.0041, −0.0006]); against a random gate, inconclusive |
+| Soft gates v4 | [soft-gate-v4](soft-gate-v4/) | [PROTOCOL.md](soft-gate-v4/PROTOCOL.md) | [soft-gate-v4/RESULTS.md](soft-gate-v4/RESULTS.md) | Can bounded losses backed by fresh validation keep good proposals and still block bad ones? | Let through 15/16 beneficial and blocked 328/599 harmful sampled proposals (strict gate: 14/16, 270/599); no final-quality gain |
+| Simplify | [simplify-v1](simplify-v1/) | [PROTOCOL.md](simplify-v1/PROTOCOL.md) | [simplify-v1/EXPERIMENT.md](simplify-v1/EXPERIMENT.md), corrections in [REVIEW_ADDENDUM.md](simplify-v1/REVIEW_ADDENDUM.md) | Can an evolved rule be reduced to a short rule with the same measured quality? | The 11-term "winner" is exactly best-fit. One-sided simplification also *repaired* worse candidates (26 of 43 improved beyond tolerance), so explanations need a two-sided check |
 | Strategist v1 | [strategist-v1](strategist-v1/) | [../strategist/PROTOCOL.md](../strategist/PROTOCOL.md) | [../strategist/RESULTS.md](../strategist/RESULTS.md) | Does learning when to edit, rewrite, cross over or restart beat fixed move mixes, and is it timing or luck? | Beats fixed mixes on LABS and NK; timing matters on Heilbronn (130/0/70 vs shuffled timing); a post-hoc tuned patience rule beats it on LABS and NK |
 
 [report.html](report.html) is an interactive Falsify report, best opened in a browser after cloning. [example_prompt.txt](example_prompt.txt) is the
@@ -39,7 +39,7 @@ prompt format for the optional Anthropic proposal adapter in `falsify/anthropic_
 ## Overnight: real LLM runs, new benchmark, controls (3 October, night)
 
 The decisions, approvals, incidents and spend behind these six studies are in
-[OVERNIGHT-2026-10-03.md](OVERNIGHT-2026-10-03.md). The Anthropic credit ran out at about 21:30,
+[OVERNIGHT-2026-10-03.md](../docs/logs/OVERNIGHT-2026-10-03.md). The Anthropic credit ran out at about 21:30,
 which cut two of them short; the write-ups say exactly which runs are affected.
 
 | Study | Folder | Question | Main result | Status |
@@ -70,13 +70,13 @@ coordinating session has not re-checked their numbers.
 | Beyond Sum-of-Squares | [online-beyond-ss-v1](online-beyond-ss-v1/RESULTS.md) | Can a simple, explainable online policy close the gap to the optimum? | FWSS ends about 2 bins above the optimum at every length from 1k to 100k items. It beats FunSearch by 11.6 bins per instance (200/0/0) and is below the best published LLM result in 15 of 15 leaderboard settings |
 | Overfitting and gates | [overfit-gates-v1](overfit-gates-v1/RESULTS.md) | How much does selection on a small public suite overfit, and what do stricter promotion rules cost? | Overfitting was small (0.61 bins per instance). The strict archive veto blocked the largest real gains and behaved like a random veto of same-length inputs; statistical gates neither helped nor hurt |
 
-Related, not merged into `main`:
-- [`context/research-directions.md`](../context/research-directions.md) lists candidate research
-  directions with literature checks; its Sum-of-Squares probe is in `context/probes/`.
-- The four-approach live campaign is on branch
-  [`research/all-approaches`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/research/all-approaches),
-  in `runs/FINDINGS.md`. It is a parallel framework built from an older `main`, so it is kept on its
-  own branch. Its raw provider traffic (about 470 MB) is not in git.
+Related material:
+- [`docs/literature/research-directions.md`](../docs/literature/research-directions.md) lists candidate research
+  directions with literature checks; its Sum-of-Squares probe is in `docs/literature/probes/`.
+- The four-approach live campaign is archived as tag
+  [`archive/all-approaches`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/all-approaches)
+  (formerly branch `research/all-approaches`), in `runs/FINDINGS.md`. It is a parallel framework
+  built from an older `main`, so it is not merged. Its raw provider traffic (about 470 MB) is not in git.
 
 ## Demo runs of the one-command loop
 
@@ -85,6 +85,6 @@ bin-packing run on an open model and a mock Erdős squares run, with the live-de
 
 ## Related work
 
-How these results relate to published work is in [../context/related-work.md](../context/related-work.md)
-(about 60 papers) and [../context/related-work-addendum.md](../context/related-work-addendum.md)
+How these results relate to published work is in [docs/literature/related-work.md](../docs/literature/related-work.md)
+(about 60 papers) and [docs/literature/related-work-addendum.md](../docs/literature/related-work-addendum.md)
 (open questions).
