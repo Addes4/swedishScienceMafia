@@ -2,7 +2,7 @@
 
 Built 3 October 2026, 23:39–23:55 BST, on branch `feat/one-command` (PR #4, on top of PR #3), from
 a spec the user pasted (verbatim in the [appendix](#appendix-the-spec-as-pasted)). User-facing
-documentation: [the root README's Quick start](../README.md#quick-start), [flags and outputs](README.md#one-command-loop),
+documentation: [the root README's Quick start](../README.md#try-it), [flags and outputs](README.md#one-command-loop),
 [demo runs and the live demo plan](../runs/README.md).
 
 ## Question and answer

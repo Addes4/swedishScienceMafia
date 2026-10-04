@@ -22,7 +22,7 @@ Everything else is in this folder.
 
 | Document | Contents |
 |---|---|
-| [README.md](../README.md) | Overview, quick start, key findings, and how we chose the defaults |
+| [README.md](../README.md) | What the project is, what we found, and how to run it |
 | [experiments/README.md](../experiments/README.md) | The studies on `main`, and the archived ones |
 | [autoresearch/README.md](../autoresearch/README.md), [autoresearch/LOOP.md](../autoresearch/LOOP.md) | The one-command loop and the integrity gate; LOOP.md holds the design decisions and build log |
 | [tournament/README.md](../tournament/README.md) | Whole-framework comparison at equal dollar budgets |

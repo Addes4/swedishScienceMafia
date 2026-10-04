@@ -10,5 +10,5 @@ The package keeps its old name so that those studies' recorded code runs unchang
 **Falsify**, a counterexample-guided search that replays inputs where earlier candidates failed. That
 search, its evaluators, the CPU tuning of bp-ceiling-v1 and the simplifier of simplify-v1 were removed
 from `main` to keep the repository focused. They are in tag [`archive/full-research-2026-10-04`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04),
-and the findings are summarised in the root README's
-[How we chose the defaults](../README.md#how-we-chose-the-defaults).
+and the findings are summarised under
+[What we tried and dropped](../experiments/README.md#what-we-tried-and-dropped) in the experiments index.
