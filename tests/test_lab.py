@@ -34,8 +34,8 @@ class LabTest(unittest.TestCase):
     def test_round_writes_strategy_progress_results(self):
         code = CODE
         stub = {"name": "stub", "decision": "new", "builds_on": "none", "source": "stub", "mapping": "m", "strategy": "s", "code": code,
-                "model_seconds": 0}
-        original, research.ask = research.ask, lambda *a, **k: stub
+                "web_sources": [{"title": "t", "url": "https://example.org"}], "searches": [{"query": "q"}], "model_seconds": 0}
+        original, research.ask = research.ask, lambda *a, **k: dict(stub)
         try:
             with tempfile.TemporaryDirectory() as out:
                 research.Lab("squares", "local", out, Budget(16, 16, 1, 4, 2), workers=2).lab([40, 41], 1, 1, [0])
@@ -47,6 +47,9 @@ class LabTest(unittest.TestCase):
         self.assertEqual(kinds[-1], "done")
         for kind in ("prompt", "strategy", "progress", "result", "round"):
             self.assertIn(kind, kinds)
+        strategy = next(e for e in events if e["type"] == "strategy")  # the pages the researcher read are kept with its idea
+        self.assertEqual(strategy["sources"], [{"title": "t", "url": "https://example.org"}])
+        self.assertEqual(strategy["searches"], [{"query": "q"}])
         results = [e for e in events if e["type"] == "result"]
         self.assertEqual(sorted(r["n"] for r in results), [40, 41])
         for r in results:
@@ -58,8 +61,8 @@ class LabTest(unittest.TestCase):
     def test_sessions_share_memory_and_reruns_attach_to_the_idea(self):
         code = CODE
         stub = {"name": "stub", "decision": "new", "builds_on": "none", "source": "stub", "mapping": "m", "strategy": "s", "code": code,
-                "model_seconds": 0}
-        original, research.ask = research.ask, lambda *a, **k: stub
+                "web_sources": [{"title": "t", "url": "https://example.org"}], "searches": [{"query": "q"}], "model_seconds": 0}
+        original, research.ask = research.ask, lambda *a, **k: dict(stub)
         try:
             with tempfile.TemporaryDirectory() as out:
                 research.Lab("squares", "local", out, Budget(16, 16, 1, 4, 2), workers=2).lab([40], 1, 1, [0])

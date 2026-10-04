@@ -236,6 +236,12 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
 .inst-problem { color: var(--muted); font-size: 12px; width: 140px; flex: none; }
 .msg.thinking .elapsed { color: var(--faint); margin-left: 6px; }
 .msg.thinking .draft-note { color: var(--muted); font-size: 12px; margin: 6px 0 0 22px; line-height: 1.45; }
+.sources ol { margin: 2px 0 0; padding-left: 18px; }
+.sources li { margin: 2px 0; overflow-wrap: anywhere; }
+.sources .host, .sources .none, .sources .queries { color: var(--muted); }
+.sources .host { margin-left: 4px; }
+.sources .queries { margin-top: 4px; }
+.msg .sources { margin-top: 8px; font-size: 12px; }
 .msg.failed { color: var(--error); border-left: 2px solid var(--error); padding-left: 10px; }
 .msg.failed strong { font-weight: 600; }
 .spend { color: var(--muted); font-size: 12px; }
