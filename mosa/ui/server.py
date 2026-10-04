@@ -19,7 +19,7 @@ from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 STATIC = Path(__file__).resolve().parent/"static"
-FOLDERS = ("runs", "history")
+FOLDERS = ["runs", "history"]  # the first is where new workspaces go; `serve --runs` replaces it
 
 
 def _is_notebook(path):
@@ -131,7 +131,7 @@ def launch(spec):
     workspace = spec.get("workspace")
     if workspace and workspace not in notebooks():
         raise ValueError(f"unknown workspace {workspace}")
-    out = workspace or f"runs/{time.strftime('%Y%m%d-%H%M%S')}"
+    out = workspace or f"{FOLDERS[0]}/{time.strftime('%Y%m%d-%H%M%S')}"
     if kind == "run":  # a request in plain words: the planning agent sets up and runs the session
         if not spec.get("prompt", "").strip():
             raise ValueError("describe what to research")
@@ -237,6 +237,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 def serve(runs="runs", port=8777):
     import threading
+    FOLDERS[0] = runs
     threading.Thread(target=lambda: reference(1), daemon=True).start()  # load data and compile the checker before the first request
     server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     print(f"Mosa workbench: http://127.0.0.1:{port}")
