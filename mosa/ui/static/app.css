@@ -70,7 +70,9 @@ a:hover, .link:hover { text-decoration: underline; }
 .lab-head h1, .lab-head .sub { overflow-wrap: anywhere; }
 .lab-head h1 { font-size: 20px; font-weight: 600; color: var(--strong); margin: 0; letter-spacing: -.01em; }
 .lab-head .sub { color: var(--muted); margin-top: 3px; }
-.lab-head .bio { color: var(--muted); margin: 6px 0 0; max-width: 72ch; line-height: 1.5; overflow-wrap: anywhere; }
+.lab-head .bio { color: var(--muted); margin: 6px 0 0; max-width: 72ch; line-height: 1.5; overflow-wrap: anywhere; cursor: pointer;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.lab-head .bio.open { display: block; cursor: default; }
 .replay { display: flex; align-items: center; gap: 10px; color: var(--muted); height: 28px; }
 .replay input { width: 200px; accent-color: var(--accent); }
 .replay .time { font: 12px var(--mono); color: var(--strong); min-width: 64px; }
