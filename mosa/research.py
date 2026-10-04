@@ -22,6 +22,7 @@ from .backends import Local, Modal, session
 from .domain import get
 from .evaluate import Budget, neighbours_for, run
 from .llm import ask
+from .sandbox import violations
 from .store import Notebook
 
 FOCI = ["a strategy imported from another field (physics, chemistry, biology, operations research, ...) whose search landscapes "
@@ -105,6 +106,16 @@ def _local_run(job):
     book = Notebook(notebook)
     return run(domain, Local(domain), code, n, seed, Budget(**budget), neighbours,
                progress=lambda g, best: book.write("progress", **tag, n=n, seed=seed, generation=g, best=best))
+
+
+def code_problem(code):
+    """Why strategy code cannot run, found before any compute is spent: a syntax error or the integrity scan."""
+    try:
+        compile(code, "strategy", "exec")
+    except SyntaxError as error:
+        return f"SyntaxError: {error.msg} (line {error.lineno}: {(error.text or '').strip()})"
+    flagged = violations(code)
+    return f"the integrity scan rejects it: {', '.join(flagged)}" if flagged else None
 
 
 class Lab:
@@ -234,8 +245,13 @@ class Lab:
             focus = FOCI[index % len(FOCI)]
             text = prompt(self.domain, targets, seeds, self.budget, focus, history, self.library, brief)
             self.write("prompt", **tag, focus=focus, prompt=text)
+            directory = self.out/f"session-{self.session}"/f"chain-{index}"/f"round-{r:02}"
             try:
-                answer = ask(text, SCHEMA, self.out/f"session-{self.session}"/f"chain-{index}"/f"round-{r:02}", model)
+                answer = ask(text, SCHEMA, directory, model)
+                problem = code_problem(answer["code"])
+                if problem:  # one repair call: a typo should not cost a whole round of compute
+                    answer = ask(f"{text}\n\nYour previous answer could not be run: {problem}\nReturn the same idea with that fixed.",
+                                 SCHEMA, directory/"repair", model)
             except Exception as error:
                 self.write("error", **tag, error=str(error))
                 raise
