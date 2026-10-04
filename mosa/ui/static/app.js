@@ -256,7 +256,7 @@ function renderMain() {
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
   const L = m.lab, brief = (m.sessions.filter((x) => x && x.brief).slice(-1)[0] || {}).brief || "";  // what the researchers are told now
 
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio${S.bioOpen ? " open" : ""}" data-act="bio" title="${S.bioOpen ? "" : "Show the whole brief"}">${esc(brief)}</p>` : ""}</div></div>${instancesHTML(m)}${mapHTML(m)}`;
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio${S.bioOpen || brief.length < 260 ? " open" : ""}">${esc(brief)}</p>${brief.length < 260 ? "" : `<a class="more" data-act="bio">${S.bioOpen ? "Read less" : "Read more"}</a>`}` : ""}</div></div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
