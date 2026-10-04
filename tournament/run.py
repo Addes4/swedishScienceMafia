@@ -25,8 +25,8 @@ import traceback
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-HASHED = ["tournament/*.py", "autoresearch/*.py", "strategist/controller.py", "requirements.txt"]
-PACKAGES = ["anthropic", "shinka-evolve", "typesafe-sdk", "numpy", "scipy"]
+HASHED = ["tournament/*.py", "autoresearch/*.py", "requirements.txt"]
+PACKAGES = ["anthropic", "shinka-evolve", "numpy", "scipy"]
 ARM_DIRS = ["programs", "shinka", "triage"]
 
 

@@ -1,8 +1,0 @@
-{
-  "seeds": 50,
-  "generations": 500,
-  "audit_seed": 961748941,
-  "initial_policy": "best_fit",
-  "neutral_drift": true,
-  "out": "experiments/local-v2"
-}

@@ -1,4 +1,4 @@
-# Autoresearch: the one-command loop, the integrity gate and triage
+# Autoresearch: the one-command loop and the integrity gate
 
 ## One-command loop
 
@@ -30,7 +30,7 @@ reimplement any of it:
 | `--seed` | recorded with the run; seeds the mock API |
 | `--out DIR` | default `runs/<problem>-<timestamp>`; an existing non-empty folder is never overwritten |
 | `--no-gate` | keep any public improvement, without the non-regression archive |
-| `--patience T` | restart from a fresh program after T non-improving steps (Strategist's Patience rule) |
+| `--patience T` | restart from a fresh program after T non-improving steps (a simple patience rule; the adaptive Strategist controller was dropped) |
 | `--independent` | independent sampling: every call starts from the problem and `initial.py`, no history, no gate |
 | `--gate-workers N` | instances scored in parallel (default: all cores) |
 | `--explain-evals N` | evaluations for the ablation (default 40; 0 skips it) |
@@ -71,89 +71,6 @@ check is there so the explanation describes the program actually found.
 Design decisions, deviations from the spec, bugs fixed, limitations and the spec itself:
 [LOOP.md](LOOP.md).
 
-## Triage: System 1 decides where to look, System 2 does the work
-
-Every idea gets tested — "stupid" experiments included — but the budget follows promise.
-A fast decision model (Jev, by TypeSafe AI) ranks every idea in milliseconds before any code
-is written; favourites are implemented by the strongest Claude model, long shots by the cheapest.
-
-```
-Claude Opus proposes K ideas  ->  Jev ranks each one  ->  sort, split into thirds
-   favourites -> claude-opus-5-5      middle -> claude-sonnet-5-5      long shots -> claude-haiku-4-5
-   (15% of assignments swapped at random)
-every idea is implemented and scored by the integrity gate  ->  log.jsonl, notebook.md
-a cheap model's improvement is "promoted": Opus refines it
-```
-
-## Setup
-
-```bash
-pip install -r requirements.txt
-cp .env.example .env        # then put your TYPESAFE_API_KEY (Jev) and ANTHROPIC_API_KEY in .env
-```
-
-`.env` is git-ignored. Jev is called through the official `typesafe-sdk`
-(`POST https://api.typesafe.ai/v1/systemone`).
-
-## Run
-
-```bash
-python -m autoresearch.triage problems/erdos_squares --rounds 10 --budget 10     # Jev triage
-python -m autoresearch.analyze results/triage_*/log.jsonl                         # compare runs
-```
-
-Each run writes `results/triage_<problem>_<ranker>_<time>/`:
-`log.jsonl` (every proposal, ranking, implementation and cost), `notebook.md` (readable research
-log), `summary.json`, `best_program.py`, and every program with its gate results under `programs/`.
-
-## The planned triage experiment (not run as designed)
-
-This comparison was designed before the overnight runs. It was not run in this form: the API credit
-ran out, and the [idea table](#what-we-found-the-idea-table) answered the ranking question offline
-instead. It is kept as the design for a rerun (same problem, same dollar budget, 3 seeds each).
-
-| Run | Command flags | What it answers |
-|---|---|---|
-| Jev triage | `--ranker jev` | the system |
-| Random triage | `--ranker random` | same model mix, random assignment: does the *ranking* matter? |
-| Claude ranker | `--ranker claude` | System 2 ranker: is Jev's speed and price worth any accuracy loss? |
-| All Opus | `--uniform claude-opus-5-5` | the expensive way: how much does triage save? |
-| All Haiku | `--uniform claude-haiku-4-5` | the cheap way: what does triage buy over it? |
-
-Use `--seed 0/1/2` and the same `--budget` for every run. What `analyze` reports:
-
-- **best score vs dollars** (`--curve curve.csv` for plotting): the headline.
-- **AUC**: chance that an idea which improved was ranked above one that did not (0.5 = no better than random).
-- **success rate by planned tier**: favourites should beat long shots if the ranking means anything.
-- **swaps**: a long shot that succeeds on Opus means the ranker undervalued it; a favourite that fails on
-  Haiku separates "bad idea" from "weak implementer". Swaps also keep the measurement honest.
-- **Brier score** of Jev's P(improve): calibration.
-- **promotions**: how often a cheap model's find is pushed further by Opus.
-
-## What we found: the idea table
-
-The comparison above was not run as planned, because credit ran out. Instead,
-[experiments/idea-table-v1](../experiments/idea-table-v1/RESULTS.md) answered the ranking question
-offline.
-- **Method:** every idea was implemented by every model, and each program was scored by the
-  integrity gate. `python -m autoresearch.ideatable` builds the table, with spend hard-capped and
-  resumable steps.
-- **Replaying policies:** `python -m autoresearch.policy_eval <folder>` replays any ranker or
-  routing policy against the saved table, with bootstrap intervals. A new ranker is scored at
-  zero implementation cost with `--extra-rankings`.
-
-On Erdős squares, using the 62 ideas complete for all three models:
-- **The model decided success, not the idea.** Opus improved the program on 62/62 ideas, Sonnet
-  on 60/62, Haiku on 10/62.
-- **Ranker AUC for predicting success:** Codex 0.600, Claude Opus 0.564, Claude Haiku 0.516,
-  Jev 0.484, random 0.499. Codex and Opus mainly predicted which ideas Haiku could implement.
-- **No ranker made triage beat random tiers.** Sonnet on every idea gave the best result per
-  dollar: 60 improvements for $4.00.
-
-So do not claim that triage's thirds split or Jev add value on this problem. A rerun needs a
-starting program or problem where strong models do not always succeed. The
-[tournament](../tournament/README.md) compares triage with other complete frameworks.
-
 ## Red-team of the integrity gate
 
 [experiments/gate-redteam-v1](../experiments/gate-redteam-v1/RESULTS.md) ran 28 hand-crafted
@@ -168,19 +85,6 @@ The gate isolates an honest loop; it is not a security sandbox. The gate also ha
 for problems like [bin_packing_online](../problems/bin_packing_online/), where the candidate is
 called once per arriving item. It can score instances in parallel with `GATE_WORKERS`.
 
-## What each ranker is asked (one Jev call per idea)
-
-| Question | Type | Used for |
-|---|---|---|
-| How promising is the idea for beating the current best? | Choice: favourite / middle / long_shot | tier |
-| Will implementing it beat the current best program? | Noul (probability) | tie-breaks, calibration |
-| Is it essentially an idea that already failed? | Noul | penalty (dead-end filter) |
-| What kind of change is it? | Choice | research log |
-
-The state Jev sees: the problem statement, the current best program and score, the last 20 ideas
-with outcomes, and the idea. Independent studies found Jev's probabilities can tie when used as a
-sort key, which is why the tier comes from a Choice question and P(improve) only breaks ties.
-
 ## Files
 
 | File | Role |
@@ -188,17 +92,15 @@ sort key, which is why the tier comes from a Choice question and P(improve) only
 | `loop.py` | the one-command loop: search, audit, baselines, explanation, report |
 | `explain_code.py` | two-sided ablation of a program's statements and sum terms |
 | `LOOP.md` | design notes and build log of `loop.py` and `explain_code.py` |
-| `triage.py` | the triage loop and CLI |
-| `rankers.py` | Jev, Claude and random rankers |
-| `claude.py` | idea proposal and implementation calls, prompts, cost accounting |
-| `analyze.py` | run summaries, comparison table, cost curve, research notebook |
 | `gate.py`, `sandbox.py` | integrity gate: scoring in a separate process, exploit checks |
-| `run.py`, `shinka_compat.py` | stock ShinkaEvolve baseline on the same problems |
+| `claude.py` | Anthropic client, prompts and cost accounting used by the search arms |
+| `run.py`, `shinka_compat.py` | stock ShinkaEvolve, the external baseline in the tournament |
 | `check.py` | score any program on a problem without an LLM |
 | `env.py` | loads `.env` |
-| `spend.py` | hard spend cap: refuses any call whose worst-case cost could pass the cap; stops on billing errors |
-| `ideatable.py`, `policy_eval.py` | the counterfactual idea table, and offline replay of rankers and triage policies |
-| `evalcode.py`, `modal_eval.py` | score one program with the gate, locally or in its own Modal container |
-| `mock_claude.py` | a deterministic stand-in for the Claude client, for tests and dry runs |
 
-Problems live in `../problems/` (see its README for the contract).
+The search arms and the spend cap live in [../tournament/](../tournament/README.md). Problems live in
+`../problems/` (see its README for the contract).
+
+Idea triage (a cheap model ranking ideas for an expensive one), its rankers and the idea table were
+removed from `main` after the [idea table](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04/experiments/idea-table-v1)
+showed ranking ideas did not beat random tiers. The code is in tag `archive/full-research-2026-10-04`.

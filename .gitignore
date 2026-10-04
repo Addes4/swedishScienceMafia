@@ -25,3 +25,40 @@ runs/*
 # Local agent and tool state
 .claude/
 .licenses/
+
+
+# Removed from main on 4 October 2026 to keep the repository focused: studies of features that were dropped,
+# their problem variants, background papers, superseded plans and the stale review PDF. They stay on disk in
+# the main checkout, and in full in tag archive/full-research-2026-10-04.
+/experiments/local-v1/
+/experiments/local-v2/
+/experiments/local-firstfit/
+/experiments/codex-pilot-v1/
+/experiments/codex-pilot-v2/
+/experiments/gate-v3/
+/experiments/soft-gate-v4/
+/experiments/strategist-v1/
+/experiments/strategist-v2/
+/experiments/memory-ablation-v1/
+/experiments/idea-table-v1/
+/experiments/tournament-v1/
+/experiments/overfit-gates-v1/
+/experiments/short-horizon-v1/
+/experiments/llm-informed-v1/
+/experiments/PROTOCOL.md
+/experiments/PROTOCOL-v2.md
+/experiments/RESULTS.md
+/experiments/HANDOFF.md
+/experiments/report.html
+/experiments/example_prompt.txt
+/experiments/codex_candidates.json
+/experiments/codex_revision.json
+/problems/bp_sh_a5000/
+/problems/bp_sh_b200/
+/problems/bp_sh_c80/
+/problems/bp_sh_d_cex/
+/problems/bp_sh_e_rand/
+/problems/bin_packing_online_informed/
+/docs/plans/
+/docs/papers/review/
+/docs/hackathon/

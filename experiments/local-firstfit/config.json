@@ -1,8 +1,0 @@
-{
-  "seeds": 20,
-  "generations": 200,
-  "audit_seed": 961748927,
-  "initial_policy": "first_fit",
-  "neutral_drift": true,
-  "out": "experiments/local-firstfit"
-}

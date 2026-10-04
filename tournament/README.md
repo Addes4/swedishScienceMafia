@@ -2,14 +2,13 @@
 
 `tournament/` runs whole frameworks against each other on the same problems at the same dollar
 budget per run. Each run gets its own Modal container, a hard per-call dollar cap and one shared
-evaluation log. Five arms are built in:
+evaluation log. Four arms are built in:
 
 | Arm | What it does |
 |---|---|
 | `shinka` | Stock ShinkaEvolve |
-| `triage` | The [autoresearch](../autoresearch/README.md) triage loop: a ranker (Jev by default) routes ideas to three model tiers |
 | `lean` | One model proposes and implements a change to the current best each call, and the best valid program is kept. In effect, greedy sequential best-of-N |
-| `lean_gate_patience` | `lean`, plus a non-regression gate on archived failing instances and a patience restart rule from [strategist](../strategist/README.md) |
+| `lean_gate_patience` | `lean`, plus a non-regression gate on archived failing instances and a patience restart rule ([patience.py](patience.py)) |
 | `independent` | Every call writes a program from the problem statement and the initial program only, with no history and no parent selection; the best is kept |
 
 Arms can use Claude through the Anthropic API, or open models through the Hugging Face router
@@ -17,7 +16,7 @@ Arms can use Claude through the Anthropic API, or open models through the Huggin
 
 ## Results so far
 
-- **[Tournament v1](../experiments/tournament-v1/RESULTS.md)** (Claude, $1.10 per run) is a partial
+- **[Tournament v1](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/experiments/tournament-v1/RESULTS.md)** (Claude, $1.10 per run) is a partial
   study. The API key ran out of credit 13.6 minutes in, so 17 of 60 runs used their full budget.
   - Circle packing and Erdős squares saturate within 1–3 Sonnet calls, so they cannot separate
     frameworks.
@@ -25,9 +24,12 @@ Arms can use Claude through the Anthropic API, or open models through the Huggin
     curve, CI [0.096, 0.386]) and `independent` (+0.209) were ahead of ShinkaEvolve. `triage` was
     behind (−0.156).
   - Final scores did not differ.
-- **[Tournament v2](../experiments/tournament-v2/RESULTS.md)** adds the open-model route. Only smoke
-  runs were made. A DeepSeek-V4.1-Flash call costs about $0.002, so at small budgets evaluating
-  programs, not the model, sets the pace.
+- **[Tournament v2](../experiments/tournament-v2/RESULTS.md)** ran the full grid on open models (60 runs,
+  $8.04). No framework differs significantly from ShinkaEvolve after Holm correction, and the winner
+  depends on the problem. Hidden instances caught weak programs. A DeepSeek-V4.1-Flash call costs about
+  $0.002, so evaluating programs, not the model, sets the pace.
+- The `triage` arm used in both studies was removed from `main` with the triage loop; it is in tag
+  `archive/full-research-2026-10-04`.
 
 ## Launch a grid on Modal
 

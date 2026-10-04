@@ -1,4 +1,0 @@
-{"time": 1791055040.155849, "kind": "assess", "tag": "executable-s902/c0", "ok": true, "wall_seconds": 8.751662015914917, "remote_seconds": 5.0766591850000005, "reserved_usd": 0.011489999999999998, "estimated_usd": 0.00013407546208381652}
-{"time": 1791055040.56424, "kind": "assess", "tag": "executable-s902/c1", "ok": true, "wall_seconds": 0.40755295753479004, "remote_seconds": 0.11843622700000012, "reserved_usd": 0.011489999999999998, "estimated_usd": 6.243711309432983e-06}
-{"time": 1791055040.97571, "kind": "assess", "tag": "executable-s902/c2", "ok": true, "wall_seconds": 0.41071319580078125, "remote_seconds": 0.11631716300000061, "reserved_usd": 0.011489999999999998, "estimated_usd": 6.2921261596679685e-06}
-{"time": 1791055040.978157, "kind": "idle_estimate", "label": "end of app run", "seconds": 600, "reserved_usd": 0.0, "estimated_usd": 0.009191999999999999}
