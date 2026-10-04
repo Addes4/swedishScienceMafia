@@ -299,10 +299,28 @@ class Lab:
                             chains=chains, rounds=rounds, seeds=list(seeds), backend=self.backend, brief=brief,
                             references=list(self.references), budget=asdict(self.budget), model=model,
                             library=[e["source"] for e in self.library], foci=FOCI[:chains], goal=goal)
+        watching = threading.Event()
+        threading.Thread(target=self.watchdog, args=(watching,), daemon=True).start()
         with session(self.backend):
             with ThreadPoolExecutor(chains) as pool:
                 list(pool.map(lambda i: self.chain(i, rounds, targets, seeds, brief, model), range(chains)))
+        watching.set()
         self.write("done", ended=self.stopped() or "rounds", goal=goal)
+
+    STALL = 600  # seconds without any event while compute is under way
+
+    def watchdog(self, finished):
+        """Stop a session whose compute has stalled, and say so, rather than leaving it to hang without a word. Waiting
+        for the model does not count: the last event then is a prompt, and model calls have their own timeout."""
+        import os
+        import time
+        while not finished.wait(30):
+            mine = [e for e in self.notebook.read() if e.get("session") == self.session]
+            if mine and mine[-1]["type"] != "prompt" and time.time()-mine[-1]["time"] > self.STALL:
+                self.write("failed", reason=f"The {self.backend} workers stalled: no progress for {self.STALL//60} minutes, so the "
+                                            "session was stopped. Retry, or switch to running on this machine.",
+                           error="stalled")
+                os._exit(3)
 
     def apply(self, code, source, targets, seeds, idea=None, name=None):
         """Run one strategy (no model) on targets and seeds. With idea = (session, researcher, round), the code is that
