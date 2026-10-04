@@ -19,6 +19,7 @@ const ICON = {
   moon: svg('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'),
   download: svg('<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>', 14),
   send: svg('<path d="M12 19V5M6 11l6-6 6 6"/>', 16),
+  chevron: svg('<path d="M8 10l4 4 4-4"/>', 12),
 };
 const LOGO = `<svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1" fill="var(--accent)"/><rect x="13" y="3" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="3" y="13" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="13.2" y="13.2" width="7.6" height="7.6" rx="1" fill="var(--strong)" transform="rotate(22 17 17)"/></svg>`;
 
@@ -343,7 +344,7 @@ function composerHTML() {
     : S.sel?.type === "instance" ? `Ask about n = ${S.sel.n}…` : "Direct the research, or ask about it…";
   const where = whereFor(S.lab);
   return `<div class="composer"><div class="box"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="send" data-act="send" title="Send (Enter)">${ICON.send}</button></div>
-    <div class="where">Runs on ${[["modal", "Modal"], ["local", "this machine"]].map(([v, label]) => `<button class="${where === v ? "on" : ""}" data-act="where" data-v="${v}">${label}</button>`).join("")}</div></div>`;
+    <div class="where">Runs on <button data-act="where" data-v="${where === "modal" ? "local" : "modal"}" title="Switch to ${where === "modal" ? "this machine" : "Modal"}">${where === "modal" ? "Modal" : "this machine"}${ICON.chevron}</button></div></div>`;
 }
 function whereFor(lab) {
   const m = model(lab);

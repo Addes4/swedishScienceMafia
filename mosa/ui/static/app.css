@@ -242,8 +242,8 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
 .spend { color: var(--muted); font-size: 12px; }
 .spend .low { color: var(--error); }
 .composer .where { display: flex; align-items: center; gap: 2px; margin-top: 6px; color: var(--faint); font-size: 12px; }
-.composer .where button { color: var(--muted); padding: 1px 6px; border-radius: 4px; }
-.composer .where button.on { color: var(--strong); background: var(--hover); }
+.composer .where button { display: inline-flex; align-items: center; gap: 2px; color: var(--text); padding: 1px 4px 1px 5px; border-radius: 4px; }
+.composer .where button:hover { background: var(--hover); color: var(--strong); }
 .item .del { display: none; color: var(--faint); width: 16px; height: 16px; place-items: center; border-radius: 3px; flex: none; }
 .item:hover .del { display: grid; }
 .item .del:hover { color: var(--strong); background: var(--line); }
