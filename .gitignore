@@ -5,12 +5,6 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 results/
-falsify/_packing.dylib
-falsify/_packing.so
-falsify/_contextual.dylib
-falsify/_contextual.so
-falsify/_longpack.dylib
-falsify/_longpack.so
 
 # Papers downloaded by docs/literature/fetch_papers.py (not redistributable; see docs/literature/related-work.md)
 docs/literature/related-papers/

@@ -27,7 +27,7 @@ APP_NAME = "ssm-tournament"
 VOLUME_NAME = "ssm-tournament"
 SECRET_NAME = "ssm-llm-keys"          # ANTHROPIC_API_KEY, TYPESAFE_API_KEY
 HF_SECRET_NAME = "ssm-hf"              # HF_TOKEN, for grids with "provider": "hf"
-CODE_DIRS = ["autoresearch", "problems", "tournament", "falsify"]
+CODE_DIRS = ["autoresearch", "problems", "tournament"]
 IGNORE = ["**/__pycache__/**", "**/*.pyc", "**/*.so", "**/*.dylib", "**/.env", "**/results/**"]
 PINS = ["anthropic==1.11.0", "shinka-evolve==0.0.7", "numpy==2.5.3", "scipy==1.18.1"]
 
