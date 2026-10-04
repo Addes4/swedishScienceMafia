@@ -1,6 +1,6 @@
 # Mosa: notes for the team
 
-Written at about 06:00 on Sunday 2026-10-04 (deadline 14:45). This is the handoff: what works, what we learned, how the
+Written on Sunday 2026-10-04 (first at 06:00, updated at 11:30; deadline 14:45). This is the handoff: what works, what we learned, how the
 code is organised, how it generalizes, and what makes this a strong Track 1 entry.
 
 ## Status
@@ -14,18 +14,22 @@ code is organised, how it generalizes, and what makes this a strong Track 1 entr
 - **Validated against the prototype.** Mosa reproduces the n = 88 discovery:
   - the compiled relaxation and the polish give the same sides as the prototype to 1e-15;
   - the same strategy and seed give the same record locally (9.8877007312) and on Modal (9.886746030783).
-- **Workspaces:** a workspace is a problem, its instances and a shared memory (best solution per instance, the ideas that broke records). Sessions append to it; researchers continue across sessions; running an idea on more instances adds results to that idea. The `mosa` branch holds only the code and reference data; results live on `results-2026-10-04`.
+- **Any problem from a prompt.** The research agent picks problems from a library of trusted harnesses (squares in a
+  square; points on a sphere for any Riesz exponent: s = 0 Smale's logarithmic energy, s = 1 Thomson, s = inf Tammes;
+  circles in a square maximizing the sum of radii, the AlphaEvolve/ShinkaEvolve n = 26 benchmark), or writes a harness on
+  the spot for anything else (scanned like strategies, self-tested on small sizes before research runs on it).
+- **Workspaces:** a workspace holds instances (problem, n) of related problems and a shared memory (best solution per instance, the ideas that broke records). Sessions append to it; researchers continue across sessions; running an idea on more instances adds results to that idea. The `mosa` branch holds only the code and reference data; results live on `results-2026-10-04`.
 
-## Benchmarks worth adding
+## Benchmarks
 
 A fair benchmark needs many instances, published best values, and answers no model can have memorized.
-- **Riesz s-energy on the sphere** (Thomson is s = 1; logarithmic energy is Smale's 7th problem). With an unusual s,
-  no answer exists to memorize, so baseline-vs-Mosa is fair by construction. A one-parameter change to the Thomson harness.
-- **Erich Friedman's Packing Center:** circles in squares or triangles, squares in circles, hexagons, ... Dozens of
-  families, many sizes, records still improving. Closest to the squares harness.
-- **Spherical codes** (Sloane's tables, maximum minimum angle of N points in d dimensions): a huge family with published bests.
-- **Tao / AlphaEvolve problems** (Heilbronn triangles, kissing configurations, Erdős minimum overlap): famous, but mostly
-  single instances rather than families.
+- **Built in:** squares in a square (Friedman/Ellsworth catalogue); points on a sphere for any s (Thomson energies from
+  the Cambridge Cluster Database, Tammes distances from Sloane's tables; other s have no published optima, so nothing to
+  memorize); circles in a square maximizing the sum of radii (n = 26: AlphaEvolve 2.63586276 at zero tolerance,
+  ShinkaEvolve 2.63598283 at 1e-7, ThetaEvolve 2.63598308 at 1e-6; Mosa checks at zero tolerance).
+- **Drafted on the spot** (worth vetting into the library): circles in a circle (Packomania), Heilbronn triangles.
+- **Still worth adding:** Erich Friedman's Packing Center families; spherical codes in higher dimensions; Lennard-Jones
+  clusters.
 
 ## Positioning: what Mosa is, and is not
 
@@ -47,7 +51,7 @@ This is the core of the pitch, and it should guide every product decision.
   - Researchers are rows with a history, not a population.
   - Every idea shows the field it came from and the researcher's hypothesis, and its outcome as one graded sentence, not a score curve.
   - The lab header says that each idea was tested on N sizes × seeds, because multi-instance testing is the point.
-  - Transfer is a first-class action ("Run on more sizes"), and discoveries found by a rerun say so.
+  - Transfer is a first-class action (with an idea open, ask "run this on 88–90"), and discoveries found by a rerun say so.
   - Every discovery shows how it was verified and which idea found it.
 - **Architecture:**
   - The trust boundary is in the code. `mosa/domain.py` holds the trusted relaxation, polish and verifier; `mosa/sandbox.py` runs the model's code, which can only return candidates.
@@ -136,14 +140,14 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - researcher chains with brief, references, seeds, library and new / refine / combine decisions;
 - independent verification;
 - the notebook;
-- the workbench: labs, a map of each lab's ideas (one row per researcher), idea and discovery panes in plain sentences, replay, New lab and Run on more sizes, dark and light themes;
+- the workbench: workspaces, a map of each workspace's ideas (one row per researcher), idea and instance panes in plain sentences, a conversation with the research agent under whatever is open, replay, dark and light themes;
+- the problem library and harnesses drafted on the spot;
 - the CLI;
 - an end-to-end test with a stub researcher.
 
 **Next, in priority order. Small, elegant steps first:**
 2. **Record a demo** from the workbench (script below).
 3. **A Claude researcher option** in `llm.ask`. Today it calls the Codex CLI, which is what found the records. Keep the call structured.
-4. **A circles adapter** to show generality, if there is time. Reproducing known optima is enough for the demo.
 5. **Learned evidence:** derive the `evidence` text automatically from past notebooks ("vary-style perturbations returned the record in N% of runs…"), so the system writes its own landscape facts.
 6. **Ideas as bandits:** spend seeds where near misses are promising, rather than equally.
 7. **Literature retrieval** (Amass, arXiv) as a source of analogies, run as an A/B condition.
@@ -161,19 +165,18 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 | Demo | Workbench replay of the real lab: the map filling in, Researcher 4's round 3, the n = 129 discovery with its rearranged squares marked and the verification |
 | Alignment | Track 1 (AI discovery of algorithms) directly. Modal side challenge: the whole evaluation runs as Modal fan-out |
 
-**2-minute video script:**
-1. **0:00–0:15, the problem.** "Pack n unit squares into the smallest square: studied since 1979, records still improving. Can an AI researcher discover *search methods* that beat them?"
-2. **0:15–0:40, how it works.** Over the lab map: each row is an LLM researcher, each mark an idea it wrote as code; tools test every idea at equal budget on Modal; an independent verifier checks every claim.
-3. **0:40–1:15, the discovery.**
-   - Open the lab n = 101–132, press Replay, and let the map fill in.
-   - Stop on Researcher 4: round 1 too destructive, round 2 close, round 3 cut-and-splice with ★ 123, 129 and 130.
-   - Select round 3 and read one line of "why the researcher expected it to work".
-   - Point at Researcher 2's round 3: content-aware seam carving, from computational photography, beat the official n = 126.
-4. **1:15–1:40, the record.** Select the discovery n = 129: toggle to the previous best and back (19 squares rearranged), 0.0093 smaller, verified at zero tolerance and at 80 and 160 digits, found by Researcher 4 in round 3.
-5. **1:40–2:00, transfer and honesty.**
-   - The library strategy broke n = 88 on 7 of 8 seeds.
-   - n = 67 (the Göbel strip) still stands, which shows the system's limits.
-   - Close: "five new best-known packings in one night, and the framework is problem-agnostic".
+**2-minute video script** (fill in the results marked [..] from the runs of 2026-10-04 late morning):
+1. **0:00–0:15, the thesis.** "Systems like AlphaEvolve evolve a program. Mosa runs a research group: LLM researchers propose *search methods*, trusted tools test them at equal budget across many instances, and an independent verifier checks every claim."
+2. **0:15–0:45, any problem from a prompt.** New workspace, click the Heilbronn suggestion. The agent says the problem is not in the library, writes a harness, and the conversation shows "Passed its self-test" with the harness code folded away. Then the plan: researchers, rounds, instances.
+3. **0:45–1:15, the research.** The workspace map fills in: one row per researcher, each mark an idea. Open an idea: its outcome in one sentence and why the researcher expected it to work. With the idea open, type "run this on 13 too" in the conversation.
+4. **1:15–1:40, the evidence.**
+   - Squares: five verified new best-known packings last night (n = 88, 123, 126, 129, 130), each checked at zero tolerance and at 80 and 160 digits.
+   - The n = 26 sum-of-radii benchmark against AlphaEvolve and ShinkaEvolve's published values: [result].
+5. **1:40–2:00, honesty.**
+   - Against a plain coding agent with the same harness and evaluation budget on squares n = 85–88: [result].
+   - Thomson n = 300–305: a tie with basin hopping.
+   - n = 67 (the Göbel strip, 1980) still stands.
+   - Close: "a research workspace for any optimization problem you can state".
 
 **Short description (for the form):**
 
@@ -187,11 +190,13 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - *"What did a human decide?"* The method for n = 126 (cut-and-splice) was chosen by a human, and briefs come from humans. The other four records came from strategies the LLM wrote.
 - *"What does it cost?"* Roughly $150–200 of Modal compute for the whole night. A lab of 4 researchers × 3 rounds × 20 sizes costs about $30–100.
 - *"Which models?"* The researchers ran on Codex (OpenAI) through the `codex` CLI. The framework itself was built with Claude Code. The model is pluggable.
+- *"Why not just ask a coding agent?"* We ran exactly that: Codex, free-form, with the same harness as a library and the same evaluation budget (baselines/coding_agent.py). Result on squares n = 85–88: [result].
+- *"A harness written by the model? How do you trust it?"* It must pass the same static scan as strategies and a self-test before research runs on it: random starts relaxed and checked, the checker must recompute the values and reject malformed solutions, and nothing may beat a published value in a self-test. Its code is shown in the conversation. Library harnesses are written and checked by us.
 
 ## Operations
 
 - **Environment:** `uv venv --python 3.12 && uv pip install -r requirements.txt`.
-- **Modal:** `modal token set` once. Set `MOSA_MODAL_CONTAINERS` to the number of solver containers (default 48, each 64 cores), and leave room under the workspace's container limit.
+- **Modal:** `modal token set` once (the active profile in `~/.modal.toml` is used). Defaults are moderate: 8 solver containers of 32 cores (`MOSA_MODAL_CONTAINERS`, `MOSA_MODAL_CORES`) plus 8 polish and 8 strategy containers, a peak of about 500 cores. The planner caps a Modal session at 4 researchers, 3 rounds, 8 instances and 3 seeds.
 - **Labs need the `codex` CLI, logged in.** `apply`, `verify` and the workbench do not.
 - **Workbench:** `python -m mosa serve` serves http://127.0.0.1:8777. Port 8765 was taken on the dev machine.
 - **Known limits:**
