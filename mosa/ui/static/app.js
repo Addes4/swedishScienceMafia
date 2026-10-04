@@ -222,8 +222,7 @@ function renderMain() {
   if (S.compose) { el.innerHTML = composeView(); return; }
   const m = model(S.lab), l = summary(S.lab);
   if (m && !m.lab && m.requests.length) {  // nothing has run yet: the conversation (right) is where things happen
-    el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1></div></div>
-      <div class="planning">${m.waiting ? `<div class="thinking"><span class="ring spin"></span> ${m.waiting}</div>` : ""}</div>`;
+    el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1></div></div>`;
     return;
   }
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
@@ -284,26 +283,36 @@ function mapHTML(m) {
 }
 
 // ---------- detail: the selection ----------
+// The right side: the conversation, or the idea or instance you opened, always with the message box underneath. A
+// message sent while something is open is about it ("run this on 88-90", "why did this fail?").
 function renderDetail() {
   const el = $("#detail");
+  const pane = S.sel ? (S.sel.type === "idea" ? ideaView() : instanceView()) : "";
   const chat = !S.sel && S.lab && !S.compose;
-  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : instanceView()) : chat ? chatView() : "";
-  el.hidden = !html;
-  el.classList.toggle("chat-mode", !!chat);
-  if (!html) return;
-  if (chat) {
-    const draft = $("#chat-input")?.value || "", list = el.querySelector(".messages"), atEnd = !list || list.scrollHeight - list.scrollTop - list.clientHeight < 40;
-    el.innerHTML = html;
-    if (draft) $("#chat-input").value = draft;
-    const fresh = el.querySelector(".messages");
-    if (atEnd) fresh.scrollTop = fresh.scrollHeight; else fresh.scrollTop = list.scrollTop;
-    return;
-  }
-  const top = el.scrollTop, open = [...el.querySelectorAll("details[open] > summary")].map((s) => s.textContent);
-  el.innerHTML = `<button class="icon-btn close" data-act="unselect" title="Back to the conversation (Esc)">${ICON.close}</button>${html}`;
+  el.hidden = !(pane || chat);
+  el.classList.add("chat-mode");
+  if (el.hidden) return;
+  const draft = $("#chat-input")?.value || "", old = el.querySelector(".messages, .scroll");
+  const atEnd = !old || old.scrollHeight - old.scrollTop - old.clientHeight < 40, top = old?.scrollTop || 0;
+  const open = [...el.querySelectorAll("details[open] > summary")].map((s) => s.textContent);
+  const wasPane = old?.classList.contains("scroll"), samePane = wasPane && el.dataset.sel === JSON.stringify(S.sel);
+  el.innerHTML = `<div class="chat">${pane
+    ? `<div class="scroll"><button class="icon-btn close" data-act="unselect" title="Back to the conversation (Esc)">${ICON.close}</button>${pane}</div>`
+    : `<div class="messages">${messagesHTML()}</div>`}${composerHTML()}</div>`;
+  el.dataset.sel = JSON.stringify(S.sel);
+  if (draft) $("#chat-input").value = draft;
   el.querySelectorAll("details > summary").forEach((s) => { if (open.includes(s.textContent)) s.parentElement.open = true; });
   if (window.hljs) el.querySelectorAll("code.language-python").forEach((c) => window.hljs.highlightElement(c));
-  el.scrollTop = top;
+  const fresh = el.querySelector(".messages, .scroll");
+  if (pane) fresh.scrollTop = samePane ? top : 0;
+  else fresh.scrollTop = atEnd || wasPane ? fresh.scrollHeight : top;
+}
+
+function composerHTML() {
+  const m = model(S.lab), r = S.sel?.type === "idea" ? m?.ideas.get(S.sel.idea) : null;
+  const hint = r ? `Ask about “${idea(r.strategy).name || "this idea"}”, or run it on more instances…`
+    : S.sel?.type === "instance" ? `Ask about n = ${S.sel.n}…` : "Direct the research, or ask about it…";
+  return `<div class="composer"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="btn" data-act="send">Send</button></div>`;
 }
 
 function resultsTable(r, m) {
@@ -342,7 +351,6 @@ function ideaView() {
     ${r.results.length ? `<details><summary>Results on each size</summary>${resultsTable(r, m)}</details>` : ""}
     ${s.code ? `<details><summary>Code</summary><pre class="code"><code class="language-python">${esc(s.code)}</code></pre></details>` : ""}
     ${r.prompt ? `<details><summary>What the researcher was told</summary><pre class="code plain">${esc(r.prompt.prompt)}</pre></details>` : ""}
-    ${s.code ? `<div class="section"><button class="btn quiet" data-act="apply">Run on more instances</button></div>` : ""}
   </div>`;
 }
 
@@ -420,16 +428,19 @@ function sphere(points) {
 }
 
 // The workspace's conversation: your messages, the agent's replies and plans, and a note when a session finishes.
-function chatView() {
+function messagesHTML() {
   const book = S.books[S.lab];
   if (!book) return "";
   const items = [];
   let waiting = false;
   for (const e of book.events) {
-    if (e.type === "request") { items.push(`<div class="msg user">${esc(e.request)}</div>`); waiting = true; }
+    if (e.type === "request") { items.push(`<div class="msg user">${contextHTML(book, e.context)}${esc(e.request)}</div>`); waiting = true; }
     else if (e.type === "reply") { items.push(`<div class="msg agent">${esc(e.reply)}</div>`); waiting = e.drafting ? "Writing the harness and testing it" : false; }
     else if (e.type === "harness") { items.push(harnessHTML(e)); waiting = e.report?.passed ? "Planning the session" : "Writing the harness again"; }
-    else if (e.type === "plan") {
+    else if (e.type === "plan" && e.action === "apply") {
+      items.push(`<div class="msg agent">${esc(e.reply || "")}<div class="plan">Running it on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
+      waiting = false;
+    } else if (e.type === "plan") {
       items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
       waiting = false;
     } else if (e.type === "done") {
@@ -443,8 +454,17 @@ function chatView() {
   }
   if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}</div>`);
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
-  return `<div class="chat"><div class="messages">${items.join("")}</div>
-    <div class="composer"><textarea id="chat-input" rows="2" placeholder="Direct the research, or ask about it…"></textarea><button class="btn" data-act="send">Send</button></div></div>`;
+  return items.join("");
+}
+
+// What a message was about, as a link back to it.
+function contextHTML(book, c) {
+  if (!c) return "";
+  if (c.idea) {
+    const r = book.model?.ideas.get(c.idea);
+    return `<a class="about" data-act="idea" data-idea="${esc(c.idea)}">${esc(r ? idea(r.strategy).name || "an idea" : "an idea")}</a>`;
+  }
+  return c.n ? `<a class="about" data-act="instance" data-n="${c.n}">n = ${c.n}</a>` : "";
 }
 
 // A harness drafted for a problem outside the library: what it is, how its self-test went, and its code.
@@ -464,22 +484,16 @@ async function send() {
   const box = $("#chat-input"), text = box.value.trim();
   if (!text) return;
   const m = model(S.lab), backend = (m?.sessions.filter(Boolean).slice(-1)[0] || {}).backend || "modal";
+  const context = S.sel?.type === "idea" ? { idea: S.sel.idea } : S.sel?.type === "instance" ? { n: S.sel.n } : undefined;
   box.value = "";
-  try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend }); await refresh(); render(); }
+  S.sel = null;  // back to the conversation, where the answer appears
+  try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend, context }); await refresh(); render(); }
   catch (e) { box.value = text; alert(e.message); }
 }
 
 // ---------- new lab ----------
 function composeView() {
-  const c = S.compose, apply = c.kind === "apply";
-  if (apply) {
-    return `<div class="compose"><h1>Run “${esc(c.name)}” on more instances</h1>
-      <div class="sub">The same idea, without a researcher. Its results on these instances are added to the idea.</div>
-      <div class="field-row"><label for="f-sizes">Instances</label><input id="f-sizes" value="${esc(c.sizes)}"><div class="hint">Sizes n, for example 88, or 120–131.</div></div>
-      <div class="field-row"><label for="f-seeds">Seeds per instance</label><input id="f-seeds" value="${esc(c.seeds)}" style="width:160px"></div>
-      ${computeRow(c)}
-      <div style="margin-top:22px"><button class="btn" data-act="start">Run</button><span class="note" id="f-note"></span></div></div>`;
-  }
+  const c = S.compose;
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
     : ["Beat the best known squares-in-a-square packings near n = 120", "Find the lowest-energy arrangements of 300–305 charges on a sphere (the Thomson problem)",
@@ -504,14 +518,8 @@ const parseSizes = (text) => String(text).split(/[\s,]+/).filter(Boolean).flatMa
 async function start() {
   const c = S.compose, note = $("#f-note");
   const backend = document.querySelector("input[name=f-compute]:checked")?.value || "modal";
-  let spec;
-  if (c.kind === "apply") {
-    spec = { kind: "apply", workspace: c.workspace, idea: c.idea, domain: c.domain, targets: parseSizes($("#f-sizes").value), seeds: parseSizes($("#f-seeds").value), backend };
-    if (!spec.targets.length) { note.textContent = "Give at least one instance."; return; }
-  } else {
-    spec = { kind: "run", workspace: c.workspace || undefined, prompt: $("#f-prompt").value.trim(), backend };
-    if (!spec.prompt) { note.textContent = "Say what to research."; return; }
-  }
+  const spec = { kind: "run", workspace: c.workspace || undefined, prompt: $("#f-prompt").value.trim(), backend };
+  if (!spec.prompt) { note.textContent = "Say what to research."; return; }
   note.textContent = "Starting…";
   try {
     const r = await api("/api/launch", spec);
@@ -578,12 +586,6 @@ document.addEventListener("click", (ev) => {
     case "compose": S.compose = { kind: "run", backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
     case "send": send(); break;
     case "example": $("#f-prompt").value = el.textContent; $("#f-prompt").focus(); break;
-    case "apply": {
-      const m = model(S.sel.lab), r = m.ideas.get(S.sel.idea);
-      S.compose = { kind: "apply", workspace: S.sel.lab, idea: r.key.split(":").map(Number), domain: m.lab.domain || "squares", name: idea(r.strategy).name, sizes: "", seeds: "1 2 3 4", backend: "modal", refs: "" };
-      S.sel = null; render(); $("#f-sizes")?.focus();
-      break;
-    }
     case "start": start(); break;
     case "theme": {
       const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";

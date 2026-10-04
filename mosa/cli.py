@@ -56,6 +56,7 @@ def main():
     runp.add_argument("--backend", choices=["local", "modal"], default="modal")
     runp.add_argument("--workers", type=int, default=None)
     runp.add_argument("--model", default=None)
+    runp.add_argument("--context", default=None, help='what the message is about, as JSON: {"idea": "0:1:2"} or {"n": 125}')
     for field, value in vars(Budget()).items():
         runp.add_argument(f"--{field}", type=int, default=value)
     verify = sub.add_parser("verify")
@@ -72,7 +73,8 @@ def main():
     if args.command == "run":
         from .orchestrator import run
         out = args.out or f"runs/{time.strftime('%Y%m%d-%H%M%S')}"
-        run(args.request, out, args.backend, args.model, args.workers, Budget(**{field: getattr(args, field) for field in vars(Budget())}))
+        run(args.request, out, args.backend, args.model, args.workers, Budget(**{field: getattr(args, field) for field in vars(Budget())}),
+            json.loads(args.context) if args.context else None)
         print(f"workspace: {out}")
     elif args.command in ("lab", "apply"):
         from .research import Lab

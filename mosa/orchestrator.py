@@ -19,9 +19,9 @@ from .llm import ask
 from .store import Notebook
 
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "problem_request", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
-          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft"]}, "reply": {"type": "string"},
-                         "problem_request": {"type": "string"},
+          "required": ["action", "reply", "problem_request", "idea", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
+          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply"]}, "reply": {"type": "string"},
+                         "problem_request": {"type": "string"}, "idea": {"type": "string"},
                          "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
@@ -39,7 +39,7 @@ def workspace_state(events):
     for e in events:
         key = tuple(e.get("idea") or ())
         if e["type"] == "strategy" and key:
-            ideas[key] = {"researcher": e.get("chain", 0)+1, "round": e.get("round"), "idea": e.get("name") or e.get("source", "")[:90],
+            ideas[key] = {"id": ":".join(map(str, key)), "researcher": e.get("chain", 0)+1, "round": e.get("round"), "idea": e.get("name") or e.get("source", "")[:90],
                           "records": [], "best_gap": None, "errors": 0, "runs": 0}
         elif e["type"] == "result" and key in ideas:
             i = ideas[key]
@@ -58,7 +58,7 @@ def workspace_state(events):
             "running": sum(e["type"] == "lab" for e in events) > sum(e["type"] == "done" for e in events)}
 
 
-def respond(message, events=(), model=None, directory=None, backend="modal"):
+def respond(message, events=(), model=None, directory=None, backend="modal", context=None):
     events = list(events)
     state = workspace_state(events)
     conversation = [{"user": e["request"]} if e["type"] == "request" else {"agent": e["reply"]}
@@ -75,13 +75,15 @@ Workspace state: {json.dumps(state, separators=(",", ":")) if state else "new wo
 Conversation so far: {json.dumps(conversation, separators=(",", ":"))}
 Compute available: {COMPUTE[backend]}
 
+{f"The user is looking at {context} while writing this; 'this' refers to it." if context else ""}
 The user says: {message}
 
 Either answer in words (action "answer": questions, explanations, or when nothing should run; the plan fields are then
 ignored, fill them with anything valid); or, when the user wants to research a problem that is NOT in the library, ask
 for a harness to be drafted for it (action "draft": put a precise statement of the problem as a minimization over sizes n
 in "problem_request"; it will be built and self-tested, and you will be asked again with it in the library); or plan and
-start a research session (action "start"). A session's plan: the
+start a research session (action "start"); or run an existing idea of this workspace, as it is and without a
+researcher, on more instances (action "apply": its id in "idea", the sizes in "targets", and seeds). A session's plan: the
 problems from the library (one or more, all from one family; an existing workspace keeps its family; related problems
 in one workspace share what they find); the sizes n to run on each of them (4-24 in all; contiguous blocks let
 researchers share what they find between neighbouring sizes; for problems with published values, sizes that have one); researchers (2-6, more for open questions);
@@ -110,13 +112,27 @@ the user: one to three sentences, plain and specific (for a session: what will r
     return answer
 
 
-def run(message, out, backend="modal", model=None, workers=None, budget=None):
+def describe_context(context, events):
+    """What the user is looking at, in words for the agent: an idea (by id) or an instance."""
+    if not context:
+        return None
+    if context.get("idea"):
+        key = [int(v) for v in str(context["idea"]).split(":")]
+        strategy = next((e for e in events if e["type"] == "strategy" and (e.get("idea") or [e.get("session", 0), e.get("chain", 0), e.get("round", 1)]) == key), {})
+        return f"idea {context['idea']} (researcher {key[1]+1}, round {key[2]}: {strategy.get('name') or strategy.get('source', '')[:90]})"
+    if context.get("n"):
+        return f"the instance n = {context['n']}"
+    return None
+
+
+def run(message, out, backend="modal", model=None, workers=None, budget=None, context=None):
     from .research import Lab
     book = Notebook(out)
     events = book.read()
-    book.write("request", request=message, session=sum(e["type"] == "lab" for e in events))
+    book.write("request", request=message, session=sum(e["type"] == "lab" for e in events), context=context)
     first = next((e for e in events if e["type"] == "lab"), None)
-    p = respond(message, events, model, Path(out)/"agent", backend)
+    about = describe_context(context, events)
+    p = respond(message, events, model, Path(out)/"agent", backend, about)
     if p["action"] == "draft":
         from .harness import draft
         book.write("reply", drafting=True,
@@ -136,7 +152,23 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None):
         if p["action"] != "start":
             book.write("reply", reply=p["reply"])
             return
-    if p["action"] == "answer":
+    if p["action"] == "apply" and first:
+        try:
+            key = tuple(int(v) for v in p["idea"].split(":"))
+        except ValueError:
+            key = None
+        lab = Lab(first["domain"], backend, out, budget, p["references"], workers)
+        if key not in lab.ideas:
+            book.write("reply", reply=p["reply"] or f"There is no idea {p['idea']} in this workspace.")
+            return
+        known = set(lab.domain.targets())
+        targets = sorted({n for n in p["targets"] if n in known})[:4 if backend == "local" else 24]
+        seeds = list(range(1, 1+max(1, min(1 if backend == "local" else 4, p["seeds"]))))
+        lab.write("plan", request=message, reply=p["reply"], action="apply", idea=list(key), targets=targets, seeds=len(seeds),
+                  instances=[[lab.domain.name, n] for n in targets])
+        lab.apply(None, None, targets, seeds, idea=key)
+        return
+    if p["action"] in ("answer", "apply"):
         book.write("reply", reply=p["reply"])
         return
     lab = Lab(p["instances"][0][0], backend, out, budget, p["references"], workers)

@@ -106,6 +106,8 @@ def launch(spec):
             raise ValueError("describe what to research")
         (ROOT/out).mkdir(parents=True, exist_ok=True)
         command = [sys.executable, "-m", "mosa", "run", spec["prompt"], "--out", out, "--backend", spec.get("backend", "modal")]
+        if spec.get("context"):  # what the user was looking at: an idea or an instance
+            command += ["--context", json.dumps(spec["context"])]
         if spec.get("backend") == "local":  # a smaller budget per run, so a session on a few cores finishes
             command += ["--init", "96", "--children", "32", "--generations", "5", "--population", "16", "--polish", "8", "--workers", "4"]
         with open(ROOT/out/"process.log", "a") as log:
