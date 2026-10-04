@@ -20,7 +20,7 @@ The session's decisions, timeline and spend are in [research-directions-log.md](
 | 2 | Adaptive overfitting and promotion rules | **Done (replay); reviewed and corrected:** `exp/overfit-gates` (overfit-gates-v1). Selection overfitting was small. Strict, random and soft vetoes all blocked the best run; the archived counterexamples are mostly 2 items long. |
 | 3 | Timing-shuffle controls on LLM frameworks | Not started (deferred: setup and spend). |
 | 4 | Behavioural no-ops and dedup | Not started (deferred). |
-| 5 | Short-horizon bias | **Running:** `exp/short-horizon` (short-horizon-v1), HF cap $4. |
+| 5 | Short-horizon bias | **Done:** `exp/short-horizon` (short-horizon-v1, $1.84). Selecting on 200- or 80-item streams, or gating on short inputs, leaves the loop near best fit (−0.09 to −0.58 pp), against −2.61 pp when selecting on 5k streams. A short random gate behaves like a short counterexample gate. |
 | 6 | Unprompted exploitation canaries | Not started. |
 | 1b | Does the weak-baseline pattern hold beyond bin packing? | **Interim (session 2d):** `exp/tsp-construct`, TSP step-by-step construction on MCTS-AHD's released test sets, at n = 50/100/200.
 

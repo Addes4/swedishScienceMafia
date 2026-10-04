@@ -22,7 +22,12 @@ study's own `RUN_LOG.md` is the authority for its details.
 | overfit-gates-v1 | `exp/overfit-gates`, `experiments/overfit-gates-v1/` | Selection overfitting was small (0.61 bins per promotion). Strict, random and soft vetoes all blocked the best run, cutting the final advantage from 2.28 to about 0.3–0.4 bins per instance. 554 of 635 archived counterexamples are 2 items long. Ladder and sign-test gates changed nothing; Thresholdout accepted no-ops. | $0 (CPU) |
 | online-beyond-ss-v1 (session b1, coordinated with this one) | `exp/online-beyond-ss`, `experiments/online-beyond-ss-v1/` | Known-horizon FWSS (size-weighted SS plus a best-fit finish) is 1.6–2.1 bins above OPT at 1k–100k items. Without the horizon the weights are worse than plain SS. On the 15 MoH/HMACE leaderboard settings, plain SS averages 0.444% against 0.441% for the best published LLM method. b1's numbers, not re-checked here. | $0 (CPU) |
 | llm-from-ss-v1 | `exp/llm-from-ss`, `experiments/llm-from-ss-v1/` (not pushed) | **Yes.** On 100 fresh 5k instances, all with proved OPT, all 4 runs beat SS (10.68 bins above OPT). Run s3 weights N(g)² by (100/g)^0.8 and gets 8.37: −2.31 [−2.58, −2.04], 92/6/2, the best horizon-free rule found. The other three runs flipped SS's tie-break and get 10.20, −0.48 [−0.74, −0.22]. No run used the item count. On the same instances FWSS gets 1.83 and FunSearch 13.52. Level-weighted SS is a known family (Csirik et al. §8.1), whose examples weight the other way. | $1.0994 HF |
-| short-horizon-v1 (running) | `exp/short-horizon` | Does selecting on short instances, or on short counterexamples, steer the loop toward myopic rules? Includes a length-matched random control. | HF cap $4.00 |
+| short-horizon-v1 | `exp/short-horizon`, `experiments/short-horizon-v1/` (not pushed) | **Yes.** On 100 fresh 5k instances, Δ vs best fit in pp:
+
+- selection on 5k streams −2.61; on 200-item streams −0.33; on 80-item streams −0.15;
+- 5k streams plus a gate of short mined counterexamples −0.58; plus short random streams −0.09.
+
+B−A = +2.28 [+1.19, +3.03] and C−A = +2.46 [+1.40, +3.18], with complete separation (exact permutation p = 0.029 each; Holm p = 0.057, the floor with 4 runs per arm). D vs E −0.49 (p = 0.63): the short length removes the gain, not the counterexamples' content. Mechanism: placements that open a new bin while one fits are 0.169 under A against 0.020 (B) and 0.014 (C). | $1.84 HF |
 
 Related, from another session: llm-long-search-v1 (merged to `main` in PR #5) ran 4 × 300 steps of
 the loop from best fit for $0.80. The best rules reached 96.8% of FunSearch's gain, and SS beat all
@@ -91,6 +96,8 @@ With online-frontier-v1 and online-beyond-ss-v1, the weak-baseline pattern now h
 - the bound overstatement is about 4–10× with a competitive σ;
 - the veto contrasts rest on 2–4 runs (sign test p = 0.25). |
 | 08:53 | llm-from-ss-v1 finished (commits 1c6bc88 pre-registration at 05:41, 0b0e7e9 results). Three runs hit the 5,400 s wall limit at 293, 264 and 286 steps because of machine load; this is recorded as a deviation. One evaluation in 1,147 timed out, and it would not have been accepted. The loop's own OVERFIT? flag on s0–s2, from 2 hidden instances, was overturned by the 100-instance audit. |
+| ≈ 09:05 | short-horizon-v1 finished (aa16408). Incidents, all logged in its RUN_LOG: its run monitor expired, so the audit started 22 minutes late (this session prompted it); a false monitor alert; a leftover load-logger loop was killed. Public-instance timeouts: 2/599 in A, 1/600 in D, 0 in B, C and E. The control arm plausibly lost one promotion to load, which biases the contrasts toward zero. |
+| 09:05 | Session 2d told it may raise its worker cap: no timeout-sensitive work of this session is running. |
 
 ## Decisions and why
 
@@ -120,7 +127,7 @@ With online-frontier-v1 and online-beyond-ss-v1, the weak-baseline pattern now h
 |---|---|
 | Literature agents, the probe, online-frontier-v1, overfit-gates-v1 | $0 of API calls; CPU only (about 2,000 CPU-seconds here and 6,707 for overfit-gates) |
 | llm-from-ss-v1 | $1.0994 of HF credit (1,143 calls) |
-| short-horizon-v1 | up to $4.00 of HF credit (running) |
+| short-horizon-v1 | $1.84 of HF credit |
 
 ## Open items
 
