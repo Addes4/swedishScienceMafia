@@ -22,7 +22,19 @@ const ICON = {
 };
 const LOGO = `<svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1" fill="var(--accent)"/><rect x="13" y="3" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="3" y="13" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="13.2" y="13.2" width="7.6" height="7.6" rx="1" fill="var(--strong)" transform="rotate(22 17 17)"/></svg>`;
 
-const S = { labs: [], discoveries: [], books: {}, refs: {}, lab: null, sel: null, compose: null, replay: null, view: "after" };
+const S = { labs: [], discoveries: [], books: {}, refs: {}, lab: null, sel: null, compose: null, replay: null, view: "after", spend: null, where: {} };
+const dollars = (x) => `$${x < 10 ? x.toFixed(2) : Math.round(x)}`;
+// The account's Modal spend this month, and what is left if the granted credit is known (MOSA_MODAL_CREDIT).
+function wsSpend() {
+  const cost = S.spend?.per_workspace?.[String(S.lab || "").split("/").pop()];
+  return cost > 0.005 ? `${dollars(cost)} on Modal so far` : "";
+}
+function spendHTML() {
+  const x = S.spend;
+  if (!x) return "";
+  if (x.error) return `<div class="spend" title="${esc(x.error)}">Modal spend unavailable</div>`;
+  return `<div class="spend" title="From Modal's billing; updates about hourly">Modal this month: ${dollars(x.credits_used || x.month)}${x.left != null ? `, <span class="${x.left < 15 ? "low" : ""}">${dollars(Math.max(0, x.left))} left</span>` : ""}</div>`;
+}
 
 // ---------- data ----------
 const api = async (path, body) => {
@@ -82,6 +94,10 @@ function buildModel(events, until = Infinity) {
     else if (e.type === "round") idea(e).done = true;
     else if (e.type === "error" && e.chain !== undefined) idea(e).error = e;
     else if (e.type === "done" && m.sessions[s]) m.sessions[s].done = true;
+    else if (e.type === "failed") {  // the session stopped: nothing more will come, so nothing may look live
+      for (const x of m.sessions) if (x) x.done = true;
+      m.waiting = false;
+    }
   }
   m.done = m.sessions.length > 0 && m.sessions.every((x) => !x || x.done);
   for (const r of m.ideas.values()) r.live = [...r.sessions].some((s) => m.sessions[s] && !m.sessions[s].done) && r.results.length < r.expected;
@@ -150,7 +166,7 @@ const recordSizes = (r) => [...new Set(r.records.map((x) => x.n))].sort((a, b) =
 function outcome(r, m) {
   if (r.error) return { kind: "fail", text: "The model call failed." };
   if (!r.strategy) return { kind: "wait", text: "Writing a strategy…" };
-  if (r.live) return { kind: "live", text: `Testing: ${r.results.length} of ${r.expected} runs finished.`, short: `testing · ${r.results.length} of ${r.expected}` };
+  if (r.live) return { kind: "live", text: `Testing: ${r.results.length} of ${r.expected} runs finished.`, short: `${r.results.length} of ${r.expected} runs done` };
   const found = recordSizes(r);
   const links = (ns) => listN(ns.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`));
   if (!r.results.length) {  // imported reruns that kept only their record-breaking runs
@@ -221,7 +237,7 @@ function renderSide() {
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
     <button class="new" data-act="compose">${ICON.plus} New workspace</button>
     <div class="list"><div class="heading">Workspaces</div>${labs}</div>
-    <div class="side-foot"><button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
+    <div class="side-foot">${spendHTML()}<button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
 }
 
 // ---------- main: the lab ----------
@@ -243,7 +259,7 @@ function renderMain() {
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
     : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${brief ? `<p class="bio">${esc(brief)}</p>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio">${esc(brief)}</p>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -329,7 +345,13 @@ function composerHTML() {
   const m = model(S.lab), r = S.sel?.type === "idea" ? m?.ideas.get(S.sel.idea) : null;
   const hint = r ? `Ask about “${idea(r.strategy).name || "this idea"}”, or run it on more instances…`
     : S.sel?.type === "instance" ? `Ask about n = ${S.sel.n}…` : "Direct the research, or ask about it…";
-  return `<div class="composer"><div class="box"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="send" data-act="send" title="Send (Enter)">${ICON.send}</button></div></div>`;
+  const where = whereFor(S.lab);
+  return `<div class="composer"><div class="box"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="send" data-act="send" title="Send (Enter)">${ICON.send}</button></div>
+    <div class="where">Runs on ${[["modal", "Modal"], ["local", "this machine"]].map(([v, label]) => `<button class="${where === v ? "on" : ""}" data-act="where" data-v="${v}">${label}</button>`).join("")}</div></div>`;
+}
+function whereFor(lab) {
+  const m = model(lab);
+  return S.where[lab] || (m?.sessions.filter(Boolean).slice(-1)[0] || {}).backend || "modal";
 }
 
 function resultsTable(r, m) {
@@ -358,7 +380,7 @@ function ideaView() {
   const o = outcome(r, m), it = idea(r.strategy), s = r.strategy || {};
   const kind = { new: "new idea", refine: "refinement", combine: "combination" }[s.decision];
   const ses = m.sessions[r.session] || {};
-  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1}${kind ? ` · ${kind}` : ""}`;  // the map shows the order
+  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1}${kind ? `'s ${kind}` : ""}`;  // the map shows the order
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
@@ -463,6 +485,9 @@ function messagesHTML() {
     } else if (e.type === "plan") {
       items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
       waiting = false;
+    } else if (e.type === "failed") {
+      items.push(`<div class="msg failed"><strong>Stopped.</strong> ${esc(e.reason || e.error || "The session ended with an error.")}</div>`);
+      waiting = false;
     } else if (e.type === "done") {
       const s = e.session ?? 0, recs = [...new Set(book.events.filter((x) => x.type === "record" && x.record && (x.session ?? 0) === s).map((x) => x.n))].sort((a, b) => a - b);
       const results = book.events.filter((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.gap != null);
@@ -472,7 +497,7 @@ function messagesHTML() {
       const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
         : unpublished ? `Best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with.`
         : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
-      items.push(`<div class="msg note">Session finished · ${note}</div>`);
+      items.push(`<div class="msg note">Session finished. ${note}</div>`);
     }
   }
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
@@ -508,7 +533,7 @@ function harnessHTML(e) {
 async function send() {
   const box = $("#chat-input"), text = box.value.trim();
   if (!text) return;
-  const m = model(S.lab), backend = (m?.sessions.filter(Boolean).slice(-1)[0] || {}).backend || "modal";
+  const backend = whereFor(S.lab);
   const context = S.sel?.type === "idea" ? { idea: S.sel.idea } : S.sel?.type === "instance" ? { n: S.sel.n, problem: S.sel.problem } : undefined;
   box.value = "";
   S.sel = null;  // back to the conversation, where the answer appears
@@ -612,6 +637,7 @@ document.addEventListener("click", (ev) => {
     case "view": S.view = d.v; renderDetail(); break;
     case "compose": S.compose = { kind: "run", backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
     case "send": send(); break;
+    case "where": S.where[S.lab] = d.v; renderDetail(); break;
     case "example": $("#f-prompt").value = el.textContent; $("#f-prompt").focus(); break;
     case "start": start(); break;
     case "theme": {
@@ -649,6 +675,7 @@ document.addEventListener("keydown", (ev) => {
 // ---------- polling ----------
 async function refresh() {
   const [labs, discoveries] = await Promise.all([api("/api/labs"), api("/api/records")]);
+  if (!S.spendAt || Date.now() - S.spendAt > 300000) { S.spendAt = Date.now(); api("/api/spend").then((x) => { S.spend = x; renderSide(); renderMain(); }).catch(() => {}); }
   let dirty = JSON.stringify(labs.map((l) => [l.id, l.events])) !== JSON.stringify(S.labs.map((l) => [l.id, l.events])) || discoveries.length !== S.discoveries.length;
   S.labs = labs;
   S.discoveries = discoveries;

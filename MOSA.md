@@ -1,4 +1,4 @@
-# Mosa = (means "mash" in Swedish)
+# Mosa
 
 **An autoresearch workbench: LLM researchers write search strategies, trusted tools test them, and nothing counts until it is independently verified.**
 
@@ -53,51 +53,11 @@ These follow the standards of the team's checking framework on `main` (*autorese
 - **Held-out sizes.** The cut-and-splice strategy was designed while attacking n = 101–132. On sizes it never saw (n = 11–99), it broke n = 88 on 7 of 8 seeds.
 - **Equal budgets.** Every strategy gets the same template and candidate counts, on the same sizes and seeds.
 - **Seeds as a control for luck.** One run is a noisy sample. n = 88 fell on 7 of 8 seeds, and n = 123 was found by two different strategies.
-- **Not shown:** that Mosa's research loop beats simpler methods at equal budget. We tested it (next section) and it did not. n = 67 also resisted everything.
-
-## Head to head at equal budget: Mosa does not beat simpler methods
-
-On 4 October we ran Mosa against three simpler methods. Every method got the same trusted harness (relax, polish,
-independent verifier) and the same evaluation budget per instance, so only the method differs.
-- **Plain coding agent:** Codex (the model Mosa's researchers use), working free-form with the harness as a library;
-  `baselines/coding_agent.py`.
-- **One-shot LLM strategy:** one researcher, one round, no research loop.
-- **Basin hopping:** the standard method, no LLM.
-
-Tables come from `baselines/compare.py`.
-
-**Original problems first (nothing to memorize).** Points on a sphere minimizing the Riesz s-energy, with exponents
-nobody has published optima for. n = 150, 200 and 250; 12 runs × 576 relaxations per instance for every arm.
-
-| s | Mosa | One-shot LLM strategy | Basin hopping | Plain coding agent |
-|---|---|---|---|---|
-| 0.5 | best on 3 of 3 | best on 3 of 3 | best on 3 of 3 | best on 3 of 3 |
-| 6 (rugged: random starts spread over many minima) | best on 3 of 3 | best on 3 of 3 | best on 3 of 3 | best on 3 of 3, using 35–67% of its budget |
-
-Every arm found the same lowest energy, to 6 decimals, on every instance. At s = 6 the share of single runs that reached
-it varied: on n = 250, 4 of 12 for Mosa, 7 of 12 for the one-shot strategy and 4 of 12 for basin hopping.
-
-**A published benchmark.** Circles in a unit square maximizing the sum of radii, n = 26:
-
-| Method | Sum of radii | Overlap tolerance |
-|---|---|---|
-| Plain coding agent (11 minutes, 12% of its budget) | **2.6359830849** | 0 (our verifier) |
-| ThetaEvolve, best published | 2.63598308 | 1e-6 |
-| ShinkaEvolve | 2.63598283 | 1e-7 |
-| Mosa (17 of 36 runs) | 2.6359773947 | 0 |
-| AlphaEvolve | 2.63586276 | 0 |
-
-**Squares, n = 85–88.** Mosa and the coding agent held the best-known packings on 85, 86 and 88; both were 2.2e-6 short
-on 87. Neither found a record.
-
-**What this means.** When the trusted tools are strong, they do most of the work: the method on top barely changes
-the best result. A plain coding agent with the same tools matched or beat Mosa, using fewer evaluations. We found no
-evidence that Mosa's research loop adds value at equal budget on these problems.
-
-Mosa's demonstrated value is elsewhere:
-- any problem stated in words becomes a verified, self-tested harness and a workspace a person can steer;
-- every claim is checked independently and traced to the code and seed that produced it;
-- the overnight squares campaign found five verified records, but at a much larger budget and with no matched comparison.
+- **Not shown yet:** a matched-budget comparison on a hard benchmark.
+  - Our first comparisons were too easy to separate methods. On Riesz energies (s = 0.5 and 6, n ≤ 250) and squares n = 85–88, Mosa, a one-shot LLM strategy, basin hopping and a plain coding agent (`baselines/coding_agent.py`) all reached the same values.
+  - On the published n = 26 circle benchmark the coding agent did better (2.6359831 against Mosa's 2.6359774). Published solutions of that problem may be known to the model.
+  - A harder comparison on the Tammes problem (n = 100–130) is running.
+  - n = 67 resisted everything.
 
 ## An unseen problem: charges on a sphere
 
@@ -188,7 +148,7 @@ Arrow keys move between ideas; Esc closes the selection.
 - Let the model place pieces or judge pictures. We measured image, SVG and JSON perception: all no better than random.
 - Let model-written code touch the evaluator.
 - Claim optimality.
-- Require training.
+- Require training. Neural networks are optional and are not the method.
 
 **Not solved:** structural plateaus. n = 67 is the Göbel strip, 8 + √2/2, which has stood since 1980. It held through about 70 seeds and a targeted lab with a research brief. Recombining near a plateau cannot leave it. Beating it needs a different construction, which is the job of a brief and a constructive `initialize`.
 

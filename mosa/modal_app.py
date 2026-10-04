@@ -16,9 +16,10 @@ POLISH_CORES = 16    # a run polishes 16 basins: one container of this size each
 STRATEGY_CORES = 16
 IDLE = 120           # seconds an idle container stays warm between rounds
 
-app = modal.App("mosa")
+# Tagged with the workspace, so Modal's billing report gives the spend of each workspace (mosa/spend.py).
+app = modal.App("mosa", tags={"workspace": os.environ.get("MOSA_WORKSPACE", "")[:60]})
 image = (modal.Image.debian_slim(python_version="3.12")
-         .pip_install("numpy==2.5.3", "scipy==1.18.1", "numba==0.68.0")
+         .pip_install("numpy==2.5.3", "scipy==1.18.1", "numba==0.68.0", "mpmath==1.3.0")  # drafted harnesses may import mpmath
          .env({"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "NUMBA_CPU_NAME": "generic", "NUMBA_CACHE_DIR": "/root/numba-cache"})
          .add_local_dir(ROOT, remote_path="/root/mosa", copy=True, ignore=["**/__pycache__", "ui/**"])
          .run_commands('cd /root && python -c "import numpy as np; from mosa.domains.squares.kernel import relax; '
