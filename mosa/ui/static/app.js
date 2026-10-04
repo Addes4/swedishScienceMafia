@@ -21,7 +21,7 @@ const ICON = {
 };
 const LOGO = `<svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1" fill="var(--accent)"/><rect x="13" y="3" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="3" y="13" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="13.2" y="13.2" width="7.6" height="7.6" rx="1" fill="var(--strong)" transform="rotate(22 17 17)"/></svg>`;
 
-const S = { labs: [], discoveries: [], books: {}, refs: {}, lab: null, sel: null, compose: null, replay: null, view: "compare" };
+const S = { labs: [], discoveries: [], books: {}, refs: {}, lab: null, sel: null, compose: null, replay: null, view: "after" };
 
 // ---------- data ----------
 const api = async (path, body) => {
@@ -149,29 +149,11 @@ const lastLine = (e) => String(e || "").split("\n").map((s) => s.trim()).filter(
 const markHTML = (kind) => (kind === "star" ? ICON.star : kind === "fail" ? ICON.fail : `<span class="ring ${kind === "live" ? "spin" : kind === "wait" ? "wait" : ""}"></span>`);
 
 // ---------- packings ----------
-function figure(poses, side, ghost = null) {
+function figure(poses, side) {
   const square = (x, y, a, style, width) => `<rect x="-0.5" y="-0.5" width="1" height="1" transform="translate(${x} ${side - y}) rotate(${(-a * 180) / Math.PI})" style="${style}" stroke-width="${width}" vector-effect="non-scaling-stroke"/>`;
   let out = `<svg viewBox="-0.05 -0.05 ${side + 0.1} ${side + 0.1}" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="${side}" height="${side}" style="fill:var(--paper);stroke:var(--sq-edge)" stroke-width="1" vector-effect="non-scaling-stroke"/>`;
   for (const [x, y, a] of poses) out += square(x, y, a, "fill:var(--sq);stroke:var(--sq-edge)", 0.75);
-  if (ghost) for (const [x, y, a] of ghost) out += square(x, y, a, "fill:none;stroke:var(--ghost)", 1.3);
   return out + "</svg>";
-}
-
-// The previous best in our frame: of the 8 symmetries of the square, the one that puts its squares closest to ours
-// (smallest total distance from each of our squares to the nearest previous one). Nothing is thresholded.
-function aligned(after, sa, before, sb) {
-  let best = null;
-  for (let k = 0; k < 8; k++) {
-    const moved = before.map(([x, y, a]) => {
-      let u = (x - sb / 2) * sa / sb, v = (y - sb / 2) * sa / sb, t = a;
-      if (k & 4) { u = -u; t = -t; }
-      for (let r = 0; r < (k & 3); r++) [u, v] = [-v, u];
-      return [u + sa / 2, v + sa / 2, t];
-    });
-    const cost = after.reduce((sum, [x, y]) => sum + Math.min(...moved.map(([p, q]) => Math.hypot(p - x, q - y))), 0);
-    if (!best || cost < best.cost) best = { moved, cost };
-  }
-  return best.moved;
 }
 
 function catalogueSVG(poses, side, n) {
@@ -300,7 +282,6 @@ function discoveryView() {
   if (!ref) reference(d.n);
   const ready = ref && ref !== "loading";
   const view = ready ? S.view : "after";
-  const ghost = ready && view === "compare" ? aligned(d.poses, d.side, ref.poses, ref.side) : null;
   const m = S.books[d.lab]?.model, r = m && m.chains.get(d.chain ?? 0)?.get(d.round ?? 1);  // provenance from the whole notebook, even mid-replay
   const lab = summary(d.lab), it = r ? idea(r.strategy) : idea({ source: m?.lab?.source || lab?.source });
   const by = lab?.kind === "lab" && r ? `<a data-act="idea-in" data-lab="${esc(d.lab)}" data-chain="${d.chain}" data-round="${d.round}">Researcher ${d.chain + 1}, round ${d.round}</a>: ${esc(it.name)}`
@@ -310,9 +291,8 @@ function discoveryView() {
   return `<div class="pane">
     <div class="eyebrow">Discovery</div>
     <h2>${d.n} squares in a square</h2>
-    <div class="toggle">${[["compare", "Compare"], ["after", "Mosa"], ["before", "Previous best"]].map(([v, label]) => `<button class="${view === v ? "on" : ""}" data-act="view" data-v="${v}">${label}</button>`).join("")}</div>
-    <div class="figure">${view === "before" ? figure(ref.poses, ref.side) : figure(d.poses, d.side, ghost)}</div>
-    ${view === "compare" ? `<div class="caption">Grey: Mosa's packing. Outlines: the previous best, turned or mirrored to line up with it.</div>` : ""}
+    <div class="toggle">${[["after", "Mosa"], ["before", "Previous best"]].map(([v, label]) => `<button class="${view === v ? "on" : ""}" data-act="view" data-v="${v}">${label}</button>`).join("")}</div>
+    <div class="figure">${view === "before" ? figure(ref.poses, ref.side) : figure(d.poses, d.side)}</div>
     <div class="numbers">Side <span class="mono">${side6(d.side)}</span>, ${plain(d.improvement)} smaller than the best known <span class="mono">${side6(d.reference_side)}</span> (${pct}%).</div>
     <div class="section"><div class="verified">${ICON.check} Verified</div>
       <ul class="checks"><li>No overlap at zero tolerance</li><li>Confirmed at 80 and 160 digits of precision</li><li>Every gap between squares, and to the walls, is at least ${Number(d.min_pair_clearance).toExponential(0)}</li></ul></div>
@@ -436,7 +416,7 @@ document.addEventListener("click", (ev) => {
     case "idea-in": selectIdea(d.lab, +d.chain, +d.round); break;
     case "discovery": {
       const disc = S.discoveries.find((x) => x.n === +d.n);
-      S.sel = { type: "discovery", n: +d.n }; S.view = "compare"; S.compose = null;
+      S.sel = { type: "discovery", n: +d.n }; S.view = "after"; S.compose = null;
       if (disc && S.lab !== disc.lab) { S.lab = disc.lab; if (!S.books[disc.lab]) loadBook(disc.lab).then(render); }
       render();
       break;
