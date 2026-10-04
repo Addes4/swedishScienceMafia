@@ -4,7 +4,11 @@
 search loop toward myopic online bin-packing rules that do worse on the 5,000-item streams the rule is
 meant for?
 
-**Answer: yes, in every arm, and by a large margin.** The setup:
+**Answer: complete separation, though the pre-registered test cannot reach p < 0.05.** Every run
+that selected on 5,000-item streams beat every run that selected on 200- or 80-item streams, by
+about 2.3–2.5 pp on fresh 5,000-item instances. With 4 runs per arm, the pre-registered Holm-adjusted
+test cannot go below p = 0.057 (see below), so we report complete separation at the design's
+resolution, not significance at 0.05. The setup:
 - The same one-command loop, the same model and the same 150 steps per run.
 - The same number of items per selection evaluation.
 - Only the length of the selection streams differs between arms.
