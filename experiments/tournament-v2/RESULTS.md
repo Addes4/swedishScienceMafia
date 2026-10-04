@@ -201,14 +201,14 @@ python -m tournament.run --out /tmp/hf-lean --job '{"job_id": "x", "grid": "adho
 |---|---|
 | `PROTOCOL.md` | Design of the v2 grid with the pre-launch amendment under which full-v2b ran |
 | `PROTOCOL-before-amendment.md`, `grids/full-v2-unamended.json` | The protocol and grid before the amendment (renamed from `PROTOCOL 2.md` and `grids/full 2.json`) |
-| `runs/full-v2b/` | The 60 runs of the full grid |
-| `runs/full-v2/` | Two stopped launches of the unamended grid (spend only; see the amendment) |
+| `runs/full-v2b/` | The 60 runs of the full grid: per run `job.json`, `usage.jsonl`, `evals.jsonl`, `events.jsonl`, `summary.json`, `curve.csv` and `best_program.py`, plus `results.json` and `report.md` for the grid. Every table recomputes identically from these (`python -m tournament.report runs/full-v2b --recompute`). Each run's candidate programs (`artifacts.tar.gz`) and console logs are in tag [`archive/full-research-2026-10-04`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04/experiments/tournament-v2/runs/full-v2b) |
+| [`runs/full-v2/`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04/experiments/tournament-v2/runs/full-v2) (archive tag) | Two stopped launches of the unamended grid (spend only; see the amendment). Not on `main` |
 | `RESULTS.md` | This file |
 | `summary.json` | Headline numbers, machine-readable |
 | `smoke_summary.json` | The smoke table above, computed from the run folders |
 | `grids/smoke.json`, `grids/full.json` | Smoke grid and the amended full grid (run as full-v2b) |
 | `launches/smoke-v2_*.json` | Launch record of the Modal smoke |
-| `runs/smoke-v2/<arm>__erdos_squares__s0/`, `runs/local-smoke-v2/` | Per run: `job.json` (with prices), `usage.jsonl`, `evals.jsonl`, `events.jsonl`, `summary.json`, `curve.csv`, `best_program.py`, `artifacts.tar.gz` |
+| `runs/smoke-v2/<arm>__erdos_squares__s0/`, `runs/local-smoke-v2/` | Per run: `job.json` (with prices), `usage.jsonl`, `evals.jsonl`, `events.jsonl`, `summary.json`, `curve.csv`, `best_program.py` |
 
 ## Next steps
 
