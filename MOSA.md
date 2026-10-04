@@ -1,4 +1,4 @@
-# Mosa
+# Mosa = (means "mash" in Swedish)
 
 **An autoresearch workbench: LLM researchers write search strategies, trusted tools test them, and nothing counts until it is independently verified.**
 
@@ -188,7 +188,7 @@ Arrow keys move between ideas; Esc closes the selection.
 - Let the model place pieces or judge pictures. We measured image, SVG and JSON perception: all no better than random.
 - Let model-written code touch the evaluator.
 - Claim optimality.
-- Require training. Neural networks are optional and are not the method.
+- Require training.
 
 **Not solved:** structural plateaus. n = 67 is the Göbel strip, 8 + √2/2, which has stood since 1980. It held through about 70 seeds and a targeted lab with a research brief. Recombining near a plateau cannot leave it. Beating it needs a different construction, which is the job of a brief and a constructive `initialize`.
 
