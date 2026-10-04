@@ -1,0 +1,8 @@
+{
+ "clade_equals_nn_instances": 64,
+ "instances": 64,
+ "hifo_instances_checked": 32,
+ "hifo_1sim_identical": 32,
+ "hifo_seconds_8sim": 152.85588253798778,
+ "hifo_seconds_1sim": 22.252774208056508
+}

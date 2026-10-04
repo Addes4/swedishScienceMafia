@@ -1,0 +1,87 @@
+\section{Introduction}
+Since 2023, more than a dozen papers on LLM-based automatic heuristic design (AHD) have reported
+progress on the same small benchmark: \emph{step-by-step construction} for the Euclidean TSP. Examples
+include AEL~\cite{ael}, ReEvo~\cite{reevo}, EoH~\cite{eoh}, MCTS-AHD~\cite{mctsahd},
+CALM~\cite{calm}, MoH~\cite{moh}, HiFo-Prompt~\cite{hifo}, Clade-AHD~\cite{clade},
+PathWise~\cite{pathwise}, TIDE~\cite{tide} and SimpleEvol~\cite{simpleevol}. An LLM writes the body of
+\begin{center}\code{select\_next\_node(current\_node, destination\_node, unvisited\_nodes, distance\_matrix)}\end{center}
+and the evaluator builds a tour by appending the function's answer once per step. Scores are mean
+gaps to an LKH reference on uniform random instances with 50, 100 and 200 cities. On random
+instances the only hand-designed baseline these papers report is nearest neighbour, which is about
+23--26\% above optimal. Against that baseline the reported progress looks large: from 22.6\% to
+9.7\% at $n=50$ in MCTS-AHD's Table~1~\cite{mctsahd}, and to 4.76\% in TIDE~\cite{tide}.
+
+Two facts about the benchmark are easy to miss.
+\begin{itemize}
+\item \textbf{Strong classical constructions exist and are cheap.} Farthest insertion
+(Rosenkrantz, Stearns and Lewis, 1977~\cite{rosenkrantz}) is a one-pass construction. It is about
+5.5\% above optimal at $n=50$ on this distribution~\cite{kool}. Greedy edge with 2-opt and Or-opt
+local search (1958--1976) gets within a few percent. These are textbook results~\cite{johnson}.
+\item \textbf{The interface hands the function the whole instance.} \code{distance\_matrix} is
+passed in full at every call. A function can therefore compute any tour it likes and return that
+tour's next node. The best recent heuristics already use this partially: MCTS-AHD's released
+heuristic runs a nearest-neighbour rollout for every candidate, HiFo-Prompt's paper describes MST look-ahead, and
+TIDE runs 2-opt to convergence inside each call. We found no paper that normalises compute against classical methods.
+\end{itemize}
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item \textbf{A re-evaluation} of the benchmark on MCTS-AHD's released 1,000-instance test sets and on
+fresh draws. It covers the published leaderboard (13 papers), six released LLM-designed heuristics
+re-run through the original evaluation loop, and classical constructions implemented
+\emph{inside} the interface as numpy functions whose output depends only on the call's arguments. The protocol was pre-registered.
+\item \textbf{The interface's ceiling is the optimum, at negligible cost.} Emitting a tour that
+greedy edge, 2-opt and Or-opt build from the matrix (about 100 lines of numpy) beats every published
+step-by-step result at every size. Emitting an LKH tour reaches the reference itself.
+\item \textbf{The MCTS-AHD lineage is below a 1977 baseline.} Farthest insertion, emitted the same
+way, beats every LLM-designed result in MCTS-AHD's table and in CALM, MoH, Clade-AHD and PathWise.
+\item \textbf{Released heuristics are Pareto-dominated} in tour length and time by classical
+methods. Clade-AHD's released file is behaviourally nearest neighbour. HiFo-Prompt's runs the same deterministic rollout eight times, so seven of the eight are wasted.
+\item \textbf{A reference error.} MCTS-AHD's $n=200$ optimum (10.659), which SimpleEvol also uses, is 0.46\% below the optimum of MCTS-AHD's own released test set (LKH, confirmed by exact solves on a sample).
+\end{itemize}
+These findings mirror a companion study on FunSearch's online bin-packing benchmark. There,
+Sum-of-Squares~\cite{csirik}, a 2006 algorithm that we found no LLM-AHD paper comparing against, beats the
+LLM-designed heuristics.
+
+\section{Benchmark and methods}\label{sec:method}
+\paragraph{Task and evaluation.} We copy MCTS-AHD's evaluation loop verbatim; it is identical to
+ReEvo's. The tour starts and ends at node 0, and each call receives copies of the unvisited set and
+of the full distance matrix. The test sets are MCTS-AHD's released \code{test\{50,100,200\}} (1,000
+uniform instances each). They regenerate exactly from \code{np.random.seed(1234)} with its
+generator, and we checked their SHA-256 against the released files. Fresh sets
+(1,000/1,000/200 instances) come from our own seeds. The reference is LKH~\cite{lkh} through
+elkai (RUNS$=3$, MAX\_TRIALS$=n$). On 42 distinct checked instances (16 at $n=50$, 26 at $n=200$), heavier settings up to MCTS-AHD's (RUNS$=10$, MAX\_TRIALS$=10{,}000$) gave identical tours, and an integer program proved five of them optimal. The gap is the ratio of mean tour length to
+mean LKH length, minus one, as in MCTS-AHD's Table~1.
+
+\paragraph{Released LLM-designed heuristics.} We re-run the code each project ships, pinned to a
+commit:
+\begin{itemize}
+\item MCTS-AHD's ``leading heuristic'' (\code{gpt.py});
+\item HiFo-Prompt's released TSP heuristic;
+\item ReEvo's best heuristic and AEL's, both from ReEvo's test notebook;
+\item the \code{gpt.py} files of RefineEvo and Clade-AHD.
+\end{itemize}
+The last two, and HiFo-Prompt's file, may not be those papers' best heuristics (HiFo-Prompt's paper describes an MST-look-ahead heuristic; its released file uses quadtree regions and rollouts), so we report them as ``released'' and do not attribute their numbers to the papers. TIDE,
+SimpleEvol, MoH, CALM and PathWise did not release theirs, and we use their published numbers.
+
+\paragraph{Classical methods inside the interface.} Each is a \code{select\_next\_node} written in numpy whose answer depends only on its four arguments:
+\begin{itemize}
+\item \textbf{NN}: nearest neighbour.
+\item \textbf{FI-emit}: build the farthest-insertion tour of all nodes from \code{distance\_matrix},
+oriented from the destination, and return the node after \code{current\_node}.
+\item \textbf{GLS-emit}: the same, with a greedy-edge tour improved by 2-opt~\cite{croes} and
+Or-opt~\cite{or} to a joint local optimum. A per-instance cache avoids recomputation and changes speed, not answers; we report uncached times too.
+\item \textbf{LKH-emit}: the LKH tour, emitted the same way. This is the ceiling, and it needs a
+compiled solver.
+\end{itemize}
+FI-emit reproduces a standalone farthest-insertion implementation to within $10^{-14}$ on every development instance. A tempting alternative is to \emph{replan} farthest insertion from the current
+node at every step. It is much worse (8.4\% against 5.7\% on development data), because anchoring
+the residual path at the current node destroys farthest insertion's global skeleton. Planning once
+from the full matrix is what makes the textbook algorithm expressible in this interface.
+
+\paragraph{Pre-registration.} Before any heuristic touched a test set, we fixed the hypotheses, the
+instance prefixes for the slow heuristics, and the statistics: paired per-instance differences with
+95\% percentile bootstrap CIs (10,000 resamples) and win/tie/loss counts. A first draft hypothesised
+only that farthest insertion beats every published result. The literature search showed three
+rollout-based methods below it, so the hypotheses were revised before the run; both versions are in
+the repository.

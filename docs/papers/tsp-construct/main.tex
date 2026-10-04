@@ -1,0 +1,59 @@
+\documentclass[10pt,twocolumn]{article}
+\input{preamble.tex}
+\usepackage{amsmath}
+\usepackage{xspace}
+\renewcommand{\workshopnote}{\footnotesize Workshop draft, written after the AI\,$\times$\,Science Hackathon (London, 3--4 October 2026). Every number is from \texttt{experiments/tsp-construct-v1} (pre-registered protocol, run log, raw per-instance results) in the team repository.}
+\input{numbers.tex}
+
+\title{Nothing to Construct: Textbook Heuristics Beat LLM-Designed\\Step-by-Step TSP Heuristics Inside Their Own Interface}
+\author{Swedish Science Mafia\\{\small AI\,$\times$\,Science Hackathon, London}}
+\date{\workshopnote}
+
+\begin{document}
+\twocolumn[{\maketitle\begin{abstract}
+More than a dozen papers on LLM-based automatic heuristic design (AHD) report progress on one TSP
+benchmark. An LLM writes \code{select\_next\_node}, and the tour is built by appending its answers;
+the only hand-designed baseline on random instances is nearest neighbour. We re-evaluated the task
+on MCTS-AHD's released 1,000-instance test sets in a pre-registered study. The function receives the
+whole distance matrix at every call, so a function of its arguments alone can compute any tour and emit it one node at a time. The benchmark's ceiling is therefore the optimum. A short numpy function (about 100 lines) that emits a greedy-edge tour improved by 2-opt and Or-opt is 1.85\%, 2.44\% and 2.85\% above optimal at
+50, 100 and 200 cities, below every published step-by-step LLM result (best: 4.76\%, 6.47\%, 8.88\%). With a per-instance cache it runs in 0.015--0.13\,s per instance, about 50--2,800$\times$ faster than the rollout-based LLM heuristics ; without the cache it takes \NoCacheAbstract. Farthest
+insertion (1977), emitted the same way, is 5.53\%, 7.49\% and 9.03\%. It beats every LLM-designed result in the MCTS-AHD lineage (MCTS-AHD, CALM, MoH, Clade-AHD, PathWise), and also beats MCTS-AHD on 14 TSPLIB instances (8.70\% against 11.17\%). Re-running six released LLM-designed heuristics in the original evaluation
+loop, five are Pareto-dominated by classical methods. The sixth, Clade-AHD's released file, builds
+exactly the nearest-neighbour tour. Finally, MCTS-AHD's 200-city reference optimum, 10.659, is 0.46\% below the optimum of its own test set (10.708 by LKH; confirmed by exact solves on a sample), which overstates every 200-city gap that uses it.
+\end{abstract}\vspace{1.2em}}]
+
+\input{intro_method.tex}
+\input{results.tex}
+\input{discussion.tex}
+
+\begin{thebibliography}{99}
+\setlength{\itemsep}{1pt}\small
+\bibitem{ael} F. Liu, X. Tong, M. Yuan and Q. Zhang. Algorithm evolution using large language model. arXiv:2311.15249, 2023.
+\bibitem{eoh} F. Liu et al. Evolution of heuristics: towards efficient automatic algorithm design using large language model. \emph{ICML}, 2024. arXiv:2401.02051.
+\bibitem{reevo} H. Ye et al. ReEvo: large language models as hyper-heuristics with reflective evolution. \emph{NeurIPS}, 2024. arXiv:2402.01145.
+\bibitem{mctsahd} Z. Zheng, Z. Xie, Z. Wang and B. Hooi. Monte Carlo tree search for comprehensive exploration in LLM-based automatic heuristic design. \emph{ICML}, 2025. arXiv:2501.08603.
+\bibitem{calm} CALM. arXiv:2505.12285, 2025.
+\bibitem{moh} MoH. arXiv:2505.20881, 2025.
+\bibitem{hifo} HiFo-Prompt: prompting with hindsight and foresight for LLM-based automatic heuristic design. arXiv:2508.13333, 2025.
+\bibitem{clade} Beyond the node: clade-level selection for efficient MCTS in automatic heuristic design. arXiv:2602.00549, 2026.
+\bibitem{pathwise} PathWise. arXiv:2601.20539, 2026.
+\bibitem{tide} C. Chen, M. Zhong, Y. Fan, J. Shi and J. Sun. TIDE: tuning-integrated dynamic evolution for LLM-based automated heuristic design. arXiv:2601.21239, 2026.
+\bibitem{simpleevol} SimpleEvol. arXiv:2609.37172, 2026.
+\bibitem{refineevo} RefineEvo. arXiv:2607.11358, 2026.
+\bibitem{routerepair} RouteRepair. arXiv:2609.11452, 2026.
+\bibitem{redahd} RedAHD. arXiv:2505.20242, 2025.
+\bibitem{mosaic} MOSAIC. arXiv:2608.07544, 2026.
+\bibitem{zhang} R. Zhang et al. Understanding the importance of evolutionary search in automated heuristic design with large language models. \emph{PPSN}, 2024. arXiv:2407.10873.
+\bibitem{herrmann} J. Herrmann and G. Pallez. An in-depth study of LLM contributions to the bin packing problem. arXiv:2510.27353, 2025.
+\bibitem{sim} Sim, Renau and Hart. Beyond the hype: benchmarking LLM-evolved heuristics for bin packing. \emph{EvoApplications}, 2025. arXiv:2501.11411.
+\bibitem{kool} W. Kool, H. van Hoof and M. Welling. Attention, learn to solve routing problems! \emph{ICLR}, 2019. arXiv:1803.08475.
+\bibitem{rosenkrantz} D. J. Rosenkrantz, R. E. Stearns and P. M. Lewis. An analysis of several heuristics for the traveling salesman problem. \emph{SIAM J. Comput.} 6(3):563--581, 1977.
+\bibitem{croes} G. A. Croes. A method for solving traveling-salesman problems. \emph{Operations Research} 6(6):791--812, 1958.
+\bibitem{or} I. Or. Traveling salesman-type combinatorial problems and their relation to the logistics of regional blood banking. PhD thesis, Northwestern University, 1976.
+\bibitem{clarke} G. Clarke and J. W. Wright. Scheduling of vehicles from a central depot to a number of delivery points. \emph{Operations Research} 12(4):568--581, 1964.
+\bibitem{johnson} D. S. Johnson and L. A. McGeoch. The traveling salesman problem: a case study in local optimization. In \emph{Local Search in Combinatorial Optimization}, Wiley, 1997.
+\bibitem{lkh} K. Helsgaun. An effective implementation of the Lin--Kernighan traveling salesman heuristic. \emph{EJOR} 126(1):106--130, 2000.
+\bibitem{bertsekas} D. P. Bertsekas, J. N. Tsitsiklis and C. Wu. Rollout algorithms for combinatorial optimization. \emph{J. Heuristics} 3:245--262, 1997.
+\bibitem{csirik} J. Csirik et al. On the sum-of-squares algorithm for bin packing. \emph{J. ACM} 53(1):1--65, 2006.
+\end{thebibliography}
+\end{document}
