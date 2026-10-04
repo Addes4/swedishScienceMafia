@@ -249,3 +249,4 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
 .item:hover .del { display: grid; }
 .item .del:hover { color: var(--strong); background: var(--line); }
 .item .del svg { width: 12px; height: 12px; }
+.msg .picked-gap { height: 6px; }

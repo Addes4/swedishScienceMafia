@@ -19,10 +19,11 @@ from .llm import ask
 from .store import Notebook
 
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "problem_request", "base", "idea", "scale", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
-          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply"]}, "reply": {"type": "string"},
+          "required": ["action", "reply", "problem_request", "base", "idea", "scale", "goal", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
+          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply", "stop"]}, "reply": {"type": "string"},
                          "problem_request": {"type": "string"}, "base": {"type": "string"}, "idea": {"type": "string"},
                          "scale": {"type": "string", "enum": ["quick", "full"]},
+                         "goal": {"type": "string", "enum": ["", "record", "best_known"]},
                          "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
@@ -88,7 +89,10 @@ harness for squares in a square, or "" if none is close; it will be built from t
 asked again with it in the library); or plan and
 start a research session (action "start"). A session is "quick" (a first look or proof of concept: 2 researchers, 2
 rounds, 1 seed, up to 3 instances, a small budget per run; it finishes in minutes) unless the user asks for a thorough,
-large or long run ("full"); a new workspace starts quick; or run an existing idea of this workspace, as it is and without a
+large or long run ("full"); a new workspace starts quick. When the user wants the research to keep going until something
+happens, set "goal": "record" (until a verified new best-known) or "best_known" (until the best known is reached), and
+rounds is then a cap: 12 unless the user names a limit; every researcher stops once one meets it. When the user asks to stop what is running,
+use action "stop"; or run an existing idea of this workspace, as it is and without a
 researcher, on more instances (action "apply": its id in "idea", the sizes in "targets", and seeds). A session's plan: the
 problems from the library (one or more, all from one family; an existing workspace keeps its family; related problems
 in one workspace share what they find); the sizes n to run on each of them (4-24 in all; contiguous blocks let
@@ -111,13 +115,15 @@ the user: one to three sentences, plain and specific (for a session: what will r
     answer["instances"] = [[d.name, n] for d in problems for n in sorted(set(answer["targets"])) if n in set(d.targets())][:24] \
         or [[problems[0].name, n] for n in problems[0].targets()[:6]]
     answer["researchers"] = max(1, min(4, answer["researchers"]))
-    answer["rounds"] = max(1, min(3, answer["rounds"]))
+    answer["rounds"] = max(1, min(12 if answer.get("goal") else 3, answer["rounds"]))
     answer["seeds"] = max(1, min(3, answer["seeds"]))
     answer["instances"] = answer["instances"][:8]
-    if answer["scale"] != "full":  # a quick look: minutes, not hours
-        answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:3])
+    if answer["scale"] != "full":  # a quick look: minutes, not hours (a goal keeps the rounds going)
+        answer.update(researchers=min(answer["researchers"], 2), rounds=answer["rounds"] if answer.get("goal") else min(answer["rounds"], 2),
+                      seeds=1, instances=answer["instances"][:3])
     if backend == "local":  # keep a local session small enough to finish
-        answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:4])
+        answer.update(researchers=min(answer["researchers"], 2), rounds=answer["rounds"] if answer.get("goal") else min(answer["rounds"], 2),
+                      seeds=1, instances=answer["instances"][:4])
     return answer
 
 
@@ -182,6 +188,12 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
                   instances=[[lab.domain.name, n] for n in targets])
         lab.apply(None, None, targets, seeds, idea=key)
         return
+    if p["action"] == "stop":  # every running session in this workspace stops after its current round
+        running = {e["session"] for e in events if e["type"] == "lab"} - {e.get("session") for e in events if e["type"] == "done"}
+        for s in sorted(running):
+            book.write("stop", session=s)
+        book.write("reply", reply=p["reply"] or ("Stopping after the current round." if running else "Nothing is running."))
+        return
     if p["action"] in ("answer", "apply"):
         book.write("reply", reply=p["reply"])
         return
@@ -191,4 +203,4 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
     lab = Lab(p["instances"][0][0], backend, out, budget, p["references"], workers)
     lab.write("plan", request=message, **p)
     lab.lab([tuple(i) for i in p["instances"]], p["researchers"], p["rounds"], list(range(p["seeds"])), p["brief"], model,
-            None if first else p["name"])
+            None if first else p["name"], p.get("goal") or None)

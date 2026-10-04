@@ -271,6 +271,10 @@ function instanceState(m, n, p = m.problem) {
   const kind = records.length ? "star" : !knownGiven(m) && best && best.gap != null && best.gap <= 1e-6 ? "reached" : "none";
   return { n, p, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
+// A library problem's title, for the conversation.
+const problemTitle = (p) => ({ squares: "Unit squares in the smallest square", thomson: "Charges on a sphere (the Thomson problem)",
+  "riesz-0": "Logarithmic energy on the sphere (Smale's 7th problem)", "riesz-inf": "Points on a sphere as far apart as possible (the Tammes problem)",
+  "circle-radii": "Circles in a square, maximizing the sum of radii" }[p] || (p.startsWith("riesz-") ? `Riesz ${p.slice(6)}-energy on the sphere` : p.startsWith("gen-") ? p.slice(4).replace(/-/g, " ") : p));
 // A problem's short name, for a workspace holding several related problems.
 const problemName = (p) => p === "circle-radii" ? "Sum of radii" : p === "riesz-inf" ? "Tammes (s = ∞)" : p === "thomson" ? "Thomson (s = 1)" : p === "riesz-0" ? "Logarithmic (s = 0)" : p.startsWith("riesz-") ? `Riesz s = ${p.slice(6)}` : p;
 // The workspace's instances: plain numbers, with a new best-known (★) or a reached best known (●) standing out.
@@ -480,7 +484,15 @@ function messagesHTML() {
       items.push(`<div class="msg agent">${esc(e.reply || "")}<div class="plan">Running it on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
       waiting = false;
     } else if (e.type === "plan") {
-      items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
+      const goal = { record: "until a new best-known", best_known: "until the best known is reached" }[e.goal];
+      // which problem the session works on: named when it is picked from the library (a drafted one has its own card)
+      const lab = book.events.find((x) => x.type === "lab" && x.session === e.session);
+      const problems = e.problems || (lab ? [lab.domain] : []), before = book.events.filter((x) => x.type === "plan" && x.time < e.time).pop();
+      const drafted = book.events.some((x) => x.type === "harness" && x.time < e.time && (!before || x.time > before.time));
+      const changed = !before || JSON.stringify(before.problems || []) !== JSON.stringify(problems);
+      const picked = changed && !drafted && problems.length ? `<div class="section-label">From the library</div><strong>${esc(problems.length === 1 && lab?.title ? lab.title : problems.map(problemTitle).join(", "))}</strong><div class="picked-gap"></div>` : "";
+      const rounds = goal ? `${goal}, at most ${e.rounds} rounds` : `${e.rounds} round${e.rounds > 1 ? "s" : ""}`;
+      items.push(`<div class="msg agent">${picked}${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${rounds} on n = ${esc(span(e.targets || (e.instances || []).map((i) => i[1])))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
       waiting = false;
     } else if (e.type === "failed") {
       items.push(`<div class="msg failed"><strong>Stopped.</strong> ${esc(e.reason || e.error || "The session ended with an error.")}</div>`);
@@ -494,7 +506,9 @@ function messagesHTML() {
       const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
         : unpublished ? `Best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with.`
         : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
-      items.push(`<div class="msg note">Session finished. ${note}</div>`);
+      const ses = book.model?.sessions?.[s], on = ses?.targets?.length ? ` on n = ${span(ses.targets)}` : "";
+      const why = e.ended === "goal" ? " Goal reached." : e.ended === "stop" ? " Stopped on request." : "";
+      items.push(`<div class="msg note">The session${on} finished.${why} ${note}</div>`);
     }
   }
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
@@ -523,7 +537,7 @@ function harnessHTML(e) {
   const r = e.report || {}, sizes = r.sizes || [];
   const rows = sizes.map((s) => `<li>n = ${s.n}: ${s.invalid ? `${s.invalid} of 4 solutions failed the checker` : "all 4 solutions passed the checker"}${s.best_known != null ? `, best ${Number(s.best_found).toPrecision(8)} against the published ${Number(s.best_known).toPrecision(8)}` : `, best ${Number(s.best_found).toPrecision(8)}`}</li>`).join("");
   const verdict = r.passed ? `${ICON.check} Passed its self-test` : `${ICON.fail} Failed its self-test`;
-  return `<div class="msg agent"><div class="section-label">New problem${e.forked_from ? `, forked from ${esc(e.forked_from)}` : ""}</div><strong>${esc(e.title)}</strong>
+  return `<div class="msg agent"><div class="section-label">${e.forked_from ? `Forked from ${esc(problemTitle(e.forked_from))}` : "New problem"}</div><strong>${esc(e.title)}</strong>
     <div class="harness-about">${esc(e.about || "")}</div>
     <div class="harness-verdict ${r.passed ? "ok" : "bad"}">${verdict}</div>
     ${rows ? `<ul class="checks">${rows}${r.rejects_malformed === false ? "<li>does not reject malformed solutions</li>" : ""}</ul>` : ""}
