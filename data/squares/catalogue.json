@@ -1,0 +1,1622 @@
+{
+"1": {
+"official_side": 1.0,
+"closed_form": null,
+"notes": "Trivial."
+},
+"2": {
+"official_side": 2.0,
+"closed_form": null,
+"notes": "Proved by Frits G\u00f6bel in early 1979. --> Proved by Frits G\u00f6bel in early 1979."
+},
+"3": {
+"official_side": 2.0,
+"closed_form": null,
+"notes": "Proved by Frits G\u00f6bel in early 1979."
+},
+"4": {
+"official_side": 2.0,
+"closed_form": null,
+"notes": "Trivial."
+},
+"5": {
+"official_side": 2.70710678118654,
+"closed_form": "2 + {1\\over 2}\\sqrt 2",
+"notes": "Rigid. Proved by Frits G\u00f6bel in early 1979."
+},
+"6": {
+"official_side": 3.0,
+"closed_form": null,
+"notes": "Proved by Michael Kearney and Peter Shiu in June 2001."
+},
+"7": {
+"official_side": 3.0,
+"closed_form": null,
+"notes": "Proved by Erich Friedman in 1999. --> Proved by Erich Friedman in 1999."
+},
+"8": {
+"official_side": 3.0,
+"closed_form": null,
+"notes": "Proved by Erich Friedman in 1999."
+},
+"9": {
+"official_side": 3.0,
+"closed_form": null,
+"notes": "Trivial."
+},
+"10": {
+"official_side": 3.70710678118654,
+"closed_form": "3 + {1\\over 2}\\sqrt 2",
+"notes": "Found by Frits G\u00f6bel in early 1979. Proved by Walter Stromquist in 2003."
+},
+"11": {
+"official_side": 3.87708359002281,
+"closed_form": null,
+"notes": "Rigid. Found by Walter Trump in 1979."
+},
+"12": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"13": {
+"official_side": 4.0,
+"closed_form": null,
+"notes": "Proved by Wolfram Bentz in August 2009."
+},
+"14": {
+"official_side": 4.0,
+"closed_form": null,
+"notes": "Proved by Erich Friedman in 1999. --> Proved by Erich Friedman in 1999."
+},
+"15": {
+"official_side": 4.0,
+"closed_form": null,
+"notes": "Proved by Erich Friedman in 1999."
+},
+"16": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"17": {
+"official_side": 4.67553009360455,
+"closed_form": null,
+"notes": "Found by John Bidwell in 1998. Based on packing found by Pertti H\u00e4m\u00e4l\u00e4inen in 1980."
+},
+"18": {
+"official_side": 4.82287565553229,
+"closed_form": "{7\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Found by Pertti H\u00e4m\u00e4l\u00e4inen in 1980. Pictured alternative with minimal rotated squares found by Mats Gustafsson in 1981."
+},
+"19": {
+"official_side": 4.88561808316412,
+"closed_form": "3 + {4\\over 3}\\sqrt 2",
+"notes": "Found first by Robert Wainwright in late 1979. Based on packing found by Charles F. Cottingham in early 1979."
+},
+"20": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"21": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"22": {
+"official_side": 5.0,
+"closed_form": null,
+"notes": "Proved by Wolfram Bentz in October 2018."
+},
+"23": {
+"official_side": 5.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"24": {
+"official_side": 5.0,
+"closed_form": null,
+"notes": "Proved by Erich Friedman in 1999."
+},
+"25": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"26": {
+"official_side": 5.62132034355964,
+"closed_form": "{7\\over 2} + {3\\over 2}\\sqrt 2",
+"notes": "Found by Erich Friedman in 1997. Unextends the found by Evert Stenlund in early 1980."
+},
+"27": {
+"official_side": 5.70710678118654,
+"closed_form": "5 + {1\\over 2}\\sqrt 2",
+"notes": "Found by Frits G\u00f6bel in early 1979."
+},
+"28": {
+"official_side": 5.82444461667405,
+"closed_form": null,
+"notes": "Rigid. Found by David Ellsworth in December 2025, using his modified version of Thomas Schadt's simulated annealing program, starting from randomness."
+},
+"29": {
+"official_side": 5.93383346267692,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in December 2025, using a simulated annealing program he wrote, starting from randomness. Similar to the packing found by Thierry Gensane and Philippe Ryckelynck in April 2004, using a computer program they wrote. Optimized by David Ellsworth in December 2025."
+},
+"30": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"31": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"32": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"33": {
+"official_side": 6.0,
+"closed_form": null,
+"notes": "Proved by Wolfram Bentz in October 2018."
+},
+"34": {
+"official_side": 6.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"35": {
+"official_side": 6.0,
+"closed_form": null,
+"notes": "Proved by Erich Friedman in 1999."
+},
+"36": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"37": {
+"official_side": 6.59861960924436,
+"closed_form": null,
+"notes": "Found by David W. Cantrell in September 2002. Improves upon the found by Evert Stenlund in early 1980."
+},
+"38": {
+"official_side": 6.70710678118654,
+"closed_form": "6 + {1\\over 2}\\sqrt 2",
+"notes": "Found by Frits G\u00f6bel in early 1979."
+},
+"39": {
+"official_side": 6.81072208306864,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in January 2026, using a simulated annealing program he wrote, starting from randomness. Refound and refined by David Ellsworth in January 2026, starting from randomness. Optimized by David Ellsworth in January 2026."
+},
+"40": {
+"official_side": 6.82842712474619,
+"closed_form": "4 + 2 \\sqrt 2",
+"notes": "Rigid. Found by Frits G\u00f6bel in early 1979."
+},
+"41": {
+"official_side": 6.9266930944688,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in December 2025, using a simulated annealing program he wrote, starting from randomness. Refound and refined by David Ellsworth in December-January 2025-2026, using his modified version of Thomas Schadt's simulated annealing program, starting from randomness. Optimized by David Ellsworth in January 2026."
+},
+"42": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"43": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"44": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"45": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"46": {
+"official_side": 7.0,
+"closed_form": null,
+"notes": "Proved by Wolfram Bentz in August 2009."
+},
+"47": {
+"official_side": 7.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"48": {
+"official_side": 7.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"49": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"50": {
+"official_side": 7.57142857142857,
+"closed_form": "7 + {4\\over 7}",
+"notes": "Found by Thomas Schadt in December 2025, using a simulated annealing program he wrote, starting from randomness. Optimized by David Ellsworth. This is the third record-setting packing found with a rational side length, thanks to the Pythagorean triple determining its tilt angle. It is the first record-setting packing to use the same Pythagorean triple as the found by David Ellsworth in December 20"
+},
+"51": {
+"official_side": 7.70079923541701,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in January 2026, using a simulated annealing program he wrote, starting from randomness. Refound by David Ellsworth in January 2026, using his modified version #2 of Thomas Schadt's simulated annealing program, starting from randomness ( statistics gathered ). Optimized by David Ellsworth in February 2026."
+},
+"52": {
+"official_side": 7.70710678118654,
+"closed_form": "7 + {1\\over 2}\\sqrt 2",
+"notes": "Found by Frits G\u00f6bel in early 1979."
+},
+"53": {
+"official_side": 7.82287565553229,
+"closed_form": "{13\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Found by David W. Cantrell in September 2002. Improved by David W. Cantrell in December 2024. Improved by David Ellsworth in February 2026, using his modified version #3 of Thomas Schadt's simulated annealing program, starting from randomness. Optimized by David Ellsworth in February 2026."
+},
+"54": {
+"official_side": 7.84666719284348,
+"closed_form": null,
+"notes": "Found by David W. Cantrell in October 2005. Improved by Joe DeVincentis in April 2014."
+},
+"55": {
+"official_side": 7.94577100750391,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in January 2026, using a simulated annealing program he wrote, starting from a cherry-picked state found by his earlier program (started from randomness) which reimplements the Gensane & Ryckelynck algorithm. Refound by David Ellsworth in February 2026, using his modified version #3 of Thomas Schadt's simulated annealing program, starting from randomness ( statistics gathere"
+},
+"56": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"57": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"58": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"59": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"60": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"61": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"62": {
+"official_side": 8.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"63": {
+"official_side": 8.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"64": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"65": {
+"official_side": 8.53553390593273,
+"closed_form": "5 + {5\\over 2}\\sqrt 2",
+"notes": "Found by Frits G\u00f6bel in early 1979."
+},
+"66": {
+"official_side": 8.65685424949238,
+"closed_form": "3 + 4 \\sqrt 2",
+"notes": "Found by Evert Stenlund in early 1980."
+},
+"67": {
+"official_side": 8.70710678118654,
+"closed_form": "8 + {1\\over 2}\\sqrt 2",
+"notes": "Found by Evert Stenlund in early 1980, extending the found by Frits G\u00f6bel in early 1979."
+},
+"68": {
+"official_side": 8.7987961402601,
+"closed_form": null,
+"notes": "Found by Sigvart Brendberg in June 2023, using a computer program he wrote followed by manual optimization. Improved by Thomas Schadt in December 2025, using a simulated annealing program he wrote, starting from randomness. Optimized by David Ellsworth in December 2025. Improved by Joost de Winter in August 2026, working with unspecified AI. Improved and optimized by Allen Chang in September 2026,"
+},
+"69": {
+"official_side": 8.82719465572973,
+"closed_form": null,
+"notes": "Found by Maurizio Morandi in June 2010. Improved by David W. Cantrell in August 2023. Improved by hmbelvedere in July 2026, using an undisclosed iterative method (probably with AI). Refound by David Ellsworth in September 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from found by Maurizio Morandi in June 2010. Optimized by David Ellsworth in September 2"
+},
+"70": {
+"official_side": 8.881666757009,
+"closed_form": null,
+"notes": "Found by Joe DeVincentis in April 2014."
+},
+"71": {
+"official_side": 8.94407155757031,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in December 2025, using a simulated annealing program he wrote, improving upon the found by David W. Cantrell in October 2005. Optimized by David Ellsworth in January 2026."
+},
+"72": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"73": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"74": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"75": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"76": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"77": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"78": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"79": {
+"official_side": 9.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"80": {
+"official_side": 9.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"81": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"82": {
+"official_side": 9.53553390593273,
+"closed_form": "6 + {5\\over 2}\\sqrt 2",
+"notes": "Found by Frits G\u00f6bel in early 1979. Adds two \"L\"s to ."
+},
+"83": {
+"official_side": 9.63475764863108,
+"closed_form": null,
+"notes": "Found by K\u00e1roly Hajba in September 2024. Improved upon the found by Evert Stenlund in early 1980. Improved by David W. Cantrell in November 2024. Extends the found by John Bidwell in 1998. Improved by Allen Chang in September 2026, with GPT-5.6 Sol and GPT-6 Astra. Optimized by David Ellsworth in September 2026. Polynomial root solution found by Allen Chang in September 2026 (see SVG source)."
+},
+"84": {
+"official_side": 9.70710678118654,
+"closed_form": "9 + {1\\over 2}\\sqrt 2",
+"notes": "Found by Evert Stenlund in early 1980, extending the found by Frits G\u00f6bel in early 1979."
+},
+"85": {
+"official_side": 9.74264068711928,
+"closed_form": "{11\\over 2} + 3 \\sqrt 2",
+"notes": "Found by Erich Friedman in 1997."
+},
+"86": {
+"official_side": 9.82287565553229,
+"closed_form": "{17\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Found by Erich Friedman in 1997. Extends the alternative packing of the found by Pertti H\u00e4m\u00e4l\u00e4inen in 1980 found by Mats Gustafsson in 1981."
+},
+"87": {
+"official_side": 9.83881526994826,
+"closed_form": null,
+"notes": "Found by David Ellsworth in December 2024, based on the found by K\u00e1roly Hajba in November 2024 and the found by Joe DeVincentis in April 2014. Improved by David W. Cantrell in January 2025. Improved by David Ellsworth in February 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by David Ellsworth in December 2024. Optimized by David Ellsworth"
+},
+"88": {
+"official_side": 9.88815305375857,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, by adapting and extending the improvement found by David W. Cantrell in September 2002. Improves upon the found by Erich Friedman in 1997, which extended the found by Charles F. Cottingham in 1979. Improved independently by both David W. Cantrell and David Ellsworth in January 2025. This new technique, which will need to be applied to about 13 additional "
+},
+"89": {
+"official_side": 9.94974746830583,
+"closed_form": "5 + {7\\over 2}\\sqrt 2",
+"notes": "Found by Evert Stenlund in early 1980, by continuing a pattern found by Frits G\u00f6bel in early 1979."
+},
+"90": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"91": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"92": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"93": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"94": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"95": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"96": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"97": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"98": {
+"official_side": 10.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"99": {
+"official_side": 10.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"100": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"101": {
+"official_side": 10.53553390593273,
+"closed_form": "7 + {5\\over 2}\\sqrt 2",
+"notes": "Adds two \"L\"s to the found by Frits G\u00f6bel in early 1979."
+},
+"102": {
+"official_side": 10.61138794077522,
+"closed_form": null,
+"notes": "Found by K\u00e1roly Hajba in September 2024. Extended the found by Evert Stenlund in early 1980. Improved by David W. Cantrell and David Ellsworth in November 2024, by extending the found by David W. Cantrell in September 2002. Improved by David Ellsworth in December 2024. Improved by David W. Cantrell in January 2025. This new technique, which will need to be applied to about 13 additional packings p"
+},
+"103": {
+"official_side": 10.70378195534367,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in December 2025, using a simulated annealing program he wrote, starting from randomness. Refound and refined by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from randomness. The third record-setting packing found that is doubly semi-primitive. Refined by Tej Stead in June 2026, working with Claude Fable"
+},
+"104": {
+"official_side": 10.70710678118654,
+"closed_form": "10 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"105": {
+"official_side": 10.80761933330707,
+"closed_form": null,
+"notes": "Found by Thomas Schadt in December 2025, using a simulated annealing program he wrote, starting from randomness. Refound and refined by David Ellsworth in March 2026, using his modified version #3 of Thomas Schadt's simulated annealing program, starting from randomness. Not yet analytically optimized."
+},
+"106": {
+"official_side": 10.82297973416944,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, based on the found by David W. Cantrell in September 2002. Improved by David W. Cantrell in December 2024."
+},
+"107": {
+"official_side": null,
+"closed_form": null,
+"notes": "Found by K\u00e1roly Hajba in November 2024. Is an alternative packing for an extension of the found by Joe DeVincentis in April 2014."
+},
+"108": {
+"official_side": 10.92591939016138,
+"closed_form": null,
+"notes": "Found by K\u00e1roly Hajba in October 2024. Improved by David Ellsworth in November 2024. Extends the found by Walter Trump in 1979."
+},
+"109": {
+"official_side": 10.94974746830583,
+"closed_form": "6 + {7\\over 2}\\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"110": {
+"official_side": 10.99679327401957,
+"closed_form": null,
+"notes": "Found by David W. Cantrell in February 2025. Bounds the conjecture to . Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"111": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"112": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"113": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"114": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"115": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"116": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"117": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"118": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"119": {
+"official_side": 11.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"120": {
+"official_side": 11.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"121": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"122": {
+"official_side": 11.53553390593273,
+"closed_form": "8 + {5\\over 2}\\sqrt 2",
+"notes": "Adds three \"L\"s to the found by Frits G\u00f6bel in early 1979."
+},
+"123": {
+"official_side": 11.60139979378801,
+"closed_form": null,
+"notes": "Found and improved by David Ellsworth in December 2024, by extending the found by K\u00e1roly Hajba in September 2024 and adapting and extending the improvement found by David W. Cantrell in September 2002. Improved by David W. Cantrell in January 2025. This new technique, which will need to be applied to about 13 additional packings previously thought to be finished, independently found by both David "
+},
+"124": {
+"official_side": 11.65685424949238,
+"closed_form": "6 + 4 \\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"125": {
+"official_side": 11.70710678118654,
+"closed_form": "11 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"126": {
+"official_side": 11.77473513240654,
+"closed_form": null,
+"notes": "Found by Joost de Winter in August 2026, working with unspecified AI, using an evolutionary beam search with simulated annealing, starting from the latest as of December 2025. The fourth record-setting packing found that is doubly semi-primitive. Not yet analytically optimized."
+},
+"127": {
+"official_side": 11.82287565553229,
+"closed_form": "{21\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Extends the found by Erich Friedman in 1997."
+},
+"128": {
+"official_side": 11.82509196821368,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, based on the found by Maurizio Morandi in June 2010. Improved by David Ellsworth in December 2024, including using the technique from the improved by David W. Cantrell in December 2024. Improved by David W. Cantrell and David Ellsworth in January 2025."
+},
+"129": {
+"official_side": 11.88130621809,
+"closed_form": null,
+"notes": "Found and improved by David Ellsworth in December 2024, adapting/extending the improvement found by David W. Cantrell in September 2002. Unimproved form similar to the found by Erich Friedman in 1997. Improved by David Ellsworth in December 2025, using his modified version of Thomas Schadt's simulated annealing program. Optimized by David Ellsworth in January 2026."
+},
+"130": {
+"official_side": 11.91119052015898,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024. Improved by David W. Cantrell in November 2024. Improved by David Ellsworth in November 2024. Extends the found by Erich Friedman in 1997; adapts and extends the improvement found by David W. Cantrell in September 2002. Further improvement pending."
+},
+"131": {
+"official_side": 11.95652543280926,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by K\u00e1roly Hajba in November 2024. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"132": {
+"official_side": 11.99137344423646,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Bounded the conjecture to . Improved by David W. Cantrell in March 2025. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"133": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"134": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"135": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"136": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"137": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"138": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"139": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"140": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"141": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"142": {
+"official_side": 12.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"143": {
+"official_side": 12.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"144": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"145": {
+"official_side": 12.53553390593273,
+"closed_form": "9 + {5\\over 2}\\sqrt 2",
+"notes": "Adds four \"L\"s to the found by Frits G\u00f6bel in early 1979."
+},
+"146": {
+"official_side": 12.60090777851301,
+"closed_form": null,
+"notes": "Found by David W. Cantrell in January 2025 by switching to the rotationally symmetric form of adding an \"L\" to the found and improved by David Ellsworth in December 2024 and improved by David W. Cantrell in January 2025 with a technique independently found by both David W. Cantrell and David Ellsworth. This is the first record-setting packing found that is doubly semi-primitive."
+},
+"147": {
+"official_side": 12.65685424949238,
+"closed_form": "7 + 4 \\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"148": {
+"official_side": 12.65685424949238,
+"closed_form": "7 + 4 \\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"149": {
+"official_side": 12.70710678118654,
+"closed_form": "12 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"150": {
+"official_side": 12.77817459305202,
+"closed_form": "5 + {11\\over 2}\\sqrt 2",
+"notes": "Found by David Ellsworth in January 2025. Extends the found by Erich Friedman in 1997 how the found by Evert Stenlund in early 1980 extends ."
+},
+"151": {
+"official_side": 12.82287565553229,
+"closed_form": "{23\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Found by David Ellsworth in November 2024. Improved by David W. Cantrell in December 2024."
+},
+"152": {
+"official_side": 12.830959544726,
+"closed_form": null,
+"notes": "Found by David Ellsworth and David W. Cantrell in January 2025, based on the found by David W. Cantrell in September 2002 and the found by Maurizio Morandi in June 2010, adapting and extending the improvement found by David W. Cantrell in August 2023. Improved by Grigoriy Dyachkov in September 2026, working with Claude Opus 5 and Claude Fable 5, applying a similar improvement as that done to in Ju"
+},
+"153": {
+"official_side": 12.881666757009,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, based on the found by Joe DeVincentis in April 2014."
+},
+"154": {
+"official_side": 12.93166712962655,
+"closed_form": null,
+"notes": "Originally found by David Ellsworth in December 2024, by combining two slightly modified copies of the found by Joe DeVincentis in April 2014. Improved by David W. Cantrell in February 2025. Improved independently by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Resembles the found by David Ellsworth in December 2024. Refined by Tej Ste"
+},
+"155": {
+"official_side": 12.95844711161529,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by David Ellsworth in December 2024 and January 2026, with 27 squares removed. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"156": {
+"official_side": 12.98208376048414,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Shows for . Improved by David Ellsworth in December 2024. Improved by David W. Cantrell in March 2025. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"157": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"158": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"159": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"160": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"161": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"162": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"163": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"164": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"165": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"166": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"167": {
+"official_side": 13.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005. --> Proved by Hiroshi Nagamochi in 2005."
+},
+"168": {
+"official_side": 13.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"169": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"170": {
+"official_side": 13.53553390593273,
+"closed_form": "10 + {5\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979. This alternative, converting the augmented by five \"L\"s into a primitive packing, found by K\u00e1roly Hajba in November 2024."
+},
+"171": {
+"official_side": 13.57142857142857,
+"closed_form": "13 + {4\\over 7}",
+"notes": "Found by David Ellsworth in December 2025, by combining two copies of the found by Thomas Schadt in December 2025 (using a simulated annealing program he wrote, starting from randomness) and optimized by David Ellsworth."
+},
+"172": {
+"official_side": 13.6189889866016,
+"closed_form": null,
+"notes": "Found by K\u00e1roly Hajba in November 2024, extending the he found in September 2024. Improved by David Ellsworth in November 2024 by adapting the improvement found by David W. Cantrell in September 2002. Improved by David Ellsworth in December 2024. Further improvement pending."
+},
+"173": {
+"official_side": 13.65685424949238,
+"closed_form": "8 + 4 \\sqrt 2",
+"notes": "Adds an \"L\" to the that continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"174": {
+"official_side": 13.70710678118654,
+"closed_form": "13 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"175": {
+"official_side": 13.77817459305202,
+"closed_form": "6 + {11\\over 2}\\sqrt 2",
+"notes": "Found by David Ellsworth in December 2024. Based on the that continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"176": {
+"official_side": 13.82287565553229,
+"closed_form": "{25\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Extends the found by Erich Friedman in 1997."
+},
+"177": {
+"official_side": 13.82302875075647,
+"closed_form": null,
+"notes": "Found and improved by David Ellsworth in November 2024 and December 2024, based on the found/improved by David W. Cantrell in September 2002 and December 2024, respectively."
+},
+"178": {
+"official_side": null,
+"closed_form": null,
+"notes": "Extends the found by Joe DeVincentis in April 2014."
+},
+"179": {
+"official_side": 13.89534106997649,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2025, using a computer program he wrote. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Optimized by Tej Stead in June 2026, working with Claude Fable 5."
+},
+"180": {
+"official_side": 13.93508705291129,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by Dav"
+},
+"181": {
+"official_side": 13.95690672341755,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019, improved, fixed, and improved by David Ellsworth in December 2024, December 2025, and January 2026, with 29 squares removed. Refined by Tej Stead in June 2026, working with Claude Fable 5. "
+},
+"182": {
+"official_side": 13.97419105332569,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Shows for . Improved by David Ellsworth in December 2024. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"183": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"184": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"185": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"186": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"187": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"188": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"189": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"190": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"191": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"192": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"193": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"194": {
+"official_side": 14.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"195": {
+"official_side": 14.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"196": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"197": {
+"official_side": 14.53553390593273,
+"closed_form": "11 + {5\\over 2}\\sqrt 2",
+"notes": "Adds six \"L\"s to the found by Frits G\u00f6bel in early 1979."
+},
+"198": {
+"official_side": 14.57142857142857,
+"closed_form": "14 + {4\\over 7}",
+"notes": "Adds an \"L\" to the found by David Ellsworth in December 2025 by combining two copies of the found by Thomas Schadt in December 2025 (using a simulated annealing program he wrote, starting from randomness) and optimized by David Ellsworth."
+},
+"199": {
+"official_side": 14.6189889866016,
+"closed_form": null,
+"notes": "Adds an \"L\" to the found by K\u00e1roly Hajba in November 2024, improved by David Ellsworth in November 2024 by adapting the improvement found by David W. Cantrell in September 2002, and improved by David Ellsworth in December 2024. Further improvement pending."
+},
+"200": {
+"official_side": 14.65685424949238,
+"closed_form": "9 + 4 \\sqrt 2",
+"notes": "Adds two \"L\"s to the that continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"201": {
+"official_side": 14.70710678118654,
+"closed_form": "14 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"202": {
+"official_side": 14.72792206135785,
+"closed_form": "2 + 9 \\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"203": {
+"official_side": 14.77817459305202,
+"closed_form": "7 + {11\\over 2}\\sqrt 2",
+"notes": "Found by David Ellsworth in December 2024. Based on the that continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"204": {
+"official_side": 14.82287565553229,
+"closed_form": "{27\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Extends the found by Erich Friedman in 1997."
+},
+"205": {
+"official_side": 14.82445114612408,
+"closed_form": null,
+"notes": "Found by David Ellsworth in December 2024, by extending the he found/improved in November/December 2024, based on the found by Maurizio Morandi in June 2010, and using the technique from the improved by David W. Cantrell in December 2024. Improved by David Ellsworth in January 2025, using the technique from the improved by David W. Cantrell and David Ellsworth in January 2025."
+},
+"206": {
+"official_side": 14.87221902560728,
+"closed_form": null,
+"notes": "Found and improved by David Ellsworth in December 2024, adapting/extending the improvement found by David W. Cantrell in September 2002. Unimproved form similar to the found by Erich Friedman in 1997. Improved by David Ellsworth in December 2025, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026 and Joost de Winter in August 2026. Optimize"
+},
+"207": {
+"official_side": 14.89395494255333,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, by extending the found by Erich Friedman in 1997, and adapting and extending the improvement found by David W. Cantrell in September 2002 and the improvement found by David W. Cantrell in November 2024. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026,"
+},
+"208": {
+"official_side": 14.93776656277905,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by Dav"
+},
+"209": {
+"official_side": 14.95861500087481,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by David Ellsworth in December 2024 and January 2026, with 31 squares removed. Refined by Tej Stead in June 2026, working with Claude Fable 5"
+},
+"210": {
+"official_side": 14.97413341886404,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Shows for . Improved by David Ellsworth in December 2024. Fixed by David Ellsworth in December 2025. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"211": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"212": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"213": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"214": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"215": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"216": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"217": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"218": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"219": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"220": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"221": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"222": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"223": {
+"official_side": 15.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"224": {
+"official_side": 15.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"225": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"226": {
+"official_side": 15.53553390593273,
+"closed_form": "12 + {5\\over 2}\\sqrt 2",
+"notes": "Adds seven \"L\"s to the found by Frits G\u00f6bel in early 1979."
+},
+"227": {
+"official_side": 15.57106781186547,
+"closed_form": "{17\\over 2} + 5 \\sqrt 2",
+"notes": "Found by David Ellsworth in January 2025, using a computer program he wrote. Continues the , series found by Erich Friedman in 1997."
+},
+"228": {
+"official_side": 15.60902282132495,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, by extending the found by K\u00e1roly Hajba in September 2024 and improved by David W. Cantrell and David Ellsworth in November 2024. Improved by David Ellsworth in December 2024. Further improvement pending."
+},
+"229": {
+"official_side": 15.65685424949238,
+"closed_form": "10 + 4 \\sqrt 2",
+"notes": "Adds three \"L\"s to the that continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"230": {
+"official_side": 15.68292682926829,
+"closed_form": "15 + {28\\over 41}",
+"notes": "Found and improved by David Ellsworth in January 2025. Uses a rotational symmetry technique found by David W. Cantrell in January 2025, and the technique from the improved by David W. Cantrell in January 2025. This is the second record-setting packing found with a rational side length, thanks to the Pythagorean triple determining its tilt angle."
+},
+"231": {
+"official_side": 15.70710678118654,
+"closed_form": "15 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"232": {
+"official_side": 15.77817459305202,
+"closed_form": "8 + {11\\over 2}\\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"233": {
+"official_side": 15.77817459305202,
+"closed_form": "8 + {11\\over 2}\\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"234": {
+"official_side": 15.82287565553229,
+"closed_form": "{29\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Found by David Ellsworth in December 2024, by extending the and he found/improved in November/December 2024, based on the found by Maurizio Morandi in June 2010, and using the technique from the improved by David W. Cantrell in December 2024. Improved by David Ellsworth in January 2025, adapting the technique from the improved by David W. Cantrell and David Ellsworth in January 2025."
+},
+"235": {
+"official_side": 15.82660563342856,
+"closed_form": null,
+"notes": "Found by David Ellsworth and David W. Cantrell in January 2025, based on the found by David W. Cantrell in September 2002 and the found by Maurizio Morandi in June 2010, adapting and extending the improvement found by David W. Cantrell in August 2023."
+},
+"236": {
+"official_side": 15.87607539315201,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, by extending the found by Erich Friedman in 1997 and adapting the improvement found by David W. Cantrell in November 2024. Improved by David Ellsworth in December 2024. Improved by Grigoriy Dyachkov in September 2026, working with Claude Opus 5 and Claude Fable 5. Not yet analytically optimized."
+},
+"237": {
+"official_side": 15.91421356237309,
+"closed_form": "{29\\over 2} + \\sqrt 2",
+"notes": "Found by David Ellsworth in December 2024. Similar to the found by Erich Friedman in 1997."
+},
+"238": {
+"official_side": 15.93965520031394,
+"closed_form": null,
+"notes": "Found by David Ellsworth in February 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by Da"
+},
+"239": {
+"official_side": 15.95635358406308,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by David Ellsworth in December 2024 and January 2026, with 33 squares removed. Refined by Tej Stead in June 2026, working with Claude Fable 5"
+},
+"240": {
+"official_side": 15.97556282833087,
+"closed_form": null,
+"notes": "Originally found by K\u00e1roly Hajba in September 2015. Bounded the conjecture to . Converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by David Ellsworth in December 2024. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, work"
+},
+"241": {
+"official_side": 15.9908051781052,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Shows for . Improved by David Ellsworth in November 2024. Improved again by David Ellsworth in November 2024, by adapting a technique from the found by K\u00e1roly Hajba in September 2015. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead"
+},
+"242": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"243": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"244": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"245": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"246": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"247": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"248": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"249": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"250": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"251": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"252": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"253": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"254": {
+"official_side": 16.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"255": {
+"official_side": 16.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"256": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"257": {
+"official_side": 16.53553390593273,
+"closed_form": "13 + {5\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979. This alternative, converting the augmented by eight \"L\"s into a primitive packing, found by David Ellsworth in January 2025, using a computer program he wrote."
+},
+"258": {
+"official_side": 16.57106781186547,
+"closed_form": "{19\\over 2} + 5 \\sqrt 2",
+"notes": "Adds an \"L\" to the found by David Ellsworth in January 2025 (using a computer program he wrote) which continues the , series found by Erich Friedman in 1997."
+},
+"259": {
+"official_side": 16.60257141234448,
+"closed_form": null,
+"notes": "Found by David Ellsworth in December 2024, by extending the found by K\u00e1roly Hajba in September 2024 and adapting and extending the improvement found by David W. Cantrell in September 2002. Improved by David Ellsworth in December 2024. Fixed by David Ellsworth in January 2026. Further improvement pending."
+},
+"260": {
+"official_side": 16.65685424949238,
+"closed_form": "11 + 4 \\sqrt 2",
+"notes": "Extends the that continues a pattern found by Frits G\u00f6bel in early 1979. This alternative, converting the augmented by four \"L\"s into a primitive packing, found by David Ellsworth in December 2024."
+},
+"261": {
+"official_side": 16.68292682926829,
+"closed_form": "16 + {28\\over 41}",
+"notes": "Adds an \"L\" to the found and improved by David Ellsworth in January 2025, which uses a rotational symmetry technique found by David W. Cantrell in January 2025, and the technique from the improved by David W. Cantrell in January 2025."
+},
+"262": {
+"official_side": 16.70710678118654,
+"closed_form": "16 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"263": {
+"official_side": 16.74264068711928,
+"closed_form": "{25\\over 2} + 3 \\sqrt 2",
+"notes": "Found by David Ellsworth in January 2025, based on the he found."
+},
+"264": {
+"official_side": 16.77817459305202,
+"closed_form": "9 + {11\\over 2}\\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"265": {
+"official_side": 16.77817459305202,
+"closed_form": "9 + {11\\over 2}\\sqrt 2",
+"notes": "Continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"266": {
+"official_side": 16.8230620828378,
+"closed_form": null,
+"notes": "Found and improved by David Ellsworth in November 2024 and in December 2024, based on the found/improved by David W. Cantrell in September 2002 and December 2024, respectively."
+},
+"267": {
+"official_side": null,
+"closed_form": null,
+"notes": "Extends the found by K\u00e1roly Hajba in November 2024."
+},
+"268": {
+"official_side": 16.87931143465371,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, based on the found by Joe DeVincentis in April 2014. Improved by David W. Cantrell in February 2025. Improved by Grigoriy Dyachkov in September 2026, working with Claude Opus 5 and Claude Fable 5. Not yet analytically optimized."
+},
+"269": {
+"official_side": 16.90596764828402,
+"closed_form": null,
+"notes": "Found by David Ellsworth in November 2024, by extending the found by Erich Friedman in 1997, and adapting and extending the improvement found by David W. Cantrell in September 2002. Improved by David Ellsworth in January 2025. Further improvement pending."
+},
+"270": {
+"official_side": 16.94062059800744,
+"closed_form": null,
+"notes": "Found by David Ellsworth in February 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the latest as of February 2026, with 1 square removed and 5 straightened. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"271": {
+"official_side": 16.95499909412532,
+"closed_form": null,
+"notes": "Found by David Ellsworth in February 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by David Ellsworth in December 2024 and January 2026, with 1 square removed and 4 straightened. Refined by Tej Stead in June 2026, working w"
+},
+"272": {
+"official_side": 16.96971602419903,
+"closed_form": null,
+"notes": "Originally found by Lars Cleemann between 1991 and 1998. Bounded the conjecture to . Converted in December 2024 from the found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019 and improved by David Ellsworth in December 2024. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026,"
+},
+"273": {
+"official_side": 16.98820725030513,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Shows for . Improved by David Ellsworth in November 2024, by adapting a technique from the found by K\u00e1roly Hajba in September 2015. Improved by David Ellsworth in December 2024. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in Ju"
+},
+"274": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"275": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"276": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"277": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"278": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"279": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"280": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"281": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"282": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"283": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"284": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"285": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"286": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"287": {
+"official_side": 17.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"288": {
+"official_side": 17.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"289": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"290": {
+"official_side": 17.53553390593273,
+"closed_form": "14 + {5\\over 2}\\sqrt 2",
+"notes": "Combines two copies of the that continues a pattern found by Frits G\u00f6bel in early 1979. This is the first that has the same side length as the best known , and is likely an irreducible primitive packing."
+},
+"291": {
+"official_side": 17.53553390593273,
+"closed_form": "14 + {5\\over 2}\\sqrt 2",
+"notes": "Combines two copies of the that continues a pattern found by Frits G\u00f6bel in early 1979. This is the first that has the same side length as the best known , and is likely an irreducible primitive packing."
+},
+"292": {
+"official_side": 17.60257141234448,
+"closed_form": null,
+"notes": "Adds an \"L\" to the found and improved by David Ellsworth in December 2024 extending the found by K\u00e1roly Hajba in September 2024 and adapting and extending the improvement found by David W. Cantrell in September 2002. Fixed by David Ellsworth in January 2026. Further improvement pending."
+},
+"293": {
+"official_side": 17.63414634146341,
+"closed_form": "17 + {26\\over 41}",
+"notes": "Found by David Ellsworth in December 2024. Improved by David W. Cantrell in January 2025. This is the first record-setting packing found with a rational side length, thanks to the Pythagorean triple determining its tilt angle. It was foreshadowed just 3 days earlier by David Ellsworth finding an with rational side length."
+},
+"294": {
+"official_side": 17.65685424949238,
+"closed_form": "12 + 4 \\sqrt 2",
+"notes": "Extends the that continues a pattern found by Frits G\u00f6bel in early 1979. This is likely an irreducible primitive packing."
+},
+"295": {
+"official_side": 17.70710678118654,
+"closed_form": "17 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"296": {
+"official_side": 17.70710678118654,
+"closed_form": "17 + {1\\over 2}\\sqrt 2",
+"notes": "Extends the found by Frits G\u00f6bel in early 1979."
+},
+"297": {
+"official_side": 17.74106074604732,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2025. Extends the found by Erich Friedman in 1997. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"298": {
+"official_side": 17.77817459305202,
+"closed_form": "10 + {11\\over 2}\\sqrt 2",
+"notes": "Adds an \"L\" to the that continues a pattern found by Frits G\u00f6bel in early 1979."
+},
+"299": {
+"official_side": 17.82287565553229,
+"closed_form": "{33\\over 2} + {1\\over 2}\\sqrt 7",
+"notes": "Extends the found by Erich Friedman in 1997."
+},
+"300": {
+"official_side": 17.82412338847854,
+"closed_form": null,
+"notes": "Found by David Ellsworth in January 2025, extending the and he found, based on the found by Maurizio Morandi in June 2010 and using the technique from the improved by David W. Cantrell in December 2024. Improved by David Ellsworth in January 2025, using the technique from the improved by David W. Cantrell and David Ellsworth in January 2025."
+},
+"301": {
+"official_side": 17.8688915555743,
+"closed_form": null,
+"notes": "Drafted by David Ellsworth in January 2025, including adapting and extending the improvement found by David W. Cantrell in September 2002. Refined by David Ellsworth in December 2025, using his modified version of Thomas Schadt's simulated annealing program. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"302": {
+"official_side": 17.88674602860566,
+"closed_form": null,
+"notes": "Found by David Ellsworth in December 2024 (including re-adapting the techniques from the and / he improved), by extending the found by Erich Friedman in 1997, and adapting and extending the improvement found by David W. Cantrell in September 2002. Further improvement pending."
+},
+"303": {
+"official_side": 17.93125509556197,
+"closed_form": null,
+"notes": "Found by David Ellsworth in April 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the latest as of March 2026, with 2 squares removed and 8 straightened. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"304": {
+"official_side": 17.94910783564662,
+"closed_form": null,
+"notes": "Found by David Ellsworth in May 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the latest as of March 2026, with 1 square removed and 4 straightened. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"305": {
+"official_side": 17.96066201401205,
+"closed_form": null,
+"notes": "Found by David Ellsworth in March 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the latest as of February 2026, with 1 square removed and 4 straightened. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"306": {
+"official_side": 17.96913960675661,
+"closed_form": null,
+"notes": "Found by David Ellsworth in February 2026, using his modified version of Thomas Schadt's simulated annealing program, starting from the latest as of February 2026, with 1 square removed and 4 straightened. Refined by Tej Stead in June 2026, working with Claude Fable 5. Not yet analytically optimized."
+},
+"307": {
+"official_side": 17.9827220157961,
+"closed_form": null,
+"notes": "Found by M.Z. Arslanov, S.A. Mustafin, and Z.K. Shangitbayev in March 2019. Shows for . Improved by David Ellsworth in November 2024, by adapting a technique from the found by K\u00e1roly Hajba in September 2015. Improved by David Ellsworth and K\u00e1roly Hajba in December 2024. Improved by David Ellsworth in January 2026, using his modified version of Thomas Schadt's simulated annealing program. Refined b"
+},
+"308": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"309": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"310": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"311": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"312": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"313": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"314": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"315": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"316": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"317": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"318": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"319": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"320": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"321": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+},
+"322": {
+"official_side": 18.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"323": {
+"official_side": 18.0,
+"closed_form": null,
+"notes": "Proved by Hiroshi Nagamochi in 2005."
+},
+"324": {
+"official_side": null,
+"closed_form": null,
+"notes": null
+}
+}

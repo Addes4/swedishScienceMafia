@@ -1,0 +1,82 @@
+"""Command line: python -m mosa {lab, apply, verify, targets, serve}.
+
+    python -m mosa lab --targets 101 102 103 --chains 4 --rounds 3 --backend modal --library data/strategy-library.json
+    python -m mosa apply --strategy library:2 --targets 88 --seeds 1 2 3 --backend local
+    python -m mosa serve
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import time
+
+from .evaluate import Budget
+
+
+def _strategy(spec, library):
+    if spec.startswith("library:"):
+        entry = json.loads(Path(library).read_text())[int(spec.split(":")[1])]
+        return entry["code"], entry["source"]
+    return Path(spec).read_text(), Path(spec).stem
+
+
+def main():
+    parser = argparse.ArgumentParser(prog="mosa", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = parser.add_subparsers(dest="command", required=True)
+    for name in ("lab", "apply"):
+        p = sub.add_parser(name)
+        p.add_argument("--domain", default="squares")
+        p.add_argument("--targets", type=int, nargs="+", required=True)
+        p.add_argument("--seeds", type=int, nargs="+", default=[0] if name == "lab" else [1])
+        p.add_argument("--backend", choices=["local", "modal"], default="modal")
+        p.add_argument("--out", default=None, help="notebook directory (default runs/<command>-<time>)")
+        p.add_argument("--references", type=int, nargs="*", default=[], help="extra sizes whose best solutions strategies receive")
+        p.add_argument("--library", default="data/strategy-library.json")
+        p.add_argument("--workers", type=int, default=None, help="local processes (default: cores - 1)")
+        for field, value in vars(Budget()).items():
+            p.add_argument(f"--{field}", type=int, default=value)
+    lab = sub.choices["lab"]
+    lab.add_argument("--chains", type=int, default=4)
+    lab.add_argument("--rounds", type=int, default=3)
+    lab.add_argument("--brief", default=None, help="text file of target-specific evidence for the researchers")
+    lab.add_argument("--model", default=None)
+    sub.choices["apply"].add_argument("--strategy", required=True, help="library:<index> or a .py file")
+    verify = sub.add_parser("verify")
+    verify.add_argument("--domain", default="squares")
+    verify.add_argument("--n", type=int, required=True)
+    verify.add_argument("--file", required=True, help="JSON with 'poses' (or 'x')")
+    targets = sub.add_parser("targets")
+    targets.add_argument("--domain", default="squares")
+    serve = sub.add_parser("serve")
+    serve.add_argument("--runs", default="runs")
+    serve.add_argument("--port", type=int, default=8765)
+    args = parser.parse_args()
+
+    if args.command in ("lab", "apply"):
+        from .research import Lab
+        budget = Budget(**{field: getattr(args, field) for field in vars(Budget())})
+        out = args.out or f"runs/{args.command}-{time.strftime('%Y%m%d-%H%M%S')}"
+        library = args.library if Path(args.library).exists() or args.command == "lab" else None
+        lab = Lab(args.domain, args.backend, out, budget, args.references, library, args.workers)
+        if args.command == "lab":
+            brief = Path(args.brief).read_text() if args.brief else ""
+            lab.lab(args.targets, args.chains, args.rounds, args.seeds, brief, args.model)
+        else:
+            code, source = _strategy(args.strategy, args.library)
+            lab.apply(code, source, args.targets, args.seeds)
+        print(f"notebook: {out}/events.jsonl")
+    elif args.command == "verify":
+        from .domain import get
+        data = json.loads(Path(args.file).read_text())
+        certificate = get(args.domain).verify(data.get("poses", data.get("x")), args.n)
+        print(json.dumps({k: v for k, v in certificate.items() if k != "poses"}, indent=1))
+    elif args.command == "targets":
+        from .domain import get
+        domain = get(args.domain)
+        for n in domain.targets():
+            info = domain.info(n)
+            print(f"{n:4d} {info['best_known']:.9f} {'closed form' if info.get('closed_form') else ''}")
+    elif args.command == "serve":
+        from .ui.server import serve
+        serve(args.runs, args.port)
