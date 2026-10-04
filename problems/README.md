@@ -10,6 +10,7 @@ problem means adding a folder, with no changes to `autoresearch/`.
 | `erdos_discrepancy` | number theory / combinatorics | problem 40 | 1160 (the maximum for C = 2) |
 | `sum_difference` | additive combinatorics | problem 43 | 1.2715 (asymptotic; AlphaEvolve unaided ≈ 1.21); the gate's reference adds the 0.01 maximum size bonus |
 | `bin_packing_online` | online algorithms | FunSearch (Nature 2024) Weibull 5k | score = L2 bound / bins; best fit 0.962, FunSearch heuristic 0.993 (no record flag) |
+| `bin_packing_online_ss` | online algorithms | Same instances and scoring as `bin_packing_online`, but the starting program is Sum-of-Squares (stateful). Used by experiments/llm-from-ss-v1 | as above; the starting program scores 0.994 |
 | `bin_packing_online_informed` | online algorithms | Same instances and scoring as `bin_packing_online`; `problem.md` also spells out what the function can know (item count, every open bin, past sizes) without naming an algorithm. Used by experiments/llm-informed-v1 | as above; baselines add Sum-of-Squares 0.994 and FWSS 0.999 (experiments/online-beyond-ss-v1) |
 
 Problem numbers refer to the repository accompanying Georgiev, Gómez-Serrano, Tao and Wagner,
