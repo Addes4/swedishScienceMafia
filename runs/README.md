@@ -16,7 +16,7 @@ In 8 steps DeepSeek-V4.1-Flash proposed 8 changes; 7 scored exactly 0.9616, the 
 (0.9699 / 0.9702). The search took 43 s and the baselines 8 s; the explanation was skipped because
 best fit is a single expression. This is consistent with [bp-ceiling-v1](../experiments/bp-ceiling-v1/RESULTS.md)
 (beating best fit on Weibull 5k needs a new-bin option or FunSearch-style code, not a small edit) and
-with the no-op proposals in [memory-ablation-v1](../experiments/memory-ablation-v1/RESULTS.md). It
+with the no-op proposals in [memory-ablation-v1](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/experiments/memory-ablation-v1/RESULTS.md). It
 is one seed of 8 steps: it shows the loop working end to end, not what the loop can reach.
 
 The mock run replaces the model by a local stand-in that perturbs one constant per step, so its

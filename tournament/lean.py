@@ -5,7 +5,7 @@ lean            one call per step proposes and implements a change to the curren
 + gate          non-regression gate (from Falsify) on problems with several public instances: a
                 candidate is not accepted if it scores below its parent on any instance in an
                 archive of instances where earlier valid candidates scored below their parents.
-+ patience      the Patience restart rule from strategist/controller.py: after T consecutive
++ patience      the Patience restart rule (tournament/patience.py): after T consecutive
                 non-improving steps on the working line, restart with a fresh program written
                 from the problem statement. The best program found so far is always kept.
 independent     the baseline without any loop: every call writes a program from the problem
@@ -25,7 +25,7 @@ from types import SimpleNamespace
 from typing import Optional
 
 from autoresearch.claude import parse_code
-from strategist.controller import Patience, context
+from .patience import Patience, context
 
 from .budget import BudgetExhausted, FatalAPIError
 from .context import Context, Evaluation

@@ -141,8 +141,8 @@ All three are fixed on `consolidate-overnight`, not yet on `main`.
 | Strategist with measured LLM costs | Fill `experiments/strategist-v2/costs/measured_llm.json`, then `python -m strategist.v2 confirm --costs measured --modal` | Measured cost ratios |
 | Publish the consolidation | Pushed `consolidate-overnight` and opened [PR #3](https://github.com/swedishScienceMafia/swedishScienceMafia/pull/3) into `main` (not merged) | Team review |
 | One runnable framework | Built: `python -m autoresearch.loop` on branch `feat/one-command` (see the 23:39 entry and [runs/README.md](../../runs/README.md) for the demo plan). At the user's choice, pushed and opened as [PR #4](https://github.com/swedishScienceMafia/swedishScienceMafia/pull/4) into `consolidate-overnight` (on top of PR #3) | Team review, then merge into PR #3 |
-| Submission | Video of at most 4 minutes, repo URL and short description to admin@algorithmdiscovery.org by 14:45 on 4 Oct, the event's submission deadline ([schedule](../hackathon/website.md)). The "10:30 code freeze" in earlier plans was an internal target, not an event rule. Draft description, video outline and Q&A are in `docs/papers/pitch-draft.md` | Owner |
-| Review PDF | Done: PR #2 was closed at about 06:20 on 4 October; its refreshed PDF and build script are in [docs/papers/review/](../papers/review/) | – |
+| Submission | Video of at most 4 minutes, repo URL and short description to admin@algorithmdiscovery.org by 14:45 on 4 Oct, the event's submission deadline ([schedule](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/docs/hackathon/website.md)). The "10:30 code freeze" in earlier plans was an internal target, not an event rule. Draft description, video outline and Q&A are in `docs/papers/pitch-draft.md` | Owner |
+| Review PDF | Done: PR #2 was closed at about 06:20 on 4 October; its refreshed PDF and build script are in [docs/papers/review/](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04/docs/papers/review) | – |
 | Devin | Check the session; it may lack access to the GitHub org | User |
 
 ## Devin task, as pasted by the user
@@ -176,7 +176,7 @@ CPU only, no LLM API calls, don't modify existing folders, small commits.
 |---|---|---|
 | Four-approach live campaign (OpenAI models): findings, ledger, per-run reports | Tag [`archive/all-approaches`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/all-approaches) on GitHub (`runs/FINDINGS.md`), formerly branch `research/all-approaches`; raw files in `~/Documents/ssm-backups/all-approaches-20261004-0535` and `~/Desktop/ssm-all-approaches.zip` | It is a parallel framework (`autoresearch/evidence_loop.py` and related files) built from the first `main`. Merging it would put two competing loops and conflicting READMEs in front of readers |
 | Throughput and Modal evaluation work | Local tag `archive/throughput-modal` (not pushed) | Its commits are already in `archive/all-approaches` |
-| Framework plans | The plans are in [docs/plans/](../plans/README.md); the full branches are local tags `archive/plan-unified-autoresearch` and `archive/plan-combined-framework` (not pushed) | Superseded by `autoresearch.loop` (PR #4) |
+| Framework plans | The plans are in [docs/plans/](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/docs/plans/README.md); the full branches are local tags `archive/plan-unified-autoresearch` and `archive/plan-combined-framework` (not pushed) | Superseded by `autoresearch.loop` (PR #4) |
 | Duplicate one-command build | Local tag `archive/one-command-v2` (5c99cae, not pushed) | Kept as a backup; PR #4 was chosen |
 | Workshop-paper drafts (LaTeX and PDF) | `~/Desktop/ssm-paper-sources/` and the PDFs on the Desktop | Written by another session outside the repository |
 | Devin's FunSearch reproduction | – | No branch or pull request was ever pushed |

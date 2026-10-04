@@ -30,9 +30,9 @@ writes `report.md`. It wraps existing code: `tournament/run.py`, `tournament/lea
 
 | Stage | Code | Default | Evidence for the default |
 |---|---|---|---|
-| propose + implement | `tournament.run.main` with one job, run locally (not Modal) | `lean`, 12 steps | [tournament-v1](../experiments/tournament-v1/RESULTS.md): lean and independent ahead of ShinkaEvolve and triage at a common early spend (partial, 17 of 60 runs) |
+| propose + implement | `tournament.run.main` with one job, run locally (not Modal) | `lean`, 12 steps | [tournament-v1](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/experiments/tournament-v1/RESULTS.md): lean and independent ahead of ShinkaEvolve and triage at a common early spend (partial, 17 of 60 runs) |
 | score | `autoresearch/gate.py` | | [gate-redteam-v1](../experiments/gate-redteam-v1/RESULTS.md): 0 of 68 exploit attempts gained a material unearned score |
-| keep | `tournament/lean.py` `Gate` | gate on | [gate-v3](../experiments/gate-v3/RESULTS.md) (counterexample gate beat score-only promotion); as prompt memory the same information mostly produced no-ops ([memory-ablation-v1](../experiments/memory-ablation-v1/RESULTS.md)) |
+| keep | `tournament/lean.py` `Gate` | gate on | [gate-v3](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/experiments/gate-v3/RESULTS.md) (counterexample gate beat score-only promotion); as prompt memory the same information mostly produced no-ops ([memory-ablation-v1](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/experiments/memory-ablation-v1/RESULTS.md)) |
 | audit | `tournament.metrics.summarize` | always | hidden instances caught 0.960 public → 0.238 hidden ([tournament-v2](../experiments/tournament-v2/RESULTS.md)) |
 | compare | `problems/<name>/baselines/*.py` through `gate.evaluate` | when the folder exists | [bp-ceiling-v1](../experiments/bp-ceiling-v1/RESULTS.md): cheap baselines can match FunSearch |
 | explain | `explain_code.py` | 40 evaluations, ±0.002 | [simplify-v1](../experiments/simplify-v1/EXPERIMENT.md) §4.2: one-sided simplification improved 26 of 43 candidates beyond the tolerance (repairs, not explanations), 21 of them into best fit |

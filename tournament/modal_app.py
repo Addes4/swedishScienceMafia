@@ -27,9 +27,9 @@ APP_NAME = "ssm-tournament"
 VOLUME_NAME = "ssm-tournament"
 SECRET_NAME = "ssm-llm-keys"          # ANTHROPIC_API_KEY, TYPESAFE_API_KEY
 HF_SECRET_NAME = "ssm-hf"              # HF_TOKEN, for grids with "provider": "hf"
-CODE_DIRS = ["autoresearch", "problems", "strategist", "tournament", "falsify"]
+CODE_DIRS = ["autoresearch", "problems", "tournament", "falsify"]
 IGNORE = ["**/__pycache__/**", "**/*.pyc", "**/*.so", "**/*.dylib", "**/.env", "**/results/**"]
-PINS = ["anthropic==1.11.0", "shinka-evolve==0.0.7", "typesafe-sdk==0.7.2", "numpy==2.5.3", "scipy==1.18.1"]
+PINS = ["anthropic==1.11.0", "shinka-evolve==0.0.7", "numpy==2.5.3", "scipy==1.18.1"]
 
 image = (modal.Image.debian_slim(python_version="3.12")
          .apt_install("build-essential", "git")

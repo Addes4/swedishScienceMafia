@@ -93,7 +93,7 @@ property-testing library (de Vries 2023).
   - Its literature check (`experiments/online-beyond-ss-v1/literature.md`, 38 LLM-AHD papers in full
     text) found no LLM-AHD paper that compares with Sum-of-Squares, primal–dual or re-solving
     policies.
-  - [llm-informed-v1](../../experiments/llm-informed-v1/RESULTS.md) is a null result. Telling the LLM
+  - [llm-informed-v1](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/experiments/llm-informed-v1/RESULTS.md) is a null result. Telling the LLM
     what its function can know did not lead it to such rules.
 
 ### Simplify

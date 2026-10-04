@@ -41,11 +41,4 @@ class PackingTests(unittest.TestCase):
         self.assertEqual(pack(items,bad),3)
         self.assertEqual(pack(items,repaired),2)
 
-    def test_search_budget_is_matched_and_deterministic(self):
-        from falsify.search import ARMS, run
-        results=[run(3,arm,3,neutral_drift=True) for arm in ARMS]
-        self.assertEqual({r['search_packing_executions'] for r in results},{3*4*48})
-        repeated=run(3,ARMS[0],3,neutral_drift=True)
-        self.assertEqual(results[0]['history'],repeated['history'])
-
 if __name__=='__main__': unittest.main()

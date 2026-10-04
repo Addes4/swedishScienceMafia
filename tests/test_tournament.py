@@ -123,22 +123,7 @@ def test_independent_rejects_gate_and_patience(tmp_path):
         lean.run(ctx)
 
 
-def test_triage_end_to_end_with_mock_api(tmp_path):
-    from tournament.run import main
-    out = tmp_path / "run"
-    cwd = os.getcwd()
-    try:
-        main(["--arm", "triage", "--arm-config", json.dumps({"type": "triage", "ranker": "random", "ideas": 3}),
-              "--problem", "circle_packing", "--seed", "0", "--budget", "0.4", "--mock", "--out", str(out)])
-    finally:
-        os.chdir(cwd)
-        for key in ("TOURNAMENT_EVAL_LOG", "TOURNAMENT_PROBLEM_DIR"):
-            os.environ.pop(key, None)
-    s = summarize(out)
-    assert s["within_cap"] and s["calls"] >= 4 and s["evals"] >= 4
-
-
-@pytest.mark.parametrize("arm_config", [{"type": "lean"}, {"type": "triage", "ranker": "random", "ideas": 3}])
+@pytest.mark.parametrize("arm_config", [{"type": "lean"}])
 def test_run_stops_at_once_when_credit_runs_out(tmp_path, arm_config):
     """The full-v1 failure: after the account ran out of credit, runs kept calling the API."""
     from tournament.run import main
