@@ -16,6 +16,17 @@ code is organised, how it generalizes, and what makes this a strong Track 1 entr
   - the same strategy and seed give the same record locally (9.8877007312) and on Modal (9.886746030783).
 - **Workspaces:** a workspace is a problem, its instances and a shared memory (best solution per instance, the ideas that broke records). Sessions append to it; researchers continue across sessions; running an idea on more instances adds results to that idea. The `mosa` branch holds only the code and reference data; results live on `results-2026-10-04`.
 
+## Benchmarks worth adding
+
+A fair benchmark needs many instances, published best values, and answers no model can have memorized.
+- **Riesz s-energy on the sphere** (Thomson is s = 1; logarithmic energy is Smale's 7th problem). With an unusual s,
+  no answer exists to memorize, so baseline-vs-Mosa is fair by construction. A one-parameter change to the Thomson harness.
+- **Erich Friedman's Packing Center:** circles in squares or triangles, squares in circles, hexagons, ... Dozens of
+  families, many sizes, records still improving. Closest to the squares harness.
+- **Spherical codes** (Sloane's tables, maximum minimum angle of N points in d dimensions): a huge family with published bests.
+- **Tao / AlphaEvolve problems** (Heilbronn triangles, kissing configurations, Erdős minimum overlap): famous, but mostly
+  single instances rather than families.
+
 ## Positioning: what Mosa is, and is not
 
 This is the core of the pitch, and it should guide every product decision.
