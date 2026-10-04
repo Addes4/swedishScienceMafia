@@ -1,0 +1,308 @@
+[loop] bin_packing_online_ss -> /Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s0
+[start] loop__bin_packing_online_ss__s0: arm lean (lean) on bin_packing_online_ss, seed 0, cap $0.60
+  initial          score 0.9942
+  step  1 edit    not_better    score 0.9942  best 0.9942  $0.0006  Add a small tie-breaking term that prefers the tightest fit 
+  step  2 edit    not_better    score 0.9942  best 0.9942  $0.0007  Replace the fixed 1000*r tie-break margin with a proper lexi
+  step  3 edit    not_better    score 0.9616  best 0.9942  $0.0007  Replace the Sum-of-Squares ranking with the Best-Fit rule re
+  step  4 edit    improved      score 0.9947  best 0.9947  $0.0008  I'll replace the plain sum-of-squares lookahead with a refin
+  step  5 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will add a "heavy-item protection" secondary term: when th
+  step  6 edit    not_better    score 0.9584  best 0.9947  $0.0007  I will replace the fixed sum-of-squares rule with a "best-fi
+  step  7 edit    not_better    score 0.9945  best 0.9947  $0.0009  I will add a bounded "waste" term to the sum-of-squares delt
+  step  8 edit    not_better    score 0.9947  best 0.9947  $0.0010  Replace the sum-of-squares delta with a lookahead that also 
+  step  9 edit    invalid       score 0.0000  best 0.9947  $0.0010  Replace the exact sum-of-squares delta with a smoothed versi
+  step 10 edit    not_better    score 0.6341  best 0.9947  $0.0009  I will add a graduated "perfect-fit protection" plus a small
+  step 11 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will add a lookahead term based on the harmonic/bin-packin
+  step 12 edit    not_better    score 0.9947  best 0.9947  $0.0008  Add a small tie-breaking bonus for residuals that exactly fi
+  step 13 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will add a bounded lookahead term to the sum-of-squares de
+  step 14 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will add a small bonus to the SS delta that rewards residu
+  step 15 edit    not_better    score 0.9937  best 0.9947  $0.0009  I will replace the SS-delta ranking with a "best-fit decreas
+  step 16 edit    not_better    score 0.9942  best 0.9947  $0.0009  Reduce the perfect-fit over-prioritisation: instead of an ov
+  step 17 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll replace the fixed overwhelming perfect-fit bonus with a
+  step 18 edit    not_better    score 0.9942  best 0.9947  $0.0009  I will make the residual term unit-weight (not scaled by 100
+  step 19 edit    not_better    score 0.9945  best 0.9947  $0.0009  The SS rule's known weakness is that it ignores bin indices;
+  step 20 edit    not_better    score 0.9947  best 0.9947  $0.0010  I will implement a "residual-matching" rule: keep the exact 
+  step 21 edit    not_better    score 0.9945  best 0.9947  $0.0009  Replace the fixed perfect-fit bonus with the "best fit decre
+  step 22 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll switch the primary rule to a best-fit-style rule that s
+  step 23 edit    not_better    score 0.9942  best 0.9947  $0.0010  I'll replace the pure SS-delta with the "Sum of Squares" rul
+  step 24 edit    not_better    score 0.9942  best 0.9947  $0.0010  The sum-of-squares rule can be strengthened by adding a "bes
+  step 25 edit    not_better    score 0.9947  best 0.9947  $0.0010  I will replace the pure SS-delta primary key with a "best-fi
+  step 26 edit    not_better    score 0.9942  best 0.9947  $0.0009  I will add a "harmonic/geometric residual-class" bonus: amon
+  step 27 edit    not_better    score 0.9945  best 0.9947  $0.0009  I will replace the ad-hoc residual tie-break with the classi
+  step 28 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll refine the SS rule by scaling the tie-break so it never
+  step 29 edit    not_better    score 0.9616  best 0.9947  $0.0008  I'll replace the sum-of-squares primary key with the "Modifi
+  step 30 edit    not_better    score 0.9932  best 0.9947  $0.0009  Replace the scaled-key formulation with an exact sum-of-squa
+  step 31 edit    not_better    score 0.9935  best 0.9947  $0.0010  I will make the perfect-fit bonus bounded and exact: replace
+  step 32 edit    not_better    score 0.9942  best 0.9947  $0.0010  I will add a "cap-sum waste" tie-break layer inside the SS r
+  step 33 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will make the perfect-fit handling exact by removing the f
+  step 34 edit    not_better    score 0.8686  best 0.9947  $0.0009  I will replace the fragile scaled-composite key with a stric
+  step 35 edit    not_better    score 0.9930  best 0.9947  $0.0009  I will replace the fragile scaled composite key with a clean
+  step 36 edit    not_better    score 0.9940  best 0.9947  $0.0010  Drop the artificial perfect-fit penalty and the `*1000` scal
+  step 37 edit    not_better    score 0.9947  best 0.9947  $0.0009  Add a bounded "perfect-fit chain" bonus: when no exact perfe
+  step 38 edit    not_better    score 0.9945  best 0.9947  $0.0009  Add a bounded "full-bin reward": actively prefer moves that 
+  step 39 edit    not_better    score 0.9947  best 0.9947  $0.0010  I will replace the SS-delta tie-break with an exact "sum-of-
+  step 40 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will switch the primary ranking from the raw SS delta to t
+  step 41 edit    not_better    score 0.9942  best 0.9947  $0.0018  Replace the hard 1e9 perfect-fit override with a bounded bon
+  step 42 edit    not_better    score 0.9947  best 0.9947  $0.0013  Keep the exact SS cost-change as the primary key (removing t
+  step 43 edit    not_better    score 0.9945  best 0.9947  $0.0010  Replace the scaled composite key with a clean primary criter
+  step 44 edit    not_better    score 0.9942  best 0.9947  $0.0009  Replace the scaled-composite key with the exact SS cost-chan
+  step 45 edit    not_better    score 0.9945  best 0.9947  $0.0010  Change the tie-break among placements with equal SS cost-cha
+  step 46 edit    not_better    score 0.9940  best 0.9947  $0.0009  I'll replace the fragile scaled composite key with a clean l
+  step 47 edit    not_better    score 0.9945  best 0.9947  $0.0011  Among placements with equal exact SS cost-change, break ties
+  step 48 edit    not_better    score 0.9947  best 0.9947  $0.0010  I will incorporate a small, bounded "large-item reserve" tie
+  step 49 edit    not_better    score 0.9947  best 0.9947  $0.0009  Add a small bounded bonus (equivalent to ~0.02 in the combin
+  step 50 edit    not_better    score 0.9942  best 0.9947  $0.0009  Replace the fragile composite with a clean vectorized approa
+  step 51 edit    not_better    score 0.7068  best 0.9947  $0.0010  The current tie-break keys off a scaled integer composite; I
+  step 52 edit    not_better    score 0.9945  best 0.9947  $0.0011  Keep the hard perfect-fit override and exact SS cost-change 
+  step 53 edit    invalid       score 0.0000  best 0.9947  $0.0011  The current code recomputes the fit list each call using a P
+  step 54 edit    not_better    score 0.9942  best 0.9947  $0.0009  I'll make the perfect-fit override soft rather than an absol
+  step 55 edit    not_better    score 0.4081  best 0.9947  $0.0007  Replace the internal bookkeeping with a fully vectorized SS-
+  step 56 edit    not_better    score 0.6331  best 0.9947  $0.0012  Replace the scalar global array with a vectorized residual-c
+  step 57 edit    not_better    score 0.9947  best 0.9947  $0.0009  The current rule ignores the well-known best-fit variant, so
+  step 58 edit    invalid       score 0.0000  best 0.9947  $0.0009  Replace the hard perfect-fit override (which forces filling 
+  step 59 edit    not_better    score 0.9947  best 0.9947  $0.0009  Make the perfect-fit override conditional on it not being ba
+  step 60 edit    not_better    score 0.9947  best 0.9947  $0.0009  The hard perfect-fit override is likely too rigid: I'll repl
+  step 61 edit    not_better    score 0.9013  best 0.9947  $0.0009  I'll switch the primary rule from sum-of-squares to a best-f
+  step 62 edit    not_better    score 0.9947  best 0.9947  $0.0010  I'll refine the near-tie handling: keep the exact SS cost-ch
+  step 63 edit    not_better    score 0.9942  best 0.9947  $0.0009  I'll keep the SS cost-change as the primary rule but sharpen
+  step 64 edit    not_better    score 0.9647  best 0.9947  $0.0012  Correct the SS cost-change for opening a new bin: a new bin 
+  step 65 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll replace the rigid hard perfect-fit override with a boun
+  step 66 edit    not_better    score 0.9932  best 0.9947  $0.0009  I'll replace the hard perfect-fit override with a "best coin
+  step 67 edit    not_better    score 0.9633  best 0.9947  $0.0009  I'll try a proper "best-fit with SS primary" hybrid: keep th
+  step 68 edit    not_better    score 0.9947  best 0.9947  $0.0008  I'll keep the SS cost-change as the primary rule but replace
+  step 69 edit    not_better    score 0.9930  best 0.9947  $0.0009  I'll remove the fixed 1000x/1e9 scaling that effectively mak
+  step 70 edit    not_better    score 0.9947  best 0.9947  $0.0010  I'll add a lightweight "nice fit" secondary criterion based 
+  step 71 edit    not_better    score 0.9942  best 0.9947  $0.0009  I'll replace the brittle fixed scaling with a clean SS delta
+  step 72 edit    not_better    score 0.9616  best 0.9947  $0.0007  I'll replace the current per-bin score rule with a "best-fit
+  step 73 edit    not_better    score 0.9942  best 0.9947  $0.0009  I'll replace the heuristic with a near-exact online rule bas
+  step 74 edit    not_better    score 0.9945  best 0.9947  $0.0008  I will blend the SS delta rule with a "least-loaded-that-sti
+  step 75 edit    not_better    score 0.9942  best 0.9947  $0.0008  I'll make the new-bin option use its true sum-of-squares del
+  step 76 edit    not_better    score 0.9942  best 0.9947  $0.0008  I'll replace the hard perfect-fit override with a principled
+  step 77 edit    not_better    score 0.9937  best 0.9947  $0.0010  I'll keep the exact sum-of-squares (SS) delta as the primary
+  step 78 edit    not_better    score 0.9945  best 0.9947  $0.0011  I'll keep exact SS delta as the primary criterion and improv
+  step 79 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll add a "sum-of-squares with a small best-fit tiebreak us
+  step 80 edit    not_better    score 0.9940  best 0.9947  $0.0012  Keep the exact sum-of-squares delta as the primary criterion
+  step 81 edit    not_better    score 0.9942  best 0.9947  $0.0013  Keep the hard perfect-fit override (which clearly helps) but
+  step 82 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will keep the SS-delta primary with perfect-fit priority, 
+  step 83 edit    not_better    score 0.9942  best 0.9947  $0.0010  Replace the ad-hoc perfect-fit/new-bin overrides and fixed s
+  step 84 edit    not_better    score 0.9942  best 0.9947  $0.0008  I'll make the perfect-fit preference softer and more informa
+  step 85 edit    not_better    score 0.9942  best 0.9947  $0.0009  I'll replace the brittle 1000x/1e9 lexicographic scaling wit
+  step 86 edit    not_better    score 0.9940  best 0.9947  $0.0009  I'll replace the fragile fixed-scale lexicographic scoring w
+  step 87 edit    not_better    score 0.9942  best 0.9947  $0.0011  Keep the exact SS delta as the primary criterion, but remove
+  step 88 edit    not_better    score 0.9947  best 0.9947  $0.0009  I will keep the sum-of-squares delta as the primary criterio
+  step 89 edit    not_better    score 0.9940  best 0.9947  $0.0009  Add a "lookahead" refinement to the perfect-fit override: wh
+  step 90 edit    not_better    score 0.9937  best 0.9947  $0.0009  Replace the fragile lexicographic scaling with a clean prima
+  step 91 edit    not_better    score 0.9945  best 0.9947  $0.0010  I will keep the exact SS delta as the primary criterion and 
+  step 92 edit    invalid       score 0.0000  best 0.9947  $0.0009  I'll replace the fragile large-scale lexicographic scoring (
+  step 93 edit    not_better    score 0.9942  best 0.9947  $0.0009  I'll simplify to use the exact sum-of-squares delta as the s
+  step 94 edit    not_better    score 0.9942  best 0.9947  $0.0009  Replace the pure SS rule with the best-fit-style "closest fi
+  step 95 edit    not_better    score 0.9942  best 0.9947  $0.0008  Remove the hard 1e9 perfect-fit override so the sum-of-squar
+  step 96 edit    not_better    score 0.9616  best 0.9947  $0.0008  Replace the sum-of-squares rule with a pure best-fit rule (c
+  step 97 edit    not_better    score 0.9932  best 0.9947  $0.0026  Make the perfect-fit override conditional: take a perfect fi
+  step 98 edit    improved      score 0.9952  best 0.9952  $0.0010  Keep the exact sum-of-squares delta as the dominant integer 
+  step 99 edit    not_better    score 0.9942  best 0.9952  $0.0012  Keep the exact SS delta as the dominant criterion, but repla
+  step 100 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the fragile `delta*1000 - r` scaling (where residual
+  step 101 edit    not_better    score 0.9952  best 0.9952  $0.0009  Encode the score as exact SS delta scaled by 100 (a fixed fa
+  step 102 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the residual tie-break with a "least-full bin among 
+  step 103 edit    not_better    score 0.9945  best 0.9952  $0.0010  Replace the "larger residual" tie-break with the classic Sum
+  step 104 edit    not_better    score 0.9947  best 0.9952  $0.0009  Add a persistent "sticky" state: after each placement, recor
+  step 105 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the residual tie-break with a two-part refinement: a
+  step 106 edit    not_better    score 0.9942  best 0.9952  $0.0008  Use a deterministic secondary tie-break that keeps the exact
+  step 107 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll replace the heuristic tie-break with an exact lexicogra
+  step 108 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the deterministic tie-break with a tiny random tie-b
+  step 109 edit    not_better    score 0.9940  best 0.9952  $0.0009  Introduce a "best-fit with SS-dominant" hybrid: keep the exa
+  step 110 edit    not_better    score 0.9942  best 0.9952  $0.0010  Numerous tie-break variants all failed, so instead I keep th
+  step 111 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll make the tie-break exact and integer-based (avoiding fl
+  step 112 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll change the dominant criterion from the SS (sum-of-squar
+  step 113 edit    not_better    score 0.9942  best 0.9952  $0.0009  Keep the exact SS-delta as the dominant criterion, but repla
+  step 114 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll replace the pure SS-delta rule with the "Halving" style
+  step 115 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the "larger residual" tie-break with a Best-Fit styl
+  step 116 edit    not_better    score 0.9927  best 0.9952  $0.0009  The current rule is pure SS (sum-of-squares), whose per-step
+  step 117 edit    not_better    score 0.9945  best 0.9952  $0.0009  The current rule greedily minimises the SS delta, but at the
+  step 118 edit    not_better    score 0.9950  best 0.9952  $0.0010  Keep exact integer SS-delta as the dominant key, but refine 
+  step 119 edit    not_better    score 0.9952  best 0.9952  $0.0009  Use the SS (sum-of-squares) delta as the dominant criterion 
+  step 120 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the float tie-break scoring with a pure integer SS-d
+  step 121 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll add a small "future-fit" correction to the dominant SS 
+  step 122 edit    not_better    score 0.9947  best 0.9952  $0.0015  Keep the exact integer SS-delta as the dominant key, but rep
+  step 123 edit    not_better    score 0.9945  best 0.9952  $0.0013  Keep the exact integer SS-delta as the dominant key, but rep
+  step 124 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the hard-to-improve tie-break with a hybrid that kee
+  step 125 edit    not_better    score 0.9932  best 0.9952  $0.0009  I'll replace the flawed "score = -(delta*K - r)" encoding, w
+  step 126 edit    not_better    score 0.9942  best 0.9952  $0.0008  Fix the encoding so the exact integer SS delta is strictly d
+  step 127 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the "largest residual" tie-break with a "best-fit-li
+  step 128 edit    not_better    score 0.9952  best 0.9952  $0.0021  Make the tie-break hierarchy explicit and fix a likely flaw:
+  step 129 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current code has a subtle flaw: the tie-break multiplier
+  step 130 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the exact-SS dominant key with a scale-aware scoring
+  step 131 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will make the SS delta strictly dominant using a pure inte
+  step 132 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll replace the score encoding with a strictly-dominant int
+  step 133 edit    not_better    score 0.9616  best 0.9952  $0.0008  Replace the SS rule entirely with Best Fit: among bins the i
+  step 134 edit    not_better    score 0.9942  best 0.9952  $0.0008  Keep the exact SS rule as the strictly dominant key (so it i
+  step 135 edit    not_better    score 0.9952  best 0.9952  $0.0008  The current encoding multiplies the SS delta by 1000 but sub
+  step 136 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll implement the classic and provably-good "Sum of Squares
+  step 137 edit    not_better    score 0.9952  best 0.9952  $0.0028  Make the SS delta strictly dominant (large multiplier), keep
+  step 138 edit    not_better    score 0.9952  best 0.9952  $0.0009  Keep the exact SS delta as the strictly dominant key, but ch
+  step 139 edit    not_better    score 0.9952  best 0.9952  $0.0008  Introduce a harmonic/statistical tie-break that, among place
+  step 140 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the hand-tuned SS-with-tiebreak heuristic with the p
+  step 141 edit    not_better    score 0.9942  best 0.9952  $0.0009  Introduce a lookahead-free "dual" tie-break: keep the exact 
+  step 142 edit    not_better    score 0.9942  best 0.9952  $0.0009  The SS rule is asymptotically optimal but its tie-break wast
+  step 143 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current code uses `-2*_N[g] + 1 + (2*_N[r] + 1)` as the 
+  step 144 edit    not_better    score 0.8179  best 0.9952  $0.0008  I'll make the SS delta the strictly dominant key with a larg
+  step 145 edit    not_better    score 0.9947  best 0.9952  $0.0008  Keep the exact SS delta as the dominant key, but replace the
+  step 146 edit    not_better    score 0.9952  best 0.9952  $0.0009  Use exact integer packing of the SS delta as the dominant ke
+  step 147 edit    not_better    score 0.9952  best 0.9952  $0.0009  Add a small "dual-SS" secondary key: among placements with e
+  step 148 edit    not_better    score 0.9952  best 0.9952  $0.0009  The SS objective alone is being dominated by an arbitrary sc
+  step 149 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll replace the ad-hoc tie-break with a principled exact "b
+  step 150 edit    not_better    score 0.9942  best 0.9952  $0.0009  The SS delta is computed with an unnecessary "+1" offset tha
+  step 151 edit    not_better    score 0.9950  best 0.9952  $0.0010  Replace the pure sum-of-squares rule with the classic "best 
+  step 152 edit    not_better    score 0.9952  best 0.9952  $0.0009  Add a small secondary SS-style "shelf" term: among equal pri
+  step 153 edit    not_better    score 0.6315  best 0.9952  $0.0009  I'll reduce the influence of the flexibility tie-break by ma
+  step 154 edit    not_better    score 0.9952  best 0.9952  $0.0008  I'll switch the secondary tie-break from "largest residual" 
+  step 155 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll make the tie-break adaptive: instead of a fixed "prefer
+  step 156 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll replace the arbitrary fixed-multiplier tie-break with a
+  step 157 edit    not_better    score 0.9952  best 0.9952  $0.0009  Add a strict bonus for residual 0 (exact fill) inside the sa
+  step 158 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current score maps delta to a float, which risks collisi
+  step 159 edit    not_better    score 0.9950  best 0.9952  $0.0009  The current tie-break treats every bin the same, but the SS-
+  step 160 edit    not_better    score 0.8179  best 0.9952  $0.0010  The SS rule's known weakness is that it ignores the very lar
+  step 161 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current tie-break uses a float multiplier of 1000 for th
+  step 162 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll replace the SS-delta objective with the "Power of Two C
+  step 163 edit    not_better    score 0.9014  best 0.9952  $0.0009  The plateau suggests the tie-break doesn't matter much; inst
+  step 164 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll replace the SS delta objective with the "best-fit with 
+  step 165 edit    not_better    score 0.9945  best 0.9952  $0.0008  The repeated SS-delta tie-breaks have plateaued, so I'll swi
+  step 166 edit    not_better    score 0.8179  best 0.9952  $0.0009  I'll keep the exact Sum-of-Squares rule as the dominant crit
+  step 167 edit    not_better    score 0.9952  best 0.9952  $0.0009  The SS delta is the dominant objective, but ties are frequen
+  step 168 edit    not_better    score 0.8163  best 0.9952  $0.0011  I will implement the "modified SS" (Sum-of-Squares) rule kno
+  step 169 edit    not_better    score 0.9598  best 0.9952  $0.0008  I'll switch from the SS rule to a proper "best-fit with a si
+  step 170 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll keep the exact Sum-of-Squares rule as the dominant crit
+  step 171 edit    not_better    score 0.9945  best 0.9952  $0.0009  The current tie-break among equal SS deltas favors the large
+  step 172 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll keep the exact Sum-of-Squares (SS) delta as the dominan
+  step 173 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will add a "capacity reservation" secondary criterion to t
+  step 174 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll remove the residual-based tie-break and let the exact S
+  step 175 edit    not_better    score 0.9942  best 0.9952  $0.0008  I'll keep the exact Sum-of-Squares delta as the dominant cri
+  step 176 edit    not_better    score 0.8182  best 0.9952  $0.0009  I will keep the exact SS delta as the dominant criterion, bu
+  step 177 edit    not_better    score 0.9950  best 0.9952  $0.0010  I will keep the exact Sum-of-Squares delta as the dominant c
+  step 178 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the ad-hoc residual tie-break with the exact full ob
+  step 179 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will break SS ties by preferring the placement that minimi
+  step 180 edit    not_better    score 0.9952  best 0.9952  $0.0010  The SS delta can be large, so multiplying it by 1000 and sub
+  step 181 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will make the tie-break prefer, among equal SS deltas, the
+  step 182 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll switch the dominant criterion from the exact Sum-of-Squ
+  step 183 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the fixed linear SS tie-break with the exact lexicog
+  step 184 edit    not_better    score 0.9942  best 0.9952  $0.0008  I will reverse the tie-break to prefer the *smaller* residua
+  step 185 edit    not_better    score 0.8362  best 0.9952  $0.0010  Use np.lexsort to rank bins by the exact SS delta as the str
+  step 186 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will keep the exact Sum-of-Squares delta as the dominant c
+  step 187 edit    not_better    score 0.9947  best 0.9952  $0.0009  The SS-delta tie-break has been stuck at 0.995228 with every
+  step 188 edit    not_better    score 0.9616  best 0.9952  $0.0007  I will replace the SS-delta heuristic entirely with the "Ran
+  step 189 edit    not_better    score 0.9945  best 0.9952  $0.0009  The tie-break for equal SS deltas will be changed to determi
+  step 190 edit    not_better    score 0.9945  best 0.9952  $0.0008  The SS rule is already near-optimal; the remaining loss come
+  step 191 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the SS-delta-based rule with the "Sum of Squares" va
+  step 192 edit    not_better    score 0.9616  best 0.9952  $0.0008  I will switch the dominant criterion from the integer Sum-of
+  step 193 edit    not_better    score 0.9950  best 0.9952  $0.0010  All previous tie-break variants were stuck at the same value
+  step 194 edit    not_better    score 0.9952  best 0.9952  $0.0010  I will keep the exact SS delta dominant and replace the tie-
+  step 195 edit    not_better    score 0.9942  best 0.9952  $0.0009  All residual-based tie-breaks have plateaued at the same sco
+  step 196 edit    not_better    score 0.9942  best 0.9952  $0.0008  Rather than tweaking the tie-break, I'll replace the dominan
+  step 197 edit    not_better    score 0.9950  best 0.9952  $0.0009  Replace the flat SS-delta criterion with the "Sum of Squares
+  step 198 edit    not_better    score 0.9952  best 0.9952  $0.0008  All tie-break tweaks plateaued, so I'll change the dominant 
+  step 199 edit    not_better    score 0.9945  best 0.9952  $0.0010  Keep the exact SS delta dominant, but change the tie-break: 
+  step 200 edit    not_better    score 0.9942  best 0.9952  $0.0009  Keep the exact SS delta as the dominant criterion, but flip 
+  step 201 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll keep the exact SS delta dominant but change the tie-bre
+  step 202 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the pure SS-delta dominant criterion with a hybrid t
+  step 203 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll keep the exact SS delta dominant, but replace the arbit
+  step 204 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll keep the exact SS delta as the dominant criterion but r
+  step 205 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the SS rule with the well-known "Best-Fit with a res
+  step 206 edit    not_better    score 0.5224  best 0.9952  $0.0008  I'll replace the block-level tie/dominant scheme with the ha
+  step 207 edit    not_better    score 0.9952  best 0.9952  $0.0009  Keep the exact SS-delta dominant, and make the tie-break a p
+  step 208 edit    not_better    score 0.9950  best 0.9952  $0.0010  I'll keep the exact SS-delta as the dominant criterion, but 
+  step 209 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll keep the exact SS-delta as the dominant criterion but i
+  step 210 edit    not_better    score 0.9950  best 0.9952  $0.0009  I will keep the exact SS-delta as the dominant criterion but
+  step 211 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll switch from the pure SS rule to a hybrid: keep the exac
+  step 212 edit    not_better    score 0.9942  best 0.9952  $0.0010  Keep the exact SS-delta as the dominant criterion but flip t
+  step 213 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will keep the exact SS-delta as the dominant criterion but
+  step 214 edit    not_better    score 0.9945  best 0.9952  $0.0010  The repeated tie-break experiments all give small regression
+  step 215 edit    not_better    score 0.9616  best 0.9952  $0.0007  Instead of SS-delta, use the classic Best-Fit rule (choose t
+  step 216 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll add a "top-off" exception to the SS rule: if a fitting 
+  step 217 edit    not_better    score 0.9945  best 0.9952  $0.0009  Replace the flat SS rule with a hybrid "reserve-aware" SS ru
+  step 218 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will smooth the SS-delta criterion into a weighted-count r
+  step 219 edit    not_better    score 0.9907  best 0.9952  $0.0010  I'll add a periodic "best-fit" escape: with small probabilit
+  step 220 edit    not_better    score 0.9930  best 0.9952  $0.0009  The SS-delta tie-break variants all regressed, so instead I'
+  step 221 edit    not_better    score 0.9952  best 0.9952  $0.0008  Replace the hard integer SS-delta criterion with a smoothed 
+  step 222 edit    not_better    score 0.9940  best 0.9952  $0.0011  Among placements with equal SS delta, break ties by preferri
+  step 223 edit    not_better    score 0.9942  best 0.9952  $0.0008  Make the residual-flexibility tie-break choose the *smallest
+  step 224 edit    not_better    score 0.9952  best 0.9952  $0.0008  Use a residual-waste tie-break that prefers the smallest pos
+  step 225 edit    not_better    score 0.9945  best 0.9952  $0.0008  I'll replace the tie-break with a two-level criterion: keep 
+  step 226 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll keep exact SS-delta dominance but change the tie-break 
+  step 227 edit    not_better    score 0.9616  best 0.9952  $0.0008  Use the classic Best-Fit rule with the SS-delta as a seconda
+  step 228 edit    not_better    score 0.9935  best 0.9952  $0.0009  Keep the asymptotically-optimal SS rule but add a small, sha
+  step 229 edit    not_better    score 0.7635  best 0.9952  $0.0009  The SS-delta is currently treated as an exact dominant integ
+  step 230 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll add a "strategic reservation" tie-break: keep exact SS-
+  step 231 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll refine the tie-break within the SS-tied group: instead 
+  step 232 edit    not_better    score 0.9945  best 0.9952  $0.0009  The current SS rule is optimal in the limit but its performa
+  step 233 edit    not_better    score 0.9952  best 0.9952  $0.0009  The SS rule's weakness is over-opening unused bins early: I'
+  step 234 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll refine the tie-break so that, among placements with equ
+  step 235 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll replace the "prefer larger residual" tie-break with a l
+  step 236 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll change the tie-break within equal-SS-delta placements t
+  step 237 edit    not_better    score 0.9945  best 0.9952  $0.0009  (no description)
+  step 238 edit    not_better    score 0.9952  best 0.9952  $0.0008  I'll add a strategic "reservation" tie-break that discourage
+  step 239 edit    not_better    score 0.9945  best 0.9952  $0.0009  The SS rule is asymptotically optimal but the current implem
+  step 240 edit    not_better    score 0.9945  best 0.9952  $0.0008  I'll replace the "prefer larger residual" tie-break with a c
+  step 241 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will replace the tie-break with a "best-fit" style prefere
+  step 242 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll replace the tie-break with one that breaks equal-SS-del
+  step 243 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll replace the tie-break with a backward-looking "future-f
+  step 244 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll refine the SS rule's tie-break to a "best-fit with SS d
+  step 245 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll replace the score encoding with a cleaner two-key ranki
+  step 246 edit    not_better    score 0.9942  best 0.9952  $0.0009  Among placements with equal exact SS delta, prefer the small
+  step 247 edit    not_better    score 0.9952  best 0.9952  $0.0008  Keep exact SS-delta dominance, but break ties by choosing th
+  step 248 edit    not_better    score 0.9945  best 0.9952  $0.0009  Replace the tie-break with an asymmetric rule: among equal S
+  step 249 edit    not_better    score 0.9942  best 0.9952  $0.0008  I will keep exact SS-delta dominance but replace the tie-bre
+  step 250 edit    not_better    score 0.9616  best 0.9952  $0.0007  I'll switch to the classic Best-Fit priority (minimize resid
+  step 251 edit    not_better    score 0.9947  best 0.9952  $0.0009  Among equal SS-delta placements, prefer residuals that are e
+  step 252 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll make the tie-break depend on the item size: large items
+  step 253 edit    not_better    score 0.9952  best 0.9952  $0.0008  The SS-delta rule is asymptotically optimal, but exact ties 
+  step 254 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll add a secondary global tie-break that, among placements
+  step 255 edit    not_better    score 0.9945  best 0.9952  $0.0010  I will replace the fixed larger-residual tie-break with a si
+  step 256 edit    not_better    score 0.9952  best 0.9952  $0.0010  Keep exact SS-delta dominance, but enhance the tie-break: am
+  step 257 edit    not_better    score 0.9945  best 0.9952  $0.0009  Keep the exact SS-delta rule as the dominant criterion but r
+  step 258 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will keep the exact SS-delta as the dominant criterion but
+  step 259 edit    not_better    score 0.9952  best 0.9952  $0.0008  I'll switch from the unbounded sum-of-squares rule to a boun
+  step 260 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll implement the classic "best fit decreasing"-style tie-b
+  step 261 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will make the SS delta the dominant criterion as before, b
+  step 262 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current rule uses exact SS-delta dominance, but ties are
+  step 263 edit    not_better    score 0.9942  best 0.9952  $0.0008  I will replace the SS tie-break with a "best-fit" (smallest 
+  step 264 edit    not_better    score 0.9952  best 0.9952  $0.0008  I'll append a tiny index-based perturbation to break exact t
+  step 265 edit    not_better    score 0.8203  best 0.9952  $0.0008  I'll shift from the exact sum-of-squares rule to a bounded/s
+  step 266 edit    not_better    score 0.9942  best 0.9952  $0.0008  I'll replace the pure SS rule with the "Sum of Squares + neg
+  step 267 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will replace the SS tie-break with a lexicographic rule th
+  step 268 edit    not_better    score 0.6283  best 0.9952  $0.0007  I'll replace the SS rule with the optimal online rule for th
+  step 269 edit    not_better    score 0.9952  best 0.9952  $0.0010  I will replace the tie-break with a "least-loaded bin among 
+  step 270 edit    not_better    score 0.9952  best 0.9952  $0.0009  The SS rule's tie-break is currently arbitrary among equal d
+  step 271 edit    not_better    score 0.9952  best 0.9952  $0.0008  The current tie-break strongly rewards large residuals which
+  step 272 edit    not_better    score 0.9945  best 0.9952  $0.0010  Keep the exact SS delta dominant, but replace the "largest r
+  step 273 edit    not_better    score 0.8256  best 0.9952  $0.0007  I'll replace the SS-style scoring with the "best-fit with a 
+  step 274 edit    not_better    score 0.9942  best 0.9952  $0.0010  Among placements with equal exact SS delta, prefer the small
+  step 275 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll make the SS criterion's value function softer by testin
+  step 276 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the "largest residual" tie-break with "smallest nonz
+  step 277 edit    not_better    score 0.9593  best 0.9952  $0.0008  Replace the SS delta scoring with the classic "best fit" (sm
+  step 278 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will keep the exact SS delta dominant but replace the tie-
+  step 279 edit    not_better    score 0.9947  best 0.9952  $0.0008  The SS delta is exactly optimal only in the limit; in practi
+  step 280 edit    not_better    score 0.9937  best 0.9952  $0.0009  Keep the exact SS delta dominant, but replace the "largest r
+  step 281 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll replace the SS-based rule with the well-known "Best Fit
+  step 282 edit    not_better    score 0.9945  best 0.9952  $0.0008  I'll replace the fixed "largest residual" tie-break with an 
+  step 283 edit    not_better    score 0.9925  best 0.9952  $0.0009  Use a fractional/nonlinear "power" SS objective: instead of 
+  step 284 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll add a small tie-break refinement on top of the exact SS
+  step 285 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the rigid "largest residual" tie-break with one that
+  step 286 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current tie-break precision (multiplying SS delta by 100
+  step 287 edit    not_better    score 0.9937  best 0.9952  $0.0009  I'll replace the pure SS rule with the "SS + flexibility via
+  step 288 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll make the tie-break adaptive: among placements with equa
+  step 289 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current 1000x scaling of the exact SS delta can be pertu
+  step 290 edit    not_better    score 0.9945  best 0.9952  $0.0009  The exact SS delta is already tight, but the "largest residu
+  step 291 edit    not_better    score 0.9947  best 0.9952  $0.0010  Replace the raw integer SS delta with a scaled objective tha
+  step 292 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the "largest residual" SS tie-break with a two-step 
+  step 293 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll replace the fragile 1000x-scaled single float with a st
+[done] loop__bin_packing_online_ss__s0: status ok, spent $0.2703 of $0.60, 293 calls, 294 evals, public 0.9942276578479157 -> 0.9952280136996852, hidden 0.9947456828410026
+  baseline best_fit               public 0.9616  hidden 0.9604
+  baseline funsearch_weibull      public 0.9925  hidden 0.9928
+  baseline sum_of_squares         public 0.9942  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bin_packing_online_ss: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.2703 of $0.60 cap, 293 calls, 294 evals, search 5406 s
+public    0.9942 -> 0.9952   (initial -> final incumbent; selected on)
+hidden    0.9950 -> 0.9947   (fresh audit, never selected on)   OVERFIT?
+baselines best_fit 0.9616/0.9604, funsearch_weibull 0.9925/0.9928, sum_of_squares 0.9942/0.9950
+explain   36 parts: 4 can go, 0 REPAIRED; minimal program public 0.9945, hidden 0.9952
+report    /Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s0/report.md

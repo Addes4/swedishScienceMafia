@@ -61,8 +61,8 @@ which cut two of them short; the write-ups say exactly which runs are affected.
 ### Studies by other sessions (4 October, early morning)
 
 These were run and written up by other Claude sessions working on the same project, each with its own
-pre-registered protocol. They were committed unchanged at about 05:45 so that they are preserved; the
-coordinating session has not re-checked their numbers.
+pre-registered protocol. Online frontier, Beyond Sum-of-Squares and Overfitting and gates were committed
+unchanged at about 05:45 so that they are preserved; the others arrived later by pull request, after review.
 
 | Study | Folder | Question | Main result |
 |---|---|---|---|
@@ -70,6 +70,7 @@ coordinating session has not re-checked their numbers.
 | Beyond Sum-of-Squares | [online-beyond-ss-v1](online-beyond-ss-v1/RESULTS.md) | Can a simple, explainable online policy close the gap to the optimum? | FWSS ends about 2 bins above the optimum at every length from 1k to 100k items. It beats FunSearch by 11.6 bins per instance (200/0/0) and is below the best published LLM result in 15 of 15 leaderboard settings |
 | Short-horizon bias | [short-horizon-v1](short-horizon-v1/RESULTS.md) | Do short selection streams, or a gate of short counterexamples, make the LLM loop myopic on 5,000-item streams? | Complete separation: every run selecting on 5,000-item streams (−2.61 pp vs best fit) beat every run selecting on 200- or 80-item streams (−0.33, −0.15). The pre-registered Holm p = 0.057 is the floor with 4 runs per arm. Short gates erase the gain whether the inputs are mined counterexamples (−0.58) or random (−0.09). Short-trained rules almost never open a new bin while one fits (0.02 vs 0.17). $1.84 (complete; pre-registered) |
 | LLM informed | [llm-informed-v1](llm-informed-v1/RESULTS.md) | Does the same LLM loop find SS- or FWSS-like rules when the prompt spells out what the function can know (item count, every open bin)? | No. 0/4 runs beat FunSearch, reached SS or reached FWSS on 100 fresh instances; the informed runs were descriptively worse than uninformed ones (best 1.06% vs 0.81% over L2) and overfit their 2 public instances more (post hoc). 3/4 tried to use the item count (one correctly); none tracked open bins. $1.07 (Complete; pre-registered) |
+| LLM from Sum-of-Squares | [llm-from-ss-v1](llm-from-ss-v1/RESULTS.md) | Starting from Sum-of-Squares instead of best fit, can 300 steps of the same loop find a policy that beats it on unseen instances? | Yes: all 4 runs beat SS by the pre-registered test. The best run found a gap-weighted SS that penalises nearly full bins: −2.31 bins per instance against SS [−2.58, −2.04] (92/6/2), 8.4 bins above the exact optimum against 10.7 for SS and 13.5 for FunSearch's heuristic. The other three flipped SS's tie-break (−0.48). No run used the item count; FWSS stays at 1.8 above the optimum. $1.10 |
 | Overfitting and gates | [overfit-gates-v1](overfit-gates-v1/RESULTS.md) | How much does selection on a small public suite overfit, and what do stricter promotion rules cost? | Overfitting was small (0.61 bins per instance). The strict archive veto blocked the largest real gains and behaved like a random veto of same-length inputs; statistical gates neither helped nor hurt |
 
 Related material:

@@ -1,0 +1,498 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.9952280136996852,
+    "hidden": 0.9947456828410026,
+    "code": "\"\"\"Sum-of-Squares rule with a loosest-fit tiebreaker.\n\nEach item goes where it minimises sum_g N(g)^2, where N(g) counts open bins with remaining capacity g\n(0 < g < 100). Among exact sum-of-squares ties, prefer the bin with the largest remaining capacity\n(loosest fit), which spreads load and avoids prematurely creating tiny unusable residuals.\nThe function keeps its own record of every opened bin. The harness opens unused bins in index order\n(ties go to the first bin), so used bins are always a prefix of the bin array. Each instance runs in a\nfresh process, so the module-level state starts empty for every instance.\n\"\"\"\nimport numpy as np\nCAP = 100\n_caps = []\n_N = [0] * (CAP + 1)\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    global _caps, _N\n    s = int(item)\n    fitting = [j for j, g in enumerate(_caps) if g >= s]\n    n_unused = len(bins) - len(fitting)\n    scores = np.empty(len(bins), dtype=np.float64)\n    for k, j in enumerate(fitting):\n        g = _caps[j]\n        r = g - s\n        delta = -2 * _N[g] + 1 + (2 * _N[r] + 1 if r > 0 else 0)\n        scores[k] = -(delta * 1000) + r\n    r_new = CAP - s\n    delta_new = 2 * _N[r_new] + 1 if r_new > 0 else 0\n    scores[len(fitting):] = -(delta_new * 1000) + r_new\n    choice = int(np.argmax(scores))\n    if choice < len(fitting):\n        j = fitting[choice]\n        g = _caps[j]\n        _N[g] -= 1\n        _caps[j] = g - s\n        if g - s > 0:\n            _N[g - s] += 1\n    elif n_unused > 0:\n        _caps.append(CAP - s)\n        if CAP - s > 0:\n            _N[CAP - s] += 1\n    return scores\n"
+  },
+  "minimal": {
+    "public": 0.9952280136996852,
+    "hidden": 0.9947456828410026,
+    "code": "\"\"\"Sum-of-Squares rule with a loosest-fit tiebreaker.\n\nEach item goes where it minimises sum_g N(g)^2, where N(g) counts open bins with remaining capacity g\n(0 < g < 100). Among exact sum-of-squares ties, prefer the bin with the largest remaining capacity\n(loosest fit), which spreads load and avoids prematurely creating tiny unusable residuals.\nThe function keeps its own record of every opened bin. The harness opens unused bins in index order\n(ties go to the first bin), so used bins are always a prefix of the bin array. Each instance runs in a\nfresh process, so the module-level state starts empty for every instance.\n\"\"\"\nimport numpy as np\nCAP = 100\n_caps = []\n_N = [0] * (CAP + 1)\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    s = int(item)\n    fitting = [j for j, g in enumerate(_caps) if g >= s]\n    n_unused = len(bins) - len(fitting)\n    scores = np.empty(len(bins), dtype=np.float64)\n    for k, j in enumerate(fitting):\n        g = _caps[j]\n        r = g - s\n        delta = -2 * _N[g] + 1 + (2 * _N[r] + 1 if r > 0 else 0)\n        scores[k] = -(delta * 1000) + r\n    r_new = CAP - s\n    delta_new = 2 * _N[r_new] + 1 if r_new > 0 else 0\n    scores[len(fitting):] = -(delta_new * 1000) + r_new\n    choice = int(np.argmax(scores))\n    if choice < len(fitting):\n        j = fitting[choice]\n        g = _caps[j]\n        _N[g] -= 1\n        _caps[j] = g - s\n        if g - s > 0:\n            _N[g - s] += 1\n    elif n_unused > 0:\n        _caps.append(CAP - s)\n        if CAP - s > 0:\n            _N[CAP - s] += 1\n    return scores\n",
+    "removed": [
+      0
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 25,
+      "text": "global _caps, _N",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 26,
+      "text": "s = int(item)",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 27,
+      "text": "fitting = [j for j, g in enumerate(_caps) if g >= s]",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 28,
+      "text": "n_unused = len(bins) - len(fitting)",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 4,
+      "kind": "term",
+      "line": 28,
+      "text": "term + len(bins)",
+      "inside": [
+        3
+      ],
+      "delta": -0.035915716648424745,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 5,
+      "kind": "term",
+      "line": 28,
+      "text": "term - len(fitting)",
+      "inside": [
+        3
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 29,
+      "text": "scores = np.empty(len(bins), dtype=np.float64)",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 31,
+      "text": "for k, j in enumerate(fitting): ...",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 32,
+      "text": "g = _caps[j]",
+      "inside": [
+        7
+      ],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 33,
+      "text": "r = g - s",
+      "inside": [
+        7
+      ],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 10,
+      "kind": "term",
+      "line": 33,
+      "text": "term + g",
+      "inside": [
+        7,
+        9
+      ],
+      "delta": -0.03637959559007786,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 11,
+      "kind": "term",
+      "line": 33,
+      "text": "term - s",
+      "inside": [
+        7,
+        9
+      ],
+      "delta": -0.22922364079268032,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 34,
+      "text": "delta = -2 * _N[g] + 1 + (2 * _N[r] + 1 if r > 0 else 0)",
+      "inside": [
+        7
+      ],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 13,
+      "kind": "term",
+      "line": 34,
+      "text": "term + -2 * _N[g]",
+      "inside": [
+        7,
+        12
+      ],
+      "delta": -0.008923112213770956,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 14,
+      "kind": "term",
+      "line": 34,
+      "text": "term + 1",
+      "inside": [
+        7,
+        12
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 15,
+      "kind": "term",
+      "line": 34,
+      "text": "term + 2 * _N[r] + 1 if r > 0 else 0",
+      "inside": [
+        7,
+        12
+      ],
+      "delta": -0.04145965615865643,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 36,
+      "text": "scores[k] = -(delta * 1000) + r",
+      "inside": [
+        7
+      ],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 17,
+      "kind": "term",
+      "line": 36,
+      "text": "term + -(delta * 1000)",
+      "inside": [
+        7,
+        16
+      ],
+      "delta": -0.11048241233178069,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 18,
+      "kind": "term",
+      "line": 36,
+      "text": "term + r",
+      "inside": [
+        7,
+        16
+      ],
+      "delta": -0.001249348443580045,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 37,
+      "text": "r_new = CAP - s",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 20,
+      "kind": "term",
+      "line": 37,
+      "text": "term + CAP",
+      "inside": [
+        19
+      ],
+      "delta": -0.0007502364766132086,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 21,
+      "kind": "term",
+      "line": 37,
+      "text": "term - s",
+      "inside": [
+        19
+      ],
+      "delta": -0.0007502364766132086,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 22,
+      "kind": "statement",
+      "line": 38,
+      "text": "delta_new = 2 * _N[r_new] + 1 if r_new > 0 else 0",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 23,
+      "kind": "statement",
+      "line": 39,
+      "text": "scores[len(fitting):] = -(delta_new * 1000) + r_new",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 24,
+      "kind": "term",
+      "line": 39,
+      "text": "term + -(delta_new * 1000)",
+      "inside": [
+        23
+      ],
+      "delta": -0.0062130511061689875,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 25,
+      "kind": "term",
+      "line": 39,
+      "text": "term + r_new",
+      "inside": [
+        23
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 26,
+      "kind": "statement",
+      "line": 41,
+      "text": "choice = int(np.argmax(scores))",
+      "inside": [],
+      "delta": -0.9952280136996852,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 27,
+      "kind": "statement",
+      "line": 42,
+      "text": "if choice < len(fitting): ...",
+      "inside": [],
+      "delta": -0.035915716648424745,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 28,
+      "kind": "statement",
+      "line": 43,
+      "text": "j = fitting[choice]",
+      "inside": [
+        27
+      ],
+      "delta": -0.0510056781310948,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 29,
+      "kind": "statement",
+      "line": 44,
+      "text": "g = _caps[j]",
+      "inside": [
+        27
+      ],
+      "delta": -0.21977689964884872,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 30,
+      "kind": "statement",
+      "line": 45,
+      "text": "_N[g] -= 1",
+      "inside": [
+        27
+      ],
+      "delta": -0.025345193021387713,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 31,
+      "kind": "statement",
+      "line": 46,
+      "text": "_caps[j] = g - s",
+      "inside": [
+        27
+      ],
+      "delta": -0.23554105732124375,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 32,
+      "kind": "term",
+      "line": 46,
+      "text": "term + g",
+      "inside": [
+        27,
+        31
+      ],
+      "delta": -0.11087873468481879,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 33,
+      "kind": "term",
+      "line": 46,
+      "text": "term - s",
+      "inside": [
+        27,
+        31
+      ],
+      "delta": -0.23554105732124375,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 34,
+      "kind": "statement",
+      "line": 47,
+      "text": "if g - s > 0: ...",
+      "inside": [
+        27
+      ],
+      "delta": -0.20286947028231817,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 35,
+      "kind": "statement",
+      "line": 48,
+      "text": "_N[g - s] += 1",
+      "inside": [
+        27,
+        34
+      ],
+      "delta": -0.20286947028231817,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 36,
+      "kind": "statement",
+      "line": 49,
+      "text": "if n_unused > 0: ...",
+      "inside": [
+        27
+      ],
+      "delta": -0.035915716648424745,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 37,
+      "kind": "statement",
+      "line": 50,
+      "text": "_caps.append(CAP - s)",
+      "inside": [
+        27,
+        36
+      ],
+      "delta": -0.035915716648424745,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 38,
+      "kind": "statement",
+      "line": 51,
+      "text": "if CAP - s > 0: ...",
+      "inside": [
+        27,
+        36
+      ],
+      "delta": -0.5991280136996852,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 39,
+      "kind": "statement",
+      "line": 52,
+      "text": "_N[CAP - s] += 1",
+      "inside": [
+        27,
+        36,
+        38
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    }
+  ],
+  "repaired": [],
+  "untested": [
+    39
+  ],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s1/best_program.py"
+}
