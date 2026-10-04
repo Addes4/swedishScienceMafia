@@ -45,5 +45,13 @@ python -m autoresearch.loop problems/erdos_squares --mock
 | `docs/` | [Documentation map](docs/README.md); Mosa's handoff notes are [docs/NOTES.md](docs/NOTES.md) |
 | `tests/` | Both test suites: `python -m pytest tests` |
 
-Setup: `pip install -r requirements.txt` (Python 3.12; the loop's C++ problems need a compiler; Mosa's researchers need
-the `codex` CLI and, for Modal, `modal token set`).
+## Setup
+
+```bash
+uv venv --python 3.12 && uv pip install -r requirements.txt
+source .venv/bin/activate   # every new shell; or prefix commands with `uv run`, e.g. `uv run python -m mosa serve`
+npm install -g @openai/codex && codex login   # Mosa's researchers (needs Node.js)
+modal token set              # only for --backend modal
+```
+
+The loop's C++ problems need a compiler.
