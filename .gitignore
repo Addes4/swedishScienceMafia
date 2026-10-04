@@ -6,3 +6,4 @@ runs/
 *.log
 baselines/out/
 .trash/
+history/
