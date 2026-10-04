@@ -33,7 +33,7 @@ function spendHTML() {
   const x = S.spend;
   if (!x) return "";
   if (x.error) return `<div class="spend" title="${esc(x.error)}">Modal spend unavailable</div>`;
-  return `<div class="spend" title="From Modal's billing; updates about hourly">Modal this month: ${dollars(x.credits_used || x.month)}${x.left != null ? ` · <span class="${x.left < 15 ? "low" : ""}">${dollars(Math.max(0, x.left))} left</span>` : ""}</div>`;
+  return `<div class="spend" title="From Modal's billing; updates about hourly">Modal this month: ${dollars(x.credits_used || x.month)}${x.left != null ? `, <span class="${x.left < 15 ? "low" : ""}">${dollars(Math.max(0, x.left))} left</span>` : ""}</div>`;
 }
 
 // ---------- data ----------
@@ -166,7 +166,7 @@ const recordSizes = (r) => [...new Set(r.records.map((x) => x.n))].sort((a, b) =
 function outcome(r, m) {
   if (r.error) return { kind: "fail", text: "The model call failed." };
   if (!r.strategy) return { kind: "wait", text: "Writing a strategy…" };
-  if (r.live) return { kind: "live", text: `Testing: ${r.results.length} of ${r.expected} runs finished.`, short: `testing · ${r.results.length} of ${r.expected}` };
+  if (r.live) return { kind: "live", text: `Testing: ${r.results.length} of ${r.expected} runs finished.`, short: `${r.results.length} of ${r.expected} runs done` };
   const found = recordSizes(r);
   const links = (ns) => listN(ns.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`));
   if (!r.results.length) {  // imported reruns that kept only their record-breaking runs
@@ -380,7 +380,7 @@ function ideaView() {
   const o = outcome(r, m), it = idea(r.strategy), s = r.strategy || {};
   const kind = { new: "new idea", refine: "refinement", combine: "combination" }[s.decision];
   const ses = m.sessions[r.session] || {};
-  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1}${kind ? ` · ${kind}` : ""}`;  // the map shows the order
+  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1}${kind ? `'s ${kind}` : ""}`;  // the map shows the order
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
@@ -497,7 +497,7 @@ function messagesHTML() {
       const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
         : unpublished ? `Best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with.`
         : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
-      items.push(`<div class="msg note">Session finished · ${note}</div>`);
+      items.push(`<div class="msg note">Session finished. ${note}</div>`);
     }
   }
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
