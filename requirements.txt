@@ -1,5 +1,11 @@
+# The self-checking loop (autoresearch/, tournament/)
 shinka-evolve==0.0.7
 anthropic>=1.11
+pytest
+# Both
 numpy
 scipy
-pytest
+# Mosa (mosa/); the Modal workers pin their own versions in mosa/modal_app.py
+numba
+mpmath
+modal

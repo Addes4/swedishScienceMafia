@@ -22,7 +22,9 @@ Everything else is in this folder.
 
 | Document | Contents |
 |---|---|
-| [README.md](../README.md) | What the project is, what we found, and how to run it |
+| [README.md](../README.md) | The front page: both systems in brief |
+| [MOSA.md](../MOSA.md), [NOTES.md](NOTES.md) | Mosa: what it is, its results and how to run it; the team's handoff notes (design principles, demo script, Q&A) |
+| [AUTORESEARCH.md](../AUTORESEARCH.md) | The self-checking loop: what we found, and how to run it |
 | [experiments/README.md](../experiments/README.md) | The studies on `main`, and the archived ones |
 | [autoresearch/README.md](../autoresearch/README.md), [autoresearch/LOOP.md](../autoresearch/LOOP.md) | The one-command loop and the integrity gate; LOOP.md holds the design decisions and build log |
 | [tournament/README.md](../tournament/README.md) | Whole-framework comparison at equal dollar budgets |
