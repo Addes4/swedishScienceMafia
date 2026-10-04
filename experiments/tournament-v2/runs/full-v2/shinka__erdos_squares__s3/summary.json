@@ -1,0 +1,77 @@
+{
+  "job_id": "shinka__erdos_squares__s3",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "erdos_squares",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.007474,
+  "within_cap": true,
+  "tokens": 13846,
+  "calls": 2,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 2
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 2
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.007474
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 2,
+  "valid_evals": 2,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.9630610130610131,
+  "final_hidden": 0.8918344247716063,
+  "final_sha": "7d60124ef1e357f2",
+  "max_public_seen": 0.9630610130610131,
+  "hidden_of_max_public_seen": 0.8918344247716063,
+  "improvements": 1,
+  "usd_per_improvement": 0.007474,
+  "tokens_per_improvement": 13846,
+  "auc": 0.957735,
+  "auc_gain": 0.706143,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 107.5,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.007474,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 9.1,
+      "t": 1791069483.0201004,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.007474,
+      "budget_frac": 0.049827,
+      "tokens": 13846,
+      "wall_s": 107.5,
+      "t": 1791069581.4553108,
+      "incumbent_public": 0.9630610130610131,
+      "incumbent_hidden": 0.8918344247716063,
+      "sha": "7d60124ef1e357f2"
+    }
+  ]
+}

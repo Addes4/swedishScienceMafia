@@ -1,0 +1,14 @@
+{
+  "generation": 15,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "sidon_reflect_crossover",
+  "patch_description": "The two implementations are nearly identical: the current program has `_reflect_half` only, while the inspiration program has the more general `_reflect_fraction` and `_multi_reflect` helpers that try multiple reflection fractions and center modes, iterated over several rounds. The inspiration version also uses `_multi_reflect` on both the quadratic constructions and the final polishing stage.\n\nThe crossover keeps the current program's structure but replaces the single `_reflect_half` with the more powerful `_reflect_fraction` + `_multi_reflect` pair from the inspiration. This expands the reflection search space (fractions 0.3/0.4/0.5/0.6 and four center modes, iterated) which is a cheap structural move that preserves the difference multiset (up to sign) while potentially shrinking the sum set \u2014 exactly the trade-off this problem rewards. The final polishing step also uses `_multi_reflect` with 6 rounds instead of a single reflection.\n\nTo further improve the score, I add a light local-search phase that operates on the *multiset of distinct differences* indirectly by trying small perturbations on the best set found, and I keep the multi-scale perturbation scheme. I also try a wider grid of bounded Sidon spans and seeds, since the bounded Sidon construction is the most direct way to keep |A+A| small.\n\nThe result maintains the same `solve()` signature and returns a sorted list of distinct integers.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:39:13.996367",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

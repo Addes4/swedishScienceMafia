@@ -1,0 +1,248 @@
+# EVOLVE-BLOCK-START
+"""Novel approach: structured Sidon seeds + explicit sum-set compaction + reflection polishing.
+
+Key idea: directly minimize |A+A| while preserving |A-A|, rather than hoping random
+perturbations happen to shrink the sum set. Uses a deterministic replacement scan
+that evaluates candidate values for each element and accepts the one minimizing
+|A+A| subject to a |A-A| floor.
+"""
+import math
+import random
+import time
+
+
+def _score(a):
+    a = set(a)
+    if len(a) < 2:
+        return 0.0
+    diffs = {x - y for x in a for y in a}
+    sums = {x + y for x in a for y in a}
+    if len(sums) == 0:
+        return 0.0
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / len(a)) / 100
+
+
+def _counts(a):
+    """Return (|A-A|, |A+A|) efficiently."""
+    a = list(a)
+    diffs = set()
+    sums = set()
+    for i, x in enumerate(a):
+        for y in a:
+            diffs.add(x - y)
+            sums.add(x + y)
+    return len(diffs), len(sums)
+
+
+def _quadratic_set(p):
+    """Bose-Chowla-like Sidon set: A = {i + p*(i^2 mod p) : i in 0..p-1}."""
+    return [i + p * ((i * i) % p) for i in range(p)]
+
+
+def _bounded_sidon(n, span, seed=0):
+    """Randomized greedy Sidon-like set inside [0, span], biased toward center
+    to keep the sum set compact."""
+    rng = random.Random(seed)
+    A = []
+    used_sums = set()
+    used_diffs = set()
+    center = span // 2
+    cand = sorted(range(0, span + 1),
+                  key=lambda x: (abs(x - center), rng.random()))
+    for x in cand:
+        ok = True
+        new_sums = set()
+        new_diffs = set()
+        for a in A:
+            s = x + a
+            if s in used_sums or s in new_sums:
+                ok = False
+                break
+            new_sums.add(s)
+            d1 = x - a
+            d2 = a - x
+            if d1 in used_diffs or d2 in used_diffs or d1 in new_diffs or d2 in new_diffs:
+                ok = False
+                break
+            new_diffs.add(d1)
+            new_diffs.add(d2)
+        if ok:
+            A.append(x)
+            used_sums |= new_sums | {2 * x}
+            used_diffs |= new_diffs
+        if len(A) >= n:
+            break
+    return A
+
+
+def _compact_sums(A, time_budget):
+    """Deterministic replacement scan: for each index, try candidate values
+    near the current centroid, accept the value minimizing |A+A| subject to
+    |A-A| >= floor. This directly attacks the denominator."""
+    A = list(A)
+    if len(A) < 3:
+        return A
+    base_d, base_s = _counts(A)
+    if base_s == 0:
+        return A
+    diff_floor = max(2, int(0.90 * base_d))
+    deadline = time.time() + time_budget
+    improved = True
+    while improved and time.time() < deadline:
+        improved = False
+        # centroid of A to bias candidate placement
+        centroid = sum(A) // len(A)
+        order = list(range(len(A)))
+        random.shuffle(order)
+        for i in order:
+            if time.time() > deadline:
+                break
+            old = A[i]
+            span = max(1, (max(A) - min(A)) // 4)
+            # candidate values: near centroid and near old value
+            candidates = set()
+            for d in range(-20, 21):
+                candidates.add(centroid + d)
+            for d in range(-10, 11):
+                candidates.add(old + d)
+            best_v = old
+            best_s = base_s
+            best_d = base_d
+            for v in candidates:
+                if v == old:
+                    continue
+                A[i] = v
+                if len(set(A)) != len(A):
+                    continue
+                nd, ns = _counts(A)
+                if nd >= diff_floor and ns < best_s:
+                    best_s = ns
+                    best_d = nd
+                    best_v = v
+            A[i] = best_v
+            if best_v != old:
+                base_s = best_s
+                base_d = best_d
+                diff_floor = max(2, int(0.90 * base_d))
+                improved = True
+    return A
+
+
+def _reflect_half(A):
+    """Reflect the upper half of A around its center to shrink |A+A|."""
+    if len(A) < 4:
+        return A
+    B = sorted(A)
+    c = (B[0] + B[-1]) // 2
+    n = len(B)
+    out = B[: n // 2] + [2 * c - x for x in B[n // 2:]]
+    if len(set(out)) != len(B):
+        return A
+    return out
+
+
+def _random_local_search(A, time_budget):
+    """Light local search on top of the compacted set."""
+    cur = list(A)
+    cur_score = _score(cur)
+    best = cur[:]
+    best_score = cur_score
+    deadline = time.time() + time_budget
+    span = max(1, (max(cur) - min(cur)) // 30) if len(cur) > 1 else 1
+    while time.time() < deadline:
+        cand = cur[:]
+        i = random.randrange(len(cand))
+        step = max(1, span // 3)
+        delta = random.randint(-step, step)
+        if delta == 0:
+            delta = 1
+        cand[i] += delta
+        if len(set(cand)) != len(cand):
+            continue
+        s = _score(cand)
+        if s >= cur_score:
+            cur, cur_score = cand, s
+            if s > best_score:
+                best, best_score = cand[:], s
+        elif random.random() < 0.05:
+            cur = cand
+    return best
+
+
+def solve():
+    """Return a list of distinct integers A maximizing log|A-A|/log|A+A|."""
+    best = None
+    best_score = -1.0
+
+    # Stage 1: structured Sidon seeds.
+    primes = [p for p in range(11, 180)
+              if all(p % d for d in range(2, int(p ** 0.5) + 1))]
+    for p in primes:
+        cand = _quadratic_set(p)
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+        # center-shifted variant
+        c2 = [x - (max(cand) + min(cand)) // 2 for x in cand]
+        s = _score(c2)
+        if s > best_score:
+            best_score = s
+            best = c2[:]
+
+    # Stage 2: bounded Sidon sets inside tight spans (compact sums).
+    for n in [20, 30, 40, 60, 80, 100, 130, 160]:
+        for span_mult in (2, 3, 4, 6):
+            span = n * n * span_mult
+            if span > 10 ** 6:
+                continue
+            for seed in (n, n * 7 + 1, n * 13 + 5):
+                cand = _bounded_sidon(n, span, seed=seed)
+                if len(cand) >= 2:
+                    s = _score(cand)
+                    if s > best_score:
+                        best_score = s
+                        best = cand[:]
+
+    if best is None:
+        best = [7, 15, 18, 22, -3, -2]
+        best_score = _score(best)
+
+    # Stage 3: explicit sum-set compaction on the best seed.
+    deadline = time.time() + 110
+    cur_best = best[:]
+    cur_score = best_score
+    for budget in (8, 15, 25):
+        if time.time() > deadline:
+            break
+        cand = _compact_sums(cur_best, budget)
+        if len(set(cand)) < 2:
+            continue
+        s = _score(cand)
+        if s > cur_score:
+            cur_best, cur_score = cand[:], s
+        # reflection polish
+        r = _reflect_half(cand)
+        if len(set(r)) == len(cand):
+            s2 = _score(r)
+            if s2 > cur_score:
+                cur_best, cur_score = r[:], s2
+
+    # Stage 4: local search refinement on the compacted set.
+    remaining = max(1.0, deadline - time.time())
+    if remaining > 2:
+        cand = _random_local_search(cur_best, min(remaining, 40))
+        s = _score(cand)
+        if s > cur_score:
+            cur_best, cur_score = cand[:], s
+
+    # Final translation polish: try small shifts.
+    for shift in range(-3, 4):
+        c2 = [x + shift for x in cur_best]
+        s = _score(c2)
+        if s > cur_score:
+            cur_score = s
+            cur_best = c2[:]
+
+    return sorted(set(cur_best))
+# EVOLVE-BLOCK-END

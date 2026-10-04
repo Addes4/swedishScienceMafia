@@ -1,0 +1,77 @@
+{
+  "job_id": "shinka__circle_packing__s1",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "circle_packing",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.012863,
+  "within_cap": true,
+  "tokens": 36839,
+  "calls": 7,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 7
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 7
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.012863
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 7,
+  "valid_evals": 7,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.3776515731632183,
+  "initial_hidden": null,
+  "final_public": 0.9904703570157095,
+  "final_hidden": null,
+  "final_sha": "8e6af9e111410748",
+  "max_public_seen": 0.9904703570157095,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.012863,
+  "tokens_per_improvement": 36839,
+  "auc": 0.97906,
+  "auc_gain": 0.966353,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 151.0,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.012863,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 7.0,
+      "t": 1791069480.8957727,
+      "incumbent_public": 0.3776515731632183,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.002793,
+      "budget_frac": 0.01862,
+      "tokens": 6117,
+      "wall_s": 42.1,
+      "t": 1791069516.0788002,
+      "incumbent_public": 0.9904703570157095,
+      "incumbent_hidden": null,
+      "sha": "8e6af9e111410748"
+    }
+  ]
+}

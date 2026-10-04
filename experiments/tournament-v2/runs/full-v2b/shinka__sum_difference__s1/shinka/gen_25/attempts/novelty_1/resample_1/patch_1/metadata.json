@@ -1,0 +1,14 @@
+{
+  "generation": 25,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "sumset_compaction_sidon",
+  "patch_description": "I drew inspiration from the prior structured Sidon constructions and the recommendation about a targeted sum-set compaction move. The prior programs spent almost all effort maximizing |A-A| while only weakly controlling |A+A|, and the random local search rarely improved the denominator. My novel approach is a three-stage hybrid:\n\n1. **Structured seed generation** using Bose-Chowla-like quadratic Sidon sets and randomized bounded greedy Sidon sets, but with a crucial twist: the bounded greedy construction biases candidates toward the *center* of a tight span, which directly compacts the sum set.\n\n2. **Explicit sum-set compaction** as the primary optimization target. Instead of blind random perturbations, I implement a deterministic \"replacement scan\": for each element, I try replacing it with values near the current center of mass, and accept the move that minimizes |A+A| while keeping |A-A| above a floor. This directly attacks the denominator of the log-ratio.\n\n3. **Reflection and translation polishing** to further shrink the sum-set diameter, since |A+A| is bounded by the span of A.\n\nThe key insight: for a set A, |A+A| is roughly governed by the diameter of A, while |A-A| depends on the additive structure. A Sidon set has |A+A| ~ n\u00b2/2 and |A-A| ~ n\u00b2, giving a ratio near 2. To beat this, we want |A-A| to stay near n\u00b2 while |A+A| drops below n\u00b2/2 \u2014 which requires *non-Sidon* structure where many pairs collide in sums but few collide in differences. My compaction move explicitly searches for such structure.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:50:07.431315",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}
