@@ -19,13 +19,16 @@ from .llm import SOURCES, SOURCES_PROMPT, ask, cited
 from .store import Notebook
 
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "problem_request", "idea", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references", "sources"],
-          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply"]}, "reply": {"type": "string"},
-                         "problem_request": {"type": "string"}, "idea": {"type": "string"},
+          "required": ["action", "reply", "problem_request", "base", "idea", "scale", "goal", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references", "sources"],
+          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply", "stop"]}, "reply": {"type": "string"},
+                         "problem_request": {"type": "string"}, "base": {"type": "string"}, "idea": {"type": "string"},
+                         "scale": {"type": "string", "enum": ["quick", "full"]},
+                         "goal": {"type": "string", "enum": ["", "record", "best_known"]},
                          "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
                          "brief": {"type": "string"}, "references": {"type": "array", "items": {"type": "integer"}}, "sources": SOURCES}}
+QUICK_BUDGET = dict(init=96, children=32, generations=5, population=16, polish=8)
 COMPUTE = {"modal": "Modal (a few hundred cores, on a limited budget): up to 4 researchers, 3 rounds, 8 instances and 3 seeds per instance.",
            "local": "this machine (a few cores, each run takes minutes): at most 2 researchers, 2 rounds, 4 instances and 1 seed."}
 
@@ -81,8 +84,15 @@ The user says: {message}
 Either answer in words (action "answer": questions, explanations, or when nothing should run; the plan fields are then
 ignored, fill them with anything valid); or, when the user wants to research a problem that is NOT in the library, ask
 for a harness to be drafted for it (action "draft": put a precise statement of the problem as a minimization over sizes n
-in "problem_request"; it will be built and self-tested, and you will be asked again with it in the library); or plan and
-start a research session (action "start"); or run an existing idea of this workspace, as it is and without a
+in "problem_request", and in "base" the name of the closest library problem to fork from, e.g. a triangles-in-a-triangle
+harness for squares in a square, or "" if none is close; it will be built from that base, self-tested, and you will be
+asked again with it in the library); or plan and
+start a research session (action "start"). A session is "quick" (a first look or proof of concept: 2 researchers, 2
+rounds, 1 seed, up to 3 instances, a small budget per run; it finishes in minutes) unless the user asks for a thorough,
+large or long run ("full"); a new workspace starts quick. When the user wants the research to keep going until something
+happens, set "goal": "record" (until a verified new best-known) or "best_known" (until the best known is reached), and
+rounds is then a cap: 12 unless the user names a limit; every researcher stops once one meets it. When the user asks to stop what is running,
+use action "stop"; or run an existing idea of this workspace, as it is and without a
 researcher, on more instances (action "apply": its id in "idea", the sizes in "targets", and seeds). A session's plan: the
 problems from the library (one or more, all from one family; an existing workspace keeps its family; related problems
 in one workspace share what they find); the sizes n to run on each of them (4-24 in all; contiguous blocks let
@@ -109,11 +119,15 @@ of "reply": the sources are shown with it."""
     answer["instances"] = [[d.name, n] for d in problems for n in sorted(set(answer["targets"])) if n in set(d.targets())][:24] \
         or [[problems[0].name, n] for n in problems[0].targets()[:6]]
     answer["researchers"] = max(1, min(4, answer["researchers"]))
-    answer["rounds"] = max(1, min(3, answer["rounds"]))
+    answer["rounds"] = max(1, min(12 if answer.get("goal") else 3, answer["rounds"]))
     answer["seeds"] = max(1, min(3, answer["seeds"]))
     answer["instances"] = answer["instances"][:8]
+    if answer["scale"] != "full":  # a quick look: minutes, not hours (a goal keeps the rounds going)
+        answer.update(researchers=min(answer["researchers"], 2), rounds=answer["rounds"] if answer.get("goal") else min(answer["rounds"], 2),
+                      seeds=1, instances=answer["instances"][:3])
     if backend == "local":  # keep a local session small enough to finish
-        answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:4])
+        answer.update(researchers=min(answer["researchers"], 2), rounds=answer["rounds"] if answer.get("goal") else min(answer["rounds"], 2),
+                      seeds=1, instances=answer["instances"][:4])
     return answer
 
 
@@ -145,9 +159,14 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
                    reply=p["reply"] or f"That problem is not in the library yet; drafting a harness for it: {p['problem_request']}")
         request, report = p["problem_request"], None
         for attempt in range(3):  # retries are told what failed
-            name, answer, report = draft(request, Path(out)/"harness", model)
+            base = p.get("base") or None
+            try:
+                get(base) if base else None
+            except Exception:
+                base = None  # not a library problem: draft from scratch
+            name, answer, report = draft(request, Path(out)/"harness", model, base)
             book.write("harness", name=name, title=answer["title"], family=answer["family"], about=answer["about"],
-                       code=answer["code"], report=report)
+                       code=answer["code"], report=report, forked_from=report.get("forked_from"))
             if report.get("passed"):
                 break
             request = f"{p['problem_request']}\n\nA previous draft failed its self-test: {json.dumps(report)[:1500]}"
@@ -175,10 +194,19 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
                   instances=[[lab.domain.name, n] for n in targets], **cited)
         lab.apply(None, None, targets, seeds, idea=key)
         return
+    if p["action"] == "stop":  # every running session in this workspace stops after its current round
+        running = {e["session"] for e in events if e["type"] == "lab"} - {e.get("session") for e in events if e["type"] == "done"}
+        for s in sorted(running):
+            book.write("stop", session=s)
+        book.write("reply", reply=p["reply"] or ("Stopping after the current round." if running else "Nothing is running."))
+        return
     if p["action"] in ("answer", "apply"):
         book.write("reply", reply=p["reply"], **cited)
         return
+    if p.get("scale") != "full" and budget is None:  # a quick session also runs each strategy at a small budget
+        from .evaluate import Budget
+        budget = Budget(**QUICK_BUDGET)
     lab = Lab(p["instances"][0][0], backend, out, budget, p["references"], workers)
     lab.write("plan", request=message, **p)
     lab.lab([tuple(i) for i in p["instances"]], p["researchers"], p["rounds"], list(range(p["seeds"])), p["brief"], model,
-            None if first else p["name"])
+            None if first else p["name"], p.get("goal") or None)

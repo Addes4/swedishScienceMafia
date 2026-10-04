@@ -10,6 +10,7 @@ safeguards; researchers' strategies still cannot touch them.
 """
 from __future__ import annotations
 
+import ast
 import importlib
 import json
 from pathlib import Path
@@ -24,6 +25,11 @@ from .llm import ask
 from .sandbox import violations
 
 GENERATED = Path(__file__).resolve().parent/"domains"/"generated"
+# What a harness may import: exactly what the Modal image installs (mosa/modal_app.py) plus the standard library pieces
+# below. A harness importing anything else would run here but crash in the workers, so its self-test fails instead.
+ALLOWED = {"numpy", "scipy", "numba", "mpmath", "math", "cmath", "itertools", "functools", "collections", "dataclasses",
+           "typing", "__future__", "random", "heapq", "bisect", "fractions", "decimal", "statistics", "time", "warnings",
+           "operator", "copy", "enum", "mosa"}
 SCHEMA = {"type": "object", "additionalProperties": False, "required": ["name", "title", "family", "about", "code", "test_sizes"],
           "properties": {"name": {"type": "string"}, "title": {"type": "string"}, "family": {"type": "string"},
                          "about": {"type": "string"}, "code": {"type": "string"},
@@ -80,11 +86,35 @@ def vary(parents, rng, count):
 '''
 
 
-def draft(request, directory, model=None):
-    """Ask the model for a harness, save it, and self-test it: returns (name, title, code, report)."""
+BUILT_IN = {  # library problems whose harness is part of Mosa: the files a fork starts from
+    "squares": ["squares/__init__.py", "squares/kernel.py", "squares/polish.py"],
+    "thomson": ["thomson/__init__.py"], "riesz": ["thomson/__init__.py"], "circle-radii": ["radii/__init__.py"]}
+
+
+def source(name):
+    """The code of a library harness, to fork from: a drafted one's module, or a built-in one's files."""
+    domains = Path(__file__).resolve().parent/"domains"
+    if name.startswith("gen-"):
+        path = GENERATED/(name.replace("-", "_")+".py")
+        return path.read_text() if path.exists() else ""
+    files = BUILT_IN.get(name.split("-")[0] if name.startswith("riesz") else name, [])
+    return "\n\n".join(f"# --- mosa/domains/{f} ---\n{(domains/f).read_text()}" for f in files)[:40000]
+
+
+def draft(request, directory, model=None, base=None):
+    """Ask the model for a harness (forked from the library harness `base` when given), save it, and self-test it:
+    returns (name, answer, report). Only a harness that passes stays in the library."""
+    fork = source(base) if base else ""
+    start = (f"""
+Start from this existing library harness for a related problem ({base}) and change only what the new problem needs: keep
+its structure, numerics and verification approach wherever they still apply. The result must still be one
+self-contained module following the contract below (inline anything it imported from its own package).
+
+{fork}
+""" if fork else "")
     text = f"""Write a harness for Mosa, a framework in which LLM researchers write search strategies and trusted tools test
 them. The user wants to research: {request}
-
+{start}
 Turn this into a MINIMIZATION problem over a family of instances indexed by an integer size n (for example "n circles in
 the smallest circle": minimize the container radius). Write a complete Python module that follows this contract exactly
 (numpy, scipy, numba and mpmath are available; no files, network or subprocesses). The harness must support small sizes
@@ -102,13 +132,37 @@ with "name" (a short slug, letters, digits and dashes), "title", "family", "abou
     flagged = violations(answer["code"])
     if flagged:  # the same static scan as strategies: a harness has no business with files, processes or the network
         return name, answer, {"passed": False, "error": "integrity scan: "+", ".join(flagged)}
+    try:
+        missing = imports_outside(answer["code"])
+    except SyntaxError as error:
+        return name, answer, {"passed": False, "error": f"SyntaxError: {error.msg} (line {error.lineno})"}
+    if missing:
+        return name, answer, {"passed": False, "error": f"imports {', '.join(missing)}, which the workers do not have; use only "
+                                                         "numpy, scipy, numba, mpmath and the standard math modules"}
     GENERATED.mkdir(exist_ok=True)
     (GENERATED/"__init__.py").touch()
     path = GENERATED/(name.replace("-", "_")+".py")
     path.write_text(answer["code"])
-    (GENERATED/(name.replace("-", "_")+".json")).write_text(json.dumps({"name": name, "title": answer["title"],
-                                                                        "family": answer["family"], "about": answer["about"]}))
-    return name, answer, self_test(name, answer["test_sizes"])
+    meta = GENERATED/(name.replace("-", "_")+".json")
+    meta.write_text(json.dumps({"name": name, "title": answer["title"], "family": answer["family"], "about": answer["about"],
+                                "forked_from": base if fork else None}))
+    report = self_test(name, answer["test_sizes"])
+    if not report.get("passed"):  # the library only holds harnesses that passed; the code stays in the notebook
+        path.unlink(missing_ok=True)
+        meta.unlink(missing_ok=True)
+    report["forked_from"] = base if fork else None
+    return name, answer, report
+
+
+def imports_outside(code):
+    """Top-level modules the code imports that the workers do not have."""
+    found = set()
+    for node in ast.walk(ast.parse(code)):
+        if isinstance(node, ast.Import):
+            found |= {a.name.split(".")[0] for a in node.names}
+        elif isinstance(node, ast.ImportFrom) and node.module and not node.level:
+            found.add(node.module.split(".")[0])
+    return sorted(found-ALLOWED)
 
 
 def load(name):
