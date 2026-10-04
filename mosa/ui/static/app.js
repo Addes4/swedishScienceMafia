@@ -21,7 +21,7 @@ const ICON = {
   send: svg('<path d="M12 19V5M6 11l6-6 6 6"/>', 16),
   chevron: svg('<path d="M8 10l4 4 4-4"/>', 12),
 };
-const LOGO = `<svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1" fill="var(--accent)"/><rect x="13" y="3" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="3" y="13" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="13.2" y="13.2" width="7.6" height="7.6" rx="1" fill="var(--strong)" transform="rotate(22 17 17)"/></svg>`;
+const LOGO = `<svg viewBox="-0.08 -0.08 2.8671 2.8671" width="18" height="18" aria-hidden="true"><rect width="2.7071" height="2.7071" fill="none" stroke="#006AA7" stroke-width="0.09"/><rect width="1" height="1" fill="#006AA7"/><rect x="1.7071" width="1" height="1" fill="#006AA7"/><rect y="1.7071" width="1" height="1" fill="#006AA7"/><rect x="1.7071" y="1.7071" width="1" height="1" fill="#006AA7"/><rect x="0.8536" y="0.8536" width="1" height="1" fill="#FECC02" transform="rotate(45 1.3536 1.3536)"/></svg>`;
 
 const S = { labs: [], discoveries: [], books: {}, refs: {}, lab: null, sel: null, compose: null, replay: null, view: "after", spend: null, where: {} };
 const dollars = (x) => `$${x < 10 ? x.toFixed(2) : Math.round(x)}`;
