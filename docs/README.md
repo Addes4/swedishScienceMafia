@@ -14,9 +14,9 @@ Everything else is in this folder.
 
 | Folder | Contents |
 |---|---|
-| [literature/](literature/) | [related-work.md](literature/related-work.md): about 60 papers, which of our results are new and which reproduce published findings. [related-work-addendum.md](literature/related-work-addendum.md): papers on the questions the experiments left open. [research-directions.md](literature/research-directions.md) and [novelty-check-sum-of-squares.md](literature/novelty-check-sum-of-squares.md): candidate new-finding areas with literature verdicts. [fetch_papers.py](literature/fetch_papers.py) re-downloads the reviewed papers into a git-ignored folder. |
-| [logs/](logs/) | [OVERNIGHT-2026-10-03.md](logs/OVERNIGHT-2026-10-03.md): the coordination log, with decisions, approvals, incidents and spend. [related-work-log.md](logs/related-work-log.md) and [research-directions-log.md](logs/research-directions-log.md): two sessions' logs. |
-| [reviews/](reviews/README.md) | Independent referee-style reviews of four studies: recomputation, protocol adherence, claims. |
+| [literature/](literature/) | [related-work.md](literature/related-work.md): about 60 papers, which of our results are new and which reproduce published findings. [related-work-addendum.md](literature/related-work-addendum.md): papers on the questions the experiments left open. [novelty-check-sum-of-squares.md](literature/novelty-check-sum-of-squares.md): the literature check behind the Sum-of-Squares and FWSS novelty claims. [fetch_papers.py](literature/fetch_papers.py) re-downloads the reviewed papers into a git-ignored folder. |
+| [logs/](logs/) | [OVERNIGHT-2026-10-03.md](logs/OVERNIGHT-2026-10-03.md): the coordination log, with decisions, approvals, incidents and spend. |
+| [reviews/](reviews/README.md) | Independent referee-style reviews of three studies: recomputation, protocol adherence, claims. |
 
 ## Elsewhere in the repository
 

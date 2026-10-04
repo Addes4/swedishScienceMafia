@@ -7,7 +7,7 @@ against the papers. `python3 docs/literature/fetch_papers.py` downloads them int
 `docs/literature/related-papers/`. That folder is git-ignored because most of the PDFs cannot be
 redistributed; the links below lead to every paper. [How the review was done](#how-this-review-was-done)
 records the method, decisions and corrections. [What changed in our experiments](#what-changed-in-our-experiments)
-records what the review changed in the running experiments. [related-work-log.md](../logs/related-work-log.md)
+records what the review changed in the running experiments. [related-work-log.md](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/docs/logs/related-work-log.md)
 is the session's timeline, decisions, incidents and cost. docs/papers/outlines/ (kept outside the repository)
 turns the findings into two candidate research papers.
 

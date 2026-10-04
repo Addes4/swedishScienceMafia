@@ -3,4 +3,3 @@ anthropic>=1.11
 numpy
 scipy
 pytest
-cma
