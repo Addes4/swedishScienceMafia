@@ -253,7 +253,7 @@ token budgets, and another fresh audit.
 ## Subsequent experiment completed: V3 promotion gates
 
 After saving the handoff above, implemented and completed the next experiment.
-See `PROTOCOL-v3.md` and `gate-v3/RESULTS.md` for the full design and results.
+See `gate-v3/PROTOCOL.md` and `gate-v3/RESULTS.md` for the full design and results.
 
 Added `falsify/contextual.py`, `contextual.cpp`, and `gated_search.py`. Candidates
 can now use eight additional features calculated only from earlier items in the
@@ -309,7 +309,7 @@ executions in this verification rerun are separate from the experiment budget.
 Completed the requested experiment to preserve promising proposals while
 continuing to reject harmful ones: 40 paired seeds, 200 generations, identical
 proposals, three equally budgeted arms. Rules were written in
-`PROTOCOL-v4.md` before the audit. Full findings are in
+`soft-gate-v4/PROTOCOL.md` before the audit. Full findings are in
 `soft-gate-v4/RESULTS.md`; traces, source snapshots, hashes, and raw audits are saved.
 
 Strict rejection allowed 14/16 empirically beneficial sampled proposals and

@@ -116,7 +116,7 @@ validation work, and audit inputs also differ.
 ## Evidence paths (relative to repository root)
 
 - `experiments/soft-gate-v4/RESULTS.md`: complete V4 interpretation.
-- `experiments/PROTOCOL-v4.md`: pre-audit design and thresholds.
+- `experiments/soft-gate-v4/PROTOCOL.md`: pre-audit design and thresholds.
 - `experiments/soft-gate-v4/summary.json`: numerical tables and paired intervals.
 - `experiments/soft-gate-v4/diagnostic.json`: independent proposal diagnostic.
 - `experiments/soft-gate-v4/audit.json`: fresh final-policy audit.

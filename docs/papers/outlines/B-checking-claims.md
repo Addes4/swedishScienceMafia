@@ -7,7 +7,7 @@ comes from:
 - the RESULTS.md on branches `exp/gate-redteam`, `exp/memory-ablation`, `exp/bp-ceiling`,
   `exp/idea-table` and `exp/tournament`.
 
-Related work is in [context/related-work.md](../../context/related-work.md).
+Related work is in [docs/literature/related-work.md](../../literature/related-work.md).
 
 ## Working title
 

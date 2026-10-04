@@ -5,9 +5,9 @@ arXiv cs/0210013) places each item where it minimises sum_g N(g)^2, where N(g) c
 bins with remaining capacity g (0 < g < C). It has no parameters and uses only past items.
 
 Usage, from the repository root (CPU only, about 3 minutes):
-    python context/probes/sos_probe.py            # released Weibull 5k data plus fresh instances
-    python context/probes/sos_probe.py --quick    # released data only
-    python context/probes/sos_probe.py --or3 PATH # also FunSearch's OR3 data (datasets.json from the
+    python docs/literature/probes/sos_probe.py            # released Weibull 5k data plus fresh instances
+    python docs/literature/probes/sos_probe.py --quick    # released data only
+    python docs/literature/probes/sos_probe.py --or3 PATH # also FunSearch's OR3 data (datasets.json from the
                                                   # unmerged campaign branch, key "OR3")
 
 Excess is over L1 = ceil(sum/C) for FunSearch's released data (FunSearch's own metric) and over

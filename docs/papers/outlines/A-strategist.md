@@ -2,7 +2,7 @@
 
 Status: outline, 3 October 2026. Evidence is from `strategist/RESULTS.md` (v1, on main) and
 `experiments/strategist-v2/RESULTS.md` (v2, branch `exp/strategist-v2`). Related work is in
-[context/related-work.md](../../context/related-work.md).
+[docs/literature/related-work.md](../../literature/related-work.md).
 
 ## Working title
 

@@ -140,7 +140,7 @@ optimal; at most 43 s.
   reused.
 - **Literature check.**
   - An agent found no paper comparing SS, primal-dual or re-solving policies with FunSearch
-    (`context/research-directions.md` on branch `docs/research-directions`).
+    (`docs/literature/research-directions.md` on branch `docs/research-directions`).
   - FunSearch's follow-ups (Herrmann & Pallez, arXiv 2510.27353; Sim et al., arXiv 2501.11411)
     compare with Any-Fit rules only.
 - **01:48, protocol.** Written and hashed. Its stated time was then corrected from 01:50 to 01:48

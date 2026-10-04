@@ -316,10 +316,11 @@ These are already in [related-work.md](related-work.md).
 ## Reproduce
 
 ```bash
-python context/probes/sos_probe.py --quick   # released Weibull 5k only, about 10 s
-python context/probes/sos_probe.py           # plus fresh instances at 80 to 100,000 items, a few minutes
-python context/probes/sos_probe.py --or3 <datasets.json>   # adds FunSearch's OR3 data
+python docs/literature/probes/sos_probe.py --quick   # released Weibull 5k only, about 10 s
+python docs/literature/probes/sos_probe.py           # plus fresh instances at 80 to 100,000 items, a few minutes
+python docs/literature/probes/sos_probe.py --or3 <datasets.json>   # adds FunSearch's OR3 data
 ```
 
 The OR3 file comes from FunSearch's notebook (Apache 2.0 / CC-BY 4.0). It is in the unmerged
-campaign branch `research/all-approaches` at `data/funsearch/datasets.json`, not in `main`.
+campaign tag `archive/all-approaches` (formerly branch `research/all-approaches`) at
+`data/funsearch/datasets.json`, not in `main`.

@@ -30,5 +30,5 @@ Falkenauer instances and the Sum-of-Squares feature to be complete.
 Each outline lists its evidence sources, the gaps in priority order, a section plan, likely
 reviewer objections and venues. Numbers come from each experiment's RESULTS.md (the authority)
 and were last checked at 23:10 on 3 October. The literature behind the positioning is in
-[context/related-work.md](../../context/related-work.md). Before writing, search the literature
+[docs/literature/related-work.md](../../literature/related-work.md). Before writing, search the literature
 again: 2026 preprints in this area appear weekly.

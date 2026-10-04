@@ -1,6 +1,6 @@
 # Addendum for the experiment review PDF: "Discover, simplify, explain"
 
-**For the agent maintaining `output/pdf/Swedish_Science_Mafia_Experiment_Review.pdf`:** this file adds missing and corrected details for **page 5, Experiment review / 04, "Discover, simplify, explain"**, plus one sentence on page 9. All numbers come from branch `simplify-explain` (commit `a0340a8`), built in the sibling worktree `../swedishScienceMafia-simplify`. They were re-checked against `experiments/simplify-v1/report.json` there.
+**For the agent maintaining `docs/papers/review/Swedish_Science_Mafia_Experiment_Review.pdf`:** this file adds missing and corrected details for **page 5, Experiment review / 04, "Discover, simplify, explain"**, plus one sentence on page 9. All numbers come from branch `simplify-explain` (commit `a0340a8`), built in the sibling worktree `../swedishScienceMafia-simplify`. They were re-checked against `experiments/simplify-v1/report.json` there.
 
 ## 1. Correction: "Reduced to exactly best-fit: 35" overstates the result
 

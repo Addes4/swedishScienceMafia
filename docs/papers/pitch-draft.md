@@ -3,7 +3,7 @@
 Drafted 3 October 2026 at 20:05; result slots filled at 21:46 and 23:10 from each experiment's
 RESULTS.md. The coordinating session owns the root README and the final pitch; this draft is
 input for it. Decide whether to delete this file before submitting.
-Claims follow [context/related-work.md](../context/related-work.md): each one says what is new
+Claims follow [docs/literature/related-work.md](../literature/related-work.md): each one says what is new
 and what independently reproduces published work.
 
 ## Short description (for both submission forms)
@@ -31,7 +31,7 @@ and what independently reproduces published work.
 ## Live demo (1:30 in round 1)
 
 > Superseded at 23:55 on 3 October by the one-command demo: plan in
-> [runs/README.md](../runs/README.md#live-demo-plan-1-minute-30). The short description and the video
+> [runs/README.md](../../runs/README.md#live-demo-plan-1-minute-30). The short description and the video
 > outline below do not mention `python -m autoresearch.loop` yet. The steps below are the earlier plan.
 
 1. `python3 -m strategist.demo --benchmark labs --seed 1000`: a narrated run, switch by switch, with
