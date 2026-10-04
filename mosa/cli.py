@@ -14,6 +14,19 @@ import time
 from .evaluate import Budget
 
 
+def sizes(tokens):
+    """Sizes from tokens like 88, 101-110 or 122-132."""
+    out = []
+    for token in tokens:
+        for part in token.split(","):
+            if "-" in part:
+                a, b = map(int, part.split("-"))
+                out += range(a, b+1)
+            elif part:
+                out.append(int(part))
+    return out
+
+
 def _strategy(spec, library):
     if spec.startswith("library:"):
         entry = json.loads(Path(library).read_text())[int(spec.split(":")[1])]
@@ -27,7 +40,7 @@ def main():
     for name in ("lab", "apply"):
         p = sub.add_parser(name)
         p.add_argument("--domain", default="squares")
-        p.add_argument("--targets", type=int, nargs="+", required=True)
+        p.add_argument("--targets", nargs="+", required=True, help="sizes, e.g. 88 101-110 122-132")
         p.add_argument("--seeds", type=int, nargs="+", default=[0] if name == "lab" else [1])
         p.add_argument("--backend", choices=["local", "modal"], default="modal")
         p.add_argument("--out", default=None, help="notebook directory (default runs/<command>-<time>)")
@@ -50,7 +63,7 @@ def main():
     targets.add_argument("--domain", default="squares")
     serve = sub.add_parser("serve")
     serve.add_argument("--runs", default="runs")
-    serve.add_argument("--port", type=int, default=8765)
+    serve.add_argument("--port", type=int, default=8777)
     args = parser.parse_args()
 
     if args.command in ("lab", "apply"):
@@ -61,10 +74,10 @@ def main():
         lab = Lab(args.domain, args.backend, out, budget, args.references, library, args.workers)
         if args.command == "lab":
             brief = Path(args.brief).read_text() if args.brief else ""
-            lab.lab(args.targets, args.chains, args.rounds, args.seeds, brief, args.model)
+            lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model)
         else:
             code, source = _strategy(args.strategy, args.library)
-            lab.apply(code, source, args.targets, args.seeds)
+            lab.apply(code, source, sizes(args.targets), args.seeds)
         print(f"notebook: {out}/events.jsonl")
     elif args.command == "verify":
         from .domain import get
