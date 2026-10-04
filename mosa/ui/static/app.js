@@ -204,8 +204,6 @@ function outcome(r, m) {
   if (errors.length) text += ` The code failed on ${errors.length} of ${r.results.length} runs.`;
   return { kind: reached.length ? "reached" : "none", text, short: reached.length ? `reached ${reached.length} of ${tried.length}` : "" };
 }
-// A one-sentence status line needs no full stop; text of several sentences keeps its punctuation.
-const tidy = (s) => (/\.\s/.test(s) ? s : String(s).replace(/\.(\s*)$/, "$1"));
 const lastLine = (e) => String(e || "").split("\n").map((s) => s.trim()).filter(Boolean).slice(-1)[0] || "";
 const markHTML = (kind) => (kind === "star" ? ICON.star : kind === "fail" ? ICON.fail : `<span class="ring ${kind === "live" ? "spin" : kind === "wait" ? "wait" : kind === "reached" ? "full" : ""}"></span>`);
 
@@ -386,7 +384,7 @@ function ideaView() {
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
-    <div class="outcome">${markHTML(o.kind)}<span>${tidy(o.html || esc(o.text))}</span></div>
+    <div class="outcome">${markHTML(o.kind)}<span>${o.html || esc(o.text)}</span></div>
     ${s.mapping ? `<div class="section"><div class="section-label">Why the researcher expected it to work</div><div class="prose">${esc(s.mapping)}</div></div>` : ""}
     ${s.strategy ? `<div class="section"><div class="section-label">What it does</div><div class="prose">${esc(s.strategy)}</div></div>` : ""}
     ${r.results.length ? `<details><summary>Results on each size</summary>${resultsTable(r, m)}</details>` : ""}
@@ -414,7 +412,7 @@ function instanceView() {
   if (!ref) reference(n, domain);
   return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
     ${ref && ref !== "loading" && ref.poses ? `<div class="figure">${figure(ref.poses, ref.side)}</div>` : ""}
-    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held` : "Not tried yet"}</div>
+    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : "Not tried yet."}</div>
     ${b && b.runner_up_gap > 0 ? `<div class="section">The closest other packing came within ${plain(b.runner_up_gap)} of it.</div>` : ""}</div>`;
 }
 
@@ -436,7 +434,7 @@ function otherInstance(m, n, st, domain, by) {
     : b.gap <= 1e-6 ? `Reached the best known value ${shown(b.best_known)}.`
     : `Best found ${shown(b.polished)}, ${plain(b.gap)} ${word[0]} the best known ${shown(b.best_known)}.`;
   return `<div class="pane"><div class="eyebrow">${rec ? "Discovery" : "Instance"}</div><h2>${esc(what)}</h2>${picture}
-    <div class="numbers">${tidy(numbers)}</div>
+    <div class="numbers">${numbers}</div>
     ${rec ? `<div class="section"><div class="verified">${ICON.check} Verified by the problem's independent checker</div></div>` : ""}
     ${b ? `<div class="section"><div class="section-label">${rec ? "Found by" : "Best found by"}</div>${by(rec || b)}</div>` : ""}</div>`;
 }
@@ -488,7 +486,7 @@ function messagesHTML() {
       items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
       waiting = false;
     } else if (e.type === "failed") {
-      items.push(`<div class="msg failed"><strong>Stopped:</strong> ${esc(tidy(e.reason || e.error || "the session ended with an error"))}</div>`);
+      items.push(`<div class="msg failed"><strong>Stopped.</strong> ${esc(e.reason || e.error || "The session ended with an error.")}</div>`);
       waiting = false;
     } else if (e.type === "done") {
       const s = e.session ?? 0, recs = [...new Set(book.events.filter((x) => x.type === "record" && x.record && (x.session ?? 0) === s).map((x) => x.n))].sort((a, b) => a - b);
@@ -497,9 +495,9 @@ function messagesHTML() {
       const unpublished = results.length === 0 && book.events.some((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.polished != null);
       const found = [...new Set(book.events.filter((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.polished != null).map((x) => x.n))].sort((a, b) => a - b);
       const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
-        : unpublished ? `best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with`
-        : reached.length ? `reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}` : "no improvement this time";
-      items.push(`<div class="msg note">Session finished · ${tidy(note)}</div>`);
+        : unpublished ? `Best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with.`
+        : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
+      items.push(`<div class="msg note">Session finished · ${note}</div>`);
     }
   }
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
@@ -573,7 +571,7 @@ async function start() {
   const c = S.compose, note = $("#f-note");
   const backend = document.querySelector("input[name=f-compute]:checked")?.value || "modal";
   const spec = { kind: "run", workspace: c.workspace || undefined, prompt: $("#f-prompt").value.trim(), backend };
-  if (!spec.prompt) { note.textContent = "Say what to research"; return; }
+  if (!spec.prompt) { note.textContent = "Say what to research."; return; }
   note.textContent = "Starting…";
   try {
     const r = await api("/api/launch", spec);
