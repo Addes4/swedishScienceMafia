@@ -276,8 +276,10 @@ python sos_probe.py          # the earlier exploratory probe (needs --or3 <datas
    - The best rules kept a running histogram of item sizes and reached 96.8% of FunSearch's gain
      over best fit.
    - SS beat all four runs, and FunSearch too (−0.17 pp [−0.20, −0.14]).
-   - Follow-up `llm-from-ss-v1` (branch `exp/llm-from-ss`, started 05:40 BST on 4 Oct, HF cap
-     $2.50) asks the next question: starting from SS, can the loop find a better policy?
+   - Follow-up `llm-from-ss-v1` (branch `exp/llm-from-ss`, $1.10 of HF credit) started the loop
+     from SS. All 4 runs beat SS on 100 fresh instances. The best is a (100/g)^0.8-weighted SS at
+     8.37 bins above OPT against SS's 10.68 (−2.31 [−2.58, −2.04]), and it does not use the item
+     count.
 3. **Explain why ab-WorstFit (1, 21) degrades with length** while FunSearch's heuristic does not.
    Tune ab per length to see whether a two-threshold rule can stay at O(1) waste.
 4. **Test SS′ and SS*** for the theoretical O(1) constant. Test SS variants on the short OR

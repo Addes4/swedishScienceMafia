@@ -16,7 +16,7 @@ The session's decisions, timeline and spend are in [research-directions-log.md](
 
 | # | Direction | Status |
 |---|---|---|
-| 1 | Classical algorithms against FunSearch | **Done; reviewed and corrected:** `exp/online-frontier` (online-frontier-v1). OPT = L1 on Weibull; SS is 10–11 bins above OPT, FunSearch 13–14. Extended by session b1 (`exp/online-beyond-ss`): a known-horizon weighted SS gets 1.6–2.1. Follow-up running: `exp/llm-from-ss` (can the loop improve on SS?). |
+| 1 | Classical algorithms against FunSearch | **Done; reviewed and corrected:** `exp/online-frontier` (online-frontier-v1). OPT = L1 on Weibull; SS is 10–11 bins above OPT, FunSearch 13–14. Extended by session b1 (`exp/online-beyond-ss`): a known-horizon weighted SS gets 1.6–2.1. Follow-up `exp/llm-from-ss` (llm-from-ss-v1): a loop started from SS beat it in all 4 runs. The best, a (100/g)^0.8-weighted SS, gets 8.37 bins above OPT against SS's 10.68, without using the item count. |
 | 2 | Adaptive overfitting and promotion rules | **Done (replay); reviewed and corrected:** `exp/overfit-gates` (overfit-gates-v1). Selection overfitting was small. Strict, random and soft vetoes all blocked the best run; the archived counterexamples are mostly 2 items long. |
 | 3 | Timing-shuffle controls on LLM frameworks | Not started (deferred: setup and spend). |
 | 4 | Behavioural no-ops and dedup | Not started (deferred). |
