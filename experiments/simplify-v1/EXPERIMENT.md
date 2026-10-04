@@ -1,5 +1,9 @@
 # Discover → Simplify → Explain: experiment write-up (simplify-v1)
 
+> **Code location.** This study's code (in `falsify/`) was removed from `main` on 4 October 2026 to keep the
+> repository focused. The write-up and data stay here; to reproduce, check out tag
+> [`archive/full-research-2026-10-04`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04).
+
 Branch: `simplify-explain` · Code: `falsify/simplify.py` · Tests: `tests/test_simplify.py` · Protocol: `experiments/simplify-v1/PROTOCOL.md` · Raw results: `experiments/simplify-v1/report.json`, `report.md`
 
 ## 1. Question

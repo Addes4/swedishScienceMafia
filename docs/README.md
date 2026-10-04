@@ -27,7 +27,7 @@ Everything else is in this folder.
 | [experiments/README.md](../experiments/README.md) | The studies on `main`, and the archived ones |
 | [autoresearch/README.md](../autoresearch/README.md), [autoresearch/LOOP.md](../autoresearch/LOOP.md) | The one-command loop and the integrity gate; LOOP.md holds the design decisions and build log |
 | [tournament/README.md](../tournament/README.md) | Whole-framework comparison at equal dollar budgets |
-| [falsify/README.md](../falsify/README.md) | The bin-packing evaluators, CPU-tuned baselines and simplifier |
+| [falsify/README.md](../falsify/README.md) | FunSearch's published bin-packing heuristics, the reference code of the headline studies |
 | [problems/README.md](../problems/README.md) | The problem contract, and one `problem.md` per problem |
 | [runs/README.md](../runs/README.md) | The committed demo runs and the live-demo plan |
 

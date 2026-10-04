@@ -1,0 +1,7 @@
+data/*.npy
+data/mctsahd/
+heuristics/fetched/
+__pycache__/
+# raw per-instance results are kept in results.tar.gz (unpacked automatically by analyze.py)
+results/
+._*

@@ -1,5 +1,9 @@
 # bp-ceiling-v1 results: why nothing in Falsify beats best fit
 
+> **Code location.** This study's code (in `falsify/`) was removed from `main` on 4 October 2026 to keep the
+> repository focused. The write-up and data stay here; to reproduce, check out tag
+> [`archive/full-research-2026-10-04`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04).
+
 ## Question and answer
 
 **Question.** Falsify's searches never beat best fit on fresh data. Is the limit the
