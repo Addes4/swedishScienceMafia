@@ -246,10 +246,13 @@ python sos_probe.py          # the earlier exploratory probe (needs --or3 <datas
    - Without the horizon, the same weights do worse than plain SS. So plain SS remains the best
      horizon-free policy found.
    - On OR3 and OR4, FWSS beats FS-OR.
-2. **Ask whether an LLM loop finds SS when the interface allows state.** Run
-   `python -m autoresearch.loop problems/bin_packing_online` with SS and FunSearch's heuristic as
-   baselines, and measure decision agreement with SS. The cost is a few dollars of open-model
-   calls.
+2. **Ask whether an LLM loop finds SS when the interface allows state.** Partly answered by
+   llm-long-search-v1 (merged in PR #5): 4 × 300 DeepSeek steps for $0.80.
+   - The best rules kept a running histogram of item sizes and reached 96.8% of FunSearch's gain
+     over best fit.
+   - SS beat all four runs, and FunSearch too (−0.17 pp [−0.20, −0.14]).
+   - Follow-up `llm-from-ss-v1` (branch `exp/llm-from-ss`, started 05:40 BST on 4 Oct, HF cap
+     $2.50) asks the next question: starting from SS, can the loop find a better policy?
 3. **Explain why ab-WorstFit (1, 21) degrades with length** while FunSearch's heuristic does not.
    Tune ab per length to see whether a two-threshold rule can stay at O(1) waste.
 4. **Test SS′ and SS*** for the theoretical O(1) constant. Test SS variants on the short OR
