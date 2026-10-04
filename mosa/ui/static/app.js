@@ -358,7 +358,7 @@ function ideaView() {
   const o = outcome(r, m), it = idea(r.strategy), s = r.strategy || {};
   const kind = { new: "new idea", refine: "refinement", combine: "combination" }[s.decision];
   const ses = m.sessions[r.session] || {};
-  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1} · round ${r.round}${kind ? ` · ${kind}` : ""}`;
+  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1}${kind ? ` · ${kind}` : ""}`;  // the map shows the order
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
