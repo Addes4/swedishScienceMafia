@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .env
 .venv/
 __pycache__/
@@ -63,3 +64,16 @@ runs/*
 /experiments/tournament-v2/runs/**/stdout.log.gz
 /experiments/tournament-v2/runs/full-v2/
 /experiments/tournament-v2/runs/full-v2b/shinka__sum_difference__s1/shinka/
+=======
+.venv/
+__pycache__/
+*.pyc
+runs/
+.DS_Store
+/*.log
+mosa/domains/generated/
+>>>>>>> mosa
+
+# Mosa: workspaces live in runs/ (ignored above, except the autoresearch demo runs); harnesses drafted on the spot
+/*.log
+mosa/domains/generated/
