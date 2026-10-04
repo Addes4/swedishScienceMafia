@@ -27,7 +27,8 @@ sys.path.insert(0, str(ROOT))
 RELAXES = 4*(96+5*32)  # defaults: a local Mosa session of 2 researchers x 2 rounds
 POLISHES = 4*8
 FORMAT = {"squares": "x is an (n, 3) array of [x, y, angle in radians] of unit-square centres in [0, value]^2; value is the side",
-          "circle-radii": "x is an (n, 3) array of [cx, cy, r] (circles in the unit square); value is minus the sum of radii"}
+          "circle-radii": "x is an (n, 3) array of [cx, cy, r] (circles in the unit square); value is minus the sum of radii",
+          "sphere": "x is an (n, 3) array of points (rows are projected onto the unit sphere); value is the energy (pass 0.0 for a new candidate)"}
 TOOLS = '''"""The harness, as a library. Every relax and polish call is logged to calls.jsonl and refused past the budget."""
 import json, os, sys, time
 os.environ.setdefault("NUMBA_CACHE_DIR", os.path.join(os.path.dirname(os.path.abspath(__file__)), ".numba"))
@@ -120,7 +121,8 @@ def main():
     domain = get(args.problem)
     (out/"tools.py").write_text(TOOLS.format(root=str(ROOT), problem=args.problem, relaxes=args.relaxes, polishes=args.polishes))
     prompt = PROMPT.format(problem=domain.problem, targets=", ".join(map(str, targets)), python=str(ROOT/".venv"/"bin"/"python"),
-                           known=", ".join(f"n = {n}: {domain.best_known(n)}" for n in targets), format=FORMAT[args.problem],
+                           known=", ".join(f"n = {n}: {domain.best_known(n)}" for n in targets) if any(domain.best_known(n) is not None for n in targets)
+                           else "none published: you are compared with other methods at the same budget", format=FORMAT["sphere" if args.problem.startswith("riesz-") or args.problem == "thomson" else args.problem],
                            relaxes=args.relaxes, polishes=args.polishes)
     (out/"prompt.txt").write_text(prompt)
     command = ["codex", "exec", "--ignore-user-config", "--ignore-rules", "--sandbox", "workspace-write", "--skip-git-repo-check",
@@ -145,7 +147,7 @@ def main():
             saved = json.loads(path.read_text())
             certificate = domain.verify(saved.get("x", saved.get("poses")), n)
             entry.update(value=certificate["value"], valid=certificate["valid"], record=certificate["record"],
-                         gap=certificate["value"]-domain.best_known(n))
+                         gap=None if domain.best_known(n) is None else certificate["value"]-domain.best_known(n))
         report["sizes"][n] = entry
     (out/"report.json").write_text(json.dumps(report, indent=1))
     print(json.dumps(report, indent=1))
