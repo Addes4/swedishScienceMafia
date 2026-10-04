@@ -55,6 +55,9 @@ def prompt(domain, instances, seeds, budget, focus, history, library, brief):
     problems = sorted({p for p, _ in instances})
     related = "" if len(problems) == 1 else (f" The instances span related problems ({', '.join(problems)}); they share the "
                                              "representation below, and the global `problem` names the one your code is running on.")
+    given = ("record is None in initialize: no known solution is given for these instances, so build candidates from scratch "
+             "(or from neighbours);") if all(get(p).reference(n)[0] is None for p, n in instances) else \
+        "record may be None for an instance without a known solution;"
     text = [f"""You are a researcher developing search strategies for a hard optimization problem. {domain.problem} The goal is
 to beat the best known solutions for {describe(instances)}.{related} You write the strategy, not individual solutions.
 
@@ -70,6 +73,9 @@ target.
 Write Python implementing exactly these functions (only np, math and numba are available; rng is a numpy Generator).
 Every call runs in a fresh process, so keep no state between calls: vary gets everything it needs from its parents:
 {domain.api}
+
+Guaranteed by the framework, whatever the description above says: the globals n (the size) and problem (the problem's
+name) are set in every call; {given} neighbours may be an empty dict; every candidate is a pair (x, value).
 
 Focus: {focus}. Name the method or idea you draw on and its source field, and explain why its assumptions match the
 measured landscape. Return JSON with "name" (the idea in at most six words), "decision" (new, refine or combine), "builds_on" (the earlier round or library

@@ -14,13 +14,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .domain import LIBRARY, get
+from .domain import get, library
 from .llm import ask
 from .store import Notebook
 
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
-          "properties": {"action": {"type": "string", "enum": ["start", "answer"]}, "reply": {"type": "string"},
+          "required": ["action", "reply", "problem_request", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
+          "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft"]}, "reply": {"type": "string"},
+                         "problem_request": {"type": "string"},
                          "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
@@ -68,7 +69,7 @@ its instances, and a shared memory of what has been found.
 
 The problem library (each problem has a trusted harness; problems in one family share a representation, so one strategy
 runs on all of them; "riesz-<s>" stands for any exponent, e.g. riesz-2 or riesz-0.5):
-{json.dumps(LIBRARY, indent=1)}
+{json.dumps(library(), indent=1)}
 
 Workspace state: {json.dumps(state, separators=(",", ":")) if state else "new workspace, nothing run yet"}
 Conversation so far: {json.dumps(conversation, separators=(",", ":"))}
@@ -77,7 +78,10 @@ Compute available: {COMPUTE[backend]}
 The user says: {message}
 
 Either answer in words (action "answer": questions, explanations, or when nothing should run; the plan fields are then
-ignored, fill them with anything valid), or plan and start a research session (action "start"). A session's plan: the
+ignored, fill them with anything valid); or, when the user wants to research a problem that is NOT in the library, ask
+for a harness to be drafted for it (action "draft": put a precise statement of the problem as a minimization over sizes n
+in "problem_request"; it will be built and self-tested, and you will be asked again with it in the library); or plan and
+start a research session (action "start"). A session's plan: the
 problems from the library (one or more, all from one family; an existing workspace keeps its family; related problems
 in one workspace share what they find); the sizes n to run on each of them (4-24 in all; contiguous blocks let
 researchers share what they find between neighbouring sizes; for problems with published values, sizes that have one); researchers (2-6, more for open questions);
@@ -113,6 +117,25 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None):
     book.write("request", request=message, session=sum(e["type"] == "lab" for e in events))
     first = next((e for e in events if e["type"] == "lab"), None)
     p = respond(message, events, model, Path(out)/"agent", backend)
+    if p["action"] == "draft":
+        from .harness import draft
+        book.write("reply", drafting=True,
+                   reply=p["reply"] or f"That problem is not in the library yet; drafting a harness for it: {p['problem_request']}")
+        request, report = p["problem_request"], None
+        for attempt in range(2):  # one retry, told what failed
+            name, answer, report = draft(request, Path(out)/"harness", model)
+            book.write("harness", name=name, title=answer["title"], family=answer["family"], about=answer["about"],
+                       code=answer["code"], report=report)
+            if report.get("passed"):
+                break
+            request = f"{p['problem_request']}\n\nA previous draft failed its self-test: {json.dumps(report)[:1500]}"
+        if not report.get("passed"):
+            book.write("reply", reply="The drafted harness did not pass its self-test twice, so nothing was run. Its code and test are above.")
+            return
+        p = respond(message+f"\n(The harness {name} has been drafted and passed its self-test: use it.)", book.read(), model, Path(out)/"agent", backend)
+        if p["action"] != "start":
+            book.write("reply", reply=p["reply"])
+            return
     if p["action"] == "answer":
         book.write("reply", reply=p["reply"])
         return

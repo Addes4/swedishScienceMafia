@@ -58,6 +58,9 @@ def get(name):
     if name == "squares":
         from .domains.squares import Squares
         return Squares()
+    if name.startswith("gen-"):  # drafted on the spot by the research agent (mosa/harness.py)
+        from .harness import load
+        return load(name)
     if name == "thomson" or name.startswith("riesz-"):
         from .domains.thomson import Riesz
         return Riesz(1. if name == "thomson" else float(name.split("-", 1)[1]))
@@ -77,3 +80,9 @@ LIBRARY = [
      "about": "As the Thomson problem with the sum of 1/r^s. No published values for most s: nothing to memorize, so methods are compared with each other.",
      "sizes": "any n from 10 to 1000"},
 ]
+
+
+def library():
+    """The built-in problems and those drafted on the spot."""
+    from .harness import library as drafted
+    return LIBRARY+[{**e, "sizes": "see the harness", "drafted": True} for e in drafted()]

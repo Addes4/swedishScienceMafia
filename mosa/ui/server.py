@@ -160,6 +160,20 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json({"events": ev[since:], "next": len(ev)})
             if url.path == "/api/reference":
                 return self.send_json(reference(int(q["n"]), q.get("domain", "squares")))
+            if url.path == "/api/svg":  # a solution drawn by its problem's own harness (for drafted problems)
+                ev = events(notebooks()[q["lab"]])
+                n, problem = int(q["n"]), q["problem"]
+                best = min((e for e in ev if e["type"] == "result" and e.get("best") and e["n"] == n and e.get("problem", problem) == problem),
+                           key=lambda e: e["best"]["value"], default=None)
+                if not best:
+                    return self.send_json({"error": "no solution"}, 404)
+                body = domain(problem).svg(best["best"]["x"], best["best"]["value"]).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "image/svg+xml")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if url.path == "/api/records":
                 return self.send_json(records())
             if url.path == "/api/targets":

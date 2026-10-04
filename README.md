@@ -92,6 +92,8 @@ one small experiment shows no advantage. Some of Mosa's budget went to strategie
 - **The LLM works at the level of search strategy.** It never places pieces. Each round, a researcher picks a method, often one imported from another field, explains why that method's assumptions match the measured landscape, and writes it as code for a small evolutionary template.
 - **The tools do the numerical work, and they are trusted.** Strategy code can only propose candidates. It cannot touch the relaxation, the polish or the verifier, so there is no route to grading its own homework.
 - **Feedback is graded, not pass/fail.** Researchers see per-size, per-seed gaps and **near misses**: how close their best other basin came. With only pass/fail, one noisy failure made them drop each idea after a single round.
+- **Any problem you can state.** The research agent picks problems from a library of trusted harnesses (squares in a square; the Thomson problem; Riesz s-energies on the sphere for any s, which have no published answers to memorize). For anything else ("pack 20–25 circles in the smallest circle") it writes a harness on the spot: a random start, a fast local optimizer, an independent checker, a picture and any published values. The harness passes the same integrity scan as strategies and a self-test (random starts are relaxed and checked; the checker must recompute their values and reject malformed solutions; nothing may beat a published value in a self-test) before any research runs on it. You can read its code and test in the conversation.
+- **Related problems share a workspace.** An instance is a problem and a size. Problems in one family share a representation (Thomson and the Riesz energies are all points on a sphere), so one strategy runs on all of them, and what was found for one is offered to the others.
 - **You direct the research in a conversation.** "Beat the best known packings of squares near n = 125" becomes a workspace: the research agent picks the problem, the instances, the number of researchers, rounds and seeds (sized to the compute), writes their brief and says why. Later messages expand or redirect the research, or ask about it.
 - **The workspace is the unit of shared context.** A workspace is a problem, its instances and a memory: the best solution found for every instance and the ideas that broke records. Everything that runs in it sees that memory, so what was found for n = 118 is offered when working on n = 88. You choose what shares context by choosing what goes in the same workspace. A strategy designed for n = 101–132 carried over to n = 88.
 - **Everything is replayable.** Every prompt, answer, run and certificate is appended to a notebook (`events.jsonl`). The workbench reads it live, or replays it.
@@ -155,7 +157,8 @@ Arrow keys move between ideas; Esc closes the selection.
 mosa/
   domain.py            what a problem must provide (the only problem-specific code)
   domains/squares/     compiled relaxation, SQP polish, high-precision audit, catalogue data, SVG
-  domains/thomson/     Coulomb energy on the sphere, relaxation, 50-digit verifier
+  domains/thomson/     Riesz s-energy on the sphere (s = 1 is the Thomson problem), relaxation, 50-digit verifier
+  harness.py           harnesses written on the spot for problems outside the library, scanned and self-tested
   sandbox.py           runs model-written initialize/vary (integrity scan, time limit, validation, fresh namespace)
   evaluate.py          the evolutionary template and budget; gap, near miss, initial gap; neighbours from memory
   research.py          workspaces: sessions, researchers that continue, shared memory, library, record verification

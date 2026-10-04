@@ -66,8 +66,9 @@ function buildModel(events, until = Infinity) {
     m.end = m.end === null ? e.time : Math.max(m.end, e.time);
     const s = e.session ?? 0;
     if (e.type === "plan") { m.plans.push(e); m.waiting = false; }
-    else if (e.type === "request") { m.requests.push(e); m.waiting = true; }
-    else if (e.type === "reply") m.waiting = false;
+    else if (e.type === "request") { m.requests.push(e); m.waiting = "Reading your request"; }
+    else if (e.type === "reply") m.waiting = e.drafting ? "Writing a harness for this problem and testing it" : false;
+    else if (e.type === "harness") m.waiting = e.report?.passed ? "Planning the session" : "Writing the harness again";
     else if (e.type === "lab") {
       m.sessions[s] = { ...e, index: s, done: false };
       if (!m.lab) m.lab = e;
@@ -84,6 +85,8 @@ function buildModel(events, until = Infinity) {
   m.done = m.sessions.length > 0 && m.sessions.every((x) => !x || x.done);
   for (const r of m.ideas.values()) r.live = [...r.sessions].some((s) => m.sessions[s] && !m.sessions[s].done) && r.results.length < r.expected;
   m.targets = [...new Set(m.sessions.flatMap((x) => (x && x.targets) || []))].sort((a, b) => a - b);
+  m.bestValue = {};
+  for (const r of m.ideas.values()) for (const x of r.results) if (!x.error && x.polished != null && !(x.polished >= m.bestValue[x.n])) m.bestValue[x.n] = x.polished;
   return m;
 }
 
@@ -116,7 +119,7 @@ function labTitle(l) {
   if (!l) return "";
   if (l.label) return l.label;
   if ((l.all_targets || []).length) return `n = ${span(l.all_targets)}`;
-  return l.request ? (l.request.length > 34 ? l.request.slice(0, 32) + "…" : l.request) : l.name;
+  return l.request || l.name;
 }
 
 // "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization: …" ->
@@ -155,7 +158,14 @@ function outcome(r, m) {
     return { kind: "star", text: `New best-known for n = ${listN(found)}.${rest}`, html: `New best-known for n = ${links(found)}.${rest}`, short: `n = ${found.join(", ")}` };
   }
   if (errors.length === r.results.length) return { kind: "fail", text: `The code failed on every size: ${lastLine(errors[0].error)}`, short: "code failed" };
-  const best = (n) => Math.min(...r.results.filter((x) => x.n === n && !x.error).map((x) => x.gap));
+  const ok = r.results.filter((x) => !x.error);
+  if (ok.length && ok.every((x) => x.gap == null)) {  // no published values: compare with the rest of the workspace
+    const tops = [...new Set(ok.filter((x) => x.polished <= m.bestValue[x.n] + 1e-9).map((x) => x.n))].sort((a, b) => a - b);
+    const text = (tops.length ? `Best in this workspace on n = ${listN(tops)}.` : `Not the best in this workspace on any of the ${sizesWord(new Set(ok.map((x) => x.n)).size)}.`)
+      + (errors.length ? ` The code failed on ${errors.length} of ${r.results.length} runs.` : "");
+    return { kind: tops.length ? "reached" : "none", text, short: tops.length ? `best on ${tops.length}` : "" };
+  }
+  const best = (n) => Math.min(...r.results.filter((x) => x.n === n && !x.error && x.gap != null).map((x) => x.gap));
   const tried = sizes.filter((n) => Number.isFinite(best(n)));
   const reached = knownGiven(m) ? [] : tried.filter((n) => best(n) <= 1e-6).sort((a, b) => a - b);
   let text;
@@ -213,18 +223,17 @@ function renderMain() {
   const m = model(S.lab), l = summary(S.lab);
   if (m && !m.lab && m.requests.length) {  // nothing has run yet: the conversation (right) is where things happen
     el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l))}</h1></div></div>
-      <div class="planning">${m.waiting ? `<div class="thinking"><span class="ring spin"></span> The research agent is reading your request…</div>` : ""}</div>`;
+      <div class="planning">${m.waiting ? `<div class="thinking"><span class="ring spin"></span> ${m.waiting}</div>` : ""}</div>`;
     return;
   }
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
-  const L = m.lab, briefs = m.sessions.filter((x) => x && x.brief).length;
-  const parts = briefs ? [`<a data-act="brief">brief</a>`] : [];
+  const L = m.lab, brief = (m.sessions.filter((x) => x && x.brief).slice(-1)[0] || {}).brief || "";  // what the researchers are told now
   const replay = S.replay && S.replay.lab === S.lab
     ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
     : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${parts.length ? `<div class="sub">${parts.join(" · ")}</div>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${brief ? `<p class="bio">${esc(brief)}</p>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -233,9 +242,9 @@ const knownGiven = (m) => (m.lab?.domain || "squares") === "squares";
 function instanceState(m, n) {
   const rounds = [...m.ideas.values()];
   const records = rounds.flatMap((r) => r.records).filter((x) => x.n === n).sort((a, b) => a.side - b.side);
-  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, key: r.key }))).filter((x) => x.n === n && !x.error && x.gap != null);
-  const best = results.sort((a, b) => a.gap - b.gap)[0] || null;
-  const kind = records.length ? "star" : !knownGiven(m) && best && best.gap <= 1e-6 ? "reached" : "none";
+  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, key: r.key }))).filter((x) => x.n === n && !x.error && x.polished != null);
+  const best = results.sort((a, b) => a.polished - b.polished)[0] || null;
+  const kind = records.length ? "star" : !knownGiven(m) && best && best.gap != null && best.gap <= 1e-6 ? "reached" : "none";
   return { n, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
 // The workspace's instances: plain numbers, with a new best-known (★) or a reached best known (●) standing out.
@@ -278,7 +287,7 @@ function mapHTML(m) {
 function renderDetail() {
   const el = $("#detail");
   const chat = !S.sel && S.lab && !S.compose;
-  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : S.sel.type === "instance" ? instanceView() : briefView()) : chat ? chatView() : "";
+  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : instanceView()) : chat ? chatView() : "";
   el.hidden = !html;
   el.classList.toggle("chat-mode", !!chat);
   if (!html) return;
@@ -341,7 +350,7 @@ function instanceView() {
   const m = S.books[S.sel.lab]?.model;  // the whole notebook, even mid-replay
   if (!m) return "";
   const n = S.sel.n, st = instanceState(m, n), domain = m.lab.domain || "squares";
-  const what = domain === "thomson" ? `${n} charges on a sphere` : `${n} squares in a square`;
+  const what = `${n} squares in a square`;
   const by = (x) => {
     if (!x) return "";
     const key = x.key || ideaKey(x), r = m.ideas.get(key);
@@ -350,21 +359,34 @@ function instanceView() {
     const later = x.session !== undefined && r && x.session !== r.session ? ", when it was run on more instances" : "";
     return ses.kind === "apply" ? `${esc(it.name)}${later}` : `<a data-act="idea" data-idea="${key}">Researcher ${r.chain + 1}, round ${r.round}</a>: ${esc(it.name)}${later}`;
   };
+  if (domain !== "squares") return otherInstance(m, n, st, domain, by);
   if (st.record) return discoveryView(st.record, what, by(st.record));
-  const b = st.best;
-  if (domain === "thomson") {
-    return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
-      ${b?.best ? `<div class="figure sphere">${sphere(b.best.x)}</div>` : ""}
-      <div class="numbers">${b ? (b.gap <= 1e-6 ? `Reached the best-known energy <span class="mono">${b.best_known.toFixed(7)}</span>.`
-        : `Best energy found <span class="mono">${b.polished.toFixed(7)}</span>, ${plain(b.gap)} above the best known <span class="mono">${b.best_known.toFixed(7)}</span>.`) : "Not tried yet."}</div>
-      ${b ? `<div class="section"><div class="section-label">Best found by</div>${by(b)}</div>` : ""}</div>`;
-  }
   const ref = S.refs[n];
   if (!ref) reference(n, domain);
   return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
     ${ref && ref !== "loading" && ref.poses ? `<div class="figure">${figure(ref.poses, ref.side)}</div>` : ""}
     <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : "Not tried yet."}</div>
     ${b && b.runner_up_gap > 0 ? `<div class="section">The closest other packing came within ${plain(b.runner_up_gap)} of it.</div>` : ""}</div>`;
+}
+
+// Any problem other than squares: its best solution (drawn as points on a sphere, or by the problem's own harness), and
+// how it compares with the published value, if there is one.
+const onSphere = (d) => d === "thomson" || d.startsWith("riesz-");
+const value10 = (v) => `<span class="mono">${Number(v).toPrecision(10)}</span>`;
+function otherInstance(m, n, st, domain, by) {
+  const b = st.best, rec = st.record;
+  const what = domain === "thomson" ? `${n} charges on a sphere` : domain.startsWith("riesz-") ? `${n} points on a sphere, Riesz ${domain.slice(6)}-energy` : `${m.lab.title}, n = ${n}`;
+  const picture = !b?.best ? "" : onSphere(domain) ? `<div class="figure sphere">${sphere(b.best.x)}</div>`
+    : `<div class="figure"><img alt="" src="/api/svg?lab=${encodeURIComponent(S.sel.lab)}&n=${n}&problem=${encodeURIComponent(domain)}&v=${b.polished}"></div>`;
+  const numbers = !b ? "Not tried yet."
+    : rec ? `${value10(rec.value)}, ${plain(rec.improvement)} below the best known ${value10(rec.reference_side)}.`
+    : b.best_known == null ? `Best found ${value10(b.polished)}. There is no published value for this instance: ideas are compared with each other.`
+    : b.gap <= 1e-6 ? `Reached the best known value ${value10(b.best_known)}.`
+    : `Best found ${value10(b.polished)}, ${plain(b.gap)} above the best known ${value10(b.best_known)}.`;
+  return `<div class="pane"><div class="eyebrow">${rec ? "Discovery" : "Instance"}</div><h2>${esc(what)}</h2>${picture}
+    <div class="numbers">${numbers}</div>
+    ${rec ? `<div class="section"><div class="verified">${ICON.check} Verified by the problem's independent checker</div></div>` : ""}
+    ${b ? `<div class="section"><div class="section-label">${rec ? "Found by" : "Best found by"}</div>${by(rec || b)}</div>` : ""}</div>`;
 }
 
 function discoveryView(d, what, by) {
@@ -405,7 +427,8 @@ function chatView() {
   let waiting = false;
   for (const e of book.events) {
     if (e.type === "request") { items.push(`<div class="msg user">${esc(e.request)}</div>`); waiting = true; }
-    else if (e.type === "reply") { items.push(`<div class="msg agent">${esc(e.reply)}</div>`); waiting = false; }
+    else if (e.type === "reply") { items.push(`<div class="msg agent">${esc(e.reply)}</div>`); waiting = e.drafting ? "Writing the harness and testing it" : false; }
+    else if (e.type === "harness") { items.push(harnessHTML(e)); waiting = e.report?.passed ? "Planning the session" : "Writing the harness again"; }
     else if (e.type === "plan") {
       items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
       waiting = false;
@@ -418,10 +441,23 @@ function chatView() {
       items.push(`<div class="msg note">Session finished · ${note}</div>`);
     }
   }
-  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> Thinking…</div>`);
+  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}</div>`);
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
   return `<div class="chat"><div class="messages">${items.join("")}</div>
     <div class="composer"><textarea id="chat-input" rows="2" placeholder="Direct the research, or ask about it…"></textarea><button class="btn" data-act="send">Send</button></div></div>`;
+}
+
+// A harness drafted for a problem outside the library: what it is, how its self-test went, and its code.
+function harnessHTML(e) {
+  const r = e.report || {}, sizes = r.sizes || [];
+  const rows = sizes.map((s) => `<li>n = ${s.n}: ${s.invalid ? `${s.invalid} of 8 solutions failed the checker` : "all 8 solutions passed the checker"}${s.best_known != null ? `, best ${Number(s.best_found).toPrecision(8)} against the published ${Number(s.best_known).toPrecision(8)}` : `, best ${Number(s.best_found).toPrecision(8)}`}</li>`).join("");
+  const verdict = r.passed ? `${ICON.check} Passed its self-test` : `${ICON.fail} Failed its self-test`;
+  return `<div class="msg agent"><div class="section-label">New problem</div><strong>${esc(e.title)}</strong>
+    <div class="harness-about">${esc(e.about || "")}</div>
+    <div class="harness-verdict ${r.passed ? "ok" : "bad"}">${verdict}</div>
+    ${rows ? `<ul class="checks">${rows}${r.rejects_malformed === false ? "<li>does not reject malformed solutions</li>" : ""}</ul>` : ""}
+    ${r.error ? `<pre class="code plain">${esc(lastLine(r.error))}</pre>` : ""}
+    <details><summary>Harness code</summary><pre class="code"><code class="language-python">${esc(e.code || "")}</code></pre></details></div>`;
 }
 
 async function send() {
@@ -431,12 +467,6 @@ async function send() {
   box.value = "";
   try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend }); await refresh(); render(); }
   catch (e) { box.value = text; alert(e.message); }
-}
-
-function briefView() {
-  const m = model(S.sel.lab), ses = { brief: (m?.sessions || []).filter((x) => x && x.brief).map((x) => x.brief).join("\n\n---\n\n") };
-  return `<div class="pane"><div class="eyebrow">Brief</div><h2>What the researchers were told about these sizes</h2>
-    <div class="section"><pre class="code plain">${esc(ses?.brief || "")}</pre></div></div>`;
 }
 
 // ---------- new lab ----------
@@ -452,11 +482,12 @@ function composeView() {
   }
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
-    : ["Beat the best known packings of squares near n = 120", "Find low-energy configurations of 300–305 charges on a sphere", "Try to beat the 1980 record for 67 squares"];
+    : ["Beat the best known squares-in-a-square packings near n = 120", "Find the lowest-energy arrangements of 300–305 charges on a sphere (the Thomson problem)",
+       "Pack 20–25 circles in the smallest possible circle", "Try to beat the 1980 record for 67 squares in a square"];
   return `<div class="compose">
     <h1>${c.workspace ? `Research in ${esc(here)}` : "New workspace"}</h1>
-    <div class="sub">${c.workspace ? "Say what to do next. The planning agent continues the same researchers; they see everything this workspace has found."
-      : "Say what you want to research. A planning agent chooses the problem, the instances, the researchers and rounds, and writes their brief."}</div>
+    <div class="sub">${c.workspace ? "Say what to do next. The research agent continues the same researchers; they see everything this workspace has found."
+      : "Say what you want to research. The research agent picks the problem from the library, or writes and tests a harness for a new one, then chooses the instances, researchers and rounds."}</div>
     <div class="field-row"><textarea id="f-prompt" class="prompt" placeholder="${esc(examples[0])}">${esc(c.prompt || "")}</textarea>
       <div class="examples">${examples.map((x) => `<a data-act="example">${esc(x)}</a>`).join("")}</div></div>
     ${computeRow(c)}
@@ -542,7 +573,6 @@ document.addEventListener("click", (ev) => {
     case "lab": selectLab(d.id); break;
     case "idea": selectIdea(S.lab, d.idea); break;
     case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n }; S.view = "after"; S.compose = null; render(); break;
-    case "brief": S.sel = { type: "brief", lab: S.lab, session: +(d.s || 0) }; render(); break;
     case "unselect": S.sel = null; render(); break;
     case "view": S.view = d.v; renderDetail(); break;
     case "compose": S.compose = { kind: "run", backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;
