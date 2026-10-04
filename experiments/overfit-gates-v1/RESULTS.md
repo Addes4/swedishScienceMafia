@@ -19,23 +19,48 @@ confirmatory study: Claude Haiku 4.5 writing `priority` code for Weibull 5k bin 
 instances, split into 24 for truth, 12 for a holdout and 4 for validation.
 
 **Answer.**
-- **Selection overfitting was small here.**
-  - Each as-run promotion overstated its fresh advantage by **0.61 bins per instance** on average
-    [0.02, 1.49] (17 promotions in 7 runs, runs resampled). 11 of the 17 had a positive gap.
+- **The strict veto mostly tests input length.** Lead finding; the mechanism was checked from the
+  saved inputs.
+  - 554 of the 635 archived counterexamples are 2 items long, and all 554 fit in one bin. So the
+    archive veto, and a random veto with inputs of the same length, mainly test one rule: never
+    open a new bin while one fits.
+  - The long-horizon heuristics that win at 5,000 items break that rule on purpose.
+  - In this replay, both vetoes blocked the two largest real gains (details below).
+- **Selection overfitting was small in absolute terms, but not for marginal promotions.**
+  - Averaged over the 17 promotions, each overstated its fresh advantage by **0.38 bins per
+    instance** (median 0.30; cluster bootstrap over the 7 promoting runs [0.07, 1.05]).
+  - The pre-registered summary, a mean of per-run means, is 0.61 [0.02, 1.49].
+  - Both lower bounds above 0 depend on one promotion (executable-s6, gap 3.09). Without it the
+    mean of run means is 0.20.
+  - Big promotions kept their gain; small ones lost all of it:
+    - the 11 with a fixed-suite advantage above 1.2 went from 8.25 to 8.00 fresh;
+    - the 6 at 1.2 or below went from 0.60 to −0.01.
   - The 7 promoted final incumbents averaged 10.31 bins per instance better than best fit on the
     fixed suite and 9.78 on fresh instances.
-  - A public suite of 5 × 5,000 items is large enough that a 30-call search barely overfits it.
-    The 0.960 → 0.238 collapse in tournament-v2 came from much smaller public sets.
+  - A public suite of 5 × 5,000 items is large enough that a 30-call search barely overfits it in
+    absolute terms.
+  - (Corrected: an earlier version attributed tournament-v2's 0.960 → 0.238 collapse to smaller
+    public sets. Per tournament-v2's RESULTS, the program timed out on larger hidden instances. That
+    is a size and runtime shift, which this study does not address.)
 - **Offline best-of-K is far below the textbook bound.**
   - Re-selecting among each run's proposals on random public subsets of the fresh pool, the gap
     grows with K and shrinks with n: at n = 1, from 0.03 (K = 1) to 0.53 (K = 30) bins per
     instance; at n = 10, from 0.01 to 0.10.
-  - The bound σ·√(2 ln K / n), with σ ≈ 11–12 as the protocol defines it, predicts 10–32. It
-    overstates the gap by 1–2 orders of magnitude.
-  - Post hoc: the noise that actually separates competitive candidates (the SD of paired
-    differences) has a median of only 0.87 bins per instance. Most proposals are far from the best
-    or identical to it.
-- **Strict veto gates threw away the largest real gains.**
+  - The bound σ·√(2 ln K / n), with σ ≈ 11–12 as the protocol defines it, predicts 10–32. That
+    σ is inflated by degenerate programs: 56% of distinct proposals are more than 20 bins per
+    instance worse than best fit.
+  - With a σ relevant to competitive candidates (post hoc), the bound overstates the observed gap
+    by about 4–10×, not 1–2 orders of magnitude. The remaining excess is expected, because the
+    bound assumes K independent candidates with equal means. At K = 30:
+
+    | σ used | n = 1 | n = 5 | n = 10 |
+    |---|---|---|---|
+    | Protocol σ (about 11–12) | about 29–31 | about 13–14 | about 9–10 |
+    | Proposals within 20 bins of best fit (σ = 1.52) | 3.96 | 1.77 | 1.25 |
+    | Paired-difference median (σ = 0.87) | 2.27 | 1.01 | 0.72 |
+    | Observed gap | 0.53 | 0.19 | 0.10 |
+- **In this open-loop replay, strict veto gates blocked the largest real gains in 2 runs** (not
+  significant: Holm p = 0.27; exact sign test on the non-zero runs p = 0.25).
 
   | Gate | Final fresh advantage over best fit, bins/instance [95% CI] | Change vs score-only |
   |---|---|---|
@@ -46,12 +71,14 @@ instances, split into 24 for truth, 12 for a holdout and 4 for validation.
 
   - All three vetoes blocked the run with the largest gain: prose seed 9, +40.6 bins per instance
     fresh.
-  - The archive veto and the random veto also blocked none seed 6, +15.7 bins per instance.
-  - **The archive veto behaved like a random veto of the same input lengths:** false rejections
-    differed by 0.07 per run [0.00, 0.20]. 554 of the 635 archived inputs are 2 items long. On a
-    2-item stream, any policy that opens a new bin while an open bin fits loses, whether or not the
-    input was a counterexample. The veto's blocking power came from input length, not from the
-    inputs being counterexamples.
+  - The archive veto and the random veto also blocked none seed 6, +15.7 bins per instance. The soft
+    gate also lost that run's gain: it ended at −0.67, worse than best fit.
+  - Each veto contrast is non-zero in only 2–4 of 30 runs: G4 in 3, G5 in 2, G6 in 4. The
+    bootstrap p ≈ 0.045 for G4 is mechanical: (27/30)^30 ≈ 0.042 is the chance a resample misses all
+    3 non-zero runs.
+  - **The archive veto and a random veto of the same input lengths did not differ detectably.**
+    False rejections differed by 0.07 per run [0.00, 0.20]. On its own, an underpowered "no
+    difference" is weak evidence; the mechanism above is the real support.
 - **Statistical gates neither helped nor hurt the final score.**
   - The Ladder, the protocol's primary contrast, made 12 promotions instead of 17. Its final fresh
     advantage was the same: −0.0014 [−0.004, 0.0] bins per instance.
@@ -60,12 +87,21 @@ instances, split into 24 for truth, 12 for a holdout and 4 for validation.
     is not significant.
   - Thresholdout matched score-only's final score at the cost of 52.7 million extra items packed.
     It made 45 false acceptances, 38 of them ties on the truth split. Its Laplace noise turns
-    behavioural no-ops into "improvements", which is a poor property when no-ops are 65–82% of
-    proposals.
+    behavioural no-ops into "improvements". No-ops are 0.649 and 0.815 of valid proposals in the
+    prose and executable arms; 0.134 in the none arm; about 0.53 overall.
+  - The tie problem depends on the threshold-to-noise ratio and on promoting whenever the noisy
+    answer is below 0. At T = 2 and σ = 0.5 the expected tie-promotion rate is about
+    ½ · ½ · e^(−T/4σ) ≈ 9%, about 40 ties predicted against 38 observed. It falls below 0.2% at
+    σ = 0.1, and a promotion margin would remove it.
+  - The counts come from one random draw. The reviewer's re-draws with other seed offsets gave
+    58–65 promotions and 44–47 false acceptances, with final advantages 2.24–2.28.
+  - The sign test's aggregate result hides one run: it lost executable-s6's whole gain (1.71).
 - **Positive controls passed.**
   - Re-scoring reproduced the saved fixed-suite bins and packing hashes for 6 of 6 programs.
   - The score-only replay reproduced all 17 as-run promotions.
-  - Deduplication was exact: 19 of 19 groups with two code texts agreed on every bin and hash.
+  - Deduplication check: all 19 groups with two or more code texts were checked, and 19 of 19
+    sampled pairs agreed on every bin and hash. Those groups hold 612 code texts, so about 593 texts
+    were grouped by identical hashes on 25,000 items without a direct check.
 
 The study is a replay (open loop), so the gates did not change what the model proposed next.
 See Limitations.
@@ -188,7 +224,18 @@ measure 40.62 for that run.
 - **Selection only.** The offline analysis measures selection overfitting, not adaptive
   overfitting. The proposals were generated from feedback on the original fixed suite.
 - **Hand-set Thresholdout parameters** (T = 2, σ = 0.5). The ties problem follows from adding
-  noise to exactly-zero differences and would remain at other σ.
+  noise to exactly-zero differences. Its rate falls exponentially with T/σ, so it is specific to
+  these settings (see above).
+- **Undisclosed implementation choices**, found by review; none changes a conclusion.
+  - Offline best-of-K includes best fit as a candidate, so "K = 1" is best-of-2. This is why the
+    K = 1 gaps are non-zero.
+  - Random-veto seeds are `run_index*1000 + k`, not `k` as the protocol says.
+  - Thresholdout draws γ before the answer noise, the reverse of the protocol's text.
+  - False acceptances and rejections are given as shares of promotions or of truly-better
+    proposals, not "among valid proposals".
+  - Offline cells have no Monte Carlo error bars.
+- **Unlogged retries.** Successful retries were not logged, so "0 timeouts" cannot be checked from
+  the files. Zero final failures is verified.
 
 ## Cost
 
@@ -236,3 +283,30 @@ Scoring is deterministic: a re-run reproduces every bin count.
 4. **Consider the sign test as a default promotion rule.** In this replay it was the only gate
    with zero false acceptances that kept almost all of score-only's gain. Confirm it live before
    changing the loop's default.
+
+## Corrections after independent review (4 October 2026)
+
+An independent reviewer (a subagent of session b1, at the user's request) re-ran `analyze.py` and got
+byte-identical outputs. It also re-implemented all seven gates and reproduced every count. Its
+report is `docs/reviews/2026-10-04-overfit-gates-v1.md`, on branch `fix/obss-u250-12` when this was
+written.
+
+No headline number failed to recompute. The interpretation was corrected as follows; every new
+figure was recomputed here from `summary.json` before it was added:
+
+1. **Tournament-v2 attribution.** The sentence that tied tournament-v2's 0.960 → 0.238 collapse to
+   smaller public sets was wrong: the program timed out on larger hidden instances. Replaced.
+2. **The bound.** "1–2 orders of magnitude" came from a σ inflated by degenerate programs. With a
+   competitive-candidate σ, the bound overstates the gap by about 4–10×. Both rows are now shown.
+3. **The as-run gap.** 0.61 is a mean of run means. The promotion-weighted mean is 0.38 [0.07,
+   1.05], and both depend on executable-s6. The split by promotion size is added.
+4. **The veto contrasts.** They rest on 2–4 non-zero runs. The headline now says "in 2 runs, open
+   loop, not significant", and the exact sign-test p = 0.25 is reported.
+5. **Thresholdout.** The tie problem is specific to T/σ. The seed spread is now given.
+6. **No-op shares** are now given per arm.
+7. **Omissions in the per-run narrative.** The soft gate also lost none-s6's gain, and the sign
+   test lost executable-s6's.
+8. **Undisclosed implementation choices and unlogged retries** are listed under Limitations.
+9. **Deduplication** is described as checked on 19 of 19 sampled pairs, not as "exact". `RUN_LOG`'s
+   explanation of why there are 38 rows was wrong: 38 is the full design (19 groups × 2).
+10. **The 554/635 mechanism** now leads the answer.

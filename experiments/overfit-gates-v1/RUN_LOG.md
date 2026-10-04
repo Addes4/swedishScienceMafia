@@ -16,3 +16,4 @@ Times are BST, from `date` on the machine.
   scoring is deterministic. Duplicates were dropped, keeping the first row per key. The dedup
   check has 38 rows rather than 36 or 40, because the two concurrent runs read different
   `done` sets; the analysis uses pairs that have both members.
+| 2026-10-04 08:41 BST | Correction after independent review: the 38 dedup rows are the full design (19 groups × 2 representatives), not the result of runs reading different done sets as stated above. See RESULTS.md, "Corrections after independent review". |
