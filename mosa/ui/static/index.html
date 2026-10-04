@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mosa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="app.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
@@ -12,7 +15,9 @@
 <div id="app">
   <aside id="side"></aside>
   <main id="main"></main>
-  <section id="detail" hidden></section>
+  <section id="detail"></section>
+  <button id="open-left" class="icon-btn edge" data-act="toggle-left" title="Show workspaces ( [ )" aria-label="Show workspaces"></button>
+  <button id="open-right" class="icon-btn edge" data-act="toggle-right" title="Show panel ( ] )" aria-label="Show panel"></button>
 </div>
 <script src="app.js"></script>
 </body>

@@ -32,6 +32,40 @@ def notebooks():
     return out
 
 
+def traces(path):
+    """What each model call in a workspace is doing, read from the event stream Codex writes as it works: its short
+    progress notes, its web searches and any reasoning summaries. Hidden reasoning is never in the stream. The final
+    structured answer is left out; it is already in the notebook."""
+    root, out = Path(path).parent, []
+    for stream in sorted(root.glob("**/events.jsonl")):
+        if stream.parent == root:
+            continue
+        steps, done, failed = {}, False, False
+        for line in stream.read_text(errors="replace").splitlines():
+            try:
+                e = json.loads(line)
+            except ValueError:
+                continue
+            kind = e.get("type")
+            if kind in ("turn.completed", "turn.failed"):
+                done, failed = True, failed or kind == "turn.failed"
+            item = e.get("item") or {}
+            it, key = item.get("type"), item.get("id")
+            if it == "agent_message" and kind == "item.completed":
+                text = (item.get("text") or "").strip()
+                if text and not text.startswith("{"):  # a structured answer is JSON: the notebook has it
+                    steps[key] = {"kind": "note", "text": text}
+            elif it == "reasoning" and kind == "item.completed":
+                steps[key] = {"kind": "reasoning", "text": (item.get("text") or "").strip()}
+            elif it == "web_search":
+                query = item.get("query") or (item.get("action") or {}).get("query") or ""
+                steps[key] = {"kind": "search", "text": query, "results": len(item.get("results") or []), "open": kind == "item.started"}
+        prompt = stream.parent/"prompt.txt"
+        out.append({"call": stream.parent.relative_to(root).as_posix(), "started": (prompt if prompt.exists() else stream).stat().st_mtime,
+                    "updated": stream.stat().st_mtime, "done": done, "failed": failed, "steps": list(steps.values())[-40:]})
+    return out
+
+
 @lru_cache(maxsize=256)
 def _events(path, stamp):
     return [json.loads(line) for line in Path(path).read_text().splitlines() if line.endswith("}")]
@@ -160,6 +194,8 @@ class Handler(SimpleHTTPRequestHandler):
                 ev = events(notebooks()[q["lab"]])
                 since = int(q.get("since", 0))
                 return self.send_json({"events": ev[since:], "next": len(ev)})
+            if url.path == "/api/trace":
+                return self.send_json(traces(notebooks()[q["lab"]]))
             if url.path == "/api/reference":
                 return self.send_json(reference(int(q["n"]), q.get("domain", "squares")))
             if url.path == "/api/svg":  # a solution drawn by its problem's own harness (for drafted problems)
