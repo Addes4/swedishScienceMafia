@@ -1,0 +1,165 @@
+[loop] bp_sh_a5000 -> /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_a5000-s2
+[start] loop__bp_sh_a5000__s2: arm lean (lean) on bp_sh_a5000, seed 2, cap $0.20
+  initial          score 0.9590
+  step  1 edit    not_better    score 0.9590  best 0.9590  $0.0004  Add a small tie-breaking bonus so that among bins with equal
+  step  2 edit    not_better    score 0.9590  best 0.9590  $0.0003  Replace greedy best-fit with a harmonic-like scoring that fa
+  step  3 edit    not_better    score 0.9590  best 0.9590  $0.0004  I'll implement a "best fit decreasing"-style rule that rever
+  step  4 edit    not_better    score 0.9590  best 0.9590  $0.0004  I'll try a scored "best fit with lookahead-free residual sha
+  step  5 edit    not_better    score 0.9590  best 0.9590  $0.0005  I'll replace pure best-fit with a variant of the "Sum of Squ
+  step  6 edit    not_better    score 0.9590  best 0.9590  $0.0004  I'll replace pure best-fit with a "best-fit with a target-re
+  step  7 edit    not_better    score 0.9544  best 0.9590  $0.0005  Replace pure best-fit with a "worst-fit among essentially-ti
+  step  8 edit    not_better    score 0.9590  best 0.9590  $0.0008  Best-fit on individual items is weak for a Weibull(mean ~40)
+  step  9 edit    not_better    score 0.9590  best 0.9590  $0.0006  I'll try a two-region strategy: keep pure best-fit for bins 
+  step 10 edit    not_better    score 0.8300  best 0.9590  $0.0007  I'll implement the classic "Harmonic" bin-packing rule (a pr
+  step 11 edit    not_better    score 0.9590  best 0.9590  $0.0004  Add a learned/statistical flavor: since best fit is already 
+  step 12 edit    not_better    score 0.9590  best 0.9590  $0.0005  I'll replace pure best-fit with a two-parameter "residual-wi
+  step 13 edit    not_better    score 0.9590  best 0.9590  $0.0005  I'll try an instance-adaptive mixing rule: track the running
+  step 14 edit    not_better    score 0.9590  best 0.9590  $0.0006  Replace pure best fit (which greedily closes bins at awkward
+  step 15 edit    not_better    score 0.9590  best 0.9590  $0.0006  Add a small "waste-avoidance" tie-breaker to best-fit: among
+  step 16 edit    not_better    score 0.9590  best 0.9590  $0.0005  I'll add a small margin-based perturbation to best-fit: scor
+  step 17 edit    not_better    score 0.9590  best 0.9590  $0.0006  I'll replace pure best-fit with a *combined* rule that brief
+  step 18 edit    not_better    score 0.9590  best 0.9590  $0.0006  The bin-choice rule I'll try is a duty-cycled mix: pure best
+  step 19 edit    not_better    score 0.9590  best 0.9590  $0.0006  Replace pure best-fit (tightest post-placement residual) wit
+  step 20 edit    not_better    score 0.9590  best 0.9590  $0.0005  Replace pure best-fit with a hybrid that reserves room for n
+  step 21 edit    not_better    score 0.9590  best 0.9590  $0.0007  I'll keep state across calls (an array of observed item size
+  step 22 edit    not_better    score 0.3978  best 0.9590  $0.0004  I'll try a classic "almost-worst-fit"/anti-best-fit variant:
+  step 23 edit    not_better    score 0.9590  best 0.9590  $0.0005  Replace pure best-fit with a threshold rule that, for items 
+  step 24 edit    not_better    score 0.9590  best 0.9590  $0.0006  (no description)
+  step 25 edit    not_better    score 0.9590  best 0.9590  $0.0006  I'll switch to a deterministic "best fit with a tiny residua
+  step 26 edit    not_better    score 0.9590  best 0.9590  $0.0006  I'll try a randomized best-fit-and-worst-fit hybrid: with hi
+  step 27 edit    not_better    score 0.9590  best 0.9590  $0.0007  I'll use a small per-bin "closed-waste" memory: because best
+  step 28 edit    not_better    score 0.9590  best 0.9590  $0.0005  Add a deterministic tie-break on top of best fit: among bins
+  step 29 edit    not_better    score 0.9590  best 0.9590  $0.0005  I'll replace pure best-fit with a "best-fit-with-lookahead" 
+  step 30 edit    not_better    score 0.9590  best 0.9590  $0.0004  Replace pure best-fit with a hybrid that reverts to best-fit
+  step 31 edit    not_better    score 0.9590  best 0.9590  $0.0005  Replace pure best-fit with a modified best-fit that adds a s
+  step 32 edit    invalid       score 0.0000  best 0.9590  $0.0006  Add a lightweight per-stream statistical model: track the em
+  step 33 edit    not_better    score 0.9590  best 0.9590  $0.0006  I will replace pure best-fit with a bounded "best-fit with a
+  step 34 edit    not_better    score 0.8299  best 0.9590  $0.0006  Replace pure best-fit with a two-level rule: keep best-fit a
+  step 35 edit    not_better    score 0.9481  best 0.9590  $0.0005  I'll implement a two-choice "best-fit-decreasing-like" adapt
+  step 36 edit    not_better    score 0.9590  best 0.9590  $0.0015  Replace pure best-fit with a harmonic/rank-based rule: score
+  step 37 edit    not_better    score 0.9556  best 0.9590  $0.0008  I'll use "best fit with unusable-residual penalty": primary 
+  step 38 edit    not_better    score 0.9590  best 0.9590  $0.0009  I'll switch from pure best-fit to a two-level rule based on 
+  step 39 edit    not_better    score 0.9590  best 0.9590  $0.0006  I will implement "best fit with capacity-class bucketing": i
+  step 40 edit    not_better    score 0.9590  best 0.9590  $0.0005  I will replace the pure best-fit rule with a hybrid that kee
+  step 41 edit    not_better    score 0.9590  best 0.9590  $0.0005  I'll replace pure best-fit with a two-choice adaptive rule: 
+  step 42 edit    not_better    score 0.9579  best 0.9590  $0.0006  I'll replace pure best-fit with a randomized "two-choice" ru
+  step 43 edit    improved      score 0.9595  best 0.9595  $0.0005  Replace pure best-fit with a hybrid "best-fit-then-worst-fit
+  step 44 edit    improved      score 0.9604  best 0.9604  $0.0005  I'll refine the small-item threshold and rule: keep best-fit
+  step 45 edit    not_better    score 0.9593  best 0.9604  $0.0007  I'll replace the ad-hoc small-item rule with a principled "r
+  step 46 edit    not_better    score 0.9604  best 0.9604  $0.0005  I'll replace the fixed residual threshold (15) in the small-
+  step 47 edit    not_better    score 0.9595  best 0.9604  $0.0006  Refine the small-item rule so that instead of a fixed "usefu
+  step 48 edit    not_better    score 0.9590  best 0.9604  $0.0005  I'll replace the small-item heuristic with a "fullest-fit am
+  step 49 edit    no_code       score   n/a   best 0.9604  $0.0005  (no description)
+  step 50 edit    not_better    score 0.9597  best 0.9604  $0.0007  For small items (≤20), after preferring perfect fits, restri
+  step 51 edit    not_better    score 0.9590  best 0.9604  $0.0005  I'll replace the small-item heuristic with a two-candidate a
+  step 52 edit    not_better    score 0.9590  best 0.9604  $0.0005  Replace the small-item heuristic with a clean rule: strongly
+  step 53 edit    not_better    score 0.9595  best 0.9604  $0.0005  I'll change the small-item rule to a "residual near mean" ra
+  step 54 edit    not_better    score 0.9590  best 0.9604  $0.0006  I'll add a length-aware bucket-sum (energy) rule: for every 
+  step 55 edit    improved      score 0.9637  best 0.9637  $0.0005  I'll switch to a length-aware "modified best fit" that, for 
+  step 56 edit    not_better    score 0.9637  best 0.9637  $0.0005  Replace the ad-hoc small-item penalty with a principled "bes
+  step 57 edit    not_better    score 0.9609  best 0.9637  $0.0005  I will replace the current rule with one that, among bins th
+  step 58 edit    improved      score 0.9876  best 0.9876  $0.0007  I'll add a learned/statistical touch: track a running histog
+  step 59 edit    improved      score 0.9888  best 0.9888  $0.0013  Replace the simple ±2 neighborhood bonus with a richer usefu
+  step 60 edit    improved      score 0.9915  best 0.9915  $0.0010  I'll extend the gap-usefulness estimate from a pair-completi
+  step 61 edit    not_better    score 0.9898  best 0.9915  $0.0011  I'll make the gap-usefulness combine exact single/pair/tripl
+  step 62 edit    not_better    score 0.9822  best 0.9915  $0.0011  I will make the exact-fit preference the top term only when 
+  step 63 edit    not_better    score 0.9851  best 0.9915  $0.0011  I'll refine the gap-completability scoring so the exact-sing
+  step 64 edit    not_better    score 0.9878  best 0.9915  $0.0008  Replace the ad-hoc blend of exact/pair/triple/nearby/mean/ti
+  step 65 edit    not_better    score 0.9883  best 0.9915  $0.0010  I'll replace the online-histogram usefulness terms with a tu
+  step 66 edit    improved      score 0.9925  best 0.9925  $0.0011  I'll reduce variance/noise in the empirical estimates by usi
+  step 67 edit    gate_rejected score 0.9928  best 0.9925  $0.0012  
+  step 68 edit    not_better    score 0.9923  best 0.9925  $0.0011  I'll replace the fragile every-call full triple convolution 
+  step 69 edit    not_better    score 0.9920  best 0.9925  $0.0011  I'll add a light "residual equal to a common small item size
+  step 70 edit    not_better    score 0.9918  best 0.9925  $0.0010  I'll reduce the reliance on the noisy pair/triple convolutio
+  step 71 edit    not_better    score 0.9913  best 0.9925  $0.0012  I'll add a lightweight "residual matches a frequent recent i
+  step 72 edit    not_better    score 0.9910  best 0.9925  $0.0011  The main inefficiency is leaving bins with residual in the 5
+  step 73 edit    not_better    score 0.9501  best 0.9925  $0.0010  I'll simplify to a cleaner rule: strongly prefer exact fits,
+  step 74 edit    not_better    score 0.9900  best 0.9925  $0.0010  I'll make the priority rule a proper "best fit with a comple
+  step 75 edit    improved      score 0.9935  best 0.9935  $0.0012  Bins with residual smaller than the smallest item seen so fa
+  step 76 edit    not_better    score 0.9925  best 0.9935  $0.0013  Bins with small residuals 1..~10 are often stranded because 
+  step 77 edit    not_better    score 0.9537  best 0.9935  $0.0011  I'll replace the ad-hoc exact/pair/triple weights with a sin
+  step 78 edit    not_better    score 0.9935  best 0.9935  $0.0015  I'll add a targeted penalty/bonus term keyed on the empirica
+  step 79 edit    not_better    score 0.9579  best 0.9935  $0.0010  The current rule ignores the classic best-fit heuristic's re
+  step 80 edit    not_better    score 0.9925  best 0.9935  $0.0012  I'll add an online learned residual-success table: track whi
+  step 81 edit    not_better    score 0.9930  best 0.9935  $0.0012  The triple-convolution and near-match terms add noise; I'll 
+  step 82 edit    not_better    score 0.9524  best 0.9935  $0.0011  Replace the fixed prior/empirical histogram mixture and ad-h
+  step 83 edit    not_better    score 0.9546  best 0.9935  $0.0008  I'll switch the primary objective from the noisy multi-convo
+  step 84 edit    not_better    score 0.9930  best 0.9935  $0.0013  I will add a "future-fit awareness" term that estimates, fro
+  step 85 edit    not_better    score 0.9923  best 0.9935  $0.0012  I will tune the existing completion weights and decay using 
+  step 86 edit    not_better    score 0.9588  best 0.9935  $0.0011  I'll replace the ad-hoc stranding/completion weights with a 
+  step 87 edit    not_better    score 0.9896  best 0.9935  $0.0011  The exact/pair/triple completion signals are valuable but th
+  step 88 edit    not_better    score 0.9583  best 0.9935  $0.0011  I will replace the additive completion scoring with a cleane
+  step 89 edit    not_better    score 0.9925  best 0.9935  $0.0011  Add a light "post-placement usefulness" tie-break based on t
+  step 90 edit    not_better    score 0.9935  best 0.9935  $0.0012  I'll add an aggressive "anti-fragmentation" refinement: amon
+  step 91 edit    not_better    score 0.9544  best 0.9935  $0.0010  I'll replace the noisy convolution-based completion signals 
+  step 92 edit    not_better    score 0.9930  best 0.9935  $0.0012  Replace the heavily-prior-smoothed convolution signals with 
+  step 93 edit    not_better    score 0.9606  best 0.9935  $0.0017  I'll add a "prefer already-used bins" term: penalize selecti
+  step 94 edit    not_better    score 0.9871  best 0.9935  $0.0012  I'll add a tunable "concentration toward fuller bins" term a
+  step 95 edit    not_better    score 0.9935  best 0.9935  $0.0013  I'll make the stranding penalty adaptive to the observed min
+  step 96 edit    not_better    score 0.9893  best 0.9935  $0.0013  I'll replace the brittle hard-threshold stranding penalty wi
+  step 97 edit    not_better    score 0.9644  best 0.9935  $0.0010  I'll replace the noisy high-order convolution completion sig
+  step 98 edit    not_better    score 0.9562  best 0.9935  $0.0011  I'll replace the dominated noisy completion ranking with a s
+  step 99 edit    invalid       score 0.0000  best 0.9935  $0.0012  Shift from exact-completion signals toward a distribution-aw
+  step 100 edit    not_better    score 0.9928  best 0.9935  $0.0013  I'll add an item-size-aware "future feasibility" correction 
+  step 101 edit    not_better    score 0.9935  best 0.9935  $0.0014  I'll replace the hard per-stream minimum-item stranding pena
+  step 102 edit    not_better    score 0.9928  best 0.9935  $0.0013  I'll add a "residual alignment" bonus that rewards residuals
+  step 103 edit    not_better    score 0.9888  best 0.9935  $0.0011  I'll replace the pair/triple convolution completion bonuses—
+  step 104 edit    not_better    score 0.9918  best 0.9935  $0.0013  I'll add a strong "least-loaded / tightest-fit" secondary si
+  step 105 edit    improved      score 0.9945  best 0.9945  $0.0012  I'll replace the heavy prior-smoothed convolutions with a sh
+  step 106 edit    not_better    score 0.9943  best 0.9945  $0.0012  I'll sharpen the exact-match signal by computing the single-
+  step 107 edit    not_better    score 0.9717  best 0.9945  $0.0010  I'll make the perfect-fit preference the dominant rule (stro
+  step 108 edit    not_better    score 0.9925  best 0.9945  $0.0012  I'll blend the single-item exact-fit density with the raw em
+  step 109 edit    gate_rejected score 0.9947  best 0.9945  $0.0011  Add an exponential-recency half-life so the empirical distri
+  step 110 edit    not_better    score 0.9943  best 0.9945  $0.0012  I will make the stranding penalty adaptive by tracking a rec
+  step 111 edit    improved      score 0.9952  best 0.9952  $0.0012  I'll add a "pair-fit with the current item" bonus that rewar
+  step 112 edit    not_better    score 0.9947  best 0.9952  $0.0013  The change adds a term rewarding bins whose resulting residu
+  step 113 edit    not_better    score 0.9938  best 0.9952  $0.0013  I'll add a mild tie-break that prefers residuals at or just 
+  step 114 edit    not_better    score 0.9943  best 0.9952  $0.0012  I'll replace the crude "typical item size" bonus and the noi
+  step 115 edit    not_better    score 0.9915  best 0.9952  $0.0011  Replace the static prior-based histogram smoothing and the v
+  step 116 edit    not_better    score 0.9938  best 0.9952  $0.0012  I will replace the sharp `cur_dens * exp(-|residual-item|/6)
+  step 117 edit    not_better    score 0.5258  best 0.9952  $0.0013  I'll add a strong exact-match term against the "canonical re
+  step 118 edit    not_better    score 0.9945  best 0.9952  $0.0013  I'll add a term that rewards residuals which, together with 
+  step 119 edit    not_better    score 0.9915  best 0.9952  $0.0010  I'll replace the hard-to-tune heuristic bonuses with a singl
+  step 120 edit    not_better    score 0.9938  best 0.9952  $0.0010  I'll add a "stranding" penalty based on the probability that
+  step 121 edit    not_better    score 0.9933  best 0.9952  $0.0012  I'll replace the noisy self-convolution pair-completion term
+  step 122 edit    not_better    score 0.9940  best 0.9952  $0.0011  Replace the noisy combo of exact/pair/mean-size bonuses with
+  step 123 edit    not_better    score 0.9923  best 0.9952  $0.0011  I'll simplify by removing the noisy mean-size exponential bo
+  step 124 edit    not_better    score 0.9935  best 0.9952  $0.0012  I will add a "perfect-fit completion" term that rewards a bi
+  step 125 edit    not_better    score 0.9590  best 0.9952  $0.0010  I'll replace the ad-hoc exponential bonuses and raw-count pa
+  step 126 edit    not_better    score 0.9945  best 0.9952  $0.0012  Increase the strength of the "stranding penalty" for residua
+  step 127 edit    not_better    score 0.9590  best 0.9952  $0.0011  Strengthen the best-fit secondary criterion so that, absent 
+  step 128 edit    not_better    score 0.9928  best 0.9952  $0.0012  Add a term that rewards placements which make the resulting 
+  step 129 edit    not_better    score 0.9945  best 0.9952  $0.0012  I'll remove the harmful "mild bonus for residuals close to t
+  step 130 edit    not_better    score 0.9490  best 0.9952  $0.0011  I'll replace the fixed Weibull prior with a nonparametric pr
+  step 131 edit    not_better    score 0.9593  best 0.9952  $0.0011  I'll make the strong perfect-fit bonus and the best-fit tie-
+  step 132 edit    not_better    score 0.9925  best 0.9952  $0.0012  I'll add a normalized, histogram-based single-item exact-com
+  step 133 edit    not_better    score 0.9938  best 0.9952  $0.0011  I'll add a "pair-completion with the current item" bonus tha
+  step 134 edit    invalid       score 0.0000  best 0.9952  $0.0011  I'll simplify by removing the weak, noisy "close to mean siz
+  step 135 edit    not_better    score 0.9945  best 0.9952  $0.0012  Reduce the dominance of the usefulness terms so that among n
+  step 136 edit    not_better    score 0.9947  best 0.9952  $0.0013  Add a harmonic/close-sized pairing term: reward bins whose r
+  step 137 edit    not_better    score 0.9530  best 0.9952  $0.0009  Replace the unnormalized soft "pair completion" convolution 
+  step 138 edit    not_better    score 0.9623  best 0.9952  $0.0010  I'll make the exact-fit/large-usefulness terms properly domi
+  step 139 edit    not_better    score 0.9544  best 0.9952  $0.0010  I'll reformulate the scoring around a single well-scaled, mo
+  step 140 edit    not_better    score 0.9556  best 0.9952  $0.0010  Reduce the noisy, over-scaled exact and pair probabilities t
+  step 141 edit    not_better    score 0.9947  best 0.9952  $0.0012  I'll remove the recency decay on the empirical histogram (it
+  step 142 edit    not_better    score 0.9947  best 0.9952  $0.0012  I'll keep the exact-fit bonus and best-fit tie-break but fix
+  step 143 edit    not_better    score 0.9898  best 0.9952  $0.0011  The empirical density smoothing currently "smears" probabili
+  step 144 edit    not_better    score 0.9549  best 0.9952  $0.0010  Replace the noisy multi-term completion scoring with a stabl
+  step 145 edit    not_better    score 0.9933  best 0.9952  $0.0013  Add a "double exact-fit ranking" refinement: within residual
+  step 146 edit    not_better    score 0.9933  best 0.9952  $0.0012  I'll tune the existing best-scoring rule by increasing the e
+  step 147 edit    not_better    score 0.9935  best 0.9952  $0.0012  I'll tune the dominant useful-signal: strengthen the exact s
+  step 148 edit    not_better    score 0.9945  best 0.9952  $0.0012  I'll add a targeted bonus for bins whose residual is small e
+  step 149 edit    not_better    score 0.9945  best 0.9952  $0.0012  I'll replace the sharply-heaped usefulness scale (5000/1000)
+  step 150 edit    not_better    score 0.9943  best 0.9952  $0.0012  The current rule's completion bonus for residuals equal to a
+[done] loop__bp_sh_a5000__s2: status ok, spent $0.1391 of $0.20, 150 calls, 150 evals, public 0.9590208086758185 -> 0.9952454884782058, hidden 0.9932398428178724
+  baseline funsearch_or           public 0.9702  hidden 0.9711
+  baseline funsearch_weibull      public 0.9938  hidden 0.9937
+  baseline sum_of_squares         public 0.9952  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bp_sh_a5000: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.1391 of $0.20 cap, 150 calls, 150 evals, search 2460 s
+public    0.9590 -> 0.9952   (initial -> final incumbent; selected on)
+hidden    0.9634 -> 0.9932   (fresh audit, never selected on)
+baselines funsearch_or 0.9702/0.9711, funsearch_weibull 0.9938/0.9937, sum_of_squares 0.9952/0.9950
+explain   41 parts: 1 can go, 0 REPAIRED; minimal program public 0.9952, hidden 0.9932
+report    /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_a5000-s2/report.md

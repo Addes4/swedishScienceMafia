@@ -1,0 +1,175 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 28,
+  "original": {
+    "public": 0.9894439415357935,
+    "hidden": 0.9846300010815807,
+    "code": "\"\"\"Target-residual fit: prefer bins whose leftover after placement is closest to a running mean.\"\"\"\nimport numpy as np\n_TARGET_SHORT = 30.0\n_WARMUP = 35\n_count = 0\n_sum = 0.0\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    global _count, _sum\n    leftover = bins - item\n    if _count < _WARMUP:\n        target = _TARGET_SHORT\n    else:\n        target = _sum / _count\n    _count += 1\n    _sum += item\n    exact_bonus = np.where(leftover == 0, 1000000.0, 0.0)\n    tight_bonus = np.maximum(0.0, 5.0 - leftover) * 1000.0\n    return exact_bonus + tight_bonus - np.abs(leftover - target)\n"
+  },
+  "minimal": {
+    "public": 0.9894439415357935,
+    "hidden": 0.9846300010815807,
+    "code": "\"\"\"Target-residual fit: prefer bins whose leftover after placement is closest to a running mean.\"\"\"\nimport numpy as np\n_TARGET_SHORT = 30.0\n_WARMUP = 35\n_count = 0\n_sum = 0.0\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    global _count, _sum\n    leftover = bins - item\n    if _count < _WARMUP:\n        target = _TARGET_SHORT\n    else:\n        target = _sum / _count\n    _count += 1\n    _sum += item\n    tight_bonus = np.maximum(0.0, 5.0 - leftover) * 1000.0\n    return tight_bonus - np.abs(leftover - target)\n",
+    "removed": [
+      9,
+      11
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 14,
+      "text": "global _count, _sum",
+      "inside": [],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 16,
+      "text": "leftover = bins - item",
+      "inside": [],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "term",
+      "line": 16,
+      "text": "term + bins",
+      "inside": [
+        1
+      ],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 3,
+      "kind": "term",
+      "line": 16,
+      "text": "term - item",
+      "inside": [
+        1
+      ],
+      "delta": -0.05296925333160685,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 20,
+      "text": "if _count < _WARMUP: ...",
+      "inside": [],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 21,
+      "text": "target = _TARGET_SHORT",
+      "inside": [
+        4
+      ],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 23,
+      "text": "target = _sum / _count",
+      "inside": [
+        4
+      ],
+      "delta": -0.6561107948691269,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 25,
+      "text": "_count += 1",
+      "inside": [],
+      "delta": -0.01179527097206301,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 26,
+      "text": "_sum += item",
+      "inside": [],
+      "delta": -0.016763589085247887,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 29,
+      "text": "exact_bonus = np.where(leftover == 0, 1000000.0, 0.0)",
+      "inside": [],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 30,
+      "text": "tight_bonus = np.maximum(0.0, 5.0 - leftover) * 1000.0",
+      "inside": [],
+      "delta": -0.9894439415357935,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "term",
+      "line": 31,
+      "text": "term + exact_bonus",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 12,
+      "kind": "term",
+      "line": 31,
+      "text": "term + tight_bonus",
+      "inside": [],
+      "delta": 0.006062664116809002,
+      "valid": true,
+      "verdict": "REPAIRED (not an explanation)"
+    },
+    {
+      "id": 13,
+      "kind": "term",
+      "line": 31,
+      "text": "term - np.abs(leftover - target)",
+      "inside": [],
+      "delta": -0.015531048801041836,
+      "valid": true,
+      "verdict": "matters"
+    }
+  ],
+  "repaired": [
+    12
+  ],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_d_cex-s1/best_program.py"
+}

@@ -1,0 +1,165 @@
+[loop] bp_sh_c80 -> /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_c80-s2
+[start] loop__bp_sh_c80__s2: arm lean (lean) on bp_sh_c80, seed 2, cap $0.20
+  initial          score 0.9349
+  step  1 edit    not_better    score 0.9349  best 0.9349  $0.0006  Replace pure best-fit with a size-threshold-aware rule: trac
+  step  2 edit    not_better    score 0.9349  best 0.9349  $0.0004  Switch to a best-fit-decreasing style rule by using the clas
+  step  3 edit    not_better    score 0.9349  best 0.9349  $0.0004  Replace pure best-fit with a harmonic-aware rule: compute a 
+  step  4 edit    not_better    score 0.9349  best 0.9349  $0.0005  Modify the best-fit rule to add a small tie-breaking bonus r
+  step  5 edit    not_better    score 0.9349  best 0.9349  $0.0004  Use the exact Best-Fit-Decreasing analogue that is known to 
+  step  6 edit    not_better    score 0.9349  best 0.9349  $0.0005  Refine best-fit by biasing toward bins whose post-placement 
+  step  7 edit    not_better    score 0.4064  best 0.9349  $0.0004  Replace best-fit with the classic "Worst Fit" rule (place th
+  step  8 edit    not_better    score 0.9304  best 0.9349  $0.0005  Use the classic "First Fit" rule: scan bins in index order a
+  step  9 edit    not_better    score 0.9349  best 0.9349  $0.0005  Implement a lightweight learned lookup table: since the item
+  step 10 edit    no_code       score   n/a   best 0.9349  $0.0004  Replace pure best-fit with a "best-fit with residual-class a
+  step 11 edit    not_better    score 0.9349  best 0.9349  $0.0004  Keep best-fit as the primary criterion but break exact ties 
+  step 12 edit    not_better    score 0.9349  best 0.9349  $0.0004  Replace pure best-fit with a hybrid rule: normally use best-
+  step 13 edit    not_better    score 0.9349  best 0.9349  $0.0008  Replace pure best-fit with a "subset-sum aware" rule: score 
+  step 14 edit    improved      score 0.9351  best 0.9351  $0.0004  Replace the pure best-fit score with a bounded best-fit that
+  step 15 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll add a small tie-breaker to the capped best-fit rule: am
+  step 16 edit    gate_rejected score 0.9355  best 0.9351  $0.0005  I will replace the fixed residual cap of 25 with a data-driv
+  step 17 edit    not_better    score 0.9268  best 0.9351  $0.0005  I'll add a persistent per-stream counter and switch to a str
+  step 18 edit    not_better    score 0.9336  best 0.9351  $0.0006  I'll implement a "bounded best-fit with harmonic residual pr
+  step 19 edit    not_better    score 0.9313  best 0.9351  $0.0005  I'll replace the hard residual cap with a smooth penalty fun
+  step 20 edit    not_better    score 0.9340  best 0.9351  $0.0005  I will add a lightweight online "flip" that, for each item, 
+  step 21 edit    not_better    score 0.9336  best 0.9351  $0.0006  I will replace the capped best-fit rule with a "best-fit-dec
+  step 22 edit    not_better    score 0.9343  best 0.9351  $0.0006  I will use a two-sided adaptive cap derived from the observe
+  step 23 edit    not_better    score 0.9349  best 0.9351  $0.0005  I will make the residual cap adaptive by bounding it with a 
+  step 24 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll replace the capped best-fit with a proper Best-Fit-Decr
+  step 25 edit    not_better    score 0.9351  best 0.9351  $0.0005  The capped best-fit rule is already near-optimal for online 
+  step 26 edit    not_better    score 0.9349  best 0.9351  $0.0005  Replace the fixed residual cap of 25 with a cap equal to a s
+  step 27 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll replace the heuristic with a clean Best-Fit implementat
+  step 28 edit    no_code       score   n/a   best 0.9351  $0.0006  (no description)
+  step 29 edit    not_better    score 0.9349  best 0.9351  $0.0005  I will replace the capped best-fit with a weighted best-fit 
+  step 30 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll replace the heuristic with a proper harmonic-style scor
+  step 31 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll switch from capped best-fit to a smooth "harmonic"-styl
+  step 32 edit    not_better    score 0.9349  best 0.9351  $0.0004  I'll implement a proper Best-Fit with a deterministic tie-br
+  step 33 edit    not_better    score 0.9349  best 0.9351  $0.0009  Remove the residual cap and use pure best-fit, so that among
+  step 34 edit    not_better    score 0.9310  best 0.9351  $0.0005  I'll replace the heuristic with a Best-Fit rule augmented by
+  step 35 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll replace the heuristic with a linear-programming-informe
+  step 36 edit    not_better    score 0.9349  best 0.9351  $0.0011  I'll switch to a sharp harmonic (reciprocal) score on the po
+  step 37 edit    not_better    score 0.9328  best 0.9351  $0.0005  I'll replace the deterministic best-fit with a waste-aware s
+  step 38 edit    not_better    score 0.9349  best 0.9351  $0.0005  I will replace the pure best-fit rule with a weighted combin
+  step 39 edit    not_better    score 0.9151  best 0.9351  $0.0007  I'll switch to a "target residual" rule: prefer the bin whos
+  step 40 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll add a light stateful touch: among essentially-equal tig
+  step 41 edit    not_better    score 0.9349  best 0.9351  $0.0005  Replace the capped best-fit with a "best-fit with a small fu
+  step 42 edit    not_better    score 0.9349  best 0.9351  $0.0006  I will switch from the capped best-fit to an exact best-fit 
+  step 43 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll replace the pure best-fit with a "worst-fit among tight
+  step 44 edit    not_better    score 0.9349  best 0.9351  $0.0005  I'll replace the capped best-fit with a harmonic (reciprocal
+  step 45 edit    not_better    score 0.9203  best 0.9351  $0.0005  I'll try a harmonic best-fit variant that maximizes 1/(1+res
+  step 46 edit    not_better    score 0.9349  best 0.9351  $0.0005  I will replace the fixed cap/rule with a learned-style "best
+  step 47 edit    not_better    score 0.9340  best 0.9351  $0.0005  I'll adopt a two-parameter score that combines tight fit wit
+  step 48 edit    not_better    score 0.9351  best 0.9351  $0.0005  I'll try a two-parameter hybrid: a capped best-fit (cap 25, 
+  step 49 edit    not_better    score 0.9349  best 0.9351  $0.0004  I'll try replacing the hard cap at 25 with a smooth concave 
+  step 50 edit    not_better    score 0.9349  best 0.9351  $0.0006  I'll replace the hard cap with an exact best-fit combined wi
+  step 51 edit    not_better    score 0.9338  best 0.9351  $0.0006  Introduce a stateful gap-aware score: default to capped best
+  step 52 edit    improved      score 0.9366  best 0.9366  $0.0005  I will switch from capped best-fit to a "worst-fit with tigh
+  step 53 edit    not_better    score 0.9362  best 0.9366  $0.0005  I'll tune the target residual from 30 to 25 and add a mild p
+  step 54 edit    improved      score 0.9403  best 0.9403  $0.0005  I will tune the target-residual sweet spot from 30 to a slig
+  step 55 edit    not_better    score 0.9386  best 0.9403  $0.0007  (no description)
+  step 56 edit    not_better    score 0.9403  best 0.9403  $0.0005  I'll refine the tight-fit bonus so it applies only to residu
+  step 57 edit    not_better    score 0.9362  best 0.9403  $0.0006  I'll add a stateful, distribution-adaptive sweet spot: track
+  step 58 edit    not_better    score 0.9379  best 0.9403  $0.0007  I'll keep the proven target-residual score but make the tigh
+  step 59 edit    not_better    score 0.9347  best 0.9403  $0.0006  I'll replace the fixed "target residual" heuristic with a co
+  step 60 edit    not_better    score 0.9349  best 0.9403  $0.0005  I will replace the soft target-residual scoring with a hard 
+  step 61 edit    not_better    score 0.9384  best 0.9403  $0.0006  I will broaden the near-exact tight-fit plateau: instead of 
+  step 62 edit    not_better    score 0.8785  best 0.9403  $0.0006  I will replace the fixed sweet spot with a two-mode score: e
+  step 63 edit    not_better    score 0.9379  best 0.9403  $0.0005  I'll add a stateful running histogram of past item sizes and
+  step 64 edit    not_better    score 0.9381  best 0.9403  $0.0005  I'll strengthen the reward for residuals that exactly match 
+  step 65 edit    not_better    score 0.9362  best 0.9403  $0.0005  I'll tune the fixed target residual and the tight-fit parame
+  step 66 edit    not_better    score 0.9399  best 0.9403  $0.0006  I'll keep the proven target-residual structure but make the 
+  step 67 edit    not_better    score 0.9247  best 0.9403  $0.0009  I'll switch from the linear "sweet spot" target to a proper 
+  step 68 edit    not_better    score 0.9360  best 0.9403  $0.0005  I'll keep the proven target-residual score but tune the swee
+  step 69 edit    not_better    score 0.9362  best 0.9403  $0.0006  I'll shift the sweet-spot target from 35 to 32 and slightly 
+  step 70 edit    not_better    score 0.9323  best 0.9403  $0.0006  The best-scoring family so far uses a fixed target residual;
+  step 71 edit    not_better    score 0.9349  best 0.9403  $0.0006  Replace the symmetric |residual - target| score with a lexic
+  step 72 edit    not_better    score 0.9349  best 0.9403  $0.0007  Shift from the symmetric "target residual" score to a best-f
+  step 73 edit    not_better    score 0.9397  best 0.9403  $0.0007  I'll refine the best-known target-residual form: keep the sw
+  step 74 edit    not_better    score 0.8448  best 0.9403  $0.0007  Replace the fixed-width tight-fit window with a distribution
+  step 75 edit    not_better    score 0.9377  best 0.9403  $0.0007  Keep the proven |residual - 35| base score, but add a bonus 
+  step 76 edit    not_better    score 0.6369  best 0.9403  $0.0006  I'll add a sum-based lookahead: for each candidate bin, appr
+  step 77 edit    not_better    score 0.9338  best 0.9403  $0.0005  I'll replace the fixed sweet-spot target with a two-piece-fi
+  step 78 edit    not_better    score 0.9349  best 0.9403  $0.0006  I'll simplify the proven target-residual rule and tune the t
+  step 79 edit    not_better    score 0.9399  best 0.9403  $0.0006  I'll add a distribution-aware "fillability" bonus on top of 
+  step 80 edit    not_better    score 0.9358  best 0.9403  $0.0005  I'll keep the proven |residual - 35| base but replace the fi
+  step 81 edit    improved      score 0.9407  best 0.9407  $0.0006  Adjust the proven target-residual rule's constants: raise th
+  step 82 edit    improved      score 0.9414  best 0.9414  $0.0006  I'll refine the proven target-residual rule by making the sw
+  step 83 edit    not_better    score 0.9412  best 0.9414  $0.0006  Make the tight-fit completion bonus smoother and slightly wi
+  step 84 edit    not_better    score 0.9349  best 0.9414  $0.0005  Replace the |residual - target| sweet-spot with a direct bes
+  step 85 edit    not_better    score 0.9373  best 0.9414  $0.0007  I'll keep the proven target-residual base with the tight-fit
+  step 86 edit    not_better    score 0.9397  best 0.9414  $0.0006  I'll replace the mean-based sweet spot with a more robust "e
+  step 87 edit    not_better    score 0.9390  best 0.9414  $0.0006  The current rule ranks purely by residual, ignoring that a r
+  step 88 edit    not_better    score 0.9414  best 0.9414  $0.0006  I'll add a small bin-index/age preference so that, among bin
+  step 89 edit    not_better    score 0.9397  best 0.9414  $0.0006  The hand-tuned target of 0.92*mean is good, but it can be im
+  step 90 edit    not_better    score 0.9410  best 0.9414  $0.0006  I'll make the sweet-spot fraction itself adaptive: keep the 
+  step 91 edit    not_better    score 0.9399  best 0.9414  $0.0006  Keep the proven target-residual base, but make the completio
+  step 92 edit    not_better    score 0.7189  best 0.9414  $0.0006  I'll replace the fixed additive tight-fit bonus with a lexic
+  step 93 edit    not_better    score 0.9410  best 0.9414  $0.0006  I'll keep the proven target-residual base and tight-fit bonu
+  step 94 edit    not_better    score 0.9377  best 0.9414  $0.0006  I'll keep the proven target-residual base but replace the gl
+  step 95 edit    not_better    score 0.9381  best 0.9414  $0.0006  I'll replace the hardcoded sweet-spot target with a principl
+  step 96 edit    not_better    score 0.9349  best 0.9414  $0.0005  I'll replace the ad-hoc target-residual rule with the classi
+  step 97 edit    not_better    score 0.9349  best 0.9414  $0.0006  The tight-fit window is too aggressive (fixed residual ≤ 8),
+  step 98 edit    not_better    score 0.9399  best 0.9414  $0.0006  I'll keep the proven target-residual base and tight-fit bonu
+  step 99 edit    not_better    score 0.9349  best 0.9414  $0.0006  I will replace the hard tight-fit bonus with a rank-preservi
+  step 100 edit    improved      score 0.9423  best 0.9423  $0.0007  I will derive the sweet-spot target from a running estimate 
+  step 101 edit    not_better    score 0.9349  best 0.9423  $0.0007  Replace the additive tight bonus with a lexicographic-style 
+  step 102 edit    not_better    score 0.9423  best 0.9423  $0.0006  I'll keep the target-residual sweet-spot base but replace th
+  step 103 edit    not_better    score 0.7902  best 0.9423  $0.0006  I will replace the running mean/sd "target residual" heurist
+  step 104 edit    not_better    score 0.9358  best 0.9423  $0.0006  The current rule uses an absolute target residual (0.90*mean
+  step 105 edit    not_better    score 0.9384  best 0.9423  $0.0006  (no description)
+  step 106 edit    not_better    score 0.9381  best 0.9423  $0.0006  I'll keep the proven target-residual base but replace the ar
+  step 107 edit    not_better    score 0.9414  best 0.9423  $0.0006  I will add a "concentration" bonus that rewards using alread
+  step 108 edit    not_better    score 0.9349  best 0.9423  $0.0008  I will replace the fixed 0.90*mean+0.15*sd target with a pri
+  step 109 edit    not_better    score 0.7082  best 0.9423  $0.0006  I'll replace the fixed additive tight-fit bonus with a smoot
+  step 110 edit    not_better    score 0.9349  best 0.9423  $0.0007  I'll improve the target-residual sweet spot by estimating th
+  step 111 edit    not_better    score 0.9414  best 0.9423  $0.0006  I will keep the proven target-residual base but let the targ
+  step 112 edit    not_better    score 0.9349  best 0.9423  $0.0005  I'll replace the learned mean/sd target with a small set of 
+  step 113 edit    not_better    score 0.9407  best 0.9423  $0.0006  The strongest known bin-packing heuristic is a scaled "best 
+  step 114 edit    not_better    score 0.9399  best 0.9423  $0.0006  I'll make the completion bonus slope scale with the item siz
+  step 115 edit    not_better    score 0.9423  best 0.9423  $0.0006  I'll sharpen the main score by using a steeper (quadratic-in
+  step 116 edit    not_better    score 0.9416  best 0.9423  $0.0006  I'll make the target residual depend on the arriving item's 
+  step 117 edit    not_better    score 0.9353  best 0.9423  $0.0006  I'll keep the proven target-residual base score but replace 
+  step 118 edit    not_better    score 0.9358  best 0.9423  $0.0007  Blend the proven target (0.90*mean+0.15*sd) with the item's 
+  step 119 edit    not_better    score 0.9418  best 0.9423  $0.0006  I will add a mild "avoid leaving a residual that is smaller 
+  step 120 edit    not_better    score 0.9420  best 0.9423  $0.0006  
+  step 121 edit    not_better    score 0.7977  best 0.9423  $0.0006  I'll add a smooth, bounded completion bonus that grows as th
+  step 122 edit    not_better    score 0.9412  best 0.9423  $0.0005  I'll replace the fixed target with a "best-fit within a clas
+  step 123 edit    not_better    score 0.9410  best 0.9423  $0.0006  I'll add an adaptive "residual waste" guard: bins whose resi
+  step 124 edit    not_better    score 0.9423  best 0.9423  $0.0006  The previous attempts all tweaked the target/bonus and lost 
+  step 125 edit    not_better    score 0.9412  best 0.9423  $0.0006  Replace the fixed sweet-spot target with a per-item adaptive
+  step 126 edit    not_better    score 0.8600  best 0.9423  $0.0006  I'll fit the target residual to the observed distribution of
+  step 127 edit    not_better    score 0.9423  best 0.9423  $0.0006  I'll remove the extra "tight" completion-bonus term (which r
+  step 128 edit    not_better    score 0.9412  best 0.9423  $0.0005  I'll tune the target residual to use a slightly larger weigh
+  step 129 edit    not_better    score 0.9349  best 0.9423  $0.0007  I'll replace the heuristic sweet-spot with a proper "best fi
+  step 130 edit    not_better    score 0.9112  best 0.9423  $0.0005  I'll switch from a fixed residual sweet spot to a classic be
+  step 131 edit    not_better    score 0.9423  best 0.9423  $0.0006  I'll keep the proven target-residual base but make the targe
+  step 132 edit    not_better    score 0.9178  best 0.9423  $0.0008  I'll replace the fixed linear residual sweet spot with a pri
+  step 133 edit    not_better    score 0.9412  best 0.9423  $0.0007  I'll add a term that blends the target-residual ranking with
+  step 134 edit    not_better    score 0.7370  best 0.9423  $0.0006  Replace the hard-stepped "tight" bonus with a smooth Gaussia
+  step 135 edit    not_better    score 0.9368  best 0.9423  $0.0006  The residual target currently ignores how many bins are stil
+  step 136 edit    not_better    score 0.9423  best 0.9423  $0.0006  I'll refine the tight-completion bonus into a narrowly targe
+  step 137 edit    not_better    score 0.9351  best 0.9423  $0.0006  I'll replace the hard 0.90*mean target with an adaptive targ
+  step 138 edit    not_better    score 0.9423  best 0.9423  $0.0007  Add a narrow exact-fit bonus that strongly prefers residuals
+  step 139 edit    not_better    score 0.9423  best 0.9423  $0.0006  The current rule lets a large item go into a bin whose resid
+  step 140 edit    not_better    score 0.9300  best 0.9423  $0.0010  I'll scale the completion bonus adaptively: instead of a fix
+  step 141 edit    not_better    score 0.9399  best 0.9423  $0.0006  I'll replace the absolute-residual sweet-spot ranking with a
+  step 142 edit    not_better    score 0.9366  best 0.9423  $0.0006  The current hard `tight` bonus only rewards residuals ≤ 10 w
+  step 143 edit    not_better    score 0.9423  best 0.9423  $0.0006  The current rule completely ignores the case where an item c
+  step 144 edit    not_better    score 0.9414  best 0.9423  $0.0011  I'll switch the sweet-spot target from a slightly-sub-mean v
+  step 145 edit    not_better    score 0.9403  best 0.9423  $0.0007  I'll replace the hard-coded sweet-spot target with a value m
+  step 146 edit    not_better    score 0.7997  best 0.9423  $0.0006  I'll replace the crude `tight` completion bonus with a small
+  step 147 edit    not_better    score 0.7462  best 0.9423  $0.0006  I'll reframe scoring as an approximate "expected future wast
+  step 148 edit    not_better    score 0.7405  best 0.9423  $0.0006  I'll replace the saturating `tight` bonus (a flat 4e4 cap th
+  step 149 edit    not_better    score 0.9405  best 0.9423  $0.0006  I'll add a tie-breaking amplification term that treats the b
+  step 150 edit    not_better    score 0.9423  best 0.9423  $0.0006  I'll replace the current rule with a "best-fit with a residu
+[done] loop__bp_sh_c80__s2: status ok, spent $0.0874 of $0.20, 150 calls, 149 evals, public 0.9348974407823712 -> 0.9422715504636081, hidden 0.9683176249213985
+  baseline funsearch_or           public 0.9390  hidden 0.9711
+  baseline funsearch_weibull      public 0.7852  hidden 0.9937
+  baseline sum_of_squares         public 0.8821  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bp_sh_c80: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.0874 of $0.20 cap, 150 calls, 149 evals, search 1302 s
+public    0.9349 -> 0.9423   (initial -> final incumbent; selected on)
+hidden    0.9634 -> 0.9683   (fresh audit, never selected on)
+baselines funsearch_or 0.9390/0.9711, funsearch_weibull 0.7852/0.9937, sum_of_squares 0.8821/0.9950
+explain   19 parts: 3 can go, 0 REPAIRED; minimal program public 0.9407, hidden 0.9695
+report    /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_c80-s2/report.md

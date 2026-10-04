@@ -1,0 +1,165 @@
+[loop] bp_sh_d_cex -> /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_d_cex-s2
+[start] loop__bp_sh_d_cex__s2: arm lean (lean) on bp_sh_d_cex, seed 2, cap $0.20
+  initial          score 0.9727
+  step  1 edit    not_better    score 0.9276  best 0.9727  $0.0011  Replace pure best-fit with an adaptive rule that prefers bin
+  step  2 edit    not_better    score 0.9727  best 0.9727  $0.0004  The pure best-fit rule is score 0.9727. A promising refineme
+  step  3 edit    not_better    score 0.9727  best 0.9727  $0.0004  Add a "soft-waste" penalty only for very large residuals (ti
+  step  4 edit    not_better    score 0.9727  best 0.9727  $0.0004  Pure best-fit leaves a residual; using a small tie-break tha
+  step  5 edit    not_better    score 0.9727  best 0.9727  $0.0004  Add an adaptive twist on pure best-fit: compute a running me
+  step  6 edit    not_better    score 0.9727  best 0.9727  $0.0004  Replace pure best-fit with a "best-fit on residual, tie-brea
+  step  7 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace pure best-fit with a bounded "best-fit with occasion
+  step  8 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll replace the pure best-fit with a fractional/linear-cost
+  step  9 edit    not_better    score 0.9727  best 0.9727  $0.0005  Pure best-fit wins on the long streams, so instead I keep be
+  step 10 edit    not_better    score 0.9727  best 0.9727  $0.0005  Pure best-fit ties badly on the long streams because it fill
+  step 11 edit    not_better    score 0.9688  best 0.9727  $0.0005  I'll try the classic "Best-Fit Decreasing"-like improvement 
+  step 12 edit    gate_rejected score 0.9742  best 0.9727  $0.0008  Replace pure best-fit with "dead-zone-aware best fit": prima
+  step 13 edit    not_better    score 0.9701  best 0.9727  $0.0005  Keep exact best-fit as the primary key, but among bins whose
+  step 14 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace exact best-fit with a "harmonic/tiered best-fit" rul
+  step 15 edit    not_better    score 0.9727  best 0.9727  $0.0005  Reinterpret the online problem with a proper "best fit decre
+  step 16 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll add a size-class-aware secondary tie-break: keep exact 
+  step 17 edit    not_better    score 0.9727  best 0.9727  $0.0005  I will replace pure best-fit with a "best-fit + small-item p
+  step 18 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll implement a proper "best-fit with lookahead via leftove
+  step 19 edit    not_better    score 0.9727  best 0.9727  $0.0007  I'll replace pure best-fit with an adaptive rule that learns
+  step 20 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll replace pure best-fit with a "best-fit + waiting-bin" r
+  step 21 edit    not_better    score 0.9221  best 0.9727  $0.0006  I'll switch from best-fit to a "subharmonic" rule that targe
+  step 22 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll make the rule adaptive to the item size distribution: m
+  step 23 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll switch to a randomized/tie-broken adaptive policy that 
+  step 24 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll implement a "best-fit decreasing with bin reuse" style 
+  step 25 edit    not_better    score 0.9727  best 0.9727  $0.0005  Pure best-fit wastes capacity on leftovers too small for any
+  step 26 edit    not_better    score 0.9713  best 0.9727  $0.0005  I'll implement a proper "almost-worst-fit"/harmonic-style va
+  step 27 edit    not_better    score 0.6787  best 0.9727  $0.0005  I will replace pure best-fit with a hybrid rule: for items t
+  step 28 edit    not_better    score 0.9727  best 0.9727  $0.0006  (no description)
+  step 29 edit    not_better    score 0.9221  best 0.9727  $0.0005  Replace pure best-fit with a two-way hybrid: for large items
+  step 30 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll use an adaptive score that keeps best-fit as the primar
+  step 31 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace the pure best-fit with a "best-fit among bins a
+  step 32 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll upgrade best-fit with a *residual-value* tie-break usin
+  step 33 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll try a proper "best fit with bounded residual" rule base
+  step 34 edit    not_better    score 0.9727  best 0.9727  $0.0006  Best-fit is nearly optimal; I'll add a lightweight online ha
+  step 35 edit    not_better    score 0.9727  best 0.9727  $0.0006  I will replace best-fit with a hybrid that beats its worst f
+  step 36 edit    invalid       score 0.0000  best 0.9727  $0.0006  I'll switch from pure best-fit to a hybrid that prefers tigh
+  step 37 edit    not_better    score 0.5985  best 0.9727  $0.0009  I'll abandon pure best-fit and implement the classic "Harmon
+  step 38 edit    not_better    score 0.9727  best 0.9727  $0.0007  I'll replace pure best-fit with a "best-fit + worst-fit hybr
+  step 39 edit    not_better    score 0.7236  best 0.9727  $0.0006  I'll switch from best-fit to a "best-fit with a lookahead-fr
+  step 40 edit    not_better    score 0.9727  best 0.9727  $0.0005  Keep best-fit as the primary rule but add a tiny secondary b
+  step 41 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace best-fit with a rule that picks the bin leaving the 
+  step 42 edit    not_better    score 0.9727  best 0.9727  $0.0018  I'll replace pure best-fit with a rule that combines best-fi
+  step 43 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll add a light-weight exact-fit rescue plus a "least-recen
+  step 44 edit    not_better    score 0.9727  best 0.9727  $0.0005  Introduce a complementary-pairing refinement to best fit: tr
+  step 45 edit    not_better    score 0.9727  best 0.9727  $0.0007  Replace pure best-fit with a multi-class "Smart Harmonic" ru
+  step 46 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll implement a "best fit with limited open-bin window" rul
+  step 47 edit    not_better    score 0.9143  best 0.9727  $0.0007  I'll implement a "Best Fit with complementary packing" (BFCP
+  step 48 edit    not_better    score 0.8929  best 0.9727  $0.0005  I'll switch from pure best-fit to a "best-fit with smallest 
+  step 49 edit    not_better    score 0.9727  best 0.9727  $0.0005  Implement a perturbed best-fit rule: minimize the residual, 
+  step 50 edit    not_better    score 0.9408  best 0.9727  $0.0005  Replace pure best-fit with a "complementary best-fit" that a
+  step 51 edit    not_better    score 0.9727  best 0.9727  $0.0007  Keep best-fit as the dominant term (multiply by a large cons
+  step 52 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll try a simple "almost-worst-fit" rule: choose the bin wi
+  step 53 edit    not_better    score 0.9557  best 0.9727  $0.0005  Add the Johnson-style "best fit decreasing"-like trick that 
+  step 54 edit    not_better    score 0.9705  best 0.9727  $0.0005  The perturbed/best-fit variants all converged to the same 0.
+  step 55 edit    not_better    score 0.9727  best 0.9727  $0.0008  I'll try a seasonality/feedback rule: track the empirical di
+  step 56 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace pure best-fit with a rule that uses best-fit bu
+  step 57 edit    not_better    score 0.9727  best 0.9727  $0.0007  I'll try a "harmonic-style" hybrid: for small items (below a
+  step 58 edit    not_better    score 0.9727  best 0.9727  $0.0007  I'll replace the pure best-fit with a bounded "best-fit with
+  step 59 edit    not_better    score 0.9727  best 0.9727  $0.0006  Best fit never leaves gaps large enough for the tie-breaks t
+  step 60 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace the pure best-fit rule with "best fit, but only amon
+  step 61 edit    not_better    score 0.9640  best 0.9727  $0.0005  The pure best-fit is already optimal, so I'll try to squeeze
+  step 62 edit    not_better    score 0.8174  best 0.9727  $0.0006  Replace the pure best-fit score with a hybrid that combines 
+  step 63 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll add a bounded "residual-aware" best fit: keep the usual
+  step 64 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll add an online first-fit-descending-like prefill: keep a
+  step 65 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll switch from pure best-fit to a "best-fit with strict ti
+  step 66 edit    gate_rejected score 0.9731  best 0.9727  $0.0006  I'll replace pure best-fit with a quantized best-fit: rank b
+  step 67 edit    not_better    score 0.9714  best 0.9727  $0.0006  I'll keep pure best-fit for the main placement decision but 
+  step 68 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll make the scoring aware of a typical item size estimated
+  step 69 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll replace pure best-fit with "best-fit plus harmonic-styl
+  step 70 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll augment best-fit with an online-learned "mean item size
+  step 71 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll combine best-fit with a small, stateful "gap-consolidat
+  step 72 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace pure best-fit with a linear-utility rule that scores
+  step 73 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll try a "fullest-bin-first" (worst-fit) rule capped: pref
+  step 74 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace the pure best-fit score with a "worst-fit among fitt
+  step 75 edit    not_better    score 0.9714  best 0.9727  $0.0005  I will replace pure best-fit with a scored rule that prefers
+  step 76 edit    not_better    score 0.9727  best 0.9727  $0.0006  I will try the classic "best-fit" improved by matching item 
+  step 77 edit    not_better    score 0.5985  best 0.9727  $0.0005  Try an "almost-worst-fit" rule: among bins that fit, send th
+  step 78 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll replace best-fit with a variant that leaves a residual 
+  step 79 edit    not_better    score 0.9727  best 0.9727  $0.0006  I will implement a two-parameter "best fit with mild spread"
+  step 80 edit    not_better    score 0.9724  best 0.9727  $0.0005  I'll switch from pure best-fit to a "best-fit with a cutoff 
+  step 81 edit    not_better    score 0.9727  best 0.9727  $0.0006  Add a small stateful nudge: track an EMA of item sizes; amon
+  step 82 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll implement a "best-fit with harmonic/double-fit bias" le
+  step 83 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace pure best-fit with a harmonic-weighted best-fit: sco
+  step 84 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll switch to a randomized/priority-aware "best-fit decreas
+  step 85 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace pure best-fit with a "best-fit plus score-compressio
+  step 86 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll try a different family: score bins by a combination of 
+  step 87 edit    not_better    score 0.9705  best 0.9727  $0.0004  I'll abandon the best-fit tweaks and implement the classic "
+  step 88 edit    gate_rejected score 0.9731  best 0.9727  $0.0006  I'll switch from pure best-fit to a harmonic-family rule: sc
+  step 89 edit    not_better    score 0.9725  best 0.9727  $0.0011  Try best-fit but, for each arriving item, restrict the candi
+  step 90 edit    not_better    score 0.9727  best 0.9727  $0.0007  I'll replace pure best-fit with an online learned "residual 
+  step 91 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll add a stateful "well-filled bin" tie-breaker: keep best
+  step 92 edit    not_better    score 0.7663  best 0.9727  $0.0006  I'll implement the classic Harmonic bin-packing rule: score 
+  step 93 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll keep best-fit as the dominant term but add a stateful t
+  step 94 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll add a stateful "match residual to observed item sizes" 
+  step 95 edit    not_better    score 0.9727  best 0.9727  $0.0005  Implement a score that is primarily best-fit but ranks exact
+  step 96 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace pure best-fit with a "best-fit with tunable residual
+  step 97 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace pure best-fit with a stateful "cut-off / match-
+  step 98 edit    not_better    score 0.8566  best 0.9727  $0.0005  Add a stateful threshold rule: compute a small cutoff from t
+  step 99 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll replace pure best-fit with a "best-fit plus small resid
+  step 100 edit    not_better    score 0.9727  best 0.9727  $0.0018  I'll replace the pure best-fit rule with a "residual binning
+  step 101 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace pure best-fit with the "sum of squares" residua
+  step 102 edit    not_better    score 0.9727  best 0.9727  $0.0006  The previous attempts all stayed near best-fit and never imp
+  step 103 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace the residual-target approach with the classic "
+  step 104 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace pure best-fit with the classic "Harmonic"-style
+  step 105 edit    not_better    score 0.9727  best 0.9727  $0.0005  All previous attempts kept returning a score that ranks near
+  step 106 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace the deterministic best-fit rule with a randomiz
+  step 107 edit    not_better    score 0.9280  best 0.9727  $0.0005  I'll implement the classic "BEST FIT with a lookahead-free c
+  step 108 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll try the classic "Almost Worst Fit" variant from online 
+  step 109 edit    not_better    score 0.7126  best 0.9727  $0.0005  I'll implement the statistically strongest known online rule
+  step 110 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll implement the "Modified First Fit Decreasing" idea from
+  step 111 edit    not_better    score 0.9727  best 0.9727  $0.0005  Bin packing can be improved by ranking bins using the classi
+  step 112 edit    not_better    score 0.9727  best 0.9727  $0.0005  I will use a two-regime rule keyed to the item's size class:
+  step 113 edit    not_better    score 0.9705  best 0.9727  $0.0004  I'll try "First Fit" instead of Best Fit: choosing the bin w
+  step 114 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll replace the pure greedy best-fit with a hybrid that use
+  step 115 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll implement a "best fit with a fractional residual tie-br
+  step 116 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll try a "best fit with a look-ahead threshold" rule based
+  step 117 edit    not_better    score 0.9672  best 0.9727  $0.0006  I'll implement the classic "harmonic" online bin packing alg
+  step 118 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll add a small index-based tie-break that prefers earlier 
+  step 119 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll implement a "sum-of-squares" / prominent left-gap rule 
+  step 120 edit    not_better    score 0.8849  best 0.9727  $0.0005  I will implement a "worst-fit decreasing-like" adaptive rule
+  step 121 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll switch from pure best-fit to a "best fit with a packed-
+  step 122 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace pure best-fit with a multi-bin "eligible set" rule: 
+  step 123 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll combine best-fit with a pack-into-the-last-opened-bin p
+  step 124 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll implement a hybrid that applies best-fit but, for small
+  step 125 edit    not_better    score 0.7799  best 0.9727  $0.0005  Implement a harmonic/best-fit hybrid: for items ≥ 50 use tig
+  step 126 edit    not_better    score 0.9727  best 0.9727  $0.0009  I'll replace pure best-fit with a harmonic-style rule from b
+  step 127 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace the pure best-fit rule with a "best-fit plus thresho
+  step 128 edit    not_better    score 0.9727  best 0.9727  $0.0004  Classic best-fit leaves lots of small residual slivers; I'll
+  step 129 edit    not_better    score 0.9727  best 0.9727  $0.0004  Replace the pure best-fit rule with a best-fit rule that str
+  step 130 edit    not_better    score 0.8757  best 0.9727  $0.0005  Best-fit wastes bins on slivers; I'll switch to a two-level 
+  step 131 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll try a "least-loaded bin that still leaves the item fitt
+  step 132 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll switch from pure best-fit to a perturbed best-fit that 
+  step 133 edit    not_better    score 0.9727  best 0.9727  $0.0006  Replace pure best-fit with a "best-fit within a capped worst
+  step 134 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll implement a harmonic-based rule that beats pure best-fi
+  step 135 edit    not_better    score 0.9274  best 0.9727  $0.0005  Instead of prioritizing by post-placement residual (best-fit
+  step 136 edit    not_better    score 0.9727  best 0.9727  $0.0005  Add a bounded "close second" band to best-fit: use pure best
+  step 137 edit    not_better    score 0.9727  best 0.9727  $0.0005  Use a "best-fit decreasing-like" rule adapted online: rank b
+  step 138 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace pure best-fit with a "harmonic best-fit" that bucket
+  step 139 edit    not_better    score 0.9727  best 0.9727  $0.0005  Introduce a completion/open-bin signal: keep a counter of "c
+  step 140 edit    not_better    score 0.9722  best 0.9727  $0.0006  I'll replace best-fit with a rule that uses the current item
+  step 141 edit    not_better    score 0.9727  best 0.9727  $0.0005  I will replace pure best-fit with a slightly randomized/exac
+  step 142 edit    not_better    score 0.9663  best 0.9727  $0.0005  I'll shift from best-fit to a rule that prefers the bin that
+  step 143 edit    not_better    score 0.9727  best 0.9727  $0.0005  Introduce a virtual-capacity bin reservation: among fitting 
+  step 144 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace pure best-fit with a "best-fit with reserve-priority
+  step 145 edit    not_better    score 0.9727  best 0.9727  $0.0006  I'll implement a "best-fit with lookahead-free gap filling" 
+  step 146 edit    not_better    score 0.9727  best 0.9727  $0.0005  Replace pure best-fit with a "fullest-fit but keep a small r
+  step 147 edit    not_better    score 0.9727  best 0.9727  $0.0006  Use a two-candidate rule tuned to the Weibull item distribut
+  step 148 edit    not_better    score 0.9727  best 0.9727  $0.0007  I'll replace the deterministic best-fit with a "best-fit plu
+  step 149 edit    not_better    score 0.9727  best 0.9727  $0.0005  I'll add a light "two-choice" twist to best-fit: keep the ti
+  step 150 edit    not_better    score 0.9727  best 0.9727  $0.0005  Best-fit is hard to beat, but it ignores bin "openness". I'l
+[done] loop__bp_sh_d_cex__s2: status ok, spent $0.0855 of $0.20, 150 calls, 151 evals, public 0.9726805391172123 -> 0.9726805391172123, hidden 0.9633920746934446
+  baseline funsearch_or           public 0.9802  hidden 0.9711
+  baseline funsearch_weibull      public 0.9958  hidden 0.9937
+  baseline sum_of_squares         public 0.9968  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bp_sh_d_cex: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.0855 of $0.20 cap, 150 calls, 151 evals, search 1709 s
+public    0.9727 -> 0.9727   (initial -> final incumbent; selected on)
+hidden    0.9634 -> 0.9634   (fresh audit, never selected on)
+baselines funsearch_or 0.9802/0.9711, funsearch_weibull 0.9958/0.9937, sum_of_squares 0.9968/0.9950
+explain   skipped: priority has nothing to remove (a single return without a +/- chain)
+report    /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_d_cex-s2/report.md

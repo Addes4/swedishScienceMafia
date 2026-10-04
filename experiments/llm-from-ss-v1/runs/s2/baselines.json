@@ -1,0 +1,29 @@
+[
+  {
+    "name": "best_fit",
+    "file": "problems/bin_packing_online_ss/baselines/best_fit.py",
+    "public": 0.9616415083396637,
+    "hidden": 0.960408920805711,
+    "valid": true,
+    "error": null,
+    "note": "EVOLVE-BLOCK-START"
+  },
+  {
+    "name": "funsearch_weibull",
+    "file": "problems/bin_packing_online_ss/baselines/funsearch_weibull.py",
+    "public": 0.9924899359365543,
+    "hidden": 0.9927544468231957,
+    "valid": true,
+    "error": null,
+    "note": "FunSearch's published heuristic for the Weibull datasets, verbatim from"
+  },
+  {
+    "name": "sum_of_squares",
+    "file": "problems/bin_packing_online_ss/baselines/sum_of_squares.py",
+    "public": 0.9942276578479157,
+    "hidden": 0.9949960514251175,
+    "valid": true,
+    "error": null,
+    "note": "EVOLVE-BLOCK-START"
+  }
+]

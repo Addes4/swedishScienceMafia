@@ -1,0 +1,29 @@
+[
+  {
+    "name": "funsearch_or",
+    "file": "problems/bp_sh_a5000/baselines/funsearch_or.py",
+    "public": 0.970243789149465,
+    "hidden": 0.9711452812741443,
+    "valid": true,
+    "error": null,
+    "note": "FunSearch's published heuristic for the OR datasets, verbatim from"
+  },
+  {
+    "name": "funsearch_weibull",
+    "file": "problems/bp_sh_a5000/baselines/funsearch_weibull.py",
+    "public": 0.9937586745748834,
+    "hidden": 0.9937467136726241,
+    "valid": true,
+    "error": null,
+    "note": "FunSearch's published heuristic for the Weibull datasets, verbatim from"
+  },
+  {
+    "name": "sum_of_squares",
+    "file": "problems/bp_sh_a5000/baselines/sum_of_squares.py",
+    "public": 0.9952459820880873,
+    "hidden": 0.9949867867240715,
+    "valid": true,
+    "error": null,
+    "note": ""
+  }
+]
