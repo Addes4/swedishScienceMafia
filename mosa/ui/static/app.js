@@ -163,7 +163,7 @@ function outcome(r, m) {
     const tops = [...new Set(ok.filter((x) => x.polished <= m.bestValue[x.n] + 1e-9).map((x) => x.n))].sort((a, b) => a - b);
     const text = (tops.length ? `Best in this workspace on n = ${listN(tops)}.` : `Not the best in this workspace on any of the ${sizesWord(new Set(ok.map((x) => x.n)).size)}.`)
       + (errors.length ? ` The code failed on ${errors.length} of ${r.results.length} runs.` : "");
-    return { kind: tops.length ? "reached" : "none", text, short: tops.length ? `best on ${tops.length}` : "" };
+    return { kind: tops.length ? "reached" : "none", text, short: tops.length ? `best on n = ${tops.join(", ")}` : "" };
   }
   const best = (n) => Math.min(...r.results.filter((x) => x.n === n && !x.error && x.gap != null).map((x) => x.gap));
   const tried = sizes.filter((n) => Number.isFinite(best(n)));
@@ -447,7 +447,10 @@ function messagesHTML() {
       const s = e.session ?? 0, recs = [...new Set(book.events.filter((x) => x.type === "record" && x.record && (x.session ?? 0) === s).map((x) => x.n))].sort((a, b) => a - b);
       const results = book.events.filter((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.gap != null);
       const reached = (book.model?.lab?.domain || "squares") !== "squares" ? [...new Set(results.filter((x) => x.gap <= 1e-6).map((x) => x.n))].sort((a, b) => a - b) : [];
+      const unpublished = results.length === 0 && book.events.some((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.polished != null);
+      const found = [...new Set(book.events.filter((x) => x.type === "result" && (x.session ?? 0) === s && !x.error && x.polished != null).map((x) => x.n))].sort((a, b) => a - b);
       const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
+        : unpublished ? `Best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with.`
         : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
       items.push(`<div class="msg note">Session finished · ${note}</div>`);
     }
