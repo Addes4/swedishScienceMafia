@@ -1,0 +1,17 @@
+{
+  "combined_score": 0.9952459820880873,
+  "public": {
+    "instance 1 (5000 items, lower bound 1993 bins)": 0.9955044955044955,
+    "instance 2 (5000 items, lower bound 1985 bins)": 0.9949874686716792
+  },
+  "private": {
+    "hidden_normalized": [
+      0.994456,
+      0.995518
+    ],
+    "hidden_mean": 0.9949867867240715,
+    "integrity_rejections": 0,
+    "flags": []
+  },
+  "text_feedback": "instance 1 (5000 items, lower bound 1993 bins): score 0.995504\ninstance 2 (5000 items, lower bound 1985 bins): score 0.994987"
+}

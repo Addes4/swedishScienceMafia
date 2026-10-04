@@ -1,0 +1,14 @@
+{
+  "cell": "i076__haiku__r0",
+  "idea_id": "i076",
+  "idea": "Contact-graph mining across n: take the best layouts found for neighbouring counts (n\u22122..n+2) and extract recurring local motifs, such as a 2\u00d72-into-1 merge, an L-corner or a frame. Re-apply every motif at every compatible position of the current layout, scoring each result with the compaction LP, so improvements found at one n propagate to the others within the run.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056130.334592,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs94WeNFXYA6TfQhfGN'}",
+  "cost": 0.0
+}

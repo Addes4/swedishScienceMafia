@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.8561716061716061,
+    "public": {
+      "n=5": 2.0,
+      "n=6": 2.0,
+      "n=7": 2.0,
+      "n=8": 2.0,
+      "n=11": 3.0,
+      "n=12": 3.0,
+      "n=13": 3.0,
+      "n=14": 3.0,
+      "n=15": 3.0
+    },
+    "private": {
+      "hidden_normalized": [
+        0.952381,
+        0.888889,
+        0.842105,
+        0.967742
+      ],
+      "hidden_mean": 0.9127792599779017,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: score 2 (best known 2)\nn=6: score 2 (best known 2.33333)\nn=7: score 2 (best known 2.5)\nn=8: score 2 (best known 2.66667)\nn=11: score 3 (best known 3.25)\nn=12: score 3 (best known 3.33333)\nn=13: score 3 (best known 3.5)\nn=14: score 3 (best known 3.66667)\nn=15: score 3 (best known 3.75)"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 1.0,
+        "seconds": 0.04812121800000568,
+        "reason": ""
+      },
+      {
+        "label": "n=6",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.8571428571428571,
+        "seconds": 0.047508663000002116,
+        "reason": ""
+      },
+      {
+        "label": "n=7",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.8,
+        "seconds": 0.047967659999997636,
+        "reason": ""
+      },
+      {
+        "label": "n=8",
+        "status": "valid",
+        "score": 2.0,
+        "normalized": 0.75,
+        "seconds": 0.04804311000000894,
+        "reason": ""
+      },
+      {
+        "label": "n=11",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.9230769230769231,
+        "seconds": 0.04901318800000354,
+        "reason": ""
+      },
+      {
+        "label": "n=12",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.8999999999999999,
+        "seconds": 0.04891240499999583,
+        "reason": ""
+      },
+      {
+        "label": "n=13",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.8571428571428571,
+        "seconds": 0.04852050399999541,
+        "reason": ""
+      },
+      {
+        "label": "n=14",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.8181818181818182,
+        "seconds": 0.048586361999994665,
+        "reason": ""
+      },
+      {
+        "label": "n=15",
+        "status": "valid",
+        "score": 3.0,
+        "normalized": 0.8,
+        "seconds": 0.049251154000003794,
+        "reason": ""
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.9523809523809523,
+        "seconds": 0.049100352000010616,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.8888888888888888,
+        "seconds": 0.04849880500000836,
+        "reason": ""
+      },
+      {
+        "label": "n=23",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.8421052631578947,
+        "seconds": 0.049654697999997666,
+        "reason": ""
+      },
+      {
+        "label": "n=27",
+        "status": "valid",
+        "score": 5.0,
+        "normalized": 0.9677419354838709,
+        "seconds": 0.04814677599999584,
+        "reason": ""
+      }
+    ]
+  },
+  "seconds": 2.49,
+  "container_seconds": 2.49,
+  "host": "modal"
+}

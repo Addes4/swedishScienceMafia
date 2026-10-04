@@ -1,0 +1,13 @@
+# Experiment protocol (written before the first run)
+
+Question: does a retained counterexample archive improve held-out online bin-packing quality at equal evaluator work?
+
+Capacity is 100 integer units. Every instance contains 80 sequential items. No reordering or future-item access is allowed. A fixed packer enforces validity. Only the scoring function changes. Best-fit is the reference.
+
+Local mechanistic experiment: stochastic evolution of a bounded arithmetic heuristic, not an LLM experiment. Three arms: random replay, counterexample replay, and counterexample replay plus tail-risk fitness. All receive the same 24 fixed instances, 8 replay evaluations and 8 fresh probes evaluated for both candidate and reference (48 packing executions per generation). Random replay retains random probes; counterexample replay retains probes with largest excess bins over best-fit. Reference probe executions are charged even though best-fit could be cached. Identical instance lengths ensure equal item-step budgets. Use 120 generations and 20 paired seeds initially. Count baseline/initialization and final audit separately from search. Rejected candidates also consume their full search budget.
+
+Candidate parameters and initial population are identical across arms. Mutation random streams are paired; tail-risk fitness can change the selected parent. Archive entries are bounded to 64. Training families: uniform, small, large, bimodal, complementary pairs. Archive replay never accesses final test data. Fitness: average bin count on fixed + replay suites (reference offsets are constant across candidates), with an extra 0.25 times worst replay bin count in the tail-risk arm. Each generation evaluates the incumbent and three mutations on the same frozen suite. Incumbent re-evaluation is charged as a candidate. Archive mining uses fresh probes only after choosing the generation winner.
+
+Final audit: independent, seed-separated instances from the five search families and three shifted families (near-thirds, near-halves, and mixed narrow bands), 100 instances per family. Compare mean bins, mean excess over best-fit, win/tie/loss frequencies, and paired seed-level differences. Final audit cannot feed back into search. Exploratory changes after viewing audit results require a new named experiment and a new final audit seed; do not reuse the old audit for a confirmatory claim.
+
+Codex-guided pilots will be recorded separately with exact heuristic expressions, measured feedback, and provenance. They demonstrate model-guided iteration, but do not establish a causal LLM memory benefit.

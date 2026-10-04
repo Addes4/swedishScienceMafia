@@ -1,0 +1,96 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 8,
+  "original": {
+    "public": 0.9760859062206612,
+    "hidden": 0.9654889691006243,
+    "code": "\"\"\"Harmonic-flavored best fit: concentrate items into the fullest fitting bin.\"\"\"\nimport numpy as np\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    remaining = bins - item\n    best_fit = -remaining\n    waste = np.where((remaining > 0) & (remaining <= 19), remaining, 0)\n    return best_fit.astype(np.float64) - 2.0 * waste\n"
+  },
+  "minimal": {
+    "public": 0.9760859062206612,
+    "hidden": 0.9654889691006243,
+    "code": "\"\"\"Harmonic-flavored best fit: concentrate items into the fullest fitting bin.\"\"\"\nimport numpy as np\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    remaining = bins - item\n    best_fit = -remaining\n    waste = np.where((remaining > 0) & (remaining <= 19), remaining, 0)\n    return best_fit.astype(np.float64) - 2.0 * waste\n",
+    "removed": []
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 15,
+      "text": "remaining = bins - item",
+      "inside": [],
+      "delta": -0.9760859062206612,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "term",
+      "line": 15,
+      "text": "term + bins",
+      "inside": [
+        0
+      ],
+      "delta": -0.9760859062206612,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "term",
+      "line": 15,
+      "text": "term - item",
+      "inside": [
+        0
+      ],
+      "delta": -0.021529683505426278,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 16,
+      "text": "best_fit = -remaining",
+      "inside": [],
+      "delta": -0.9760859062206612,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 19,
+      "text": "waste = np.where((remaining > 0) & (remaining <= 19), remaining, 0)",
+      "inside": [],
+      "delta": -0.9760859062206612,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "term",
+      "line": 20,
+      "text": "term + best_fit.astype(np.float64)",
+      "inside": [],
+      "delta": -0.012374299760745222,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 6,
+      "kind": "term",
+      "line": 20,
+      "text": "term - 2.0 * waste",
+      "inside": [],
+      "delta": -0.003405367103448853,
+      "valid": true,
+      "verdict": "matters"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_e_rand-s0/best_program.py"
+}

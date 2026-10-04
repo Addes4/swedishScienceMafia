@@ -1,0 +1,19 @@
+{
+  "cell": "i112__haiku__r0",
+  "idea_id": "i112",
+  "idea": "Add a \"rectangle-of-two-grids\" closed form. Split the square vertically at x = p/(p+q)-type rationals. Fill the left part with an a\u00d7b grid of equal squares and the right part with a c\u00d7d grid, with the sides chosen as the min of the width and height constraints. Enumerate all integer tuples with total count \u2265 n, trim the smallest squares, and keep the best exact value.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056000.199479,
+  "cost": 0.007778,
+  "input_tokens": 798,
+  "output_tokens": 1396,
+  "llm_seconds": 10.53,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "e0c147535002ade35f6ef0a061ee787a2f8bb4ed7f4662289ee826a585f7d562"
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i047__opus__r0",
+  "idea_id": "i047",
+  "idea": "Column generation for strip-based packings. Each column pattern is a vertical strip of width w holding a mixed stack, such as one square of side w plus pairs of side w/2 side by side. Solve the master LP \"choose strips with total width \u2264 1 and exact count n, maximising the sum\", price new strip patterns by DP, then round to integers.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055765.7167811,
+  "cost": 0.230304,
+  "input_tokens": 951,
+  "output_tokens": 11325,
+  "llm_seconds": 132.06,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "9d96ba8bb85e7b2fd89a2e62ee875963d8fdfb1e9b7ac99c2829a801fc39df05"
+}

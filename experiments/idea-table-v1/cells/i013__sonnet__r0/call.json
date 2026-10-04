@@ -1,0 +1,19 @@
+{
+  "cell": "i013__sonnet__r0",
+  "idea_id": "i013",
+  "idea": "Use an ILP or set-partitioning solver, such as scipy milp, on a k\u00d7k cell grid. Each candidate is an a\u00d7a axis-aligned block at any position, chosen with a binary variable; constraints are that each cell is covered at most once and that the number of squares chosen equals n. Maximise the sum of a/k, and loop over k from about sqrt(n)\u22122 to 2\u00b7sqrt(n).",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055401.567271,
+  "cost": 0.022176,
+  "input_tokens": 973,
+  "output_tokens": 2023,
+  "llm_seconds": 14.71,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "597e9369515a935a64b4a17a68cbe4e3dca9bd6002da2ac345bbf59fd8b37264"
+}

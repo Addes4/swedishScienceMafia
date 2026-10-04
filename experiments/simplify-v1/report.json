@@ -1,0 +1,1245 @@
+{
+  "protocol": "experiments/SIMPLIFY_PROTOCOL.md",
+  "winner": {
+    "name": "counterexample_replay-4",
+    "source": "experiments/local-v1/audit.json",
+    "weights": [
+      -7.294545755391722,
+      -0.22541356411895808,
+      1.170210452014519,
+      0.0,
+      0.05897467577414438,
+      0.4437073636517383,
+      0.28835771769170865,
+      -0.13500508851722887,
+      1.1057920267755303,
+      6.122094560226379,
+      1.3197367960549535,
+      -4.60221837388034
+    ],
+    "selection_mean_bins": 41.172,
+    "normalized": [
+      -1.0,
+      -0.03090165881163264,
+      0.16042266252830953,
+      0.0,
+      0.008084763294623737,
+      0.06082727815145645,
+      0.03953059276906594,
+      -0.018507675877890085,
+      0.1515916225432119,
+      0.8392701568430451,
+      0.18092103885694014,
+      -0.6309122635194434
+    ],
+    "terms": 11
+  },
+  "simplified": {
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "terms": 1,
+    "original_terms": 11,
+    "steps": [
+      {
+        "step": "start",
+        "weights": [
+          -1.0,
+          -0.03090165881163264,
+          0.16042266252830953,
+          0.0,
+          0.008084763294623737,
+          0.06082727815145645,
+          0.03953059276906594,
+          -0.018507675877890085,
+          0.1515916225432119,
+          0.8392701568430451,
+          0.18092103885694014,
+          -0.6309122635194434
+        ],
+        "mean_bins": 41.245
+      },
+      {
+        "step": "keep only gap/100",
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_bins": 41.245
+      }
+    ],
+    "packing_executions": 12000,
+    "budget_exhausted": false,
+    "tolerance": 0.002
+  },
+  "explanation": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+  "confirmation": {
+    "simplified vs original": {
+      "mean_bins_a": 40.285,
+      "mean_bins_b": 40.285,
+      "mean_difference": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "wins": 0,
+      "ties": 800,
+      "losses": 0,
+      "identical_packings": 0.99875,
+      "placement_agreement": 0.999953125
+    },
+    "simplified vs best-fit": {
+      "mean_bins_a": 40.285,
+      "mean_bins_b": 40.285,
+      "mean_difference": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "wins": 0,
+      "ties": 800,
+      "losses": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    "original vs best-fit": {
+      "mean_bins_a": 40.285,
+      "mean_bins_b": 40.285,
+      "mean_difference": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "wins": 0,
+      "ties": 800,
+      "losses": 0,
+      "identical_packings": 0.99875,
+      "placement_agreement": 0.999953125
+    }
+  },
+  "by_family": {
+    "uniform": {
+      "original": 0,
+      "simplified": 0
+    },
+    "small": {
+      "original": 0,
+      "simplified": 0
+    },
+    "large": {
+      "original": 0,
+      "simplified": 0
+    },
+    "bimodal": {
+      "original": 0,
+      "simplified": 0
+    },
+    "complementary": {
+      "original": 0,
+      "simplified": 0
+    },
+    "near_thirds": {
+      "original": 0,
+      "simplified": 0
+    },
+    "near_halves": {
+      "original": 0,
+      "simplified": 0
+    },
+    "bands": {
+      "original": 0,
+      "simplified": 0
+    }
+  },
+  "ablation_simplified": [
+    {
+      "feature": "gap/100",
+      "weight": -1.0,
+      "mean_bin_change": 0.32625,
+      "bootstrap_95_interval": [
+        0.2925,
+        0.3625
+      ],
+      "instances_changed": 254,
+      "identical_packings": 0.075,
+      "placement_agreement": 0.6795625
+    }
+  ],
+  "ablation_original": [
+    {
+      "feature": "gap/100",
+      "weight": -1.0,
+      "mean_bin_change": 0.00375,
+      "bootstrap_95_interval": [
+        0,
+        0.00875
+      ],
+      "instances_changed": 3,
+      "identical_packings": 0.9275,
+      "placement_agreement": 0.9885625
+    },
+    {
+      "feature": "(gap/100)^2",
+      "weight": -0.03090165881163264,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    {
+      "feature": "1/(gap+1)",
+      "weight": 0.16042266252830953,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    {
+      "feature": "0<gap<10",
+      "weight": 0.008084763294623737,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    {
+      "feature": "0<gap<item",
+      "weight": 0.06082727815145645,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 0.94875,
+      "placement_agreement": 0.99484375
+    },
+    {
+      "feature": "gap>=item",
+      "weight": 0.03953059276906594,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    {
+      "feature": "abs(gap/100-.25)",
+      "weight": -0.018507675877890085,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    {
+      "feature": "abs(gap/100-.5)",
+      "weight": 0.1515916225432119,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 1,
+      "placement_agreement": 1.0
+    },
+    {
+      "feature": "abs(gap/100-.75)",
+      "weight": 0.8392701568430451,
+      "mean_bin_change": 0.00375,
+      "bootstrap_95_interval": [
+        0,
+        0.00875
+      ],
+      "instances_changed": 3,
+      "identical_packings": 0.96625,
+      "placement_agreement": 0.994484375
+    },
+    {
+      "feature": "0<gap<33",
+      "weight": 0.18092103885694014,
+      "mean_bin_change": 0,
+      "bootstrap_95_interval": [
+        0,
+        0
+      ],
+      "instances_changed": 0,
+      "identical_packings": 0.9975,
+      "placement_agreement": 0.999734375
+    },
+    {
+      "feature": "0<gap<50",
+      "weight": -0.6309122635194434,
+      "mean_bin_change": 0.52375,
+      "bootstrap_95_interval": [
+        0.4575,
+        0.59125
+      ],
+      "instances_changed": 250,
+      "identical_packings": 0.0425,
+      "placement_agreement": 0.722578125
+    }
+  ],
+  "witness": null,
+  "map": {
+    "candidates": 43,
+    "mean_terms_before": 6.744186046511628,
+    "mean_terms_after": 1.0465116279069768,
+    "reduce_to_best_fit": 35,
+    "reduce_to_first_fit": 0,
+    "surviving_terms": {
+      "gap/100": 20,
+      "1/(gap+1)": 15,
+      "abs(gap/100-.75)": 4,
+      "abs(gap/100-.5)": 2,
+      "(gap/100)^2": 2,
+      "gap>=item": 1,
+      "0<gap<33": 1
+    },
+    "rows": [
+      {
+        "name": "random_replay-0",
+        "terms_before": 8,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 9000
+      },
+      {
+        "name": "counterexample_replay-0",
+        "terms_before": 10,
+        "terms_after": 2,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.02,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Add a +1 x 1/(gap+1) shaping term, but reward leaving a gap that could hold another copy of the item with weight 0.02.",
+        "packing_executions": 67000
+      },
+      {
+        "name": "counterexample_tail-0",
+        "terms_before": 10,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 11000
+      },
+      {
+        "name": "random_replay-1",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "counterexample_replay-1",
+        "terms_before": 3,
+        "terms_after": 2,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          -0.2,
+          0.0
+        ],
+        "rule": "Prefer the bin that leaves the smallest gap (best-fit), but penalise leaving a non-zero gap under 33 worth about 20 units of capacity.",
+        "packing_executions": 10000
+      },
+      {
+        "name": "random_replay-2",
+        "terms_before": 10,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 11000
+      },
+      {
+        "name": "counterexample_replay-2",
+        "terms_before": 11,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Prefer leftover gaps far from 75 (best-fit below 75, worst-fit above) with weight 1.",
+        "packing_executions": 12000
+      },
+      {
+        "name": "random_replay-3",
+        "terms_before": 5,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 6000
+      },
+      {
+        "name": "counterexample_replay-3",
+        "terms_before": 1,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 1000
+      },
+      {
+        "name": "random_replay-4",
+        "terms_before": 9,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 10000
+      },
+      {
+        "name": "counterexample_replay-4",
+        "terms_before": 11,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 12000
+      },
+      {
+        "name": "counterexample_tail-4",
+        "terms_before": 12,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 13000
+      },
+      {
+        "name": "random_replay-5",
+        "terms_before": 5,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Prefer leftover gaps far from 50 (best-fit below 50, worst-fit above) with weight 1.",
+        "packing_executions": 6000
+      },
+      {
+        "name": "counterexample_replay-5",
+        "terms_before": 11,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 12000
+      },
+      {
+        "name": "random_replay-6",
+        "terms_before": 5,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Prefer leftover gaps far from 75 (best-fit below 75, worst-fit above) with weight 1.",
+        "packing_executions": 6000
+      },
+      {
+        "name": "counterexample_replay-7",
+        "terms_before": 8,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 9000
+      },
+      {
+        "name": "counterexample_replay-8",
+        "terms_before": 2,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 3000
+      },
+      {
+        "name": "random_replay-9",
+        "terms_before": 6,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[(gap/100)^2]] is exactly best-fit.",
+        "packing_executions": 7000
+      },
+      {
+        "name": "counterexample_replay-10",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "random_replay-11",
+        "terms_before": 8,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Prefer leftover gaps far from 75 (best-fit below 75, worst-fit above) with weight 1.",
+        "packing_executions": 9000
+      },
+      {
+        "name": "counterexample_replay-11",
+        "terms_before": 10,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 11000
+      },
+      {
+        "name": "counterexample_tail-11",
+        "terms_before": 9,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Prefer leftover gaps far from 75 (best-fit below 75, worst-fit above) with weight 1.",
+        "packing_executions": 10000
+      },
+      {
+        "name": "random_replay-13",
+        "terms_before": 11,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 12000
+      },
+      {
+        "name": "counterexample_replay-13",
+        "terms_before": 10,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 11000
+      },
+      {
+        "name": "counterexample_replay-14",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "random_replay-15",
+        "terms_before": 8,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 9000
+      },
+      {
+        "name": "counterexample_replay-15",
+        "terms_before": 11,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[(gap/100)^2]] is exactly best-fit.",
+        "packing_executions": 12000
+      },
+      {
+        "name": "random_replay-16",
+        "terms_before": 12,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 13000
+      },
+      {
+        "name": "counterexample_replay-16",
+        "terms_before": 11,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 12000
+      },
+      {
+        "name": "random_replay-18",
+        "terms_before": 8,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 9000
+      },
+      {
+        "name": "random_replay-19",
+        "terms_before": 10,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Prefer leftover gaps far from 50 (best-fit below 50, worst-fit above) with weight 1.",
+        "packing_executions": 11000
+      },
+      {
+        "name": "avoid_tiny_gaps",
+        "terms_before": 3,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 4000
+      },
+      {
+        "name": "avoid_subitem_gaps",
+        "terms_before": 3,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 4000
+      },
+      {
+        "name": "tight_or_roomy",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "reserve_quarter",
+        "terms_before": 5,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 6000
+      },
+      {
+        "name": "reserve_half",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "avoid_subthird",
+        "terms_before": 3,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 4000
+      },
+      {
+        "name": "gentle_tiny_penalty",
+        "terms_before": 3,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 4000
+      },
+      {
+        "name": "gentle_subthird",
+        "terms_before": 3,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 4000
+      },
+      {
+        "name": "gentle_subthird_inverse",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          -1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [-1*[gap/100]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "tight_or_roomy_conservative",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "tight_or_roomy_moderate",
+        "terms_before": 4,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 5000
+      },
+      {
+        "name": "inverse_with_gap",
+        "terms_before": 3,
+        "terms_after": 1,
+        "weights": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rule": "Put each item in the feasible bin that leaves the smallest gap: [+1*[1/(gap+1)]] is exactly best-fit.",
+        "packing_executions": 4000
+      }
+    ]
+  }
+}

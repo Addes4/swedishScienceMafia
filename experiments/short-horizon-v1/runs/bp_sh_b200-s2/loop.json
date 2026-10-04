@@ -1,0 +1,40 @@
+{
+  "argv": [
+    "problems/bp_sh_b200",
+    "--provider",
+    "hf",
+    "--model",
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "--max-iters",
+    "150",
+    "--budget",
+    "0.20",
+    "--wall",
+    "5400",
+    "--gate-workers",
+    "1",
+    "--seed",
+    "2",
+    "--out",
+    "experiments/short-horizon-v1/runs/bp_sh_b200-s2"
+  ],
+  "config": {
+    "budget": 0.2,
+    "provider": "hf",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "max_iters": 150,
+    "wall": 5400.0,
+    "seed": 2,
+    "no_gate": false,
+    "patience": null,
+    "independent": false,
+    "gate_workers": 1,
+    "explain_evals": 40,
+    "mock": false
+  },
+  "timings": {
+    "search_s": 1354.0,
+    "baselines_s": 53.4,
+    "explain_s": 0.0
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "funsearch_or",
+    "file": "problems/bin_packing_online/baselines/funsearch_or.py",
+    "public": 0.9698831587429493,
+    "hidden": 0.9702385657296153,
+    "valid": true,
+    "error": null,
+    "note": "FunSearch's published heuristic for the OR datasets, verbatim from"
+  },
+  {
+    "name": "funsearch_weibull",
+    "file": "problems/bin_packing_online/baselines/funsearch_weibull.py",
+    "public": 0.9924899359365543,
+    "hidden": 0.9927544468231957,
+    "valid": true,
+    "error": null,
+    "note": "FunSearch's published heuristic for the Weibull datasets, verbatim from"
+  }
+]

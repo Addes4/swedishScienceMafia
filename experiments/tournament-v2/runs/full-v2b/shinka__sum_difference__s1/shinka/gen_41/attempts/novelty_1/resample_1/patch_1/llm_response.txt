@@ -1,0 +1,151 @@
+<NAME>
+unified_deadline_and_ratio_aware_seed_selection
+</NAME>
+
+<DESCRIPTION>
+The current program has two structural weaknesses that limit its score:
+
+1. **No hard wall-clock budget**: `solve()` sets `deadline = time.time() + 108` but then Phase 1 uses a *separate* `phase1_end = time.time() + 22`, and Phase 2/3 rely on relative offsets from `deadline`. Since the harness gives ~120s total and Phase 1's nested loops over `m, gs, gap, stride, scale` can be very slow (1400+ `_build_dense_golomb` calls each doing ~50 random candidate evaluations), the seed-bank construction can easily blow the budget before Phase 2 even starts. I unify everything to a single `t0 = time.time()` / `HARD_DEADLINE = t0 + 105` (leaving a ~15s harness margin), guard every inner loop with `time.time() < HARD_DEADLINE`, and shrink the dense-Golomb sweep so it can't dominate.
+
+2. **Seed ranking ignores the actual objective**: the seed bank is ranked by `pure` ratio only, but the score we are maximizing is `full = pure + (1 - 1/n)/100`. For a fixed pure ratio, larger `n` (up to a point) gives a strictly better full score. Since the ratio `log|A-A|/log|A+A|` for Bose-Chowla sets *decreases* slowly with p while `(1-1/n)/100` *increases*, the optimal p is not necessarily the largest one — but ranking purely by `pure` biases the top-K toward tiny sets. I change the ranking key to `(full, pure)` so the bank prefers sets that actually score well on the objective, and I add a direct "ratio × size bonus" ordering by `full`.
+
+3. **Greedy growth is off-by-one in its deadline check**: `_grow_by_difference` is called with the *global* deadline, so it will consume the entire remaining budget in one shot. I cap it to a sub-budget so `_refine_burst` gets another shot on the result.
+
+These changes are conservative and surgical: they don't change the search operators, only the time budget discipline and the seed-selection criterion, which together should push the score toward the best-known 1.28.
+</DESCRIPTION>
+
+<DIFF>
+<<<<<<< SEARCH
+def solve():
+    rng = random.Random(20240617)
+    deadline = time.time() + 108
+
+    # ---- Phase 1: seed bank, ranked by PURE ratio -------------------------
+    phase1_end = time.time() + 22
+    bank = []  # (pure, full, list)
+=======
+def solve():
+    rng = random.Random(20240617)
+    t0 = time.time()
+    # Single shared wall-clock budget. Harness allows ~120s; keep a safety margin.
+    HARD_DEADLINE = t0 + 105
+    deadline = HARD_DEADLINE
+
+    # ---- Phase 1: seed bank, ranked by (full, pure) -----------------------
+    # Cap phase 1 so it can never eat the whole budget even if the sweep is slow.
+    phase1_end = min(t0 + 22, HARD_DEADLINE - 60)
+    bank = []  # (pure, full, list)
+>>>>>>> REPLACE
+</DIFF>
+
+<DIFF>
+<<<<<<< SEARCH
+    primes = _primes_upto(60)
+
+    # Bose-Chowla family (the structural prior that actually works)
+    for p in primes:
+        if time.time() > phase1_end:
+            break
+=======
+    primes = _primes_upto(60)
+
+    # Bose-Chowla family (the structural prior that actually works)
+    for p in primes:
+        if time.time() > phase1_end or time.time() > HARD_DEADLINE:
+            break
+>>>>>>> REPLACE
+</DIFF>
+
+<DIFF>
+<<<<<<< SEARCH
+    # dense+Golomb family (small sweep)
+    for m in range(0, 14):
+        for gs in range(2, 14):
+            if time.time() > phase1_end:
+                break
+            for gap in (1, 2, 3, 5, 8, 13, 21, 34):
+                for stride in (1, 1, 2, 3):
+                    for scale in (1, 1, 2, 3):
+                        consider(_build_dense_golomb(m, gs, gap, rng, stride, scale))
+
+    # rank by PURE ratio, tiebreak by full
+    bank.sort(key=lambda t: (t[0], t[1]), reverse=True)
+=======
+    # dense+Golomb family (small, bounded sweep — kept cheap so phase 1 can't stall)
+    for m in range(0, 10):
+        for gs in range(2, 10):
+            if time.time() > phase1_end or time.time() > HARD_DEADLINE:
+                break
+            for gap in (1, 2, 3, 5, 8, 13, 21):
+                for stride in (1, 1, 2, 3):
+                    for scale in (1, 1, 2, 3):
+                        if time.time() > phase1_end or time.time() > HARD_DEADLINE:
+                            break
+                        consider(_build_dense_golomb(m, gs, gap, rng, stride, scale))
+
+    # Rank by the ACTUAL objective (full = pure + size bonus), tiebreak by pure.
+    # This biases the top-K toward sets that really score well rather than
+    # toward trivially small sets with a marginally better pure ratio.
+    bank.sort(key=lambda t: (t[1], t[0]), reverse=True)
+>>>>>>> REPLACE
+</DIFF>
+
+<DIFF>
+<<<<<<< SEARCH
+    # ---- Phase 2: round-robin short SA bursts across top-K ----------------
+    burst_len = 3.0
+    idx = 0
+    while time.time() < deadline - 8:
+        pure, full, seed = topK[idx % len(topK)]
+        idx += 1
+        remaining = deadline - time.time()
+        if remaining < 1.5:
+            break
+        sub = time.time() + min(burst_len, remaining - 1.0)
+        cand, s = _refine_burst(seed, sub, rng, T0=0.05)
+=======
+    # ---- Phase 2: round-robin short SA bursts across top-K ----------------
+    burst_len = 3.0
+    idx = 0
+    while time.time() < HARD_DEADLINE - 20:
+        pure, full, seed = topK[idx % len(topK)]
+        idx += 1
+        remaining = HARD_DEADLINE - time.time()
+        if remaining < 1.5:
+            break
+        sub = time.time() + min(burst_len, remaining - 1.0)
+        cand, s = _refine_burst(seed, sub, rng, T0=0.05)
+>>>>>>> REPLACE
+</DIFF>
+
+<DIFF>
+<<<<<<< SEARCH
+    # ---- Phase 3: greedy growth polish on global best ---------------------
+    if time.time() < deadline:
+        cand, s = _grow_by_difference(best, deadline, rng)
+        if s > best_score:
+            best = cand[:]
+            best_score = s
+
+    return sorted(set(best))
+=======
+    # ---- Phase 3: greedy growth polish on global best ---------------------
+    # Cap the greedy pass so a final SA burst still gets a chance to refine it.
+    if time.time() < HARD_DEADLINE - 6:
+        grow_end = time.time() + max(1.0, (HARD_DEADLINE - time.time()) * 0.6)
+        cand, s = _grow_by_difference(best, grow_end, rng)
+        if s > best_score:
+            best = cand[:]
+            best_score = s
+
+    # ---- Phase 4: final SA burst on the (possibly grown) best -------------
+    if time.time() < HARD_DEADLINE - 1:
+        sub = time.time() + min(3.0, HARD_DEADLINE - time.time() - 0.2)
+        cand, s = _refine_burst(best, sub, rng, T0=0.02)
+        if s > best_score:
+            best = cand[:]
+            best_score = s
+
+    return sorted(set(best))
+>>>>>>> REPLACE
+</DIFF>

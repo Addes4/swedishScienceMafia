@@ -1,0 +1,19 @@
+{
+  "cell": "i100__opus__r0",
+  "idea_id": "i100",
+  "idea": "Move every size-zero padding square off the interior. The current code puts them at (0.5,0.5), which lies inside a real square whenever k is odd, and a strict evaluator may count that as a shared interior point. Place them instead at distinct boundary corners or grid-line vertices, such as (0,0), (1,0) and points of the form (i/k, 0), which are never interior to any square.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055805.603651,
+  "cost": 0.154452,
+  "input_tokens": 963,
+  "output_tokens": 7530,
+  "llm_seconds": 91.08,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "e56b38544b0b6b19a1f0f57d4f5aa1daa8db5bc971755f7de9bea1acd2b43e4c"
+}

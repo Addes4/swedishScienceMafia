@@ -1,0 +1,14 @@
+{
+  "cell": "i001__sonnet__r0",
+  "idea_id": "i001",
+  "idea": "Add the shrinking variant to the same search: replace an (m+1)\u00d7(m+1) block of cells by an m\u00d7m grid of squares of side (m+1)/(mk). This removes 2m+1 squares at a cost of (m+1)/k, so a larger k can be used when n sits just below a perfect square (e.g. n=6, 8, 11, 13, 15). Take the maximum over both variants and all k.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056130.2469308,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs93zeXcssobDsiHd9p'}",
+  "cost": 0.0
+}

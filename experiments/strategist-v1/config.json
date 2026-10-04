@@ -1,0 +1,27 @@
+{
+  "benchmarks": "labs,heilbronn,nk,binpacking",
+  "seeds": "1000:1200",
+  "budget": 3000.0,
+  "costs": "llm_proxy",
+  "workers": 6,
+  "out": "experiments/strategist-v1",
+  "cost_table": {
+    "edit": 1.2,
+    "crossover": 1.5,
+    "rewrite": 2.0,
+    "restart": 2.0,
+    "resume": 0.0
+  },
+  "patience": [
+    16,
+    64,
+    256
+  ],
+  "primary": [
+    "timing_shuffled",
+    "static_mix",
+    "uniform",
+    "edits_only",
+    "patience_best"
+  ]
+}

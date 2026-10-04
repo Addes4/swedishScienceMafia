@@ -1,0 +1,165 @@
+[loop] bp_sh_b200 -> /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_b200-s0
+[start] loop__bp_sh_b200__s0: arm lean (lean) on bp_sh_b200, seed 0, cap $0.20
+  initial          score 0.9444
+  step  1 edit    not_better    score 0.9444  best 0.9444  $0.0003  I will add a small tie-breaking bias toward *fuller* bins (s
+  step  2 edit    improved      score 0.9446  best 0.9446  $0.0004  I'll switch from pure best-fit to a hybrid rule that prefers
+  step  3 edit    not_better    score 0.9446  best 0.9446  $0.0004  I'll replace the ad-hoc awkward-gap penalty with a principle
+  step  4 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the heuristic with a proper "best fit decreasin
+  step  5 edit    not_better    score 0.9444  best 0.9446  $0.0005  I will replace the heuristic with a threshold-based rule der
+  step  6 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll implement a proper "residual waste" score based on the 
+  step  7 edit    not_better    score 0.9446  best 0.9446  $0.0008  I'll replace the ad-hoc awkward-gap heuristic with a princip
+  step  8 edit    not_better    score 0.5990  best 0.9446  $0.0006  I'll replace the ad-hoc heuristic with a well-tuned "modifie
+  step  9 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the heuristic with a "best fit plus a capped ma
+  step 10 edit    not_better    score 0.9446  best 0.9446  $0.0005  I will replace the heuristic scoring with a proper Best-Fit 
+  step 11 edit    not_better    score 0.9446  best 0.9446  $0.0005  I'll replace the ad-hoc penalty with a well-known strong onl
+  step 12 edit    not_better    score 0.9426  best 0.9446  $0.0006  Replace the scoring with an online-distribution-aware rule t
+  step 13 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll switch from this ad-hoc penalty to the classic "best-fi
+  step 14 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the heuristic with a distribution-aware "expect
+  step 15 edit    not_better    score 0.3990  best 0.9446  $0.0005  I'll replace the heuristic with a classic "Almost-Worst-Fit"
+  step 16 edit    not_better    score 0.9444  best 0.9446  $0.0007  I'll add a small "completability" bonus: keep best-fit as th
+  step 17 edit    not_better    score 0.9444  best 0.9446  $0.0005  Add a "medium-fit" term that slightly favors bins leaving a 
+  step 18 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc penalty with a principled "best-fit 
+  step 19 edit    not_better    score 0.9446  best 0.9446  $0.0006  I'll add a small "exact-fit / near-exact-fill" priority: kee
+  step 20 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc penalty with the well-known "Best-Fi
+  step 21 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the current heuristic with a harmonic/weighted 
+  step 22 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc penalty with the classic "Best Fit D
+  step 23 edit    not_better    score 0.9446  best 0.9446  $0.0005  I'll switch to a rank-based "best-fit with fresh-bin prefere
+  step 24 edit    gate_rejected score 0.9446  best 0.9446  $0.0005  I'll replace the heuristic with the classic "almost-worst-fi
+  step 25 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc "awkward gap" penalty with a cleaner
+  step 26 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll implement a proper Best-Fit with an adaptive "fill-the-
+  step 27 edit    not_better    score 0.9444  best 0.9446  $0.0006  Replace the ad-hoc heuristic with the classic Best-Fit rule 
+  step 28 edit    not_better    score 0.9440  best 0.9446  $0.0006  I'll keep best-fit dominant but strengthen and refine the aw
+  step 29 edit    not_better    score 0.9446  best 0.9446  $0.0007  Replace the ad-hoc linear "awkward" penalty with a convex pe
+  step 30 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll switch from a leftover-based penalty to a suboptimality
+  step 31 edit    not_better    score 0.9444  best 0.9446  $0.0008  
+  step 32 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll add a "good pairing" bonus that rewards placing the ite
+  step 33 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc awkward-gap penalty with a principle
+  step 34 edit    gate_rejected score 0.9451  best 0.9446  $0.0006  I'll replace the ad-hoc awkward penalty with a threshold rul
+  step 35 edit    not_better    score 0.9397  best 0.9446  $0.0007  I'll replace the absolute "awkward gap" penalty with a relat
+  step 36 edit    gate_rejected score 0.9449  best 0.9446  $0.0006  I'll implement a clean threshold-based rule: use best-fit sc
+  step 37 edit    not_better    score 0.9444  best 0.9446  $0.0005  The ad-hoc awkward penalty is being applied too eagerly; I'l
+  step 38 edit    not_better    score 0.9444  best 0.9446  $0.0006  Replace the ad-hoc awkward-gap penalty with a "subharmonic b
+  step 39 edit    not_better    score 0.9444  best 0.9446  $0.0005  I will replace the ad-hoc awkward-gap penalty with a "power-
+  step 40 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc squared/awkward penalties with the c
+  step 41 edit    not_better    score 0.9442  best 0.9446  $0.0006  I'll replace the rule with the classic "best-fit with a sing
+  step 42 edit    not_better    score 0.9444  best 0.9446  $0.0006  I will switch to a well-known online packing heuristic tuned
+  step 43 edit    not_better    score 0.9415  best 0.9446  $0.0006  I'll replace the ad-hoc awkward penalty with a clean best-fi
+  step 44 edit    not_better    score 0.9437  best 0.9446  $0.0006  I'll replace the ad-hoc penalty with the well-established "b
+  step 45 edit    not_better    score 0.9444  best 0.9446  $0.0005  The recent tweaks all hover around the same best-fit family.
+  step 46 edit    not_better    score 0.9382  best 0.9446  $0.0007  I'll replace the ad-hoc awkward penalty with a rule that pen
+  step 47 edit    not_better    score 0.9444  best 0.9446  $0.0011  Replace the ad-hoc awkward-gap penalty with a distribution-a
+  step 48 edit    not_better    score 0.9446  best 0.9446  $0.0007  I'll replace the awkward-gap penalty with a threshold-based 
+  step 49 edit    not_better    score 0.9444  best 0.9446  $0.0007  I'll replace the rule with a "best-fit plus bounded residual
+  step 50 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll simplify to a robust baseline: score by best-fit (small
+  step 51 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc penalty with a principled "best-fit 
+  step 52 edit    not_better    score 0.9444  best 0.9446  $0.0007  I'll switch from the ad-hoc awkward-gap penalty to a well-fo
+  step 53 edit    not_better    score 0.8733  best 0.9446  $0.0006  I'll replace the fragile awkward-gap penalty with the classi
+  step 54 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc awkward penalty with an exponential 
+  step 55 edit    invalid       score 0.0000  best 0.9446  $0.0008  I'll replace the heuristic with a principled "second-best-fi
+  step 56 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll revert to the clean best-fit base but add a carefully-s
+  step 57 edit    not_better    score 0.9446  best 0.9446  $0.0005  I'll test a "harmonic/interval-matching" rule: keep best-fit
+  step 58 edit    not_better    score 0.9442  best 0.9446  $0.0005  I'll refine the awkward-gap penalty: instead of clipping at 
+  step 59 edit    not_better    score 0.9444  best 0.9446  $0.0005  Replace the heuristic scoring with the classic "best fit" ru
+  step 60 edit    invalid       score 0.0000  best 0.9446  $0.0006  I'll replace the rule with a scale-free "relative best fit" 
+  step 61 edit    not_better    score 0.9439  best 0.9446  $0.0005  I'll implement a two-parameter "best-fit with empty-bin bonu
+  step 62 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll switch to a "modified best-fit" that prioritizes fillin
+  step 63 edit    not_better    score 0.9444  best 0.9446  $0.0008  Implement a "fill-target best-fit": keep tight-fit preferenc
+  step 64 edit    not_better    score 0.9444  best 0.9446  $0.0006  Introduce "fit-aware best fit": keep best-fit as the base bu
+  step 65 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll implement "best-fit with a small empty-bin bonus propor
+  step 66 edit    not_better    score 0.9422  best 0.9446  $0.0006  I'll implement the classic "best fit decreasing-like" rule w
+  step 67 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll add a score term that explicitly rewards reusing an exi
+  step 68 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the score with a "tie-broken best fit": primary
+  step 69 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the heuristic with a learned-style "best-fit wi
+  step 70 edit    not_better    score 0.9444  best 0.9446  $0.0005  Many recent tweaks plateaued around 0.944. I'll replace the 
+  step 71 edit    not_better    score 0.9310  best 0.9446  $0.0006  I'll replace the heuristic with a "worst-fit with a freshnes
+  step 72 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll implement a proper "best-fit with a capacity-waste guar
+  step 73 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll switch the tie-break to a well-known superior rule for 
+  step 74 edit    not_better    score 0.9019  best 0.9446  $0.0007  I'll replace the heuristic with a "best-fit avoiding tiny un
+  step 75 edit    not_better    score 0.9444  best 0.9446  $0.0005  Replace the ad-hoc penalty with the classic Best-Fit-Decreas
+  step 76 edit    invalid       score 0.0000  best 0.9446  $0.0005  I'll replace the heuristic with a "best-fit plus bounded-was
+  step 77 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll replace the ad-hoc penalty with a cleaner rule based on
+  step 78 edit    not_better    score 0.9444  best 0.9446  $0.0005  Replace the heuristic scoring with a "fuller-bin-first" rule
+  step 79 edit    not_better    score 0.9444  best 0.9446  $0.0005  Pure best-fit is near-optimal here, but its failures come fr
+  step 80 edit    not_better    score 0.9408  best 0.9446  $0.0006  I'll add a learned-style threshold: instead of penalizing aw
+  step 81 edit    not_better    score 0.9429  best 0.9446  $0.0006  I'll replace the heuristic with the classic "modified best f
+  step 82 edit    not_better    score 0.9173  best 0.9446  $0.0006  I'll adaptively track the minimum item size seen so far in t
+  step 83 edit    not_better    score 0.9444  best 0.9446  $0.0006  I'll replace the ad-hoc heuristic with a "best-fit with smar
+  step 84 edit    not_better    score 0.9422  best 0.9446  $0.0005  I'll switch the primary criterion from post-placement residu
+  step 85 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll implement a well-known improvement: Best-Fit with a sma
+  step 86 edit    not_better    score 0.9444  best 0.9446  $0.0005  I'll switch from the ad-hoc awkward-gap penalty to a princip
+  step 87 edit    not_better    score 0.9429  best 0.9446  $0.0006  I'll replace the ad-hoc awkward-gap penalty with a principle
+  step 88 edit    not_better    score 0.9382  best 0.9446  $0.0006  (no description)
+  step 89 edit    not_better    score 0.9444  best 0.9446  $0.0004  I'll replace the ad-hoc heuristic with the classic "Best Fit
+  step 90 edit    improved      score 0.9462  best 0.9462  $0.0006  Replace the ad-hoc awkward penalty with a cleaner rule: rank
+  step 91 edit    not_better    score 0.9440  best 0.9462  $0.0005  I'll add a light "residual-match" bonus: among used bins, af
+  step 92 edit    not_better    score 0.9455  best 0.9462  $0.0006  I'll make the "wasteful" test relative rather than absolute:
+  step 93 edit    improved      score 0.9464  best 0.9464  $0.0007  The key fix: rather than an absolute "residual > item" test,
+  step 94 edit    invalid       score 0.0000  best 0.9464  $0.0008  Replace the fixed thresholds/bonus with a data-driven residu
+  step 95 edit    not_better    score 0.9440  best 0.9464  $0.0007  Rework the empty-bin promotion into a principled "future-fit
+  step 96 edit    not_better    score 0.9431  best 0.9464  $0.0007  I'll replace the ad-hoc thresholds with the classic Best-Fit
+  step 97 edit    not_better    score 0.9462  best 0.9464  $0.0006  I'll add a small constant bias that promotes empty bins a bi
+  step 98 edit    not_better    score 0.9453  best 0.9464  $0.0006  I'll replace the crude linear empty-bin promotion with a smo
+  step 99 edit    not_better    score 0.9444  best 0.9464  $0.0008  I will replace the fixed item-size gating with an adaptive r
+  step 100 edit    not_better    score 0.9347  best 0.9464  $0.0010  I'll add a smooth best-fit rule with a data-driven "fillabil
+  step 101 edit    not_better    score 0.9353  best 0.9464  $0.0006  I'll change the rule so that the empty-bin promotion is base
+  step 102 edit    not_better    score 0.9424  best 0.9464  $0.0006  Replace the empty-bin promotion with a "perfect-fit / small-
+  step 103 edit    not_better    score 0.9462  best 0.9464  $0.0006  I'll refine the empty-bin promotion so that instead of a lin
+  step 104 edit    not_better    score 0.9455  best 0.9464  $0.0006  I'll broaden the empty-bin promotion window so that moderate
+  step 105 edit    not_better    score 0.9444  best 0.9464  $0.0007  I'll make the empty-bin promotion depend on whether a good u
+  step 106 edit    not_better    score 0.9462  best 0.9464  $0.0007  I'll make the empty-bin promotion adaptive to the current bi
+  step 107 edit    not_better    score 0.9451  best 0.9464  $0.0006  I'll add a small "exact-fit first" preference to the primary
+  step 108 edit    not_better    score 0.9442  best 0.9464  $0.0007  Replace the heuristic combination with a cleaner two-regime 
+  step 109 edit    not_better    score 0.9462  best 0.9464  $0.0007  I'll replace the ad-hoc scoring with a learned-style linear 
+  step 110 edit    not_better    score 0.9462  best 0.9464  $0.0006  Replace the fixed linear empty-bin promotion with a size-rel
+  step 111 edit    not_better    score 0.9460  best 0.9464  $0.0006  I'll replace the simple best-fit primary term with a scaled 
+  step 112 edit    not_better    score 0.9437  best 0.9464  $0.0008  Replace the empty-bin promotion and absolute wasteful test w
+  step 113 edit    not_better    score 0.9446  best 0.9464  $0.0006  I'll replace the heuristic scoring with a size-relative wast
+  step 114 edit    not_better    score 0.9440  best 0.9464  $0.0006  I'll replace the ad-hoc scoring with a principled best-fit v
+  step 115 edit    not_better    score 0.9444  best 0.9464  $0.0006  I'll replace the ad-hoc heuristics with a two-feature formul
+  step 116 edit    improved      score 0.9480  best 0.9480  $0.0007  I'll add a lightweight stateful "reserve the last empty bin"
+  step 117 edit    not_better    score 0.5318  best 0.9480  $0.0008  I'll replace the fixed size threshold and heuristic bonuses 
+  step 118 edit    not_better    score 0.9464  best 0.9480  $0.0008  I'll switch the primary criterion from pure best-fit to a "b
+  step 119 edit    not_better    score 0.9303  best 0.9480  $0.0008  I'll add an adaptive scaling factor: track the running mean 
+  step 120 edit    not_better    score 0.7954  best 0.9480  $0.0006  Replace the ad-hoc empty-bin threshold with a size-aware "ha
+  step 121 edit    not_better    score 0.9457  best 0.9480  $0.0007  I'll simplify to a pure best-fit-dominant rule with a single
+  step 122 edit    not_better    score 0.7205  best 0.9480  $0.0008  I'll keep the best-fit primary and wasteful-gap terms, but r
+  step 123 edit    not_better    score 0.9442  best 0.9480  $0.0006  I'll add a stateful first-fit-decreasing-style "goodness" sc
+  step 124 edit    not_better    score 0.9460  best 0.9480  $0.0007  I'll keep the best-fit primary and wasteful-gap penalty, but
+  step 125 edit    not_better    score 0.9442  best 0.9480  $0.0007  I'll add a stateful "residual-value" tie-breaker to best-fit
+  step 126 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the fragile wasteful-gap and consolidation heur
+  step 127 edit    not_better    score 0.9444  best 0.9480  $0.0006  I'll replace the previous hand-tuned bonuses with a single w
+  step 128 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the ad-hoc bonuses with a cleaner, better-princ
+  step 129 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the ad-hoc bonuses with a single well-grounded 
+  step 130 edit    not_better    score 0.9453  best 0.9480  $0.0008  I'll replace the fixed 50/100 thresholds with ones derived f
+  step 131 edit    not_better    score 0.9444  best 0.9480  $0.0006  I will replace the ad-hoc bonuses with a cleaner, better-gro
+  step 132 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll keep best-fit on residual as the primary criterion, but
+  step 133 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the ad-hoc heuristics with a principled rule gr
+  step 134 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the heuristic stack with a cleaner rule grounde
+  step 135 edit    not_better    score 0.9446  best 0.9480  $0.0008  I'll keep the current heuristic stack but retune its key con
+  step 136 edit    not_better    score 0.9457  best 0.9480  $0.0008  I'll make the key heuristic terms adaptive to the running me
+  step 137 edit    not_better    score 0.9444  best 0.9480  $0.0007  Replace the ad-hoc heuristic stack with a principled "best-f
+  step 138 edit    not_better    score 0.9446  best 0.9480  $0.0007  I'll revert to the original scoring structure (which scored 
+  step 139 edit    not_better    score 0.9408  best 0.9480  $0.0008  I'll keep the current best-scoring structure but make the co
+  step 140 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the fixed-threshold heuristic stack with a clea
+  step 141 edit    not_better    score 0.9446  best 0.9480  $0.0007  I'll reframe the rule in terms of choosing the residual gap:
+  step 142 edit    not_better    score 0.9444  best 0.9480  $0.0008  I'll add a "perfect-fit priority" plus a mild, size-aware em
+  step 143 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the ad-hoc heuristic stack with a principled "b
+  step 144 edit    not_better    score 0.9453  best 0.9480  $0.0008  I'll restore the best-known structure (which scored 0.947985
+  step 145 edit    not_better    score 0.9473  best 0.9480  $0.0008  I'll restore the best-known structure (score 0.947985) but m
+  step 146 edit    not_better    score 0.9453  best 0.9480  $0.0008  I'll restore the best-known structure and replace the fixed 
+  step 147 edit    not_better    score 0.9469  best 0.9480  $0.0007  I'll replace the heuristic stack with a principled score bas
+  step 148 edit    not_better    score 0.9464  best 0.9480  $0.0009  I'll restore the best-known structure (score 0.947985) and a
+  step 149 edit    not_better    score 0.9382  best 0.9480  $0.0010  I'll keep the best-known structure but replace the fixed con
+  step 150 edit    not_better    score 0.9444  best 0.9480  $0.0007  I'll replace the current heuristic stack with a cleaner best
+[done] loop__bp_sh_b200__s0: status ok, spent $0.0941 of $0.20, 150 calls, 151 evals, public 0.9443906996297546 -> 0.9479850655274258, hidden 0.9671328105805269
+  baseline funsearch_or           public 0.9552  hidden 0.9711
+  baseline funsearch_weibull      public 0.8723  hidden 0.9937
+  baseline sum_of_squares         public 0.9200  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bp_sh_b200: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.0941 of $0.20 cap, 150 calls, 151 evals, search 1328 s
+public    0.9444 -> 0.9480   (initial -> final incumbent; selected on)
+hidden    0.9634 -> 0.9671   (fresh audit, never selected on)
+baselines funsearch_or 0.9552/0.9711, funsearch_weibull 0.8723/0.9937, sum_of_squares 0.9200/0.9950
+explain   18 parts: 10 can go, 0 REPAIRED; minimal program public 0.9462, hidden 0.9648
+report    /Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_b200-s0/report.md

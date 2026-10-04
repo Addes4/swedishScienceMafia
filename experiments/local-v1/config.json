@@ -1,0 +1,6 @@
+{
+  "seeds": 20,
+  "generations": 120,
+  "audit_seed": 982451653,
+  "out": "experiments/local-v1"
+}

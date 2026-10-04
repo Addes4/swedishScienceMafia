@@ -1,0 +1,222 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 31,
+  "original": {
+    "public": 0.9479850655274258,
+    "hidden": 0.9671328105805269,
+    "code": "\"\"\"Best-fit primary, with item-size-scaled empty-bin promotion for large items\nand a stateful consolidation nudge for typical-size items.\"\"\"\nimport numpy as np\n_state = {'n': 0, 'sum': 0.0, 'last_size': -1}\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    _state['n'] += 1\n    _state['sum'] += item\n    mean_item = _state['sum'] / _state['n']\n    rem = bins - item\n    score = -rem.astype(np.float64)\n    is_empty = bins == 100\n    wasteful = (rem > item) & ~is_empty\n    score += wasteful.astype(np.float64) * (item + 1)\n    scale = (item - 50.0) / 50.0\n    if scale > 0:\n        bonus = scale * (item + 1) * is_empty.astype(np.float64)\n        score += bonus\n    if scale <= 0:\n        half_mean = 0.5 * mean_item\n        useful_used = (rem >= half_mean) & (rem <= item) & ~is_empty\n        score += 0.5 * (item + 1) * useful_used.astype(np.float64)\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9461910921156225,
+    "hidden": 0.9647873279929916,
+    "code": "\"\"\"Best-fit primary, with item-size-scaled empty-bin promotion for large items\nand a stateful consolidation nudge for typical-size items.\"\"\"\nimport numpy as np\n_state = {'n': 0, 'sum': 0.0, 'last_size': -1}\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    _state['n'] += 1\n    rem = bins - item\n    score = -rem.astype(np.float64)\n    is_empty = bins == 100\n    wasteful = (rem > item) & ~is_empty\n    score += wasteful.astype(np.float64) * (item + 1)\n    return score\n",
+    "removed": [
+      1,
+      2,
+      10,
+      11,
+      14
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 20,
+      "text": "_state['n'] += 1",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 21,
+      "text": "_state['sum'] += item",
+      "inside": [],
+      "delta": -0.002477255835213188,
+      "valid": true,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 22,
+      "text": "mean_item = _state['sum'] / _state['n']",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 24,
+      "text": "rem = bins - item",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 4,
+      "kind": "term",
+      "line": 24,
+      "text": "term + bins",
+      "inside": [
+        3
+      ],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "term",
+      "line": 24,
+      "text": "term - item",
+      "inside": [
+        3
+      ],
+      "delta": -0.007820598264859369,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 26,
+      "text": "score = -rem.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 28,
+      "text": "is_empty = bins == 100",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 32,
+      "text": "wasteful = (rem > item) & ~is_empty",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 33,
+      "text": "score += wasteful.astype(np.float64) * (item + 1)",
+      "inside": [],
+      "delta": -0.0026952454343402987,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 37,
+      "text": "scale = (item - 50.0) / 50.0",
+      "inside": [],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 38,
+      "text": "if scale > 0: ...",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 39,
+      "text": "bonus = scale * (item + 1) * is_empty.astype(np.float64)",
+      "inside": [
+        11
+      ],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 40,
+      "text": "score += bonus",
+      "inside": [
+        11
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 45,
+      "text": "if scale <= 0: ...",
+      "inside": [],
+      "delta": -0.0015718619683557922,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 46,
+      "text": "half_mean = 0.5 * mean_item",
+      "inside": [
+        14
+      ],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 47,
+      "text": "useful_used = (rem >= half_mean) & (rem <= item) & ~is_empty",
+      "inside": [
+        14
+      ],
+      "delta": -0.9479850655274258,
+      "valid": false,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 17,
+      "kind": "statement",
+      "line": 48,
+      "text": "score += 0.5 * (item + 1) * useful_used.astype(np.float64)",
+      "inside": [
+        14
+      ],
+      "delta": -0.0015718619683557922,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_b200-s0/best_program.py"
+}

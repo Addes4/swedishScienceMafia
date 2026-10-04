@@ -1,0 +1,27 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+results/
+falsify/_packing.dylib
+falsify/_packing.so
+falsify/_contextual.dylib
+falsify/_contextual.so
+falsify/_longpack.dylib
+falsify/_longpack.so
+
+# Papers downloaded by docs/literature/fetch_papers.py (not redistributable; see docs/literature/related-work.md)
+docs/literature/related-papers/
+
+# Runs of `python -m autoresearch.loop`; only the committed demo runs are tracked
+runs/*
+!runs/demo-*/
+
+# Notes on the committed runs and the live demo plan
+!runs/README.md
+
+# Local agent and tool state
+.claude/
+.licenses/

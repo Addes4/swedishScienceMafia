@@ -1,0 +1,19 @@
+{
+  "cell": "i110__sonnet__r0",
+  "idea_id": "i110",
+  "idea": "Run an exact branch-and-bound over integer square dissections of a k\u00d7k board (k = \u2308\u221an\u2309 \u2026 \u2308\u221an\u2309+3). Enumerate only \"grid plus a single non-unit square of side a placed at a corner, with the cells covered by it removed\", and also the dual case where cells are split into 2\u00d72. Take the best exact count n, as a fast closed-form family indexed by (k, a, number of 2\u00d72 splits).",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055818.242746,
+  "cost": 0.044738,
+  "input_tokens": 984,
+  "output_tokens": 4277,
+  "llm_seconds": 37.31,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "16925800a50c6ddd031d068c38bbce875991323a2a0e886edf128523b08ab3d4"
+}

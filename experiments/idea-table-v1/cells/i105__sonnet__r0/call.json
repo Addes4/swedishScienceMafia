@@ -1,0 +1,14 @@
+{
+  "cell": "i105__sonnet__r0",
+  "idea_id": "i105",
+  "idea": "Long-shot self-similar family: tile a corner of the unit square with a geometric spiral of squares whose sides shrink by a ratio r (Fibonacci/golden-spiral or a rational approximation). Fill the complementary rectangle with the best uniform grid. Optimise r and the spiral length over rationals so that the total count is n, as a structurally non-lattice candidate.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 2,
+  "time": 1791056134.1641128,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9McoBfqeSS3hJuLP2'}",
+  "cost": 0.0
+}

@@ -1,0 +1,12 @@
+{
+ "p=0.0": {
+  "mean_vs_SS": 0.0,
+  "mean_vs_s3": 2.31,
+  "identical_bins_to_SS": 100
+ },
+ "p=0.8": {
+  "mean_vs_SS": -2.29,
+  "mean_vs_s3": 0.02,
+  "identical_bins_to_SS": 2
+ }
+}

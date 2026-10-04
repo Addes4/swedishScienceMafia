@@ -1,0 +1,97 @@
+{
+  "job_id": "shinka__sum_difference__s2",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "sum_difference",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.142103,
+  "within_cap": true,
+  "tokens": 462750,
+  "calls": 74,
+  "failed_calls": 0,
+  "refusals": 54,
+  "stop_reason_counts": {
+    "stop": 74
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 74
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.142103
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 6,
+  "retries": 0,
+  "evals": 39,
+  "valid_evals": 37,
+  "evals_with_timeout": 1,
+  "instance_timeouts": 1,
+  "initial_public": 0.887449398787755,
+  "initial_hidden": null,
+  "final_public": 0.9090173947389103,
+  "final_hidden": null,
+  "final_sha": "651d039058b3eb1b",
+  "max_public_seen": 0.9090173947389103,
+  "hidden_of_max_public_seen": null,
+  "improvements": 3,
+  "usd_per_improvement": 0.047368,
+  "tokens_per_improvement": 154250,
+  "auc": 0.896093,
+  "auc_gain": 0.076802,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 2461.7,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.142103,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 24.8,
+      "t": 1791069855.0018642,
+      "incumbent_public": 0.887449398787755,
+      "incumbent_hidden": null,
+      "sha": "ed99a0dcac7a33cc"
+    },
+    {
+      "spent_usd": 0.087048,
+      "budget_frac": 0.58032,
+      "tokens": 260176,
+      "wall_s": 1583.5,
+      "t": 1791071413.7067187,
+      "incumbent_public": 0.907765561737088,
+      "incumbent_hidden": null,
+      "sha": "e359290d380acfd0"
+    },
+    {
+      "spent_usd": 0.133637,
+      "budget_frac": 0.890913,
+      "tokens": 432255,
+      "wall_s": 2201.8,
+      "t": 1791072031.989185,
+      "incumbent_public": 0.9085652728385157,
+      "incumbent_hidden": null,
+      "sha": "8b5a9125595200c9"
+    },
+    {
+      "spent_usd": 0.139858,
+      "budget_frac": 0.932387,
+      "tokens": 454581,
+      "wall_s": 2322.6,
+      "t": 1791072152.8604608,
+      "incumbent_public": 0.9090173947389103,
+      "incumbent_hidden": null,
+      "sha": "651d039058b3eb1b"
+    }
+  ]
+}

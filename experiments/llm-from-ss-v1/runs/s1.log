@@ -1,0 +1,315 @@
+[loop] bin_packing_online_ss -> /Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s1
+[start] loop__bin_packing_online_ss__s1: arm lean (lean) on bin_packing_online_ss, seed 1, cap $0.60
+  initial          score 0.9942
+  step  1 edit    improved      score 0.9942  best 0.9942  $0.0008  Add a mild penalty for creating very small residuals (which 
+  step  2 edit    improved      score 0.9945  best 0.9945  $0.0007  Add a tunable penalty on the *magnitude* of the residual (pr
+  step  3 edit    not_better    score 0.9942  best 0.9945  $0.0008  Replace the crude tiny-residual step penalty with a smoother
+  step  4 edit    not_better    score 0.9942  best 0.9945  $0.0009  Replace the hand-tuned penalty with a proper expected-waste 
+  step  5 edit    not_better    score 0.9942  best 0.9945  $0.0009  Replace the hardcoded residual penalty with a hybrid that ke
+  step  6 edit    not_better    score 0.9945  best 0.9945  $0.0008  Add a "best-fit" tiebreaker inside the existing sum-of-squar
+  step  7 edit    not_better    score 0.8179  best 0.9945  $0.0008  Replace the hand-tuned penalty with the classic "best-fit de
+  step  8 edit    not_better    score 0.9945  best 0.9945  $0.0010  Replace the residual-size tiebreaker with a smoothed "accept
+  step  9 edit    not_better    score 0.9942  best 0.9945  $0.0008  Replace the arbitrary residual penalty with a simple, well-s
+  step 10 edit    not_better    score 0.9942  best 0.9945  $0.0009  Replace the hard-coded residual penalty with an adaptive one
+  step 11 edit    not_better    score 0.9945  best 0.9945  $0.0009  Scale the sum-of-squares scoring weight with the item size, 
+  step 12 edit    not_better    score 0.9945  best 0.9945  $0.0010  I will add a light "perfect-fit avoidance" refinement: becau
+  step 13 edit    not_better    score 0.9942  best 0.9945  $0.0009  Replace the fixed tiny-residual penalty with a residual-valu
+  step 14 edit    not_better    score 0.9945  best 0.9945  $0.0009  Replace the sum-of-squares primary rule with a "best-fit wit
+  step 15 edit    not_better    score 0.9942  best 0.9945  $0.0009  I will keep the strong sum-of-squares primary rule but make 
+  step 16 edit    not_better    score 0.9616  best 0.9945  $0.0007  I will replace the current rule with the classic "best-fit d
+  step 17 edit    not_better    score 0.9616  best 0.9945  $0.0008  I'll replace the sum-of-squares primary rule with the "best-
+  step 18 edit    not_better    score 0.9616  best 0.9945  $0.0008  I will replace the sum-of-squares primary rule with a "best-
+  step 19 edit    not_better    score 0.9942  best 0.9945  $0.0009  I will replace the fixed tiny-residual penalty with a size-a
+  step 20 edit    not_better    score 0.9945  best 0.9945  $0.0010  I will replace the hand-tuned residual penalty with a princi
+  step 21 edit    not_better    score 0.9945  best 0.9945  $0.0009  I will keep the sum-of-squares primary rule but reduce the p
+  step 22 edit    not_better    score 0.9942  best 0.9945  $0.0009  I will keep the sum-of-squares ranking but make the within-t
+  step 23 edit    not_better    score 0.9942  best 0.9945  $0.0009  The published "sum of squares" rule is near-optimal but its 
+  step 24 edit    not_better    score 0.9945  best 0.9945  $0.0009  I will switch the primary objective from the pure sum-of-squ
+  step 25 edit    not_better    score 0.9942  best 0.9945  $0.0011  I'll remove the hand-tuned residual penalty entirely so the 
+  step 26 edit    improved      score 0.9952  best 0.9952  $0.0009  I will flip the within-tie tiebreaker from tightest-fit to l
+  step 27 edit    not_better    score 0.9952  best 0.9952  $0.0010  Make the tiebreaker strictly lexicographic by encoding delta
+  step 28 edit    not_better    score 0.9952  best 0.9952  $0.0010  I will make the ranking strictly lexicographic via explicit 
+  step 29 edit    not_better    score 0.9952  best 0.9952  $0.0010  I will keep the sum-of-squares primary objective and loosest
+  step 30 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will replace the pure sum-of-squares objective with the be
+  step 31 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will replace the pure sum-of-squares delta with a blended 
+  step 32 edit    not_better    score 0.9952  best 0.9952  $0.0010  I'll add a lightweight online histogram of recent item sizes
+  step 33 edit    not_better    score 0.9937  best 0.9952  $0.0010  I will change the tiebreaker among exact sum-of-squares ties
+  step 34 edit    not_better    score 0.9937  best 0.9952  $0.0009  I will add a learned "best fit" tiebreaker: among exact sum-
+  step 35 edit    not_better    score 0.9418  best 0.9952  $0.0009  I'll replace the sum-of-squares objective with the online "b
+  step 36 edit    not_better    score 0.9940  best 0.9952  $0.0009  The current tiebreaker (prefer largest residual) undermines 
+  step 37 edit    not_better    score 0.9616  best 0.9952  $0.0007  I will replace the exact sum-of-squares objective with the c
+  step 38 edit    not_better    score 0.9952  best 0.9952  $0.0009  The tiebreaker will prefer the largest residual only among b
+  step 39 edit    not_better    score 0.9945  best 0.9952  $0.0010  The current rule already uses the optimal quadratic potentia
+  step 40 edit    not_better    score 0.9593  best 0.9952  $0.0007  I will keep the sum-of-squares rule but change the tie-break
+  step 41 edit    not_better    score 0.9942  best 0.9952  $0.0009  Keep the sum-of-squares objective exactly, but flip the tieb
+  step 42 edit    not_better    score 0.9947  best 0.9952  $0.0010  Keep the sum-of-squares objective and its loosest-fit tiebre
+  step 43 edit    not_better    score 0.9952  best 0.9952  $0.0008  The sum-of-squares rule can be improved by using the residua
+  step 44 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will keep the exact sum-of-squares objective but make the 
+  step 45 edit    not_better    score 0.9945  best 0.9952  $0.0009  Use the exact best-fit-decreasing-style "match largest possi
+  step 46 edit    not_better    score 0.9947  best 0.9952  $0.0009  Add a learned item-size histogram and give a small bonus to 
+  step 47 edit    not_better    score 0.9940  best 0.9952  $0.0008  I will keep the exact sum-of-squares objective as the primar
+  step 48 edit    not_better    score 0.9952  best 0.9952  $0.0008  The sum-of-squares delta is currently approximated by the ma
+  step 49 edit    not_better    score 0.9952  best 0.9952  $0.0008  I will replace the myopic sum-of-squares delta with a lookah
+  step 50 edit    not_better    score 0.9945  best 0.9952  $0.0009  Add an explicit "exact-fit" bonus on top of the sum-of-squar
+  step 51 edit    not_better    score 0.9945  best 0.9952  $0.0010  The current exact sum-of-squares delta is a strict greedy cr
+  step 52 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will replace the approximate marginal delta with the true 
+  step 53 edit    not_better    score 0.9942  best 0.9952  $0.0010  Change the tiebreaker from loosest-fit (largest residual) to
+  step 54 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will add a learned "small-residual avoidance" tiebreaker: 
+  step 55 edit    not_better    score 0.9616  best 0.9952  $0.0008  I will switch the primary criterion to the classic "best-fit
+  step 56 edit    not_better    score 0.9942  best 0.9952  $0.0008  The current rule minimizes the exact sum-of-squares delta bu
+  step 57 edit    not_better    score 0.9952  best 0.9952  $0.0011  I'll keep the exact sum-of-squares delta as the primary crit
+  step 58 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the loosest-fit tiebreaker with a data-driven one: a
+  step 59 edit    not_better    score 0.9952  best 0.9952  $0.0008  Combine the sum-of-squares primary objective with a "best-fi
+  step 60 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will replace the sum-of-squares ranking with the "best-fit
+  step 61 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll implement the "Sum of Squares" rule exactly but replace
+  step 62 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will replace the ad-hoc scaled tiebreaker with a true lexi
+  step 63 edit    not_better    score 0.9947  best 0.9952  $0.0008  I'll replace the loosest-fit tiebreaker with a "fractional-f
+  step 64 edit    not_better    score 0.9942  best 0.9952  $0.0008  The sum-of-squares objective is near-optimal but the simple 
+  step 65 edit    not_better    score 0.9616  best 0.9952  $0.0007  I will replace the sum-of-squares rule with the classic "Bes
+  step 66 edit    not_better    score 0.9950  best 0.9952  $0.0009  I will switch the primary rule from exact sum-of-squares to 
+  step 67 edit    not_better    score 0.9947  best 0.9952  $0.0009  The scaled tiebreaker can distort the exact sum-of-squares d
+  step 68 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the sum-of-squares "spread" rule with a hybrid: prim
+  step 69 edit    not_better    score 0.9947  best 0.9952  $0.0010  Add a warm-up phase: for the first few items, use a Best-Fit
+  step 70 edit    not_better    score 0.9942  best 0.9952  $0.0009  The current scaled tiebreaker leaves a subtle issue: among e
+  step 71 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll replace the sum-of-squares delta with an exact "pair-an
+  step 72 edit    not_better    score 0.9940  best 0.9952  $0.0008  The sum-of-squares rule is essentially the right primary obj
+  step 73 edit    not_better    score 0.9950  best 0.9952  $0.0009  The sum-of-squares rule is near-optimal, but its tiebreaker 
+  step 74 edit    not_better    score 0.9950  best 0.9952  $0.0009  Use a true lexicographic ordering by making the sum-of-squar
+  step 75 edit    not_better    score 0.9950  best 0.9952  $0.0009  The current tiebreaker sorts by primary delta time a large m
+  step 76 edit    not_better    score 0.9940  best 0.9952  $0.0009  Replace the fragile scaled tiebreaker with a proper lexicogr
+  step 77 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll replace the arbitrary/tuned tiebreaker with a principle
+  step 78 edit    not_better    score 0.9940  best 0.9952  $0.0010  I'll add a small look-ahead correction to the sum-of-squares
+  step 79 edit    invalid       score 0.0000  best 0.9952  $0.0008  I'll switch the primary rule from sum-of-squares to the well
+  step 80 edit    not_better    score 0.9950  best 0.9952  $0.0009  The tiebreaker in the current winning version scales delta b
+  step 81 edit    not_better    score 0.9942  best 0.9952  $0.0009  The primary sum-of-squares objective stays exact via integer
+  step 82 edit    not_better    score 0.9952  best 0.9952  $0.0009  Keep the exact integer sum-of-squares primary objective, but
+  step 83 edit    not_better    score 0.6283  best 0.9952  $0.0007  Replace the sum-of-squares rule with the classic "best fit d
+  step 84 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll add a lightweight residual-pairing lookahead: keep the 
+  step 85 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll keep the exact integer sum-of-squares primary objective
+  step 86 edit    invalid       score 0.0000  best 0.9952  $0.0010  I will add a bounded, self-adapting lookahead that breaks ex
+  step 87 edit    not_better    score 0.9942  best 0.9952  $0.0009  Keep the exact integer sum-of-squares primary objective, but
+  step 88 edit    not_better    score 0.8179  best 0.9952  $0.0008  The tiebreaker currently breaks exact sum-of-squares ties by
+  step 89 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the loosest-fit tiebreaker with one that prefers the
+  step 90 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will replace the loosest-fit tiebreaker with an exact trip
+  step 91 edit    not_better    score 0.9952  best 0.9952  $0.0009  Keep the exact sum-of-squares primary objective, but replace
+  step 92 edit    not_better    score 0.9942  best 0.9952  $0.0009  The exact sum-of-squares rule has ties that matter; since th
+  step 93 edit    not_better    score 0.9940  best 0.9952  $0.0010  Keep the exact integer sum-of-squares primary objective, but
+  step 94 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll replace the arbitrary loosest-fit tiebreaker with a bou
+  step 95 edit    not_better    score 0.9945  best 0.9952  $0.0011  The primary objective currently uses the exact sum-of-square
+  step 96 edit    not_better    score 0.9947  best 0.9952  $0.0010  Replace the exact sum-of-squares objective with a sum-of-squ
+  step 97 edit    not_better    score 0.9952  best 0.9952  $0.0008  Refine the tiebreaker: among equal sum-of-squares deltas, pr
+  step 98 edit    not_better    score 0.9942  best 0.9952  $0.0010  Among equal sum-of-squares deltas, switch the tiebreaker fro
+  step 99 edit    not_better    score 0.9593  best 0.9952  $0.0009  The tiebreaker choice between loosest-fit and best-fit among
+  step 100 edit    not_better    score 0.9952  best 0.9952  $0.0010  I'll replace the tiebreaker with a windowed/aging sum-of-squ
+  step 101 edit    not_better    score 0.9950  best 0.9952  $0.0009  Recompute the sum-of-squares primary objective's tiebreaker 
+  step 102 edit    not_better    score 0.9616  best 0.9952  $0.0005  Switch the primary objective from sum-of-squares to a "best 
+  step 103 edit    not_better    score 0.9945  best 0.9952  $0.0010  Replace the exact sum-of-squares objective with an exponenti
+  step 104 edit    not_better    score 0.9942  best 0.9952  $0.0008  Add a "reserve for big items" term: when the arriving item i
+  step 105 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll change the primary objective to a smooth combination: m
+  step 106 edit    not_better    score 0.9950  best 0.9952  $0.0009  Replace the fixed loosest-fit tiebreaker with one that prefe
+  step 107 edit    not_better    score 0.9940  best 0.9952  $0.0009  The sum-of-squares rule is essentially tied with alternative
+  step 108 edit    not_better    score 0.9947  best 0.9952  $0.0009  The sum-of-squares rule is already near-optimal, so I'll add
+  step 109 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll use a score dominated by sum-of-squares (with a larger 
+  step 110 edit    not_better    score 0.9947  best 0.9952  $0.0009  The sum-of-squares delta is exact and ties abound; I'll keep
+  step 111 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the loosest-fit tiebreaker (largest residual) with b
+  step 112 edit    not_better    score 0.6283  best 0.9952  $0.0008  Replace the sum-of-squares primary objective with a direct l
+  step 113 edit    not_better    score 0.9942  best 0.9952  $0.0008  Keep the sum-of-squares primary objective, but replace the h
+  step 114 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the exact sum-of-squares delta primary objective wit
+  step 115 edit    not_better    score 0.9945  best 0.9952  $0.0009  Keep the sum-of-squares delta as primary, but add a strong (
+  step 116 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll keep the exact sum-of-squares delta as the primary obje
+  step 117 edit    not_better    score 0.9893  best 0.9952  $0.0012  I will keep the exact sum-of-squares primary, but replace th
+  step 118 edit    invalid       score 0.0000  best 0.9952  $0.0013  I will replace the heuristic tiebreakers with an exact one-s
+  step 119 edit    not_better    score 0.9952  best 0.9952  $0.0017  Keep the exact sum-of-squares primary objective (which alrea
+  step 120 edit    not_better    score 0.9942  best 0.9952  $0.0009  The current best uses sum-of-squares with a loosest-fit tieb
+  step 121 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll replace the loosest-fit tiebreaker with a "match residu
+  step 122 edit    not_better    score 0.9952  best 0.9952  $0.0008  I'll replace the sum-of-squares primary objective with the "
+  step 123 edit    not_better    score 0.9947  best 0.9952  $0.0008  Replace the primary objective with a weighted "best-fit-comp
+  step 124 edit    not_better    score 0.9950  best 0.9952  $0.0009  The current best uses sum-of-squares with a loosest-fit tieb
+  step 125 edit    not_better    score 0.9947  best 0.9952  $0.0010  I will keep the exact sum-of-squares primary objective (trac
+  step 126 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll switch the primary objective to score placements by the
+  step 127 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll keep the exact sum-of-squares primary objective but cha
+  step 128 edit    not_better    score 0.9616  best 0.9952  $0.0008  I'll replace the sum-of-squares rule with the classic "best 
+  step 129 edit    not_better    score 0.9945  best 0.9952  $0.0009  Keep the sum-of-squares primary objective but replace the lo
+  step 130 edit    not_better    score 0.9942  best 0.9952  $0.0008  Add a light "practice-mode" counterfactual tiebreak: among p
+  step 131 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll strengthen the sum-of-squares primary objective by addi
+  step 132 edit    not_better    score 0.9942  best 0.9952  $0.0008  I'll keep the sum-of-squares primary objective but replace t
+  step 133 edit    not_better    score 0.9952  best 0.9952  $0.0009  Keep the exact sum-of-squares primary objective and loosest-
+  step 134 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll keep the proven sum-of-squares primary objective and lo
+  step 135 edit    not_better    score 0.9952  best 0.9952  $0.0008  I will keep the sum-of-squares objective and loosest-fit tie
+  step 136 edit    not_better    score 0.9945  best 0.9952  $0.0010  Keep the exact sum-of-squares (SOS) primary objective, but r
+  step 137 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will keep the proven sum-of-squares primary objective and 
+  step 138 edit    not_better    score 0.9942  best 0.9952  $0.0008  I will replace the pure loosest-fit tiebreak with a "least-s
+  step 139 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the loosest-fit tiebreaker with a "prefer closing / 
+  step 140 edit    not_better    score 0.9947  best 0.9952  $0.0008  I will keep the proven sum-of-squares primary objective, but
+  step 141 edit    not_better    score 0.9937  best 0.9952  $0.0009  I will keep the proven sum-of-squares primary objective, but
+  step 142 edit    not_better    score 0.9952  best 0.9952  $0.0008  Keep the sum-of-squares objective, but make exact-fill a str
+  step 143 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will keep the sum-of-squares population objective but repl
+  step 144 edit    not_better    score 0.9952  best 0.9952  $0.0008  I will keep the proven sum-of-squares primary objective and 
+  step 145 edit    not_better    score 0.9942  best 0.9952  $0.0010  Replace the loosest-fit tiebreak with a best-fit tiebreak (s
+  step 146 edit    not_better    score 0.9937  best 0.9952  $0.0009  I will refine the tiebreak by preferring the largest residua
+  step 147 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll replace the pure loosest-fit tiebreak with a hybrid: ke
+  step 148 edit    not_better    score 0.9952  best 0.9952  $0.0008  The current tiebreak budget is likely fine, but the main SOS
+  step 149 edit    not_better    score 0.9950  best 0.9952  $0.0015  Keep the proven sum-of-squares primary objective and the loo
+  step 150 edit    not_better    score 0.9942  best 0.9952  $0.0009  Introduce a small "pairing" bonus based on the count of bins
+  step 151 edit    not_better    score 0.9942  best 0.9952  $0.0008  The SOS primary objective treats every capacity bucket equal
+  step 152 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will change the primary objective's tiebreak from "largest
+  step 153 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll replace the SOS rule's sensitivity to the whole capacit
+  step 154 edit    not_better    score 0.9952  best 0.9952  $0.0008  Observation: the current rule's SOS objective already works 
+  step 155 edit    not_better    score 0.9945  best 0.9952  $0.0010  Keep the sum-of-squares primary objective exactly as-is, but
+  step 156 edit    not_better    score 0.9942  best 0.9952  $0.0008  I will replace the pure loosest-fit tiebreak with a tiebreak
+  step 157 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the hardcoded 1000 multiplier and loosest-fit tiebre
+  step 158 edit    not_better    score 0.9952  best 0.9952  $0.0008  Instead of relying only on the SOS delta of the chosen bin, 
+  step 159 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll make the SOS objective hard-constrained by choosing the
+  step 160 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll refine the tiebreak in the valid SOS rule: among exact 
+  step 161 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the hardcoded tiebreak with an exact lexicographic c
+  step 162 edit    not_better    score 0.9616  best 0.9952  $0.0007  The fixed tiebreaks have all failed to improve on plain SOS,
+  step 163 edit    not_better    score 0.9616  best 0.9952  $0.0006  I'll replace the sum-of-squares objective with the classic "
+  step 164 edit    not_better    score 0.9945  best 0.9952  $0.0010  I will keep the proven sum-of-squares primary objective but 
+  step 165 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll keep the SOS primary objective but replace the tiebreak
+  step 166 edit    not_better    score 0.9947  best 0.9952  $0.0008  The previous tiebreaks all tried to reason about future resi
+  step 167 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will keep the sum-of-squares primary objective but replace
+  step 168 edit    not_better    score 0.9642  best 0.9952  $0.0009  Most tiebreaks have failed because the SOS delta is already 
+  step 169 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll keep the proven SOS primary objective but change the ti
+  step 170 edit    not_better    score 0.9952  best 0.9952  $0.0008  I'll widen the primary SOS comparison into a full lexicograp
+  step 171 edit    not_better    score 0.9952  best 0.9952  $0.0008  The sum-of-squares objective only counts residual capacities
+  step 172 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will keep the proven SOS primary objective and loosest-fit
+  step 173 edit    not_better    score 0.9947  best 0.9952  $0.0009  The current rule's SOS objective is static (counts bins only
+  step 174 edit    invalid       score 0.0000  best 0.9952  $0.0010  Replace the exact-capacity SOS bucket counting with a smooth
+  step 175 edit    not_better    score 0.9945  best 0.9952  $0.0008  Replace the pure "sum of N(g)^2" primary key with a slightly
+  step 176 edit    not_better    score 0.9935  best 0.9952  $0.0009  I'll replace the exact-residual sum-of-squares key with a "s
+  step 177 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll keep the SOS primary objective but change the tiebreak 
+  step 178 edit    not_better    score 0.9947  best 0.9952  $0.0009  Among exact SOS ties, replace the pure loosest-fit tiebreak 
+  step 179 edit    not_better    score 0.9952  best 0.9952  $0.0009  The exact-residual SOS rule ignores that a residual capacity
+  step 180 edit    not_better    score 0.9940  best 0.9952  $0.0011  Keep the SOS primary objective but replace the pure loosest-
+  step 181 edit    not_better    score 0.9945  best 0.9952  $0.0009  The current rule's primary SOS objective is exact, but the "
+  step 182 edit    not_better    score 0.9925  best 0.9952  $0.0012  I will keep the exact SOS primary objective but weight each 
+  step 183 edit    not_better    score 0.9875  best 0.9952  $0.0009  The SOS objective currently treats all residual capacities a
+  step 184 edit    invalid       score 0.0000  best 0.9952  $0.0008  I will fix a performance bug/limitation: the current code bu
+  step 185 edit    not_better    score 0.9642  best 0.9952  $0.0008  I'll replace the fragile hand-maintained Python bookkeeping 
+  step 186 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will make the tiebreak prefer filling a residual that exac
+  step 187 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will keep the exact sum-of-squares primary objective but r
+  step 188 edit    not_better    score 0.9947  best 0.9952  $0.0009  The loosest-fit tiebreaker is the only remaining lever, and 
+  step 189 edit    not_better    score 0.9952  best 0.9952  $0.0008  Past tweaks to the tiebreaker all regressed, so I'll keep th
+  step 190 edit    not_better    score 0.9942  best 0.9952  $0.0008  I'll switch the residual tiebreaker from loosest-fit to best
+  step 191 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will keep the exact sum-of-squares primary objective and t
+  step 192 edit    not_better    score 0.9950  best 0.9952  $0.0008  The SOS objective optimizes the global state but ignores the
+  step 193 edit    not_better    score 0.9932  best 0.9952  $0.0009  Among exact SOS ties, use a randomized (but deterministic pe
+  step 194 edit    not_better    score 0.9952  best 0.9952  $0.0010  Keep the exact sum-of-squares primary objective, but make th
+  step 195 edit    not_better    score 0.9952  best 0.9952  $0.0009  The SOS primary objective and loosest-fit tiebreak are stron
+  step 196 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll keep the strong sum-of-squares primary objective but re
+  step 197 edit    not_better    score 0.9945  best 0.9952  $0.0009  Replace the pure sum-of-squares objective's tiebreaker by us
+  step 198 edit    not_better    score 0.9952  best 0.9952  $0.0011  (no description)
+  step 199 edit    not_better    score 0.6347  best 0.9952  $0.0008  The current code wastes O(n) time per call rebuilding a Pyth
+  step 200 edit    not_better    score 0.9950  best 0.9952  $0.0008  I'll keep the proven SOS primary objective but change the ti
+  step 201 edit    not_better    score 0.9950  best 0.9952  $0.0009  Retain the proven sum-of-squares primary objective, but repl
+  step 202 edit    not_better    score 0.9952  best 0.9952  $0.0011  Keep the exact sum-of-squares primary objective, but replace
+  step 203 edit    not_better    score 0.9952  best 0.9952  $0.0008  Keep the exact sum-of-squares primary rule, but refine the t
+  step 204 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll keep the proven sum-of-squares primary objective, but r
+  step 205 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will replace the pure loosest-fit tiebreaker with a dynami
+  step 206 edit    not_better    score 0.9952  best 0.9952  $0.0008  Keep the proven sum-of-squares primary objective, but add a 
+  step 207 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will keep the SOS primary objective but reorder it as a le
+  step 208 edit    not_better    score 0.9947  best 0.9952  $0.0010  Keep the proven sum-of-squares primary objective, but change
+  step 209 edit    invalid       score 0.0000  best 0.9952  $0.0008  The current code spends most of its time rebuilding the fitt
+  step 210 edit    not_better    score 0.6347  best 0.9952  $0.0008  Reduce the efficiency drag from repeatedly rebuilding the fi
+  step 211 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will keep the exact sum-of-squares primary objective (prov
+  step 212 edit    not_better    score 0.9947  best 0.9952  $0.0009  Keep the proven sum-of-squares primary objective unchanged, 
+  step 213 edit    not_better    score 0.9940  best 0.9952  $0.0009  I will keep the exact sum-of-squares primary objective, but 
+  step 214 edit    not_better    score 0.9952  best 0.9952  $0.0008  Replace the ad-hoc tiebreak with a cutoff/reserve pairing ru
+  step 215 edit    not_better    score 0.9952  best 0.9952  $0.0010  Keep the sum-of-squares primary objective, but skip updating
+  step 216 edit    not_better    score 0.9945  best 0.9952  $0.0008  I'll keep the exact sum-of-squares primary objective but cha
+  step 217 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will keep the exact sum-of-squares primary objective, but 
+  step 218 edit    not_better    score 0.9616  best 0.9952  $0.0009  I'll replace the sum-of-squares primary with the classic "be
+  step 219 edit    not_better    score 0.9947  best 0.9952  $0.0008  I'll keep the exact sum-of-squares primary objective, but re
+  step 220 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will keep the exact sum-of-squares primary objective but r
+  step 221 edit    not_better    score 0.9942  best 0.9952  $0.0010  I will keep the exact sum-of-squares primary objective but r
+  step 222 edit    not_better    score 0.9947  best 0.9952  $0.0011  I'll keep the exact sum-of-squares primary objective but rep
+  step 223 edit    not_better    score 0.9950  best 0.9952  $0.0009  I will replace the integer-scaled SOS score with the exact u
+  step 224 edit    not_better    score 0.9945  best 0.9952  $0.0009  Replace the ad-hoc tiebreak with a principled one: keep the 
+  step 225 edit    not_better    score 0.9952  best 0.9952  $0.0009  Use a scaled combined key that blends the exact SOS delta wi
+  step 226 edit    not_better    score 0.9950  best 0.9952  $0.0010  I will keep the exact sum-of-squares primary key but add a b
+  step 227 edit    not_better    score 0.9942  best 0.9952  $0.0008  The current tiebreak among exact sum-of-squares ties uses "l
+  step 228 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll keep the exact sum-of-squares primary objective but rep
+  step 229 edit    not_better    score 0.9945  best 0.9952  $0.0016  Keep the exact SOS delta as the primary key, but change the 
+  step 230 edit    not_better    score 0.9616  best 0.9952  $0.0009  Switch the primary key from sum-of-squares delta to tightest
+  step 231 edit    not_better    score 0.9942  best 0.9952  $0.0008  I will keep the sum-of-squares primary rule but replace the 
+  step 232 edit    not_better    score 0.9942  best 0.9952  $0.0009  Use a prospectively safer tiebreak: among exact SOS deltas, 
+  step 233 edit    invalid       score 0.0000  best 0.9952  $0.0008  I'll replace the hand-rolled per-step Python loop over fitti
+  step 234 edit    not_better    score 0.9947  best 0.9952  $0.0009  Add a light "aging/urgency" tiebreak that, among exact SOS t
+  step 235 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will replace the flat histogram-count objective with a wei
+  step 236 edit    not_better    score 0.9945  best 0.9952  $0.0009  The tiebreaker matters less than the primary rule, but a kno
+  step 237 edit    not_better    score 0.9945  best 0.9952  $0.0008  Replace the loosest-fit tiebreak with a tiebreak that prefer
+  step 238 edit    not_better    score 0.9947  best 0.9952  $0.0011  I'll keep the SOS delta as the dominant term but replace the
+  step 239 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll keep the SOS delta as the dominant term, but scale it s
+  step 240 edit    not_better    score 0.9616  best 0.9952  $0.0009  Change the primary rule to Best Fit (prefer the fitting bin 
+  step 241 edit    not_better    score 0.9945  best 0.9952  $0.0008  I'll keep the strong SOS objective but replace the "+r" loos
+  step 242 edit    not_better    score 0.9927  best 0.9952  $0.0008  I'll replace the SOS objective's first-difference delta term
+  step 243 edit    not_better    score 0.9927  best 0.9952  $0.0009  I'll replace the loosest-fit "+r" tiebreaker with one that p
+  step 244 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll keep the SOS delta as the primary rule but change the t
+  step 245 edit    not_better    score 0.9945  best 0.9952  $0.0018  The exact SOS increment can be written as delta = 2*N[r] - 2
+  step 246 edit    not_better    score 0.9927  best 0.9952  $0.0009  I'll add a light "best-fit within the SOS optimum" refinemen
+  step 247 edit    not_better    score 0.9942  best 0.9952  $0.0008  I'll keep the strong sum-of-squares delta as the primary rul
+  step 248 edit    not_better    score 0.9925  best 0.9952  $0.0007  I'll replace the SOS primary rule with a hybrid that uses th
+  step 249 edit    not_better    score 0.9942  best 0.9952  $0.0008  I'll replace the sum-of-squares primary objective with a "be
+  step 250 edit    not_better    score 0.6283  best 0.9952  $0.0007  Replace the SOS-delta primary rule with classic Best-Fit (ch
+  step 251 edit    not_better    score 0.9947  best 0.9952  $0.0008  Keep the dominant sum-of-squares delta, but replace the loos
+  step 252 edit    not_better    score 0.9945  best 0.9952  $0.0011  Add a lightweight adaptive tiebreaker: track a histogram of 
+  step 253 edit    not_better    score 0.9942  best 0.9952  $0.0009  I'll replace the "loosest-fit" tiebreaker with a smoother se
+  step 254 edit    not_better    score 0.9950  best 0.9952  $0.0009  Replace the loosest-fit tiebreaker with a sharper lexicograp
+  step 255 edit    not_better    score 0.9940  best 0.9952  $0.0009  Replace the loosest-fit tiebreaker with a smoother secondary
+  step 256 edit    not_better    score 0.9950  best 0.9952  $0.0008  Add a deterministic "residual-list matching" tiebreaker to t
+  step 257 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the sum-of-squares primary with a "dual" scoring tha
+  step 258 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll switch the primary rule from sum-of-squares-delta to a 
+  step 259 edit    not_better    score 0.9616  best 0.9952  $0.0008  Switch the primary rule to a "best-fit" score based on the f
+  step 260 edit    not_better    score 0.9950  best 0.9952  $0.0010  Introduce a stateful online "dual-tracking" enhancement to t
+  step 261 edit    not_better    score 0.9945  best 0.9952  $0.0008  Replace the fixed loosest-fit tiebreaker with a tiebreaker t
+  step 262 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the loosest-fit tiebreaker with a two-stage tiebreak
+  step 263 edit    not_better    score 0.9947  best 0.9952  $0.0008  Replace the loosest-fit tiebreaker with a tiebreaker that pr
+  step 264 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the SOS-delta-primary with a hybrid that uses the SO
+  step 265 edit    not_better    score 0.9945  best 0.9952  $0.0009  The sum-of-squares rule can be improved by using the exact "
+  step 266 edit    not_better    score 0.9945  best 0.9952  $0.0009  Replace the fragile scaled tiebreaker with a clean lexicogra
+  step 267 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the O(num_bins) per-item Python loop with an exact-e
+  step 268 edit    not_better    score 0.9950  best 0.9952  $0.0010  The previous attempts all added speculative heuristics that 
+  step 269 edit    not_better    score 0.9950  best 0.9952  $0.0009  I will keep the sum-of-squares primary rule but drop the ad-
+  step 270 edit    not_better    score 0.9945  best 0.9952  $0.0009  Keep the sum-of-squares primary rule, but replace the looses
+  step 271 edit    not_better    score 0.9947  best 0.9952  $0.0008  Keep the sum-of-squares primary rule but replace the scaled 
+  step 272 edit    not_better    score 0.9947  best 0.9952  $0.0008  I will replace the loosest-fit tiebreak with a tiebreak that
+  step 273 edit    not_better    score 0.9952  best 0.9952  $0.0009  The history shows that all speculative tiebreakers hurt. Ins
+  step 274 edit    not_better    score 0.9952  best 0.9952  $0.0009  The current tie-breaking heuristics have all failed to impro
+  step 275 edit    not_better    score 0.9593  best 0.9952  $0.0009  I will improve robustness by adding a tiny per-bin-index pre
+  step 276 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will switch from the incremental SOS delta with a loosest-
+  step 277 edit    not_better    score 0.9950  best 0.9952  $0.0008  All tiebreaking heuristics have failed to beat the plain SOS
+  step 278 edit    not_better    score 0.9952  best 0.9952  $0.0009  I will replace the incremental SOS delta with the exact sum-
+  step 279 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll replace the SOS ranking with a well-known strong online
+  step 280 edit    not_better    score 0.9616  best 0.9952  $0.0009  Replace the SOS-with-loosest-fit rule with a Best-Fit rule (
+  step 281 edit    not_better    score 0.9950  best 0.9952  $0.0009  I'll add a "perfect fit / exact-residual reuse" bonus to the
+  step 282 edit    not_better    score 0.9619  best 0.9952  $0.0009  I will key all residual calculations off the harness's autho
+  step 283 edit    not_better    score 0.9950  best 0.9952  $0.0010  Keep the SOS primary ranking but replace the tiebreak so tha
+  step 284 edit    not_better    score 0.9942  best 0.9952  $0.0010  I will keep the SOS primary objective (minimize the sum-of-s
+  step 285 edit    not_better    score 0.9932  best 0.9952  $0.0009  I will re-derive the SOS delta correctly and make the object
+  step 286 edit    not_better    score 0.9952  best 0.9952  $0.0008  I will keep the SOS-delta primary ranking but multiply the d
+  step 287 edit    not_better    score 0.9952  best 0.9952  $0.0008  Replace the hand-maintained `_caps` reconstruction with the 
+  step 288 edit    not_better    score 0.9952  best 0.9952  $0.0009  Add a "session reset" guard so module state resets whenever 
+  step 289 edit    not_better    score 0.9952  best 0.9952  $0.0009  Replace the loosest-fit tiebreak with a "healthy residual" t
+  step 290 edit    not_better    score 0.9947  best 0.9952  $0.0009  Keep the SOS-delta primary objective, but replace the looses
+  step 291 edit    not_better    score 0.9950  best 0.9952  $0.0009  Replace the pure SOS-delta primary objective with a look-ahe
+  step 292 edit    not_better    score 0.9945  best 0.9952  $0.0009  I will keep the proven SOS-delta primary objective and loose
+  step 293 edit    not_better    score 0.9952  best 0.9952  $0.0013  Keep the proven SOS-delta primary (delta*1000) but replace t
+  step 294 edit    not_better    score 0.9945  best 0.9952  $0.0009  The pure sum-of-squares rule minimizes the sum of squared bi
+  step 295 edit    not_better    score 0.9616  best 0.9952  $0.0006  Replace the sum-of-squares objective with the classic Best-F
+  step 296 edit    not_better    score 0.9593  best 0.9952  $0.0009  Keep the proven SOS-delta minimization with loosest-fit tieb
+  step 297 edit    not_better    score 0.9942  best 0.9952  $0.0008  Keep the proven SOS-delta primary objective, but replace the
+  step 298 edit    not_better    score 0.9942  best 0.9952  $0.0009  I will keep the proven SOS-delta primary objective, but repl
+  step 299 edit    not_better    score 0.9942  best 0.9952  $0.0008  Replace the loosest-fit tiebreak with a "least residue mass"
+  step 300 edit    not_better    score 0.9616  best 0.9952  $0.0008  I will switch the primary objective from sum-of-squares delt
+[done] loop__bin_packing_online_ss__s1: status ok, spent $0.2687 of $0.60, 300 calls, 301 evals, public 0.9942276578479157 -> 0.9952280136996852, hidden 0.9947456828410026
+  baseline best_fit               public 0.9616  hidden 0.9604
+  baseline funsearch_weibull      public 0.9925  hidden 0.9928
+  baseline sum_of_squares         public 0.9942  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bin_packing_online_ss: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.2687 of $0.60 cap, 300 calls, 301 evals, search 5306 s
+public    0.9942 -> 0.9952   (initial -> final incumbent; selected on)
+hidden    0.9950 -> 0.9947   (fresh audit, never selected on)   OVERFIT?
+baselines best_fit 0.9616/0.9604, funsearch_weibull 0.9925/0.9928, sum_of_squares 0.9942/0.9950
+explain   40 parts: 1 can go, 0 REPAIRED; minimal program public 0.9952, hidden 0.9947
+report    /Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s1/report.md

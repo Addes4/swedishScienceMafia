@@ -1,0 +1,19 @@
+{
+  "cell": "i043__sonnet__r0",
+  "idea_id": "i043",
+  "idea": "Use non-guillotine pinwheel decompositions. Split the unit square into four rectangles spiralling around a central rectangle, with the cut positions enumerated over rationals of denominator \u2264 12. Fill each of the five rectangles from an exact rectangle-count table, which captures layouts no sequence of straight cuts can reach.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055965.6761742,
+  "cost": 0.07111,
+  "input_tokens": 950,
+  "output_tokens": 6921,
+  "llm_seconds": 55.28,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "03c7125d4afabc04e0b7c94537f4e0d5dda9c41f3b0413f8200874bf202d8569"
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i007__haiku__r0",
+  "idea_id": "i007",
+  "idea": "As a long shot for rotated squares, place 45\u00b0-rotated small squares into gaps left by an axis-aligned grid whose cells are slightly shrunk. Use penalty-based gradient optimisation (separating-axis overlap penalty plus containment penalty) to maximise the sum, starting from the best constructive answer.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056079.131949,
+  "cost": 0.010742,
+  "input_tokens": 767,
+  "output_tokens": 1995,
+  "llm_seconds": 13.64,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "5d22b902b1edfd1d5761af58579b2eae6eea9e50aa4212c8c9101697736aee8e"
+}

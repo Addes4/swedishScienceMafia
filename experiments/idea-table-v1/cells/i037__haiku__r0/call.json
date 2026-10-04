@@ -1,0 +1,19 @@
+{
+  "cell": "i037__haiku__r0",
+  "idea_id": "i037",
+  "idea": "Rotated-insert perturbation: in the best axis-aligned configuration, find pairs of adjacent equal squares in a strip whose width has slack, and replace a run of t squares by t+1 squares tilted at angle \u03b8. Solve the 1-D chain-in-strip problem (side as a function of \u03b8 and strip width) in closed form and accept the change when the count-adjusted sum improves.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055205.9209988,
+  "cost": 0.009322,
+  "input_tokens": 792,
+  "output_tokens": 1706,
+  "llm_seconds": 11.73,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "55508be37dd33e5a70211c3121cf1477d134ec8c650508ceb5e343eb5c554afe"
+}

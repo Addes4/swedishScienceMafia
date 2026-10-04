@@ -1,0 +1,76 @@
+{
+  "job_id": "shinka__sum_difference__s1",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "sum_difference",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.967128,
+  "within_cap": true,
+  "tokens": 159004,
+  "calls": 2435,
+  "failed_calls": 2412,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 23,
+    "None": 2412
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 2435
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 0.967128
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 2417,
+  "retries": 0,
+  "evals": 12,
+  "valid_evals": 12,
+  "initial_public": 0.887449398787755,
+  "initial_hidden": null,
+  "final_public": 0.9469478674107464,
+  "final_hidden": null,
+  "final_sha": "959810e6daff8859",
+  "max_public_seen": 0.9469478674107464,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.967128,
+  "tokens_per_improvement": 159004,
+  "auc": 0.944213,
+  "auc_gain": 0.504341,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 5144.3,
+  "status": null,
+  "arm_result": null,
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056128.4102724,
+  "spend_at_first_error_usd": 0.967128,
+  "valid_spend_usd": 0.967128,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 24.5,
+      "t": 1791055333.3432806,
+      "incumbent_public": 0.887449398787755,
+      "incumbent_hidden": null,
+      "sha": "ed99a0dcac7a33cc"
+    },
+    {
+      "spent_usd": 0.050556,
+      "budget_frac": 0.04596,
+      "tokens": 7354,
+      "wall_s": 47.1,
+      "t": 1791055355.9205053,
+      "incumbent_public": 0.9469478674107464,
+      "incumbent_hidden": null,
+      "sha": "959810e6daff8859"
+    }
+  ]
+}

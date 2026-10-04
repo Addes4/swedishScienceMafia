@@ -1,0 +1,31 @@
+forks 48/480 jobs  19s
+forks 96/480 jobs  25s
+forks 144/480 jobs  29s
+forks 192/480 jobs  41s
+forks 240/480 jobs  46s
+forks 288/480 jobs  57s
+forks 336/480 jobs  62s
+forks 384/480 jobs  65s
+forks 432/480 jobs  76s
+forks 480/480 jobs  83s
+labs       adaptive_v1: leaves/run=10.8 moments=228 premature=0.48 gain switch-stay=-0.0796 CI(seed)=[-0.11362, -0.04543]
+labs       only_excursion: leaves/run=13.9 moments=235 premature=0.40 gain switch-stay=-0.06889 CI(seed)=[-0.1026, -0.03462]
+labs       only_leave: leaves/run=7.8 moments=210 premature=0.32 gain switch-stay=-0.04397 CI(seed)=[-0.07686, -0.01275]
+labs       only_xo: leaves/run=14.9 moments=238 premature=0.46 gain switch-stay=-0.07554 CI(seed)=[-0.10955, -0.04113]
+labs       only_excursion_minus_v1: {'premature_share': -0.07381485628966034, 'premature_share_ci': [-0.11714429361488182, -0.028424976700838822], 'gain_difference': 0.010705042568133316, 'gain_difference_ci': [-0.00823488924386534, 0.02886820746208095], 'leaves_per_run': 3.1999999999999993}
+labs       only_leave_minus_v1: {'premature_share': -0.15426065162907265, 'premature_share_ci': [-0.2181875065178851, -0.09205377955377958], 'gain_difference': 0.03562256983318013, 'gain_difference_ci': [-0.0005287023564006788, 0.06864429202053154], 'leaves_per_run': -2.9749999999999996}
+labs       only_xo_minus_v1: {'premature_share': -0.02008698216128557, 'premature_share_ci': [-0.11065633149811643, 0.07015280260999396], 'gain_difference': 0.004054107486681585, 'gain_difference_ci': [-0.0382573858613442, 0.04440442248015762], 'leaves_per_run': 4.125}
+heilbronn  adaptive_v1: leaves/run=26.6 moments=234 premature=0.97 gain switch-stay=-0.001179 CI(seed)=[-0.00129, -0.00107]
+heilbronn  only_excursion: leaves/run=29.5 moments=235 premature=0.97 gain switch-stay=-0.001129 CI(seed)=[-0.00125, -0.00101]
+heilbronn  only_leave: leaves/run=6.6 moments=208 premature=0.98 gain switch-stay=-0.001308 CI(seed)=[-0.00143, -0.00119]
+heilbronn  only_xo: leaves/run=38.4 moments=240 premature=0.95 gain switch-stay=-0.001292 CI(seed)=[-0.00146, -0.00113]
+heilbronn  only_excursion_minus_v1: {'premature_share': 0.00010911074740860283, 'premature_share_ci': [0.0, 0.000654688295628203], 'gain_difference': 5.010109276868432e-05, 'gain_difference_ci': [-3.9728122524747885e-06, 0.00010969489865339803], 'leaves_per_run': 2.924999999999997}
+heilbronn  only_leave_minus_v1: {'premature_share': 0.0064102564102563875, 'premature_share_ci': [-0.027872803607526087, 0.03874201389635812], 'gain_difference': -0.00012834098094475512, 'gain_difference_ci': [-0.00028151996416745447, 2.1497479338041577e-05], 'leaves_per_run': -19.975}
+heilbronn  only_xo_minus_v1: {'premature_share': -0.028525641025641035, 'premature_share_ci': [-0.0573581560283688, -0.0030141843971631666], 'gain_difference': -0.00011219295944386279, 'gain_difference_ci': [-0.0003187065891629528, 9.650082322518682e-05], 'leaves_per_run': 11.799999999999997}
+nk         adaptive_v1: leaves/run=9.5 moments=235 premature=0.55 gain switch-stay=-0.008357 CI(seed)=[-0.01021, -0.00643]
+nk         only_excursion: leaves/run=11.9 moments=239 premature=0.50 gain switch-stay=-0.00729 CI(seed)=[-0.009, -0.00552]
+nk         only_leave: leaves/run=6.2 moments=207 premature=0.47 gain switch-stay=-0.006169 CI(seed)=[-0.00791, -0.0045]
+nk         only_xo: leaves/run=13.8 moments=237 premature=0.61 gain switch-stay=-0.008749 CI(seed)=[-0.01065, -0.00696]
+nk         only_excursion_minus_v1: {'premature_share': -0.05102822042197097, 'premature_share_ci': [-0.0865186866179703, -0.013134897516021482], 'gain_difference': 0.0010669547173352764, 'gain_difference_ci': [5.6396264298490435e-05, 0.0018725337730001951], 'leaves_per_run': 2.4749999999999996}
+nk         only_leave_minus_v1: {'premature_share': -0.07550621852194472, 'premature_share_ci': [-0.16122728161031857, 0.011011629103632792], 'gain_difference': 0.002188234558894454, 'gain_difference_ci': [0.00017792143286005178, 0.004144055928347658], 'leaves_per_run': -3.2749999999999995}
+nk         only_xo_minus_v1: {'premature_share': 0.058658766496094805, 'premature_share_ci': [-0.01695101816180522, 0.13552078806316092], 'gain_difference': -0.00039169158052681716, 'gain_difference_ci': [-0.0027507248177574732, 0.0018807786274657378], 'leaves_per_run': 4.35}

@@ -1,0 +1,90 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 12,
+  "original": {
+    "public": 0.9728340187066603,
+    "hidden": 0.9633920746934446,
+    "code": "\"\"\"Best fit with a small penalty for leaving unusable tiny residuals.\"\"\"\nimport numpy as np\n\ndef priority(item, bins):\n    \"\"\"Rank bins by best fit, but penalize residuals too small to be useful.\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in.\n    \"\"\"\n    residual = bins - item\n    score = -residual.astype(np.float64)\n    tiny = (residual > 0) & (residual < 5)\n    score -= tiny.astype(np.float64) * 1.5\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9726805391172123,
+    "hidden": 0.9633920746934446,
+    "code": "\"\"\"Best fit with a small penalty for leaving unusable tiny residuals.\"\"\"\nimport numpy as np\n\ndef priority(item, bins):\n    \"\"\"Rank bins by best fit, but penalize residuals too small to be useful.\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in.\n    \"\"\"\n    residual = bins\n    score = -residual.astype(np.float64)\n    return score\n",
+    "removed": [
+      2,
+      4,
+      5
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 12,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.9728340187066603,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "term",
+      "line": 12,
+      "text": "term + bins",
+      "inside": [
+        0
+      ],
+      "delta": -0.9728340187066603,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "term",
+      "line": 12,
+      "text": "term - item",
+      "inside": [
+        0
+      ],
+      "delta": -0.00015347958944800233,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 15,
+      "text": "score = -residual.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9728340187066603,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 20,
+      "text": "tiny = (residual > 0) & (residual < 5)",
+      "inside": [],
+      "delta": -0.9728340187066603,
+      "valid": false,
+      "verdict": "can go (with others)"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 21,
+      "text": "score -= tiny.astype(np.float64) * 1.5",
+      "inside": [],
+      "delta": -0.00015347958944800233,
+      "valid": true,
+      "verdict": "can go"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_e_rand-s3/best_program.py"
+}

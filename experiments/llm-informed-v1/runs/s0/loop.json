@@ -1,0 +1,40 @@
+{
+  "argv": [
+    "problems/bin_packing_online_informed",
+    "--provider",
+    "hf",
+    "--model",
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "--max-iters",
+    "300",
+    "--budget",
+    "0.35",
+    "--wall",
+    "5400",
+    "--gate-workers",
+    "2",
+    "--seed",
+    "0",
+    "--out",
+    "experiments/llm-informed-v1/runs/s0"
+  ],
+  "config": {
+    "budget": 0.35,
+    "provider": "hf",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "max_iters": 300,
+    "wall": 5400.0,
+    "seed": 0,
+    "no_gate": false,
+    "patience": null,
+    "independent": false,
+    "gate_workers": 2,
+    "explain_evals": 40,
+    "mock": false
+  },
+  "timings": {
+    "search_s": 5427.1,
+    "baselines_s": 43.0,
+    "explain_s": 151.8
+  }
+}

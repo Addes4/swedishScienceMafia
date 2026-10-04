@@ -1,0 +1,71 @@
+{
+  "grid": {
+    "name": "smoke-v1",
+    "mode": "live",
+    "description": "One live run to measure real cost per call and wall time: lean arm, erdos_squares, $1 hard cap.",
+    "budget_usd": 1.0,
+    "seeds": [
+      0
+    ],
+    "problems": [
+      "erdos_squares"
+    ],
+    "arms": {
+      "lean": {
+        "type": "lean",
+        "model": "claude-sonnet-5-5",
+        "effort": "high"
+      }
+    },
+    "anthropic_cap_usd": 1.0,
+    "modal_cap_usd": 2,
+    "wall_limit_s": 3600,
+    "cpu": 2,
+    "memory_mb": 4096
+  },
+  "caps": {
+    "jobs": 1,
+    "anthropic_worst_usd": 1.0,
+    "modal_worst_usd": 0.18
+  },
+  "results": [
+    {
+      "job_id": "lean__erdos_squares__s0",
+      "returncode": 0,
+      "container_seconds": 682.2,
+      "arm": "lean",
+      "arm_type": "lean",
+      "problem": "erdos_squares",
+      "seed": 0,
+      "mock": false,
+      "cap_usd": 1.0,
+      "spent_usd": 0.96194,
+      "within_cap": true,
+      "tokens": 140478,
+      "calls": 20,
+      "failed_calls": 0,
+      "refusals": 1,
+      "stop_reason_counts": {
+        "end_turn": 20
+      },
+      "evals": 21,
+      "valid_evals": 21,
+      "initial_public": 0.8561716061716061,
+      "initial_hidden": 0.9127792599779017,
+      "final_public": 0.9999999999989999,
+      "final_hidden": 0.9999999999989999,
+      "final_sha": "22f45f2ca6021071",
+      "max_public_seen": 0.999999999999999,
+      "hidden_of_max_public_seen": 0.999999999999999,
+      "improvements": 1,
+      "usd_per_improvement": 0.96194,
+      "tokens_per_improvement": 140478,
+      "auc": 0.976277,
+      "auc_gain": 0.83506,
+      "flags": [],
+      "wall_s": 677.7,
+      "status": "ok",
+      "arm_result": "budget"
+    }
+  ]
+}

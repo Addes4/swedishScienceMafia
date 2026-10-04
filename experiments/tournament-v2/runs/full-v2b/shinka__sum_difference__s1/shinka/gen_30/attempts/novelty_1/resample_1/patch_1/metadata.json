@@ -1,0 +1,14 @@
+{
+  "generation": 30,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 3,
+  "patch_name": "ratio_aware_topk_seed_selector",
+  "patch_description": "The current program spends a large amount of time exhaustively enumerating Sidon constructions (quadratic sets, bounded Sidon sets, greedy Sidon sets) and keeps only the single best seed by the combined score (which includes the small size bonus). This wastes the exploration of many nearly-equivalent configurations and gives only one starting point for the 100-second local search.\n\nThe recommendation is to:\n1. Separate the pure ratio `log|A-A|/log|A+A|` from the size bonus during seed selection, so seeds are ranked by the primary objective.\n2. Collect the top-K (K\u224820) distinct seeds by pure ratio instead of just the single best.\n3. Run local search sequentially over these top-K seeds within the remaining time budget (still respecting the 110s deadline), so the highest-ratio seed gets the most refinement time, and diverse basins are explored.\n\nThis keeps the existing seed generators (quadratic, bounded Sidon, greedy Sidon) but changes the selection/refinement loop to be ratio-aware and top-K based. The size bonus is retained only as a tiebreaker.\n\nImplementation details:\n- Add a helper `_ratio(a)` that returns the pure log-ratio (or -inf for degenerate sets).\n- Maintain a list `seeds` of (ratio, a) tuples collected from every generator.\n- After generation, deduplicate seeds (by frozenset) and keep the top-K by ratio.\n- Loop over the top-K seeds, allocating a share of the remaining time to each (e.g., proportional to rank), running the existing local search from each seed and tracking the best overall by `_score`.\n- Keep the final polishing step on the overall best.\n\nThis targets the plateau at 1.13731 by starting refinement from the highest-ratio configurations rather than the first improving one, and by exploring multiple basins.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:55:17.797962",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

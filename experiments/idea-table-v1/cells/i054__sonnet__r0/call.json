@@ -1,0 +1,14 @@
+{
+  "cell": "i054__sonnet__r0",
+  "idea_id": "i054",
+  "idea": "Size-class realisability search: fix 2\u20133 size classes with counts (n1, n2, n3) and sides (s1, s2, s3) tied by small integer ratios. Maximise \u03a3 n_i s_i subject to the area constraint and a strip-packing necessary condition: the number of columns of the largest class times s1 must be \u2264 1. Then construct the layout explicitly by placing the big class as a corner block and greedily tiling the L-shaped remainder with the smaller classes.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791056130.76178,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs96D6nt62mcs9LVSot'}",
+  "cost": 0.0
+}

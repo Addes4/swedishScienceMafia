@@ -1,0 +1,301 @@
+[loop] bin_packing_online_ss -> /Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s3
+[start] loop__bin_packing_online_ss__s3: arm lean (lean) on bin_packing_online_ss, seed 3, cap $0.60
+  initial          score 0.9942
+  step  1 edit    not_better    score 0.9940  best 0.9942  $0.0007  Add a secondary tie-break that, among bins with equal SoS de
+  step  2 edit    not_better    score 0.8203  best 0.9942  $0.0007  I will replace hardcoded magic constants with a more princip
+  step  3 edit    not_better    score 0.9616  best 0.9942  $0.0006  Replace the Sum-of-Squares delta rule with the classic "Best
+  step  4 edit    not_better    score 0.9942  best 0.9942  $0.0007  The SoS rule tends to spread items too evenly; a hybrid that
+  step  5 edit    not_better    score 0.9942  best 0.9942  $0.0008  Replace the sum-of-squares objective with the "Sum of Square
+  step  6 edit    improved      score 0.9947  best 0.9947  $0.0008  I will add a bounded "perfect-fit" override: when some fitti
+  step  7 edit    not_better    score 0.9915  best 0.9947  $0.0010  I will extend the exact-fit override to a "near-exact-fit" t
+  step  8 edit    not_better    score 0.9598  best 0.9947  $0.0010  Extend the override: after the exact-fit check, if no exact 
+  step  9 edit    not_better    score 0.9947  best 0.9947  $0.0010  I'll add a "subset-sum completion" override: when no exact f
+  step 10 edit    not_better    score 0.9935  best 0.9947  $0.0010  I'll add a low-residual override tier: after the exact-fit c
+  step 11 edit    not_better    score 0.9947  best 0.9947  $0.0010  I'll make the SoS tie-break prefer the bin whose post-placem
+  step 12 edit    not_better    score 0.9614  best 0.9947  $0.0010  I'll extend the exact-fit override into a "subset-sum comple
+  step 13 edit    not_better    score 0.9616  best 0.9947  $0.0009  Replace the SoS delta with the classic "best fit + avoid rar
+  step 14 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll change the encoding so that the SoS delta is the primar
+  step 15 edit    not_better    score 0.9947  best 0.9947  $0.0009  I'll test a hybrid: keep the exact-fit and SoS rule, but add
+  step 16 edit    not_better    score 0.9940  best 0.9947  $0.0012  Add an override (after the exact-fit check) that detects whe
+  step 17 edit    not_better    score 0.9616  best 0.9947  $0.0010  I'll replace the sum-of-squares rule with the classic "best 
+  step 18 edit    not_better    score 0.9577  best 0.9947  $0.0010  I'll implement the "Sum of Squares" rule with a corrected ex
+  step 19 edit    not_better    score 0.9940  best 0.9947  $0.0010  Add a size-dependent "avoid creating residually-reusable-but
+  step 20 edit    not_better    score 0.9940  best 0.9947  $0.0010  Replace the exact-fit override with a "closure" rule: prefer
+  step 21 edit    not_better    score 0.9945  best 0.9947  $0.0011  Keep the SoS delta as the primary key (exact float ordering)
+  step 22 edit    not_better    score 0.8944  best 0.9947  $0.0010  The exact-fit override is a known-optimal greedy for online 
+  step 23 edit    not_better    score 0.9947  best 0.9947  $0.0010  I will replace the exact-fit override plus greedy SoS scorin
+  step 24 edit    not_better    score 0.9942  best 0.9947  $0.0014  Keep the exact-fit override and the primary SoS delta orderi
+  step 25 edit    improved      score 0.9950  best 0.9950  $0.0009  Make the exact-fit override more selective so it only fires 
+  step 26 edit    not_better    score 0.9950  best 0.9950  $0.0010  The exact-fit override can occasionally misfire, so I will i
+  step 27 edit    not_better    score 0.9947  best 0.9950  $0.0011  Keep the exact-fit override and the primary SoS delta orderi
+  step 28 edit    not_better    score 0.9950  best 0.9950  $0.0010  Fold the exact-fit override into the primary ordering more c
+  step 29 edit    not_better    score 0.9616  best 0.9950  $0.0011  I'll replace the hand-rolled tie-break with the classic Best
+  step 30 edit    not_better    score 0.9950  best 0.9950  $0.0020  Add a second-level penalty against opening an unused bin: wh
+  step 31 edit    not_better    score 0.9947  best 0.9950  $0.0009  I will replace the fragile hand-tuned tie-break with a clean
+  step 32 edit    not_better    score 0.9947  best 0.9950  $0.0010  Replace the exact-fit override and hand-tuned class-concentr
+  step 33 edit    not_better    score 0.9950  best 0.9950  $0.0012  Keep the exact-fit override and SoS-delta primary key, but s
+  step 34 edit    not_better    score 0.9950  best 0.9950  $0.0010  I will keep the exact-fit override and SoS-delta primary key
+  step 35 edit    not_better    score 0.9950  best 0.9950  $0.0009  Keep the exact-fit override and SoS-delta primary key, but a
+  step 36 edit    not_better    score 0.9947  best 0.9950  $0.0009  The tie-break magnitudes (100000 for delta, then concentrati
+  step 37 edit    not_better    score 0.9942  best 0.9950  $0.0010  Replace the hand-tuned multiplicative tie-break with a clean
+  step 38 edit    invalid       score 0.0000  best 0.9950  $0.0010  I will add a "best-fit-decreasing-style" refinement: keep th
+  step 39 edit    not_better    score 0.9947  best 0.9950  $0.0010  (no description)
+  step 40 edit    not_better    score 0.9942  best 0.9950  $0.0009  Keep the exact-fit override and the SoS-delta primary key, b
+  step 41 edit    not_better    score 0.9942  best 0.9950  $0.0009  Replace the ad-hoc tie-break/override with the classic best-
+  step 42 edit    improved      score 0.9952  best 0.9952  $0.0010  Replace the hand-tuned multiplicative tie-break with a resid
+  step 43 edit    not_better    score 0.9952  best 0.9952  $0.0010  Replace the "match if N[r]>=2" tie-break with a coupling-awa
+  step 44 edit    not_better    score 0.9947  best 0.9952  $0.0010  Add a light "best-fit after SoS ties" refinement: keep the e
+  step 45 edit    not_better    score 0.9947  best 0.9952  $0.0010  Replace the residual-class-match tie-break with a coupling-a
+  step 46 edit    not_better    score 0.9947  best 0.9952  $0.0014  Change the residual-class-match tie-break threshold from N[r
+  step 47 edit    not_better    score 0.9616  best 0.9952  $0.0008  Replace the exact-fit override and SoS-delta primary key wit
+  step 48 edit    not_better    score 0.9945  best 0.9952  $0.0011  Replace the brittle SoS-delta primary key with a provably-op
+  step 49 edit    not_better    score 0.9942  best 0.9952  $0.0010  Introduce a bounded lookahead that anticipates the next item
+  step 50 edit    not_better    score 0.9945  best 0.9952  $0.0010  Keep the SoS-delta primary key but replace the brittle fixed
+  step 51 edit    not_better    score 0.9947  best 0.9952  $0.0010  Replace the fragile hard-coded tie-break weights with a sing
+  step 52 edit    not_better    score 0.9945  best 0.9952  $0.0009  Add a "worst-fit among tied bins" secondary tie-break instea
+  step 53 edit    not_better    score 0.9942  best 0.9952  $0.0010  Keep the exact-fit override and SoS-delta primary key, but c
+  step 54 edit    not_better    score 0.9515  best 0.9952  $0.0011  Replace the SoS-delta primary key with a randomized fixed-fr
+  step 55 edit    not_better    score 0.9947  best 0.9952  $0.0010  The exact-fit override only looks at existing bins even thou
+  step 56 edit    not_better    score 0.9616  best 0.9952  $0.0009  I'll replace the hand-crafted SoS rule with the classic Best
+  step 57 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll keep the sum-of-squares primary key, but replace the br
+  step 58 edit    not_better    score 0.9947  best 0.9952  $0.0010  The exact-fit override currently searches only existing bins
+  step 59 edit    not_better    score 0.9947  best 0.9952  $0.0013  Refine the secondary tie-break to reward complementarity dir
+  step 60 edit    not_better    score 0.9947  best 0.9952  $0.0011  I'll replace the brittle SoS-delta + heuristic tie-break wit
+  step 61 edit    not_better    score 0.9950  best 0.9952  $0.0010  Add a lookahead-style adjustment: instead of ranking placeme
+  step 62 edit    not_better    score 0.9947  best 0.9952  $0.0010  The exact-fit override currently only considers existing bin
+  step 63 edit    not_better    score 0.9942  best 0.9952  $0.0011  Remove the fragile multiplicative tie-break encoding (the 1e
+  step 64 edit    not_better    score 0.9945  best 0.9952  $0.0011  I'll add an adaptive "bucket-pairing" tie-break to the exact
+  step 65 edit    not_better    score 0.9947  best 0.9952  $0.0011  Replace the noisy multiplicative tie-break encoding with a c
+  step 66 edit    not_better    score 0.9945  best 0.9952  $0.0009  The tie-break on SoS deltas has been consistently hurting or
+  step 67 edit    not_better    score 0.9947  best 0.9952  $0.0010  I'll change the tie-break from a heuristic-based encoding to
+  step 68 edit    not_better    score 0.9614  best 0.9952  $0.0009  Replace the fragile sum-of-squares objective with the standa
+  step 69 edit    not_better    score 0.9947  best 0.9952  $0.0010  Use a scale-free SoS delta (divide by current open-bin count
+  step 70 edit    not_better    score 0.9952  best 0.9952  $0.0010  The exact-fit override currently ignores a fresh bin when th
+  step 71 edit    not_better    score 0.9942  best 0.9952  $0.0011  I'll replace the fragile weighted-score encoding with a clea
+  step 72 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll switch the primary ranking to a rotation-aware metric t
+  step 73 edit    not_better    score 0.9947  best 0.9952  $0.0009  All recent tie-break heuristics have been neutral or harmful
+  step 74 edit    not_better    score 0.9952  best 0.9952  $0.0010  I'll add a "permanent pair-closure" mechanism: maintain a se
+  step 75 edit    not_better    score 0.9616  best 0.9952  $0.0009  I'll switch the primary rule from sum-of-squares to a scale-
+  step 76 edit    not_better    score 0.9950  best 0.9952  $0.0010  The previous tie-break attempts all failed because they adde
+  step 77 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the heuristic exact-fit override and tie-breaks with
+  step 78 edit    not_better    score 0.9673  best 0.9952  $0.0009  I'll keep pure SoS-delta as the primary key (that was the be
+  step 79 edit    not_better    score 0.9616  best 0.9952  $0.0009  I'll replace the SoS rule with a "best-fit decreasing-like" 
+  step 80 edit    not_better    score 0.9947  best 0.9952  $0.0011  Replace the ad-hoc secondary/tertiary tie-breaks with a prin
+  step 81 edit    not_better    score 0.9940  best 0.9952  $0.0010  I'll add a targeted "complementary exact-fit reservation" ru
+  step 82 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the hard exact-fit override and the ad-hoc tie-break
+  step 83 edit    not_better    score 0.9947  best 0.9952  $0.0011  Keep the pure SoS-delta primary key and the exact-fit overri
+  step 84 edit    not_better    score 0.9942  best 0.9952  $0.0010  Keep the exact-fit override and the pure SoS-delta primary k
+  step 85 edit    not_better    score 0.9945  best 0.9952  $0.0009  I'll replace the heuristic secondary/tertiary tie-breaks wit
+  step 86 edit    not_better    score 0.9945  best 0.9952  $0.0010  Add a small look-ahead-free "pairing" bonus: among SoS-optim
+  step 87 edit    not_better    score 0.9947  best 0.9952  $0.0010  I will keep the exact-fit override and the SoS-delta primary
+  step 88 edit    not_better    score 0.9940  best 0.9952  $0.0010  The ad-hoc tie-breaks are unreliable; instead, I'll make the
+  step 89 edit    not_better    score 0.9952  best 0.9952  $0.0009  I'll replace the fixed tertiary tie-break with a small rando
+  step 90 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll exact-fit-override the SoS rule with a proper "harmonic
+  step 91 edit    not_better    score 0.9947  best 0.9952  $0.0011  I will replace the exact-fit override plus SoS-delta primary
+  step 92 edit    not_better    score 0.9947  best 0.9952  $0.0010  I'll make the exact-fit override smarter: when no exact fit 
+  step 93 edit    not_better    score 0.9947  best 0.9952  $0.0009  I will keep the exact-fit override and the SoS-delta primary
+  step 94 edit    not_better    score 0.9945  best 0.9952  $0.0012  I'll replace the exact-fit override with a principled one-st
+  step 95 edit    not_better    score 0.9593  best 0.9952  $0.0009  I'll switch the primary criterion from the SoS-delta (which 
+  step 96 edit    not_better    score 0.9947  best 0.9952  $0.0012  I'll implement the classic "sum of squares" delta but with t
+  step 97 edit    not_better    score 0.9952  best 0.9952  $0.0014  I unify the exact-fit into a secondary tie-break within the 
+  step 98 edit    not_better    score 0.9945  best 0.9952  $0.0012  I'll refine the exact-fit override so that it fires not only
+  step 99 edit    not_better    score 0.9942  best 0.9952  $0.0012  I will compute, for each candidate placement, the exact post
+  step 100 edit    not_better    score 0.9905  best 0.9952  $0.0011  I'll add a "future-fit" tie-break: among placements with the
+  step 101 edit    not_better    score 0.9950  best 0.9952  $0.0010  I'll add a lightweight randomized/greedy class-merging refin
+  step 102 edit    not_better    score 0.9945  best 0.9952  $0.0011  I'll replace the fragile multi-magic-multiplier key with a s
+  step 103 edit    not_better    score 0.9950  best 0.9952  $0.0011  Replace the fragile magic-multiplier key with a clean lexico
+  step 104 edit    not_better    score 0.6756  best 0.9952  $0.0011  I'll replace the magic-multiplier scoring with a single exac
+  step 105 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll replace the heuristic tie-break with a "best-fit decrea
+  step 106 edit    not_better    score 0.9605  best 0.9952  $0.0010  I'll replace the SoS-delta primary score with a bounded vari
+  step 107 edit    not_better    score 0.9947  best 0.9952  $0.0009  I'll keep the exact-fit override and the SoS-delta primary k
+  step 108 edit    not_better    score 0.9940  best 0.9952  $0.0010  I'll keep the exact-fit override and SoS-delta primary key, 
+  step 109 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll introduce a small, cheap look‑ahead using the known ite
+  step 110 edit    not_better    score 0.9947  best 0.9952  $0.0010  I will keep the exact-fit override and SoS-delta primary key
+  step 111 edit    not_better    score 0.9478  best 0.9952  $0.0010  Keep the exact-fit hard override and the exact integer SoS-d
+  step 112 edit    not_better    score 0.9945  best 0.9952  $0.0010  Increase the influence of the "matching" tie-break by making
+  step 113 edit    not_better    score 0.9947  best 0.9952  $0.0015  I'll keep the exact-fit override and the exact SoS-delta pri
+  step 114 edit    not_better    score 0.9952  best 0.9952  $0.0010  Add a light look-ahead using the known item distribution: am
+  step 115 edit    not_better    score 0.9598  best 0.9952  $0.0010  I'll eliminate the fragile `_caps` mirror entirely and deriv
+  step 116 edit    invalid       score 0.0000  best 0.9952  $0.0010  I'll keep the exact-fit override and SoS-delta primary key, 
+  step 117 edit    not_better    score 0.9623  best 0.9952  $0.0009  I'll keep the exact-fit override and the SoS-delta primary k
+  step 118 edit    not_better    score 0.9945  best 0.9952  $0.0011  I will keep the SoS-delta primary key but replace the tie-br
+  step 119 edit    not_better    score 0.9952  best 0.9952  $0.0016  I'll replace the ad-hoc tie-break with a proper one-step loo
+  step 120 edit    not_better    score 0.9947  best 0.9952  $0.0012  Introduce a small randomized/exploratory element that occasi
+  step 121 edit    not_better    score 0.9940  best 0.9952  $0.0009  I'll replace the exact-fit hard override with the pure SoS-d
+  step 122 edit    not_better    score 0.9947  best 0.9952  $0.0012  I'll change the primary criterion from the SoS-delta to a di
+  step 123 edit    not_better    score 0.9945  best 0.9952  $0.0011  I'll keep the proven SoS-delta primary key and exact-fit ove
+  step 124 edit    not_better    score 0.9952  best 0.9952  $0.0011  I will add a bias against opening unused bins when the item 
+  step 125 edit    not_better    score 0.9945  best 0.9952  $0.0011  Keep the SoS-delta primary key, but change the tie-break: in
+  step 126 edit    not_better    score 0.9947  best 0.9952  $0.0016  Replace the ad-hoc match/smaller-residual tie-break with a o
+  step 127 edit    not_better    score 0.9947  best 0.9952  $0.0009  The SoS delta tie-break has been a source of noise. I'll rep
+  step 128 edit    not_better    score 0.9616  best 0.9952  $0.0008  The is simplified to a clean Best-Fit / tightest-fit rule: a
+  step 129 edit    not_better    score 0.9945  best 0.9952  $0.0012  I'll add a bounded one-step look-ahead that, among placement
+  step 130 edit    not_better    score 0.9497  best 0.9952  $0.0010  The SoS tie-breaks have been adding noise. I'll keep the exa
+  step 131 edit    not_better    score 0.9942  best 0.9952  $0.0010  Replace the noisy tiered tie-break with a clean comparison: 
+  step 132 edit    not_better    score 0.9945  best 0.9952  $0.0009  The current code breaks the SoS-delta tie-break in a way tha
+  step 133 edit    not_better    score 0.9947  best 0.9952  $0.0012  I'll replace the noisy tiered tie-break with a principled se
+  step 134 edit    not_better    score 0.9947  best 0.9952  $0.0019  I'll compute the Exact-Fit override but then use the SoS del
+  step 135 edit    not_better    score 0.9478  best 0.9952  $0.0010  Replace the fragile tiered tie-break with a clean scalar sco
+  step 136 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll keep the exact-fit override and the SoS-delta as the pr
+  step 137 edit    not_better    score 0.9947  best 0.9952  $0.0010  I'll replace the ad-hoc tiered tie-break with a principled s
+  step 138 edit    not_better    score 0.9945  best 0.9952  $0.0010  I'll replace the noisy tiered tie-break with a clean, exact 
+  step 139 edit    not_better    score 0.9952  best 0.9952  $0.0012  I'll add a primary key that penalizes opening a brand-new bi
+  step 140 edit    not_better    score 0.9952  best 0.9952  $0.0010  The current scores encode a new-bin opening as delta=0, so a
+  step 141 edit    not_better    score 0.9593  best 0.9952  $0.0009  I'll replace the fragile floating-point tiered tie-break wit
+  step 142 edit    not_better    score 0.9947  best 0.9952  $0.0028  Keep the exact-fit override and the exact SoS-delta as the p
+  step 143 edit    not_better    score 0.9950  best 0.9952  $0.0011  I'll replace the noisy hand-tuned tiered tie-break with an e
+  step 144 edit    not_better    score 0.9947  best 0.9952  $0.0013  I'll replace the fragile `>=2` match tier with a robust cons
+  step 145 edit    not_better    score 0.9945  best 0.9952  $0.0011  Replace the exact-fit-only override with a stronger "leave t
+  step 146 edit    not_better    score 0.9947  best 0.9952  $0.0010  The current code uses exact-fit as the only override and oth
+  step 147 edit    not_better    score 0.9947  best 0.9952  $0.0009  Replace the hand-tuned tiered tie-break with a "least-loaded
+  step 148 edit    not_better    score 0.9947  best 0.9952  $0.0013  Replace the fragile float-magic tiered scoring with a robust
+  step 149 edit    not_better    score 0.9950  best 0.9952  $0.0009  I will keep the exact SoS-delta primary and exact-fit overri
+  step 150 edit    not_better    score 0.9942  best 0.9952  $0.0010  Replace the ad-hoc hand-tuned tie-break tiers with a princip
+  step 151 edit    not_better    score 0.9942  best 0.9952  $0.0009  Replace the exact-fit override and hand-tuned tie-break with
+  step 152 edit    not_better    score 0.9947  best 0.9952  $0.0010  Keep the SoS-delta primary but replace the hand-tuned "match
+  step 153 edit    not_better    score 0.9945  best 0.9952  $0.0010  The current exact-fit override is too rigid: it always close
+  step 154 edit    not_better    score 0.9952  best 0.9952  $0.0011  Keep the current best-performing structure (exact-fit overri
+  step 155 edit    not_better    score 0.9950  best 0.9952  $0.0011  Add a one-step "future fit" override: before using the SoS d
+  step 156 edit    not_better    score 0.9950  best 0.9952  $0.0010  The exact-fit override skips the SoS-delta calculation entir
+  step 157 edit    not_better    score 0.9952  best 0.9952  $0.0011  I will keep the proven SoS-delta primary, exact-fit override
+  step 158 edit    not_better    score 0.9952  best 0.9952  $0.0010  I will keep the proven structure but fix a subtle flaw: the 
+  step 159 edit    not_better    score 0.9952  best 0.9952  $0.0011  Replace the per-bin O(n) Python loop in `priority` with vect
+  step 160 edit    not_better    score 0.9947  best 0.9952  $0.0011  Add a "complementary fit" override: when no exact fit exists
+  step 161 edit    not_better    score 0.9945  best 0.9952  $0.0011  I will keep the proven SoS-delta primary and exact-fit overr
+  step 162 edit    not_better    score 0.9952  best 0.9952  $0.0010  The current rule never exploits the fact that the best bin p
+  step 163 edit    not_better    score 0.9950  best 0.9952  $0.0010  I will adjust the primary SoS-delta computation so it treats
+  step 164 edit    not_better    score 0.9947  best 0.9952  $0.0011  I'll add a one-step "closeability" bonus to the tie-break: a
+  step 165 edit    improved      score 0.9957  best 0.9957  $0.0016  I'll replace the plain sum-of-squares potential with a capac
+  step 166 edit    not_better    score 0.9945  best 0.9957  $0.0011  I'll strengthen the class weight from 100/g to (100/g)^1.5, 
+  step 167 edit    improved      score 0.9960  best 0.9960  $0.0012  The weight exponent 1.0 improved over 1.5 (which was too agg
+  step 168 edit    not_better    score 0.9950  best 0.9960  $0.0011  Raise the capacity-weight exponent from 0.8 to 0.85, since 0
+  step 169 edit    not_better    score 0.9960  best 0.9960  $0.0011  I'll replace the binary class-match tie-break with a graded 
+  step 170 edit    not_better    score 0.9960  best 0.9960  $0.0011  The class-match tie-break currently rewards a placement only
+  step 171 edit    not_better    score 0.9955  best 0.9960  $0.0011  I will make the capacity-weight exponent adaptive: instead o
+  step 172 edit    not_better    score 0.9952  best 0.9960  $0.0013  I'll add a "complementary closure" bonus at the primary deci
+  step 173 edit    not_better    score 0.9952  best 0.9960  $0.0012  I'll increase the capacity-weight exponent slightly from 0.8
+  step 174 edit    not_better    score 0.9960  best 0.9960  $0.0011  I'll add a secondary "complementary closure" term that rewar
+  step 175 edit    not_better    score 0.9957  best 0.9960  $0.0011  I'll shift from a hard exact-fit override to a smoother rule
+  step 176 edit    not_better    score 0.9955  best 0.9960  $0.0011  Replace the hardcoded item-size-independent tie-break scale 
+  step 177 edit    not_better    score 0.9616  best 0.9960  $0.0008  I'll replace the heavily hand-tuned potential-plus-tiebreak 
+  step 178 edit    not_better    score 0.9960  best 0.9960  $0.0011  The class-match tie-break is applied too coarsely; I'll chan
+  step 179 edit    not_better    score 0.9957  best 0.9960  $0.0012  I will replace the fixed exponent with a value derived from 
+  step 180 edit    not_better    score 0.9960  best 0.9960  $0.0012  I'll replace the ad-hoc class-match tie-break with a graded 
+  step 181 edit    not_better    score 0.9960  best 0.9960  $0.0011  I'll keep the weighted sum-of-squares potential but replace 
+  step 182 edit    gate_rejected score 0.9960  best 0.9960  $0.0012  The current rule treats all residual classes symmetrically t
+  step 183 edit    improved      score 0.9965  best 0.9965  $0.0012  I'll keep the weighted sum-of-squares potential with exponen
+  step 184 edit    not_better    score 0.9965  best 0.9965  $0.0012  I'll replace the fixed myopic exact-fit-only override with a
+  step 185 edit    not_better    score 0.9960  best 0.9965  $0.0010  I'll replace the coarse per-candidate potential scoring with
+  step 186 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll keep the potential (exponent 0.8) and exact-fit overrid
+  step 187 edit    not_better    score 0.9965  best 0.9965  $0.0012  I will add a deterministic look-ahead "sum" override: before
+  step 188 edit    not_better    score 0.9960  best 0.9965  $0.0013  I'll replace the fixed potential exponent 0.8 with a small a
+  step 189 edit    not_better    score 0.9965  best 0.9965  $0.0011  Replace the exact-fit-only override with a broader "match an
+  step 190 edit    not_better    score 0.9965  best 0.9965  $0.0011  I will add a small asymmetric weighting to the potential tha
+  step 191 edit    not_better    score 0.9945  best 0.9965  $0.0011  I'll switch the penalty exponent for residual-class counts f
+  step 192 edit    not_better    score 0.9945  best 0.9965  $0.0011  I will replace the current fixed exponential class-weight po
+  step 193 edit    not_better    score 0.9957  best 0.9965  $0.0011  I will introduce a running histogram of observed item sizes 
+  step 194 edit    not_better    score 0.9957  best 0.9965  $0.0012  Keep the sum-of-squares potential and exact-fit override, bu
+  step 195 edit    not_better    score 0.9965  best 0.9965  $0.0012  The exact-fit override is essentially never hit for large it
+  step 196 edit    not_better    score 0.9903  best 0.9965  $0.0013  I'll extend the exact-fit override into a bounded "complemen
+  step 197 edit    not_better    score 0.9952  best 0.9965  $0.0010  The exact-fit override currently requires residual 0 exactly
+  step 198 edit    not_better    score 0.9955  best 0.9965  $0.0012  I'll revert to the original 0.996478 configuration and tune 
+  step 199 edit    not_better    score 0.9962  best 0.9965  $0.0011  Add a small "closing" bonus to the potential-based score tha
+  step 200 edit    not_better    score 0.9957  best 0.9965  $0.0012  I will make the exact placement-choice deterministic and sco
+  step 201 edit    not_better    score 0.9957  best 0.9965  $0.0017  I will replace the fixed hand-tuned potential with a small, 
+  step 202 edit    not_better    score 0.9957  best 0.9965  $0.0011  I'll set the weighting exponent to p=1.0 (the unweighted sum
+  step 203 edit    not_better    score 0.9616  best 0.9965  $0.0009  Replace the weighted potential rule with the well-known "bes
+  step 204 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll switch the tie-break from a dense float encoding to a c
+  step 205 edit    not_better    score 0.9965  best 0.9965  $0.0013  Add an adaptive term that tracks the frequency of recently-a
+  step 206 edit    not_better    score 0.9965  best 0.9965  $0.0012  I will add an adaptive "residual matches a frequently-seen r
+  step 207 edit    not_better    score 0.9605  best 0.9965  $0.0009  Replace the heuristic weighted sum-of-squares potential with
+  step 208 edit    not_better    score 0.9593  best 0.9965  $0.0012  I'll reduce the magic multiplier 100000.0 (which can cause f
+  step 209 edit    not_better    score 0.9955  best 0.9965  $0.0013  Introduce a numeric heuristic "complement pairing" rule: in 
+  step 210 edit    not_better    score 0.9962  best 0.9965  $0.0012  I'll replace the blended-float score (prec) with a strict le
+  step 211 edit    not_better    score 0.9955  best 0.9965  $0.0011  Change the weighting exponent _P from 0.8 to 0.7, which shif
+  step 212 edit    not_better    score 0.9955  best 0.9965  $0.0011  Introduce a "closing discount": when a placement's resulting
+  step 213 edit    not_better    score 0.9957  best 0.9965  $0.0011  Replace the fixed exponential class weight (100/g)^0.8 with 
+  step 214 edit    not_better    score 0.9965  best 0.9965  $0.0011  I will add a "perfect complement" override: if no exact fit 
+  step 215 edit    not_better    score 0.9960  best 0.9965  $0.0011  I'll replace the fixed exponential class weight with a dynam
+  step 216 edit    not_better    score 0.9950  best 0.9965  $0.0011  I'll sweep the weighting exponent p more finely and also tes
+  step 217 edit    not_better    score 0.9947  best 0.9965  $0.0011  Replace the exponential class weight (100/g)^p with a "harmo
+  step 218 edit    not_better    score 0.9429  best 0.9965  $0.0011  Replace the static potential with a "best-fit with residual-
+  step 219 edit    not_better    score 0.9965  best 0.9965  $0.0012  The current potential treats all open-bin residual classes i
+  step 220 edit    not_better    score 0.9965  best 0.9965  $0.0015  Add a small "future-fit value" refinement to the secondary k
+  step 221 edit    not_better    score 0.9957  best 0.9965  $0.0012  I'll replace the fixed secondary tie-break with a smarter on
+  step 222 edit    not_better    score 0.9965  best 0.9965  $0.0022  I'll simplify the tie-break: the graded "match" bonus (weigh
+  step 223 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll add a "best-fit-decreasing-like" secondary refinement: 
+  step 224 edit    not_better    score 0.9960  best 0.9965  $0.0010  I'll replace the deterministic rule's tie-break with a rando
+  step 225 edit    not_better    score 0.9957  best 0.9965  $0.0011  I will treat the residual left behind as having value for th
+  step 226 edit    not_better    score 0.9957  best 0.9965  $0.0011  I will tune the potential exponent p from 0.8 to 0.6 (adjust
+  step 227 edit    not_better    score 0.9962  best 0.9965  $0.0009  Replace the crude 0/1 "exact-fit override" with a full-greed
+  step 228 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll change the potential exponent p from 0.8 to 0.7 and sim
+  step 229 edit    not_better    score 0.9957  best 0.9965  $0.0010  I'll implement a two-tier scoring rule that first targets th
+  step 230 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll add a small secondary preference for placing the item i
+  step 231 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll add a light "residual pairing" term to the tie-break: a
+  step 232 edit    not_better    score 0.9942  best 0.9965  $0.0010  I'll replace the weighted-class-count potential with a finer
+  step 233 edit    not_better    score 0.9962  best 0.9965  $0.0011  I will replace the fixed class-count potential with a scaled
+  step 234 edit    not_better    score 0.9965  best 0.9965  $0.0011  Add a scaled "completion-value" tie-break: among placements 
+  step 235 edit    not_better    score 0.9957  best 0.9965  $0.0010  Replace the disable-by-default perturbation with a genuine, 
+  step 236 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll refine the sum-of-squares rule by raising the exact-fit
+  step 237 edit    not_better    score 0.9957  best 0.9965  $0.0010  I'll make the weighted sum-of-squares potential use the obse
+  step 238 edit    not_better    score 0.9960  best 0.9965  $0.0010  I'll add a bounded "best-fit-decreasing-inspired" refinement
+  step 239 edit    not_better    score 0.9947  best 0.9965  $0.0012  I'll add a "residual diversity" refinement: within placement
+  step 240 edit    not_better    score 0.9955  best 0.9965  $0.0011  I will replace the heuristic potential-delta ranking with a 
+  step 241 edit    not_better    score 0.9965  best 0.9965  $0.0011  The current rule is a strong packed-class potential but it i
+  step 242 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll make the exact-fit override more effective by also clos
+  step 243 edit    not_better    score 0.9947  best 0.9965  $0.0014  I'll replace the heuristic delta ranking with a lookahead th
+  step 244 edit    not_better    score 0.9957  best 0.9965  $0.0011  I'll reduce the exact-fit override's fragility by removing t
+  step 245 edit    not_better    score 0.9950  best 0.9965  $0.0010  I'll replace the hard exact-fit override with a soft bonus p
+  step 246 edit    not_better    score 0.9957  best 0.9965  $0.0011  I'll increase the potential exponent _P from 0.8 to 1.0 so t
+  step 247 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll change the potential exponent _P from 0.8 to 0.9 (a mid
+  step 248 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll make the exact-fit override cooperate with the potentia
+  step 249 edit    not_better    score 0.9965  best 0.9965  $0.0010  I'll replace the ad-hoc fixed tie-break multipliers with a s
+  step 250 edit    not_better    score 0.9965  best 0.9965  $0.0011  The exact-fit override currently gives up when no bin is exa
+  step 251 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll add a small, data-driven tie-break to the exact-fit ove
+  step 252 edit    not_better    score 0.9950  best 0.9965  $0.0012  I'll replace the fixed exponent rule with an adaptive one: t
+  step 253 edit    not_better    score 0.9965  best 0.9965  $0.0012  The current rule's tie-break uses arbitrary multipliers and 
+  step 254 edit    not_better    score 0.9960  best 0.9965  $0.0011  I'll replace the exact-fit override (which only fires on res
+  step 255 edit    not_better    score 0.9957  best 0.9965  $0.0011  I'll replace the hard-coded exact-fit override with a small 
+  step 256 edit    not_better    score 0.9957  best 0.9965  $0.0012  I'll replace the ad-hoc match bonus with a learned, distribu
+  step 257 edit    not_better    score 0.9952  best 0.9965  $0.0010  I'll retune the potential exponent and, more importantly, re
+  step 258 edit    not_better    score 0.9965  best 0.9965  $0.0012  I'll add a "perfect-completion" bias: compute for each candi
+  step 259 edit    not_better    score 0.9957  best 0.9965  $0.0010  The ad-hoc match/100x/100000x tie-break weights are arbitrar
+  step 260 edit    not_better    score 0.9957  best 0.9965  $0.0012  I'll lower the potential exponent from 0.8 to 0.65 (a value 
+  step 261 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll replace the potential exponent with a sum-of-nonlinear-
+  step 262 edit    not_better    score 0.9960  best 0.9965  $0.0010  The current rule's per-class linear/quadratic potential igno
+  step 263 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll add a light "compatibility" refinement: replace the arb
+  step 264 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll make the exact-fit override smarter: currently it greed
+  step 265 edit    not_better    score 0.9960  best 0.9965  $0.0012  I'll keep the exact-fit override and the weighted sum-of-squ
+  step 266 edit    not_better    score 0.9962  best 0.9965  $0.0011  The current primary key scales the potential delta by 100000
+  step 267 edit    not_better    score 0.9962  best 0.9965  $0.0011  I'll strengthen the primary rule by replacing the ad-hoc wei
+  step 268 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll tune the potential exponent p upward from 0.8 to 0.9 — 
+  step 269 edit    not_better    score 0.9955  best 0.9965  $0.0012  I'll lower the potential exponent from 0.8 to 0.7, which red
+  step 270 edit    not_better    score 0.9957  best 0.9965  $0.0011  I'll normalize the item sizes into a coarse "harmony" object
+  step 271 edit    not_better    score 0.9962  best 0.9965  $0.0011  The current score key packs the potential delta and tie-brea
+  step 272 edit    not_better    score 0.9950  best 0.9965  $0.0012  The scoring used a single packed float with a 100000x multip
+  step 273 edit    not_better    score 0.9962  best 0.9965  $0.0011  The many recent tie-break variations all regressed, so I'll 
+  step 274 edit    not_better    score 0.9965  best 0.9965  $0.0011  Replace the potential-delta primary key with a dedicated Bes
+  step 275 edit    not_better    score 0.9962  best 0.9965  $0.0010  The exact-fit override is currently only checked among bins 
+  step 276 edit    not_better    score 0.9965  best 0.9965  $0.0011  I'll keep the proven potential-delta structure but cleanly s
+  step 277 edit    not_better    score 0.9878  best 0.9965  $0.0012  I'll add a small "perfect-complement" override that fires be
+  step 278 edit    not_better    score 0.9962  best 0.9965  $0.0013  The scoring currently uses a single packed float whose 10000
+  step 279 edit    not_better    score 0.9962  best 0.9965  $0.0011  I'll retain the exact-fit override and primary potential-del
+  step 280 edit    not_better    score 0.9955  best 0.9965  $0.0011  I'll replace the fixed exponent p=0.8 weighted potential wit
+  step 281 edit    not_better    score 0.9955  best 0.9965  $0.0011  Recent small tweaks all regressed, so I'll make a more subst
+  step 282 edit    not_better    score 0.9593  best 0.9965  $0.0008  I'll replace the capacity-weighted sum-of-squares potential 
+  step 283 edit    not_better    score 0.9616  best 0.9965  $0.0009  I'll switch the primary placement rule from the fixed-expone
+  step 284 edit    not_better    score 0.9965  best 0.9965  $0.0011  The current rule ignores bin index ordering when the residua
+  step 285 edit    not_better    score 0.9962  best 0.9965  $0.0012  Added an exponentially-smoothed arrival-size histogram and a
+  step 286 edit    not_better    score 0.9962  best 0.9965  $0.0011  I'll keep the proven capacity-weighted sum-of-squares potent
+[done] loop__bin_packing_online_ss__s3: status ok, spent $0.3095 of $0.60, 286 calls, 287 evals, public 0.9942276578479157 -> 0.9964783651472828, hidden 0.9957450649975927
+  baseline best_fit               public 0.9616  hidden 0.9604
+  baseline funsearch_weibull      public 0.9925  hidden 0.9928
+  baseline sum_of_squares         public 0.9942  hidden 0.9950
+  explaining best_program.py (up to 40 evaluations)
+== bin_packing_online_ss: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.3095 of $0.60 cap, 286 calls, 287 evals, search 5404 s
+public    0.9942 -> 0.9965   (initial -> final incumbent; selected on)
+hidden    0.9950 -> 0.9957   (fresh audit, never selected on)
+baselines best_fit 0.9616/0.9604, funsearch_weibull 0.9925/0.9928, sum_of_squares 0.9942/0.9950
+explain   46 parts: 1 can go, 0 REPAIRED; minimal program public 0.9965, hidden 0.9957
+report    /Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s3/report.md

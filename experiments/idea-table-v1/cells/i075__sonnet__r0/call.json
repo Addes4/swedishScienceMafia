@@ -1,0 +1,19 @@
+{
+  "cell": "i075__sonnet__r0",
+  "idea_id": "i075",
+  "idea": "Unequal L-frame peeling: peel a frame along two adjacent edges whose squares are not all equal (for example one corner square of side a with runs of side b and c along the two arms). Choose a, b and c from small-denominator rationals so that both arms tile exactly, and recurse on the inner square. This generalises the n=11 frame construction beyond unit-fraction frames.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055512.021151,
+  "cost": 0.137582,
+  "input_tokens": 961,
+  "output_tokens": 13566,
+  "llm_seconds": 121.05,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "4c21821d2f0e4a4a90aac9b35dc0e05e1af2ee5bcfa67e35fb1cea327bfa4208"
+}

@@ -1,0 +1,14 @@
+{
+  "generation": 4,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "golomb_dense_sa_hybrid",
+  "patch_description": "Replace the weak random greedy/SA with a construction exploiting the known extremal trade-off: a dense interval (small sum set, moderate difference set) combined with a Golomb-like sparse part (large difference set, controlled sum set). We add:\n\n1. A fast incremental scorer using dicts of sum/diff counts so we can evaluate candidate additions cheaply (O(n) per candidate instead of O(n^2)).\n2. A proper Golomb-ruler greedy builder that produces near-optimal difference sets.\n3. A \"dense core + Golomb offset\" construction parameterized by (m, gs, gap) which is the main lever: core {0..m} gives |A+A| \u2248 2m+1 while the Golomb tail adds ~gs^2 distinct differences without blowing up the sum set too much.\n4. A targeted SA that mutates by add/drop/perturb around this structured seed, with the fast scorer, so many more iterations fit in the budget.\n5. Explicit systematic scan over small (m, gs, gap) which is where the optimum is known to sit for this ratio.\n\nThis should push log|A-A|/log|A+A| from ~1.14 toward the ~1.28 best-known regime.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:26:53.078093",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

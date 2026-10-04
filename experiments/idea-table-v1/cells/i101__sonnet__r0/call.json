@@ -1,0 +1,14 @@
+{
+  "cell": "i101__sonnet__r0",
+  "idea_id": "i101",
+  "idea": "Compute every coordinate from integer numerators, for example centre = (2i+1)/(2k) and side = p/q, evaluated once as a float. Then clamp centre \u00b1 side/2 into [0,1], and shrink each side by a relative 1e-13 only when a float check against the evaluator's likely tolerance fails. This removes accumulated rounding from repeated (i+0.5)*side products.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 2,
+  "time": 1791056133.630111,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9JT3TQ77nvwSJ8gMk'}",
+  "cost": 0.0
+}

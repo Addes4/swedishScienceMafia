@@ -1,0 +1,17 @@
+{
+  "combined_score": 0.7852255997228718,
+  "public": {
+    "instance 1 (63 streams of 80 items, lower bound 2034 bins)": 0.7926734216679657,
+    "instance 2 (62 streams of 80 items, lower bound 2030 bins)": 0.7777777777777778
+  },
+  "private": {
+    "hidden_normalized": [
+      0.993955,
+      0.993539
+    ],
+    "hidden_mean": 0.9937467136726241,
+    "integrity_rejections": 0,
+    "flags": []
+  },
+  "text_feedback": "instance 1 (63 streams of 80 items, lower bound 2034 bins): score 0.792673\ninstance 2 (62 streams of 80 items, lower bound 2030 bins): score 0.777778"
+}

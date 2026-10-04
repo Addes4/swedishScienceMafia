@@ -1,0 +1,128 @@
+{
+  "job_id": "lean__erdos_squares__s3",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "erdos_squares",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.147319,
+  "within_cap": true,
+  "tokens": 379388,
+  "calls": 50,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "stop": 49,
+    "length": 1
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 50
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.147319
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 5,
+  "retries": 0,
+  "evals": 50,
+  "valid_evals": 42,
+  "evals_with_timeout": 15,
+  "instance_timeouts": 59,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.999999993992401,
+  "final_hidden": 0.249999995585081,
+  "final_sha": "2223599afa74e872",
+  "max_public_seen": 0.999999993992401,
+  "hidden_of_max_public_seen": 0.249999995585081,
+  "improvements": 6,
+  "usd_per_improvement": 0.024553,
+  "tokens_per_improvement": 63231,
+  "auc": 0.977236,
+  "auc_gain": 0.841731,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 3088.8,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.147319,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 2.7,
+      "t": 1791069837.2524214,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.000436,
+      "budget_frac": 0.002907,
+      "tokens": 1205,
+      "wall_s": 8.9,
+      "t": 1791069843.471171,
+      "incumbent_public": 0.917008917008917,
+      "incumbent_hidden": 0.9074662462608134,
+      "sha": "e97721b02faad462"
+    },
+    {
+      "spent_usd": 0.001515,
+      "budget_frac": 0.0101,
+      "tokens": 3686,
+      "wall_s": 19.9,
+      "t": 1791069854.4606876,
+      "incumbent_public": 0.9440744440744441,
+      "incumbent_hidden": 0.9554693184574339,
+      "sha": "d54aa19d903d6db3"
+    },
+    {
+      "spent_usd": 0.00765,
+      "budget_frac": 0.051,
+      "tokens": 18092,
+      "wall_s": 71.4,
+      "t": 1791069905.9575198,
+      "incumbent_public": 0.9599474599474599,
+      "incumbent_hidden": 0.9554693184574339,
+      "sha": "219ac79b7fefa8d4"
+    },
+    {
+      "spent_usd": 0.071451,
+      "budget_frac": 0.47634,
+      "tokens": 189159,
+      "wall_s": 735.1,
+      "t": 1791070569.6360323,
+      "incumbent_public": 0.970997520997521,
+      "incumbent_hidden": 0.96400106448918,
+      "sha": "b648879010a9fa70"
+    },
+    {
+      "spent_usd": 0.080318,
+      "budget_frac": 0.535453,
+      "tokens": 211621,
+      "wall_s": 813.9,
+      "t": 1791070648.4415834,
+      "incumbent_public": 0.9921717171717171,
+      "incumbent_hidden": 0.9882272465437788,
+      "sha": "703d85325278a970"
+    },
+    {
+      "spent_usd": 0.093939,
+      "budget_frac": 0.62626,
+      "tokens": 246220,
+      "wall_s": 1059.8,
+      "t": 1791070894.3684945,
+      "incumbent_public": 0.999999993992401,
+      "incumbent_hidden": 0.249999995585081,
+      "sha": "2223599afa74e872"
+    }
+  ]
+}

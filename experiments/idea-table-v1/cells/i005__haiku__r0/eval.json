@@ -1,0 +1,144 @@
+{
+  "metrics": {
+    "combined_score": 0.5477272727272727,
+    "public": {
+      "n=5": null,
+      "n=6": null,
+      "n=7": null,
+      "n=8": null,
+      "n=11": 3.25,
+      "n=12": 3.25,
+      "n=13": 3.5,
+      "n=14": 3.5,
+      "n=15": 3.75
+    },
+    "private": {
+      "hidden_normalized": [
+        0.952381,
+        0.977778,
+        0.968421,
+        0.0
+      ],
+      "hidden_mean": 0.7246449456975773,
+      "integrity_rejections": 0,
+      "flags": []
+    },
+    "text_feedback": "n=5: invalid construction: squares 2 and 3 overlap\nn=6: invalid construction: square 2 sticks out of the unit square\nn=7: invalid construction: squares 3 and 6 overlap\nn=8: invalid construction: square 2 sticks out of the unit square\nn=11: score 3.25 (best known 3.25)\nn=12: score 3.25 (best known 3.33333)\nn=13: score 3.5 (best known 3.5)\nn=14: score 3.5 (best known 3.66667)\nn=15: score 3.75 (best known 3.75)"
+  },
+  "correct": {
+    "correct": true,
+    "error": null
+  },
+  "integrity": {
+    "static_violations": [],
+    "instances": [
+      {
+        "label": "n=5",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.0031518600000000063,
+        "reason": "squares 2 and 3 overlap"
+      },
+      {
+        "label": "n=6",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.005402525000000047,
+        "reason": "square 2 sticks out of the unit square"
+      },
+      {
+        "label": "n=7",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.008484546000000037,
+        "reason": "squares 3 and 6 overlap"
+      },
+      {
+        "label": "n=8",
+        "status": "invalid",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": 0.012246022000000245,
+        "reason": "square 2 sticks out of the unit square"
+      },
+      {
+        "label": "n=11",
+        "status": "valid",
+        "score": 3.25,
+        "normalized": 1.0,
+        "seconds": 0.011336218000000287,
+        "reason": ""
+      },
+      {
+        "label": "n=12",
+        "status": "valid",
+        "score": 3.25,
+        "normalized": 0.975,
+        "seconds": 0.013738972000000071,
+        "reason": ""
+      },
+      {
+        "label": "n=13",
+        "status": "valid",
+        "score": 3.5,
+        "normalized": 1.0,
+        "seconds": 0.016563314999999967,
+        "reason": ""
+      },
+      {
+        "label": "n=14",
+        "status": "valid",
+        "score": 3.5,
+        "normalized": 0.9545454545454546,
+        "seconds": 0.02003212199999993,
+        "reason": ""
+      },
+      {
+        "label": "n=15",
+        "status": "valid",
+        "score": 3.75,
+        "normalized": 1.0,
+        "seconds": 0.023402571000000094,
+        "reason": ""
+      },
+      {
+        "label": "n=18",
+        "status": "valid",
+        "score": 4.0,
+        "normalized": 0.9523809523809523,
+        "seconds": 0.1707442420000005,
+        "reason": ""
+      },
+      {
+        "label": "n=21",
+        "status": "valid",
+        "score": 4.4,
+        "normalized": 0.9777777777777779,
+        "seconds": 0.2505718849999994,
+        "reason": ""
+      },
+      {
+        "label": "n=23",
+        "status": "valid",
+        "score": 4.6000000000000005,
+        "normalized": 0.9684210526315791,
+        "seconds": 0.30140470099999916,
+        "reason": ""
+      },
+      {
+        "label": "n=27",
+        "status": "error",
+        "score": null,
+        "normalized": 0.0,
+        "seconds": null,
+        "reason": "timed out after 60s"
+      }
+    ]
+  },
+  "seconds": 62.28,
+  "container_seconds": 62.28,
+  "host": "modal"
+}

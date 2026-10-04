@@ -1,0 +1,243 @@
+# EVOLVE-BLOCK-START
+"""Multiscale Bose-Chowla Sidon seeds + reflection/shift polish + targeted sum-repair SA."""
+import math
+import random
+import time
+
+
+def _diff_sum_sets(a):
+    n = len(a)
+    diffs = set()
+    sums = set()
+    add_d = diffs.add
+    add_s = sums.add
+    for i in range(n):
+        ai = a[i]
+        for j in range(n):
+            add_d(ai - a[j])
+            add_s(ai + a[j])
+    return diffs, sums
+
+
+def _score_from_sets(n, nd, ns):
+    if n < 2 or ns <= 1:
+        return 0.0
+    return math.log(nd) / math.log(ns) + (1 - 1 / n) / 100
+
+
+def _score(a):
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0
+    d, s = _diff_sum_sets(a)
+    return _score_from_sets(n, len(d), len(s))
+
+
+def _primes_upto(N):
+    sieve = bytearray([1]) * (N + 1)
+    sieve[0:2] = b"\x00\x00"
+    for i in range(2, int(N ** 0.5) + 1):
+        if sieve[i]:
+            sieve[i * i :: i] = b"\x00" * (((N - i * i) // i) + 1)
+    return [i for i in range(N + 1) if sieve[i]]
+
+
+def _bose_chowla(p):
+    """Sidon set of size p in [0, 2p^2) via Bose-Chowla construction."""
+    return [2 * p * i + (i * i) % p for i in range(p)]
+
+
+def _reflect_suffix(a, center_idx, frac, rng):
+    """Reflect the top `frac` portion of the sorted set around a[i]."""
+    a = sorted(set(a))
+    n = len(a)
+    if n < 4:
+        return a
+    k = max(1, int(frac * n))
+    center = a[center_idx]
+    tail = a[n - k:]
+    # reflect tail about center
+    new_tail = [2 * center - x for x in tail]
+    head = a[: n - k]
+    return sorted(set(head + new_tail))
+
+
+def _shift_block(a, i, j, delta):
+    """Shift elements a[i:j] by delta."""
+    a = sorted(set(a))
+    if i >= j or j > len(a):
+        return a
+    out = a[:i] + [x + delta for x in a[i:j]] + a[j:]
+    return sorted(set(out))
+
+
+def _polish(a, deadline, rng):
+    """Reflection + block-shift polish. Accepts moves that reduce |A+A|
+    while keeping |A-A| >= 0.995 * current."""
+    a = sorted(set(a))
+    if len(a) < 3:
+        return a, _score(a)
+    cur_d, cur_s = _diff_sum_sets(a)
+    nd0, ns0 = len(cur_d), len(cur_s)
+    best = a[:]
+    best_nd, best_ns = nd0, ns0
+    best_score = _score_from_sets(len(a), nd0, ns0)
+    step = 0
+    while time.time() < deadline:
+        step += 1
+        n = len(a)
+        op = rng.random()
+        if op < 0.55:
+            ci = rng.randint(n // 4, (3 * n) // 4)
+            frac = rng.choice([0.15, 0.25, 0.35, 0.5])
+            cand = _reflect_suffix(a, ci, frac, rng)
+        elif op < 0.85:
+            i = rng.randrange(n)
+            j = min(n, i + rng.randint(1, max(2, n // 3)))
+            delta = rng.randint(-40, 40)
+            cand = _shift_block(a, i, j, delta)
+        else:
+            # tiny random perturbation
+            cand = a[:]
+            i = rng.randrange(n)
+            cand[i] += rng.randint(-5, 5)
+            cand = sorted(set(cand))
+        if len(cand) < 3:
+            continue
+        cd, cs = _diff_sum_sets(cand)
+        nd, ns = len(cd), len(cs)
+        if nd < 0.995 * best_nd:
+            continue
+        # prefer smaller sum set, then larger diff set, then better score
+        s = _score_from_sets(len(cand), nd, ns)
+        if (ns < best_ns) or (ns == best_ns and nd > best_nd) or (s > best_score):
+            a = cand
+            best_nd, best_ns = nd, ns
+            best_score = s
+            best = cand[:]
+    return best, best_score
+
+
+def _sa_repair(seed, deadline, rng):
+    """SA focused on sum-collision repair; accepts moves that keep |A-A| high."""
+    cur = sorted(set(seed))
+    cur_d, cur_s = _diff_sum_sets(cur)
+    cur_nd, cur_ns = len(cur_d), len(cur_s)
+    cur_score = _score_from_sets(len(cur), cur_nd, cur_ns)
+    best = cur[:]
+    best_nd, best_ns = cur_nd, cur_ns
+    best_score = cur_score
+    T = 0.02
+    step = 0
+    while time.time() < deadline:
+        step += 1
+        if step % 600 == 0:
+            T = max(0.0002, T * 0.996)
+        cand = cur[:]
+        n = len(cand)
+        r = rng.random()
+        if r < 0.30 and n > 3:
+            # shift a single element toward reducing sum collisions
+            i = rng.randrange(n)
+            cand[i] += rng.randint(-15, 15)
+            cand = sorted(set(cand))
+        elif r < 0.55 and n > 3:
+            # move element to a value that creates a new diff
+            i = rng.randrange(n)
+            base = rng.choice(cand)
+            cand[i] = base + rng.choice([-1, 1]) * rng.randint(1, 60)
+            cand = sorted(set(cand))
+        elif r < 0.72 and n < 4000:
+            base = rng.choice(cand)
+            cand.append(base + rng.randint(1, 25))
+            cand = sorted(set(cand))
+        elif r < 0.85 and n < 4000:
+            lo, hi = min(cand), max(cand)
+            span = max(hi - lo, 1)
+            cand.append(rng.randint(lo - span, hi + span))
+            cand = sorted(set(cand))
+        elif n > 3:
+            i = rng.randrange(n)
+            cand.pop(i)
+        if len(cand) < 2:
+            continue
+        cd, cs = _diff_sum_sets(cand)
+        nd, ns = len(cd), len(cs)
+        s = _score_from_sets(len(cand), nd, ns)
+        if s > cur_score or rng.random() < math.exp((s - cur_score) / max(T, 1e-9)):
+            cur = cand
+            cur_d, cur_s = cd, cs
+            cur_nd, cur_ns = nd, ns
+            cur_score = s
+            if s > best_score:
+                best = cand[:]
+                best_nd, best_ns = nd, ns
+                best_score = s
+    return best, best_score
+
+
+def solve():
+    rng = random.Random(20240617)
+    deadline = time.time() + 110
+
+    best = [7, 15, 18, 22, -3, -2]
+    best_score = _score(best)
+
+    primes = _primes_upto(60)
+
+    # Phase 1: sweep prime-parametrized Bose-Chowla Sidon seeds.
+    phase1_end = time.time() + 25
+    for p in primes:
+        if time.time() > phase1_end:
+            break
+        a = _bose_chowla(p)
+        s = _score(a)
+        if s > best_score:
+            best, best_score = a[:], s
+        # also try scaled versions (stretch to enlarge diffs)
+        for sc in (2, 3):
+            b = [sc * x for x in a]
+            s = _score(b)
+            if s > best_score:
+                best, best_score = b[:], s
+
+    # Phase 2: polish top Bose-Chowla seeds via reflection/shift.
+    phase2_end = time.time() + 25
+    for p in primes:
+        if time.time() > phase2_end:
+            break
+        a = _bose_chowla(p)
+        sub = time.time() + 3
+        cand, s = _polish(a, sub, rng)
+        if s > best_score:
+            best, best_score = cand, s
+
+    # Phase 2b: also polish current best.
+    if time.time() < phase2_end:
+        sub = time.time() + min(8, phase2_end - time.time())
+        cand, s = _polish(best, sub, rng)
+        if s > best_score:
+            best, best_score = cand, s
+
+    # Phase 3: SA repair from best and from fresh Bose-Chowla seeds.
+    while time.time() < deadline - 3:
+        seed = best[:]
+        if rng.random() < 0.5:
+            p = rng.choice(primes)
+            seed = _bose_chowla(p)
+            if rng.random() < 0.5:
+                seed = [x * rng.choice([2, 3]) for x in seed]
+        sub = time.time() + min(10, deadline - time.time())
+        cand, s = _sa_repair(seed, sub, rng)
+        if s > best_score:
+            best, best_score = cand, s
+        # occasional polish on the new best
+        if rng.random() < 0.3 and time.time() < deadline - 3:
+            sub = time.time() + min(4, deadline - time.time())
+            cand2, s2 = _polish(best, sub, rng)
+            if s2 > best_score:
+                best, best_score = cand2, s2
+
+    return sorted(set(best))
+# EVOLVE-BLOCK-END

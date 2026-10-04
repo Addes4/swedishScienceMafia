@@ -1,0 +1,19 @@
+{
+  "cell": "i072__opus__r0",
+  "idea_id": "i072",
+  "idea": "Insertion homotopy: start from the best layout for n\u22121, insert a zero-size square at every vertex where three or more squares meet or at a boundary corner gap. Grow that square continuously by re-solving the topology-fixed LP while its neighbours shrink, and keep the best final sum; repeat the analogous deletion path from the n+1 layout.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055128.896097,
+  "cost": 0.337072,
+  "input_tokens": 953,
+  "output_tokens": 16663,
+  "llm_seconds": 166.4,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "8711aaa6a1a4329182a14e3a5e32fb129376f0d5b2b5a39bd61e4724bf83f73d"
+}

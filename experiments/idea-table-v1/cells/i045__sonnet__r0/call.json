@@ -1,0 +1,19 @@
+{
+  "cell": "i045__sonnet__r0",
+  "idea_id": "i045",
+  "idea": "Implement the known upper bounds as an early exit and a search guide. These are f(k\u00b2) = k (Erd\u0151s), the bound f(k\u00b2+1) \u2264 k for k \u2264 13 (Halbeisen), and the Cauchy\u2013Schwarz bound \u221an. When a candidate meets the bound, return immediately; otherwise spend the remaining time on the n with the largest gap between candidate and bound.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055271.022341,
+  "cost": 0.06437,
+  "input_tokens": 970,
+  "output_tokens": 6243,
+  "llm_seconds": 51.91,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "cc2706cf3e9e277b0288d12d4defbe8e3db9fda9b8b58d64fc17f7272986c871"
+}

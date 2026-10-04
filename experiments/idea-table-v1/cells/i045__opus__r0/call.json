@@ -1,0 +1,19 @@
+{
+  "cell": "i045__opus__r0",
+  "idea_id": "i045",
+  "idea": "Implement the known upper bounds as an early exit and a search guide. These are f(k\u00b2) = k (Erd\u0151s), the bound f(k\u00b2+1) \u2264 k for k \u2264 13 (Halbeisen), and the Cauchy\u2013Schwarz bound \u221an. When a candidate meets the bound, return immediately; otherwise spend the remaining time on the n with the largest gap between candidate and bound.",
+  "model": "claude-opus-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055276.503647,
+  "cost": 0.17194,
+  "input_tokens": 970,
+  "output_tokens": 8403,
+  "llm_seconds": 92.94,
+  "served_by": "claude-opus-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "1b06746ccc5990ef611089ae889ea215e91d98f3a46ca37484868453f7722afd"
+}

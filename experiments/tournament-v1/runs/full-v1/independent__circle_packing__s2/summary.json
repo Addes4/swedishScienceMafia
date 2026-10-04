@@ -1,0 +1,76 @@
+{
+  "job_id": "independent__circle_packing__s2",
+  "arm": "independent",
+  "arm_type": "independent",
+  "problem": "circle_packing",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 1.1,
+  "spent_usd": 0.133342,
+  "within_cap": true,
+  "tokens": 16787,
+  "calls": 10,
+  "failed_calls": 6,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "end_turn": 4,
+    "None": 6
+  },
+  "calls_by_model": {
+    "claude-sonnet-5-5": 10
+  },
+  "usd_by_model": {
+    "claude-sonnet-5-5": 0.133342
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 5,
+  "valid_evals": 4,
+  "initial_public": 0.37687210960656786,
+  "initial_hidden": null,
+  "final_public": 0.9999999999955537,
+  "final_hidden": null,
+  "final_sha": "7774debccb70db24",
+  "max_public_seen": 0.9999999999998241,
+  "hidden_of_max_public_seen": null,
+  "improvements": 1,
+  "usd_per_improvement": 0.133342,
+  "tokens_per_improvement": 16787,
+  "auc": 0.980418,
+  "auc_gain": 0.968575,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1282.3,
+  "status": "ok",
+  "arm_result": "api_errors",
+  "completion": "truncated_api_error",
+  "first_error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to ",
+  "first_error_t": 1791056331.5402434,
+  "spend_at_first_error_usd": 0.133342,
+  "valid_spend_usd": 0.133342,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 0.5,
+      "t": 1791055321.0709834,
+      "incumbent_public": 0.37687210960656786,
+      "incumbent_hidden": null,
+      "sha": "a586cda41d88a0b8"
+    },
+    {
+      "spent_usd": 0.034568,
+      "budget_frac": 0.031425,
+      "tokens": 4320,
+      "wall_s": 252.0,
+      "t": 1791055572.6101525,
+      "incumbent_public": 0.9999999999955537,
+      "incumbent_hidden": null,
+      "sha": "7774debccb70db24"
+    }
+  ]
+}

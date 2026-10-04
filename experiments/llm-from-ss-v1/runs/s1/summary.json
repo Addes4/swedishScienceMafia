@@ -1,0 +1,97 @@
+{
+  "job_id": "loop__bin_packing_online_ss__s1",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/problems/bin_packing_online_ss",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 0.6,
+  "spent_usd": 0.268668,
+  "within_cap": true,
+  "tokens": 824012,
+  "calls": 300,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 300
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 300
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.268668
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 301,
+  "valid_evals": 294,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.9942276578479157,
+  "initial_hidden": 0.9949960514251175,
+  "final_public": 0.9952280136996852,
+  "final_hidden": 0.9947456828410026,
+  "final_sha": "49727d73817ab1e1",
+  "max_public_seen": 0.9952280136996852,
+  "hidden_of_max_public_seen": 0.9947456828410026,
+  "improvements": 3,
+  "usd_per_improvement": 0.089556,
+  "tokens_per_improvement": 274670,
+  "auc": 0.995199,
+  "auc_gain": 0.168269,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 5306.3,
+  "status": "ok",
+  "arm_result": "max_iters",
+  "completion": "stopped_early",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.268668,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 6.2,
+      "t": 1791088892.817704,
+      "incumbent_public": 0.9942276578479157,
+      "incumbent_hidden": 0.9949960514251175,
+      "sha": "15a169ab98ab0da1"
+    },
+    {
+      "spent_usd": 0.000798,
+      "budget_frac": 0.00133,
+      "tokens": 2136,
+      "wall_s": 19.2,
+      "t": 1791088905.8079202,
+      "incumbent_public": 0.9942287846312614,
+      "incumbent_hidden": 0.9944955661367509,
+      "sha": "0d6c1e1d1a8cca23"
+    },
+    {
+      "spent_usd": 0.001532,
+      "budget_frac": 0.002553,
+      "tokens": 4254,
+      "wall_s": 40.3,
+      "t": 1791088926.88903,
+      "incumbent_public": 0.994477777223072,
+      "incumbent_hidden": 0.9944955661367509,
+      "sha": "5a2ab5ab3d9bc05b"
+    },
+    {
+      "spent_usd": 0.022721,
+      "budget_frac": 0.037868,
+      "tokens": 69422,
+      "wall_s": 362.4,
+      "t": 1791089248.944442,
+      "incumbent_public": 0.9952280136996852,
+      "incumbent_hidden": 0.9947456828410026,
+      "sha": "49727d73817ab1e1"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "cell": "i051__haiku__r0",
+  "idea_id": "i051",
+  "idea": "Euclidean-algorithm squared rectangles: for a rational aspect a/b, greedily cut the largest possible square from the remaining rectangle (the continued-fraction dissection). Place such a rectangle in the unit square, fill the complementary strip with a grid, and subdivide individual pieces into j\u00d7j grids. Enumerate a/b with small denominators to hit count n with the maximal sum.",
+  "model": "claude-haiku-4-5",
+  "replicate": 0,
+  "effort": null,
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055257.565307,
+  "cost": 0.009107,
+  "input_tokens": 787,
+  "output_tokens": 1664,
+  "llm_seconds": 10.81,
+  "served_by": "claude-haiku-4-5-20251001",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "5177f27239b6e58673b07ae0de4b2081b9f2366e6cf81f2ae83265c97a3e12c2"
+}

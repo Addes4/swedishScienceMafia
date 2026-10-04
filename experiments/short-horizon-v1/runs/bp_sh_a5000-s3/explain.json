@@ -1,0 +1,187 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 32,
+  "original": {
+    "public": 0.9927617198379872,
+    "hidden": 0.9892804785329172,
+    "code": "\"\"\"Distribution-adaptive best-fit with a learned residual-value estimate.\"\"\"\nimport numpy as np\n_COUNTS = np.ones(101, dtype=np.float64)\n_TOTAL = 101.0\n_UTIL = np.zeros(101, dtype=np.float64)\n_REACH = np.zeros(101, dtype=np.float64)\n_DIRTY = True\n\ndef _smooth(arr, sigma=1.0):\n    \"\"\"Small Gaussian smoothing over the integer residual axis.\"\"\"\n    k = int(3 * sigma)\n    xs = np.arange(-k, k + 1, dtype=np.float64)\n    w = np.exp(-0.5 * (xs / sigma) ** 2)\n    w /= w.sum()\n    padded = np.concatenate([np.full(k, arr[0], dtype=np.float64), arr, np.full(k, arr[-1], dtype=np.float64)])\n    return np.convolve(padded, w, mode='valid')\n\ndef _rebuild_util():\n    global _UTIL, _DIRTY, _REACH\n    probs = _COUNTS / _TOTAL\n    top = np.argsort(probs)[::-1][:14]\n    top = [int(t) for t in top if probs[t] > probs.mean()]\n    util = probs.copy()\n    reach = np.zeros(101, dtype=np.float64)\n    reach[0] = 1.0\n    for s in top:\n        if 0 < s <= 100:\n            reach[s] = max(reach[s], probs[s])\n    for a in top:\n        if a <= 0 or a > 100:\n            continue\n        pa = probs[a]\n        for b in top:\n            s = a + b\n            if 0 < s <= 100:\n                w = pa * probs[b]\n                util[s] += w\n                reach[s] = max(reach[s], w)\n            for c in top:\n                t = a + b + c\n                if 0 < t <= 100:\n                    reach[t] = max(reach[t], pa * probs[b] * probs[c])\n    _UTIL = _smooth(util)\n    _REACH = _smooth(reach)\n    _DIRTY = False\n\ndef priority(item, bins):\n    global _COUNTS, _TOTAL, _DIRTY\n    residual = (bins - item).astype(np.float64)\n    if _DIRTY:\n        _rebuild_util()\n    ri = np.clip(np.round(residual).astype(np.int64), 0, 100)\n    val = _UTIL[ri]\n    score = np.log(val + 1e-09)\n    score += 0.15 * _REACH[ri]\n    m = _COUNTS / _TOTAL\n    anchor = int(np.argmax(m[1:]) + 1)\n    modal_p = m[anchor]\n    score += (residual == 0.0).astype(np.float64) * (6.0 + 3.0 * modal_p)\n    score += (0.6 + 0.8 * modal_p) * np.exp(-0.5 * (residual / 3.0) ** 2)\n    _COUNTS[item] += 1.0\n    _TOTAL += 1.0\n    _DIRTY = True\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9922669623346823,
+    "hidden": 0.9890404571519276,
+    "code": "\"\"\"Distribution-adaptive best-fit with a learned residual-value estimate.\"\"\"\nimport numpy as np\n_COUNTS = np.ones(101, dtype=np.float64)\n_TOTAL = 101.0\n_UTIL = np.zeros(101, dtype=np.float64)\n_REACH = np.zeros(101, dtype=np.float64)\n_DIRTY = True\n\ndef _smooth(arr, sigma=1.0):\n    \"\"\"Small Gaussian smoothing over the integer residual axis.\"\"\"\n    k = int(3 * sigma)\n    xs = np.arange(-k, k + 1, dtype=np.float64)\n    w = np.exp(-0.5 * (xs / sigma) ** 2)\n    w /= w.sum()\n    padded = np.concatenate([np.full(k, arr[0], dtype=np.float64), arr, np.full(k, arr[-1], dtype=np.float64)])\n    return np.convolve(padded, w, mode='valid')\n\ndef _rebuild_util():\n    global _UTIL, _DIRTY, _REACH\n    probs = _COUNTS / _TOTAL\n    top = np.argsort(probs)[::-1][:14]\n    top = [int(t) for t in top if probs[t] > probs.mean()]\n    util = probs.copy()\n    reach = np.zeros(101, dtype=np.float64)\n    reach[0] = 1.0\n    for s in top:\n        if 0 < s <= 100:\n            reach[s] = max(reach[s], probs[s])\n    for a in top:\n        if a <= 0 or a > 100:\n            continue\n        pa = probs[a]\n        for b in top:\n            s = a + b\n            if 0 < s <= 100:\n                w = pa * probs[b]\n                util[s] += w\n                reach[s] = max(reach[s], w)\n            for c in top:\n                t = a + b + c\n                if 0 < t <= 100:\n                    reach[t] = max(reach[t], pa * probs[b] * probs[c])\n    _UTIL = _smooth(util)\n    _REACH = _smooth(reach)\n    _DIRTY = False\n\ndef priority(item, bins):\n    global _COUNTS, _TOTAL, _DIRTY\n    residual = (bins - item).astype(np.float64)\n    if _DIRTY:\n        _rebuild_util()\n    ri = np.clip(np.round(residual).astype(np.int64), 0, 100)\n    val = _UTIL[ri]\n    score = np.log(val + 1e-09)\n    m = _COUNTS / _TOTAL\n    anchor = int(np.argmax(m[1:]) + 1)\n    modal_p = m[anchor]\n    score += (residual == 0.0).astype(np.float64) * (6.0 + 3.0 * modal_p)\n    _COUNTS[item] += 1.0\n    _TOTAL += 1.0\n    _DIRTY = True\n    return score\n",
+    "removed": [
+      7,
+      12
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 63,
+      "text": "global _COUNTS, _TOTAL, _DIRTY",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 65,
+      "text": "residual = (bins - item).astype(np.float64)",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 67,
+      "text": "if _DIRTY: ...",
+      "inside": [],
+      "delta": -0.03397309901980816,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 68,
+      "text": "_rebuild_util()",
+      "inside": [
+        2
+      ],
+      "delta": -0.03397309901980816,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 70,
+      "text": "ri = np.clip(np.round(residual).astype(np.int64), 0, 100)",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 73,
+      "text": "val = _UTIL[ri]",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 74,
+      "text": "score = np.log(val + 1e-09)",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 76,
+      "text": "score += 0.15 * _REACH[ri]",
+      "inside": [],
+      "delta": 0.0004957681844686146,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 78,
+      "text": "m = _COUNTS / _TOTAL",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 79,
+      "text": "anchor = int(np.argmax(m[1:]) + 1)",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 80,
+      "text": "modal_p = m[anchor]",
+      "inside": [],
+      "delta": -0.9927617198379872,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 84,
+      "text": "score += (residual == 0.0).astype(np.float64) * (6.0 + 3.0 * modal_p)",
+      "inside": [],
+      "delta": -0.2823894762168341,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 88,
+      "text": "score += (0.6 + 0.8 * modal_p) * np.exp(-0.5 * (residual / 3.0) ** 2)",
+      "inside": [],
+      "delta": -0.0004947575033049656,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 90,
+      "text": "_COUNTS[item] += 1.0",
+      "inside": [],
+      "delta": -0.0332836724480412,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 91,
+      "text": "_TOTAL += 1.0",
+      "inside": [],
+      "delta": -0.15753057758967381,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 92,
+      "text": "_DIRTY = True",
+      "inside": [],
+      "delta": -0.3105457210426733,
+      "valid": true,
+      "verdict": "matters"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_a5000-s3/best_program.py"
+}

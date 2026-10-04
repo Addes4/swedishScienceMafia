@@ -1,0 +1,14 @@
+{
+  "generation": 35,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 3,
+  "patch_name": "unified_deadline_budget",
+  "patch_description": "none",
+  "error_msg": null,
+  "timestamp": "2026-10-04T00:00:02.917654",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

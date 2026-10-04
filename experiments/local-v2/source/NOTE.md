@@ -1,0 +1,1 @@
+Snapshot captured after the run. Core search behavior is unchanged; post-run edits add input validation, compressed logs, source snapshots, and a refusal to overwrite completed experiments. Seed 0 histories were checked against this implementation.

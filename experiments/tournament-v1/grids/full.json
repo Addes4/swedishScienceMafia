@@ -1,0 +1,21 @@
+{
+  "name": "full-v1",
+  "mode": "live",
+  "description": "Tournament v1 confirmatory grid: 5 arms x 3 problems x 4 seeds, $1.10 hard cap per run. See ../PROTOCOL.md.",
+  "budget_usd": 1.10,
+  "seeds": [0, 1, 2, 3],
+  "problems": ["sum_difference", "erdos_squares", "circle_packing"],
+  "arms": {
+    "shinka": {"type": "shinka", "model": "claude-sonnet-5-5", "effort": "high", "max_tokens": 32000},
+    "triage": {"type": "triage", "ranker": "jev"},
+    "lean": {"type": "lean", "model": "claude-sonnet-5-5", "effort": "high"},
+    "lean_gate_patience": {"type": "lean", "model": "claude-sonnet-5-5", "effort": "high", "gate": true, "patience": 5},
+    "independent": {"type": "independent", "model": "claude-sonnet-5-5", "effort": "high"}
+  },
+  "anthropic_cap_usd": 73.3,
+  "anthropic_cap_note": "$75 for the experiment minus the smoke run ($0.96) and the live check (at most $0.70).",
+  "modal_cap_usd": 74,
+  "wall_limit_s": 9000,
+  "cpu": 4,
+  "memory_mb": 6144
+}

@@ -1,0 +1,14 @@
+{
+  "generation": 40,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "spectral_sidon_anneal",
+  "patch_description": "The prior programs all rely on the same structural intuition: a dense interval (which contributes O(n\u00b2) distinct sums but also O(n\u00b2) distinct differences) glued to a Sidon/Golomb tail (which reduces the sum-set growth). I keep that structural backbone but replace the local search engine with a fundamentally different one: a *spectral* / Fourier-flavored objective that rewards sets whose difference multiset concentrates energy at few frequencies while the sum set stays spread out \u2014 i.e. I directly score \"few sums, many differences\" using a normalized additive-energy proxy rather than only counting distinct values.\n\nConcretely:\n1. I introduce `_energy_score` which computes the additive energy E(A) = #{a+b=c+d} and the difference energy D(A) = #{a-b=c-d} and uses the ratio log|A-A| / log|A+A| plus a small term proportional to (log(D/E)) to bias the search toward sets where differences are *spread* and sums are *concentrated*. This is a different signal than the plain distinct-count ratio and guides the search out of plateaus that the previous programs hit.\n2. The seed family is generalized: instead of just {i*m + i\u00b2 mod m}, I use a *parametric Sidon-like* family {i*m + (i\u00b2 mod m) + c*(i mod k)} which lets the search explore a continuum of Sidon-ish structures via a small integer parameter c, combining the bounded-Sidon and Golomb ideas into one tunable family.\n3. The search itself is a *tabu + spectral hill-climb* rather than pure SA: at each step I try a small set of candidate mutations, score them with the spectral objective, and accept the best non-tabu move, with a short tabu list over the multiset of differences to avoid cycling.\n4. I keep the multi-phase budget structure (structured seed sweep \u2192 tabu polish \u2192 restarts) but reallocate more time to the tabu phase since the spectral objective gives a stronger gradient.\n\nThe result is a program that explores a different region of the search space (Sidon-parametric + spectral objective) while reusing the proven dense-core + tail scaffold.",
+  "error_msg": null,
+  "timestamp": "2026-10-04T00:04:39.577786",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

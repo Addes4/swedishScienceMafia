@@ -1,0 +1,19 @@
+{
+  "cell": "i028__sonnet__r0",
+  "idea_id": "i028",
+  "idea": "Tilted-lattice core with axis-aligned border: place a k\u00d7k block of squares rotated by a Pythagorean angle such as atan(1/2) or atan(3/4) in the middle. Fill the four triangular-ish border regions with axis-aligned small squares from the guillotine/strip routines. Optimise the lattice side and angle so the total count is n, as a long shot for n just above a perfect square.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 1,
+  "time": 1791055274.839732,
+  "cost": 0.048694,
+  "input_tokens": 972,
+  "output_tokens": 4675,
+  "llm_seconds": 39.56,
+  "served_by": "claude-sonnet-5-5",
+  "refused": false,
+  "status": "pending_eval",
+  "code_sha256": "6a218580d3660f466ffe284f110c8244480dca1acf2ea5d7c9a1f641c56ca926"
+}

@@ -1,0 +1,4562 @@
+[
+  {
+    "seed": 0,
+    "arm": "random_replay",
+    "weights": [
+      -0.47703041841792004,
+      0.0,
+      1.5018111184195146,
+      0.0,
+      0.0,
+      -0.09989281341626048,
+      0.16709478777425585,
+      0.4074571784087363,
+      0.007102911179553605,
+      0.0,
+      -0.053889759225213385,
+      -2.2217542243288046
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.17,
+        "wins": 4,
+        "ties": 75,
+        "losses": 21,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.07,
+        "wins": 1,
+        "ties": 91,
+        "losses": 8,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.01,
+        "wins": 4,
+        "ties": 91,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 0,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      3.6003060669249107,
+      7.297659104009524,
+      -0.8214695627969287,
+      0.0,
+      -0.017104814678321853,
+      0.28978604162890215,
+      4.551107175428881,
+      0.11019992418928362,
+      0.5273011255334367,
+      0.0,
+      1.8448442463776802
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.04,
+        "wins": 2,
+        "ties": 92,
+        "losses": 6,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.01,
+        "wins": 5,
+        "ties": 90,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 0,
+    "arm": "counterexample_tail",
+    "weights": [
+      2.277492487844472,
+      -0.0874496470693997,
+      2.5796615403148313,
+      0.0,
+      0.8830392372302851,
+      1.705381347321676,
+      -4.178869961546051,
+      -2.3881897637627416,
+      0.300234496805945,
+      0.421080300412593,
+      -4.708505996305722,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.05,
+        "wins": 5,
+        "ties": 85,
+        "losses": 10,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 1,
+        "ties": 98,
+        "losses": 1,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0.04,
+        "wins": 0,
+        "ties": 96,
+        "losses": 4,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.15,
+        "wins": 0,
+        "ties": 85,
+        "losses": 15,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 1,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.5758251941197979,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.03816275474630262,
+      0.0,
+      -0.14455217121242958,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.01,
+        "wins": 2,
+        "ties": 95,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 4,
+        "ties": 90,
+        "losses": 6,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 1,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.03816275474630262,
+      0.0,
+      -0.14455217121242958,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 1,
+        "ties": 98,
+        "losses": 1,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 1,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.03816275474630262,
+      0.0,
+      -0.14455217121242958,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 1,
+        "ties": 98,
+        "losses": 1,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 2,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      1.0771469975559846,
+      2.042261481229402,
+      -0.5771932987005941,
+      0.0,
+      -0.06365988462482547,
+      0.0,
+      -0.12401483675123358,
+      -0.3024473524961411,
+      -0.015647285122078164,
+      -0.09447898980924418,
+      -0.7423436837888351
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.07,
+        "wins": 3,
+        "ties": 87,
+        "losses": 10,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.1,
+        "wins": 0,
+        "ties": 90,
+        "losses": 10,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.01,
+        "wins": 5,
+        "ties": 90,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 2,
+    "arm": "counterexample_replay",
+    "weights": [
+      0.12683142812898662,
+      -0.6836615890228607,
+      3.3431509612051005,
+      0.0894463111574928,
+      0.23391012174193015,
+      -1.1298215895551702,
+      -0.25968592506516625,
+      2.454981464075605,
+      0.0,
+      4.23600227381139,
+      -0.5209169397169079,
+      -2.516548931543444
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.04,
+        "wins": 2,
+        "ties": 92,
+        "losses": 6,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.06,
+        "wins": 0,
+        "ties": 94,
+        "losses": 6,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 5,
+        "ties": 90,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 2,
+    "arm": "counterexample_tail",
+    "weights": [
+      0.12683142812898662,
+      -0.6836615890228607,
+      3.3431509612051005,
+      0.0894463111574928,
+      0.23391012174193015,
+      -1.1298215895551702,
+      -0.25968592506516625,
+      2.454981464075605,
+      0.0,
+      4.23600227381139,
+      -0.5209169397169079,
+      -2.516548931543444
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.04,
+        "wins": 2,
+        "ties": 92,
+        "losses": 6,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.06,
+        "wins": 0,
+        "ties": 94,
+        "losses": 6,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 5,
+        "ties": 90,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 3,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      -0.4092932373724172,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.9925906441757095,
+      0.0,
+      0.0,
+      0.7612211087987316,
+      -0.496083438586639,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.01,
+        "wins": 1,
+        "ties": 97,
+        "losses": 2,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 3,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 3,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 4,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      -0.3076822708870314,
+      3.137463947322125,
+      0.0,
+      0.0,
+      -0.20653723377637323,
+      0.017362104545040176,
+      -0.06792424878766552,
+      0.0,
+      -0.03969902420665964,
+      -0.38486966702708303,
+      -2.7121995972614017
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.13,
+        "wins": 3,
+        "ties": 82,
+        "losses": 15,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.07,
+        "wins": 1,
+        "ties": 91,
+        "losses": 8,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.02,
+        "wins": 4,
+        "ties": 91,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 4,
+    "arm": "counterexample_replay",
+    "weights": [
+      -7.294545755391722,
+      -0.22541356411895808,
+      1.170210452014519,
+      0.0,
+      0.05897467577414438,
+      0.4437073636517383,
+      0.28835771769170865,
+      -0.13500508851722887,
+      1.1057920267755303,
+      6.122094560226379,
+      1.3197367960549535,
+      -4.60221837388034
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 4,
+    "arm": "counterexample_tail",
+    "weights": [
+      -7.294545755391722,
+      -0.22541356411895808,
+      1.170210452014519,
+      0.12756225778875707,
+      -0.6894656129479751,
+      0.5157025061389646,
+      0.28835771769170865,
+      -0.13500508851722887,
+      -0.35383285499250755,
+      1.0461906523755184,
+      -0.6228224201950556,
+      -1.7828976066995037
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 1,
+        "ties": 95,
+        "losses": 4,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0.05,
+        "wins": 0,
+        "ties": 95,
+        "losses": 5,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": -0.01,
+        "wins": 1,
+        "ties": 99,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 5,
+    "arm": "random_replay",
+    "weights": [
+      -0.8587872415477072,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.47778090940144086,
+      0.0,
+      0.4872044362451434,
+      2.620468073250209,
+      0.0,
+      0.0,
+      -0.77677190061708
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.04,
+        "wins": 2,
+        "ties": 92,
+        "losses": 6,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.03,
+        "wins": 1,
+        "ties": 95,
+        "losses": 4,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": -0.01,
+        "wins": 2,
+        "ties": 97,
+        "losses": 1,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 5,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.429033169132378,
+      2.81913802506369,
+      4.307981304564741,
+      1.9028271695961052,
+      0.24269113625196845,
+      0.39458801492921214,
+      0.0,
+      -0.8418069277553648,
+      1.1604454048162824,
+      3.2254333210562365,
+      -1.1769464518984276,
+      2.3806409767586314
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 2,
+        "ties": 96,
+        "losses": 2,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 5,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.429033169132378,
+      2.81913802506369,
+      4.307981304564741,
+      1.9028271695961052,
+      0.24269113625196845,
+      0.39458801492921214,
+      0.0,
+      -0.8418069277553648,
+      1.1604454048162824,
+      3.2254333210562365,
+      -1.1769464518984276,
+      2.3806409767586314
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 2,
+        "ties": 96,
+        "losses": 2,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 6,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.2362165138314039,
+      0.10402547952701968,
+      0.0,
+      0.0,
+      3.200262007372694,
+      0.0,
+      -0.9149713656424742
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 6,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 6,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 7,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 7,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.6704356639845148,
+      0.8772394778385538,
+      -0.06719675286548567,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.5096205939395726,
+      0.872381462562428,
+      -0.13886948545252653,
+      -0.20516471601130964
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.16,
+        "wins": 3,
+        "ties": 80,
+        "losses": 17,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 2,
+        "ties": 96,
+        "losses": 2,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 4,
+        "ties": 90,
+        "losses": 6,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 7,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.6704356639845148,
+      0.8772394778385538,
+      -0.06719675286548567,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.5096205939395726,
+      0.872381462562428,
+      -0.13886948545252653,
+      -0.20516471601130964
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.16,
+        "wins": 3,
+        "ties": 80,
+        "losses": 17,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 2,
+        "ties": 96,
+        "losses": 2,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 4,
+        "ties": 90,
+        "losses": 6,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 8,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 8,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.918851204658621,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 8,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.918851204658621,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 9,
+    "arm": "random_replay",
+    "weights": [
+      -0.9475416141482698,
+      -5.60284549836399,
+      0.08530071012968708,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.43306581699652663,
+      0.010299719541890254,
+      0.0,
+      -0.20659372353333053,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 9,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 9,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 10,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 10,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0941427248883815,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.12302523840942658,
+      0.0,
+      0.0,
+      0.0,
+      -0.38134053543326846,
+      -0.04406670396264585
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.02,
+        "wins": 2,
+        "ties": 95,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 4,
+        "ties": 90,
+        "losses": 6,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 10,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0941427248883815,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.12302523840942658,
+      0.0,
+      0.0,
+      0.0,
+      -0.38134053543326846,
+      -0.04406670396264585
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.02,
+        "wins": 2,
+        "ties": 95,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 4,
+        "ties": 90,
+        "losses": 6,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 11,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      -0.058227972275363984,
+      0.0,
+      -0.29537295352577825,
+      -0.09237739588185073,
+      0.36103607473688726,
+      0.0,
+      0.05817844778148199,
+      8.855472016369607,
+      0.0,
+      0.12711886413553128
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": -0.01,
+        "wins": 2,
+        "ties": 97,
+        "losses": 1,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 11,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      -0.11201469812786369,
+      2.192315997993646,
+      0.0,
+      -0.08387196567465166,
+      0.0,
+      -0.1924804490182127,
+      1.2175023363834223,
+      0.12754247936330307,
+      -0.28914502936906517,
+      0.1941299890336508,
+      -1.1617543336679432
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.05,
+        "wins": 0,
+        "ties": 95,
+        "losses": 5,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.08,
+        "wins": 0,
+        "ties": 92,
+        "losses": 8,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 11,
+    "arm": "counterexample_tail",
+    "weights": [
+      -0.9003602658113882,
+      0.1467457776215136,
+      0.028325339714348266,
+      0.0,
+      0.42159687511801386,
+      -0.2656699159354379,
+      0.07882160115009845,
+      0.0,
+      0.014808481813446378,
+      2.1240298972491596,
+      -0.15678411003321002,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.04,
+        "wins": 2,
+        "ties": 92,
+        "losses": 6,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": -0.01,
+        "wins": 2,
+        "ties": 97,
+        "losses": 1,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 12,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 12,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 12,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 13,
+    "arm": "random_replay",
+    "weights": [
+      -0.7845977072042717,
+      5.960398239176892,
+      6.401287790138025,
+      -0.5483951507624231,
+      -0.0430690272665937,
+      0.0,
+      0.09572397802855026,
+      4.517712163944427,
+      -2.7393647590609747,
+      3.875550415252405,
+      0.08526720756561956,
+      -0.655844272840977
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.06,
+        "wins": 3,
+        "ties": 89,
+        "losses": 8,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.03,
+        "wins": 1,
+        "ties": 95,
+        "losses": 4,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.08,
+        "wins": 0,
+        "ties": 92,
+        "losses": 8,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.01,
+        "wins": 5,
+        "ties": 90,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 13,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      -0.1941491375007997,
+      1.4912008218825772,
+      0.015931336506295964,
+      0.0,
+      0.0,
+      -0.11905051076506797,
+      1.2925463088541695,
+      -0.15803237154676972,
+      -1.8771721217139457,
+      0.866520488853497,
+      -0.655844272840977
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.02,
+        "wins": 2,
+        "ties": 94,
+        "losses": 4,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.08,
+        "wins": 0,
+        "ties": 92,
+        "losses": 8,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 13,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      -0.1941491375007997,
+      1.4912008218825772,
+      0.015931336506295964,
+      0.0,
+      0.0,
+      -0.11905051076506797,
+      1.2925463088541695,
+      -0.15803237154676972,
+      -1.8771721217139457,
+      0.866520488853497,
+      -0.655844272840977
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.02,
+        "wins": 2,
+        "ties": 94,
+        "losses": 4,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.08,
+        "wins": 0,
+        "ties": 92,
+        "losses": 8,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 14,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 14,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.9775948713743025,
+      0.0,
+      0.0,
+      0.0,
+      -0.3833355660540959,
+      0.0,
+      -0.04703398905670135,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 14,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.9775948713743025,
+      0.0,
+      0.0,
+      0.0,
+      -0.3833355660540959,
+      0.0,
+      -0.04703398905670135,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 15,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      4.593544660152002,
+      -0.03368584743031902,
+      -0.05288651872565417,
+      0.0,
+      0.0,
+      7.036082575167747,
+      0.0,
+      0.3367550490421376,
+      -0.3072144738753213,
+      1.0243277471897991
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.02,
+        "wins": 2,
+        "ties": 95,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 4,
+        "ties": 90,
+        "losses": 6,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 15,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      -4.748560892697549,
+      -0.09003402668614607,
+      -0.1470554840098167,
+      0.0,
+      -0.22397960230513178,
+      -1.3235788153846715,
+      0.32289079449242314,
+      -0.19361740405151676,
+      0.3367550490421376,
+      -0.21265459987958,
+      -3.1489077360706954
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.05,
+        "wins": 1,
+        "ties": 93,
+        "losses": 6,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 15,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      -4.748560892697549,
+      -0.09003402668614607,
+      -0.1470554840098167,
+      0.0,
+      -0.22397960230513178,
+      -1.3235788153846715,
+      0.32289079449242314,
+      -0.19361740405151676,
+      0.3367550490421376,
+      -0.21265459987958,
+      -3.1489077360706954
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.05,
+        "wins": 1,
+        "ties": 93,
+        "losses": 6,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 16,
+    "arm": "random_replay",
+    "weights": [
+      -1.3415418976058517,
+      -0.3561119812328691,
+      0.8824882772144793,
+      2.777985198120578,
+      1.6057962692788195,
+      1.0787760399743265,
+      0.2903864910754388,
+      2.068129034844327,
+      -1.6680367024463973,
+      -0.3893800064225448,
+      -0.4218839747117444,
+      -3.2546354172953773
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.09,
+        "wins": 2,
+        "ties": 88,
+        "losses": 10,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.09,
+        "wins": 1,
+        "ties": 89,
+        "losses": 10,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.09,
+        "wins": 0,
+        "ties": 91,
+        "losses": 9,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 16,
+    "arm": "counterexample_replay",
+    "weights": [
+      -0.021703423002467304,
+      -0.7257306407911505,
+      3.616196316873647,
+      4.301027823738383,
+      0.010282973976253584,
+      0.35564431302365096,
+      -0.19595505695251692,
+      4.456828969711105,
+      0.056503635485708845,
+      0.13602124186797793,
+      -0.48909381897644866,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 1,
+        "ties": 95,
+        "losses": 4,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.04,
+        "wins": 0,
+        "ties": 96,
+        "losses": 4,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.02,
+        "wins": 4,
+        "ties": 91,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 16,
+    "arm": "counterexample_tail",
+    "weights": [
+      -0.021703423002467304,
+      -0.7257306407911505,
+      3.616196316873647,
+      4.301027823738383,
+      0.010282973976253584,
+      0.35564431302365096,
+      -0.19595505695251692,
+      4.456828969711105,
+      0.056503635485708845,
+      0.13602124186797793,
+      -0.48909381897644866,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 1,
+        "ties": 95,
+        "losses": 4,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.02,
+        "wins": 0,
+        "ties": 98,
+        "losses": 2,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.04,
+        "wins": 0,
+        "ties": 96,
+        "losses": 4,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0.02,
+        "wins": 4,
+        "ties": 91,
+        "losses": 5,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 17,
+    "arm": "random_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 17,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 17,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 18,
+    "arm": "random_replay",
+    "weights": [
+      -3.5130951774285437,
+      -2.472623270636798,
+      0.6107286361940377,
+      -0.273478998806836,
+      0.0,
+      -0.6082654933350659,
+      0.0,
+      0.0,
+      0.01463887763662704,
+      0.6680204217525936,
+      0.0,
+      -1.0907837738295854
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0.03,
+        "wins": 1,
+        "ties": 95,
+        "losses": 4,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0.03,
+        "wins": 0,
+        "ties": 97,
+        "losses": 3,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0.01,
+        "wins": 0,
+        "ties": 99,
+        "losses": 1,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": -0.01,
+        "wins": 2,
+        "ties": 97,
+        "losses": 1,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 18,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 18,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 19,
+    "arm": "random_replay",
+    "weights": [
+      -0.36793660883249235,
+      1.2822144367966202,
+      1.6809169352253859,
+      0.0,
+      0.954794892356928,
+      -0.12301824330839556,
+      -1.1015655547954228,
+      -2.276174719696837,
+      4.777548679721843,
+      0.5897139393758339,
+      0.0,
+      -0.42876968736848914
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 19,
+    "arm": "counterexample_replay",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  },
+  {
+    "seed": 19,
+    "arm": "counterexample_tail",
+    "weights": [
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "audit": {
+      "uniform": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "small": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "large": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bimodal": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "complementary": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_thirds": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "near_halves": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      },
+      "bands": {
+        "mean_excess_bins": 0,
+        "wins": 0,
+        "ties": 100,
+        "losses": 0,
+        "n": 100
+      }
+    }
+  }
+]

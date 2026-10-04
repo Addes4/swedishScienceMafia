@@ -1,0 +1,134 @@
+# INDIVIDUAL PROGRAM SUMMARIES
+
+The following are summaries of individual programs evaluated since the last meta update:
+
+**Program Name: Random Local Search for Difference-Sum Ratio**
+
+- **Implementation**: Maintains a set of distinct integers, iteratively perturbing a random element by ±3 with occasional element additions/removals, and accepts candidates scoring at least as well as the best (with occasional resets to the best solution). Scoring uses log|A−A|/log|A+A| plus a small size bonus, seeded from a fixed 6-element starting set with a 20-second time budget.
+- **Performance**: Combined score 0.89 with sum-difference 1.13731, versus a best known of 1.28155; the program is correct and passes all validation tests.
+- **Feedback**: The greedy acceptance plus random resets provide basic exploration but plateau well below the best known difference-sum value, indicating the small-step local search lacks the diversity or structure needed to find near-optimal difference-dominant sets.
+**Program Identifier:** Generation 0 - Patch Name initial_program - Correct Program: True
+
+**Program Name: Greedy Construction with Simulated Annealing for Difference-Sum Ratio**
+
+- **Implementation**: Builds candidate sets via greedy incremental addition (sampling random candidates plus difference-based perturbations), then refines with simulated annealing using mutation, insertion, deletion, and swap operations under a cooling schedule.
+- **Performance**: Combined score 0.89 with sum-difference ratio 1.13731 (best known 1.28155).
+- **Feedback**: The logarithmic ratio objective with a small tie-breaking bonus rewards both large difference sets and small sum sets; the approach falls short of the best known ratio, suggesting greedy+SA struggles to escape local optima on this hard combinatorial objective.
+**Program Identifier:** Generation 1 - Patch Name sidon_set_construction - Correct Program: True
+
+**Program Name: Hybrid Golomb + Dense-Core Construction with Simulated Annealing**
+
+- **Implementation**: Combines structured constructions (dense intervals `{0..m}`, greedy Golomb rulers, and dense-core-plus-offset-Golomb hybrids) with simulated annealing local search over add/remove/mutate/rebuild moves, using a multi-phase schedule (structured search → SA from best → random restarts).
+- **Performance**: Achieves combined score 0.89 with sum-difference 1.13731 (best known 1.28155), passing all validation tests.
+- **Feedback**: The structured Golomb/dense-core seeding gives a strong starting point but SA on the true objective plateaus around 1.137, notably below the 1.28155 best known, suggesting the search needs stronger local moves or better exploitation of the sum/difference set structure to close the gap.
+**Program Identifier:** Generation 2 - Patch Name golomb_sidon_hybrid - Correct Program: True
+
+**Program Name: Structured Sidon Sets with Local Search Optimization**
+
+- **Implementation**: Combines Bose-Chowla-like quadratic Sidon set constructions (A = {i + p·(i² mod p)}) across primes 11-199 with randomized greedy Sidon set builders, then applies a 100-second local search that perturbs individual elements while accepting improvements and occasional random restarts.
+
+- **Performance**: Achieves a combined score of 0.89 with a sum-difference metric of 1.13731, which is correct and passes all validation tests but falls short of the best known score of 1.28155.
+
+- **Feedback**: The structured quadratic constructions provide strong initial candidates, but the local search's single-element perturbation strategy with a step size of range/50 limits exploration, likely preventing it from reaching the best-known sum-difference ratio; the low 0.02 acceptance probability for non-improving moves may also restrict escaping local optima.
+**Program Identifier:** Generation 3 - Patch Name sidon_greedy_anneal - Correct Program: True
+
+**Program Name: Hybrid Dense-Core Golomb Construction with Simulated Annealing**
+
+- **Implementation**: Builds candidate sets by combining a dense integer core `{0..m}` with a greedy Golomb-like ruler tail offset by `m+gap`, then refines via incremental simulated annealing with add/shift/remove/rebuild moves and fast counting-dict scoring.
+- **Performance**: Achieves sum-difference score 1.13731 (combined 0.89), below the best known 1.28155.
+- **Feedback**: The structured dense+Golomb seeding plus time-budgeted SA phases produces valid results but the local search's small perturbation range and modest temperature schedule appear to limit escape from suboptimal basins; larger/smarter moves or stronger Golomb tail construction could close the gap to best known.
+**Program Identifier:** Generation 4 - Patch Name golomb_dense_sa_hybrid - Correct Program: True
+
+**Program Name: Golomb Ruler Construction with Local Search Refinement**
+- **Implementation**: Builds greedy Golomb rulers for orders 16–33 to maximize distinct differences (|A-A| = n(n-1)+1), centers them near zero, then applies randomized local search perturbing single elements by ±4 with occasional restarts to best.
+- **Performance**: Combined score 0.89, sum-difference ratio 1.13626 vs best known 1.28155.
+- **Feedback**: The Golomb ruler approach effectively maximizes the difference set, but the sum set remains too large relative to the theoretical optimum, indicating the centering heuristic doesn't sufficiently compact |A+A| for these ruler sizes.
+**Program Identifier:** Generation 5 - Patch Name sidon_golomb_construction - Correct Program: True
+
+**Program Name: Dense-Core Golomb Construction with Simulated Annealing Refinement**
+
+- **Implementation**: Builds candidate sets by combining a dense integer core `{0..m}` with a greedy near-Golomb ruler block offset by a gap, then applies simulated annealing with targeted moves (mark shifting, difference-preserving additions, deletions, swaps) to maximize `log|A-A|/log|A+A|`.
+- **Performance**: Achieves a combined score of 0.89 with sum-difference ratio 1.13731 (best known 1.28155), passing all validation tests within a 110-second deadline.
+- **Feedback**: The structured dense+Golomb seeding provides a strong starting point, but the sum-difference metric remains well below the best known value, suggesting the refinement's move operators may not sufficiently suppress additive structure relative to the difference set growth.
+**Program Identifier:** Generation 6 - Patch Name golomb_dense_ratio_optimizer - Correct Program: True
+
+**Program Name: Hybrid Dense-Core Golomb Construction with Simulated Annealing**
+
+- **Implementation**: Combines a dense (or strided arithmetic progression) core with a greedy Golomb-like ruler tail offset by a gap, then refines via simulated annealing with targeted shift/add/remove moves and periodic structured-seed restarts across three time-budgeted phases (systematic scan, local search, restarts).
+- **Performance**: Achieves combined score 0.89 with sum-difference 1.13731 (best known 1.28155), passing all validation tests.
+- **Feedback**: The hybrid structured-seed plus SA approach yields solid but suboptimal results; the gap to the best-known sum-difference ratio suggests the greedy Golomb tail and move operators may not fully exploit difference-set growth relative to sum-set suppression.
+**Program Identifier:** Generation 7 - Patch Name richer_golomb_core_and_diff_only_scoring - Correct Program: True
+
+**Program Name: Structured Sidon Constructions with Local Search Optimization**
+
+- **Implementation**: Combines Bose-Chowla quadratic Sidon sets, randomized greedy bounded Sidon constructions biased toward the span center, reflection heuristics, and a 100-second simulated-annealing-style local search that perturbs elements at multi-scale step sizes.
+
+- **Performance**: Achieves a combined score of 0.89 and a sum-difference ratio of 1.13731 (best known 1.28155), passing all validation tests.
+
+- **Feedback**: The sum-difference score of 1.13731 falls notably short of the best known 1.28155, suggesting the structured constructions and local search may be converging to suboptimal local minima; stronger diversification or better-balanced sum/difference trade-offs could improve results.
+**Program Identifier:** Generation 8 - Patch Name bounded_shifted_sidon_with_compaction - Correct Program: True
+
+**Program Name: Nested-Interval Sidon Set Construction with Offset Local Search**
+
+- **Implementation**: Builds sets as unions of a greedy Sidon-like base set replicated at arithmetic offsets, then refines offsets and individual elements via randomized local search to maximize log(#distinct differences)/log(#distinct sums).
+- **Performance**: Combined score 0.89 with sum-difference 1.13598 (best known 1.28155); correct and passes all validation tests.
+- **Feedback**: The nested-interval construction yields strong distinct-difference counts but falls short on sum collisions compared to the best known, indicating the tightly-packed offset strategy and limited polish leave room for improvement in reducing distinct sums.
+**Program Identifier:** Generation 9 - Patch Name nested_interval_sidon - Correct Program: True
+
+# GLOBAL INSIGHTS SCRATCHPAD
+
+The following are global insights about optimization approaches and their effectiveness:
+
+## Successful Algorithmic Patterns
+
+- **Structured seeding consistently reaches the ~1.137 plateau across all generations.** Every evaluated program — from Generation 0's random local search through Generation 9's nested-interval Sidon sets — converges to essentially the same sum-difference value (1.13598–1.13731). This uniformity indicates that the *seeding strategy* (Golomb rulers, Bose-Chowla quadratic sets, dense cores, bounded Sidon constructions) is not the differentiator; the objective simply saturates at this level for the search topologies used.
+
+- **The current best program combines the widest seed diversity with multi-scale perturbation.** The program under analysis (Generation 8, `bounded_shifted_sidon_with_compaction`) is the only one that layers *four* distinct seed families: Bose-Chowla quadratic sets (`_quadratic_set`), center-biased bounded Sidon sets (`_bounded_sidon`), greedy Sidon sets (`_greedy_sidon`), and a reflection heuristic (`_reflect_half`). Its 1.13731 ties the best observed value and is slightly above Generation 5 (1.13626) and Generation 9 (1.13598).
+
+- **Multi-scale step sizes in local search marginally outperform fixed-step variants.** The current best uses `step = span//50` (70% of moves) and `span//8` (30% of moves), whereas Generation 3 and Generation 4 used single-scale perturbations (`range/50`) and Generation 5 used fixed ±4. The multi-scale approach yields 1.13731 versus Generation 5's 1.13626 — a small but measurable edge, suggesting coarse jumps occasionally escape fine-grained basins.
+
+- **Center-biased candidate ordering for sum-set compaction is a targeted, correct idea.** The `_bounded_sidon` function sorts candidates by `abs(x - center)` to preferentially pack elements near the middle of the span. This directly targets |A+A| suppression, which is the correct lever (since |A−A| is already near-maximal from Sidon structure), and it is unique to the best program among those evaluated.
+
+## Ineffective Approaches
+
+- **Greedy/incremental construction followed by simulated annealing uniformly plateaus at 1.137.** Generations 1, 2, 4, 6, and 7 all use greedy seeding plus SA with add/remove/swap/shift moves and all land at exactly 1.13731. The identical plateau across five independently-written SA variants strongly suggests the objective's landscape — not the move set — is the limiting factor, and that SA temperature schedules are not the bottleneck.
+
+- **Pure local search without structured seeding performs no better (and sometimes worse).** Generation 0 (random local search, ±3 perturbations) and Generation 5 (Golomb rulers + ±4 perturbations) both fail to exceed the structured-seed programs, with Generation 5 actually scoring *lower* (1.13626). Random perturbation of a fixed-size set is insufficient regardless of seed quality.
+
+- **Single-element perturbation with low non-improving acceptance restricts exploration.** Generation 3's feedback explicitly flags "single-element perturbation strategy with a step size of range/50" and "low 0.02 acceptance probability" as limiting. The current best's 0.03 acceptance rate is barely higher, which likely explains why it cannot break past 1.137 despite richer seeding.
+
+- **Centering Golomb rulers near zero does not compact the sum set.** Generation 5's feedback notes the centering heuristic "doesn't sufficiently compact |A+A|." This is a concrete failure mode: minimizing span does not minimize distinct sums, because additive collisions depend on residue structure, not extent.
+
+## Implementation Insights
+
+- **The scoring function's size bonus is negligible and may be counterproductive.** `_score` adds `(1 - 1/len(a))/100`, which for n=100 contributes ~0.0099 — comparable to the entire gap between Generation 5 (1.13626) and the best (1.13731). This bonus rewards larger sets, but larger sets generally *increase* |A+A|, partially offsetting the ratio gain. The best program's advantage may partly come from this tie-breaker interacting favorably with its center-biased seeds.
+
+- **The `_reflect_half` heuristic is a difference-preserving, sum-altering operation applied as a cheap post-processing step.** It reflects the upper half of the sorted set around the midpoint, preserving cardinality and (approximately) the difference multiset while potentially introducing sum collisions. Applied both to seeds and as final polish, it is a low-cost structural move that other programs lack.
+
+- **Exact-set membership checks in `_bounded_sidon` (`if s in used_sums`) enforce true Sidon-ness during construction, but the objective does not require Sidon sets.** A Sidon set maximizes |A−A| ≈ n(n−1)+1, but the ratio log|A−A|/log|A+A| may be improved by *deliberately* allowing some difference collisions if they buy larger sum collisions. All evaluated programs enforce or approximate Sidon structure, which may explain the universal 1.137 ceiling.
+
+- **Time budget is 100s in the best program versus 20s (Gen 0) and 110s (Gen 6), yet all reach the same score.** This is strong evidence that additional search time on the current move set yields no improvement — the bottleneck is move design, not iteration count.
+
+## Performance Analysis
+
+- **Score distribution is remarkably narrow: 1.13598 to 1.13731 across ten generations.** The total spread is 0.00133, or roughly 0.1% of the best-known 1.28155. This near-identical convergence across radically different algorithms (random search, SA, Golomb, Bose-Chowla, nested intervals) indicates a *shared structural ceiling* imposed by the problem formulation or the scoring/validation constraints, not by any single implementation weakness.
+
+- **The gap to best-known is large and stable at ~0.144 (1.28155 − 1.13731).** No generation closes more than 1% of this gap. The best-known value likely requires a qualitatively different construction (e.g., sets that are not Sidon-like, or much larger cardinalities) rather than incremental refinement.
+
+- **Generation 5's regression to 1.13626 is the only sub-plateau result.** Its pure Golomb-ruler approach maximizes |A−A| exactly (n(n−1)+1) but produces large |A+A|, confirming that *difference-maximization alone is insufficient* — the current best's balanced center-biased seeding is measurably better.
+
+- **The current best program ties the global plateau at 1.13731 with the most diverse seed portfolio.** Since Generations 1, 2, 4, 6, 7 also reach 1.13731, the best program's value is not in exceeding the plateau but in *robustly* reaching it from multiple seed families — suggesting its `_bounded_sidon` + `_reflect_half` combination is a reliable, not merely lucky, path to the ceiling.
+
+# META RECOMMENDATIONS
+
+The following are actionable recommendations for the next program generations:
+
+1. **Relax the strict Sidon constraint in `_bounded_sidon` to allow controlled difference collisions.** All programs enforce (or approximate) Sidon-ness, which maximizes |A−A| but leaves |A+A| larger than necessary — the shared 1.137 ceiling is likely a direct consequence. Modify `_bounded_sidon` to permit up to ~10–20% duplicate differences (track a diff-multiplicity counter and skip the `ok=False` on diff collisions while still rejecting sum collisions), then let the local search re-optimize. This trades a small |A−A| loss for a potentially larger |A+A| reduction, which the log-ratio objective rewards.
+
+2. **Add a dedicated sum-set compaction move to the local search that explicitly minimizes |A+A|.** The current move set only perturbs single elements with random steps, and the feedback flags single-element perturbation with low acceptance as limiting. Implement a move that, for a randomly chosen element, scans candidate replacements in `[min(A)-span, max(A)+span]` and picks the value minimizing |A+A| while keeping |A−A| above a threshold (e.g., 95% of current). Accept this move greedily; it directly targets the objective’s denominator rather than hoping random walks find it.
+
+3. **Exploit the `_reflect_half` insight more aggressively with a full sum-collision search.** `_reflect_half` is a difference-preserving, sum-altering operation that other programs lack, yet it’s applied only once to seeds and once as final polish. Generalize it: enumerate several reflection centers `c` (not just the midpoint) and reflection fractions (top 30%, 40%, 50%), evaluate each, and apply the best. Because reflections preserve cardinality and roughly preserve the difference multiset, this is a cheap structural move that can repeatedly shave |A+A| without sacrificing |A−A|.
+
+4. **Replace the negligible `(1 - 1/len(a))/100` size bonus with a cardinality-aware search that optimizes n jointly.** The bonus contributes ~0.0099 at n=100 — comparable to the entire inter-generation spread — and rewards larger sets that generally inflate |A+A|. Instead, run the local search across a *range* of cardinalities (e.g., n ∈ {60, 100, 150, 200, 300}) with the pure log-ratio score, since larger n can improve the ratio only if |A+A| grows sub-quadratically. Report which n maximizes the pure ratio; the current program’s fixed-size seeds may be leaving ratio gains on the table.
+
+5. **Increase the non-improving acceptance rate and add a periodic restart/temperature schedule.** Generation 3’s feedback explicitly blamed the 0.02 acceptance probability for restricted exploration, yet the best program uses only 0.03 — barely higher — which plausibly explains why richer seeding still can’t break 1.137. Raise acceptance to ~0.10–0.15 early in the 100s budget and anneal it down, and add 2–3 restarts from the strongest seed family (center-biased `_bounded_sidon`) when no improvement is seen for ~20s. This directly addresses the observed plateau-with-diverse-seeds pattern.

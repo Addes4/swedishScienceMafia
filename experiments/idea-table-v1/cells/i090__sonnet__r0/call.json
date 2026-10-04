@@ -1,0 +1,14 @@
+{
+  "cell": "i090__sonnet__r0",
+  "idea_id": "i090",
+  "idea": "Build an exhaustive axis-aligned \"count-sum\" table T[p][q] over integer rectangles p\u00d7q (p,q \u2264 2\u221an+4), where each entry is a Pareto set of (count, sum) pairs. Fill it with exact-Fraction guillotine recursion that also allows the cell itself to be one square plus a remainder strip. Then return, for the unit square, the best entry at exactly n over all board sizes L, reconstructing the layout from stored back-pointers.",
+  "model": "claude-sonnet-5-5",
+  "replicate": 0,
+  "effort": "high",
+  "max_tokens": 32000,
+  "attempts": 2,
+  "time": 1791056133.311038,
+  "status": "api_error",
+  "detail": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011Cffs9H4D2ZP8HoaZZ1svY'}",
+  "cost": 0.0
+}

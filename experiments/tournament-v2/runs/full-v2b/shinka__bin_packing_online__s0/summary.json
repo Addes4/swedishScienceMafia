@@ -1,0 +1,87 @@
+{
+  "job_id": "shinka__bin_packing_online__s0",
+  "arm": "shinka",
+  "arm_type": "shinka",
+  "problem": "bin_packing_online",
+  "seed": 0,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.147463,
+  "within_cap": true,
+  "tokens": 503366,
+  "calls": 175,
+  "failed_calls": 0,
+  "refusals": 96,
+  "stop_reason_counts": {
+    "stop": 175
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 175
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.147463
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 21,
+  "retries": 0,
+  "evals": 81,
+  "valid_evals": 78,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.9616415083396637,
+  "initial_hidden": 0.960408920805711,
+  "final_public": 0.9919928138160182,
+  "final_hidden": 0.9930001341667968,
+  "final_sha": "1de8140c7346f687",
+  "max_public_seen": 0.9919928138160182,
+  "hidden_of_max_public_seen": 0.9930001341667968,
+  "improvements": 2,
+  "usd_per_improvement": 0.073732,
+  "tokens_per_improvement": 251683,
+  "auc": 0.990354,
+  "auc_gain": 0.748542,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 770.6,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.147463,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 7.7,
+      "t": 1791069839.2629745,
+      "incumbent_public": 0.9616415083396637,
+      "incumbent_hidden": 0.960408920805711,
+      "sha": "609927c5ea619a94"
+    },
+    {
+      "spent_usd": 0.006445,
+      "budget_frac": 0.042967,
+      "tokens": 17570,
+      "wall_s": 58.2,
+      "t": 1791069889.736629,
+      "incumbent_public": 0.991243100254384,
+      "incumbent_hidden": 0.9922590512351355,
+      "sha": "6c4c017741ef6e14"
+    },
+    {
+      "spent_usd": 0.073323,
+      "budget_frac": 0.48882,
+      "tokens": 238478,
+      "wall_s": 381.0,
+      "t": 1791070212.5030148,
+      "incumbent_public": 0.9919928138160182,
+      "incumbent_hidden": 0.9930001341667968,
+      "sha": "1de8140c7346f687"
+    }
+  ]
+}
