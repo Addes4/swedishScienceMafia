@@ -1,6 +1,6 @@
 # Mosa: notes for the team
 
-Written at about 06:45 on Sunday 2026-10-04 (deadline 14:45). This is the handoff: what works, what we learned, how the
+Written at about 06:00 on Sunday 2026-10-04 (deadline 14:45). This is the handoff: what works, what we learned, how the
 code is organised, how it generalizes, and what makes this a strong Track 1 entry.
 
 ## Status
@@ -15,6 +15,34 @@ code is organised, how it generalizes, and what makes this a strong Track 1 entr
   - the compiled relaxation and the polish give the same sides as the prototype to 1e-15;
   - the same strategy and seed give the same record locally (9.8877007312) and on Modal (9.886746030783).
 - **Still running when this was written:** the targeted n = 67 lab and the n < 100 sweep, on the prototype (branch `squarelab-wip`, folder `swedishScienceMafia/runs/`). To pull new results into `history/` and re-verify every record, run `python scripts/import_history.py ../swedishScienceMafia/runs`.
+
+## Positioning: what Mosa is, and is not
+
+This is the core of the pitch, and it should guide every product decision.
+
+- **Not code evolution.** AlphaEvolve, OpenEvolve and ShinkaEvolve use the LLM as a mutation operator on a program, with selection on a fitness score over many edits. Mosa uses the LLM as a researcher: it proposes a *method*, with its source field and a hypothesis, and tests it on a family of instances × seeds at equal budget. It reads graded evidence back (gap, near miss, initial gap, failures) and decides whether to refine, combine or replace. A lab takes 12–20 model calls; the compute goes into fair testing.
+- **Not a numerical method.** Annealing, basin hopping, relaxation and SQP polish are the trusted *tools*. The model chooses and invents what to do with them. Our own fixed-operator searches on the same tools found nothing for n = 51–89 or 101–200, while LLM-designed strategies broke four records.
+- **What is novel:**
+  - the level of abstraction: strategies as reusable algorithms with stated hypotheses;
+  - analogy across fields as the source of ideas;
+  - evidence-shaped feedback, especially near misses;
+  - a strict trust boundary, so model code can only propose candidates;
+  - memory at three timescales (round history, library, notebook);
+  - transfer of discovered strategies across instances.
+- **Track 1 fit:** the discovered artifacts are algorithms, validated by verified new results on a benchmark studied since 1979.
+
+**How this shapes the product:**
+- **UI:**
+  - Researchers are rows with a history, not a population.
+  - Every idea shows the field it came from and the researcher's hypothesis, and its outcome as one graded sentence, not a score curve.
+  - The lab header says that each idea was tested on N sizes × seeds, because multi-instance testing is the point.
+  - Transfer is a first-class action ("Run on more sizes"), and discoveries found by a rerun say so.
+  - Every discovery shows how it was verified and which idea found it.
+- **Architecture:**
+  - The trust boundary is in the code. `mosa/domain.py` holds the trusted relaxation, polish and verifier; `mosa/sandbox.py` runs the model's code, which can only return candidates.
+  - The evaluator (`evaluate.py`) is defined over instance families and seeds.
+  - The notebook keeps the reasoning (prompt, answer, outcome) next to the numbers.
+- **What not to add:** fitness leaderboards, mutation counts, score curves. These describe evolution, not research, and they bury the ideas.
 
 ## What worked: general methods, with the evidence
 
@@ -98,7 +126,7 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - independent verification;
 - the notebook;
 - the history importer;
-- the workbench: research threads, round, record and size views, live progress, replay, palette, launch form, dark and light themes;
+- the workbench: labs, a map of each lab's ideas (one row per researcher), idea and discovery panes in plain sentences, replay, New lab and Run on more sizes, dark and light themes;
 - the CLI;
 - an end-to-end test with a stub researcher.
 
@@ -121,17 +149,18 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 | Technicality | Compiled relaxation plus an exact SQP polish; 80/160-digit verification; Modal fan-out (strategy, relax and polish workers, thousands of cores per lab); sandboxed model code; the notebook and replay |
 | Creativity | The LLM as a *strategist* drawing analogies across fields; it reinvented Deaven & Ho from its own failures; near-miss feedback |
 | Usefulness | Five new best-known results on a benchmark studied since 1979, verified and submitted to the catalogue; a reusable framework (the adapter contract) |
-| Demo | Workbench replay of the real lab: threads, Researcher 4's round 3, the n = 129 before and after with rearranged squares highlighted, the verification checklist |
+| Demo | Workbench replay of the real lab: the map filling in, Researcher 4's round 3, the n = 129 discovery with its rearranged squares marked and the verification |
 | Alignment | Track 1 (AI discovery of algorithms) directly. Modal side challenge: the whole evaluation runs as Modal fan-out |
 
 **2-minute video script:**
 1. **0:00–0:15, the problem.** "Pack n unit squares into the smallest square: studied since 1979, records still improving. Can an AI researcher discover *search methods* that beat them?"
-2. **0:15–0:40, how it works.** On the welcome page, "How it works": LLM researchers write strategies, tools test them at equal budget on Modal, an independent verifier checks.
+2. **0:15–0:40, how it works.** Over the lab map: each row is an LLM researcher, each mark an idea it wrote as code; tools test every idea at equal budget on Modal; an independent verifier checks every claim.
 3. **0:40–1:15, the discovery.**
-   - Open the strategy lab, press Replay, and let the threads fill in.
+   - Open the lab n = 101–132, press Replay, and let the map fill in.
    - Stop on Researcher 4: round 1 too destructive, round 2 close, round 3 cut-and-splice with ★ 123, 129 and 130.
-   - Open round 3 and read one line of "why it should fit".
-4. **1:15–1:40, the record.** Open record n = 129: before and after, 9.3e-3 better, rearranged squares highlighted, ✓ zero tolerance, ✓ 80 digits, ✓ 160 digits, and the link back to the exact round.
+   - Select round 3 and read one line of "why the researcher expected it to work".
+   - Point at Researcher 2's round 3: content-aware seam carving, from computational photography, beat the official n = 126.
+4. **1:15–1:40, the record.** Select the discovery n = 129: toggle to the previous best and back (19 squares rearranged), 0.0093 smaller, verified at zero tolerance and at 80 and 160 digits, found by Researcher 4 in round 3.
 5. **1:40–2:00, transfer and honesty.**
    - The library strategy broke n = 88 on 7 of 8 seeds.
    - n = 67 (the Göbel strip) still stands, which shows the system's limits.
@@ -139,9 +168,10 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 
 **Short description (for the form):**
 
-> Mosa is an autoresearch workbench in which LLM researchers write search strategies, often adapting methods from other fields. Trusted tools run every strategy at equal budget on Modal, and an independent verifier checks every claim. Researchers see graded feedback, including near misses, refine their ideas over rounds, and build on a library of strategies that worked. On the squares-in-squares packing benchmark, studied since 1979, Mosa found five new best-known packings in one night (n = 88, 123, 126, 129, 130). Each was verified at zero tolerance and at 80 and 160 digits. Four came from LLM-written strategies: one researcher reinvented the 1995 cut-and-splice method of atomic-cluster optimization after two failed rounds. The framework is problem-agnostic; a new problem only needs a relaxation, a polish and a verifier.
+> Mosa is an autoresearch workbench that moves the LLM one level above code evolution. Instead of mutating a program under a fitness score, as AlphaEvolve-style systems do, its LLM researchers propose search methods by analogy with other fields, each with a stated hypothesis, and write them as code. Trusted tools test every strategy at equal budget across many problem instances on Modal, and an independent verifier checks every claim. Researchers see graded feedback, including near misses, refine their ideas over rounds, and build on a library of strategies that worked. On the squares-in-squares packing benchmark, studied since 1979, Mosa found five new best-known packings in one night (n = 88, 123, 126, 129, 130). Each was verified at zero tolerance and at 80 and 160 digits. Four came from LLM-written strategies: one researcher reinvented the 1995 cut-and-splice method of atomic-cluster optimization after two failed rounds. The framework is problem-agnostic; a new problem only needs a relaxation, a polish and a verifier.
 
 **Q&A preparation:**
+- *"How is this different from AlphaEvolve, OpenEvolve or ShinkaEvolve?"* Those evolve a program: the LLM edits code, a score selects, over hundreds to thousands of edits. Mosa's LLM proposes a method with a hypothesis, sees graded evidence across many instances and seeds, and reasons about what to try next, in 12–20 calls per lab. Its outputs are reusable strategies (one designed for n = 101–132 broke n = 88), and its code cannot touch the evaluator. The two are complementary.
 - *"Isn't this just an evolutionary algorithm?"* The template is evolutionary on purpose, so budgets stay comparable. The discovery happens at the level of *which operators and why*: the model invents them, explains them, and refines them from measured outcomes.
 - *"Did the model just remember Deaven & Ho?"* Possibly. Rediscovering a classic for a new problem is itself the useful skill, and it reached the idea through two rounds of failure feedback. The prompt names no method.
 - *"Are the records real?"* They are verified independently at zero tolerance and at 80 and 160 digits, with every pair and wall at least 2e-10 apart. They have been submitted to the catalogue. We claim best-known, not optimal.
@@ -158,4 +188,4 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - **Known limits:**
   - The first imported lab has no researcher-decision field, because the prototype didn't record one.
   - Comparison PNGs were never generated (the catalogue site rate-limited us). The workbench's record view replaces them, and the catalogue-format SVGs are in `results/`.
-  - Replay runs a whole lab in about 45 seconds.
+  - Replay runs a whole lab in about 40 seconds.

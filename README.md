@@ -18,6 +18,32 @@ Each packing was checked for overlap at zero tolerance and audited at 80 and 160
 
 We are not claiming these are optimal. They have been submitted to the squares-in-squares catalogue for verification.
 
+## What is new
+
+Most LLM-driven discovery systems, such as AlphaEvolve, OpenEvolve, ShinkaEvolve and FunSearch, evolve **programs**. The model acts as a mutation operator that edits code, and a fitness score selects the survivors over hundreds or thousands of edits. The searches that set most squares-in-squares records (simulated annealing, basin hopping, hand-made constructions) use **operators a human chose**.
+
+Mosa moves the model one level up, **from editing programs to doing research.** It proposes methods by analogy, tests them fairly across many instances, and reasons from graded evidence. The numerics and the verification stay in trusted tools.
+
+| | Code evolution (AlphaEvolve, OpenEvolve, ShinkaEvolve) | Numerical search (annealing, basin hopping) | Mosa |
+|---|---|---|---|
+| What the model produces | edits to a program | nothing: a human designs the operators | a search method: its source field, a hypothesis for why it fits, and code |
+| What gets evaluated | a program, by its score | one run | a strategy on a family of instances × seeds, at equal budget |
+| Feedback to the model | a fitness score | — | graded evidence per instance: gap, near miss, initial gap, failures |
+| Where new ideas come from | local edits to existing code | the designer | analogies across fields: crystal structure prediction, protein folding, metallurgy, computational photography… |
+| Memory | the population | — | each researcher's history, a library of strategies that worked, a replayable notebook |
+| Trust | the program computes its own result | the program | numerics and verification are fixed tools; model code can only propose candidates |
+| Model calls per lab | hundreds to thousands | none | 12–20 (4 researchers × 3–5 rounds); the compute goes into testing |
+
+**Evidence that the difference matters:**
+- **Same tools, different strategies.** Our own searches with fixed operators (group perturbations, soft modes, neighbour transplants, beam search) used the same relaxation and polish. They never improved a best-known packing for n = 51–89 or 101–200. On the same tools, LLM-designed strategies broke four.
+- **Strategies are reusable algorithms, not one-off solutions.** The cut-and-splice strategy was designed while attacking n = 101–132. It then broke n = 88 on 7 of 8 seeds.
+- **Reasoning from evidence, not selection.** Researcher 4's round 1 rebuilt the packing and was too destructive. Round 2 made local edits and came close. In round 3 it reasoned its way to recombining intact pieces, which is Deaven & Ho's 1995 method from atomic clusters, and broke n = 123, 129 and 130.
+- **Ideas from far away.** Content-aware seam carving, from computational photography, beat the official n = 126. Large-neighbourhood search with grain nucleation broke n = 123.
+
+**Prior work, honestly:** AlphaEvolve has also improved packing bounds, for example for circles and hexagons. The approaches are complementary: an evolved program could become one of Mosa's tools, and a Mosa strategy could be evolved further.
+
+**Connection to Track 1 (AI automated discovery of algorithms):** what Mosa discovers *are* algorithms, namely search strategies, each with a stated hypothesis. They are validated by new results on a benchmark studied since 1979 and verified independently of the system that found them. The framework itself is the autoresearcher: it decides what to try next from its own evidence. The only problem-specific code is a small domain adapter.
+
 ## How it works
 
 ```
@@ -58,17 +84,16 @@ python -m unittest tests.test_lab                     # end-to-end lab round wit
 
 ## The workbench
 
-The workbench is laid out like an editor:
-- **Activity bar:** labs, records, strategy library, problem sizes, new lab.
-- **Explorer:** each lab's researchers and rounds.
-- **Tabbed documents:**
-  - *Research threads*, the default view: every researcher's rounds as cards, with per-size result strips.
-  - *Round:* the idea and why it fits, the strategy, a results heatmap, the code and the exact prompt.
-  - *Record:* before and after, with the rearranged squares highlighted, verification and provenance.
-  - *Problem size:* the catalogue history and every attempt.
-- **Bottom panel:** live progress and the notebook.
-- **Replay** plays any lab back on its real timeline.
-- ⌘K opens the command palette, ⌘B toggles the sidebar, ⌘J toggles the panel.
+`python -m mosa serve` (http://127.0.0.1:8777). It shows three things and offers one action.
+
+- **Labs** (left): each named by its question, i.e. the sizes it attacks. A running lab breathes; a finished one shows how many discoveries it made.
+- **The lab** (centre): a map of the research. One row per researcher, ideas left to right in the order they were tried. Each idea is a name, the field it was borrowed from, and one mark: ★ a new best-known packing, ○ none, ✕ the code failed. Finished labs can be replayed on their real timeline.
+- **The selection** (right), in plain sentences:
+  - **An idea:** its outcome in one sentence, why the researcher expected it to work, and what it does. The results per size, the code and the exact prompt are folded away.
+  - **A discovery:** the packing, with a toggle to the previous best and the rearranged squares marked; the numbers in one sentence; how it was verified; the idea that found it; the catalogue-format SVG.
+- **New lab:** sizes, researchers, rounds and an optional brief. Seeds, compute and reference sizes sit under "More options". From any idea, **Run on more sizes** reruns its strategy elsewhere.
+
+Arrow keys move between ideas; Esc closes the selection.
 
 ## What Mosa does and does not do
 

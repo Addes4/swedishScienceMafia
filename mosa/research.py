@@ -30,9 +30,9 @@ FOCI = ["a strategy imported from another field (physics, chemistry, biology, op
         "a strategy that exploits how the best known solutions are built (see the evidence)",
         "any strategy you expect to beat the best known solutions"]
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["decision", "builds_on", "source", "mapping", "strategy", "code"],
+          "required": ["name", "decision", "builds_on", "source", "mapping", "strategy", "code"],
           "properties": {"decision": {"type": "string", "enum": ["new", "refine", "combine"]},
-                         **{k: {"type": "string"} for k in ("builds_on", "source", "mapping", "strategy", "code")}}}
+                         **{k: {"type": "string"} for k in ("name", "builds_on", "source", "mapping", "strategy", "code")}}}
 SHOWN = ("record", "gap", "runner_up_gap", "initial_gap", "dropped", "failed", "error")  # per-run fields the researcher sees
 
 
@@ -59,7 +59,7 @@ Every call runs in a fresh process, so keep no state between calls: vary gets ev
 {domain.api}
 
 Focus: {focus}. Name the method or idea you draw on and its source field, and explain why its assumptions match the
-measured landscape. Return JSON with "decision" (new, refine or combine), "builds_on" (the earlier round or library
+measured landscape. Return JSON with "name" (the idea in at most six words), "decision" (new, refine or combine), "builds_on" (the earlier round or library
 strategy it builds on, or "none"), "source" (method and field), "mapping" (why it fits this landscape), "strategy" (what
 initialize and vary do) and "code"."""]
     if brief:

@@ -4,36 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mosa</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="app.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
 </head>
 <body>
 <div id="app">
-  <nav id="activity" aria-label="Views"></nav>
-  <aside id="sidebar">
-    <header id="sidebar-title"></header>
-    <div id="explorer" role="tree"></div>
-  </aside>
-  <main id="editor">
-    <div id="tabs" role="tablist"></div>
-    <div id="content"></div>
-    <section id="panel">
-      <header id="panel-tabs"></header>
-      <div id="panel-body"></div>
-    </section>
-  </main>
+  <aside id="side"></aside>
+  <main id="main"></main>
+  <section id="detail" hidden></section>
 </div>
 <footer id="status"></footer>
-<div id="palette" hidden>
-  <div class="palette-box">
-    <input id="palette-input" placeholder="Search labs, rounds, records, sizes, actions…" autocomplete="off" spellcheck="false">
-    <ul id="palette-list"></ul>
-  </div>
-</div>
-<div id="tooltip" hidden></div>
 <script src="app.js"></script>
 </body>
 </html>

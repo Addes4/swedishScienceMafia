@@ -14,7 +14,7 @@ LIBRARY = Path(__file__).resolve().parents[1]/"data"/"strategy-library.json"
 class LabTest(unittest.TestCase):
     def test_round_writes_strategy_progress_results(self):
         code = json.loads(LIBRARY.read_text())[2]["code"]
-        stub = {"decision": "new", "builds_on": "none", "source": "stub", "mapping": "m", "strategy": "s", "code": code,
+        stub = {"name": "stub", "decision": "new", "builds_on": "none", "source": "stub", "mapping": "m", "strategy": "s", "code": code,
                 "model_seconds": 0}
         original, research.ask = research.ask, lambda *a, **k: stub
         try:

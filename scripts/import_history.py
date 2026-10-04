@@ -22,6 +22,7 @@ from mosa.domain import get  # noqa: E402
 
 D = get("squares")
 OUT = Path(__file__).resolve().parents[1]/"history"
+CUT_AND_SPLICE = "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization (from the strategy lab)"
 OLD_BUDGET = {"init": 512, "children": 128, "generations": 12, "population": 32}
 
 
@@ -138,11 +139,9 @@ def main(runs):
     if (runs/"lab-67").exists():
         lab("2026-10-04-lab-67-goebel", runs/"lab-67", brief=(OUT.parent/"briefs"/"n67-goebel.md").read_text()
             if (OUT.parent/"briefs"/"n67-goebel.md").exists() else "", references=[17], polish=16)
-    candidates("2026-10-04-splice-126", runs/"splice-126", "Cut-and-splice recombination (Deaven & Ho 1995), chosen by hand", [126])
-    candidates("2026-10-04-apply-below-100", runs/"modal-below-100", "library: cut-and-splice (strategy lab, chain 3, round 3)",
-               list(range(11, 100)))
-    candidates("2026-10-04-apply-local", runs/"local-below-100", "library: cut-and-splice (strategy lab, chain 3, round 3)",
-               [88, 83, 70, 54, 37])
+    candidates("2026-10-04-splice-126", runs/"splice-126", "Cut-and-splice recombination (Deaven & Ho 1995), a method chosen by hand", [126])
+    candidates("2026-10-04-apply-below-100", runs/"modal-below-100", CUT_AND_SPLICE, list(range(11, 100)))
+    candidates("2026-10-04-apply-local", runs/"local-below-100", CUT_AND_SPLICE, [88, 83, 70, 54, 37])
 
 
 if __name__ == "__main__":

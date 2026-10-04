@@ -55,7 +55,7 @@ def summary(lab_id, path):
             "updated": updated, "done": done, "running": not done and time.time()-updated < 900,
             "chains": head.get("chains", 1), "rounds": head.get("rounds", 1), "targets": head.get("targets", []),
             "seeds": head.get("seeds", []), "backend": head.get("backend"), "events": len(ev),
-            "records": {str(k): v for k, v in sorted(records.items())}, "source": head.get("source")}
+            "records": {str(k): v for k, v in sorted(records.items())}, "source": head.get("source"), "brief": bool(head.get("brief"))}
 
 
 @lru_cache(maxsize=1)
@@ -98,6 +98,10 @@ def launch(spec):
             brief.parent.mkdir(parents=True, exist_ok=True)
             brief.write_text(spec["brief"])
             command += ["--brief", str(brief)]
+    elif spec.get("code"):  # a strategy from any round: run it as a file
+        (ROOT/out).mkdir(parents=True, exist_ok=True)
+        (ROOT/out/"strategy.py").write_text(spec["code"])
+        command += ["--strategy", str(ROOT/out/"strategy.py")]
     else:
         command += ["--strategy", spec["strategy"]]
     (ROOT/out).mkdir(parents=True, exist_ok=True)
@@ -165,6 +169,8 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def serve(runs="runs", port=8777):
+    import threading
+    threading.Thread(target=lambda: reference(1), daemon=True).start()  # load data and compile the checker before the first request
     server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     print(f"Mosa workbench: http://127.0.0.1:{port}")
     server.serve_forever()
