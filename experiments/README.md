@@ -48,7 +48,7 @@ which cut two of them short; the write-ups say exactly which runs are affected.
 | Memory ablation | [memory-ablation-v1](memory-ablation-v1/RESULTS.md) | In a closed LLM loop, do executable counterexamples in the prompt beat no memory and prose memory? | No: all primary intervals include zero (executable − prose +4.73 bins, CI [−0.23, +12.96]). Memory cut harmful proposals mainly by making the model propose no-ops | Complete; memory was not token-matched (disclosed) |
 | Idea table | [idea-table-v1](idea-table-v1/RESULTS.md) | Does ranking ideas before implementation predict success, and which routing policy is best per dollar? | The implementing model decided success (Opus 62/62, Sonnet 60/62, Haiku 10/62); rankers near chance (Codex AUC 0.600, Jev 0.484); ranked triage no better than random tiers | Partial: 62 of 114 ideas complete for all three models |
 | Tournament v1 | [tournament-v1](tournament-v1/RESULTS.md) | Which complete framework gets furthest at an equal dollar budget? | At a common early spend, the single-model loops led ShinkaEvolve and triage trailed; final scores tied; two of three problems saturate within 1–3 calls | Partial: 17 of 60 runs complete; not budget-matched |
-| Tournament v2 | [tournament-v2](tournament-v2/RESULTS.md) | The same grid on open models through the Hugging Face router | Route and smoke runs only on this branch. A Flash call cost about $0.002; program evaluation, not the model, set the wall time | Smoke only (see the overnight log for any later grid run) |
+| Tournament v2 | [tournament-v2](tournament-v2/RESULTS.md) | The same grid on open models through the Hugging Face router | Route works for all five arms; a Flash call cost about $0.002. In the full grid, the single-model loops ended highest on bin packing and ShinkaEvolve on Erdős squares, and hidden instances exposed programs that time out on larger cases (lean: 0.994 public, 0.125 hidden) | Full grid run as `full-v2b` (60 runs, $8.04): no framework differs significantly from ShinkaEvolve after Holm correction; results depend on the problem; 13 runs stopped early, mostly on sum-difference |
 | Strategist v2 | [strategist-v2](strategist-v2/RESULTS.md) | Do v1's three proposed fixes help, on fresh seeds with a dev/validation/confirmatory split? | Better than v1 on LABS (+0.137) and NK, mostly via the crossover gate; a patience rule tuned on dev seeds still wins on LABS | Complete |
 | Gate red-team | [gate-redteam-v1](gate-redteam-v1/RESULTS.md) | Can candidate programs obtain a score they did not earn? | 0 of 68 attempts (28 hand-written, 40 by Sonnet and Haiku told to cheat) gained a material unearned score | Complete |
 
@@ -57,6 +57,26 @@ which cut two of them short; the write-ups say exactly which runs are affected.
 | Study | Folder | Question | Main result | Status |
 |---|---|---|---|---|
 | LLM long search | [llm-long-search-v1](llm-long-search-v1/RESULTS.md) | With 300 steps of an inexpensive open model, does `autoresearch.loop` beat best-fit on FunSearch's 5,000-item Weibull benchmark, and how close does it get to FunSearch? | All 4 runs beat best-fit on 100 unseen instances; the best reached −3.20 pp vs FunSearch's −3.31 (97% of its gain, still 0.11 pp [0.07, 0.15] behind) for $0.19. Sum-of-Squares (post-hoc reference) reached −3.48 and beats FunSearch | Complete; pre-registered |
+
+### Studies by other sessions (4 October, early morning)
+
+These were run and written up by other Claude sessions working on the same project, each with its own
+pre-registered protocol. They were committed unchanged at about 05:45 so that they are preserved; the
+coordinating session has not re-checked their numbers.
+
+| Study | Folder | Question | Main result |
+|---|---|---|---|
+| Online frontier | [online-frontier-v1](online-frontier-v1/RESULTS.md) | How far are FunSearch's heuristics from the exact optimum, and how do classical online algorithms compare? | The optimum equals the L1 bound on 129 of 130 Weibull instances, so FunSearch's excess is all online waste: 13–14 bins per instance. Sum-of-Squares wastes 10–11 and beats FunSearch on every Weibull set; on OR-Library, FunSearch's OR heuristic is best |
+| Beyond Sum-of-Squares | [online-beyond-ss-v1](online-beyond-ss-v1/RESULTS.md) | Can a simple, explainable online policy close the gap to the optimum? | FWSS ends about 2 bins above the optimum at every length from 1k to 100k items. It beats FunSearch by 11.6 bins per instance (200/0/0) and is below the best published LLM result in 15 of 15 leaderboard settings |
+| Overfitting and gates | [overfit-gates-v1](overfit-gates-v1/RESULTS.md) | How much does selection on a small public suite overfit, and what do stricter promotion rules cost? | Overfitting was small (0.61 bins per instance). The strict archive veto blocked the largest real gains and behaved like a random veto of same-length inputs; statistical gates neither helped nor hurt |
+
+Related, not merged into `main`:
+- [`context/research-directions.md`](../context/research-directions.md) lists candidate research
+  directions with literature checks; its Sum-of-Squares probe is in `context/probes/`.
+- The four-approach live campaign is on branch
+  [`research/all-approaches`](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/research/all-approaches),
+  in `runs/FINDINGS.md`. It is a parallel framework built from an older `main`, so it is kept on its
+  own branch. Its raw provider traffic (about 470 MB) is not in git.
 
 ## Demo runs of the one-command loop
 
