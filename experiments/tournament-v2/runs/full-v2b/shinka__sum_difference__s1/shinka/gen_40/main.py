@@ -1,0 +1,314 @@
+# EVOLVE-BLOCK-START
+"""Spectral/tabu search over parametric-Sidon + dense-core seeds."""
+import math
+import random
+import time
+
+
+# ---------- scoring ----------
+
+def _counts(a):
+    n = len(a)
+    diffs = set()
+    sums = set()
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            aj = a[j]
+            diffs.add(ai - aj)
+            diffs.add(aj - ai)
+            sums.add(ai + aj)
+    return len(diffs), len(sums)
+
+
+def _score(a):
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0
+    nd, ns = _counts(a)
+    if ns <= 1:
+        return 0.0
+    return math.log(nd) / math.log(ns) + (1 - 1 / n) / 100
+
+
+def _energy(a):
+    """Additive energy E(A)=#{(a,b,c,d): a+b=c+d}, and difference energy D(A)."""
+    n = len(a)
+    sc = {}
+    dc = {}
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            s = ai + a[j]
+            sc[s] = sc.get(s, 0) + 1
+            d = ai - a[j]
+            dc[d] = dc.get(d, 0) + 1
+    E = sum(v * v for v in sc.values())
+    D = sum(v * v for v in dc.values())
+    return E, D
+
+
+def _spectral_score(a):
+    """Blend of the distinct-count ratio and a difference/sum energy ratio.
+
+    The intuition: we want many distinct differences (large |A-A|) which
+    corresponds to a *flat* difference distribution (small D relative to
+    |A-A|^2), and few distinct sums (small |A+A|) which corresponds to a
+    *peaked* sum distribution (large E relative to |A+A|^2).  We reward
+    (D/|A-A|^2) being small and (E/|A+A|^2) being large.
+    """
+    a = list(set(a))
+    n = len(a)
+    if n < 4:
+        return _score(a)
+    nd, ns = _counts(a)
+    if ns <= 1 or nd <= 1:
+        return 0.0
+    E, D = _energy(a)
+    base = math.log(nd) / math.log(ns)
+    # concentration ratios
+    diff_flat = D / (nd * nd)     # want small
+    sum_peak = E / (ns * ns)      # want large
+    # bounded bonus term (kept small so it doesn't dominate the main ratio)
+    bonus = 0.05 * (math.log(sum_peak + 1e-9) - math.log(diff_flat + 1e-9))
+    return base + bonus + (1 - 1 / n) / 100
+
+
+# ---------- seed constructions ----------
+
+def _greedy_golomb(n, max_val, rng):
+    marks = [0]
+    used = set()
+    candidates = list(range(1, max_val + 1))
+    rng.shuffle(candidates)
+    for _ in range(n - 1):
+        best_c, best_gain = None, -1
+        for c in candidates[:min(250, len(candidates))]:
+            if c in marks:
+                continue
+            new_d = set()
+            ok = True
+            for m in marks:
+                d = abs(c - m)
+                if d in new_d:
+                    ok = False
+                    break
+                new_d.add(d)
+            if not ok:
+                continue
+            gain = len(new_d - used)
+            if gain > best_gain:
+                best_gain = gain
+                best_c = c
+                if gain == len(marks):
+                    break
+        if best_c is None:
+            for c in candidates:
+                if c not in marks:
+                    best_c = c
+                    break
+        if best_c is None:
+            break
+        marks.append(best_c)
+        for m in marks[:-1]:
+            used.add(abs(best_c - m))
+    return marks
+
+
+def _bounded_sidon(m):
+    if m < 2:
+        return [0]
+    return [i * m + (i * i) % m for i in range(m)]
+
+
+def _parametric_sidon(m, c, k):
+    """Generalized Sidon-like family: i*m + (i^2 mod m) + c*(i mod k).
+
+    Sweeping c and k gives a continuum between pure bounded-Sidon (c=0) and
+    more Golomb-like rulers.
+    """
+    if m < 2:
+        return [0]
+    out = []
+    for i in range(m):
+        out.append(i * m + (i * i) % m + c * (i % max(1, k)))
+    return out
+
+
+def _dense_core_tail(m, tail, gap):
+    core = list(range(m + 1))
+    offset = m + gap
+    return core + [offset + x for x in tail]
+
+
+# ---------- tabu spectral hill-climb ----------
+
+def _mutate(cand, rng):
+    cand = list(cand)
+    op = rng.random()
+    n = len(cand)
+    if op < 0.30 and n >= 2:
+        i = rng.randrange(n)
+        j = rng.randrange(n)
+        d = cand[i] - cand[j]
+        if d == 0:
+            d = rng.randint(1, 40)
+        cand[i] = cand[j] + d + rng.randint(-3, 3)
+    elif op < 0.50 and n < 4000:
+        x = rng.choice(cand)
+        y = rng.choice(cand)
+        cand.append(x + (x - y) + rng.randint(-2, 2))
+    elif op < 0.65 and n < 4000:
+        base = rng.choice(cand)
+        cand.append(base + rng.randint(1, 300))
+    elif op < 0.80 and n > 3:
+        cand.pop(rng.randrange(n))
+    else:
+        i = rng.randrange(n)
+        cand[i] += rng.randint(-6, 6)
+    return sorted(set(cand))
+
+
+def _tabu_spectral(seed, deadline, rng, tabu_len=24, sample=14):
+    cur = sorted(set(seed))
+    cur_score = _spectral_score(cur)
+    best = cur[:]
+    best_score = cur_score
+    tabu = []  # list of difference-multiset hashes (recent)
+    while time.time() < deadline:
+        best_move = None
+        best_move_score = cur_score - 1e-9
+        for _ in range(sample):
+            cand = _mutate(cur, rng)
+            if len(cand) < 3:
+                continue
+            # cheap tabu key: (min, max, len, sum)
+            key = (cand[0], cand[-1], len(cand), sum(cand) % 1000003)
+            if key in tabu:
+                continue
+            s = _spectral_score(cand)
+            if s > best_move_score:
+                best_move_score = s
+                best_move = cand
+                best_move_key = key
+        if best_move is None:
+            # diversification: random restart from best with a jolt
+            cur = best[:]
+            if cur:
+                i = rng.randrange(len(cur))
+                cur[i] += rng.randint(-100, 100)
+                cur = sorted(set(cur))
+            cur_score = _spectral_score(cur)
+            continue
+        cur = best_move
+        cur_score = best_move_score
+        tabu.append(best_move_key)
+        if len(tabu) > tabu_len:
+            tabu.pop(0)
+        if cur_score > best_score:
+            best = cur[:]
+            best_score = cur_score
+    return best, best_score
+
+
+# ---------- main ----------
+
+def solve():
+    rng = random.Random(20240901)
+    deadline = time.time() + 110
+
+    best = [0, 1, 3]
+    best_score = _score(best)
+
+    # Phase 1: sweep parametric-Sidon + dense-core seeds (short)
+    p1 = time.time() + 30
+    cands = []
+    for m in range(0, 14):
+        for sm in range(2, 18):
+            for c in (0, 1, 2, 3, 5):
+                for k in (1, 2, 3, 4):
+                    cands.append(("ps", m, sm, c, k))
+    for m in range(0, 12):
+        for gs in range(3, 16):
+            cands.append(("gol", m, gs))
+    rng.shuffle(cands)
+    for entry in cands:
+        if time.time() > p1:
+            break
+        if entry[0] == "ps":
+            _, m, sm, c, k = entry
+            tail = _parametric_sidon(sm, c, k)
+            cand = _dense_core_tail(m, tail, rng.choice([1, 2, 3, 5, 8]))
+        else:
+            _, m, gs = entry
+            tail = _greedy_golomb(gs, max(60, gs * gs), rng)
+            cand = _dense_core_tail(m, tail, rng.choice([1, 2, 3, 5, 8]))
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # Pure parametric-Sidon families
+    for m in range(2, 45):
+        if time.time() > p1 + 4:
+            break
+        for c in (0, 1, 2, 3):
+            for k in (1, 2, 3):
+                cand = sorted(set(_parametric_sidon(m, c, k)))
+                if len(cand) < 2:
+                    continue
+                s = _score(cand)
+                if s > best_score:
+                    best_score = s
+                    best = cand[:]
+
+    # Pure dense intervals
+    for n in range(2, 90):
+        if time.time() > p1 + 7:
+            break
+        cand = list(range(n))
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # Phase 2: long tabu spectral polish from the current best
+    if time.time() < deadline - 5:
+        sub = min(deadline - 2, time.time() + 45)
+        cand, s = _tabu_spectral(best, sub, rng)
+        if s > best_score:
+            best, best_score = cand, s
+
+    # Phase 3: restarts from randomized structured seeds until deadline
+    while time.time() < deadline - 4:
+        remaining = deadline - time.time()
+        if remaining < 5:
+            break
+        m = rng.randint(0, 14)
+        gap = rng.choice([1, 2, 3, 5, 8, 13, 21])
+        if rng.random() < 0.6:
+            sm = rng.randint(2, 18)
+            c = rng.choice([0, 1, 2, 3, 5])
+            k = rng.choice([1, 2, 3, 4])
+            tail = _parametric_sidon(sm, c, k)
+        else:
+            gs = rng.randint(3, 16)
+            tail = _greedy_golomb(gs, max(60, gs * gs), rng)
+        seed = _dense_core_tail(m, tail, gap)
+        sub_deadline = time.time() + min(remaining - 1, 18)
+        cand, s = _tabu_spectral(seed, sub_deadline, rng)
+        if s > best_score:
+            best, best_score = cand, s
+
+    # Final short polish
+    if time.time() < deadline - 1:
+        cand, s = _tabu_spectral(best, deadline - 0.5, rng)
+        if s > best_score:
+            best, best_score = cand, s
+
+    return sorted(set(best))
+# EVOLVE-BLOCK-END

@@ -1,0 +1,131 @@
+<NAME>
+iterative_growth_with_weight_sweep</NAME>
+<DESCRIPTION>
+The current `solve()` only performs a single-scale local search that perturbs one element at a time. The recommendation points out that the growth phase is one-shot and cannot escape the basin of its seed. I will extend the local search to also include an iterative growth/refinement phase that:
+
+1. Allows multi-step non-improving additions (soft revert with epsilon tolerance) so that the search can traverse valleys.
+2. Sweeps a tradeoff weight `w ∈ {0.15, 0.25, 0.35, 0.5}` in a custom gain function `gain = d_gain - w * s_cost` where `d_gain` is the change in |A-A| and `s_cost` is the change in |A+A|. This directly targets the ratio by exploring the Pareto frontier between differences and sums.
+3. Runs several restarts from the best structured seeds found so far.
+
+This is a targeted change to the local-search loop only, keeping all existing constructions intact. It should improve the sum-difference score by finding sets with better tradeoffs that single-element perturbation cannot reach.
+
+The change is localized: modify the local search section of `solve()` to add an iterative growth phase with weight sweep and soft revert, and add a helper `_growth_search` function.
+
+</DESCRIPTION>
+<DIFF>
+<<<<<<< SEARCH
+def _reflect_half(A):
+=======
+def _growth_search(seed, w, deadline, eps=0.001, max_stall=3):
+    """Iteratively grow/refine `seed` using tradeoff gain = d_gain - w * s_cost.
+    Allows up to `max_stall` consecutive non-improving (within eps) additions."""
+    cur = list(set(seed))
+    if len(cur) < 2:
+        return cur
+    cur_d = {x - y for x in cur for y in cur}
+    cur_s = {x + y for x in cur for y in cur}
+    best = cur[:]
+    best_score = _score(cur)
+    span = (max(cur) - min(cur)) if len(cur) > 1 else 1
+    stall = 0
+    while time.time() < deadline and stall < max_stall:
+        # Try adding a new element chosen to keep sums small.
+        lo = min(cur)
+        hi = max(cur)
+        c = (lo + hi) // 2
+        # candidate positions: near center of current span, plus a few random
+        candidates = []
+        for _ in range(8):
+            candidates.append(c + random.randint(-span, span))
+        for _ in range(4):
+            candidates.append(random.randint(lo - span, hi + span))
+        improved = False
+        for x in candidates:
+            if x in cur:
+                continue
+            new = cur + [x]
+            new_d = {p - q for p in new for q in new}
+            new_s = {p + q for p in new for q in new}
+            d_gain = len(new_d) - len(cur_d)
+            s_cost = len(new_s) - len(cur_s)
+            gain = d_gain - w * s_cost
+            # Accept if gain is positive OR score not worse than best - eps.
+            new_score = math.log(len(new_d)) / math.log(len(new_s)) + (1 - 1 / len(new)) / 100
+            if gain > 0 or new_score >= best_score - eps:
+                cur = new
+                cur_d = new_d
+                cur_s = new_s
+                span = (max(cur) - min(cur)) if len(cur) > 1 else 1
+                if new_score > best_score:
+                    best = cur[:]
+                    best_score = new_score
+                    stall = 0
+                else:
+                    stall += 1
+                improved = True
+                break
+        if not improved:
+            # Try removing an element to reduce sums.
+            if len(cur) > 2:
+                j = random.randrange(len(cur))
+                new = cur[:j] + cur[j + 1:]
+                new_d = {p - q for p in new for q in new}
+                new_s = {p + q for p in new for q in new}
+                new_score = math.log(len(new_d)) / math.log(len(new_s)) + (1 - 1 / len(new)) / 100
+                if new_score >= best_score - eps:
+                    cur = new
+                    cur_d = new_d
+                    cur_s = new_s
+                    if new_score > best_score:
+                        best = cur[:]
+                        best_score = new_score
+                        stall = 0
+                    else:
+                        stall += 1
+                    continue
+            stall += 1
+    return best
+
+
+def _reflect_half(A):
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    # Local search: perturb elements, accept improvements. Allow multi-scale steps.
+    cur = best[:]
+    cur_score = best_score
+    deadline = time.time() + 100
+=======
+    # Iterative growth search with tradeoff weight sweep from several seeds.
+    deadline = time.time() + 100
+    seeds = []
+    if best is not None:
+        seeds.append(best[:])
+    for p in [31, 53, 79, 101, 127, 151, 179]:
+        q = _quadratic_set(p)
+        if len(q) >= 2:
+            seeds.append(q)
+    for n in [40, 80, 120]:
+        g = _bounded_sidon(n, n * n * 3, seed=n)
+        if len(g) >= 2:
+            seeds.append(g)
+    weights = [0.15, 0.25, 0.35, 0.5]
+    seed_idx = 0
+    while time.time() < deadline - 30 and seed_idx < len(seeds):
+        for w in weights:
+            if time.time() >= deadline - 30:
+                break
+            g = _growth_search(seeds[seed_idx], w, deadline - 30)
+            if len(g) >= 2:
+                s = _score(g)
+                if s > best_score:
+                    best_score = s
+                    best = g[:]
+        seed_idx += 1
+
+    # Local search: perturb elements, accept improvements. Allow multi-scale steps.
+    cur = best[:]
+    cur_score = best_score
+    deadline = time.time() + 100
+>>>>>>> REPLACE
+</DIFF>

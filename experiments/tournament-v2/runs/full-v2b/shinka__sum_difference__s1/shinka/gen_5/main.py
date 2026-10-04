@@ -1,0 +1,95 @@
+# EVOLVE-BLOCK-START
+"""Constructive Sidon/Golomb-based sets with large difference set and small sum set."""
+import math
+import random
+import time
+
+
+def _score(a):
+    a = set(a)
+    if len(a) < 2:
+        return 0.0
+    diffs = {x - y for x in a for y in a}
+    sums = {x + y for x in a for y in a}
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / len(a)) / 100
+
+
+def _golomb_ruler(n):
+    """Greedy Golomb ruler: all pairwise differences distinct, so |A-A| = n(n-1)+1."""
+    marks = [0]
+    used = {0}
+    candidate = 1
+    while len(marks) < n:
+        ok = True
+        for m in marks:
+            d = candidate - m
+            if d in used:
+                ok = False
+                break
+        if ok:
+            for m in marks:
+                used.add(candidate - m)
+            marks.append(candidate)
+        candidate += 1
+    return marks
+
+
+def _local_search(a, deadline, rng):
+    a = sorted(set(a))
+    best = a[:]
+    best_score = _score(best)
+    cur = a[:]
+    cur_score = best_score
+    while time.time() < deadline:
+        cand = cur[:]
+        n = len(cand)
+        # perturb an element
+        i = rng.randrange(n)
+        cand[i] += rng.randint(-4, 4)
+        if len(set(cand)) != n:
+            continue
+        cand = sorted(cand)
+        s = _score(cand)
+        if s > cur_score or (s == cur_score and rng.random() < 0.2):
+            cur, cur_score = cand, s
+            if s > best_score:
+                best, best_score = cand[:], s
+        elif rng.random() < 0.15:
+            cur, cur_score = best[:], best_score
+    return best
+
+
+def solve():
+    """Return a list of distinct integers A making |A - A| large and |A + A| small."""
+    rng = random.Random(12345)
+    deadline = time.time() + 100
+
+    best = [7, 15, 18, 22, -3, -2]
+    best_score = _score(best)
+
+    # Try Golomb rulers of several orders; they maximise |A-A| = n(n-1)+1.
+    for n in range(16, 34):
+        if time.time() > deadline - 5:
+            break
+        base = _golomb_ruler(n)
+        # center around zero to help sum set stay compact
+        mid = base[-1] // 2
+        base = [x - mid for x in base]
+        s = _score(base)
+        if s > best_score:
+            best, best_score = base[:], s
+        # local search polish
+        polished = _local_search(base, min(deadline, time.time() + 4), rng)
+        ps = _score(polished)
+        if ps > best_score:
+            best, best_score = polished[:], ps
+
+    # final polish on the overall best
+    if time.time() < deadline:
+        final = _local_search(best, deadline, rng)
+        fs = _score(final)
+        if fs > best_score:
+            best, best_score = final, fs
+
+    return sorted(set(best))
+# EVOLVE-BLOCK-END

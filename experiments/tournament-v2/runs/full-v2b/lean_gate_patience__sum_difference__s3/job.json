@@ -1,0 +1,94 @@
+{
+  "job_id": "lean_gate_patience__sum_difference__s3",
+  "grid": "full-v2b",
+  "arm": "lean_gate_patience",
+  "arm_config": {
+    "type": "lean",
+    "model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "gate": true,
+    "patience": 5
+  },
+  "problem": "sum_difference",
+  "seed": 3,
+  "budget_usd": 0.15,
+  "wall_limit_s": 14400,
+  "mock": false,
+  "mock_latency": 0.05,
+  "provider": "hf",
+  "hf_models": [
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra",
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra",
+    "Qwen/Qwen3.5-9B:together"
+  ],
+  "gate_workers": 4,
+  "timeout_overrides": null,
+  "launch_commit": "66f0628dfd44e1cec52301428d5a5934a529c861",
+  "launch_dirty": false,
+  "started_at": 1791073947.4826813,
+  "problem_dir": "/repo/problems/sum_difference",
+  "git_commit": null,
+  "python": "3.12.10",
+  "host": "modal",
+  "packages": {
+    "anthropic": "1.11.0",
+    "shinka-evolve": "0.0.7",
+    "typesafe-sdk": "0.7.2",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "source_hashes": {
+    "tournament/__init__.py": "8f3a7d94fbb38f85d28d8cc1ef1043a9fd256749c244164198de6da9aecf8f03",
+    "tournament/arms.py": "de0d993a96d21eb05b54ee5d186f2820f1c931d3c19b4062687ef87a164d2fea",
+    "tournament/budget.py": "0d2c73a0049f6b18e9e51bace56871cdb8bc93f9d472a62ba3a19f789b8ef190",
+    "tournament/context.py": "46eb3057ad9d914d7ba12e4fe01adb2526c281cc23576451a974897eee433365",
+    "tournament/evallog.py": "e1cb63aea0cea9a533a6bbbfc3650eeac6bea294ed61a92cf0303ee25ea636c1",
+    "tournament/grid.py": "c6910ce1909183e8e6f1e29038bdfb928eb4147ae447549f844cc74704f5a15b",
+    "tournament/guard.py": "853f74685d7e2c43476219078df5f13a9958cd3959840d892bf26bc6348bd07c",
+    "tournament/hf.py": "dc31559a1a374b98c682e8ddebab42f97ec982e28458bbf93c6e6b375a9ec29e",
+    "tournament/lean.py": "a00ce92e3d13d5e80d1446ddd1c14a8f7c5c1153caad94cf37b1141e47086d7f",
+    "tournament/metrics.py": "72e913e0f97fb2f96477a56c3f90233ad542c80c0c447c1a1c6074917604d91f",
+    "tournament/mockapi.py": "f6c4d324270cce1c255db426a9da0a37a612294c58d0e57e10a16f4970689508",
+    "tournament/modal_app.py": "0a720ed13c8f045302576b7ade042343057a2b6262fd2a92353b52f742b8f1fc",
+    "tournament/pull.py": "682dc5eec89da3d6d646690f2994e47c5065f4879b9a19708c0c4705bf10452b",
+    "tournament/report.py": "1648a10846b7378210bc115f39533d958e2f908b0a6136fec2935fc9dd480f9f",
+    "tournament/run.py": "b975b74fd1321e297d310b14421bb4e6514a6b44ec577809f016f47275ab2c33",
+    "tournament/shinka_eval.py": "5ad4a7b7edd19672bc7dccc52dedba98f9b2ac65bcc4a91d7b62817b552c9e45",
+    "autoresearch/__init__.py": "c45a03b1c27655d47b8883e7de9e507d2d2528f2b30f3fb442cd63dd44b62e85",
+    "autoresearch/analyze.py": "7bb7ef7b1e4d59754a6096dcd98072f7d8c398734090c4b635029115592d8b76",
+    "autoresearch/check.py": "65888d0ab8334fc415bcb1272ccb279186bd7b280893d9ce28d64e3227289075",
+    "autoresearch/claude.py": "d843d0c19faf6396b2d1af8cd9184d7dbfd116e6e19514b6ec23a02513e04742",
+    "autoresearch/env.py": "cf3fba038833ad91b01d10234c5157be1033aadfcd9858e9931f70375051a631",
+    "autoresearch/evalcode.py": "87ed946c335f0ebbdac3760fa230849f849f5910858355cb4f8c39c11a267234",
+    "autoresearch/gate.py": "bda3a654acee26b83b29d451f53e43812745b86b80a975b4dc1745322291d316",
+    "autoresearch/ideatable.py": "196c751fca28b67ed2a64a32ecf7cdc5f7c77bf46ebba1314d0c9bcab8317e03",
+    "autoresearch/mock_claude.py": "d7f1ef547cb794aacd1be8a0fe6123797f888ab38f65837734872b3557b9f131",
+    "autoresearch/modal_eval.py": "4bd6892fc54cf9a9ac19212c30362825af26e0c4f755e96c2fe726c8134a7da0",
+    "autoresearch/policy_eval.py": "9d670037ec6da5cf42a26d65b299c843a08a81275c125469eeec3d5b675bbf87",
+    "autoresearch/rankers.py": "f352afb62a7c654c22dd8829ec583b04af5b55faf9e0701cccb17e94c478f715",
+    "autoresearch/run.py": "b72cf58c288c1cf47167526de82ad1a2b1e82b69573e983197f7ca5847321846",
+    "autoresearch/sandbox.py": "9d0cc7a8b8fcab100517e6968bb66d847ac59d73e9e7bba87e2d39c82fd831c5",
+    "autoresearch/shinka_compat.py": "8d94d6b7b3cb483a292d2081f6d10507eb915f42d4e42d32a0b1f6f07edcbba1",
+    "autoresearch/spend.py": "b0f688ce93033fb7a6d0572b00a86c27812619a275f67495cea84a9cc687f950",
+    "autoresearch/triage.py": "82ff750246efabc76f827fc74280d21b7472e4ad3de2f4b05703c468f021fb06",
+    "strategist/controller.py": "09b65ab226580601e34534e231e5d808d8cb7cb68bc2e6d21116178eaba61059",
+    "requirements.txt": "4a59fa55c7be9e84073f08987286d5552c9427adf55ac49aead821222acc7235",
+    "problems/sum_difference/evaluate.py": "0ac9a4a253a299d2f24e268036fb2593933920d71ac673e3d7ec84f58ae96e26",
+    "problems/sum_difference/initial.py": "ed99a0dcac7a33cc3c6f1920634bd695e946bedbe2865ac0290d100a8b85617f",
+    "problems/sum_difference/problem.md": "d499c6f1f48e07cfa68e58ddf6f9493c57fd1350f03350ccb63c129875c008ba",
+    "problems/sum_difference/verify.py": "a0d30e4bc4b7eb9392caa4eb3778926ce87a9254f564ca8302dedb882d647eda"
+  },
+  "prices_usd_per_mtok": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": [
+      0.2,
+      0.6
+    ],
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra": [
+      1.2999999999999998,
+      2.5999999999999996
+    ],
+    "Qwen/Qwen3.5-9B:together": [
+      0.17,
+      0.25
+    ]
+  }
+}

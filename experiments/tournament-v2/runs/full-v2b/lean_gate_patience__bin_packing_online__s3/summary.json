@@ -1,0 +1,77 @@
+{
+  "job_id": "lean_gate_patience__bin_packing_online__s3",
+  "arm": "lean_gate_patience",
+  "arm_type": "lean",
+  "problem": "bin_packing_online",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.14773,
+  "within_cap": true,
+  "tokens": 487497,
+  "calls": 224,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "stop": 224
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 224
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.14773
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 33,
+  "retries": 0,
+  "evals": 225,
+  "valid_evals": 210,
+  "evals_with_timeout": 9,
+  "instance_timeouts": 36,
+  "initial_public": 0.9616415083396637,
+  "initial_hidden": 0.960408920805711,
+  "final_public": 0.981174138057139,
+  "final_hidden": 0.9805870714710929,
+  "final_sha": "5e5877e3b9e9e1dc",
+  "max_public_seen": 0.981174138057139,
+  "hidden_of_max_public_seen": 0.9805870714710929,
+  "improvements": 1,
+  "usd_per_improvement": 0.14773,
+  "tokens_per_improvement": 487497,
+  "auc": 0.977382,
+  "auc_gain": 0.410361,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1985.7,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.14773,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.0,
+      "t": 1791069844.3183362,
+      "incumbent_public": 0.9616415083396637,
+      "incumbent_hidden": 0.960408920805711,
+      "sha": "609927c5ea619a94"
+    },
+    {
+      "spent_usd": 0.029119,
+      "budget_frac": 0.194127,
+      "tokens": 97649,
+      "wall_s": 430.7,
+      "t": 1791070270.080296,
+      "incumbent_public": 0.981174138057139,
+      "incumbent_hidden": 0.9805870714710929,
+      "sha": "5e5877e3b9e9e1dc"
+    }
+  ]
+}

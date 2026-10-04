@@ -1,0 +1,14 @@
+{
+  "generation": 6,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "golomb_dense_ratio_optimizer",
+  "patch_description": "The original program relies on greedy construction and simulated annealing with weak structural priors (random perturbations of small integers). The key parameters are the set size n, the candidate range hi, the swap/mutation rates, and the cooling schedule. The new approach replaces these with a hybrid construction that explicitly maximizes the difference-set-to-sum-set ratio using Golomb-rule-like structures embedded in a dense interval. Specifically:\n\n- Use a dense core {0..m} which gives a large number of small sums (few distinct sums relative to size), and add Golomb-ruler-like marks offset far away to boost the number of distinct differences without increasing sums proportionally.\n- Replace random local search with a targeted \"difference-maximizing\" greedy: each new element is chosen to maximize new distinct differences while keeping new sums minimal.\n- Use a much larger candidate pool derived from existing pairwise differences and sums, which is the key structural insight for ratio optimization.\n- Add a multi-restart mechanism using different (m, golomb_size, gap) configurations, sweeping parameters more finely than the original.\n- Keep a fast incremental scoring function to evaluate candidates within the time budget.\n\nThis explicitly targets the objective log|A-A|/log|A+A| rather than generic set search, and should push the ratio above 1.2.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:30:31.070527",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

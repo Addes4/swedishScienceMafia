@@ -1,0 +1,14 @@
+{
+  "generation": 19,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "golomb_dense_crossover",
+  "patch_description": "This crossover combines the best features of both prior programs. From the first program, it preserves the efficient `_greedy_golomb` construction with `used_diffs` tracking and the `_incremental_score` fast scoring. From the second program, it keeps the `_score_fast` and additional construction variety. The main improvements are: (1) using the faster `_incremental_score` everywhere instead of the full O(n^2) `_score` in the inner loop, (2) a more focused phase-1 sweep with early termination, (3) an improved local search based on the first program's `_refine` which uses targeted moves (difference-based moves, add via reflection, pop, swap) that better explore the sum/difference tradeoff, and (4) a final polish phase that tries to grow the set by adding elements that maximize new differences while minimizing new sums. The result keeps the same `solve()` interface and returns a sorted list of distinct integers.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:43:26.888090",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

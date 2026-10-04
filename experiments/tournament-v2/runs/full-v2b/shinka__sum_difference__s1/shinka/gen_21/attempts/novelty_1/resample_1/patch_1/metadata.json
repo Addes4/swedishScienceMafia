@@ -1,0 +1,14 @@
+{
+  "generation": 21,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "difference_set_sidon_solver",
+  "patch_description": "This approach abandons stochastic local search on the full objective and instead exploits the exact combinatorial structure of the problem. The key insight: to maximize log|A\u2212A|/log|A+A| we want a set whose difference set is as close to a Sidon set (all pairwise differences distinct) as possible, while its sum set is as small as possible. The best known constructions combine:\n\n1. A **Sidon-like core** built via a fast backtracking / greedy search that greedily maximizes new differences per added element (not the full objective), producing near-perfect Golomb rulers.\n2. A **sum-collapsing trick**: instead of a plain dense interval (whose sum set is huge), we use a *geometric/progression* base that keeps A+A small by making many sums coincide (e.g. A = {0,1,2,...,m} \u222a {large offsets} \u2014 the dense part itself has small sum set relative to size).\n3. **Exact incremental evaluation** using sorted arrays and bitset-like difference tracking, so we can afford many more evaluations than the previous implementation.\n4. **Deterministic multi-seed restart** with a diversified portfolio of structured seeds (pure Golomb, dense + Golomb, powers-of-two-like, Sidon-set-from-prime-field) rather than random SA.\n\nThe crucial change is the search objective: instead of SA on log|A\u2212A|/log|A+A| directly (which is noisy and stuck), we do **greedy difference-maximization with sum-cost penalty**, evaluated exactly, then only accept additions that strictly improve the ratio. This matches the underlying combinatorial structure and should push the ratio substantially above 1.137.\n\nAdditionally, we use **B_h set constructions from finite fields** (Singer difference sets) as seeds \u2014 these are known to have near-optimal difference/sum ratios for their size.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:45:43.329254",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

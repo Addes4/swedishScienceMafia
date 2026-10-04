@@ -1,0 +1,210 @@
+<NAME>
+sidon_set_construction</NAME>
+
+<DESCRIPTION>
+The current random local search is weak. A much better idea comes from additive combinatorics: sets with small sum set and large difference set.
+
+A classic construction: take A to be a "Sidon set" (all pairwise sums distinct) which gives |A+A| = n(n+1)/2, but we want small sum set. The opposite: a set with small doubling constant.
+
+Actually the best ratio comes from taking A to be an arithmetic-like progression but with a twist. Consider A = {0, 1, 3, 7, 12, 20, ...} — a "B_h" set.
+
+Better idea: use a set of the form A = B ∪ C where B is a long arithmetic progression (small doubling) and C adds differences.
+
+The known best construction for this problem: take A to be a set with many differences but few sums. If A is symmetric around 0 (i.e., -A = A), then A - A = A + A, giving ratio 1. Not good.
+
+If A is a Sidon set, |A+A| ≈ n²/2 and |A-A| ≈ n², giving ratio ~2. But Sidon sets have |A+A| = n(n+1)/2 which is large.
+
+The trick: make A a "difference-dominant" set. Take A = {a_1 < a_2 < ... < a_n}. If we choose A as a geometric-like progression {0, 1, 2, 4, 8, ...} then sums and differences overlap heavily.
+
+Better: use a set where A + A is small. The minimal sum set size for n elements is 2n-1 (arithmetic progression). For AP, A-A also has size 2n-1, ratio 1.
+
+We need sets where differences are more numerous than sums. Consider A = {0, 1, 2, ..., n-1} ∪ {large shifts}.
+
+Actually, a known good construction: A = {0, 1, 3, 4, 9, 10, 12, 13, ...} based on base-4 digits with digits {0,1}. These are "Moser-de Bruijn"-like. Sums of two such numbers with digits {0,1} in base 4 give digits {0,1,2}, so |A+A| is about 3^k while |A| = 2^k. Differences give digits {-1,0,1} → 3^k too. Hmm.
+
+Let's try base-3 with digits {0,1}: A has 2^k elements, sums have digits {0,1,2} = 3^k, differences have digits {-1,0,1} = 3^k. Ratio 1.
+
+For ratio > 1, we need differences to be denser. Consider A = set of numbers with digits in {0,1} in base b. Then A+A has digits in {0,1,2}, size ~3^k. A-A has digits in {-1,0,1}, size ~3^k. Still ratio 1.
+
+Try digits {0,1,...,d} in base b. |A| = (d+1)^k, |A+A| has 2d+1 digit values, |A-A| has 2d+1 too. Ratio 1.
+
+The asymmetry must come from a different structure.
+
+Consider A = {sum of digits trick}: A = {0,1,2,...,n-1} but with a "sparse" perturbation. Actually the best known is around 1.28.
+
+Let me use a constructive approach: build A greedily as a "weakly sum-free" set. Start with A = {0}. Repeatedly add the largest integer x such that adding x keeps |A+A| small relative to |A-A|.
+
+Simpler practical approach: use A = {i * M + f(i) : i=0..n-1} for some function f. If M is large, A+A is dominated by the i+j part, and A-A by i-j part, both size ~2n-1. Not helpful.
+
+Alternative: A = union of two APs. A = {0..n-1} ∪ {M, M+1, ..., M+n-1}. Then A+A = {0..2n-2} ∪ {M..M+2n-2} ∪ {M..M+2n-2} (overlap) = size ~4n. A-A = {-(n-1)..n-1} ∪ {M-(n-1)..M+n-1} ∪ {-M-(n-1)..-M+n-1} = size ~6n. Ratio log(6n)/log(4n) → 1 as n→∞. Not great but for small n could be >1.
+
+For n=10: |A+A| ≈ 40, |A-A| ≈ 60, ratio log60/log40 ≈ 1.11. Not great.
+
+The best known 1.28 suggests a cleverer construction.
+
+I'll implement a greedy construction: start with A = {0}, then repeatedly try adding candidate integers, choosing the one that maximizes the score. Use a candidate pool and evaluate.
+
+Actually, let me try a different known construction: take A to be a set such that A+A is close to an arithmetic progression but A-A is larger.
+
+Consider A = {0} ∪ {1, 2, ..., n} ∪ {M} where M is chosen well. Then A+A includes {1..2n} ∪ {M+1..M+n} ∪ {M} ∪ {2M}. |A+A| ≈ 3n. A-A includes {1..n} ∪ {-1..-n} ∪ {M, M-1, ..., M-n} ∪ {-M, ..., -M+n} ∪ {0} = 4n+1. Ratio log(4n)/log(3n) → 1.
+
+Hmm. The best known 1.28 is hard to reach with simple constructions.
+
+Let me just do a much better local search: use simulated annealing with multiple restarts and a better initial set, plus incremental scoring. Also try larger sets.
+
+Actually, a key insight: the bonus (1-1/|A|)/100 rewards larger sets slightly. But the main score is log|A-A|/log|A+A|.
+
+Let me try the "difference basis" approach: choose A such that A-A covers a long interval [-(L), L] while A+A stays small. If A is a perfect difference set, |A-A| can be as large as n².
+
+Best practical approach: do a strong randomized search with:
+1. Better score function (incremental).
+2. Simulated annealing.
+3. Multiple starting points.
+4. Larger sets (n up to ~50).
+
+Let me implement a greedy/SA hybrid that builds A by adding elements one at a time, choosing the element that most increases |A-A| while keeping |A+A| small.
+
+I'll implement a randomized greedy construction: maintain A, repeatedly consider candidate integers from a range, pick the one maximizing the incremental score.
+
+Let me write this.
+</DESCRIPTION>
+
+<DIFF>
+<<<<<<< SEARCH
+"""Baseline: random local search over small integer sets (the official starting program, shortened)."""
+import math
+import random
+import time
+
+
+def _score(a):
+    a = set(a)
+    if len(a) < 2:
+        return 0.0
+    diffs = {x - y for x in a for y in a}
+    sums = {x + y for x in a for y in a}
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / len(a)) / 100
+
+
+def solve():
+    """Return a list of distinct integers A making |A - A| large and |A + A| small:
+    maximise log|A - A| / log|A + A|."""
+    best = [7, 15, 18, 22, -3, -2]
+    best_score = _score(best)
+    cur = best[:]
+    deadline = time.time() + 20
+    while time.time() < deadline:
+        cand = cur[:]
+        i = random.randrange(len(cand))
+        cand[i] += random.randint(-3, 3)
+        if random.random() < 0.05:
+            cand.append(random.randint(1, 20))
+        if random.random() < 0.03 and len(cand) > 5:
+            cand = cand[1:]
+        s = _score(cand)
+        if s >= best_score:
+            best, best_score, cur = cand[:], s, cand
+        elif random.random() < 0.1:
+            cur = best[:]
+    return sorted(set(best))
+=======
+"""Greedy + simulated annealing search for sets with large difference set and small sum set."""
+import math
+import random
+import time
+
+
+def _score(a):
+    a = set(a)
+    if len(a) < 2:
+        return 0.0
+    diffs = {x - y for x in a for y in a}
+    sums = {x + y for x in a for y in a}
+    if len(sums) <= 1:
+        return 0.0
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / len(a)) / 100
+
+
+def _greedy_build(n, hi, rng):
+    """Build a set of size n greedily, choosing each new element to maximise score."""
+    a = [0, 1]
+    while len(a) < n:
+        best_x = None
+        best_s = -1.0
+        # sample candidates
+        cands = set()
+        for _ in range(60):
+            cands.add(rng.randint(-hi, hi))
+        # also try perturbations of existing elements (differences)
+        base = list(a)
+        for _ in range(40):
+            x, y = rng.choice(base), rng.choice(base)
+            cands.add(x + (x - y) if x != y else x + rng.randint(1, 5))
+        for x in cands:
+            if x in a:
+                continue
+            cand = a + [x]
+            s = _score(cand)
+            if s > best_s:
+                best_s = s
+                best_x = x
+        if best_x is None:
+            break
+        a.append(best_x)
+    return a
+
+
+def solve():
+    """Return a list of distinct integers A making |A - A| large and |A + A| small:
+    maximise log|A - A| / log|A + A|."""
+    rng = random.Random(12345)
+    deadline = time.time() + 110
+
+    best = [7, 15, 18, 22, -3, -2]
+    best_score = _score(best)
+
+    # Try greedy constructions of various sizes
+    for n in [6, 8, 10, 12, 15, 18, 22, 28, 35, 45, 60]:
+        if time.time() > deadline:
+            break
+        for hi in [20, 60, 200, 1000]:
+            if time.time() > deadline:
+                break
+            a = _greedy_build(n, hi, rng)
+            s = _score(a)
+            if s > best_score:
+                best, best_score = a[:], s
+
+    # Simulated annealing refinement
+    cur = best[:]
+    cur_score = best_score
+    T = 0.05
+    step = 0
+    while time.time() < deadline:
+        step += 1
+        if step % 2000 == 0:
+            T = max(0.001, T * 0.999)
+        cand = cur[:]
+        op = rng.random()
+        if op < 0.5 and cand:
+            i = rng.randrange(len(cand))
+            cand[i] += rng.randint(-5, 5)
+        elif op < 0.8:
+            cand.append(rng.randint(-50, 50))
+        elif op < 0.9 and len(cand) > 3:
+            cand.pop(rng.randrange(len(cand)))
+        else:
+            if len(cand) >= 2:
+                i, j = rng.randrange(len(cand)), rng.randrange(len(cand))
+                cand[i], cand[j] = cand[j], cand[i]
+        cand = list(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s > cur_score or rng.random() < math.exp((s - cur_score) / max(T, 1e-9)):
+            cur, cur_score = cand, s
+            if s > best_score:
+                best, best_score = cand[:], s
+    return sorted(set(best))
+>>>>>>> REPLACE
+</DIFF>

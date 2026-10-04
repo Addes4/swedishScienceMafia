@@ -1,0 +1,366 @@
+--- a/original.py
++++ b/original.py
+@@ -1,202 +1,299 @@
+ # EVOLVE-BLOCK-START
+-"""Improved: structured Sidon-like constructions + local search."""
++"""Adaptive SA + dense-Golomb restarts for large |A-A| / small |A+A|."""
+ import math
+ import random
+ import time
+ 
+ 
+ def _score(a):
+     a = set(a)
+     if len(a) < 2:
+         return 0.0
+     diffs = {x - y for x in a for y in a}
+     sums = {x + y for x in a for y in a}
+     if len(sums) == 0:
+         return 0.0
+     return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / len(a)) / 100
+ 
+ 
+ def _quadratic_set(p):
+     """Bose-Chowla-like Sidon set: A = {i + p*(i^2 mod p) : i in 0..p-1}."""
+     return [i + p * ((i * i) % p) for i in range(p)]
+ 
+ 
+ def _greedy_sidon(n, seed=0):
+     """Greedily build a Sidon set of size ~n within a bounded range."""
+     rng = random.Random(seed)
+     A = []
+     used_sums = set()
+     used_diffs = set()
+     cand = list(range(1, 4 * n * n + 10))
+     rng.shuffle(cand)
+     for x in cand:
+         ok = True
+         new_sums = set()
+         new_diffs = set()
+         for a in A:
+             s = x + a
+             if s in used_sums or s in new_sums:
+                 ok = False
+                 break
+             new_sums.add(s)
+             d1 = x - a
+             d2 = a - x
+             if d1 in used_diffs or d2 in used_diffs or d1 in new_diffs or d2 in new_diffs:
+                 ok = False
+                 break
+             new_diffs.add(d1)
+             new_diffs.add(d2)
+         if ok:
+             A.append(x)
+             used_sums |= new_sums | {2 * x}
+             used_diffs |= new_diffs
+         if len(A) >= n:
+             break
+     return A
+ 
+ 
+ def _bounded_sidon(n, span, seed=0):
+-    """Build a Sidon-like set of size n inside [0, span] using randomized greedy,
+-    biased toward keeping elements near the middle (compacting the sum set)."""
++    """Sidon-like set of size n in [0, span], biased to the middle."""
+     rng = random.Random(seed)
+     A = []
+     used_sums = set()
+     used_diffs = set()
+-    # Prefer candidates near the center of the span to keep |A+A| small.
+     center = span // 2
+     cand = sorted(range(0, span + 1), key=lambda x: (abs(x - center), rng.random()))
+     for x in cand:
+         ok = True
+         new_sums = set()
+         new_diffs = set()
+         for a in A:
+             s = x + a
+             if s in used_sums or s in new_sums:
+                 ok = False
+                 break
+             new_sums.add(s)
+             d1 = x - a
+             d2 = a - x
+             if d1 in used_diffs or d2 in used_diffs or d1 in new_diffs or d2 in new_diffs:
+                 ok = False
+                 break
+             new_diffs.add(d1)
+             new_diffs.add(d2)
+         if ok:
+             A.append(x)
+             used_sums |= new_sums | {2 * x}
+             used_diffs |= new_diffs
+         if len(A) >= n:
+             break
+     return A
+ 
+ 
++def _build_dense_golomb(n, seed=0, span_mult=4):
++    """Randomized greedy Golomb-like builder with tight span.
++
++    Prioritizes candidates that minimize new sum collisions, which keeps
++    |A+A| small while |A-A| stays large (Golomb property).
++    """
++    rng = random.Random(seed)
++    span = max(64, n * n * span_mult)
++    # Score candidates by how central and how sparse their sum footprint is.
++    center = span // 2
++    order = list(range(0, span + 1))
++    rng.shuffle(order)
++    order.sort(key=lambda x: abs(x - center) + rng.random() * span * 0.02)
++
++    A = []
++    used_sums = set()
++    used_diffs = set()
++    for x in order:
++        new_sums = set()
++        new_diffs = set()
++        ok = True
++        for a in A:
++            s = x + a
++            if s in used_sums or s in new_sums:
++                ok = False
++                break
++            new_sums.add(s)
++            d1 = x - a
++            d2 = a - x
++            if d1 in used_diffs or d2 in used_diffs or d1 in new_diffs or d2 in new_diffs:
++                ok = False
++                break
++            new_diffs.add(d1)
++            new_diffs.add(d2)
++        if ok:
++            A.append(x)
++            used_sums |= new_sums | {2 * x}
++            used_diffs |= new_diffs
++        if len(A) >= n:
++            break
++    return A
++
++
+ def _reflect_half(A):
+-    """Reflect the upper half of A around its center to try to shrink |A+A|."""
++    """Reflect the upper half of A around its center to shrink |A+A|."""
+     if len(A) < 4:
+         return A
+     B = sorted(A)
+     c = (B[0] + B[-1]) // 2
+     n = len(B)
+     out = B[: n // 2] + [2 * c - x for x in B[n // 2:]]
+     if len(set(out)) != len(B):
+         return A
+     return out
+ 
+ 
+-def solve():
+-    """Return a list of distinct integers A making |A - A| large and |A + A| small."""
+-    best = None
+-    best_score = -1.0
+-
+-    # Try structured quadratic constructions for a range of primes.
+-    primes = [p for p in range(11, 200) if all(p % d for d in range(2, int(p ** 0.5) + 1))]
++def _seed_pool():
++    """Yield candidate structured seeds; we keep the best as SA start."""
++    primes = [p for p in range(11, 260)
++              if all(p % d for d in range(2, int(p ** 0.5) + 1))]
+     for p in primes:
+-        cand = _quadratic_set(p)
+-        for shift in (0, -p // 2):
+-            c2 = [x + shift for x in cand]
+-            s = _score(c2)
+-            if s > best_score:
+-                best_score = s
+-                best = c2[:]
+-        # Try reflect variant
+-        r = _reflect_half(cand)
+-        if len(set(r)) == len(cand):
+-            s = _score(r)
+-            if s > best_score:
+-                best_score = s
+-                best = r[:]
+-
+-    # Bounded Sidon constructions inside a tight span: this directly aims to
+-    # keep |A+A| small while |A-A| remains large.
+-    for n in [20, 40, 60, 90, 120, 160, 200]:
++        base = _quadratic_set(p)
++        for shift in (0, -p // 2, -p):
++            yield [x + shift for x in base]
++        r = _reflect_half(base)
++        if len(set(r)) == len(base):
++            yield r
++
++    for n in [20, 40, 60, 90, 120, 160, 200, 260]:
+         for span_mult in (2, 3, 4, 6):
+             span = n * n * span_mult
+             if span > 10 ** 6:
+                 continue
+             for seed in (n, n * 7 + 1, n * 13 + 5):
+                 cand = _bounded_sidon(n, span, seed=seed)
+                 if len(cand) >= 2:
+-                    s = _score(cand)
+-                    if s > best_score:
+-                        best_score = s
+-                        best = cand[:]
+-
+-    # Also try greedy Sidon sets of various sizes.
+-    for n in [30, 50, 80, 120, 150]:
++                    yield cand
++
++    for n in [30, 50, 80, 120, 150, 200]:
+         cand = _greedy_sidon(n, seed=n)
+         if len(cand) >= 2:
+-            s = _score(cand)
+-            if s > best_score:
+-                best_score = s
+-                best = cand[:]
+-
++            yield cand
++
++    for n in [40, 80, 130, 200, 260]:
++        for seed in (n, n * 11 + 3, n * 17 + 9):
++            cand = _build_dense_golomb(n, seed=seed)
++            if len(cand) >= 2:
++                yield cand
++
++
++def _initial_best():
++    best = None
++    best_score = -1.0
++    for cand in _seed_pool():
++        s = _score(cand)
++        if s > best_score:
++            best_score = s
++            best = cand[:]
+     if best is None:
+         best = [7, 15, 18, 22, -3, -2]
+         best_score = _score(best)
+-
+-    # Local search: perturb elements, accept improvements. Allow multi-scale steps.
++    return best, best_score
++
++
++def _perturb(cur, rng):
++    """Multi-scale perturbation: element move, add, or drop."""
++    cand = cur[:]
++    r = rng.random()
++    if r < 0.72 or len(cand) < 4:
++        # element move with multi-scale step
++        i = rng.randrange(len(cand))
++        span = max(1, max(cand) - min(cand))
++        scale = rng.choice([50, 50, 50, 20, 8, 3])
++        step = max(1, span // scale)
++        delta = rng.randint(-step, step)
++        if delta == 0:
++            delta = 1 if rng.random() < 0.5 else -1
++        cand[i] += delta
++    elif r < 0.90:
++        # add a new element near the middle of the current span
++        span = max(1, max(cand) - min(cand))
++        mid = (max(cand) + min(cand)) // 2
++        new = mid + rng.randint(-span // 4, span // 4)
++        if new not in cand:
++            cand.append(new)
++    else:
++        # drop an element
++        if len(cand) > 4:
++            i = rng.randrange(len(cand))
++            cand.pop(i)
++    cand = list(set(cand))
++    return cand
++
++
++def solve():
++    """Return distinct integers A maximizing log|A-A|/log|A+A| (+size bonus)."""
++    rng = random.Random(0xC0FFEE)
++    best, best_score = _initial_best()
++
+     cur = best[:]
+     cur_score = best_score
+-    deadline = time.time() + 100
+-    span_cur = (max(cur) - min(cur)) if len(cur) > 1 else 1
++
++    start = time.time()
++    deadline = start + 110.0
++    last_improve = start
++
+     while time.time() < deadline:
+-        cand = cur[:]
+-        i = random.randrange(len(cand))
+-        if random.random() < 0.7:
+-            step = max(1, span_cur // 50)
+-        else:
+-            step = max(1, span_cur // 8)
+-        delta = random.randint(-step, step)
+-        if delta == 0:
+-            delta = 1
+-        cand[i] += delta
+-        cand = list(set(cand))
++        now = time.time()
++        remaining = deadline - now
++        elapsed = now - start
++
++        # Budget-adaptive temperature: broad early, exploitative late.
++        T = 0.15 * (remaining / 110.0) + 0.005
++
++        cand = _perturb(cur, rng)
+         if len(cand) < 2:
+             continue
+         s = _score(cand)
++
++        accept = False
+         if s >= cur_score:
++            accept = True
++        else:
++            d = cur_score - s
++            try:
++                p = math.exp(-d / T)
++            except OverflowError:
++                p = 0.0
++            if elapsed < 30.0:
++                p = max(p, 0.10)
++            if rng.random() < p:
++                accept = True
++
++        if accept:
+             cur, cur_score = cand, s
+-            span_cur = (max(cur) - min(cur)) if len(cur) > 1 else 1
+             if s > best_score:
+                 best, best_score = cand[:], s
+-        elif random.random() < 0.03:
+-            cur = cand
+-            span_cur = (max(cur) - min(cur)) if len(cur) > 1 else 1
+-
+-    # Final polishing: try reflecting and small shifts on the best found.
+-    for shift in range(-3, 4):
++                last_improve = now
++
++        # Watchdog: 20s without improvement -> fresh dense-Golomb restart.
++        if now - last_improve > 20.0:
++            new_seed = rng.randrange(1, 10 ** 9)
++            n_choice = rng.choice([60, 100, 150, 200, 260, 320])
++            restart = _build_dense_golomb(n_choice, seed=new_seed)
++            if len(restart) >= 2:
++                rs = _score(restart)
++                # Always accept restart as new current; keep global best if better.
++                cur, cur_score = restart, rs
++                if rs > best_score:
++                    best, best_score = restart[:], rs
++                last_improve = now
++
++    # Final polish: reflections and small shifts on the best found.
++    for shift in range(-5, 6):
+         c2 = [x + shift for x in best]
+         s = _score(c2)
+         if s > best_score:
+             best_score = s
+             best = c2[:]
+     r = _reflect_half(best)
+     if len(set(r)) == len(best):
+         s = _score(r)
+         if s > best_score:
+             best_score = s
+             best = r[:]
+ 
+     return sorted(set(best))
+ # EVOLVE-BLOCK-END
