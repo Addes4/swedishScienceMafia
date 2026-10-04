@@ -475,7 +475,9 @@ function messagesHTML() {
       items.push(`<div class="msg note">Session finished · ${note}</div>`);
     }
   }
-  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}</div>`);
+  const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
+  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}${draft
+    ? ` <span class="elapsed">${Math.floor(draft.seconds / 60)} min</span>${draft.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}` : ""}</div>`);
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
   return items.join("");
 }

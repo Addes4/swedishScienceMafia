@@ -56,6 +56,23 @@ def events(path):
     return _events(str(path), (stat.st_mtime_ns, stat.st_size))
 
 
+def drafting(path, ev):
+    """While a harness is being drafted: the drafting model's latest message and how long it has been at it."""
+    if not ev or ev[-1]["type"] != "reply" or not ev[-1].get("drafting"):
+        return None
+    note, log = "", path.parent/"harness"/"events.jsonl"
+    if log.exists():
+        for line in reversed(log.read_text().splitlines()):
+            try:
+                item = json.loads(line).get("item", {})
+            except ValueError:
+                continue
+            if item.get("type") == "agent_message" and item.get("text"):
+                note = item["text"].strip().split("\n")[0][:240]
+                break
+    return {"note": note, "seconds": int(time.time()-ev[-1]["time"])}
+
+
 def summary(lab_id, path):
     ev = events(path)
     head = next((e for e in ev if e["type"] == "lab"), {})
@@ -76,7 +93,8 @@ def summary(lab_id, path):
             "updated": updated, "done": done, "running": not done and time.time()-(updated or os.path.getmtime(path.parent)) < 900,
             "chains": head.get("chains", 1), "rounds": head.get("rounds", 1), "targets": head.get("targets", []),
             "seeds": head.get("seeds", []), "backend": head.get("backend"), "events": len(ev),
-            "records": {str(k): v for k, v in sorted(records.items())}, "source": head.get("source"), "brief": bool(head.get("brief"))}
+            "records": {str(k): v for k, v in sorted(records.items())}, "source": head.get("source"), "brief": bool(head.get("brief")),
+            "drafting": drafting(path, ev)}
 
 
 @lru_cache(maxsize=8)
