@@ -1,0 +1,87 @@
+{
+  "job_id": "independent__erdos_squares__s3",
+  "arm": "independent",
+  "arm_type": "independent",
+  "problem": "erdos_squares",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.148946,
+  "within_cap": true,
+  "tokens": 272604,
+  "calls": 70,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "stop": 70
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 70
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.148946
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 8,
+  "retries": 0,
+  "evals": 71,
+  "valid_evals": 56,
+  "evals_with_timeout": 19,
+  "instance_timeouts": 131,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.9582237732547987,
+  "final_hidden": 0.9268338376551813,
+  "final_sha": "936f770c72dfc5d0",
+  "max_public_seen": 0.9582237732547987,
+  "hidden_of_max_public_seen": 0.9268338376551813,
+  "improvements": 2,
+  "usd_per_improvement": 0.074473,
+  "tokens_per_improvement": 136302,
+  "auc": 0.953227,
+  "auc_gain": 0.674798,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 7682.2,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.148946,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 3.3,
+      "t": 1791069842.374573,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.004563,
+      "budget_frac": 0.03042,
+      "tokens": 8301,
+      "wall_s": 74.5,
+      "t": 1791069913.603972,
+      "incumbent_public": 0.952008512776128,
+      "incumbent_hidden": 0.9665725838982466,
+      "sha": "343c402045891cb0"
+    },
+    {
+      "spent_usd": 0.050241,
+      "budget_frac": 0.33494,
+      "tokens": 92436,
+      "wall_s": 2669.4,
+      "t": 1791072508.5052419,
+      "incumbent_public": 0.9582237732547987,
+      "incumbent_hidden": 0.9268338376551813,
+      "sha": "936f770c72dfc5d0"
+    }
+  ]
+}

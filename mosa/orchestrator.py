@@ -15,11 +15,11 @@ import json
 from pathlib import Path
 
 from .domain import get, library
-from .llm import ask
+from .llm import SOURCES, SOURCES_PROMPT, ask, cited
 from .store import Notebook
 
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["action", "reply", "problem_request", "base", "idea", "scale", "goal", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references"],
+          "required": ["action", "reply", "problem_request", "base", "idea", "scale", "goal", "name", "problems", "targets", "researchers", "rounds", "seeds", "brief", "references", "sources"],
           "properties": {"action": {"type": "string", "enum": ["start", "answer", "draft", "apply", "stop"]}, "reply": {"type": "string"},
                          "problem_request": {"type": "string"}, "base": {"type": "string"}, "idea": {"type": "string"},
                          "scale": {"type": "string", "enum": ["quick", "full"]},
@@ -27,7 +27,7 @@ SCHEMA = {"type": "object", "additionalProperties": False,
                          "name": {"type": "string"}, "problems": {"type": "array", "items": {"type": "string"}},
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
-                         "brief": {"type": "string"}, "references": {"type": "array", "items": {"type": "integer"}}}}
+                         "brief": {"type": "string"}, "references": {"type": "array", "items": {"type": "integer"}}, "sources": SOURCES}}
 QUICK_BUDGET = dict(init=96, children=32, generations=5, population=16, polish=8)
 COMPUTE = {"modal": "Modal (a few hundred cores, on a limited budget): up to 4 researchers, 3 rounds, 8 instances and 3 seeds per instance.",
            "local": "this machine (a few cores, each run takes minutes): at most 2 researchers, 2 rounds, 4 instances and 1 seed."}
@@ -100,8 +100,12 @@ researchers share what they find between neighbouring sizes; for problems with p
 rounds per researcher (2-5); seeds per instance (1-4, more when single runs are noisy); reference sizes whose best
 solutions strategies may borrow from (may be empty); a workspace name of 2-5 words; and a brief for the researchers from
 the user's request. In an existing workspace, researchers continue from their earlier ideas. "reply" is what you say to
-the user: one to three sentences, plain and specific (for a session: what will run and why)."""
-    answer = ask(text, SCHEMA, directory or Path("runs")/".agent", model, timeout=600)
+the user: one to three sentences, plain and specific (for a session: what will run and why).
+
+You may search the web (published best-known values, methods, papers). In "sources" {SOURCES_PROMPT}. Keep URLs out
+of "reply": the sources are shown with it."""
+    answer = ask(text, SCHEMA, directory or Path("runs")/".agent", model, timeout=600, search=True)
+    answer["sources"] = cited(answer["sources"])
     problems = []
     for p in answer["problems"]:
         try:
@@ -148,9 +152,10 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
     first = next((e for e in events if e["type"] == "lab"), None)
     about = describe_context(context, events)
     p = respond(message, events, model, Path(out)/"agent", backend, about)
+    cited = {"sources": p["sources"], "searches": p.get("searches", [])}
     if p["action"] == "draft":
         from .harness import draft
-        book.write("reply", drafting=True,
+        book.write("reply", drafting=True, **cited,
                    reply=p["reply"] or f"That problem is not in the library yet; drafting a harness for it: {p['problem_request']}")
         request, report = p["problem_request"], None
         for attempt in range(3):  # retries are told what failed
@@ -169,8 +174,9 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
             book.write("reply", reply="The drafted harness failed its self-test three times, so nothing was run. Its code and tests are above.")
             return
         p = respond(message+f"\n(The harness {name} has been drafted and passed its self-test: use it.)", book.read(), model, Path(out)/"agent", backend)
+        cited = {"sources": p["sources"], "searches": p.get("searches", [])}
         if p["action"] != "start":
-            book.write("reply", reply=p["reply"])
+            book.write("reply", reply=p["reply"], **cited)
             return
     if p["action"] == "apply" and first:
         try:
@@ -179,13 +185,13 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
             key = None
         lab = Lab(first["domain"], backend, out, budget, p["references"], workers)
         if key not in lab.ideas:
-            book.write("reply", reply=p["reply"] or f"There is no idea {p['idea']} in this workspace.")
+            book.write("reply", reply=p["reply"] or f"There is no idea {p['idea']} in this workspace.", **cited)
             return
         known = set(lab.domain.targets())
         targets = sorted({n for n in p["targets"] if n in known})[:4 if backend == "local" else 24]
         seeds = list(range(1, 1+max(1, min(1 if backend == "local" else 4, p["seeds"]))))
         lab.write("plan", request=message, reply=p["reply"], action="apply", idea=list(key), targets=targets, seeds=len(seeds),
-                  instances=[[lab.domain.name, n] for n in targets])
+                  instances=[[lab.domain.name, n] for n in targets], **cited)
         lab.apply(None, None, targets, seeds, idea=key)
         return
     if p["action"] == "stop":  # every running session in this workspace stops after its current round
@@ -195,7 +201,7 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
         book.write("reply", reply=p["reply"] or ("Stopping after the current round." if running else "Nothing is running."))
         return
     if p["action"] in ("answer", "apply"):
-        book.write("reply", reply=p["reply"])
+        book.write("reply", reply=p["reply"], **cited)
         return
     if p.get("scale") != "full" and budget is None:  # a quick session also runs each strategy at a small budget
         from .evaluate import Budget

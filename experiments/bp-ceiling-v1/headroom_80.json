@@ -1,0 +1,42 @@
+{
+  "uniform": {
+    "instances": 200,
+    "optimum_proven": 198,
+    "best_fit_excess_percent_over_l2": 4.181882436093768,
+    "best_fit_excess_percent_over_optimum": 3.8384077715910436,
+    "instances_where_best_fit_is_optimal": 24,
+    "mean_bins_best_fit_minus_optimum": 1.6363636363636365
+  },
+  "small": {
+    "instances": 200,
+    "optimum_proven": 199,
+    "best_fit_excess_percent_over_l2": 1.606425702811245,
+    "best_fit_excess_percent_over_optimum": 1.5819589363850555,
+    "instances_where_best_fit_is_optimal": 152,
+    "mean_bins_best_fit_minus_optimum": 0.23618090452261306
+  },
+  "large": {
+    "instances": 200,
+    "optimum_proven": 200,
+    "best_fit_excess_percent_over_l2": 2.3255813953488373,
+    "best_fit_excess_percent_over_optimum": 2.0125583641925617,
+    "instances_where_best_fit_is_optimal": 44,
+    "mean_bins_best_fit_minus_optimum": 1.25
+  },
+  "bimodal": {
+    "instances": 200,
+    "optimum_proven": 200,
+    "best_fit_excess_percent_over_l2": 0.8613156909249782,
+    "best_fit_excess_percent_over_optimum": 0.8613156909249782,
+    "instances_where_best_fit_is_optimal": 136,
+    "mean_bins_best_fit_minus_optimum": 0.345
+  },
+  "complementary": {
+    "instances": 200,
+    "optimum_proven": 199,
+    "best_fit_excess_percent_over_l2": 4.610056132807835,
+    "best_fit_excess_percent_over_optimum": 4.120386958079542,
+    "instances_where_best_fit_is_optimal": 22,
+    "mean_bins_best_fit_minus_optimum": 1.7336683417085428
+  }
+}

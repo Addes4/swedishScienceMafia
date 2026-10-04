@@ -1,5 +1,11 @@
-numpy==2.5.3
-scipy==1.18.1
-numba==0.68.0
+# The self-checking loop (autoresearch/, tournament/)
+shinka-evolve==0.0.7
+anthropic>=1.11
+pytest
+# Both
+numpy
+scipy
+# Mosa (mosa/); the Modal workers pin their own versions in mosa/modal_app.py
+numba
 mpmath
 modal

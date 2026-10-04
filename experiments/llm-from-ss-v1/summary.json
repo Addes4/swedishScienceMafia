@@ -1,0 +1,518 @@
+{
+ "experiment": "llm-from-ss-v1",
+ "audit_seeds": [
+  84000,
+  84099
+ ],
+ "programs": {
+  "sum_of_squares": {
+   "path": "problems/bin_packing_online_ss/initial.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.68,
+   "excess_over_L1_pct": 0.5384340040231305,
+   "vs_sum_of_squares": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wins": 0,
+    "ties": 100,
+    "losses": 0
+   },
+   "vs_funsearch_weibull": {
+    "mean": -2.84,
+    "ci95": [
+     -3.36,
+     -2.36
+    ],
+    "wins": 83,
+    "ties": 9,
+    "losses": 8
+   },
+   "vs_fwss": {
+    "mean": 8.85,
+    "ci95": [
+     8.51,
+     9.19
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 1.0,
+   "decision_agreement_funsearch_weibull": 0.02476,
+   "beats_sum_of_squares": false,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6483478399788146
+  },
+  "best_fit": {
+   "path": "problems/bin_packing_online_ss/baselines/best_fit.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 78.95,
+   "excess_over_L1_pct": 3.9802775859200517,
+   "vs_sum_of_squares": {
+    "mean": 68.27,
+    "ci95": [
+     67.62,
+     68.93
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "vs_funsearch_weibull": {
+    "mean": 65.43,
+    "ci95": [
+     64.62,
+     66.21
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "vs_fwss": {
+    "mean": 77.12,
+    "ci95": [
+     76.46,
+     77.78
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.01694,
+   "decision_agreement_funsearch_weibull": 0.00856,
+   "beats_sum_of_squares": false,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.4949659445596626
+  },
+  "funsearch_weibull": {
+   "path": "problems/bin_packing_online_ss/baselines/funsearch_weibull.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 13.52,
+   "excess_over_L1_pct": 0.6816130837446371,
+   "vs_sum_of_squares": {
+    "mean": 2.84,
+    "ci95": [
+     2.36,
+     3.36
+    ],
+    "wins": 8,
+    "ties": 9,
+    "losses": 83
+   },
+   "vs_funsearch_weibull": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wins": 0,
+    "ties": 100,
+    "losses": 0
+   },
+   "vs_fwss": {
+    "mean": 11.69,
+    "ci95": [
+     11.13,
+     12.28
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.02476,
+   "decision_agreement_funsearch_weibull": 1.0,
+   "beats_sum_of_squares": false,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 1.4605822162184632
+  },
+  "fwss": {
+   "path": "experiments/llm-from-ss-v1/references/priority_fss.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 1.83,
+   "excess_over_L1_pct": 0.09225975911632292,
+   "vs_sum_of_squares": {
+    "mean": -8.85,
+    "ci95": [
+     -9.19,
+     -8.51
+    ],
+    "wins": 100,
+    "ties": 0,
+    "losses": 0
+   },
+   "vs_funsearch_weibull": {
+    "mean": -11.69,
+    "ci95": [
+     -12.28,
+     -11.13
+    ],
+    "wins": 100,
+    "ties": 0,
+    "losses": 0
+   },
+   "vs_fwss": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wins": 0,
+    "ties": 100,
+    "losses": 0
+   },
+   "decision_agreement_sum_of_squares": 0.07946,
+   "decision_agreement_funsearch_weibull": 0.02838,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     20,
+     31,
+     20,
+     32,
+     24
+    ],
+    "uses_horizon": true
+   },
+   "mean_seconds": 0.642297035480442
+  },
+  "run_s0": {
+   "path": "experiments/llm-from-ss-v1/runs/s0/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.2,
+   "excess_over_L1_pct": 0.5142347229434392,
+   "vs_sum_of_squares": {
+    "mean": -0.48,
+    "ci95": [
+     -0.74,
+     -0.22
+    ],
+    "wins": 51,
+    "ties": 28,
+    "losses": 21
+   },
+   "vs_funsearch_weibull": {
+    "mean": -3.32,
+    "ci95": [
+     -3.88,
+     -2.8
+    ],
+    "wins": 84,
+    "ties": 12,
+    "losses": 4
+   },
+   "vs_fwss": {
+    "mean": 8.37,
+    "ci95": [
+     8.04,
+     8.69
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.16328,
+   "decision_agreement_funsearch_weibull": 0.01962,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.679171447478875
+  },
+  "run_s1": {
+   "path": "experiments/llm-from-ss-v1/runs/s1/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.2,
+   "excess_over_L1_pct": 0.5142347229434392,
+   "vs_sum_of_squares": {
+    "mean": -0.48,
+    "ci95": [
+     -0.74,
+     -0.22
+    ],
+    "wins": 51,
+    "ties": 28,
+    "losses": 21
+   },
+   "vs_funsearch_weibull": {
+    "mean": -3.32,
+    "ci95": [
+     -3.88,
+     -2.8
+    ],
+    "wins": 84,
+    "ties": 12,
+    "losses": 4
+   },
+   "vs_fwss": {
+    "mean": 8.37,
+    "ci95": [
+     8.04,
+     8.69
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.16328,
+   "decision_agreement_funsearch_weibull": 0.01962,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6734885537516675
+  },
+  "run_s2": {
+   "path": "experiments/llm-from-ss-v1/runs/s2/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.2,
+   "excess_over_L1_pct": 0.5142347229434392,
+   "vs_sum_of_squares": {
+    "mean": -0.48,
+    "ci95": [
+     -0.74,
+     -0.22
+    ],
+    "wins": 51,
+    "ties": 28,
+    "losses": 21
+   },
+   "vs_funsearch_weibull": {
+    "mean": -3.32,
+    "ci95": [
+     -3.88,
+     -2.8
+    ],
+    "wins": 84,
+    "ties": 12,
+    "losses": 4
+   },
+   "vs_fwss": {
+    "mean": 8.37,
+    "ci95": [
+     8.04,
+     8.69
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.16328,
+   "decision_agreement_funsearch_weibull": 0.01962,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6757453837586218
+  },
+  "run_s3": {
+   "path": "experiments/llm-from-ss-v1/runs/s3/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 8.37,
+   "excess_over_L1_pct": 0.4219749638271163,
+   "vs_sum_of_squares": {
+    "mean": -2.31,
+    "ci95": [
+     -2.58,
+     -2.04
+    ],
+    "wins": 92,
+    "ties": 6,
+    "losses": 2
+   },
+   "vs_funsearch_weibull": {
+    "mean": -5.15,
+    "ci95": [
+     -5.69,
+     -4.62
+    ],
+    "wins": 99,
+    "ties": 0,
+    "losses": 1
+   },
+   "vs_fwss": {
+    "mean": 6.54,
+    "ci95": [
+     6.21,
+     6.88
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.0722,
+   "decision_agreement_funsearch_weibull": 0.01428,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6495115421479568
+  }
+ },
+ "runs": {
+  "s0": {
+   "status": "ok",
+   "arm_result": "wall",
+   "calls": 293,
+   "failed_calls": 0,
+   "evals": 294,
+   "valid_evals": 290,
+   "improvements": 2,
+   "initial_public": 0.9942276578479157,
+   "initial_hidden": 0.9949960514251175,
+   "final_public": 0.9952280136996852,
+   "final_hidden": 0.9947456828410026,
+   "spent_usd_summary": 0.270323,
+   "spent_usd_recomputed": 0.270323,
+   "llm_seconds": 3418.2,
+   "wall_s": 5405.5,
+   "timings": {
+    "search_s": 5408.1,
+    "baselines_s": 13.8,
+    "explain_s": 137.2
+   },
+   "errors": []
+  },
+  "s1": {
+   "status": "ok",
+   "arm_result": "max_iters",
+   "calls": 300,
+   "failed_calls": 0,
+   "evals": 301,
+   "valid_evals": 294,
+   "improvements": 3,
+   "initial_public": 0.9942276578479157,
+   "initial_hidden": 0.9949960514251175,
+   "final_public": 0.9952280136996852,
+   "final_hidden": 0.9947456828410026,
+   "spent_usd_summary": 0.268668,
+   "spent_usd_recomputed": 0.268668,
+   "llm_seconds": 3355.2,
+   "wall_s": 5306.3,
+   "timings": {
+    "search_s": 5308.8,
+    "baselines_s": 14.3,
+    "explain_s": 126.8
+   },
+   "errors": []
+  },
+  "s2": {
+   "status": "ok",
+   "arm_result": "wall",
+   "calls": 264,
+   "failed_calls": 0,
+   "evals": 265,
+   "valid_evals": 251,
+   "improvements": 2,
+   "initial_public": 0.9942276578479157,
+   "initial_hidden": 0.9949960514251175,
+   "final_public": 0.9952280136996852,
+   "final_hidden": 0.9947456828410026,
+   "spent_usd_summary": 0.250896,
+   "spent_usd_recomputed": 0.250896,
+   "llm_seconds": 3095.4,
+   "wall_s": 5420.0,
+   "timings": {
+    "search_s": 5422.5,
+    "baselines_s": 13.2,
+    "explain_s": 82.1
+   },
+   "errors": []
+  },
+  "s3": {
+   "status": "ok",
+   "arm_result": "wall",
+   "calls": 286,
+   "failed_calls": 0,
+   "evals": 287,
+   "valid_evals": 285,
+   "improvements": 6,
+   "initial_public": 0.9942276578479157,
+   "initial_hidden": 0.9949960514251175,
+   "final_public": 0.9964783651472828,
+   "final_hidden": 0.9957450649975927,
+   "spent_usd_summary": 0.30949,
+   "spent_usd_recomputed": 0.30949,
+   "llm_seconds": 4481.7,
+   "wall_s": 5404.4,
+   "timings": {
+    "search_s": 5406.6,
+    "baselines_s": 10.5,
+    "explain_s": 54.2
+   },
+   "errors": []
+  }
+ },
+ "total_spend_usd": 1.0994,
+ "beats_sum_of_squares": {
+  "run_s0": true,
+  "run_s1": true,
+  "run_s2": true,
+  "run_s3": true
+ }
+}

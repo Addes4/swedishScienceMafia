@@ -1,0 +1,64 @@
+{
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/problems/bin_packing_online_ss/baselines/best_fit.py",
+  "static_violations": [],
+  "public": [
+    {
+      "instance": {
+        "name": "instance 1",
+        "seed": 101,
+        "n": 5000
+      },
+      "label": "instance 1 (5000 items, lower bound 1980 bins)",
+      "seconds": 0.5903791250020731,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9620991253644315,
+      "reason": "2058 bins",
+      "normalized": 0.9620991253644315
+    },
+    {
+      "instance": {
+        "name": "instance 2",
+        "seed": 102,
+        "n": 5000
+      },
+      "label": "instance 2 (5000 items, lower bound 1981 bins)",
+      "seconds": 0.6313454160117544,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9611838913148957,
+      "reason": "2061 bins",
+      "normalized": 0.9611838913148957
+    }
+  ],
+  "hidden": [
+    {
+      "instance": {
+        "name": "hidden 1",
+        "seed": 901,
+        "n": 5000
+      },
+      "label": "hidden 1 (5000 items, lower bound 1976 bins)",
+      "seconds": 0.5796882499998901,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9620253164556962,
+      "reason": "2054 bins",
+      "normalized": 0.9620253164556962
+    },
+    {
+      "instance": {
+        "name": "hidden 2",
+        "seed": 902,
+        "n": 5000
+      },
+      "label": "hidden 2 (5000 items, lower bound 2001 bins)",
+      "seconds": 0.5649319590011146,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9587925251557259,
+      "reason": "2087 bins",
+      "normalized": 0.9587925251557259
+    }
+  ]
+}

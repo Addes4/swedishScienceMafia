@@ -1,0 +1,40 @@
+{
+ "rows": [
+  {
+   "seed": 84900,
+   "sandbox_bins": 1986,
+   "frontier_ss_bins": 1986,
+   "equal": true,
+   "seconds": 0.47011712499079295
+  },
+  {
+   "seed": 84901,
+   "sandbox_bins": 1998,
+   "frontier_ss_bins": 1998,
+   "equal": true,
+   "seconds": 0.5331175829924177
+  },
+  {
+   "seed": 84902,
+   "sandbox_bins": 2005,
+   "frontier_ss_bins": 2005,
+   "equal": true,
+   "seconds": 0.4462341250036843
+  },
+  {
+   "seed": 84903,
+   "sandbox_bins": 2011,
+   "frontier_ss_bins": 2011,
+   "equal": true,
+   "seconds": 0.4461224580009002
+  },
+  {
+   "seed": 84904,
+   "sandbox_bins": 2001,
+   "frontier_ss_bins": 2001,
+   "equal": true,
+   "seconds": 0.4356638750177808
+  }
+ ],
+ "all_equal": true
+}

@@ -388,6 +388,7 @@ function ideaView() {
     <div class="outcome"><span class="lead">${markHTML(o.kind)}</span><span>${o.html || esc(o.text)}</span></div>
     ${s.mapping ? `<div class="section"><div class="section-label">Why the researcher expected it to work</div><div class="prose">${esc(s.mapping)}</div></div>` : ""}
     ${s.strategy ? `<div class="section"><div class="section-label">What it does</div><div class="prose">${esc(s.strategy)}</div></div>` : ""}
+    ${sourcesHTML(s) ? `<div class="section">${sourcesHTML(s)}</div>` : ""}
     ${r.results.length ? `<details><summary>Results on each size</summary>${resultsTable(r, m)}</details>` : ""}
     ${s.code ? `<details><summary>Code</summary><pre class="code"><code class="language-python">${esc(s.code)}</code></pre></details>` : ""}
     ${r.prompt ? `<details><summary>What the researcher was told</summary><pre class="code plain">${esc(r.prompt.prompt)}</pre></details>` : ""}
@@ -478,10 +479,10 @@ function messagesHTML() {
   let waiting = false;
   for (const e of book.events) {
     if (e.type === "request") { items.push(`<div class="msg user">${contextHTML(book, e.context)}${esc(e.request)}</div>`); waiting = true; }
-    else if (e.type === "reply") { items.push(`<div class="msg agent">${esc(e.reply)}</div>`); waiting = e.drafting ? "Writing the harness and testing it" : false; }
+    else if (e.type === "reply") { items.push(`<div class="msg agent">${esc(e.reply)}${sourcesHTML(e)}</div>`); waiting = e.drafting ? "Writing the harness and testing it" : false; }
     else if (e.type === "harness") { items.push(harnessHTML(e)); waiting = e.report?.passed ? "Planning the session" : "Writing the harness again"; }
     else if (e.type === "plan" && e.action === "apply") {
-      items.push(`<div class="msg agent">${esc(e.reply || "")}<div class="plan">Running it on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
+      items.push(`<div class="msg agent">${esc(e.reply || "")}<div class="plan">Running it on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div>${sourcesHTML(e)}</div>`);
       waiting = false;
     } else if (e.type === "plan") {
       const goal = { record: "until a new best-known", best_known: "until the best known is reached" }[e.goal];
@@ -492,7 +493,7 @@ function messagesHTML() {
       const changed = !before || JSON.stringify(before.problems || []) !== JSON.stringify(problems);
       const picked = changed && !drafted && problems.length ? `<div class="section-label">From the library</div><strong>${esc(problems.length === 1 && lab?.title ? lab.title : problems.map(problemTitle).join(", "))}</strong><div class="picked-gap"></div>` : "";
       const rounds = goal ? `${goal}, at most ${e.rounds} rounds` : `${e.rounds} round${e.rounds > 1 ? "s" : ""}`;
-      items.push(`<div class="msg agent">${picked}${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${rounds} on n = ${esc(span(e.targets || (e.instances || []).map((i) => i[1])))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div></div>`);
+      items.push(`<div class="msg agent">${picked}${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${rounds} on n = ${esc(span(e.targets || (e.instances || []).map((i) => i[1])))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div>${sourcesHTML(e)}</div>`);
       waiting = false;
     } else if (e.type === "failed") {
       items.push(`<div class="msg failed"><strong>Stopped.</strong> ${esc(e.reason || e.error || "The session ended with an error.")}</div>`);
@@ -520,6 +521,23 @@ function messagesHTML() {
   }
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
   return items.join("");
+}
+
+// The web pages the agent (or a researcher) read for a message or idea, as links: the ones it cited, then any it opened without citing, and what
+// it searched for.
+function sourcesHTML(e) {
+  const web = (u) => /^https?:\/\//.test(u || "");
+  const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } };
+  const cited = (e.sources || []).filter((s) => web(s.url));
+  const opened = (e.searches || []).filter((s) => web(s.url) && !cited.some((c) => c.url === s.url));
+  const queries = (e.searches || []).filter((s) => s.query).map((s) => s.query);
+  if (!cited.length && !opened.length && !queries.length) return "";
+  const link = (url, title, note) => `<li><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(title || host(url) || url)}</a>
+    <span class="host">${esc(host(url))}${note ? ` · ${note}` : ""}</span></li>`;
+  return `<div class="sources"><div class="section-label">Sources read</div>${cited.length || opened.length
+    ? `<ol>${cited.map((s) => link(s.url, s.title)).join("")}${opened.map((s) => link(s.url, "", "opened, not cited")).join("")}</ol>`
+    : `<div class="none">No pages cited.</div>`}${queries.length
+    ? `<div class="queries">Searched for ${queries.map((q) => `“${esc(q)}”`).join(", ")}</div>` : ""}</div>`;
 }
 
 // What a message was about, as a link back to it.

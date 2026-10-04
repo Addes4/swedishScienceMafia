@@ -10,7 +10,7 @@ code is organised, how it generalizes, and what makes this a strong Track 1 entr
   - strategies are evaluated on Modal or locally, at equal budget across sizes × seeds;
   - candidate records are verified independently;
   - everything goes into an append-only notebook that the workbench shows live or replays.
-- **Five verified new best-known packings:** n = 88, 123, 126, 129, 130. See the README table; the packings and the night's notebooks are on the branch `results-2026-10-04`.
+- **Five verified new best-known packings:** n = 88, 123, 126, 129, 130. See the table in [MOSA.md](../MOSA.md); the packings and the night's notebooks are on the branch `results-2026-10-04`.
 - **Validated against the prototype.** Mosa reproduces the n = 88 discovery:
   - the compiled relaxation and the polish give the same sides as the prototype to 1e-15;
   - the same strategy and seed give the same record locally (9.8877007312) and on Modal (9.886746030783).

@@ -21,7 +21,7 @@ import threading
 from .backends import Local, Modal, session
 from .domain import get
 from .evaluate import Budget, neighbours_for, run
-from .llm import ask
+from .llm import SOURCES, SOURCES_PROMPT, ask, cited
 from .sandbox import violations
 from .store import Notebook
 
@@ -31,8 +31,8 @@ FOCI = ["a strategy imported from another field (physics, chemistry, biology, op
         "a strategy that exploits how the best known solutions are built (see the evidence)",
         "any strategy you expect to beat the best known solutions"]
 SCHEMA = {"type": "object", "additionalProperties": False,
-          "required": ["name", "decision", "builds_on", "source", "mapping", "strategy", "code"],
-          "properties": {"decision": {"type": "string", "enum": ["new", "refine", "combine"]},
+          "required": ["name", "decision", "builds_on", "source", "mapping", "strategy", "code", "web_sources"],
+          "properties": {"decision": {"type": "string", "enum": ["new", "refine", "combine"]}, "web_sources": SOURCES,
                          **{k: {"type": "string"} for k in ("name", "builds_on", "source", "mapping", "strategy", "code")}}}
 SHOWN = ("record", "gap", "runner_up_gap", "initial_gap", "dropped", "failed", "error")  # per-run fields the researcher sees
 
@@ -81,7 +81,11 @@ name) are set in every call; {given} neighbours may be an empty dict; every cand
 Focus: {focus}. Name the method or idea you draw on and its source field, and explain why its assumptions match the
 measured landscape. Return JSON with "name" (the idea in at most six words), "decision" (new, refine or combine), "builds_on" (the earlier round or library
 strategy it builds on, or "none"), "source" (method and field), "mapping" (why it fits this landscape), "strategy" (what
-initialize and vary do) and "code"."""]
+initialize and vary do), "code" and "web_sources".
+
+You may search the web for methods, papers and implementations (the best known solutions are already in the population, so
+copying them gains nothing). In "web_sources" {SOURCES_PROMPT}. Keep URLs out of the other fields: the sources are shown
+with the idea."""]
     if brief:
         text.append("Research brief for these targets:\n"+brief)
     if library:
@@ -258,11 +262,15 @@ class Lab:
             self.write("prompt", **tag, focus=focus, prompt=text)
             directory = self.out/f"session-{self.session}"/f"chain-{index}"/f"round-{r:02}"
             try:
-                answer = ask(text, SCHEMA, directory, model)
+                answer = ask(text, SCHEMA, directory, model, search=True)
                 problem = code_problem(answer["code"])
                 if problem:  # one repair call: a typo should not cost a whole round of compute
+                    first = answer
                     answer = ask(f"{text}\n\nYour previous answer could not be run: {problem}\nReturn the same idea with that fixed.",
-                                 SCHEMA, directory/"repair", model)
+                                 SCHEMA, directory/"repair", model, search=True)
+                    answer["web_sources"] = first["web_sources"]+answer["web_sources"]  # the idea was read up on in both calls
+                    answer["searches"] = first["searches"]+[s for s in answer["searches"] if s not in first["searches"]]
+                answer["sources"] = cited(answer.pop("web_sources"))
             except Exception as error:
                 self.write("error", **tag, error=str(error))
                 raise

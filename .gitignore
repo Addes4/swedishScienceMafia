@@ -1,9 +1,72 @@
+.env
 .venv/
 __pycache__/
 *.pyc
-runs/
+.pytest_cache/
 .DS_Store
-*.log
-baselines/out/
+results/
+
+# Papers downloaded by docs/literature/fetch_papers.py (not redistributable; see docs/literature/related-work.md)
+docs/literature/related-papers/
+
+# Runs of `python -m autoresearch.loop`; only the committed demo runs are tracked
+runs/*
+!runs/demo-*/
+
+# Notes on the committed runs and the live demo plan
+!runs/README.md
+
+# Local agent and tool state
+.claude/
+.licenses/
+
+
+# Removed from main on 4 October 2026 to keep the repository focused: studies of features that were dropped,
+# their problem variants, background papers, superseded plans and the stale review PDF. They stay on disk in
+# the main checkout, and in full in tag archive/full-research-2026-10-04.
+/experiments/local-v1/
+/experiments/local-v2/
+/experiments/local-firstfit/
+/experiments/codex-pilot-v1/
+/experiments/codex-pilot-v2/
+/experiments/gate-v3/
+/experiments/soft-gate-v4/
+/experiments/strategist-v1/
+/experiments/strategist-v2/
+/experiments/memory-ablation-v1/
+/experiments/idea-table-v1/
+/experiments/tournament-v1/
+/experiments/overfit-gates-v1/
+/experiments/short-horizon-v1/
+/experiments/llm-informed-v1/
+/experiments/PROTOCOL.md
+/experiments/PROTOCOL-v2.md
+/experiments/RESULTS.md
+/experiments/HANDOFF.md
+/experiments/report.html
+/experiments/example_prompt.txt
+/experiments/codex_candidates.json
+/experiments/codex_revision.json
+/problems/bp_sh_a5000/
+/problems/bp_sh_b200/
+/problems/bp_sh_c80/
+/problems/bp_sh_d_cex/
+/problems/bp_sh_e_rand/
+/problems/bin_packing_online_informed/
+/docs/plans/
+/docs/papers/review/
+/docs/hackathon/
+
+# tournament-v2 raw data not needed for its results (every table recomputes identically without it).
+# Kept on disk and in tag archive/full-research-2026-10-04.
+/experiments/tournament-v2/runs/**/artifacts.tar.gz
+/experiments/tournament-v2/runs/**/stdout.log.gz
+/experiments/tournament-v2/runs/full-v2/
+/experiments/tournament-v2/runs/full-v2b/shinka__sum_difference__s1/shinka/
+
+# Mosa: workspaces live in runs/ (ignored above, except the loop's demo runs); deleted workspaces, baseline output,
+# imported notebooks for demos, and the workbench's log
+/*.log
 .trash/
+baselines/out/
 history/

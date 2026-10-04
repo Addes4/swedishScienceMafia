@@ -1,0 +1,2 @@
+{"policy": "FWSS: fill-weighted Sum-of-Squares with a best-fit finish", "beta": 1.5, "alpha": 0.0, "c": 1.5,
+ "chosen_by": "tuning_grid.py on training-style sets only (seeds 90000-90099 via verify.items_for; EoH generator seeds 777000+; uniform 20-100 seeds 888000+): lowest geometric-mean ratio to the best of SS / FunSearch W / FunSearch OR / best fit across 9 sets, and beat that best baseline on 9/9"}

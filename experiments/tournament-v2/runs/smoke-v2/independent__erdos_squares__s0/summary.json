@@ -1,0 +1,77 @@
+{
+  "job_id": "independent__erdos_squares__s0",
+  "arm": "independent",
+  "arm_type": "independent",
+  "problem": "erdos_squares",
+  "seed": 0,
+  "mock": false,
+  "cap_usd": 0.03,
+  "spent_usd": 0.012864,
+  "within_cap": true,
+  "tokens": 23528,
+  "calls": 6,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 6
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 6
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.012864
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 1,
+  "retries": 0,
+  "evals": 7,
+  "valid_evals": 7,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.9599611989048528,
+  "final_hidden": 0.23809523809523808,
+  "final_sha": "f3ae56d2968d3a19",
+  "max_public_seen": 0.9599611989048528,
+  "hidden_of_max_public_seen": 0.23809523809523808,
+  "improvements": 1,
+  "usd_per_improvement": 0.012864,
+  "tokens_per_improvement": 23528,
+  "auc": 0.924735,
+  "auc_gain": 0.476703,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 2183.1,
+  "status": "ok",
+  "arm_result": "wall",
+  "completion": "wall_limit",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.012864,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 6.1,
+      "t": 1791063170.832353,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    },
+    {
+      "spent_usd": 0.010182,
+      "budget_frac": 0.3394,
+      "tokens": 18710,
+      "wall_s": 1491.7,
+      "t": 1791064656.4366748,
+      "incumbent_public": 0.9599611989048528,
+      "incumbent_hidden": 0.23809523809523808,
+      "sha": "f3ae56d2968d3a19"
+    }
+  ]
+}
