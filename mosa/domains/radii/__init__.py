@@ -199,7 +199,8 @@ def vary(parents, rng, count):
         best = self.best_known(n)
         valid = bool(len(v) == n and walls >= 0 and gaps >= 0)
         return {"n": n, "value": value, "side": value, "reference_side": best, "improvement": None if best is None else best-value,
-                "valid": valid, "record": bool(valid and best is not None and value < best-1e-9), "sum_of_radii": float(total),
+                # the best published value allowed overlaps of up to 1e-6: a record must clear it by more than that
+                "valid": valid, "record": bool(valid and best is not None and value < best-1e-6), "sum_of_radii": float(total),
                 "min_pair_clearance": float(gaps), "min_wall_clearance": float(walls), "float_zero_tolerance": valid,
                 "high_precision": [{"digits": 50, "valid": valid}], "poses": x.tolist()}
 
