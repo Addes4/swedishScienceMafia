@@ -1378,18 +1378,18 @@
     "EoH-paper": 12.1
    },
    "opt_proved": 20,
-   "opt_minus_L1_mean": 0.1,
+   "opt_minus_L1_mean": 0.05,
    "bins_above_OPT": {
-    "FWSS": 3.25,
-    "FWSS-no-finish": 18.75,
-    "SS+finish": 6.35,
-    "SS": 10.2,
-    "BF": 6.05,
-    "FS-W": 20.05,
-    "FS-OR": 4.15,
-    "abWF": 11.75,
-    "EoH": 15.75,
-    "EoH-paper": 12.0
+    "FWSS": 3.3,
+    "FWSS-no-finish": 18.8,
+    "SS+finish": 6.4,
+    "SS": 10.25,
+    "BF": 6.1,
+    "FS-W": 20.1,
+    "FS-OR": 4.2,
+    "abWF": 11.8,
+    "EoH": 15.8,
+    "EoH-paper": 12.05
    },
    "opt_mismatch": 1,
    "contrasts": {

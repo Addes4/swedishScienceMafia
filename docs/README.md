@@ -18,6 +18,7 @@ Everything else is in this folder.
 | [logs/](logs/) | [OVERNIGHT-2026-10-03.md](logs/OVERNIGHT-2026-10-03.md): the coordination log, with decisions, approvals, incidents, spend, open work and the work that is not on `main`. [related-work-log.md](logs/related-work-log.md): the literature-review session's log. |
 | [plans/](plans/README.md) | Design plans from 3 October that were superseded by the one-command loop, and one protocol that was never run. |
 | [papers/](papers/) | [outlines/](papers/outlines/README.md): research-paper outlines (Strategist; checking the claims of autoresearch loops). [pitch-draft.md](papers/pitch-draft.md): submission text, video outline and likely questions. [review/](papers/review/): the experiment review PDF as of the evening of 3 October, its build script, and the addenda sent to its author. |
+| [reviews/](reviews/README.md) | Independent referee-style reviews of finished studies (4 October): recomputation, protocol adherence, claims. Findings for the owners to check. |
 | [hackathon/](hackathon/) | The Track 1 brief ([track-1-brief.pdf](hackathon/track-1-brief.pdf)), the event's resource page ([website.md](hackathon/website.md)), and the papers supplied with the track ([track-1-papers/](hackathon/track-1-papers/)). |
 
 ## Elsewhere in the repository
