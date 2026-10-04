@@ -26,7 +26,7 @@ SCHEMA = {"type": "object", "additionalProperties": False,
                          "targets": {"type": "array", "items": {"type": "integer"}},
                          "researchers": {"type": "integer"}, "rounds": {"type": "integer"}, "seeds": {"type": "integer"},
                          "brief": {"type": "string"}, "references": {"type": "array", "items": {"type": "integer"}}}}
-COMPUTE = {"modal": "Modal (thousands of cores): up to 6 researchers, 5 rounds, 24 instances and 4 seeds per instance.",
+COMPUTE = {"modal": "Modal (a few hundred cores, on a limited budget): up to 4 researchers, 3 rounds, 8 instances and 3 seeds per instance.",
            "local": "this machine (a few cores, each run takes minutes): at most 2 researchers, 2 rounds, 4 instances and 1 seed."}
 
 
@@ -104,9 +104,10 @@ the user: one to three sentences, plain and specific (for a session: what will r
     answer["problems"] = [d.name for d in problems]
     answer["instances"] = [[d.name, n] for d in problems for n in sorted(set(answer["targets"])) if n in set(d.targets())][:24] \
         or [[problems[0].name, n] for n in problems[0].targets()[:6]]
-    answer["researchers"] = max(1, min(6, answer["researchers"]))
-    answer["rounds"] = max(1, min(5, answer["rounds"]))
-    answer["seeds"] = max(1, min(4, answer["seeds"]))
+    answer["researchers"] = max(1, min(4, answer["researchers"]))
+    answer["rounds"] = max(1, min(3, answer["rounds"]))
+    answer["seeds"] = max(1, min(3, answer["seeds"]))
+    answer["instances"] = answer["instances"][:8]
     if backend == "local":  # keep a local session small enough to finish
         answer.update(researchers=min(answer["researchers"], 2), rounds=min(answer["rounds"], 2), seeds=1, instances=answer["instances"][:4])
     return answer
@@ -138,7 +139,7 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
         book.write("reply", drafting=True,
                    reply=p["reply"] or f"That problem is not in the library yet; drafting a harness for it: {p['problem_request']}")
         request, report = p["problem_request"], None
-        for attempt in range(2):  # one retry, told what failed
+        for attempt in range(3):  # retries are told what failed
             name, answer, report = draft(request, Path(out)/"harness", model)
             book.write("harness", name=name, title=answer["title"], family=answer["family"], about=answer["about"],
                        code=answer["code"], report=report)
@@ -146,7 +147,7 @@ def run(message, out, backend="modal", model=None, workers=None, budget=None, co
                 break
             request = f"{p['problem_request']}\n\nA previous draft failed its self-test: {json.dumps(report)[:1500]}"
         if not report.get("passed"):
-            book.write("reply", reply="The drafted harness did not pass its self-test twice, so nothing was run. Its code and test are above.")
+            book.write("reply", reply="The drafted harness failed its self-test three times, so nothing was run. Its code and tests are above.")
             return
         p = respond(message+f"\n(The harness {name} has been drafted and passed its self-test: use it.)", book.read(), model, Path(out)/"agent", backend)
         if p["action"] != "start":

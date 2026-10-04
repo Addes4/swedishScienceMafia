@@ -24,7 +24,7 @@ class SandboxTest(unittest.TestCase):
 
     def test_real_strategies_pass(self):
         from tests.test_lab import CODE
-        codes = [CODE]+[p.read_text() for p in (ROOT/"baselines").glob("*.py")]
+        codes = [CODE]+[p.read_text() for p in (ROOT/"baselines").glob("*.py") if "def vary" in p.read_text()]  # strategies, not scripts
         self.assertEqual([c for c in codes if violations(c)], [])
 
     def test_rejected_code_never_runs(self):

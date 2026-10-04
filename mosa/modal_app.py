@@ -9,8 +9,9 @@ from pathlib import Path
 import modal
 
 ROOT = Path(__file__).resolve().parent
-CORES = int(os.getenv("MOSA_MODAL_CORES", "64"))
-CONTAINERS = int(os.getenv("MOSA_MODAL_CONTAINERS", "48"))
+# Moderate defaults (a peak of about 500 cores): raise them with the environment variables for a big campaign.
+CORES = int(os.getenv("MOSA_MODAL_CORES", "32"))
+CONTAINERS = int(os.getenv("MOSA_MODAL_CONTAINERS", "8"))
 POLISH_CORES = 16    # a run polishes 16 basins: one container of this size each
 STRATEGY_CORES = 16
 IDLE = 120           # seconds an idle container stays warm between rounds
@@ -55,12 +56,12 @@ def _polish_one(job):
     return get(name).polish(x, value)
 
 
-@app.function(image=image, cpu=POLISH_CORES, memory=256*POLISH_CORES+1024, timeout=1800, max_containers=32, scaledown_window=IDLE)
+@app.function(image=image, cpu=POLISH_CORES, memory=256*POLISH_CORES+1024, timeout=1800, max_containers=8, scaledown_window=IDLE)
 def polish_batch(name, packings):
     return _forked(_polish_one, [(name, x, v) for x, v in packings], POLISH_CORES)
 
 
-@app.function(image=image, cpu=STRATEGY_CORES, memory=512*STRATEGY_CORES+2048, timeout=300, max_containers=32, scaledown_window=IDLE)
+@app.function(image=image, cpu=STRATEGY_CORES, memory=512*STRATEGY_CORES+2048, timeout=300, max_containers=8, scaledown_window=IDLE)
 def strategy_step(name, code, kind, payload, count, seed, n):
     from mosa import sandbox
     from mosa.domain import get

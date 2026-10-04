@@ -61,6 +61,9 @@ def get(name):
     if name.startswith("gen-"):  # drafted on the spot by the research agent (mosa/harness.py)
         from .harness import load
         return load(name)
+    if name == "circle-radii":
+        from .domains.radii import CircleRadii
+        return CircleRadii()
     if name == "thomson" or name.startswith("riesz-"):
         from .domains.thomson import Riesz
         return Riesz(1. if name == "thomson" else float(name.split("-", 1)[1]))
@@ -79,6 +82,10 @@ LIBRARY = [
               "(e.g. riesz-0.5, riesz-2, riesz-3) have no published optima, so methods are compared with each other. Several "
               "exponents can share a workspace: their solutions are offered to each other.",
      "sizes": "10-972 for riesz-1; any n from 10 to 1000 otherwise"},
+    {"name": "circle-radii", "family": "circles in a square, sum of radii", "title": "Circles in a unit square, maximizing the sum of radii",
+     "about": "Circles of any sizes in the unit square, no overlap, maximize the sum of radii. n = 26 is the benchmark AlphaEvolve "
+              "(2.63586276), OpenEvolve and ShinkaEvolve (2.63598283) report; checked here at zero tolerance.",
+     "sizes": "5-40 (published value for n = 26)"},
 ]
 
 

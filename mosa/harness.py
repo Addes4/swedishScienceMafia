@@ -87,7 +87,8 @@ them. The user wants to research: {request}
 
 Turn this into a MINIMIZATION problem over a family of instances indexed by an integer size n (for example "n circles in
 the smallest circle": minimize the container radius). Write a complete Python module that follows this contract exactly
-(numpy, scipy, numba and mpmath are available; no files, network or subprocesses):
+(numpy, scipy, numba and mpmath are available; no files, network or subprocesses). The harness must support small sizes
+(it is self-tested on n <= 30) as well as the sizes the user asked for:
 
 {CONTRACT}
 
@@ -95,7 +96,7 @@ Requirements: relax must always return a feasible solution (repair it, e.g. by s
 and be fast (well under a second for n around 20); verify must not reuse relax's computations and must reject infeasible
 solutions; KNOWN holds only values you are confident are published best values for this exact formulation. Return JSON
 with "name" (a short slug, letters, digits and dashes), "title", "family", "about" (one sentence for a problem library),
-"code" (the module) and "test_sizes" (3 small sizes for a self-test, ideally ones in KNOWN)."""
+"code" (the module) and "test_sizes" (3 sizes between 5 and 30 for the self-test, ideally ones in KNOWN)."""
     answer = ask(text, SCHEMA, directory, model, timeout=900)
     name = "gen-"+re.sub(r"[^a-z0-9-]+", "-", answer["name"].lower()).strip("-")[:40]
     flagged = violations(answer["code"])
@@ -134,23 +135,33 @@ def library():
     return [json.loads(p.read_text()) for p in sorted(GENERATED.glob("*.json"))] if GENERATED.exists() else []
 
 
+SLOW = 15.  # seconds one relax may take at a small size, even on a busy machine
+
+
 def _too_slow(*_):
-    raise TimeoutError("the self-test took over 3 minutes")
+    raise TimeoutError("the self-test took over 4 minutes: relax is far too slow")
 
 
 def self_test(name, sizes):
     """Relax random starts on small sizes, verify them, compare with the published values; a dict for the chat."""
     report = {"passed": False, "sizes": []}
     signal.signal(signal.SIGALRM, _too_slow)
-    signal.alarm(180)
+    signal.alarm(240)
     try:
         problem = load(name)
         rng = np.random.default_rng(0)
-        for n in [n for n in sizes if n in set(problem.targets())][:3] or problem.targets()[:3]:
+        supported = problem.targets()
+        small = [n for n in supported if n <= 30]  # always small sizes: the test checks correctness, not scale
+        chosen = sorted({n for n in sizes if n in set(small)})[:3] or small[:1]+small[len(small)//2:len(small)//2+1]+small[-1:]
+        problem.relax(*problem.random(chosen[0], rng))  # warm-up: compiling numba code does not count as slow
+        for n in chosen:
             started, values, invalid = time.perf_counter(), [], 0
-            for _ in range(8):
+            for _ in range(4):
                 x, value = problem.random(n, rng)
+                one = time.perf_counter()
                 x, value, _ = problem.relax(problem.validate(x, value, n), value)
+                if time.perf_counter()-one > SLOW:
+                    raise TimeoutError(f"one relax at n = {n} took {time.perf_counter()-one:.0f} s; it must take well under a second")
                 cert = problem.verify(x, n)
                 if not cert["valid"] or abs(cert["value"]-value) > 1e-6*max(1., abs(value)):
                     invalid += 1
@@ -158,7 +169,7 @@ def self_test(name, sizes):
             best = problem.best_known(n)
             report["sizes"].append({"n": n, "best_found": min(values), "best_known": best, "invalid": invalid,
                                     "gap": None if best is None else min(values)-best,
-                                    "seconds_per_relax": (time.perf_counter()-started)/8})
+                                    "seconds_per_relax": (time.perf_counter()-started)/4})
         try:
             problem.validate(np.zeros((1, 1)), 1., 7)
             rejects = False

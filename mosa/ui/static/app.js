@@ -256,7 +256,7 @@ function instanceState(m, n, p = m.problem) {
   return { n, p, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
 // A problem's short name, for a workspace holding several related problems.
-const problemName = (p) => p === "thomson" ? "Thomson (s = 1)" : p === "riesz-0" ? "Logarithmic (s = 0)" : p.startsWith("riesz-") ? `Riesz s = ${p.slice(6)}` : p;
+const problemName = (p) => p === "circle-radii" ? "Sum of radii" : p === "riesz-inf" ? "Tammes (s = ∞)" : p === "thomson" ? "Thomson (s = 1)" : p === "riesz-0" ? "Logarithmic (s = 0)" : p.startsWith("riesz-") ? `Riesz s = ${p.slice(6)}` : p;
 // The workspace's instances: plain numbers, with a new best-known (★) or a reached best known (●) standing out.
 function instancesHTML(m) {
   const states = m.instances.map((i) => instanceState(m, i.n, i.p));
@@ -395,17 +395,19 @@ function instanceView() {
 // how it compares with the published value, if there is one.
 const onSphere = (d) => d === "thomson" || d.startsWith("riesz-");
 const value10 = (v) => `<span class="mono">${Number(v).toPrecision(10)}</span>`;
+const maximized = (p) => p === "circle-radii" || p === "riesz-inf";  // stored as minus the quantity: shown as the quantity
 function otherInstance(m, n, st, domain, by) {
-  const b = st.best, rec = st.record;
-  const what = domain === "thomson" ? `${n} charges on a sphere (Thomson)` : domain === "riesz-0" ? `${n} points on a sphere, logarithmic energy`
+  const b = st.best, rec = st.record, sgn = maximized(domain) ? -1 : 1, word = maximized(domain) ? ["below", "above"] : ["above", "below"];
+  const shown = (v) => value10(sgn * v);
+  const what = domain === "circle-radii" ? `${n} circles in a square, largest sum of radii` : domain === "riesz-inf" ? `${n} points on a sphere, farthest apart (Tammes)` : domain === "thomson" ? `${n} charges on a sphere (Thomson)` : domain === "riesz-0" ? `${n} points on a sphere, logarithmic energy`
     : domain.startsWith("riesz-") ? `${n} points on a sphere, Riesz ${domain.slice(6)}-energy` : `${m.lab.title}, n = ${n}`;
   const picture = !b?.best ? "" : onSphere(domain) ? `<div class="figure sphere">${sphere(b.best.x)}</div>`
     : `<div class="figure"><img alt="" src="/api/svg?lab=${encodeURIComponent(S.sel.lab)}&n=${n}&problem=${encodeURIComponent(domain)}&v=${b.polished}"></div>`;
   const numbers = !b ? "Not tried yet."
-    : rec ? `${value10(rec.value)}, ${plain(rec.improvement)} below the best known ${value10(rec.reference_side)}.`
-    : b.best_known == null ? `Best found ${value10(b.polished)}. There is no published value for this instance: ideas are compared with each other.`
-    : b.gap <= 1e-6 ? `Reached the best known value ${value10(b.best_known)}.`
-    : `Best found ${value10(b.polished)}, ${plain(b.gap)} above the best known ${value10(b.best_known)}.`;
+    : rec ? `${shown(rec.value)}, ${plain(rec.improvement)} ${word[1]} the best known ${shown(rec.reference_side)}.`
+    : b.best_known == null ? `Best found ${shown(b.polished)}. There is no published value for this instance: ideas are compared with each other.`
+    : b.gap <= 1e-6 ? `Reached the best known value ${shown(b.best_known)}.`
+    : `Best found ${shown(b.polished)}, ${plain(b.gap)} ${word[0]} the best known ${shown(b.best_known)}.`;
   return `<div class="pane"><div class="eyebrow">${rec ? "Discovery" : "Instance"}</div><h2>${esc(what)}</h2>${picture}
     <div class="numbers">${numbers}</div>
     ${rec ? `<div class="section"><div class="verified">${ICON.check} Verified by the problem's independent checker</div></div>` : ""}
@@ -488,7 +490,7 @@ function contextHTML(book, c) {
 // A harness drafted for a problem outside the library: what it is, how its self-test went, and its code.
 function harnessHTML(e) {
   const r = e.report || {}, sizes = r.sizes || [];
-  const rows = sizes.map((s) => `<li>n = ${s.n}: ${s.invalid ? `${s.invalid} of 8 solutions failed the checker` : "all 8 solutions passed the checker"}${s.best_known != null ? `, best ${Number(s.best_found).toPrecision(8)} against the published ${Number(s.best_known).toPrecision(8)}` : `, best ${Number(s.best_found).toPrecision(8)}`}</li>`).join("");
+  const rows = sizes.map((s) => `<li>n = ${s.n}: ${s.invalid ? `${s.invalid} of 4 solutions failed the checker` : "all 4 solutions passed the checker"}${s.best_known != null ? `, best ${Number(s.best_found).toPrecision(8)} against the published ${Number(s.best_known).toPrecision(8)}` : `, best ${Number(s.best_found).toPrecision(8)}`}</li>`).join("");
   const verdict = r.passed ? `${ICON.check} Passed its self-test` : `${ICON.fail} Failed its self-test`;
   return `<div class="msg agent"><div class="section-label">New problem</div><strong>${esc(e.title)}</strong>
     <div class="harness-about">${esc(e.about || "")}</div>
