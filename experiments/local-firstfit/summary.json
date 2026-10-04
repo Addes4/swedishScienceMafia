@@ -1,0 +1,117 @@
+{
+  "arms": [
+    {
+      "arm": "random_replay",
+      "seeds": 20,
+      "mean_excess_bins": 0.016,
+      "by_family": {
+        "uniform": 0.072,
+        "small": 0.0075,
+        "large": 0.0085,
+        "bimodal": 0.0145,
+        "complementary": 0.0045,
+        "near_thirds": 0,
+        "near_halves": 0,
+        "bands": 0.020999999999999998
+      },
+      "executions_per_seed": 38400,
+      "mean_seconds": 0.2692718730482738
+    },
+    {
+      "arm": "counterexample_replay",
+      "seeds": 20,
+      "mean_excess_bins": 0.0053750000000000004,
+      "by_family": {
+        "uniform": 0.0295,
+        "small": -8.673617379884036e-20,
+        "large": 0,
+        "bimodal": 0.006,
+        "complementary": 0.0015,
+        "near_thirds": 0,
+        "near_halves": 0,
+        "bands": 0.006
+      },
+      "executions_per_seed": 38400,
+      "mean_seconds": 0.27548672504926797
+    },
+    {
+      "arm": "counterexample_tail",
+      "seeds": 20,
+      "mean_excess_bins": 0.0041875,
+      "by_family": {
+        "uniform": 0.028,
+        "small": -0.0045000000000000005,
+        "large": 0.0025,
+        "bimodal": 0.003,
+        "complementary": 0,
+        "near_thirds": 0,
+        "near_halves": 0,
+        "bands": 0.0045000000000000005
+      },
+      "executions_per_seed": 38400,
+      "mean_seconds": 0.27365857510012576
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "arm_minus_random": "counterexample_replay",
+      "paired_seed_differences": [
+        -0.008750000000000003,
+        0.01125,
+        0.0175,
+        0.0,
+        -0.042499999999999996,
+        -0.030000000000000002,
+        0.0,
+        -0.007500000000000001,
+        -0.034999999999999996,
+        -0.01,
+        -0.007500000000000001,
+        -0.0075,
+        -0.00125,
+        -0.03875,
+        0.01875,
+        -0.01625,
+        -0.02,
+        -0.03,
+        -0.005,
+        0
+      ],
+      "mean": -0.010624999999999999,
+      "bootstrap_95_interval": [
+        -0.0181875,
+        -0.0031875000000000002
+      ]
+    },
+    {
+      "arm_minus_random": "counterexample_tail",
+      "paired_seed_differences": [
+        -0.0175,
+        -0.01,
+        -0.0025000000000000005,
+        0.0,
+        -0.03875,
+        -0.03125,
+        0.0,
+        -0.007500000000000001,
+        -0.03625,
+        -0.01,
+        -0.007500000000000001,
+        -0.01,
+        0.0125,
+        -0.04375,
+        0.01875,
+        -0.015000000000000001,
+        -0.02,
+        -0.013749999999999998,
+        -0.00375,
+        0
+      ],
+      "mean": -0.0118125,
+      "bootstrap_95_interval": [
+        -0.0188125,
+        -0.005
+      ]
+    }
+  ]
+}

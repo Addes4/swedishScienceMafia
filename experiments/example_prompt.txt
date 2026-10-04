@@ -1,0 +1,10 @@
+Capacity is 100. We seek a reusable online heuristic across item distributions.
+Best-fit is [-1,0,0,0,0,0,0,0,0,0,0,0]. It is a strong baseline.
+The earlier reserve-quarter proposal [-0.2,0,0.05,1,-0.1,0,0,-1.5,0,0,0,0]
+regresses on [63,44,32,56]: it uses 3 bins and best-fit uses 2.
+At the third item (32), it places the item in the bin with 56 free units,
+leaving 24, rather than using the bin with 37 free units, leaving 5.
+That sacrifices the bin that could accept the final 56.
+Propose a modest, testable change that avoids this failure. Do not claim a
+general improvement from one example. Specify what would falsify your idea.
+All weights must be finite and between -12 and 12.
