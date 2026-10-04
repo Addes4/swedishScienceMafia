@@ -1,0 +1,127 @@
+{
+  "job_id": "loop__bin_packing_online_ss__s3",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/problems/bin_packing_online_ss",
+  "seed": 3,
+  "mock": false,
+  "cap_usd": 0.6,
+  "spent_usd": 0.30949,
+  "within_cap": true,
+  "tokens": 923539,
+  "calls": 286,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 286
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 286
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.30949
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 287,
+  "valid_evals": 285,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.9942276578479157,
+  "initial_hidden": 0.9949960514251175,
+  "final_public": 0.9964783651472828,
+  "final_hidden": 0.9957450649975927,
+  "final_sha": "3a150cc9214372a1",
+  "max_public_seen": 0.9964783651472828,
+  "hidden_of_max_public_seen": 0.9957450649975927,
+  "improvements": 6,
+  "usd_per_improvement": 0.051582,
+  "tokens_per_improvement": 153923,
+  "auc": 0.996069,
+  "auc_gain": 0.319007,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 5404.4,
+  "status": "ok",
+  "arm_result": "wall",
+  "completion": "wall_limit",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.30949,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 4.9,
+      "t": 1791094342.7833421,
+      "incumbent_public": 0.9942276578479157,
+      "incumbent_hidden": 0.9949960514251175,
+      "sha": "15a169ab98ab0da1"
+    },
+    {
+      "spent_usd": 0.004241,
+      "budget_frac": 0.007068,
+      "tokens": 12692,
+      "wall_s": 61.0,
+      "t": 1791094398.870784,
+      "incumbent_public": 0.9947281482273783,
+      "incumbent_hidden": 0.994993202082191,
+      "sha": "b2ffb9d0fe5ea8a9"
+    },
+    {
+      "spent_usd": 0.023648,
+      "budget_frac": 0.039413,
+      "tokens": 70493,
+      "wall_s": 397.7,
+      "t": 1791094735.509063,
+      "incumbent_public": 0.9949773906863155,
+      "incumbent_hidden": 0.9952435706663059,
+      "sha": "583956ad163b8c7d"
+    },
+    {
+      "spent_usd": 0.04153,
+      "budget_frac": 0.069217,
+      "tokens": 123964,
+      "wall_s": 641.9,
+      "t": 1791094979.737174,
+      "incumbent_public": 0.9952280136996852,
+      "incumbent_hidden": 0.9954913363178888,
+      "sha": "3068319f2a2d8366"
+    },
+    {
+      "spent_usd": 0.17308,
+      "budget_frac": 0.288467,
+      "tokens": 516983,
+      "wall_s": 3169.4,
+      "t": 1791097507.2489548,
+      "incumbent_public": 0.9957272497249197,
+      "incumbent_hidden": 0.9962439571600014,
+      "sha": "e055acade0ebff04"
+    },
+    {
+      "spent_usd": 0.175395,
+      "budget_frac": 0.292325,
+      "tokens": 523834,
+      "wall_s": 3214.8,
+      "t": 1791097552.704502,
+      "incumbent_public": 0.9959772440460986,
+      "incumbent_hidden": 0.9964891026568301,
+      "sha": "4159b3ff0f84e330"
+    },
+    {
+      "spent_usd": 0.193356,
+      "budget_frac": 0.32226,
+      "tokens": 577780,
+      "wall_s": 3520.9,
+      "t": 1791097858.723905,
+      "incumbent_public": 0.9964783651472828,
+      "incumbent_hidden": 0.9957450649975927,
+      "sha": "3a150cc9214372a1"
+    }
+  ]
+}

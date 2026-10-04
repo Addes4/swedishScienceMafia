@@ -1,0 +1,6042 @@
+{
+ "protocol": "PROTOCOL.md",
+ "seeds": [
+  84000,
+  84099
+ ],
+ "n_items": 5000,
+ "bootstrap": {
+  "seed": 84,
+  "draws": 10000
+ },
+ "optimum": {
+  "84000": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1995,
+   "dual_bound": 1995,
+   "proved": true
+  },
+  "84001": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2687,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84002": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2689,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84003": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84004": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2686,
+   "opt": 1969,
+   "dual_bound": 1969,
+   "proved": true
+  },
+  "84005": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2590,
+   "opt": 2000,
+   "dual_bound": 2000,
+   "proved": true
+  },
+  "84006": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1984,
+   "dual_bound": 1984,
+   "proved": true
+  },
+  "84007": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2585,
+   "opt": 1979,
+   "dual_bound": 1979,
+   "proved": true
+  },
+  "84008": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1990,
+   "dual_bound": 1990,
+   "proved": true
+  },
+  "84009": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2491,
+   "opt": 1984,
+   "dual_bound": 1984,
+   "proved": true
+  },
+  "84010": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2687,
+   "opt": 1988,
+   "dual_bound": 1988,
+   "proved": true
+  },
+  "84011": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84012": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1985,
+   "dual_bound": 1985,
+   "proved": true
+  },
+  "84013": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2397,
+   "opt": 1981,
+   "dual_bound": 1981,
+   "proved": true
+  },
+  "84014": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1988,
+   "dual_bound": 1988,
+   "proved": true
+  },
+  "84015": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2585,
+   "opt": 1971,
+   "dual_bound": 1971,
+   "proved": true
+  },
+  "84016": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2493,
+   "opt": 2011,
+   "dual_bound": 2011,
+   "proved": true
+  },
+  "84017": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1992,
+   "dual_bound": 1992,
+   "proved": true
+  },
+  "84018": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2491,
+   "opt": 1991,
+   "dual_bound": 1991,
+   "proved": true
+  },
+  "84019": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2590,
+   "opt": 1995,
+   "dual_bound": 1995,
+   "proved": true
+  },
+  "84020": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1994,
+   "dual_bound": 1994,
+   "proved": true
+  },
+  "84021": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2586,
+   "opt": 1966,
+   "dual_bound": 1966,
+   "proved": true
+  },
+  "84022": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2686,
+   "opt": 1979,
+   "dual_bound": 1979,
+   "proved": true
+  },
+  "84023": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2686,
+   "opt": 1983,
+   "dual_bound": 1983,
+   "proved": true
+  },
+  "84024": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1983,
+   "dual_bound": 1983,
+   "proved": true
+  },
+  "84025": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1987,
+   "dual_bound": 1987,
+   "proved": true
+  },
+  "84026": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2585,
+   "opt": 1986,
+   "dual_bound": 1986,
+   "proved": true
+  },
+  "84027": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2491,
+   "opt": 1969,
+   "dual_bound": 1969,
+   "proved": true
+  },
+  "84028": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2590,
+   "opt": 1986,
+   "dual_bound": 1986,
+   "proved": true
+  },
+  "84029": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2689,
+   "opt": 1987,
+   "dual_bound": 1987,
+   "proved": true
+  },
+  "84030": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1999,
+   "dual_bound": 1999,
+   "proved": true
+  },
+  "84031": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2584,
+   "opt": 1980,
+   "dual_bound": 1980,
+   "proved": true
+  },
+  "84032": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84033": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1978,
+   "dual_bound": 1978,
+   "proved": true
+  },
+  "84034": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1996,
+   "dual_bound": 1996,
+   "proved": true
+  },
+  "84035": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2586,
+   "opt": 1991,
+   "dual_bound": 1991,
+   "proved": true
+  },
+  "84036": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1992,
+   "dual_bound": 1992,
+   "proved": true
+  },
+  "84037": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2492,
+   "opt": 1983,
+   "dual_bound": 1983,
+   "proved": true
+  },
+  "84038": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1993,
+   "dual_bound": 1993,
+   "proved": true
+  },
+  "84039": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1969,
+   "dual_bound": 1969,
+   "proved": true
+  },
+  "84040": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2591,
+   "opt": 1976,
+   "dual_bound": 1976,
+   "proved": true
+  },
+  "84041": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2487,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84042": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2687,
+   "opt": 1976,
+   "dual_bound": 1976,
+   "proved": true
+  },
+  "84043": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2488,
+   "opt": 1971,
+   "dual_bound": 1971,
+   "proved": true
+  },
+  "84044": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2591,
+   "opt": 1997,
+   "dual_bound": 1997,
+   "proved": true
+  },
+  "84045": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2686,
+   "opt": 1977,
+   "dual_bound": 1977,
+   "proved": true
+  },
+  "84046": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2493,
+   "opt": 1994,
+   "dual_bound": 1994,
+   "proved": true
+  },
+  "84047": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1986,
+   "dual_bound": 1986,
+   "proved": true
+  },
+  "84048": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1973,
+   "dual_bound": 1973,
+   "proved": true
+  },
+  "84049": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1978,
+   "dual_bound": 1978,
+   "proved": true
+  },
+  "84050": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1986,
+   "dual_bound": 1986,
+   "proved": true
+  },
+  "84051": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2592,
+   "opt": 1989,
+   "dual_bound": 1989,
+   "proved": true
+  },
+  "84052": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1981,
+   "dual_bound": 1981,
+   "proved": true
+  },
+  "84053": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2586,
+   "opt": 1975,
+   "dual_bound": 1975,
+   "proved": true
+  },
+  "84054": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1997,
+   "dual_bound": 1997,
+   "proved": true
+  },
+  "84055": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2487,
+   "opt": 1988,
+   "dual_bound": 1988,
+   "proved": true
+  },
+  "84056": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84057": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2489,
+   "opt": 1984,
+   "dual_bound": 1984,
+   "proved": true
+  },
+  "84058": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2597,
+   "opt": 1980,
+   "dual_bound": 1980,
+   "proved": true
+  },
+  "84059": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84060": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1981,
+   "dual_bound": 1981,
+   "proved": true
+  },
+  "84061": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2590,
+   "opt": 1983,
+   "dual_bound": 1983,
+   "proved": true
+  },
+  "84062": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2593,
+   "opt": 1994,
+   "dual_bound": 1994,
+   "proved": true
+  },
+  "84063": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2585,
+   "opt": 1975,
+   "dual_bound": 1975,
+   "proved": true
+  },
+  "84064": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2586,
+   "opt": 1978,
+   "dual_bound": 1978,
+   "proved": true
+  },
+  "84065": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2686,
+   "opt": 1968,
+   "dual_bound": 1968,
+   "proved": true
+  },
+  "84066": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2487,
+   "opt": 1971,
+   "dual_bound": 1971,
+   "proved": true
+  },
+  "84067": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2590,
+   "opt": 1993,
+   "dual_bound": 1993,
+   "proved": true
+  },
+  "84068": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2490,
+   "opt": 1985,
+   "dual_bound": 1985,
+   "proved": true
+  },
+  "84069": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2397,
+   "opt": 1985,
+   "dual_bound": 1985,
+   "proved": true
+  },
+  "84070": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84071": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2486,
+   "opt": 1967,
+   "dual_bound": 1967,
+   "proved": true
+  },
+  "84072": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1986,
+   "dual_bound": 1986,
+   "proved": true
+  },
+  "84073": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84074": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2585,
+   "opt": 2004,
+   "dual_bound": 2004,
+   "proved": true
+  },
+  "84075": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1976,
+   "dual_bound": 1976,
+   "proved": true
+  },
+  "84076": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2394,
+   "opt": 1983,
+   "dual_bound": 1983,
+   "proved": true
+  },
+  "84077": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1976,
+   "dual_bound": 1976,
+   "proved": true
+  },
+  "84078": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1980,
+   "dual_bound": 1980,
+   "proved": true
+  },
+  "84079": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1994,
+   "dual_bound": 1994,
+   "proved": true
+  },
+  "84080": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1974,
+   "dual_bound": 1974,
+   "proved": true
+  },
+  "84081": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2684,
+   "opt": 1961,
+   "dual_bound": 1961,
+   "proved": true
+  },
+  "84082": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2584,
+   "opt": 1991,
+   "dual_bound": 1991,
+   "proved": true
+  },
+  "84083": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2590,
+   "opt": 1992,
+   "dual_bound": 1992,
+   "proved": true
+  },
+  "84084": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2585,
+   "opt": 1978,
+   "dual_bound": 1978,
+   "proved": true
+  },
+  "84085": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1987,
+   "dual_bound": 1987,
+   "proved": true
+  },
+  "84086": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2492,
+   "opt": 1990,
+   "dual_bound": 1990,
+   "proved": true
+  },
+  "84087": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2592,
+   "opt": 1958,
+   "dual_bound": 1958,
+   "proved": true
+  },
+  "84088": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2589,
+   "opt": 1978,
+   "dual_bound": 1978,
+   "proved": true
+  },
+  "84089": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1985,
+   "dual_bound": 1985,
+   "proved": true
+  },
+  "84090": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2487,
+   "opt": 1982,
+   "dual_bound": 1982,
+   "proved": true
+  },
+  "84091": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2685,
+   "opt": 1979,
+   "dual_bound": 1979,
+   "proved": true
+  },
+  "84092": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2491,
+   "opt": 1986,
+   "dual_bound": 1986,
+   "proved": true
+  },
+  "84093": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2487,
+   "opt": 1981,
+   "dual_bound": 1981,
+   "proved": true
+  },
+  "84094": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2587,
+   "opt": 1989,
+   "dual_bound": 1989,
+   "proved": true
+  },
+  "84095": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2492,
+   "opt": 1989,
+   "dual_bound": 1989,
+   "proved": true
+  },
+  "84096": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2688,
+   "opt": 1984,
+   "dual_bound": 1984,
+   "proved": true
+  },
+  "84097": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1993,
+   "dual_bound": 1993,
+   "proved": true
+  },
+  "84098": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2689,
+   "opt": 1966,
+   "dual_bound": 1966,
+   "proved": true
+  },
+  "84099": {
+   "status": 0,
+   "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+   "arcs": 2588,
+   "opt": 1999,
+   "dual_bound": 1999,
+   "proved": true
+  }
+ },
+ "summary": {
+  "sum_of_squares": {
+   "path": "problems/bin_packing_online_ss/initial.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.68,
+   "excess_over_L1_pct": 0.5384340040231305,
+   "vs_sum_of_squares": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wins": 0,
+    "ties": 100,
+    "losses": 0
+   },
+   "vs_funsearch_weibull": {
+    "mean": -2.84,
+    "ci95": [
+     -3.36,
+     -2.36
+    ],
+    "wins": 83,
+    "ties": 9,
+    "losses": 8
+   },
+   "vs_fwss": {
+    "mean": 8.85,
+    "ci95": [
+     8.51,
+     9.19
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 1.0,
+   "decision_agreement_funsearch_weibull": 0.02476,
+   "beats_sum_of_squares": false,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6483478399788146
+  },
+  "best_fit": {
+   "path": "problems/bin_packing_online_ss/baselines/best_fit.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 78.95,
+   "excess_over_L1_pct": 3.9802775859200517,
+   "vs_sum_of_squares": {
+    "mean": 68.27,
+    "ci95": [
+     67.62,
+     68.93
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "vs_funsearch_weibull": {
+    "mean": 65.43,
+    "ci95": [
+     64.62,
+     66.21
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "vs_fwss": {
+    "mean": 77.12,
+    "ci95": [
+     76.46,
+     77.78
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.01694,
+   "decision_agreement_funsearch_weibull": 0.00856,
+   "beats_sum_of_squares": false,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.4949659445596626
+  },
+  "funsearch_weibull": {
+   "path": "problems/bin_packing_online_ss/baselines/funsearch_weibull.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 13.52,
+   "excess_over_L1_pct": 0.6816130837446371,
+   "vs_sum_of_squares": {
+    "mean": 2.84,
+    "ci95": [
+     2.36,
+     3.36
+    ],
+    "wins": 8,
+    "ties": 9,
+    "losses": 83
+   },
+   "vs_funsearch_weibull": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wins": 0,
+    "ties": 100,
+    "losses": 0
+   },
+   "vs_fwss": {
+    "mean": 11.69,
+    "ci95": [
+     11.13,
+     12.28
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.02476,
+   "decision_agreement_funsearch_weibull": 1.0,
+   "beats_sum_of_squares": false,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 1.4605822162184632
+  },
+  "fwss": {
+   "path": "experiments/llm-from-ss-v1/references/priority_fss.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 1.83,
+   "excess_over_L1_pct": 0.09225975911632292,
+   "vs_sum_of_squares": {
+    "mean": -8.85,
+    "ci95": [
+     -9.19,
+     -8.51
+    ],
+    "wins": 100,
+    "ties": 0,
+    "losses": 0
+   },
+   "vs_funsearch_weibull": {
+    "mean": -11.69,
+    "ci95": [
+     -12.28,
+     -11.13
+    ],
+    "wins": 100,
+    "ties": 0,
+    "losses": 0
+   },
+   "vs_fwss": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "wins": 0,
+    "ties": 100,
+    "losses": 0
+   },
+   "decision_agreement_sum_of_squares": 0.07946,
+   "decision_agreement_funsearch_weibull": 0.02838,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     20,
+     31,
+     20,
+     32,
+     24
+    ],
+    "uses_horizon": true
+   },
+   "mean_seconds": 0.642297035480442
+  },
+  "run_s0": {
+   "path": "experiments/llm-from-ss-v1/runs/s0/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.2,
+   "excess_over_L1_pct": 0.5142347229434392,
+   "vs_sum_of_squares": {
+    "mean": -0.48,
+    "ci95": [
+     -0.74,
+     -0.22
+    ],
+    "wins": 51,
+    "ties": 28,
+    "losses": 21
+   },
+   "vs_funsearch_weibull": {
+    "mean": -3.32,
+    "ci95": [
+     -3.88,
+     -2.8
+    ],
+    "wins": 84,
+    "ties": 12,
+    "losses": 4
+   },
+   "vs_fwss": {
+    "mean": 8.37,
+    "ci95": [
+     8.04,
+     8.69
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.16328,
+   "decision_agreement_funsearch_weibull": 0.01962,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.679171447478875
+  },
+  "run_s1": {
+   "path": "experiments/llm-from-ss-v1/runs/s1/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.2,
+   "excess_over_L1_pct": 0.5142347229434392,
+   "vs_sum_of_squares": {
+    "mean": -0.48,
+    "ci95": [
+     -0.74,
+     -0.22
+    ],
+    "wins": 51,
+    "ties": 28,
+    "losses": 21
+   },
+   "vs_funsearch_weibull": {
+    "mean": -3.32,
+    "ci95": [
+     -3.88,
+     -2.8
+    ],
+    "wins": 84,
+    "ties": 12,
+    "losses": 4
+   },
+   "vs_fwss": {
+    "mean": 8.37,
+    "ci95": [
+     8.04,
+     8.69
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.16328,
+   "decision_agreement_funsearch_weibull": 0.01962,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6734885537516675
+  },
+  "run_s2": {
+   "path": "experiments/llm-from-ss-v1/runs/s2/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 10.2,
+   "excess_over_L1_pct": 0.5142347229434392,
+   "vs_sum_of_squares": {
+    "mean": -0.48,
+    "ci95": [
+     -0.74,
+     -0.22
+    ],
+    "wins": 51,
+    "ties": 28,
+    "losses": 21
+   },
+   "vs_funsearch_weibull": {
+    "mean": -3.32,
+    "ci95": [
+     -3.88,
+     -2.8
+    ],
+    "wins": 84,
+    "ties": 12,
+    "losses": 4
+   },
+   "vs_fwss": {
+    "mean": 8.37,
+    "ci95": [
+     8.04,
+     8.69
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.16328,
+   "decision_agreement_funsearch_weibull": 0.01962,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6757453837586218
+  },
+  "run_s3": {
+   "path": "experiments/llm-from-ss-v1/runs/s3/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "bins_above_opt": 8.37,
+   "excess_over_L1_pct": 0.4219749638271163,
+   "vs_sum_of_squares": {
+    "mean": -2.31,
+    "ci95": [
+     -2.58,
+     -2.04
+    ],
+    "wins": 92,
+    "ties": 6,
+    "losses": 2
+   },
+   "vs_funsearch_weibull": {
+    "mean": -5.15,
+    "ci95": [
+     -5.69,
+     -4.62
+    ],
+    "wins": 99,
+    "ties": 0,
+    "losses": 1
+   },
+   "vs_fwss": {
+    "mean": 6.54,
+    "ci95": [
+     6.21,
+     6.88
+    ],
+    "wins": 0,
+    "ties": 0,
+    "losses": 100
+   },
+   "decision_agreement_sum_of_squares": 0.0722,
+   "decision_agreement_funsearch_weibull": 0.01428,
+   "beats_sum_of_squares": true,
+   "horizon": {
+    "differing_decisions_in_prefix": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "uses_horizon": false
+   },
+   "mean_seconds": 0.6495115421479568
+  }
+ },
+ "per_instance": {
+  "sum_of_squares": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6773832089966163
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.663747583021177
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6581952499982435
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.7196930419886485
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 0.7195354590076022
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2009,
+    "seconds": 0.7376054999767803
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6954161670000758
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.7013189579884056
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.7260252909909468
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6205096250050701
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6302104580099694
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6398061660001986
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.624946167023154
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6340841249912046
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6419141250080429
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6387519580021035
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2022,
+    "seconds": 0.6536610829934943
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6470663340005558
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.5988297089934349
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6049873750016559
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.600769541983027
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.5879949159862008
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6022200420266017
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6243529999919701
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6099054999940563
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6169020829838701
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6107561659882776
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1976,
+    "seconds": 0.5831711660139263
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6155089999956544
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.606810792000033
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2011,
+    "seconds": 0.6633527080120984
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6735130840097554
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6585428749967832
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6114448750158772
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2010,
+    "seconds": 0.6207878330023959
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6359649169899058
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.6496527919953223
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.662961499998346
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6633603329828475
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.7009775000042282
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.7144171250110958
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.7649304579827003
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.7491485409846064
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.7297109999926761
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.7072485840180889
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6659457919886336
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6390006669971626
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6429002080112696
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6798068749776576
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6857955830055289
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6671979170059785
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.6246760830108542
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6129859580250923
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6686394170101266
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.6530137499794364
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.6527560419926886
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6271508749923669
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.617169584002113
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6179323749965988
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.618065624992596
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6367965000099503
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.633691541996086
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6282148339960258
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6074758749746252
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6136849999893457
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6061505830148235
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.6484473339805845
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6655215409991797
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6783928330114577
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6344275419833139
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6301809590077028
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.6169902909896336
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6407786250056233
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6395953329920303
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2016,
+    "seconds": 0.647232791990973
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6560225840075873
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.670111999992514
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6745119160041213
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.7332626249990426
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.7300478329998441
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.7502556249964982
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1973,
+    "seconds": 0.6888791249948554
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.6845150829758495
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.6742098329996224
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6588134159974288
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.629815124993911
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6464487499906681
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1966,
+    "seconds": 0.6007813749893103
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6036762080038898
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6093410830071662
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6561009589931928
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6511462499911431
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6455405000015162
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6020603750075679
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.6128562500234693
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6082365000038408
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6419935830053873
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.6453404579951894
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.6169720410252921
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2012,
+    "seconds": 0.4451322499953676
+   }
+  ],
+  "best_fit": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2068,
+    "seconds": 0.4697305420122575
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 2054,
+    "seconds": 0.4616568330093287
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.4659984160098247
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 2061,
+    "seconds": 0.5281230839900672
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 2049,
+    "seconds": 0.5006718329968862
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2084,
+    "seconds": 0.4955210000043735
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 2060,
+    "seconds": 0.48283550000633113
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 2055,
+    "seconds": 0.48174799999105744
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 2069,
+    "seconds": 0.4656077080289833
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.47271437500603497
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 2062,
+    "seconds": 0.4732409580028616
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 2062,
+    "seconds": 0.5015719580114819
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.49564933401416056
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.4970288329932373
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 2068,
+    "seconds": 0.5110626250097994
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 2047,
+    "seconds": 0.4975872919894755
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2090,
+    "seconds": 0.4886709160055034
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2076,
+    "seconds": 0.5036088330089115
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 2073,
+    "seconds": 0.5502063749881927
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2072,
+    "seconds": 0.5503201660176273
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2074,
+    "seconds": 0.5658411670010537
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 2046,
+    "seconds": 0.5112163329904433
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 2057,
+    "seconds": 0.5027325830014888
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 2067,
+    "seconds": 0.5084207910113037
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 2060,
+    "seconds": 0.5211823749996256
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.5136845000088215
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 2063,
+    "seconds": 0.5083055409777444
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 2052,
+    "seconds": 0.5017398339987267
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.49044337499071844
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 2068,
+    "seconds": 0.49828875000821427
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2083,
+    "seconds": 0.4753840000194032
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.4746926249936223
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 2061,
+    "seconds": 0.4872897920140531
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 2052,
+    "seconds": 0.46165787501377054
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2081,
+    "seconds": 0.4614519579918124
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2073,
+    "seconds": 0.5053929170244373
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2069,
+    "seconds": 0.5028095839952584
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 2067,
+    "seconds": 0.4953087079920806
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2074,
+    "seconds": 0.4565893329854589
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 2052,
+    "seconds": 0.477384792000521
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 2054,
+    "seconds": 0.4712809170014225
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.4575860829791054
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 2050,
+    "seconds": 0.4894575000216719
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 2052,
+    "seconds": 0.47430416601127945
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2078,
+    "seconds": 0.4878191669995431
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 2054,
+    "seconds": 0.5099572079780046
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2078,
+    "seconds": 0.504085665976163
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 2064,
+    "seconds": 0.5220587499788962
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 2048,
+    "seconds": 0.5376667919917963
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 2062,
+    "seconds": 0.5135900840105023
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 2065,
+    "seconds": 0.5164039589872118
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.4857305840123445
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.48400295799365267
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 2053,
+    "seconds": 0.49771541700465605
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2074,
+    "seconds": 0.49609258299460635
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 2072,
+    "seconds": 0.4782517080020625
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.4810122500057332
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.4981142079923302
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 2057,
+    "seconds": 0.49375158300972544
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.5091671249829233
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 2054,
+    "seconds": 0.512801958975615
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 2064,
+    "seconds": 0.512919165979838
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2075,
+    "seconds": 0.5134392910113093
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 2056,
+    "seconds": 0.5255861670011654
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 2060,
+    "seconds": 0.5181782500003465
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 2041,
+    "seconds": 0.5299049169989303
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 2050,
+    "seconds": 0.5507470000011381
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2067,
+    "seconds": 0.5736985419935081
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 2062,
+    "seconds": 0.574764083023183
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 2062,
+    "seconds": 0.5184089580143336
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.5382420840032864
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 2043,
+    "seconds": 0.5395531659887638
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 2057,
+    "seconds": 0.4925904999836348
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 2068,
+    "seconds": 0.49038512498373166
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2088,
+    "seconds": 0.4940000000060536
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 2057,
+    "seconds": 0.45273716701194644
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 2058,
+    "seconds": 0.4635888339835219
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 2055,
+    "seconds": 0.48054449999472126
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 2054,
+    "seconds": 0.48059758299496025
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2071,
+    "seconds": 0.4867305420048069
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 2049,
+    "seconds": 0.4770274999900721
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 2037,
+    "seconds": 0.4791507920017466
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 2071,
+    "seconds": 0.47821829200256616
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2076,
+    "seconds": 0.47277533300803043
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.4654961249907501
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.47043095901608467
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.47371958298026584
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 2032,
+    "seconds": 0.47894995799288154
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 2054,
+    "seconds": 0.47472699999343604
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 2068,
+    "seconds": 0.4767784579889849
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 2057,
+    "seconds": 0.5449302089982666
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 2059,
+    "seconds": 0.5396750000072643
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 2067,
+    "seconds": 0.5289637499954551
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 2062,
+    "seconds": 0.47530550000374205
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 2070,
+    "seconds": 0.48585787499905564
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 2066,
+    "seconds": 0.4805176669906359
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 2064,
+    "seconds": 0.47009533300297335
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2073,
+    "seconds": 0.47879266599193215
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 2044,
+    "seconds": 0.4655345000210218
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2081,
+    "seconds": 0.30880999998771586
+   }
+  ],
+  "funsearch_weibull": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2010,
+    "seconds": 1.36330908400123
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 1.369343291997211
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 1.3764994999801274
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 1.5462765419797506
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 1.5480912920029368
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2017,
+    "seconds": 1.5707758750068024
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 1.5044954160111956
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 1.4946352499828208
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 1.5316222079854924
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 1.4058620000141673
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 1.3981042499945033
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 1.437697500019567
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 1.3933527909975965
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 1.4292776669899467
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 1.4631199580035172
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 1.3589729999948759
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2025,
+    "seconds": 1.3455403330153786
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2014,
+    "seconds": 1.3812007920059841
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 1.4363071669940837
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 1.4074092500086408
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 1.4706717080262024
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1976,
+    "seconds": 1.586035084008472
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 1.561469791980926
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 1.5521587079856545
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 1.4375464579788968
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 1.4306204579770565
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 1.458344541984843
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 1.3898844170034863
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 1.3735878750158008
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 1.3847375830227975
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2015,
+    "seconds": 1.3337564160174225
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 1.317042291018879
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 1.375089041015599
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 1.353137957979925
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 1.3451850409910548
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2013,
+    "seconds": 1.3736858330084942
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 1.3532122909964528
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.352716416993644
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 1.3971565419924445
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 1.5367696670000441
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 1.5247311669809278
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 1.550071042001946
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 1.585894499992719
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 1.597507416998269
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2013,
+    "seconds": 1.593557874992257
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 1.4287574590125587
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2010,
+    "seconds": 1.4568117909948342
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 1.3984655829844996
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 1.3256434579961933
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.345545874995878
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 1.392666375002591
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 1.3591197080095299
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 1.4533907499862835
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 1.4485398750111926
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2009,
+    "seconds": 1.4305480419716332
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 1.4130009170039557
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 1.4120894579973537
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.4458443330076989
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 1.4484444170084316
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.5437160409928765
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.6647219169826712
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 1.686752624984365
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 1.6754192499793135
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 1.7078515409957618
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 1.6988133749982808
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 1.6531442079867702
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 1.4424290000170004
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 1.4447924999985844
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 1.4550824999751057
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 1.4683622090087738
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 1.4808868750114925
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1974,
+    "seconds": 1.5345721670018975
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 1.582866541983094
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 1.5841436670161784
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2019,
+    "seconds": 1.6481452500156593
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 1.6149173750018235
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 1.555079540994484
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 1.510237500013318
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 1.389557083020918
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2010,
+    "seconds": 1.3678409999993164
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 1.4141162919986527
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 1.4827677499852143
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 1.5008179159776773
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 1.5568242910085246
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 1.4574327089940198
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 1.4637202919984702
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 1.406611290993169
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1969,
+    "seconds": 1.3947221250273287
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 1.372069958015345
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 1.4438732499838807
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.3982389169977978
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 1.4147115829982795
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 1.4376830839901231
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.4848628329928033
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 1.5017946669831872
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 1.4670865419902839
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 1.4461079169996083
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2009,
+    "seconds": 1.4032964160142
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 1.376544875005493
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2015,
+    "seconds": 1.1702754169818945
+   }
+  ],
+  "fwss": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.5916365409793798
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6033812919922639
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.5964142500015441
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.5900515000103042
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1971,
+    "seconds": 0.6030684579745866
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.6053324580134358
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6484790000249632
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6467083750176243
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6472999590041582
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6120904169802088
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6016310419945512
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.6331015000178013
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6397601250209846
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.63830845800112
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6726712500094436
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1973,
+    "seconds": 0.6587176250177436
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2012,
+    "seconds": 0.65010979201179
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6493154589843471
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6819290420098696
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6744887079985347
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6840358339832164
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1968,
+    "seconds": 0.7140090420143679
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6890125839854591
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.7014912499871571
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.7544377919984981
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.7466918340069242
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.7369953749876004
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1970,
+    "seconds": 0.628661958995508
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6212147079932038
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.634291291993577
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6416355410183314
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.6412827919994015
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6480657090141904
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6576409580011386
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6551147910067812
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6595726669766009
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6086411669966765
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6153488749987446
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.622323666990269
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1971,
+    "seconds": 0.620127667003544
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.6204579999903217
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6267858339997474
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 0.640075417002663
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1973,
+    "seconds": 0.6257324169855565
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6388905420026276
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.6528113750100601
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6532139159971848
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6519108329957817
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.6581214580219239
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6574911249917932
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6491517079994082
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6832101250183769
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6672904170118272
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1976,
+    "seconds": 0.6729185829753987
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.6490057920163963
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6347336669859942
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6297910419816617
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.5904132499999832
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.5879800830152817
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.5935005000210367
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.5952942089934368
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.5922460829897318
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6056302910146769
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.6103962909837719
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6112626249960158
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1970,
+    "seconds": 0.6156000829942059
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1972,
+    "seconds": 0.6132332500128541
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.610975415998837
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6748995419766288
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.7278623750025872
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.7233050840150099
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1969,
+    "seconds": 0.7103770420071669
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.7016159170016181
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6966674579889514
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.7009377919894177
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 0.6867249580100179
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6866849579964764
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 0.6692657500097994
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.6486970410041977
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6733556670078542
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.6458875840180553
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1963,
+    "seconds": 0.6274295830226038
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6484728340001311
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6373023749911226
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6440660829830449
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6500600000144914
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6606546659895685
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1959,
+    "seconds": 0.6067870839906391
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6086178749974351
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6007986670010723
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6284472089901101
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.636119749979116
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6335799170192331
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.6320090829976834
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6253512920229696
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.626914416992804
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6123853329918347
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6180702080018818
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1967,
+    "seconds": 0.5998698339972179
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.4232710830110591
+   }
+  ],
+  "run_s0": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6709634159924462
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6615453750127926
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6614137500000652
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6909195829939563
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6909211250022054
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2011,
+    "seconds": 0.6895738339808304
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7315937920066062
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.7246089999971446
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.720621416985523
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.7168126670003403
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.7117340000113472
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7099071249831468
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6421636249870062
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6362277080188505
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6394624579988886
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6990887500287499
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2023,
+    "seconds": 0.703744958009338
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6976123329950497
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6747077500040177
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6685706250136718
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6878087500226684
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1976,
+    "seconds": 0.6460411669977475
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6421421250270214
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.665189166989876
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6598173750098795
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6559670410060789
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6843042499967851
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.6470331249875017
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6374066669959575
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6551903749932535
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 0.6637310830119532
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6687819159997161
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6820965000079013
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.7328900000138674
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.729559999977937
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.7758088340051472
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.7447106250037905
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.739597749983659
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.7530000830010977
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.7634476670064032
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.782018291996792
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.7832572500046808
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.73123554099584
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.7432114169932902
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.7320444579818286
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6321449579845648
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6485841670073569
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6394460420124233
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6377258750144392
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6407096250040922
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6526691660110373
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6269322500156704
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6502434170106426
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6647946669836529
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 0.6637120420054998
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.6556159999745432
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.659120875003282
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6540791660081595
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6757586250023451
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6640999999945052
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.661291208001785
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6450319579744246
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6426678330171853
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6197804999828804
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6206811669981107
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6165417909796815
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.6126509169989731
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6442089999909513
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6357361670234241
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6424355839844793
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6433983329916373
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.6389534159970935
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6528679999755695
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6706527920032386
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2015,
+    "seconds": 0.7137610419886187
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6798070000077132
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.687083500000881
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.7006225829827599
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6752997919975314
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6727318330085836
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.67393258298398
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1972,
+    "seconds": 0.6540141250006855
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.67345704199397
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6884718330111355
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6981789169949479
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.7121082079829648
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6966132500092499
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1964,
+    "seconds": 0.6865607500076294
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6787994169862941
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.7058243329811376
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7485271659970749
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.7348327499930747
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.7313835420063697
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7019144170044456
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.702839874982601
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6995546249963809
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6508714999945369
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6605997500009835
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1974,
+    "seconds": 0.6443415000103414
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2012,
+    "seconds": 0.5839931249793153
+   }
+  ],
+  "run_s1": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6415227910038084
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6397733330086339
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6351677909842692
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6691067090141587
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6678307080001105
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2011,
+    "seconds": 0.6937920409836806
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.682561416993849
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6762819580035284
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.7058280000055674
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6864857499895152
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6854634170013014
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7110545420146082
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6753662500123028
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6749375000072177
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6761047079926357
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6576894590107258
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2023,
+    "seconds": 0.6539901249925606
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6621191250160336
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6776515830133576
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6689092910091858
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.695083375001559
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1976,
+    "seconds": 0.6844464159803465
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6904398330079857
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.70796491598594
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6642165840021335
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.663008000003174
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.64855054099462
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.6604064579878468
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6562808750022668
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6605697089980822
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 0.670054957998218
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6566357499978039
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6532290000177454
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6961438330181409
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6972967920009978
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.7162232910050079
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6857817500131205
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6845510420098435
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.7208111659856513
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6928052089933772
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.7002031670126598
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.7050111670105252
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.8103132079995703
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.8068194999941625
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.842160583997611
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.8046529999992345
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.8016122920089401
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.8114206660247874
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6801612499984913
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6742202079913113
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6672529579955153
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.63287216599565
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6199767089856323
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6202205420122482
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 0.6538215840118937
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.6500836669874843
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6756379579892382
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6567178329860326
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6573791659902781
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6234517920238432
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6122445419896394
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6128333329979796
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6235788339981809
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.673547584010521
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6980979999934789
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6637389590032399
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.6567427499976475
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6648318750085309
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6614292090234812
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6405771250138059
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6520184169930872
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.6439431670005433
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6443232499877922
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6569634579936974
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2015,
+    "seconds": 0.6624395830149297
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.717510874994332
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.729292208008701
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.7525685419968795
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6871082080178894
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.7016268750012387
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.7223322920035571
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1972,
+    "seconds": 0.6823175419995096
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6727377920178697
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6439684999932069
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6473256250028498
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6677044999960344
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.654487459018128
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1964,
+    "seconds": 0.6344697499880567
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6559295839979313
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6328401660139207
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6333065000071656
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6296760409895796
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6420277919969521
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6232989999989513
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.616114500007825
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.610533208004199
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6857354170060717
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6819548750063404
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1974,
+    "seconds": 0.6461911250080448
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2012,
+    "seconds": 0.4703614999889396
+   }
+  ],
+  "run_s2": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6443828330084216
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6406582919880748
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6363902910088655
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.7166622079967055
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.712310000002617
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2011,
+    "seconds": 0.7174347499967553
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6799963749945164
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.7297178329899907
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.691017582983477
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6805856249993667
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6965599999821279
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7393466669891495
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.7200533750001341
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.7337355839845259
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.7102055000141263
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6443382499855943
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2023,
+    "seconds": 0.6553210419951938
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.650678208010504
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6401753749814816
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6510185830120463
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6515387919789646
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1976,
+    "seconds": 0.667445166996913
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.65708849998191
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6666489170165733
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6265823330031708
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6277952090022154
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6511349170177709
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.6229722080170177
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.628369083016878
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6275223749980796
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 0.6289296250033658
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6396211250103079
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6233308749797288
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6803922920080367
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2006,
+    "seconds": 0.6721725419920404
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6665009169955738
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6182753750181291
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6147748750227038
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.6276165000163019
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6300515000184532
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6417743340134621
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6481747499783523
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.699222875002306
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.7118517500057351
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.6992130409926176
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6795098329894245
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.689249542017933
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6942456249962561
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6669705419917591
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6626873330096714
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6901669579965528
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6704221669933759
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6422969169798307
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6411147500039078
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2008,
+    "seconds": 0.7141473749943543
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.7193978329887614
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.7210786670038942
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.686591125006089
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6899166250077542
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6765514999860898
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6250717079965398
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.629035499994643
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6353157919947989
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6416766250040382
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.6377477500063833
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6379571249999572
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1983,
+    "seconds": 0.6865601250028703
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.7824425410071854
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.9414636250003241
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 1.092268750013318
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.9905040829908103
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1975,
+    "seconds": 0.8468705829873215
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6674637079995591
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6619808329851367
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2015,
+    "seconds": 0.7054851670109201
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1988,
+    "seconds": 0.7022948749945499
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7020564579870552
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6729414580040611
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6786898330028635
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6925815419817809
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.6935582919977605
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1972,
+    "seconds": 0.6591847499948926
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6626964159950148
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6692559999937657
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6393306249810848
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6451299169857521
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6256370000191964
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1964,
+    "seconds": 0.6397658750065602
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6569776670075953
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6561382079962641
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6754133329959586
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6866970829723869
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6958548749971669
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6267695839924272
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6148894999932963
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6070519170025364
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6263398340088315
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6329859170073178
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1974,
+    "seconds": 0.6184651249786839
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2012,
+    "seconds": 0.44805333399563096
+   }
+  ],
+  "run_s3": [
+   {
+    "seed": 84000,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6194787499844097
+   },
+   {
+    "seed": 84001,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.611844833008945
+   },
+   {
+    "seed": 84002,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6195459580048919
+   },
+   {
+    "seed": 84003,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6436608330113813
+   },
+   {
+    "seed": 84004,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.6628992089827079
+   },
+   {
+    "seed": 84005,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.657850415998837
+   },
+   {
+    "seed": 84006,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.620853000000352
+   },
+   {
+    "seed": 84007,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6349726250045933
+   },
+   {
+    "seed": 84008,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6366934590041637
+   },
+   {
+    "seed": 84009,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6663029580086004
+   },
+   {
+    "seed": 84010,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.670232832984766
+   },
+   {
+    "seed": 84011,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6680270000069868
+   },
+   {
+    "seed": 84012,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6327287089952733
+   },
+   {
+    "seed": 84013,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6615284169965889
+   },
+   {
+    "seed": 84014,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6611114999977872
+   },
+   {
+    "seed": 84015,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.6644216249987949
+   },
+   {
+    "seed": 84016,
+    "valid": true,
+    "bins": 2020,
+    "seconds": 0.6649882499768864
+   },
+   {
+    "seed": 84017,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.6597636250080541
+   },
+   {
+    "seed": 84018,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6154683330096304
+   },
+   {
+    "seed": 84019,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.6322829590062611
+   },
+   {
+    "seed": 84020,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6105106670001987
+   },
+   {
+    "seed": 84021,
+    "valid": true,
+    "bins": 1977,
+    "seconds": 0.5958344589744229
+   },
+   {
+    "seed": 84022,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6108052499766927
+   },
+   {
+    "seed": 84023,
+    "valid": true,
+    "bins": 1991,
+    "seconds": 0.6171221249969676
+   },
+   {
+    "seed": 84024,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.618761749996338
+   },
+   {
+    "seed": 84025,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6244527089875191
+   },
+   {
+    "seed": 84026,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6282529590243939
+   },
+   {
+    "seed": 84027,
+    "valid": true,
+    "bins": 1974,
+    "seconds": 0.569101375003811
+   },
+   {
+    "seed": 84028,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.5910934160056058
+   },
+   {
+    "seed": 84029,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.5993611669982783
+   },
+   {
+    "seed": 84030,
+    "valid": true,
+    "bins": 2007,
+    "seconds": 0.6075402499991469
+   },
+   {
+    "seed": 84031,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6051054999988992
+   },
+   {
+    "seed": 84032,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.619593666982837
+   },
+   {
+    "seed": 84033,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.5956864999898244
+   },
+   {
+    "seed": 84034,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.5980773330084048
+   },
+   {
+    "seed": 84035,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.6072029590141028
+   },
+   {
+    "seed": 84036,
+    "valid": true,
+    "bins": 2001,
+    "seconds": 0.6061927499831654
+   },
+   {
+    "seed": 84037,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6170259590144269
+   },
+   {
+    "seed": 84038,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6599363329878543
+   },
+   {
+    "seed": 84039,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 0.6665140829863958
+   },
+   {
+    "seed": 84040,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.6596260830119718
+   },
+   {
+    "seed": 84041,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6201867920171935
+   },
+   {
+    "seed": 84042,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6265110420063138
+   },
+   {
+    "seed": 84043,
+    "valid": true,
+    "bins": 1978,
+    "seconds": 0.6502117500058375
+   },
+   {
+    "seed": 84044,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6665869999851566
+   },
+   {
+    "seed": 84045,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.664696041989373
+   },
+   {
+    "seed": 84046,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6852837920014281
+   },
+   {
+    "seed": 84047,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6904326249787118
+   },
+   {
+    "seed": 84048,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.7215359999972861
+   },
+   {
+    "seed": 84049,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.7413955839874689
+   },
+   {
+    "seed": 84050,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.7458364590129349
+   },
+   {
+    "seed": 84051,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.688167791988235
+   },
+   {
+    "seed": 84052,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6991179999895394
+   },
+   {
+    "seed": 84053,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.7189724579802714
+   },
+   {
+    "seed": 84054,
+    "valid": true,
+    "bins": 2005,
+    "seconds": 0.6781983329856303
+   },
+   {
+    "seed": 84055,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6721691669954453
+   },
+   {
+    "seed": 84056,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6652492499852087
+   },
+   {
+    "seed": 84057,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.7237257499946281
+   },
+   {
+    "seed": 84058,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.7328513749816921
+   },
+   {
+    "seed": 84059,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.7439043750055134
+   },
+   {
+    "seed": 84060,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.7870233330177143
+   },
+   {
+    "seed": 84061,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.7780019580095541
+   },
+   {
+    "seed": 84062,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.7626224590057973
+   },
+   {
+    "seed": 84063,
+    "valid": true,
+    "bins": 1984,
+    "seconds": 0.656747417000588
+   },
+   {
+    "seed": 84064,
+    "valid": true,
+    "bins": 1987,
+    "seconds": 0.6439381669915747
+   },
+   {
+    "seed": 84065,
+    "valid": true,
+    "bins": 1979,
+    "seconds": 0.6315009999962058
+   },
+   {
+    "seed": 84066,
+    "valid": true,
+    "bins": 1981,
+    "seconds": 0.6258312080171891
+   },
+   {
+    "seed": 84067,
+    "valid": true,
+    "bins": 2004,
+    "seconds": 0.6418090410006698
+   },
+   {
+    "seed": 84068,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6495024579926394
+   },
+   {
+    "seed": 84069,
+    "valid": true,
+    "bins": 1993,
+    "seconds": 0.6383262499875855
+   },
+   {
+    "seed": 84070,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6157983340090141
+   },
+   {
+    "seed": 84071,
+    "valid": true,
+    "bins": 1973,
+    "seconds": 0.6388286669971421
+   },
+   {
+    "seed": 84072,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6110394579882268
+   },
+   {
+    "seed": 84073,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6196508340071887
+   },
+   {
+    "seed": 84074,
+    "valid": true,
+    "bins": 2014,
+    "seconds": 0.676324875006685
+   },
+   {
+    "seed": 84075,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6826955839933362
+   },
+   {
+    "seed": 84076,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.6799897079763468
+   },
+   {
+    "seed": 84077,
+    "valid": true,
+    "bins": 1982,
+    "seconds": 0.6627874999830965
+   },
+   {
+    "seed": 84078,
+    "valid": true,
+    "bins": 1985,
+    "seconds": 0.6673874169937335
+   },
+   {
+    "seed": 84079,
+    "valid": true,
+    "bins": 2000,
+    "seconds": 0.6719369170023128
+   },
+   {
+    "seed": 84080,
+    "valid": true,
+    "bins": 1980,
+    "seconds": 0.6715277500043157
+   },
+   {
+    "seed": 84081,
+    "valid": true,
+    "bins": 1972,
+    "seconds": 0.670411792001687
+   },
+   {
+    "seed": 84082,
+    "valid": true,
+    "bins": 1999,
+    "seconds": 0.6765207079879474
+   },
+   {
+    "seed": 84083,
+    "valid": true,
+    "bins": 2002,
+    "seconds": 0.7170548329886515
+   },
+   {
+    "seed": 84084,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6992265830049291
+   },
+   {
+    "seed": 84085,
+    "valid": true,
+    "bins": 1995,
+    "seconds": 0.6853237920149695
+   },
+   {
+    "seed": 84086,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6367720840207767
+   },
+   {
+    "seed": 84087,
+    "valid": true,
+    "bins": 1962,
+    "seconds": 0.5916347090096679
+   },
+   {
+    "seed": 84088,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6177277919778135
+   },
+   {
+    "seed": 84089,
+    "valid": true,
+    "bins": 1996,
+    "seconds": 0.6202959580114111
+   },
+   {
+    "seed": 84090,
+    "valid": true,
+    "bins": 1989,
+    "seconds": 0.6277723330131266
+   },
+   {
+    "seed": 84091,
+    "valid": true,
+    "bins": 1986,
+    "seconds": 0.6247849579958711
+   },
+   {
+    "seed": 84092,
+    "valid": true,
+    "bins": 1994,
+    "seconds": 0.6198865409824066
+   },
+   {
+    "seed": 84093,
+    "valid": true,
+    "bins": 1990,
+    "seconds": 0.6452228339912836
+   },
+   {
+    "seed": 84094,
+    "valid": true,
+    "bins": 1998,
+    "seconds": 0.6397962500050198
+   },
+   {
+    "seed": 84095,
+    "valid": true,
+    "bins": 1997,
+    "seconds": 0.6434329159965273
+   },
+   {
+    "seed": 84096,
+    "valid": true,
+    "bins": 1992,
+    "seconds": 0.57880520800245
+   },
+   {
+    "seed": 84097,
+    "valid": true,
+    "bins": 2003,
+    "seconds": 0.5962439159920905
+   },
+   {
+    "seed": 84098,
+    "valid": true,
+    "bins": 1972,
+    "seconds": 0.5936949589813594
+   },
+   {
+    "seed": 84099,
+    "valid": true,
+    "bins": 2009,
+    "seconds": 0.5057895420177374
+   }
+  ]
+ }
+}

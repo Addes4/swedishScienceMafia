@@ -1,0 +1,589 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.9964783651472828,
+    "hidden": 0.9957450649975927,
+    "code": "\"\"\"Capacity-weighted sum-of-squares rule with exact-fit override and fuller-bin tie-break.\n\nEach item goes where it minimises the potential P = sum_g (100/g)^p * N(g)^2, where N(g) counts\nopen bins with remaining capacity g (0 < g < 100). The weighting exponent p balances how much the\nrule penalizes multiplying near-full residual classes versus counts of large-residual classes.\nIf some fitting bin can take the item exactly (residual 0), that bin is chosen instead, since\nclosing a bin is always at least as good as any other placement. Ties on the potential delta go to\nthe placement whose resulting residual matches a more common existing open class (graded by count),\nand then to the bin leaving the smaller residual (fuller bin first). The function is shown only the\nbins the item fits in, so it keeps its own record of every opened bin; used bins are always a prefix\nof the bin array. Each instance runs in a fresh process, so module-level state starts empty.\n\"\"\"\nimport numpy as np\nCAP = 100\n_P = 0.8\n_caps = []\n_N = [0] * (CAP + 1)\n_W = [(CAP / g) ** _P if g > 0 else 0.0 for g in range(CAP + 1)]\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    global _caps, _N\n    s = int(item)\n    fitting = [j for j, g in enumerate(_caps) if g >= s]\n    n_unused = len(bins) - len(fitting)\n    scores = np.empty(len(bins), dtype=np.float64)\n    exact_pos = -1\n    for k, j in enumerate(fitting):\n        if _caps[j] == s:\n            exact_pos = k\n            break\n    if exact_pos >= 0:\n        scores[:] = 0.0\n        scores[exact_pos] = 1.0\n        choice = exact_pos\n    else:\n        for k, j in enumerate(fitting):\n            g = _caps[j]\n            r = g - s\n            delta = -_W[g] * (2 * _N[g] - 1)\n            if r > 0:\n                delta += _W[r] * (2 * _N[r] + 1)\n            match = _N[r] if r > 0 else 0\n            scores[k] = -(delta * 100000.0 + match * 100.0 + r)\n        r_new = CAP - s\n        delta_new = _W[r_new] * (2 * _N[r_new] + 1) if r_new > 0 else 0.0\n        match_new = _N[r_new] if r_new > 0 else 0\n        scores[len(fitting):] = -(delta_new * 100000.0 + match_new * 100.0 + r_new)\n        choice = int(np.argmax(scores))\n    if choice < len(fitting):\n        j = fitting[choice]\n        g = _caps[j]\n        _N[g] -= 1\n        _caps[j] = g - s\n        if g - s > 0:\n            _N[g - s] += 1\n    elif n_unused > 0:\n        _caps.append(CAP - s)\n        if CAP - s > 0:\n            _N[CAP - s] += 1\n    return scores\n"
+  },
+  "minimal": {
+    "public": 0.9964783651472828,
+    "hidden": 0.9957450649975927,
+    "code": "\"\"\"Capacity-weighted sum-of-squares rule with exact-fit override and fuller-bin tie-break.\n\nEach item goes where it minimises the potential P = sum_g (100/g)^p * N(g)^2, where N(g) counts\nopen bins with remaining capacity g (0 < g < 100). The weighting exponent p balances how much the\nrule penalizes multiplying near-full residual classes versus counts of large-residual classes.\nIf some fitting bin can take the item exactly (residual 0), that bin is chosen instead, since\nclosing a bin is always at least as good as any other placement. Ties on the potential delta go to\nthe placement whose resulting residual matches a more common existing open class (graded by count),\nand then to the bin leaving the smaller residual (fuller bin first). The function is shown only the\nbins the item fits in, so it keeps its own record of every opened bin; used bins are always a prefix\nof the bin array. Each instance runs in a fresh process, so module-level state starts empty.\n\"\"\"\nimport numpy as np\nCAP = 100\n_P = 0.8\n_caps = []\n_N = [0] * (CAP + 1)\n_W = [(CAP / g) ** _P if g > 0 else 0.0 for g in range(CAP + 1)]\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    s = int(item)\n    fitting = [j for j, g in enumerate(_caps) if g >= s]\n    n_unused = len(bins) - len(fitting)\n    scores = np.empty(len(bins), dtype=np.float64)\n    exact_pos = -1\n    for k, j in enumerate(fitting):\n        if _caps[j] == s:\n            exact_pos = k\n            break\n    if exact_pos >= 0:\n        scores[:] = 0.0\n        scores[exact_pos] = 1.0\n        choice = exact_pos\n    else:\n        for k, j in enumerate(fitting):\n            g = _caps[j]\n            r = g - s\n            delta = -_W[g] * (2 * _N[g] - 1)\n            if r > 0:\n                delta += _W[r] * (2 * _N[r] + 1)\n            match = _N[r] if r > 0 else 0\n            scores[k] = -(delta * 100000.0 + match * 100.0 + r)\n        r_new = CAP - s\n        delta_new = _W[r_new] * (2 * _N[r_new] + 1) if r_new > 0 else 0.0\n        match_new = _N[r_new] if r_new > 0 else 0\n        scores[len(fitting):] = -(delta_new * 100000.0 + match_new * 100.0 + r_new)\n        choice = int(np.argmax(scores))\n    if choice < len(fitting):\n        j = fitting[choice]\n        g = _caps[j]\n        _N[g] -= 1\n        _caps[j] = g - s\n        if g - s > 0:\n            _N[g - s] += 1\n    elif n_unused > 0:\n        _caps.append(CAP - s)\n        if CAP - s > 0:\n            _N[CAP - s] += 1\n    return scores\n",
+    "removed": [
+      0
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 30,
+      "text": "global _caps, _N",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 31,
+      "text": "s = int(item)",
+      "inside": [],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 32,
+      "text": "fitting = [j for j, g in enumerate(_caps) if g >= s]",
+      "inside": [],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 33,
+      "text": "n_unused = len(bins) - len(fitting)",
+      "inside": [],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 4,
+      "kind": "term",
+      "line": 33,
+      "text": "term + len(bins)",
+      "inside": [
+        3
+      ],
+      "delta": -0.03716606809602241,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 5,
+      "kind": "term",
+      "line": 33,
+      "text": "term - len(fitting)",
+      "inside": [
+        3
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 34,
+      "text": "scores = np.empty(len(bins), dtype=np.float64)",
+      "inside": [],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 37,
+      "text": "exact_pos = -1",
+      "inside": [],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 38,
+      "text": "for k, j in enumerate(fitting): ...",
+      "inside": [],
+      "delta": -0.0007499833421165114,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 39,
+      "text": "if _caps[j] == s: ...",
+      "inside": [
+        8
+      ],
+      "delta": -0.0007499833421165114,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 40,
+      "text": "exact_pos = k",
+      "inside": [
+        8,
+        9
+      ],
+      "delta": -0.0007499833421165114,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 41,
+      "text": "break",
+      "inside": [
+        8,
+        9
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 42,
+      "text": "if exact_pos >= 0: ...",
+      "inside": [],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 43,
+      "text": "scores[:] = 0.0",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 44,
+      "text": "scores[exact_pos] = 1.0",
+      "inside": [
+        12
+      ],
+      "delta": -0.03948380781019489,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 45,
+      "text": "choice = exact_pos",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 47,
+      "text": "for k, j in enumerate(fitting): ...",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 17,
+      "kind": "statement",
+      "line": 48,
+      "text": "g = _caps[j]",
+      "inside": [
+        12,
+        16
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 18,
+      "kind": "statement",
+      "line": 49,
+      "text": "r = g - s",
+      "inside": [
+        12,
+        16
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 19,
+      "kind": "term",
+      "line": 49,
+      "text": "term + g",
+      "inside": [
+        12,
+        16,
+        18
+      ],
+      "delta": -0.03553707451166899,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 20,
+      "kind": "term",
+      "line": 49,
+      "text": "term - s",
+      "inside": [
+        12,
+        16,
+        18
+      ],
+      "delta": -0.004740014769086254,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 21,
+      "kind": "statement",
+      "line": 51,
+      "text": "delta = -_W[g] * (2 * _N[g] - 1)",
+      "inside": [
+        12,
+        16
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 22,
+      "kind": "statement",
+      "line": 52,
+      "text": "if r > 0: ...",
+      "inside": [
+        12,
+        16
+      ],
+      "delta": -0.03553707451166899,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 23,
+      "kind": "statement",
+      "line": 53,
+      "text": "delta += _W[r] * (2 * _N[r] + 1)",
+      "inside": [
+        12,
+        16,
+        22
+      ],
+      "delta": -0.03553707451166899,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 24,
+      "kind": "statement",
+      "line": 55,
+      "text": "match = _N[r] if r > 0 else 0",
+      "inside": [
+        12,
+        16
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 25,
+      "kind": "statement",
+      "line": 57,
+      "text": "scores[k] = -(delta * 100000.0 + match * 100.0 + r)",
+      "inside": [
+        12,
+        16
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 26,
+      "kind": "statement",
+      "line": 58,
+      "text": "r_new = CAP - s",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 27,
+      "kind": "term",
+      "line": 58,
+      "text": "term + CAP",
+      "inside": [
+        12,
+        26
+      ],
+      "delta": -0.010664407049326363,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 28,
+      "kind": "term",
+      "line": 58,
+      "text": "term - s",
+      "inside": [
+        12,
+        26
+      ],
+      "delta": -0.0014995939065349795,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 29,
+      "kind": "statement",
+      "line": 59,
+      "text": "delta_new = _W[r_new] * (2 * _N[r_new] + 1) if r_new > 0 else 0.0",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 30,
+      "kind": "statement",
+      "line": 60,
+      "text": "match_new = _N[r_new] if r_new > 0 else 0",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 31,
+      "kind": "statement",
+      "line": 61,
+      "text": "scores[len(fitting):] = -(delta_new * 100000.0 + match_new * 100.0 + r_new)",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 32,
+      "kind": "statement",
+      "line": 62,
+      "text": "choice = int(np.argmax(scores))",
+      "inside": [
+        12
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 33,
+      "kind": "statement",
+      "line": 64,
+      "text": "if choice < len(fitting): ...",
+      "inside": [],
+      "delta": -0.03716606809602241,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 34,
+      "kind": "statement",
+      "line": 65,
+      "text": "j = fitting[choice]",
+      "inside": [
+        33
+      ],
+      "delta": -0.04841645196240785,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 35,
+      "kind": "statement",
+      "line": 66,
+      "text": "g = _caps[j]",
+      "inside": [
+        33
+      ],
+      "delta": -0.9964783651472828,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 36,
+      "kind": "statement",
+      "line": 67,
+      "text": "_N[g] -= 1",
+      "inside": [
+        33
+      ],
+      "delta": -0.035053307312028714,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 37,
+      "kind": "statement",
+      "line": 68,
+      "text": "_caps[j] = g - s",
+      "inside": [
+        33
+      ],
+      "delta": -0.21363187878599654,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 38,
+      "kind": "term",
+      "line": 68,
+      "text": "term + g",
+      "inside": [
+        33,
+        37
+      ],
+      "delta": -0.16971655000717412,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 39,
+      "kind": "term",
+      "line": 68,
+      "text": "term - s",
+      "inside": [
+        33,
+        37
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 40,
+      "kind": "statement",
+      "line": 69,
+      "text": "if g - s > 0: ...",
+      "inside": [
+        33
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 41,
+      "kind": "statement",
+      "line": 70,
+      "text": "_N[g - s] += 1",
+      "inside": [
+        33,
+        40
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 42,
+      "kind": "statement",
+      "line": 71,
+      "text": "if n_unused > 0: ...",
+      "inside": [
+        33
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 43,
+      "kind": "statement",
+      "line": 72,
+      "text": "_caps.append(CAP - s)",
+      "inside": [
+        33,
+        42
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 44,
+      "kind": "statement",
+      "line": 73,
+      "text": "if CAP - s > 0: ...",
+      "inside": [
+        33,
+        42
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 45,
+      "kind": "statement",
+      "line": 74,
+      "text": "_N[CAP - s] += 1",
+      "inside": [
+        33,
+        42,
+        44
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    }
+  ],
+  "repaired": [],
+  "untested": [
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45
+  ],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-from-ss/experiments/llm-from-ss-v1/runs/s3/best_program.py"
+}
