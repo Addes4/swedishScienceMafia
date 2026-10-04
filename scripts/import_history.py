@@ -22,7 +22,7 @@ from mosa.domain import get  # noqa: E402
 
 D = get("squares")
 OUT = Path(__file__).resolve().parents[1]/"history"
-CUT_AND_SPLICE = "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization (from the strategy lab)"
+CUT_AND_SPLICE = "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization"
 OLD_BUDGET = {"init": 512, "children": 128, "generations": 12, "population": 32}
 
 
@@ -115,21 +115,44 @@ def lab(name, directory, brief="", references=(), polish=4):
     book.save()
 
 
-def candidates(name, directory, source, targets, pattern=r"n(\d+)"):
-    """A run of one fixed strategy, imported from its saved candidate records only."""
+def candidates(name, directory, source, targets, seeds):
+    """A rerun of one fixed strategy whose process ended before writing its results: only its records were saved."""
     directory = Path(directory)
     files = sorted(directory.glob("candidate-record-*.npy"), key=mtime)
     if not files:
         return
     book = Book(name)
     start = min(map(mtime, files))-60
-    book.add("lab", start, kind="apply", domain="squares", title=D.title, targets=targets, backend="modal", source=source,
-             imported_from=str(directory))
+    book.add("lab", start, kind="apply", domain="squares", title=D.title, targets=targets, seeds=seeds, backend="modal",
+             source=source, results_saved="records only", imported_from=str(directory))
     book.add("strategy", start, chain=0, round=1, decision="apply", builds_on=source, source=source, mapping="", strategy="", code="")
     for f in files:
-        n = int(re.search(pattern, f.name).group(1))
+        n = int(re.search(r"n(\d+)", f.name).group(1))
         seed = int(m.group(1)) if (m := re.search(r"seed(\d+)", f.name)) else 0
         record(book, mtime(f), n, f, chain=0, round=1, seed=seed)
+    end = max(map(mtime, files))
+    book.add("round", end+1, chain=0, round=1, records=sum(e["type"] == "record" for e in book.events), errors=0, results_saved="records only")
+    book.add("done", end+2)
+    book.save()
+
+
+def applied(name, directory, source):
+    """A finished rerun of one fixed strategy, with every run's result (apply.json)."""
+    directory = Path(directory)
+    data = json.loads((directory/"apply.json").read_text())
+    rows = data["rows"]
+    end, book = mtime(directory/"apply.json"), Book(name)
+    start = mtime(directory)-60 if mtime(directory) < end else end-3600
+    book.add("lab", start, kind="apply", domain="squares", title=D.title, targets=sorted({r["n"] for r in rows}),
+             seeds=sorted({r["seed"] for r in rows}), backend="modal", source=source, imported_from=str(directory))
+    book.add("strategy", start, chain=0, round=1, decision="apply", builds_on=source, source=source, mapping="", strategy="", code="")
+    for r in rows:
+        book.add("result", end-1, chain=0, round=1, n=r["n"], seed=r["seed"], best_known=r.get("best_known"),
+                 polished=r.get("polished"), gap=r.get("gap"), record=r.get("beaten", False), runner_up_gap=r.get("runner_up_gap"),
+                 initial_gap=r.get("initial_population_best_gap"), dropped=r.get("invalid_candidates_dropped", 0), failed=0,
+                 **({"error": r["error"]} if "error" in r else {}))
+    book.add("round", end, chain=0, round=1, records=sum(bool(r.get("beaten")) for r in rows), errors=sum("error" in r for r in rows))
+    book.add("done", end+1)
     book.save()
 
 
@@ -139,10 +162,13 @@ def main(runs):
     if (runs/"lab-67").exists():
         lab("2026-10-04-lab-67-goebel", runs/"lab-67", brief=(OUT.parent/"briefs"/"n67-goebel.md").read_text()
             if (OUT.parent/"briefs"/"n67-goebel.md").exists() else "", references=[17], polish=16)
-    candidates("2026-10-04-splice-126", runs/"splice-126", "Cut-and-splice recombination (Deaven & Ho 1995), a method chosen by hand", [126])
-    candidates("2026-10-04-apply-below-100", runs/"modal-below-100", CUT_AND_SPLICE, list(range(11, 100)))
-    candidates("2026-10-04-apply-local", runs/"local-below-100", CUT_AND_SPLICE, [88, 83, 70, 54, 37])
-
+    below_100 = [n for n in D.targets() if 11 <= n < 100]
+    candidates("2026-10-04-splice-126", runs/"splice-126", "Cut-and-splice recombination (Deaven & Ho 1995), a method chosen by hand",
+               [126], [1])
+    candidates("2026-10-04-apply-below-100", runs/"modal-below-100", CUT_AND_SPLICE, below_100, list(range(101, 109)))
+    candidates("2026-10-04-apply-local", runs/"local-below-100", CUT_AND_SPLICE, [37, 54, 70, 83, 88], list(range(2, 22)))
+    if (runs/"modal-67"/"apply.json").exists():
+        applied("2026-10-04-apply-67", runs/"modal-67", CUT_AND_SPLICE)
 
 if __name__ == "__main__":
     main(sys.argv[1])

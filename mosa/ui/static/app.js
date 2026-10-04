@@ -100,7 +100,7 @@ const sizesWord = (k) => `${k} size${k === 1 ? "" : "s"}`;
 function labTitle(l) {
   if (!l) return "";
   const sizes = `n = ${span(l.targets || [])}`;
-  return sizes;
+  return l.kind === "apply" ? `${sizes} · rerun` : sizes;
 }
 
 // "Symmetry-aware cut-and-splice genetic search from molecular and atomic cluster optimization: …" ->
@@ -124,6 +124,13 @@ function outcome(r, m) {
   const sizes = (m.lab?.targets || []).length, expected = sizes * seeds(m.lab);
   if (r.error) return { kind: "fail", text: "The model call failed." };
   if (!r.strategy) return { kind: "wait", text: "Writing a strategy…" };
+  if (r.done && !r.results.length) {  // imported reruns that kept only their record-breaking runs
+    const found = recordSizes(r);
+    const note = " Only the record-breaking runs of this rerun were saved.";
+    return found.length ? { kind: "star", text: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found)}.${note}`,
+      html: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found.map((n) => `<a data-act="discovery" data-n="${n}">${n}</a>`))}.${note}`, short: `n = ${found.join(", ")}` }
+      : { kind: "none", text: "No results were saved for this run." };
+  }
   if (!r.done && r.results.length < expected) {
     return { kind: "live", text: `Testing on ${seeds(m.lab) > 1 ? `${expected} runs` : sizesWord(sizes)}: ${r.results.length} finished.`, short: `testing · ${r.results.length} of ${expected}` };
   }
