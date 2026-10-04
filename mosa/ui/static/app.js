@@ -207,13 +207,10 @@ function renderMain() {
   if (S.compose) { el.innerHTML = composeView(); return; }
   const m = model(S.lab), l = summary(S.lab);
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No labs yet. Start one with New lab."}</div>`; return; }
-  const L = m.lab;
-  const parts = [esc(L.title || ""), `${m.targets.length} instance${m.targets.length === 1 ? "" : "s"}`];
-  if (m.sessions.length > 1) parts.push(`${m.sessions.length} sessions`);
-  parts.push(`started ${clock(m.start)}`);
-  if (m.done) parts.push(`took ${duration(m.end - m.start)}`);
-  else if (l?.running) parts.push("running");
-  if (m.sessions.length === 1 && L.brief) parts.push(`<a data-act="brief">brief</a>`);
+  const L = m.lab, briefs = m.sessions.filter((x) => x && x.brief).length;
+  const parts = [`${m.targets.length} instance${m.targets.length === 1 ? "" : "s"}`];
+  if (l?.running) parts.push("running");
+  if (briefs) parts.push(`<a data-act="brief">brief</a>`);
   const replay = S.replay && S.replay.lab === S.lab
     ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
@@ -234,36 +231,31 @@ function instanceState(m, n) {
   return { n, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
 function instancesHTML(m) {
-  const targets = m.targets;
-  if (targets.length < 2) return "";
-  const states = targets.map((n) => instanceState(m, n));
-  const stars = states.filter((s) => s.kind === "star").length, reached = states.filter((s) => s.kind === "reached").length;
-  const sum = stars ? `${stars} new best-known` : !knownGiven(m) ? `best known reached on ${reached} of ${targets.length}` : "";
-  const glyph = (k) => (k === "star" ? "★" : k === "reached" ? "●" : "○");
-  return `<div class="instances"><div class="who">Instances${sum ? ` · ${sum}` : ""}</div><div class="inst-row">${states.map((s) =>
-    `<button class="inst ${s.kind} ${S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n ? "on" : ""}" data-act="instance" data-n="${s.n}" title="${s.best ? `best found ${plain(Math.abs(s.best.gap))} ${s.best.gap < 0 ? "below" : "above"} the best known` : "no result"}"><span>${glyph(s.kind)}</span>${s.n}</button>`).join("")}</div></div>`;
+  const states = m.targets.map((n) => instanceState(m, n));
+  const stars = states.filter((s) => s.kind === "star"), reached = states.filter((s) => s.kind === "reached");
+  const link = (s) => `<a class="inst-link ${S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n ? "on" : ""}" data-act="instance" data-n="${s.n}">${s.n}</a>`;
+  if (stars.length) return `<div class="instances"><span class="star">★</span> New best-known: ${stars.map(link).join(" · ")}</div>`;
+  if (!knownGiven(m) && states.some((s) => s.tried)) {
+    return `<div class="instances">${reached.length ? `<span class="dot-full"></span> Reached the best known: ${reached.map(link).join(" · ")}` : "Best known not reached yet"}
+      <span class="muted"> · closest elsewhere: ${states.filter((s) => s.kind !== "reached" && s.best).sort((a, b) => a.best.gap - b.best.gap).slice(0, 3).map((s) => `${link(s)} (+${plain(s.best.gap)})`).join(", ")}</span></div>`;
+  }
+  return "";
 }
 
 function threads(m) {
   const out = new Map();
   for (const r of m.ideas.values()) {
     if (!r.strategy && !r.prompt && !r.error) continue;
-    const key = `${r.session}:${r.chain}`;
-    if (!out.has(key)) out.set(key, { session: r.session, chain: r.chain, ideas: [] });
+    const solo = (m.sessions[r.session] || {}).kind === "apply";
+    const key = solo ? "strategies" : `researcher ${r.chain}`;
+    if (!out.has(key)) out.set(key, { key, solo, chain: solo ? 1e9 : r.chain, ideas: [] });
     out.get(key).ideas.push(r);
   }
-  return [...out.values()].sort((a, b) => a.session - b.session || a.chain - b.chain).map((x) => ({ ...x, ideas: x.ideas.sort((a, b) => a.round - b.round) }));
+  return [...out.values()].sort((a, b) => a.chain - b.chain).map((x) => ({ ...x, ideas: x.ideas.sort((a, b) => a.round - b.round || a.session - b.session) }));
 }
 
 function mapHTML(m) {
-  const all = threads(m), many = new Set(all.map((x) => x.session)).size > 1;
-  let html = "", last = null;
-  for (const th of all) {
-    const s = m.sessions[th.session] || {};
-    if (many && th.session !== last) {
-      html += `<div class="session-head">Session ${th.session + 1} · n = ${esc(span(s.targets || []))} · ${clock(s.time)}${s.brief ? ` · <a data-act="brief" data-s="${th.session}">brief</a>` : ""}</div>`;
-      last = th.session;
-    }
+  const rows = threads(m).map((th) => {
     const ideas = th.ideas.map((r) => {
       const o = outcome(r, m), it = idea(r.strategy);
       const on = S.sel?.type === "idea" && S.sel.lab === S.lab && S.sel.idea === r.key;
@@ -273,9 +265,9 @@ function mapHTML(m) {
         ${it.field ? `<div class="field">${esc(it.field)}</div>` : ""}
         ${o.kind === "star" ? `<div class="found">★ ${esc(o.short)}</div>` : o.short ? `<div class="state">${esc(o.short)}</div>` : ""}</button>`;
     }).join("");
-    html += `<div class="lane"><div class="who">${s.kind === "apply" ? "Strategy" : `Researcher ${th.chain + 1}`}</div><div class="thread">${ideas}</div></div>`;
-  }
-  return `<div class="map">${html}</div>`;
+    return `<div class="lane"><div class="who">${th.solo ? "Strategies" : `Researcher ${th.chain + 1}`}</div><div class="thread">${ideas}</div></div>`;
+  }).join("");
+  return `<div class="map">${rows}</div>`;
 }
 
 // ---------- detail: the selection ----------
@@ -317,7 +309,7 @@ function ideaView() {
   const o = outcome(r, m), it = idea(r.strategy), s = r.strategy || {};
   const kind = { new: "new idea", refine: "refinement", combine: "combination" }[s.decision];
   const ses = m.sessions[r.session] || {};
-  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1} · round ${r.round}${m.sessions.length > 1 ? ` · session ${r.session + 1}` : ""}${kind ? ` · ${kind}` : ""}`;
+  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1} · round ${r.round}${kind ? ` · ${kind}` : ""}`;
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
@@ -341,8 +333,8 @@ function instanceView() {
     const key = x.key || ideaKey(x), r = m.ideas.get(key);
     const it = r ? idea(r.strategy) : idea({ source: m.lab.source });
     const ses = m.sessions[r?.session ?? 0] || {};
-    const later = x.session !== undefined && r && x.session !== r.session ? `, when run on more instances in session ${x.session + 1}` : "";
-    return ses.kind === "apply" ? `${esc(it.name)}${later}` : `<a data-act="idea" data-idea="${key}">Researcher ${r.chain + 1}, round ${r.round}${m.sessions.length > 1 ? ` (session ${r.session + 1})` : ""}</a>: ${esc(it.name)}${later}`;
+    const later = x.session !== undefined && r && x.session !== r.session ? ", when it was run on more instances" : "";
+    return ses.kind === "apply" ? `${esc(it.name)}${later}` : `<a data-act="idea" data-idea="${key}">Researcher ${r.chain + 1}, round ${r.round}</a>: ${esc(it.name)}${later}`;
   };
   if (st.record) return discoveryView(st.record, what, by(st.record));
   const b = st.best;
@@ -392,7 +384,7 @@ function sphere(points) {
 }
 
 function briefView() {
-  const m = model(S.sel.lab), ses = m?.sessions[S.sel.session ?? 0];
+  const m = model(S.sel.lab), ses = { brief: (m?.sessions || []).filter((x) => x && x.brief).map((x) => x.brief).join("\n\n---\n\n") };
   return `<div class="pane"><div class="eyebrow">Brief</div><h2>What the researchers were told about these sizes</h2>
     <div class="section"><pre class="code plain">${esc(ses?.brief || "")}</pre></div></div>`;
 }

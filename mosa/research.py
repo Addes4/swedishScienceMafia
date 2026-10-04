@@ -103,6 +103,7 @@ class Lab:
         if first and first.get("domain") != self.domain.name:
             raise ValueError(f"this workspace is for {first.get('domain')}, not {self.domain.name}")
         self.session = sum(e["type"] == "lab" for e in past)
+        self.past = past
         self.ideas = {tuple(e.get("idea") or (e.get("session", 0), e.get("chain", 0), e.get("round", 1))): e.get("code", "")
                       for e in past if e["type"] == "strategy"}
         self.library_path = Path(library_path) if library_path else None
@@ -172,9 +173,23 @@ class Lab:
                 self.library_path.write_text(json.dumps(self.library, indent=1))
         self.write("library", **entry)
 
+    def history_of(self, index):
+        """Researcher index's earlier ideas in this workspace, with every result they have had (including later runs on
+        more instances): researchers continue across sessions."""
+        researcher_sessions = {e["session"] for e in self.past if e["type"] == "lab" and e.get("kind") == "lab"}
+        out = []
+        for e in self.past:
+            if e["type"] == "strategy" and e.get("chain") == index and e.get("session", 0) in researcher_sessions:
+                key = e.get("idea") or [e.get("session", 0), e["chain"], e["round"]]
+                results = [x for x in self.past if x["type"] == "result" and (x.get("idea") or [x.get("session", 0), x.get("chain"), x.get("round")]) == key]
+                out.append({"round": e["round"], "decision": e.get("decision"), "source": e.get("source"), "strategy": e.get("strategy"),
+                            "code": e.get("code"), "results": {f"{x['n']}/seed{x['seed']}": {k: x[k] for k in SHOWN if k in x} for x in results}})
+        return sorted(out, key=lambda h: h["round"])
+
     def chain(self, index, rounds, targets, seeds, brief, model):
-        history = []
-        for r in range(1, rounds+1):
+        history = self.history_of(index)
+        first = (history[-1]["round"]+1) if history else 1
+        for r in range(first, first+rounds):
             tag = self.tag(index, r)
             focus = FOCI[index % len(FOCI)]
             text = prompt(self.domain, targets, seeds, self.budget, focus, history, self.library, brief)
