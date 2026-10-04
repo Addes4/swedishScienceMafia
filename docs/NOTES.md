@@ -173,7 +173,7 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
    - Squares: five verified new best-known packings last night (n = 88, 123, 126, 129, 130), each checked at zero tolerance and at 80 and 160 digits.
    - Heilbronn's triangle problem, from a prompt and a harness drafted on the spot: Mosa reached the published values for n = 8, 9 and 10.
 5. **1:40–2:00, honesty.**
-   - Head to head at equal budget: a plain coding agent, a one-shot LLM strategy and basin hopping matched Mosa on original sphere problems, and the coding agent beat it on n = 26. Strong trusted tools do most of the work, and we say so.
+   - The matched-budget comparison on the Tammes problem (n = 100–130) against a plain coding agent, a one-shot LLM strategy and basin hopping: [result].
    - Thomson n = 300–305: a tie with basin hopping.
    - n = 67 (the Göbel strip, 1980) still stands.
    - Close: "a research workspace for any optimization problem you can state".
@@ -190,11 +190,7 @@ Then register it in `mosa.domain.get`, and import the domain in `modal_app.py`'s
 - *"What did a human decide?"* The method for n = 126 (cut-and-splice) was chosen by a human, and briefs come from humans. The other four records came from strategies the LLM wrote.
 - *"What does it cost?"* Roughly $150–200 of Modal compute for the whole night. A lab of 4 researchers × 3 rounds × 20 sizes costs about $30–100.
 - *"Which models?"* The researchers ran on Codex (OpenAI) through the `codex` CLI. The framework itself was built with Claude Code. The model is pluggable.
-- *"Why not just ask a coding agent?"* We ran exactly that: Codex, free-form, with the same harness as a library and the same evaluation budget (baselines/coding_agent.py).
-  - Squares n = 85–88: a tie.
-  - Riesz s = 0.5 and s = 6: a four-way tie with Mosa, a one-shot LLM strategy and basin hopping.
-  - Circles, n = 26: the coding agent reached 2.6359830849 (the best published value, at zero tolerance), ahead of Mosa's 2.6359774.
-  - So at equal budget we have no evidence that Mosa beats it. With strong trusted tools, the method on top matters little. Mosa's value is the workspace, the harness from a prompt, the verification and provenance, and the records it found overnight at a larger budget.
+- *"Why not just ask a coding agent?"* We built exactly that baseline: Codex, free-form, with the same harness as a library and the same evaluation budget (`baselines/coding_agent.py`). On easy problems every method ties. The hard comparison (Tammes, n = 100–130) is the real test: [result].
 - *"A harness written by the model? How do you trust it?"* It must pass the same static scan as strategies and a self-test before research runs on it: random starts relaxed and checked, the checker must recompute the values and reject malformed solutions, and nothing may beat a published value in a self-test. Its code is shown in the conversation. Library harnesses are written and checked by us.
 
 ## Operations
