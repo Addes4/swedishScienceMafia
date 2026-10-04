@@ -66,7 +66,7 @@ def get(name):
         return CircleRadii()
     if name == "thomson" or name.startswith("riesz-"):
         from .domains.thomson import Riesz
-        return Riesz(1. if name == "thomson" else float(name.split("-", 1)[1]))
+        return Riesz(1. if name == "thomson" else float(name.split("-", 1)[1]))  # riesz-inf: the Tammes problem
     raise ValueError(f"unknown problem {name!r}")
 
 
@@ -78,10 +78,12 @@ LIBRARY = [
      "sizes": "non-trivial n between 5 and 324"},
     {"name": "riesz-<s>", "family": "points on a sphere", "title": "Riesz s-energy of n points on a sphere, for any s >= 0",
      "about": "Minimize the sum over pairs of 1/r^s. riesz-1 is the Thomson problem (Coulomb energy; best known energies for "
-              "n = 10-972 from the Cambridge Cluster Database); riesz-0 is the logarithmic energy of Smale's 7th problem; other s "
+              "n = 10-972 from the Cambridge Cluster Database); riesz-0 is the logarithmic energy of Smale's 7th problem; "
+              "riesz-inf is the Tammes problem (the smallest distance as large as possible; best known values for n = 5-130 "
+              "from Sloane's tables of spherical codes); other s "
               "(e.g. riesz-0.5, riesz-2, riesz-3) have no published optima, so methods are compared with each other. Several "
               "exponents can share a workspace: their solutions are offered to each other.",
-     "sizes": "10-972 for riesz-1; any n from 10 to 1000 otherwise"},
+     "sizes": "10-972 for riesz-1; 5-130 for riesz-inf; any n from 10 to 1000 otherwise"},
     {"name": "circle-radii", "family": "circles in a square, sum of radii", "title": "Circles in a unit square, maximizing the sum of radii",
      "about": "Circles of any sizes in the unit square, no overlap, maximize the sum of radii. n = 26 is the benchmark AlphaEvolve "
               "(2.63586276), OpenEvolve and ShinkaEvolve (2.63598283) report; checked here at zero tolerance.",

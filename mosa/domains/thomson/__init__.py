@@ -23,8 +23,9 @@ DATA = Path(__file__).resolve().parents[3]/"data"/"thomson"
 
 
 @njit(cache=True)
-def energy_gradient(y, s=1.):
-    """Riesz s-energy of the points y_i/|y_i| and its gradient with respect to the unconstrained y (flat, 3n)."""
+def energy_gradient(y, s=1., rho=1.):
+    """Riesz s-energy of the points y_i/|y_i| (distances in units of rho) and its gradient with respect to the
+    unconstrained y (flat, 3n)."""
     n = len(y)//3
     x = np.empty((n, 3))
     norms = np.empty(n)
@@ -43,8 +44,9 @@ def energy_gradient(y, s=1.):
                 e -= math.log(r)
                 f = 1./r2
             else:
-                e += r**-s
-                f = s*r**(-s-2.)
+                q = (r/rho)**-s
+                e += q
+                f = s*q/r2
             g[i, 0] -= d0*f
             g[i, 1] -= d1*f
             g[i, 2] -= d2*f
@@ -67,18 +69,93 @@ def _minimize(x, gtol, ftol, s=1.):
     return points, float(energy_gradient(points.ravel(), float(s))[0]), int(result.nfev)
 
 
+def smallest_distance(points):
+    u = np.asarray(points, dtype=float)
+    u = u/np.linalg.norm(u, axis=1, keepdims=True)
+    return float((np.sqrt(((u[:, None]-u[None])**2).sum(-1))+9*np.eye(len(u))).min())
+
+
+def _spread(x):
+    """Tammes relax: minimize Riesz energies of increasing exponent, distances in units of the current smallest one, so
+    the energy is dominated by the closest pairs; the value is minus the smallest distance."""
+    y = (np.asarray(x, dtype=float)/np.linalg.norm(x, axis=1, keepdims=True)).ravel()
+    used = 0
+    for s in (6., 24., 96., 384.):
+        rho = smallest_distance(y.reshape(-1, 3))
+        result = minimize(energy_gradient, y, args=(s, rho), jac=True, method="L-BFGS-B",
+                          options={"maxiter": 5000, "gtol": 1e-10, "ftol": 1e-15})
+        y, used = result.x, used+result.nfev
+    points = y.reshape(-1, 3)
+    points /= np.linalg.norm(points, axis=1, keepdims=True)
+    return points, -smallest_distance(points), used
+
+
+def _maxmin(points):
+    """Tammes polish: maximize t subject to |p_i - p_j|^2 >= t for nearby pairs and |p_i| = 1 (SLSQP)."""
+    p = np.asarray(points, dtype=float)
+    n, d0 = len(p), smallest_distance(p)
+    d = np.sqrt(((p[:, None]-p[None])**2).sum(-1))
+    i, j = np.nonzero(np.triu(d < 1.3*d0, 1))
+
+    def pairs(w):
+        q = w[:-1].reshape(n, 3)
+        return ((q[i]-q[j])**2).sum(1)-w[-1]
+
+    def pairs_jac(w):
+        q = w[:-1].reshape(n, 3)
+        J = np.zeros((len(i), 3*n+1))
+        diff = 2*(q[i]-q[j])
+        for a in range(3):
+            J[np.arange(len(i)), 3*i+a] = diff[:, a]
+            J[np.arange(len(i)), 3*j+a] = -diff[:, a]
+        J[:, -1] = -1
+        return J
+
+    def norms(w):
+        return (w[:-1].reshape(n, 3)**2).sum(1)-1
+
+    def norms_jac(w):
+        J = np.zeros((n, 3*n+1))
+        q = w[:-1].reshape(n, 3)
+        for a in range(3):
+            J[np.arange(n), 3*np.arange(n)+a] = 2*q[:, a]
+        return J
+    c = np.zeros(3*n+1)
+    c[-1] = -1.
+    result = minimize(lambda w: float(c @ w), np.r_[p.ravel(), d0**2], jac=lambda w: c, method="SLSQP",
+                      constraints=[{"type": "ineq", "fun": pairs, "jac": pairs_jac}, {"type": "eq", "fun": norms, "jac": norms_jac}],
+                      options={"maxiter": 500, "ftol": 1e-16})
+    q = result.x[:-1].reshape(n, 3)
+    q /= np.linalg.norm(q, axis=1, keepdims=True)
+    return (q, -smallest_distance(q)) if smallest_distance(q) > d0 else (p, -d0)
+
+
 class Riesz(Domain):
-    """Riesz s-energy on the sphere; Riesz(1) is the Thomson problem."""
+    """Points on a sphere minimizing the Riesz s-energy: s = 0 is the logarithmic energy (Smale's 7th problem), s = 1 the
+    Thomson problem, and s = infinity the Tammes problem (the smallest distance as large as possible)."""
     family = "points on a sphere"
 
     def __init__(self, s=1.):
         self.s = float(s)
-        self.name = "thomson" if self.s == 1. else f"riesz-{s:g}"
-        self.title = {1.: "Charges on a sphere (the Thomson problem)", 0.: "Logarithmic energy on the sphere (Smale's 7th problem)"}.get(
-            self.s, f"Riesz {s:g}-energy on the sphere")
-        pairs = "-log(distance)" if self.s == 0. else f"1/distance^{s:g}"
-        self.problem = (f"Place n identical points on the unit sphere to minimize the sum over all pairs of {pairs}"
-                        f"{' (the Coulomb energy)' if self.s == 1. else ''}. The objective is the energy.")
+        self.tammes = self.s == math.inf
+        self.name = "thomson" if self.s == 1. else "riesz-inf" if self.tammes else f"riesz-{s:g}"
+        self.title = {1.: "Charges on a sphere (the Thomson problem)", 0.: "Logarithmic energy on the sphere (Smale's 7th problem)",
+                      math.inf: "Points on a sphere as far apart as possible (the Tammes problem)"}.get(self.s, f"Riesz {s:g}-energy on the sphere")
+        if self.tammes:
+            self.problem = ("Place n points on the unit sphere so that the smallest distance between any two of them is as large "
+                            "as possible (the Tammes problem: the limit s -> infinity of the Riesz s-energy). The objective is "
+                            "minus the smallest distance (smaller is better).")
+            self.evidence = """What is known about this landscape (from the literature):
+- Proven optimal only for n <= 14 and n = 24; best known configurations for larger n come from extensive numerical
+  searches (Sloane, Hardin, Smith and others).
+- Optimal configurations often have rattlers (points free to move without changing the smallest distance) and
+  contact graphs close to triangulations; many distinct configurations have smallest distances within 1e-4.
+- Configurations whose smallest distances differ by less than 1e-9 are treated as the same."""
+            self.same = 1e-9
+        else:
+            pairs = "-log(distance)" if self.s == 0. else f"1/distance^{s:g}"
+            self.problem = (f"Place n identical points on the unit sphere to minimize the sum over all pairs of {pairs}"
+                            f"{' (the Coulomb energy)' if self.s == 1. else ''}. The objective is the energy.")
     evidence = """What is known about this landscape (from the literature; no measurements of our own yet):
 - The number of local minima grows roughly exponentially with n; random starts relaxed by gradient descent land in many
   different minima above the best known energy for n beyond about 100.
@@ -101,6 +178,9 @@ def vary(parents, rng, count):
 
     @cached_property
     def _reference(self):
+        if self.tammes:  # best known smallest distances, as values: minus the distance
+            table = json.loads((DATA.parent/"tammes"/"reference.json").read_text())["distances"]
+            return {int(k): {"energy": -v["distance"], "angle_degrees": v["angle_degrees"]} for k, v in table.items()}
         if self.s != 1.:
             return {}
         return {int(k): v for k, v in json.loads((DATA/"reference.json").read_text())["energies"].items()}
@@ -116,8 +196,8 @@ def vary(parents, rng, count):
 
     def info(self, n):
         entry = self._reference.get(n, {})
-        return {"best_known": self.best_known(n), "point_group": entry.get("point_group"),
-                "source": "Cambridge Cluster Database" if entry else "no published value"}
+        source = ("Sloane's tables of spherical codes" if self.tammes else "Cambridge Cluster Database") if entry else "no published value"
+        return {"best_known": self.best_known(n), "point_group": entry.get("point_group"), "source": source}
 
     def validate(self, x, value, n):
         x = np.asarray(x, dtype=float)
@@ -133,9 +213,11 @@ def vary(parents, rng, count):
         return x
 
     def relax(self, x, value=None):
-        return _minimize(x, 1e-9, 1e-14, self.s)
+        return _spread(x) if self.tammes else _minimize(x, 1e-9, 1e-14, self.s)
 
     def polish(self, x, value=None):
+        if self.tammes:
+            return _maxmin(x)
         points, energy, _ = _minimize(x, 1e-12, 1e-16, self.s)
         return points, energy
 
@@ -154,13 +236,14 @@ def vary(parents, rng, count):
                 for j in range(i):
                     r = mp.sqrt(sum((p[i][k]-p[j][k])**2 for k in range(3)))
                     closest = min(closest, r)
-                    energy += -mp.log(r) if self.s == 0. else r**(-mp.mpf(self.s))
-            value = float(energy)
+                    energy += 0 if self.tammes else -mp.log(r) if self.s == 0. else r**(-mp.mpf(self.s))
+            value = -float(closest) if self.tammes else float(energy)
         best = self.best_known(n)
         valid = len(p) == n and closest > 1e-9
+        margin = 1e-9 if self.tammes else 1e-6  # Sloane's coordinates have 12 digits; CCD energies 6 decimals
         return {"n": n, "value": value, "side": value, "reference_side": best, "improvement": None if best is None else best-value,
-                "valid": bool(valid), "record": bool(valid and best is not None and value < best-1e-6),
-                "reached": bool(valid and best is not None and abs(value-best) <= 1e-6),
+                "valid": bool(valid), "record": bool(valid and best is not None and value < best-margin),
+                "reached": bool(valid and best is not None and abs(value-best) <= margin),
                 "min_distance": float(closest), "high_precision": [{"digits": 50, "valid": bool(valid), "energy": mp.nstr(energy, 20)}],
                 "poses": np.asarray(x).tolist(), "float_zero_tolerance": bool(valid), "min_pair_clearance": float(closest)}
 

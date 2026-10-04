@@ -517,7 +517,9 @@ function composeView() {
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
     : ["Beat the 2024 records for packing 85–90 unit squares in a square",
-       "Smale's 7th problem: spread 100–103 points on a sphere with the lowest logarithmic energy, starting from Thomson solutions"];
+       "Points on a sphere for n = 30–33: Smale's logarithmic energy, Thomson's Coulomb energy and Tammes' largest smallest distance, side by side",
+       "Beat AlphaEvolve and ShinkaEvolve on 26 circles in a square, maximizing the sum of radii",
+       "Heilbronn's triangle problem: place 8–12 points in a unit square so that the smallest triangle is as large as possible"];
   return `<div class="compose">
     <h1>${c.workspace ? `Research in ${esc(here)}` : "New workspace"}</h1>
     <div class="sub">${c.workspace ? "Say what to do next. The research agent continues the same researchers; they see everything this workspace has found."
