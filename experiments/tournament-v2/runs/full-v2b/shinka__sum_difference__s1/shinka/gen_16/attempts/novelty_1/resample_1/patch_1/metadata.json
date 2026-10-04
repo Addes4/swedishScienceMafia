@@ -1,0 +1,14 @@
+{
+  "generation": 16,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 2,
+  "patch_name": "relaxed_sidon_diff_collisions",
+  "patch_description": "The current program enforces strict Sidon-ness in `_bounded_sidon`, which forces all pairwise differences to be unique. This maximizes |A\u2212A| but also inflates |A+A| because Sidon sets spread out over a wide span. The objective log|A\u2212A|/log|A+A| rewards trading a small loss in |A\u2212A| for a larger relative reduction in |A+A|.\n\nIdea: relax the difference-uniqueness constraint in `_bounded_sidon` to allow a controlled fraction of duplicate differences (track a diff-multiplicity counter and permit up to ~20% collisions), while still rejecting any sum collision. This yields a denser set inside a tighter span, shrinking |A+A| while keeping |A\u2212A| close to maximal. I add a `diff_budget` parameter proportional to n and a `diff_counts` dictionary to enforce it. The rest of the pipeline (quadratic sets, greedy Sidon, reflection, local search) is unchanged and still available; the new construction simply provides additional candidate sets that the existing scoring/local-search machinery can exploit. I also add a `sum_span` penalty bias so candidates near the center are preferred (already partially present), and ensure spans are tuned tighter (span_mult 2 and 3 dominate for the relaxed variant).",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:40:42.592032",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

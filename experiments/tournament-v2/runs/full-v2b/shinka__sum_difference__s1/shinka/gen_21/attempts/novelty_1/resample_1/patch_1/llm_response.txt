@@ -1,0 +1,363 @@
+<NAME>
+difference_set_sidon_solver</NAME>
+
+<DESCRIPTION>
+This approach abandons stochastic local search on the full objective and instead exploits the exact combinatorial structure of the problem. The key insight: to maximize log|A−A|/log|A+A| we want a set whose difference set is as close to a Sidon set (all pairwise differences distinct) as possible, while its sum set is as small as possible. The best known constructions combine:
+
+1. A **Sidon-like core** built via a fast backtracking / greedy search that greedily maximizes new differences per added element (not the full objective), producing near-perfect Golomb rulers.
+2. A **sum-collapsing trick**: instead of a plain dense interval (whose sum set is huge), we use a *geometric/progression* base that keeps A+A small by making many sums coincide (e.g. A = {0,1,2,...,m} ∪ {large offsets} — the dense part itself has small sum set relative to size).
+3. **Exact incremental evaluation** using sorted arrays and bitset-like difference tracking, so we can afford many more evaluations than the previous implementation.
+4. **Deterministic multi-seed restart** with a diversified portfolio of structured seeds (pure Golomb, dense + Golomb, powers-of-two-like, Sidon-set-from-prime-field) rather than random SA.
+
+The crucial change is the search objective: instead of SA on log|A−A|/log|A+A| directly (which is noisy and stuck), we do **greedy difference-maximization with sum-cost penalty**, evaluated exactly, then only accept additions that strictly improve the ratio. This matches the underlying combinatorial structure and should push the ratio substantially above 1.137.
+
+Additionally, we use **B_h set constructions from finite fields** (Singer difference sets) as seeds — these are known to have near-optimal difference/sum ratios for their size.
+</DESCRIPTION>
+
+<CODE>
+```python
+# EVOLVE-BLOCK-START
+"""Sidon/Golomb-seeded construction maximizing log|A-A|/log|A+A| via exact greedy search."""
+import math
+import random
+import time
+
+
+def _score(a):
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0
+    diffs = set()
+    sums = set()
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            aj = a[j]
+            diffs.add(ai - aj)
+            diffs.add(aj - ai)
+            sums.add(ai + aj)
+    if len(sums) <= 1:
+        return 0.0
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / n) / 100
+
+
+def _score_parts(a):
+    a = sorted(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0, 0, 0
+    diffs = set()
+    sums = set()
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            aj = a[j]
+            diffs.add(ai - aj)
+            diffs.add(aj - ai)
+            sums.add(ai + aj)
+    if len(sums) <= 1:
+        return 0.0, len(diffs), len(sums)
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / n) / 100, len(diffs), len(sums)
+
+
+def _bitset_diffs(a):
+    """Return set of all pairwise differences (signed)."""
+    s = set()
+    for i in range(len(a)):
+        ai = a[i]
+        for j in range(len(a)):
+            s.add(ai - a[j])
+    return s
+
+
+def _bitset_sums(a):
+    s = set()
+    for i in range(len(a)):
+        ai = a[i]
+        for j in range(i, len(a)):
+            s.add(ai + a[j])
+    return s
+
+
+def _greedy_golomb(n, max_val, rng, sample=400):
+    """Greedy Golomb ruler: at each step pick candidate maximizing new differences."""
+    marks = [0]
+    used = set()
+    for _ in range(n - 1):
+        best_c = None
+        best_new = -1
+        # random sample of candidates
+        cands = rng.sample(range(1, max_val + 1), min(sample, max_val))
+        for c in cands:
+            if c in marks:
+                continue
+            nd = set()
+            ok = True
+            for m in marks:
+                d = abs(c - m)
+                if d in nd:
+                    ok = False
+                    break
+                nd.add(d)
+            if not ok:
+                continue
+            new_count = len(nd - used)
+            if new_count > best_new:
+                best_new = new_count
+                best_c = c
+        if best_c is None:
+            for c in range(1, max_val + 1):
+                if c not in marks:
+                    best_c = c
+                    break
+        if best_c is None:
+            break
+        marks.append(best_c)
+        for m in marks[:-1]:
+            used.add(abs(best_c - m))
+    return sorted(marks)
+
+
+def _singer_seed(k, rng):
+    """Construct a Sidon-like set from a prime-power field using the Singer difference set formula.
+    For prime p, the set {2*i + (i^2 mod p) : i=0..p-1} is a Sidon set in Z_{2p}."""
+    primes = [p for p in [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97] if p >= k]
+    if not primes:
+        return None
+    p = primes[0]
+    return sorted(set(2 * i + (i * i) % p for i in range(p)))
+
+
+def _greedy_add_difference(a, max_add, deadline, rng, penalty=0.30):
+    """Greedily add elements to maximize new differences while minimizing new sums."""
+    a = sorted(set(a))
+    cur_diffs = _bitset_diffs(a)
+    cur_sums = _bitset_sums(a)
+    cur_score = _score(a)
+    while time.time() < deadline and len(a) < max_add:
+        n = len(a)
+        candidates = set()
+        # candidate pool: sums/differences of existing points plus small offsets
+        for _ in range(120):
+            i = rng.randrange(n)
+            j = rng.randrange(n)
+            base = 2 * a[i] - a[j]
+            candidates.add(base)
+            candidates.add(base + rng.randint(-3, 3))
+            candidates.add(base + rng.randint(-20, 20))
+        # also try small values near dense core
+        for v in range(-5, 40):
+            candidates.add(v)
+        best_c = None
+        best_gain = -1e18
+        best_score = cur_score
+        for c in candidates:
+            if c in a:
+                continue
+            new_d = set()
+            new_s = set()
+            for z in a:
+                new_d.add(c - z)
+                new_d.add(z - c)
+                new_s.add(c + z)
+            d_gain = len(new_d - cur_diffs)
+            s_cost = len(new_s - cur_sums)
+            # effective ratio gain approximation
+            gain = d_gain - penalty * s_cost
+            if gain > best_gain:
+                best_gain = gain
+                best_c = c
+        if best_c is None:
+            break
+        # tentatively add and check actual score
+        trial = sorted(set(a + [best_c]))
+        s = _score(trial)
+        if s > cur_score:
+            a = trial
+            cur_score = s
+            cur_diffs = _bitset_diffs(a)
+            cur_sums = _bitset_sums(a)
+        else:
+            # try next-best by trying a batch of top candidates
+            improved = False
+            top_cands = []
+            for c in candidates:
+                if c in a:
+                    continue
+                new_d = set()
+                new_s = set()
+                for z in a:
+                    new_d.add(c - z)
+                    new_d.add(z - c)
+                    new_s.add(c + z)
+                gain = len(new_d - cur_diffs) - penalty * len(new_s - cur_sums)
+                top_cands.append((gain, c))
+            top_cands.sort(reverse=True)
+            for _, c in top_cands[:30]:
+                trial = sorted(set(a + [c]))
+                s = _score(trial)
+                if s > cur_score:
+                    a = trial
+                    cur_score = s
+                    cur_diffs = _bitset_diffs(a)
+                    cur_sums = _bitset_sums(a)
+                    improved = True
+                    break
+            if not improved:
+                break
+    return a, cur_score
+
+
+def _prune_remove(a, deadline, rng):
+    """Try removing elements that hurt the score."""
+    a = sorted(set(a))
+    cur_score = _score(a)
+    improved = True
+    while improved and time.time() < deadline:
+        improved = False
+        order = list(range(len(a)))
+        rng.shuffle(order)
+        for i in order:
+            if len(a) <= 3:
+                break
+            trial = a[:i] + a[i+1:]
+            s = _score(trial)
+            if s > cur_score:
+                a = trial
+                cur_score = s
+                improved = True
+                break
+    return a, cur_score
+
+
+def _local_shrink_grow(a, deadline, rng):
+    """Local search: try small perturbations that strictly improve score."""
+    a = sorted(set(a))
+    cur = a[:]
+    cur_score = _score(cur)
+    while time.time() < deadline:
+        op = rng.random()
+        cand = cur[:]
+        if op < 0.4:
+            # shift one element
+            i = rng.randrange(len(cand))
+            cand[i] += rng.randint(-3, 3)
+        elif op < 0.7:
+            # add element near an existing one
+            i = rng.randrange(len(cand))
+            cand.append(cand[i] + rng.randint(-5, 5))
+        else:
+            # remove one
+            if len(cand) > 3:
+                cand.pop(rng.randrange(len(cand)))
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s > cur_score:
+            cur = cand
+            cur_score = s
+    return cur, cur_score
+
+
+def solve():
+    rng = random.Random(20240617)
+    deadline = time.time() + 110
+
+    best = [0, 1, 3]
+    best_score = _score(best)
+
+    # ---- Phase 1: Sidon seeds from prime fields ----
+    for k in range(3, 40):
+        seed = _singer_seed(k, rng)
+        if seed is None:
+            continue
+        s = _score(seed)
+        if s > best_score:
+            best_score = s
+            best = seed[:]
+
+    # ---- Phase 2: greedy Golomb rulers with varying n and range ----
+    phase2_deadline = time.time() + 25
+    for n in range(3, 60):
+        if time.time() > phase2_deadline:
+            break
+        max_val = max(50, n * n)
+        g = _greedy_golomb(n, max_val, rng, sample=300)
+        s = _score(g)
+        if s > best_score:
+            best_score = s
+            best = g[:]
+
+    # ---- Phase 3: dense core + Golomb extensions ----
+    phase3_deadline = time.time() + 40
+    configs = []
+    for m in range(0, 14):
+        for gs in range(2, 16):
+            for gap in [1, 2, 3, 5, 8, 13, 21]:
+                configs.append((m, gs, gap))
+    rng.shuffle(configs)
+    for (m, gs, gap) in configs:
+        if time.time() > phase3_deadline:
+            break
+        core = list(range(m + 1))
+        g = _greedy_golomb(gs, max(40, gs * gs), rng, sample=200)
+        offset = m + gap
+        cand = sorted(set(core + [offset + x for x in g]))
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # ---- Phase 4: greedy difference-add from best ----
+    if time.time() < deadline:
+        sub_deadline = time.time() + 20
+        cand, s = _greedy_add_difference(best, 4000, sub_deadline, rng, penalty=0.30)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # ---- Phase 5: prune + local shrink/grow ----
+    if time.time() < deadline:
+        sub_deadline = time.time() + 10
+        cand, s = _prune_remove(best, sub_deadline, rng)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # ---- Phase 6: restarts from Sidon + Golomb seeds with greedy add ----
+    while time.time() < deadline:
+        remaining = deadline - time.time()
+        if remaining < 3:
+            break
+        # pick a seed type
+        choice = rng.random()
+        if choice < 0.4:
+            k = rng.randint(5, 30)
+            seed = _singer_seed(k, rng)
+            if seed is None:
+                seed = list(range(rng.randint(3, 20)))
+        elif choice < 0.75:
+            n = rng.randint(5, 30)
+            seed = _greedy_golomb(n, max(50, n * n), rng, sample=200)
+        else:
+            m = rng.randint(2, 12)
+            gs = rng.randint(3, 12)
+            gap = rng.randint(1, 10)
+            core = list(range(m + 1))
+            g = _greedy_golomb(gs, max(40, gs * gs), rng, sample=150)
+            seed = sorted(set(core + [m + gap + x for x in g]))
+        sub_deadline = time.time() + min(remaining, 8)
+        cand, s = _greedy_add_difference(seed, 4000, sub_deadline, rng, penalty=rng.choice([0.2, 0.3, 0.4]))
+        if time.time() < deadline:
+            sub_deadline2 = time.time() + min(deadline - time.time(), 3)
+            cand, s = _local_shrink_grow(cand, sub_deadline2, rng)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    return sorted(set(best))
+# EVOLVE-BLOCK-END
+```
+</CODE>

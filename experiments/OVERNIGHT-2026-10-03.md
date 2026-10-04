@@ -66,6 +66,8 @@ answering one design question for the final framework.
 | 00:25-00:31 | Readability pass for outside readers, at the user's request. The root README was restructured: summary, quick start, key findings, method, components, reproduction, layout, limitations and citation. Added `experiments/README.md`, an index of all studies with protocols and results. Replaced the coordinator's private venv path with `python` in seven write-ups, fixed one broken link, and relabelled triage's planned-but-not-run experiment. The repository has no LICENSE file; the team has to choose one. |
 | 01:17 | At the user's request, launched [llm-long-search-v1](llm-long-search-v1/PROTOCOL.md), pre-registered in adb7fe9: 4 runs of `autoresearch.loop` on `bin_packing_online`, 300 steps each, DeepSeek-V4.1-Flash via HF, with a $3 cap. |
 | 01:50-02:14 | The runs finished at a total cost of $0.80. Fresh audit on 100 unseen instances: all 4 runs beat best-fit; the best reached −3.20 pp against FunSearch's −3.31 (97% of its gain) but stayed 0.11 pp [0.07, 0.15] behind, so 0 of 4 reached FunSearch's level by the pre-registered test. Sum-of-Squares, added after the protocol as a disclosed reference, beat FunSearch (−0.17 pp). The README's idea-table wording was also corrected: Codex and Opus did rank better than chance. |
+| 02:25 | PR #5 (llm-long-search-v1) was merged into `main` (02ba33e). |
+| 05:33-05:43 | Documentation pass at the user's request ("make sure everything got documented"). Other sessions had left finished but uncommitted work, all now preserved: online-beyond-ss-v1, online-frontier-v1, overfit-gates-v1 and `context/research-directions.md`. Each was committed unchanged on its own branch and pushed. The four-approach campaign's documents were committed on `research/all-approaches` and pushed; its 470 MB of raw files were copied out of `/private/tmp` to `~/Documents/ssm-backups/all-approaches-20261004-0535`. Tournament-v2's full grid (`full-v2b`, results committed at 05:28) had no write-up and its RESULTS.md still said the grid was not run, so its results were written up from `summary.json`, and two macOS-duplicate files were renamed. All of this except the campaign was merged into `main` through branch `integrate/night-results`. The README now reflects FWSS and the gate caveat from overfit-gates-v1. |
 
 ## Incidents
 
@@ -161,3 +163,16 @@ code at github.com/google-deepmind/funsearch.
    parts matter.
 CPU only, no LLM API calls, don't modify existing folders, small commits.
 ```
+
+
+## Work that is not on `main` (as of 4 October, 06:00)
+
+| What | Where | Why it is not merged |
+|---|---|---|
+| Four-approach live campaign (OpenAI models): findings, ledger, per-run reports | Branch `research/all-approaches` on GitHub (`runs/FINDINGS.md`); raw files in `~/Documents/ssm-backups/all-approaches-20261004-0535` and `~/Desktop/ssm-all-approaches.zip` | It is a parallel framework (`autoresearch/evidence_loop.py` and related files) built from the first `main`. Merging it would put two competing loops and conflicting READMEs in front of readers |
+| Throughput and Modal evaluation work | Local branch `research/throughput-modal` (`/private/tmp/ssm-throughput`) | Its commits are already in `research/all-approaches` |
+| Framework plans | Branches `plan/unified-autoresearch` and `plan-combined-framework` (local) | Superseded by `autoresearch.loop` (PR #4) |
+| Duplicate one-command build | Local branch `feat/one-command-v2` (5c99cae) | Kept as a backup; PR #4 was chosen |
+| Updated review PDF | PR #2 (`refresh-review-pdf`) | Predates the overnight work; needs updating or closing |
+| Workshop-paper drafts (LaTeX and PDF) | `~/Desktop/ssm-paper-sources/` and the PDFs on the Desktop | Written by another session outside the repository |
+| Devin's FunSearch reproduction | – | No branch or pull request was ever pushed |

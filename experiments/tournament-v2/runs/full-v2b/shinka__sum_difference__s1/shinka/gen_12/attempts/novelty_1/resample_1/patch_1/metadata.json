@@ -1,0 +1,14 @@
+{
+  "generation": 12,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "simanneal_restart_sidon",
+  "patch_description": "The previous programs plateau around sum-difference score 1.137 with a combined score of 0.89. The feedback explicitly blamed the low non-improving acceptance probability (0.02\u20130.03) for restricted exploration, yet the best program barely raised it. My rewrite addresses this directly:\n\n1. **Higher and annealed acceptance probability.** I raise the SA acceptance rate to ~0.12 early, annealed geometrically down to ~0.001. This lets the search escape local optima while still converging.\n\n2. **Periodic restarts from the strongest seed family.** The dense-core + Golomb (\"bounded Sidon\") construction is the best-performing structured seed. I add a restart loop that re-seeds from this family whenever no improvement is seen for ~20 seconds.\n\n3. **Better seed diversity.** I add bounded Sidon-set seeds using the classic `{i*m + (i*i mod m)}` construction, which is known to give near-optimal |A-A| for small sets while keeping |A+A| small. These are combined with dense cores and Golomb offsets.\n\n4. **Faster incremental scoring.** I keep a set-based diff/sum computation but avoid recomputing full O(n\u00b2) score on every candidate by only recomputing when the size changes significantly.\n\n5. **Temperature schedule + stagnation restart.** T drops by a factor each 1500 steps; after 20 s without improvement, the current state is reset to the best seed and T is bumped back up.\n\nThe result is a search that explores more aggressively early and exploits the best structured seeds late, matching the recommendations without changing the input/output contract.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:36:43.018795",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}
