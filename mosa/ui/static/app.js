@@ -19,8 +19,9 @@ const ICON = {
   moon: svg('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'),
   download: svg('<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>', 14),
   send: svg('<path d="M12 19V5M6 11l6-6 6 6"/>', 16),
+  chevron: svg('<path d="M8 10l4 4 4-4"/>', 12),
 };
-const LOGO = `<svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1" fill="var(--accent)"/><rect x="13" y="3" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="3" y="13" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="13.2" y="13.2" width="7.6" height="7.6" rx="1" fill="var(--strong)" transform="rotate(22 17 17)"/></svg>`;
+const LOGO = `<svg viewBox="-0.08 -0.08 2.8671 2.8671" width="18" height="18" aria-hidden="true"><rect width="2.7071" height="2.7071" fill="none" stroke="#006AA7" stroke-width="0.09"/><rect width="1" height="1" fill="#006AA7"/><rect x="1.7071" width="1" height="1" fill="#006AA7"/><rect y="1.7071" width="1" height="1" fill="#006AA7"/><rect x="1.7071" y="1.7071" width="1" height="1" fill="#006AA7"/><rect x="0.8536" y="0.8536" width="1" height="1" fill="#FECC02" transform="rotate(45 1.3536 1.3536)"/></svg>`;
 
 const S = { labs: [], discoveries: [], books: {}, refs: {}, lab: null, sel: null, compose: null, replay: null, view: "after", spend: null, where: {} };
 const dollars = (x) => `$${x < 10 ? x.toFixed(2) : Math.round(x)}`;
@@ -237,7 +238,7 @@ function renderSide() {
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
     <button class="new" data-act="compose">${ICON.plus} New workspace</button>
     <div class="list"><div class="heading">Workspaces</div>${labs}</div>
-    <div class="side-foot">${spendHTML()}<button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
+    <div class="side-foot"><button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
 }
 
 // ---------- main: the lab ----------
@@ -254,12 +255,8 @@ function renderMain() {
   }
   if (!m || !m.lab) { el.innerHTML = `<div class="empty">${S.labs.length ? "Loading…" : "No workspaces yet. Start one with New workspace."}</div>`; return; }
   const L = m.lab, brief = (m.sessions.filter((x) => x && x.brief).slice(-1)[0] || {}).brief || "";  // what the researchers are told now
-  const replay = S.replay && S.replay.lab === S.lab
-    ? `<div class="replay"><button class="icon-btn" data-act="replay-toggle">${S.replay.playing ? ICON.pause : ICON.play}</button>
-        <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
-        <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
-    : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio">${esc(brief)}</p>` : ""}</div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1>${wsSpend(L) ? `<div class="sub">${wsSpend(L)}</div>` : ""}${brief ? `<p class="bio${S.bioOpen || brief.length < 260 ? " open" : ""}">${esc(brief)}</p>${brief.length < 260 ? "" : `<a class="more" data-act="bio">${S.bioOpen ? "Read less" : "Read more"}</a>`}` : ""}</div></div>${instancesHTML(m)}${mapHTML(m)}`;
 }
 
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
@@ -274,6 +271,10 @@ function instanceState(m, n, p = m.problem) {
   const kind = records.length ? "star" : !knownGiven(m) && best && best.gap != null && best.gap <= 1e-6 ? "reached" : "none";
   return { n, p, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
+// A library problem's title, for the conversation.
+const problemTitle = (p) => ({ squares: "Unit squares in the smallest square", thomson: "Charges on a sphere (the Thomson problem)",
+  "riesz-0": "Logarithmic energy on the sphere (Smale's 7th problem)", "riesz-inf": "Points on a sphere as far apart as possible (the Tammes problem)",
+  "circle-radii": "Circles in a square, maximizing the sum of radii" }[p] || (p.startsWith("riesz-") ? `Riesz ${p.slice(6)}-energy on the sphere` : p.startsWith("gen-") ? p.slice(4).replace(/-/g, " ") : p));
 // A problem's short name, for a workspace holding several related problems.
 const problemName = (p) => p === "circle-radii" ? "Sum of radii" : p === "riesz-inf" ? "Tammes (s = ∞)" : p === "thomson" ? "Thomson (s = 1)" : p === "riesz-0" ? "Logarithmic (s = 0)" : p.startsWith("riesz-") ? `Riesz s = ${p.slice(6)}` : p;
 // The workspace's instances: plain numbers, with a new best-known (★) or a reached best known (●) standing out.
@@ -347,7 +348,7 @@ function composerHTML() {
     : S.sel?.type === "instance" ? `Ask about n = ${S.sel.n}…` : "Direct the research, or ask about it…";
   const where = whereFor(S.lab);
   return `<div class="composer"><div class="box"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="send" data-act="send" title="Send (Enter)">${ICON.send}</button></div>
-    <div class="where">Runs on ${[["modal", "Modal"], ["local", "this machine"]].map(([v, label]) => `<button class="${where === v ? "on" : ""}" data-act="where" data-v="${v}">${label}</button>`).join("")}</div></div>`;
+    <div class="where">Runs on <button data-act="where" data-v="${where === "modal" ? "local" : "modal"}" title="Switch to ${where === "modal" ? "this machine" : "Modal"}">${where === "modal" ? "Modal" : "this machine"}${ICON.chevron}</button></div></div>`;
 }
 function whereFor(lab) {
   const m = model(lab);
@@ -384,7 +385,7 @@ function ideaView() {
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
-    <div class="outcome">${markHTML(o.kind)}<span>${o.html || esc(o.text)}</span></div>
+    <div class="outcome"><span class="lead">${markHTML(o.kind)}</span><span>${o.html || esc(o.text)}</span></div>
     ${s.mapping ? `<div class="section"><div class="section-label">Why the researcher expected it to work</div><div class="prose">${esc(s.mapping)}</div></div>` : ""}
     ${s.strategy ? `<div class="section"><div class="section-label">What it does</div><div class="prose">${esc(s.strategy)}</div></div>` : ""}
     ${sourcesHTML(s) ? `<div class="section">${sourcesHTML(s)}</div>` : ""}
@@ -409,11 +410,11 @@ function instanceView() {
   };
   if (domain !== "squares") return otherInstance(m, n, st, domain, by);
   if (st.record) return discoveryView(st.record, what, by(st.record));
-  const ref = S.refs[n];
+  const b = st.best, ref = S.refs[n];
   if (!ref) reference(n, domain);
   return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
     ${ref && ref !== "loading" && ref.poses ? `<div class="figure">${figure(ref.poses, ref.side)}</div>` : ""}
-    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : "Not tried yet."}</div>
+    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : `Not tried yet. Shown: the best known packing${ref && ref.side ? `, side <span class="mono">${side6(ref.side)}</span>` : ""}.`}</div>
     ${b && b.runner_up_gap > 0 ? `<div class="section">The closest other packing came within ${plain(b.runner_up_gap)} of it.</div>` : ""}</div>`;
 }
 
@@ -484,7 +485,15 @@ function messagesHTML() {
       items.push(`<div class="msg agent">${esc(e.reply || "")}<div class="plan">Running it on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div>${sourcesHTML(e)}</div>`);
       waiting = false;
     } else if (e.type === "plan") {
-      items.push(`<div class="msg agent">${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${e.rounds} round${e.rounds > 1 ? "s" : ""} on n = ${esc(span(e.targets))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div>${sourcesHTML(e)}</div>`);
+      const goal = { record: "until a new best-known", best_known: "until the best known is reached" }[e.goal];
+      // which problem the session works on: named when it is picked from the library (a drafted one has its own card)
+      const lab = book.events.find((x) => x.type === "lab" && x.session === e.session);
+      const problems = e.problems || (lab ? [lab.domain] : []), before = book.events.filter((x) => x.type === "plan" && x.time < e.time).pop();
+      const drafted = book.events.some((x) => x.type === "harness" && x.time < e.time && (!before || x.time > before.time));
+      const changed = !before || JSON.stringify(before.problems || []) !== JSON.stringify(problems);
+      const picked = changed && !drafted && problems.length ? `<div class="section-label">From the library</div><strong>${esc(problems.length === 1 && lab?.title ? lab.title : problems.map(problemTitle).join(", "))}</strong><div class="picked-gap"></div>` : "";
+      const rounds = goal ? `${goal}, at most ${e.rounds} rounds` : `${e.rounds} round${e.rounds > 1 ? "s" : ""}`;
+      items.push(`<div class="msg agent">${picked}${esc(e.reply || e.reasoning || "")}<div class="plan">${e.researchers} researcher${e.researchers > 1 ? "s" : ""} × ${rounds} on n = ${esc(span(e.targets || (e.instances || []).map((i) => i[1])))}${e.seeds > 1 ? `, ${e.seeds} seeds each` : ""}</div>${sourcesHTML(e)}</div>`);
       waiting = false;
     } else if (e.type === "failed") {
       items.push(`<div class="msg failed"><strong>Stopped.</strong> ${esc(e.reason || e.error || "The session ended with an error.")}</div>`);
@@ -498,12 +507,18 @@ function messagesHTML() {
       const note = recs.length ? `★ New best-known for n = ${listN(recs.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.`
         : unpublished ? `Best packings found for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}; there are no published values to compare with.`
         : reached.length ? `Reached the best known on n = ${listN(reached.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.` : "No improvement this time.";
-      items.push(`<div class="msg note">Session finished. ${note}</div>`);
+      const ses = book.model?.sessions?.[s], on = ses?.targets?.length ? ` on n = ${span(ses.targets)}` : "";
+      const why = e.ended === "goal" ? " Goal reached." : e.ended === "stop" ? " Stopped on request." : "";
+      items.push(`<div class="msg note">The session${on} finished.${why} ${note}</div>`);
     }
   }
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
-  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}${draft
-    ? ` <span class="elapsed">${Math.floor(draft.seconds / 60)} min</span>${draft.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}` : ""}</div>`);
+  const pending = S.pending && S.pending.lab === S.lab && book.events.filter((e) => e.type === "request").length <= S.pending.since ? S.pending : null;
+  if (pending) { items.push(`<div class="msg user">${contextHTML(book, pending.context)}${esc(pending.text)}</div>`); waiting = "Thinking"; }
+  if (waiting) {
+    const minutes = draft ? Math.floor(draft.seconds / 60) : 0;
+    items.push(`<div class="msg agent thinking"><div class="line"><span class="ring spin"></span><span>${typeof waiting === "string" ? waiting : "Thinking"}</span>${minutes ? `<span class="elapsed">${minutes} min</span>` : ""}</div>${draft?.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}</div>`);
+  }
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
   return items.join("");
 }
@@ -540,7 +555,7 @@ function harnessHTML(e) {
   const r = e.report || {}, sizes = r.sizes || [];
   const rows = sizes.map((s) => `<li>n = ${s.n}: ${s.invalid ? `${s.invalid} of 4 solutions failed the checker` : "all 4 solutions passed the checker"}${s.best_known != null ? `, best ${Number(s.best_found).toPrecision(8)} against the published ${Number(s.best_known).toPrecision(8)}` : `, best ${Number(s.best_found).toPrecision(8)}`}</li>`).join("");
   const verdict = r.passed ? `${ICON.check} Passed its self-test` : `${ICON.fail} Failed its self-test`;
-  return `<div class="msg agent"><div class="section-label">New problem</div><strong>${esc(e.title)}</strong>
+  return `<div class="msg agent"><div class="section-label">${e.forked_from ? `Forked from ${esc(problemTitle(e.forked_from))}` : "New problem"}</div><strong>${esc(e.title)}</strong>
     <div class="harness-about">${esc(e.about || "")}</div>
     <div class="harness-verdict ${r.passed ? "ok" : "bad"}">${verdict}</div>
     ${rows ? `<ul class="checks">${rows}${r.rejects_malformed === false ? "<li>does not reject malformed solutions</li>" : ""}</ul>` : ""}
@@ -555,8 +570,10 @@ async function send() {
   const context = S.sel?.type === "idea" ? { idea: S.sel.idea } : S.sel?.type === "instance" ? { n: S.sel.n, problem: S.sel.problem } : undefined;
   box.value = "";
   S.sel = null;  // back to the conversation, where the answer appears
+  S.pending = { lab: S.lab, text, context, since: (S.books[S.lab]?.events || []).filter((e) => e.type === "request").length };
+  renderDetail();
   try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend, context }); await refresh(); render(); }
-  catch (e) { box.value = text; alert(e.message); }
+  catch (e) { S.pending = null; box.value = text; renderDetail(); alert(e.message); }
 }
 
 // ---------- new lab ----------
@@ -564,7 +581,7 @@ function composeView() {
   const c = S.compose;
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
-    : ["Beat the best known packings of 85–90 unit squares in a square",
+    : ["Find the best known packings of 11 unit squares in a square",
        "Points on a sphere for n = 30–33: Smale's logarithmic energy, Thomson's Coulomb energy and Tammes' largest smallest distance, side by side",
        "Beat AlphaEvolve and ShinkaEvolve on 26 circles in a square, maximizing the sum of radii",
        "Heilbronn's triangle problem: place 8–12 points in a unit square so that the smallest triangle is as large as possible"];
@@ -648,7 +665,18 @@ document.addEventListener("click", (ev) => {
   if (!el) return;
   const d = el.dataset;
   switch (d.act) {
-    case "lab": selectLab(d.id); break;
+    case "lab": selectLab(d.id); S.bioOpen = false; break;
+    case "bio": S.bioOpen = !S.bioOpen; renderMain(); break;
+    case "delete": {
+      const l = summary(d.id);
+      if (!confirm(`Delete “${labTitle(l)}”? It is moved to .trash/ and can be restored from there.`)) break;
+      api("/api/delete", { workspace: d.id }).then(async () => {
+        if (S.lab === d.id) { S.lab = null; S.sel = null; }
+        delete S.books[d.id];
+        await refresh(); render();
+      }).catch((e) => alert(e.message));
+      break;
+    }
     case "idea": selectIdea(S.lab, d.idea); break;
     case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n, problem: d.p || undefined }; S.view = "after"; S.compose = null; render(); break;
     case "unselect": S.sel = null; render(); break;

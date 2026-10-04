@@ -144,6 +144,7 @@ class Lab:
         self.ideas = {tuple(e.get("idea") or (e.get("session", 0), e.get("chain", 0), e.get("round", 1))): e.get("code", "")
                       for e in past if e["type"] == "strategy"}
         self.lock = threading.Lock()
+        self.goal, self.goal_met = None, threading.Event()
         # the workspace's shared memory: best solution found so far for each instance, {(problem, n): (x, value)}
         self.memory = {}
         for e in past:
@@ -241,10 +242,20 @@ class Lab:
                             "code": e.get("code"), "results": {f"{x.get('problem', '')} {x['n']}/seed{x['seed']}".strip(): {k: x[k] for k in SHOWN if k in x} for x in results}})
         return sorted(out, key=lambda h: h["round"])
 
+    def stopped(self):
+        """Why this session should stop before its last round: its goal is met, or the user asked to stop."""
+        if self.goal and self.goal_met.is_set():
+            return "goal"
+        if any(e["type"] == "stop" and e.get("session") == self.session for e in self.notebook.read()):
+            return "stop"
+        return None
+
     def chain(self, index, rounds, targets, seeds, brief, model):
         history = self.history_of(index)
         first = (history[-1]["round"]+1) if history else 1
         for r in range(first, first+rounds):
+            if r > first and self.stopped():
+                break
             tag = self.tag(index, r)
             focus = FOCI[index % len(FOCI)]
             text = prompt(self.domain, targets, seeds, self.budget, focus, history, self.library, brief)
@@ -270,18 +281,28 @@ class Lab:
                             "code": answer["code"], "results": {(str(x["n"]) if len(seeds) == 1 else f"{x['n']}/seed{x['seed']}"):
                                                                 {k: x[k] for k in SHOWN if k in x} for x in results}})
             self.write("round", **tag, records=sum(bool(x.get("verified")) for x in results), errors=sum("error" in x for x in results))
+            if self.goal == "record" and any(x.get("verified") for x in results):
+                self.goal_met.set()  # a verified new best-known: every researcher stops after its current round
+            elif self.goal == "best_known" and any(x.get("verified") or (x.get("gap") is not None and x["gap"] <= 1e-9) for x in results):
+                self.goal_met.set()
 
-    def lab(self, targets, chains, rounds, seeds, brief="", model=None, name=None):
+    def lab(self, targets, chains, rounds, seeds, brief="", model=None, name=None, goal=None):
+        """A session: chains researchers, each up to `rounds` rounds. With a goal ("record": a verified new best-known;
+        "best_known": reaching the best known), every researcher stops once any of them meets it; "stop" events from the
+        conversation end the session early too."""
         targets = self.instances(targets)
+        if goal == "best_known" and all(self.problem(p).reference(n)[0] is not None for p, n in targets):
+            goal = "record"  # strategies start from the best known solution: reaching it is no goal
+        self.goal, self.goal_met = goal, threading.Event()
         self.write("lab", kind="lab", name=name, domain=self.domain.name, title=self.domain.title, family=self.domain.family,
                    instances=[list(i) for i in targets], targets=sorted({n for _, n in targets}), problems=sorted({p for p, _ in targets}),
                             chains=chains, rounds=rounds, seeds=list(seeds), backend=self.backend, brief=brief,
                             references=list(self.references), budget=asdict(self.budget), model=model,
-                            library=[e["source"] for e in self.library], foci=FOCI[:chains])
+                            library=[e["source"] for e in self.library], foci=FOCI[:chains], goal=goal)
         with session(self.backend):
             with ThreadPoolExecutor(chains) as pool:
                 list(pool.map(lambda i: self.chain(i, rounds, targets, seeds, brief, model), range(chains)))
-        self.write("done")
+        self.write("done", ended=self.stopped() or "rounds", goal=goal)
 
     def apply(self, code, source, targets, seeds, idea=None, name=None):
         """Run one strategy (no model) on targets and seeds. With idea = (session, researcher, round), the code is that

@@ -17,7 +17,8 @@ STRATEGY_CORES = 16
 IDLE = 120           # seconds an idle container stays warm between rounds
 
 # Tagged with the workspace, so Modal's billing report gives the spend of each workspace (mosa/spend.py).
-app = modal.App("mosa", tags={"workspace": os.environ.get("MOSA_WORKSPACE", "")[:60]})
+WORKSPACE = "".join(c for c in os.environ.get("MOSA_WORKSPACE", "") if c.isalnum() or c in "-_.")[:60]
+app = modal.App("mosa", tags={"workspace": WORKSPACE} if WORKSPACE else None)
 image = (modal.Image.debian_slim(python_version="3.12")
          .pip_install("numpy==2.5.3", "scipy==1.18.1", "numba==0.68.0", "mpmath==1.3.0")  # drafted harnesses may import mpmath
          .env({"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "NUMBA_CPU_NAME": "generic", "NUMBA_CACHE_DIR": "/root/numba-cache"})

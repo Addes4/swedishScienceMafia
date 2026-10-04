@@ -1,0 +1,1 @@
+{"name": "gen-unit-circles-in-circle", "title": "Smallest circle enclosing unit circles", "family": "unit circles in a circle", "about": "Minimize the radius of an origin-centered circle enclosing n non-overlapping unit circles, for n from 20 through 25."}
