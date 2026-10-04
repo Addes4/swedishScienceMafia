@@ -129,7 +129,10 @@ def ab_worst_fit(a=1, b=21, C=100):
 def pack_funsearch(items, C, priority, compact=True):
     """FunSearch's evaluator: priority sees every bin the item fits in, unused ones included, in bin order;
     the item goes to the first highest score. compact=True passes only the bins up to two past the highest
-    opened index (all later bins are unused); see PROTOCOL.md for why this cannot change a choice."""
+    opened index (all later bins are unused). It cannot change a choice for priority functions whose score is
+    per-bin, or per-bin plus neighbour differencing and max(bins): every position past top+2 scores exactly as
+    position top+2 does, and ties go to the first. checks.py verifies equality with the full evaluator for FS-W,
+    FS-OR and ab-WF (see RESULTS.md, corrections)."""
     n = len(items)
     bins = np.full(n, C, dtype=np.int64)
     top = -1                                   # highest opened index
