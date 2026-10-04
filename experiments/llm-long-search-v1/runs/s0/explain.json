@@ -1,0 +1,327 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.9924875690607735,
+    "hidden": 0.9932503373334292,
+    "code": "\"\"\"Best fit with a residual-usability tie-break based on a running mean and a\nhistogram of seen item sizes (to nudge residuals toward frequently reusable sizes).\"\"\"\nimport numpy as np\n_mean = 40.0\n_count = 0\n_hist = np.zeros(101, dtype=np.float64)\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    global _mean, _count, _hist\n    _mean = (_mean * _count + item) / (_count + 1)\n    _count += 1\n    _hist[item] += 1.0\n    residual = bins - item\n    tightness = -residual.astype(np.float64)\n    m = _mean\n    sliver = (residual > 0) & (residual < m)\n    penalty = np.where(sliver, (m - residual) * 2.0, 0.0)\n    exact = (residual == 0).astype(np.float64) * 5.0\n    r = residual\n    valid = r >= 1\n    if _count > 0:\n        modal = int(np.argmax(_hist[1:])) + 1\n        match = (valid & (r == modal)).astype(np.float64)\n    else:\n        match = np.zeros_like(r, dtype=np.float64)\n    complement = match * 3.0\n    near_full = (residual > 0) & (residual < m)\n    waste = np.where(near_full, (1.0 - residual / m) * 1.0, 0.0)\n    return tightness - penalty + exact + complement - waste\n"
+  },
+  "minimal": {
+    "public": 0.9914938298029116,
+    "hidden": 0.9927511739897705,
+    "code": "\"\"\"Best fit with a residual-usability tie-break based on a running mean and a\nhistogram of seen item sizes (to nudge residuals toward frequently reusable sizes).\"\"\"\nimport numpy as np\n_mean = 40.0\n_count = 0\n_hist = np.zeros(101, dtype=np.float64)\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\n\n    item: integer size of the arriving item, 1..100.\n    bins: numpy int64 array with the remaining capacity of every bin the item fits in,\n          including unused bins (remaining capacity 100), in bin order.\n    \"\"\"\n    global _mean, _count, _hist\n    _count += 1\n    residual = bins - item\n    tightness = -residual.astype(np.float64)\n    m = _mean\n    sliver = (residual > 0) & (residual < m)\n    penalty = np.where(sliver, (m - residual) * 2.0, 0.0)\n    exact = (residual == 0).astype(np.float64) * 5.0\n    r = residual\n    valid = r >= 1\n    if _count > 0:\n        modal = 0\n        match = (valid & (r == modal)).astype(np.float64)\n    else:\n        pass\n    complement = match * 3.0\n    near_full = (residual > 0) & (residual < m)\n    waste = np.where(near_full, (1.0 - residual / m) * 1.0, 0.0)\n    return tightness - penalty\n",
+    "removed": [
+      1,
+      3,
+      16,
+      17,
+      19,
+      25,
+      26,
+      27
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 20,
+      "text": "global _mean, _count, _hist",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 23,
+      "text": "_mean = (_mean * _count + item) / (_count + 1)",
+      "inside": [],
+      "delta": -0.00024488711959913534,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 24,
+      "text": "_count += 1",
+      "inside": [],
+      "delta": -0.007652332054478905,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 25,
+      "text": "_hist[item] += 1.0",
+      "inside": [],
+      "delta": -0.000249617253544554,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 27,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "term",
+      "line": 27,
+      "text": "term + bins",
+      "inside": [
+        4
+      ],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 6,
+      "kind": "term",
+      "line": 27,
+      "text": "term - item",
+      "inside": [
+        4
+      ],
+      "delta": -0.08649392072251816,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 30,
+      "text": "tightness = -residual.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 34,
+      "text": "m = _mean",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 35,
+      "text": "sliver = (residual > 0) & (residual < m)",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 36,
+      "text": "penalty = np.where(sliver, (m - residual) * 2.0, 0.0)",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 39,
+      "text": "exact = (residual == 0).astype(np.float64) * 5.0",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 44,
+      "text": "r = residual",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 45,
+      "text": "valid = r >= 1",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 46,
+      "text": "if _count > 0: ...",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 47,
+      "text": "modal = int(np.argmax(_hist[1:])) + 1",
+      "inside": [
+        14
+      ],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 16,
+      "kind": "term",
+      "line": 47,
+      "text": "term + int(np.argmax(_hist[1:]))",
+      "inside": [
+        14,
+        15
+      ],
+      "delta": -0.000249617253544554,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 17,
+      "kind": "term",
+      "line": 47,
+      "text": "term + 1",
+      "inside": [
+        14,
+        15
+      ],
+      "delta": -0.000497118502919891,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 18,
+      "kind": "statement",
+      "line": 48,
+      "text": "match = (valid & (r == modal)).astype(np.float64)",
+      "inside": [
+        14
+      ],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 50,
+      "text": "match = np.zeros_like(r, dtype=np.float64)",
+      "inside": [
+        14
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 20,
+      "kind": "statement",
+      "line": 51,
+      "text": "complement = match * 3.0",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 21,
+      "kind": "statement",
+      "line": 57,
+      "text": "near_full = (residual > 0) & (residual < m)",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 22,
+      "kind": "statement",
+      "line": 58,
+      "text": "waste = np.where(near_full, (1.0 - residual / m) * 1.0, 0.0)",
+      "inside": [],
+      "delta": -0.9924875690607735,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 23,
+      "kind": "term",
+      "line": 60,
+      "text": "term + tightness",
+      "inside": [],
+      "delta": -0.08294902759090772,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 24,
+      "kind": "term",
+      "line": 60,
+      "text": "term - penalty",
+      "inside": [],
+      "delta": -0.030846060721109847,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 25,
+      "kind": "term",
+      "line": 60,
+      "text": "term + exact",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 26,
+      "kind": "term",
+      "line": 60,
+      "text": "term + complement",
+      "inside": [],
+      "delta": -0.000249617253544554,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 27,
+      "kind": "term",
+      "line": 60,
+      "text": "term - waste",
+      "inside": [],
+      "delta": 2.3668757808126273e-06,
+      "valid": true,
+      "verdict": "can go"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s0/best_program.py"
+}

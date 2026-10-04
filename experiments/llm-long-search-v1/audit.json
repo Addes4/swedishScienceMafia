@@ -1,0 +1,5749 @@
+{
+ "protocol": "PROTOCOL.md",
+ "seeds": [
+  30000,
+  30099
+ ],
+ "n_items": 5000,
+ "bootstrap": {
+  "seed": 739,
+  "draws": 10000
+ },
+ "summary": {
+  "best_fit": {
+   "path": "problems/bin_packing_online/initial.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 4.010354900655684,
+   "delta_pp_vs_best_fit": 0.0,
+   "ci95_vs_best_fit": [
+    0.0,
+    0.0
+   ],
+   "delta_pp_vs_funsearch_weibull": 3.3071014657658067,
+   "ci95_vs_funsearch_weibull": [
+    3.257751314450133,
+    3.357346008223235
+   ],
+   "decision_agreement_with_funsearch": 0.00972
+  },
+  "funsearch_weibull": {
+   "path": "problems/bin_packing_online/baselines/funsearch_weibull.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 0.7032534348898776,
+   "delta_pp_vs_best_fit": -3.3071014657658067,
+   "ci95_vs_best_fit": [
+    -3.357346008223235,
+    -3.257751314450133
+   ],
+   "delta_pp_vs_funsearch_weibull": 0.0,
+   "ci95_vs_funsearch_weibull": [
+    0.0,
+    0.0
+   ],
+   "decision_agreement_with_funsearch": 1.0
+  },
+  "funsearch_or": {
+   "path": "problems/bin_packing_online/baselines/funsearch_or.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 3.0481474185291138,
+   "delta_pp_vs_best_fit": -0.9622074821265701,
+   "ci95_vs_best_fit": [
+    -1.000835758292972,
+    -0.9245052196473277
+   ],
+   "delta_pp_vs_funsearch_weibull": 2.344893983639236,
+   "ci95_vs_funsearch_weibull": [
+    2.311852594769361,
+    2.3774425371244594
+   ],
+   "decision_agreement_with_funsearch": 0.01108
+  },
+  "run_s0": {
+   "path": "experiments/llm-long-search-v1/runs/s0/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 0.8100690916195511,
+   "delta_pp_vs_best_fit": -3.200285809036133,
+   "ci95_vs_best_fit": [
+    -3.2517258649391856,
+    -3.1499178396199325
+   ],
+   "delta_pp_vs_funsearch_weibull": 0.10681565672967362,
+   "ci95_vs_funsearch_weibull": [
+    0.06558689224070165,
+    0.14865495758422054
+   ],
+   "decision_agreement_with_funsearch": 0.06418
+  },
+  "run_s1": {
+   "path": "experiments/llm-long-search-v1/runs/s1/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 0.8328465308895145,
+   "delta_pp_vs_best_fit": -3.1775083697661692,
+   "ci95_vs_best_fit": [
+    -3.2295744420608714,
+    -3.1262026945786983
+   ],
+   "delta_pp_vs_funsearch_weibull": 0.12959309599963706,
+   "ci95_vs_funsearch_weibull": [
+    0.0876376354855355,
+    0.17046642152568925
+   ],
+   "decision_agreement_with_funsearch": 0.0637
+  },
+  "run_s2": {
+   "path": "experiments/llm-long-search-v1/runs/s2/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 1.9648474915891294,
+   "delta_pp_vs_best_fit": -2.0455074090665546,
+   "ci95_vs_best_fit": [
+    -2.113510625028347,
+    -1.9741564216831298
+   ],
+   "delta_pp_vs_funsearch_weibull": 1.2615940566992518,
+   "ci95_vs_funsearch_weibull": [
+    1.1993864368881744,
+    1.3254874954455185
+   ],
+   "decision_agreement_with_funsearch": 0.01338
+  },
+  "run_s3": {
+   "path": "experiments/llm-long-search-v1/runs/s3/best_program.py",
+   "valid": 100,
+   "instances": 100,
+   "mean_excess_pct": 0.8298021865632714,
+   "delta_pp_vs_best_fit": -3.1805527140924124,
+   "ci95_vs_best_fit": [
+    -3.236589526545886,
+    -3.126393607847312
+   ],
+   "delta_pp_vs_funsearch_weibull": 0.12654875167339386,
+   "ci95_vs_funsearch_weibull": [
+    0.08419412919705808,
+    0.16873411401189745
+   ],
+   "decision_agreement_with_funsearch": 0.05196
+  }
+ },
+ "per_instance": {
+  "best_fit": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2080,
+    "l2": 1997,
+    "excess_pct": 4.156234351527291,
+    "seconds": 2.2017931249865796
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 2064,
+    "l2": 1986,
+    "excess_pct": 3.9274924471299095,
+    "seconds": 1.815303458017297
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2068,
+    "l2": 1988,
+    "excess_pct": 4.0241448692152915,
+    "seconds": 2.1918971659906674
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 2050,
+    "l2": 1974,
+    "excess_pct": 3.850050658561297,
+    "seconds": 2.111472042015521
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 2055,
+    "l2": 1979,
+    "excess_pct": 3.8403233956543708,
+    "seconds": 2.108861542015802
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2077,
+    "l2": 1999,
+    "excess_pct": 3.9019509754877437,
+    "seconds": 2.1468790830112994
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2072,
+    "l2": 1987,
+    "excess_pct": 4.2778057372924,
+    "seconds": 2.248886167013552
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 2066,
+    "l2": 1981,
+    "excess_pct": 4.290762241292277,
+    "seconds": 2.1296832080115564
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2081,
+    "l2": 2000,
+    "excess_pct": 4.05,
+    "seconds": 2.002254916005768
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1980,
+    "excess_pct": 3.8383838383838382,
+    "seconds": 2.254909790994134
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 2059,
+    "l2": 1976,
+    "excess_pct": 4.200404858299595,
+    "seconds": 1.8971662500116508
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 2064,
+    "l2": 1984,
+    "excess_pct": 4.032258064516129,
+    "seconds": 2.2172370409825817
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 2065,
+    "l2": 1979,
+    "excess_pct": 4.345629105608894,
+    "seconds": 2.019119625008898
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1980,
+    "excess_pct": 3.888888888888889,
+    "seconds": 1.9762944169924594
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 2065,
+    "l2": 1982,
+    "excess_pct": 4.187689202825429,
+    "seconds": 2.3385281249939
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 2064,
+    "l2": 1981,
+    "excess_pct": 4.189803129732458,
+    "seconds": 2.0729122500051744
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1978,
+    "excess_pct": 3.9433771486349847,
+    "seconds": 1.9312813329743221
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1973,
+    "excess_pct": 3.953370501773948,
+    "seconds": 2.031617750006262
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2079,
+    "l2": 2002,
+    "excess_pct": 3.8461538461538463,
+    "seconds": 2.0673912079946604
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 2066,
+    "l2": 1983,
+    "excess_pct": 4.185577407967726,
+    "seconds": 2.0551023339794483
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 2046,
+    "l2": 1967,
+    "excess_pct": 4.016268429079817,
+    "seconds": 1.9870122080028523
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 2053,
+    "l2": 1974,
+    "excess_pct": 4.002026342451875,
+    "seconds": 1.8811624170048162
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1976,
+    "excess_pct": 4.048582995951417,
+    "seconds": 2.067039459012449
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 2026,
+    "l2": 1955,
+    "excess_pct": 3.631713554987212,
+    "seconds": 2.278020458004903
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2078,
+    "l2": 1995,
+    "excess_pct": 4.160401002506266,
+    "seconds": 1.8077382080082316
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 2053,
+    "l2": 1971,
+    "excess_pct": 4.160324708269914,
+    "seconds": 1.8481571660086047
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 2059,
+    "l2": 1982,
+    "excess_pct": 3.884964682139253,
+    "seconds": 1.7341210000158753
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2066,
+    "l2": 1989,
+    "excess_pct": 3.8712921065862242,
+    "seconds": 1.9959062080015428
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2064,
+    "l2": 1988,
+    "excess_pct": 3.8229376257545273,
+    "seconds": 1.7278342920180876
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 2058,
+    "l2": 1977,
+    "excess_pct": 4.09711684370258,
+    "seconds": 1.8284599579928908
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 2049,
+    "l2": 1971,
+    "excess_pct": 3.95738203957382,
+    "seconds": 2.0720614999881946
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2072,
+    "l2": 1995,
+    "excess_pct": 3.8596491228070176,
+    "seconds": 1.9776812079944648
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1971,
+    "excess_pct": 3.65296803652968,
+    "seconds": 1.7358857090002857
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2084,
+    "l2": 2004,
+    "excess_pct": 3.992015968063872,
+    "seconds": 1.791604375001043
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 2070,
+    "l2": 1982,
+    "excess_pct": 4.439959636730575,
+    "seconds": 2.120419334009057
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2077,
+    "l2": 1998,
+    "excess_pct": 3.953953953953954,
+    "seconds": 2.024797749996651
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 2062,
+    "l2": 1982,
+    "excess_pct": 4.036326942482341,
+    "seconds": 1.7034292920143344
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2082,
+    "l2": 1994,
+    "excess_pct": 4.413239719157472,
+    "seconds": 1.8936320000211708
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 2062,
+    "l2": 1984,
+    "excess_pct": 3.931451612903226,
+    "seconds": 1.9362259590125177
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 2074,
+    "l2": 1984,
+    "excess_pct": 4.536290322580645,
+    "seconds": 1.8416152079880703
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2073,
+    "l2": 1999,
+    "excess_pct": 3.701850925462731,
+    "seconds": 1.8911904169945046
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2066,
+    "l2": 1990,
+    "excess_pct": 3.819095477386935,
+    "seconds": 1.9944442080159206
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 2048,
+    "l2": 1973,
+    "excess_pct": 3.801317790167258,
+    "seconds": 1.8227935419999994
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2082,
+    "l2": 1997,
+    "excess_pct": 4.256384576865298,
+    "seconds": 1.95905491602025
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2063,
+    "l2": 1990,
+    "excess_pct": 3.6683417085427137,
+    "seconds": 1.8377626670117024
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2074,
+    "l2": 1997,
+    "excess_pct": 3.85578367551327,
+    "seconds": 1.9195414999849163
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2071,
+    "l2": 1992,
+    "excess_pct": 3.965863453815261,
+    "seconds": 2.1895167079928797
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 2060,
+    "l2": 1985,
+    "excess_pct": 3.7783375314861463,
+    "seconds": 2.304602582997177
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2071,
+    "l2": 1990,
+    "excess_pct": 4.0703517587939695,
+    "seconds": 2.0946092499943916
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 2052,
+    "l2": 1976,
+    "excess_pct": 3.8461538461538463,
+    "seconds": 2.2002815409796312
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1975,
+    "excess_pct": 4.10126582278481,
+    "seconds": 2.2982424999936484
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2077,
+    "l2": 1993,
+    "excess_pct": 4.214751630707476,
+    "seconds": 2.3150022919871844
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 2070,
+    "l2": 1988,
+    "excess_pct": 4.124748490945674,
+    "seconds": 2.3325289580097888
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1975,
+    "excess_pct": 4.151898734177215,
+    "seconds": 2.458229209005367
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 2073,
+    "l2": 1986,
+    "excess_pct": 4.380664652567976,
+    "seconds": 2.0528012499853503
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2078,
+    "l2": 2001,
+    "excess_pct": 3.8480759620189904,
+    "seconds": 2.1491829580045305
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2078,
+    "l2": 1994,
+    "excess_pct": 4.212637913741224,
+    "seconds": 2.2345797090092674
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2076,
+    "l2": 1997,
+    "excess_pct": 3.955933900851277,
+    "seconds": 1.9983686249761377
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2080,
+    "l2": 1996,
+    "excess_pct": 4.208416833667335,
+    "seconds": 2.0226922080037184
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2065,
+    "l2": 1992,
+    "excess_pct": 3.6646586345381524,
+    "seconds": 1.9113881250086706
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2074,
+    "l2": 1994,
+    "excess_pct": 4.012036108324975,
+    "seconds": 1.8650397080054972
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2082,
+    "l2": 2000,
+    "excess_pct": 4.1,
+    "seconds": 1.853742749983212
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 2067,
+    "l2": 1983,
+    "excess_pct": 4.236006051437216,
+    "seconds": 1.7805149169871584
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 2041,
+    "l2": 1968,
+    "excess_pct": 3.709349593495935,
+    "seconds": 1.6398598749947269
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 2067,
+    "l2": 1984,
+    "excess_pct": 4.183467741935484,
+    "seconds": 1.721657290996518
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1975,
+    "excess_pct": 3.848101265822785,
+    "seconds": 1.7559842500195373
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 2059,
+    "l2": 1981,
+    "excess_pct": 3.9374053508329125,
+    "seconds": 1.7236564999911934
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1984,
+    "excess_pct": 3.6794354838709675,
+    "seconds": 1.6371826250106096
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2072,
+    "l2": 1991,
+    "excess_pct": 4.068307383224511,
+    "seconds": 1.6726372499833815
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1973,
+    "excess_pct": 3.5478966041561075,
+    "seconds": 1.7527528339996934
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2073,
+    "l2": 1986,
+    "excess_pct": 4.380664652567976,
+    "seconds": 1.8276054169982672
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1974,
+    "excess_pct": 3.900709219858156,
+    "seconds": 1.5968252909951843
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 2042,
+    "l2": 1969,
+    "excess_pct": 3.707465718638903,
+    "seconds": 1.549122249998618
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 2072,
+    "l2": 1984,
+    "excess_pct": 4.435483870967742,
+    "seconds": 1.685971208004048
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 2067,
+    "l2": 1983,
+    "excess_pct": 4.236006051437216,
+    "seconds": 1.7252279999956954
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2072,
+    "l2": 1989,
+    "excess_pct": 4.1729512317747615,
+    "seconds": 1.833608082990395
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 2061,
+    "l2": 1984,
+    "excess_pct": 3.881048387096774,
+    "seconds": 1.774517250014469
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2077,
+    "l2": 1995,
+    "excess_pct": 4.110275689223058,
+    "seconds": 1.637643082998693
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1981,
+    "excess_pct": 3.8364462392730942,
+    "seconds": 1.6979807500028983
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2074,
+    "l2": 1992,
+    "excess_pct": 4.116465863453815,
+    "seconds": 1.676683708006749
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 2059,
+    "l2": 1981,
+    "excess_pct": 3.9374053508329125,
+    "seconds": 1.5408088749973103
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 2060,
+    "l2": 1984,
+    "excess_pct": 3.8306451612903225,
+    "seconds": 1.6409336249926127
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2079,
+    "l2": 1999,
+    "excess_pct": 4.00200100050025,
+    "seconds": 1.505626916012261
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 2052,
+    "l2": 1977,
+    "excess_pct": 3.793626707132018,
+    "seconds": 1.5972658749960829
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 2063,
+    "l2": 1984,
+    "excess_pct": 3.9818548387096775,
+    "seconds": 1.5108126670238562
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2067,
+    "l2": 1989,
+    "excess_pct": 3.9215686274509802,
+    "seconds": 1.7346549160138238
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 2068,
+    "l2": 1989,
+    "excess_pct": 3.9718451483157367,
+    "seconds": 1.5864667499845382
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 2047,
+    "l2": 1968,
+    "excess_pct": 4.014227642276423,
+    "seconds": 1.7889317089866381
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 2054,
+    "l2": 1976,
+    "excess_pct": 3.9473684210526314,
+    "seconds": 1.4818901670223568
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 2066,
+    "l2": 1985,
+    "excess_pct": 4.080604534005038,
+    "seconds": 1.8299954579852056
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2084,
+    "l2": 2002,
+    "excess_pct": 4.095904095904096,
+    "seconds": 1.8177145830122754
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1982,
+    "excess_pct": 3.7840565085771947,
+    "seconds": 1.61960150001687
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2064,
+    "l2": 1986,
+    "excess_pct": 3.9274924471299095,
+    "seconds": 1.61048641600064
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 2053,
+    "l2": 1975,
+    "excess_pct": 3.949367088607595,
+    "seconds": 1.5850044160033576
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1972,
+    "excess_pct": 4.0060851926977685,
+    "seconds": 1.6230425419926178
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1968,
+    "excess_pct": 3.91260162601626,
+    "seconds": 1.5503051250125282
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 2065,
+    "l2": 1982,
+    "excess_pct": 4.187689202825429,
+    "seconds": 1.5340464580222033
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 2067,
+    "l2": 1982,
+    "excess_pct": 4.288597376387488,
+    "seconds": 1.291549749992555
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2085,
+    "l2": 2003,
+    "excess_pct": 4.093859211183225,
+    "seconds": 1.2791811249917373
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 2067,
+    "l2": 1984,
+    "excess_pct": 4.183467741935484,
+    "seconds": 1.1756738750264049
+   }
+  ],
+  "funsearch_weibull": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1997,
+    "excess_pct": 0.8512769153730596,
+    "seconds": 4.867882041988196
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1986,
+    "excess_pct": 0.6042296072507553,
+    "seconds": 4.990128500008723
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1988,
+    "excess_pct": 0.8048289738430584,
+    "seconds": 4.7929200409853365
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 1987,
+    "l2": 1974,
+    "excess_pct": 0.6585612968591692,
+    "seconds": 5.077733082987834
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1979,
+    "excess_pct": 0.7579585649317837,
+    "seconds": 5.089094082999509
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1999,
+    "excess_pct": 0.7003501750875438,
+    "seconds": 4.946765625005355
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1987,
+    "excess_pct": 0.9058882737795672,
+    "seconds": 4.795497499988414
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1981,
+    "excess_pct": 0.5552751135790005,
+    "seconds": 5.192915916006314
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2014,
+    "l2": 2000,
+    "excess_pct": 0.7,
+    "seconds": 4.785189957998227
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1980,
+    "excess_pct": 0.5050505050505051,
+    "seconds": 5.2313876249827445
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1976,
+    "excess_pct": 0.8603238866396761,
+    "seconds": 5.004668541980209
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 4.9873192090017255
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1979,
+    "excess_pct": 0.6063668519454269,
+    "seconds": 4.877041374973487
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1980,
+    "excess_pct": 0.6565656565656566,
+    "seconds": 4.981517292006174
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1982,
+    "excess_pct": 0.6054490413723511,
+    "seconds": 4.906873416999588
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1981,
+    "excess_pct": 0.5552751135790005,
+    "seconds": 5.011431458988227
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1978,
+    "excess_pct": 0.6066734074823054,
+    "seconds": 5.315091334021417
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 1982,
+    "l2": 1973,
+    "excess_pct": 0.45615813482007095,
+    "seconds": 5.390676542010624
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2019,
+    "l2": 2002,
+    "excess_pct": 0.8491508491508492,
+    "seconds": 5.165348667011131
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1983,
+    "excess_pct": 0.75642965204236,
+    "seconds": 5.4193950410117395
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 1981,
+    "l2": 1967,
+    "excess_pct": 0.7117437722419929,
+    "seconds": 5.28113091699197
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1974,
+    "excess_pct": 0.8105369807497467,
+    "seconds": 5.182756624999456
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 1989,
+    "l2": 1976,
+    "excess_pct": 0.6578947368421053,
+    "seconds": 5.056257332995301
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 1967,
+    "l2": 1955,
+    "excess_pct": 0.6138107416879796,
+    "seconds": 5.024503499997081
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1995,
+    "excess_pct": 0.7017543859649122,
+    "seconds": 5.1166410419973545
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 1984,
+    "l2": 1971,
+    "excess_pct": 0.6595636732623034,
+    "seconds": 5.293189832998905
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1982,
+    "excess_pct": 0.6054490413723511,
+    "seconds": 5.305874416982988
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1989,
+    "excess_pct": 0.6535947712418301,
+    "seconds": 5.3592435420141555
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1988,
+    "excess_pct": 1.1066398390342052,
+    "seconds": 5.350616167008411
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1977,
+    "excess_pct": 0.7587253414264037,
+    "seconds": 5.346954292006558
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 1981,
+    "l2": 1971,
+    "excess_pct": 0.5073566717402334,
+    "seconds": 5.519276999984868
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1995,
+    "excess_pct": 0.5513784461152882,
+    "seconds": 5.338444084016373
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 1983,
+    "l2": 1971,
+    "excess_pct": 0.60882800608828,
+    "seconds": 5.302707499999087
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2026,
+    "l2": 2004,
+    "excess_pct": 1.0978043912175648,
+    "seconds": 5.043515458004549
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1982,
+    "excess_pct": 0.5549949545913219,
+    "seconds": 5.472540624992689
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1998,
+    "excess_pct": 0.6006006006006006,
+    "seconds": 5.492489917000057
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1982,
+    "excess_pct": 0.9081735620585267,
+    "seconds": 5.3205317499814555
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1994,
+    "excess_pct": 0.9528585757271816,
+    "seconds": 5.192023749987129
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1984,
+    "excess_pct": 1.0080645161290323,
+    "seconds": 5.3975252080126666
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 5.6324378330027685
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1999,
+    "excess_pct": 0.8504252126063031,
+    "seconds": 4.934559209010331
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1990,
+    "excess_pct": 1.0050251256281406,
+    "seconds": 5.005659916001605
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1973,
+    "excess_pct": 0.9123162696401419,
+    "seconds": 5.1286590000090655
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1997,
+    "excess_pct": 0.801201802704056,
+    "seconds": 5.1685728339944035
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1990,
+    "excess_pct": 0.6030150753768844,
+    "seconds": 5.259096582973143
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2015,
+    "l2": 1997,
+    "excess_pct": 0.901352028042063,
+    "seconds": 5.1145150840166025
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1992,
+    "excess_pct": 0.8032128514056225,
+    "seconds": 4.950219291000394
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1985,
+    "excess_pct": 0.7556675062972292,
+    "seconds": 5.097514332999708
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1990,
+    "excess_pct": 0.6030150753768844,
+    "seconds": 5.078332542005228
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1976,
+    "excess_pct": 0.6072874493927125,
+    "seconds": 5.125619041995378
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 1989,
+    "l2": 1975,
+    "excess_pct": 0.7088607594936709,
+    "seconds": 5.059889875003137
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1993,
+    "excess_pct": 0.6021073758153538,
+    "seconds": 4.94632529199589
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1988,
+    "excess_pct": 0.5030181086519114,
+    "seconds": 5.117523499997333
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 1989,
+    "l2": 1975,
+    "excess_pct": 0.7088607594936709,
+    "seconds": 4.986668415978784
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1986,
+    "excess_pct": 0.4028197381671702,
+    "seconds": 4.975053791014943
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2017,
+    "l2": 2001,
+    "excess_pct": 0.7996001999000499,
+    "seconds": 5.165225332981208
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1994,
+    "excess_pct": 0.8525576730190572,
+    "seconds": 4.988313625013689
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1997,
+    "excess_pct": 0.8512769153730596,
+    "seconds": 5.157972416986013
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1996,
+    "excess_pct": 0.6012024048096193,
+    "seconds": 5.0261911249835975
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1992,
+    "excess_pct": 0.6526104417670683,
+    "seconds": 4.9540280000073835
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1994,
+    "excess_pct": 0.6018054162487463,
+    "seconds": 4.871384500002023
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2016,
+    "l2": 2000,
+    "excess_pct": 0.8,
+    "seconds": 4.749466083012521
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1983,
+    "excess_pct": 0.40342914775592537,
+    "seconds": 4.821158500009915
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 1976,
+    "l2": 1968,
+    "excess_pct": 0.4065040650406504,
+    "seconds": 5.004361041996162
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1984,
+    "excess_pct": 0.4536290322580645,
+    "seconds": 5.649952000007033
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1975,
+    "excess_pct": 0.9113924050632911,
+    "seconds": 4.742528749979101
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1981,
+    "excess_pct": 0.7571933366986371,
+    "seconds": 4.982372625003336
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1984,
+    "excess_pct": 0.7560483870967742,
+    "seconds": 4.95384745800402
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1991,
+    "excess_pct": 0.6529382219989954,
+    "seconds": 4.9982442499895114
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 1987,
+    "l2": 1973,
+    "excess_pct": 0.7095793208312214,
+    "seconds": 5.011454916995717
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1986,
+    "excess_pct": 0.8559919436052367,
+    "seconds": 5.024032459012233
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 1983,
+    "l2": 1974,
+    "excess_pct": 0.45592705167173253,
+    "seconds": 5.152915459009819
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 1982,
+    "l2": 1969,
+    "excess_pct": 0.6602336211274759,
+    "seconds": 5.246779875014909
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1984,
+    "excess_pct": 1.0584677419354838,
+    "seconds": 5.173883749986999
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1983,
+    "excess_pct": 0.75642965204236,
+    "seconds": 5.2937394169857726
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1989,
+    "excess_pct": 0.5530417295123178,
+    "seconds": 4.901145291980356
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1984,
+    "excess_pct": 0.7560483870967742,
+    "seconds": 5.223236624995479
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1995,
+    "excess_pct": 0.7017543859649122,
+    "seconds": 4.8634648330044
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1981,
+    "excess_pct": 0.8076728924785462,
+    "seconds": 5.326396207994549
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1992,
+    "excess_pct": 0.6526104417670683,
+    "seconds": 5.2040562920155935
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1981,
+    "excess_pct": 0.7571933366986371,
+    "seconds": 5.060236082994379
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1984,
+    "excess_pct": 0.6048387096774194,
+    "seconds": 5.064505709015066
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1999,
+    "excess_pct": 0.6503251625812907,
+    "seconds": 4.957986958994297
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1977,
+    "excess_pct": 0.7081436519979767,
+    "seconds": 5.092152957979124
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 4.974540333001642
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1989,
+    "excess_pct": 0.7541478129713424,
+    "seconds": 4.989584166003624
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1989,
+    "excess_pct": 0.5027652086475616,
+    "seconds": 4.864316249993863
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 1979,
+    "l2": 1968,
+    "excess_pct": 0.5589430894308943,
+    "seconds": 4.809568582975771
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1976,
+    "excess_pct": 0.9109311740890689,
+    "seconds": 4.373484540992649
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1985,
+    "excess_pct": 0.5037783375314862,
+    "seconds": 5.132061625015922
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2015,
+    "l2": 2002,
+    "excess_pct": 0.6493506493506493,
+    "seconds": 4.706106500001624
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1982,
+    "excess_pct": 0.8577194752774975,
+    "seconds": 4.3857422080182005
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1986,
+    "excess_pct": 0.7552870090634441,
+    "seconds": 4.672958999988623
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 1986,
+    "l2": 1975,
+    "excess_pct": 0.5569620253164557,
+    "seconds": 4.460998042020947
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 1986,
+    "l2": 1972,
+    "excess_pct": 0.7099391480730223,
+    "seconds": 4.645253499998944
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 1981,
+    "l2": 1968,
+    "excess_pct": 0.6605691056910569,
+    "seconds": 4.628513792005833
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1982,
+    "excess_pct": 0.5549949545913219,
+    "seconds": 4.170027834014036
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1982,
+    "excess_pct": 0.7063572149344097,
+    "seconds": 3.9635453750088345
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2019,
+    "l2": 2003,
+    "excess_pct": 0.7988017973040439,
+    "seconds": 4.102515916980337
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 3.8552966249990277
+   }
+  ],
+  "funsearch_or": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2058,
+    "l2": 1997,
+    "excess_pct": 3.054581872809214,
+    "seconds": 46.4851029170095
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 2046,
+    "l2": 1986,
+    "excess_pct": 3.0211480362537766,
+    "seconds": 46.64151666700491
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2048,
+    "l2": 1988,
+    "excess_pct": 3.0181086519114686,
+    "seconds": 46.61273237501155
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1974,
+    "excess_pct": 3.0395136778115504,
+    "seconds": 46.53093570799683
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 2038,
+    "l2": 1979,
+    "excess_pct": 2.981303688731683,
+    "seconds": 47.38491837499896
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2058,
+    "l2": 1999,
+    "excess_pct": 2.9514757378689342,
+    "seconds": 47.00828329101205
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2046,
+    "l2": 1987,
+    "excess_pct": 2.969300452944137,
+    "seconds": 46.74991970800329
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 2041,
+    "l2": 1981,
+    "excess_pct": 3.0287733467945483,
+    "seconds": 47.03150524999364
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2060,
+    "l2": 2000,
+    "excess_pct": 3.0,
+    "seconds": 48.163582749984926
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 2040,
+    "l2": 1980,
+    "excess_pct": 3.0303030303030303,
+    "seconds": 48.76049216699903
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 2037,
+    "l2": 1976,
+    "excess_pct": 3.0870445344129553,
+    "seconds": 48.85007991598104
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1984,
+    "excess_pct": 3.0745967741935485,
+    "seconds": 48.718502167001134
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 2040,
+    "l2": 1979,
+    "excess_pct": 3.0823648307225873,
+    "seconds": 48.82597266699304
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 2040,
+    "l2": 1980,
+    "excess_pct": 3.0303030303030303,
+    "seconds": 48.1778086659906
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1982,
+    "excess_pct": 3.1281533804238144,
+    "seconds": 48.987276333005866
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1981,
+    "excess_pct": 3.1297324583543666,
+    "seconds": 49.15250233298866
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 2036,
+    "l2": 1978,
+    "excess_pct": 2.9322548028311424,
+    "seconds": 47.906835125002544
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1973,
+    "excess_pct": 3.0917384693360366,
+    "seconds": 48.91856641697814
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2062,
+    "l2": 2002,
+    "excess_pct": 2.997002997002997,
+    "seconds": 47.12833400000818
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1983,
+    "excess_pct": 3.02571860816944,
+    "seconds": 46.30043483298505
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 2029,
+    "l2": 1967,
+    "excess_pct": 3.15200813421454,
+    "seconds": 47.02273083300679
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 2035,
+    "l2": 1974,
+    "excess_pct": 3.0901722391084094,
+    "seconds": 46.06076054199366
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 2036,
+    "l2": 1976,
+    "excess_pct": 3.0364372469635628,
+    "seconds": 46.74456679201103
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1955,
+    "excess_pct": 2.9667519181585678,
+    "seconds": 46.25085549999494
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2055,
+    "l2": 1995,
+    "excess_pct": 3.007518796992481,
+    "seconds": 52.265050374990096
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 2031,
+    "l2": 1971,
+    "excess_pct": 3.0441400304414,
+    "seconds": 51.64294158300618
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 2042,
+    "l2": 1982,
+    "excess_pct": 3.027245206861756,
+    "seconds": 50.87577004099148
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2048,
+    "l2": 1989,
+    "excess_pct": 2.9663147310206135,
+    "seconds": 51.187185832997784
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2048,
+    "l2": 1988,
+    "excess_pct": 3.0181086519114686,
+    "seconds": 51.87891345800017
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1977,
+    "excess_pct": 2.8831562974203337,
+    "seconds": 50.32825445898925
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 2030,
+    "l2": 1971,
+    "excess_pct": 2.993404363267377,
+    "seconds": 50.55731741600903
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1995,
+    "excess_pct": 3.107769423558897,
+    "seconds": 51.30741812501219
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 2029,
+    "l2": 1971,
+    "excess_pct": 2.9426686960933535,
+    "seconds": 50.952040125004714
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2063,
+    "l2": 2004,
+    "excess_pct": 2.9441117764471056,
+    "seconds": 51.41285995900398
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1982,
+    "excess_pct": 3.1281533804238144,
+    "seconds": 51.157074959017336
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2058,
+    "l2": 1998,
+    "excess_pct": 3.003003003003003,
+    "seconds": 51.194206374988426
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1982,
+    "excess_pct": 3.1281533804238144,
+    "seconds": 51.38386929099215
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1994,
+    "excess_pct": 3.1093279839518555,
+    "seconds": 50.75931570798275
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1984,
+    "excess_pct": 3.0745967741935485,
+    "seconds": 51.505612584005576
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1984,
+    "excess_pct": 3.024193548387097,
+    "seconds": 50.97323420798057
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2059,
+    "l2": 1999,
+    "excess_pct": 3.0015007503751874,
+    "seconds": 50.066205124981934
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2050,
+    "l2": 1990,
+    "excess_pct": 3.0150753768844223,
+    "seconds": 49.94358349998947
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 2035,
+    "l2": 1973,
+    "excess_pct": 3.1424227065382664,
+    "seconds": 49.9220825000084
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2058,
+    "l2": 1997,
+    "excess_pct": 3.054581872809214,
+    "seconds": 50.45880941700307
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1990,
+    "excess_pct": 3.0653266331658293,
+    "seconds": 49.85445233300561
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1997,
+    "excess_pct": 2.954431647471207,
+    "seconds": 50.52049004199216
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2053,
+    "l2": 1992,
+    "excess_pct": 3.0622489959839356,
+    "seconds": 50.132057666021865
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1985,
+    "excess_pct": 2.972292191435768,
+    "seconds": 49.7031714170007
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2050,
+    "l2": 1990,
+    "excess_pct": 3.0150753768844223,
+    "seconds": 50.77466112500406
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 2035,
+    "l2": 1976,
+    "excess_pct": 2.98582995951417,
+    "seconds": 51.15394820898655
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1975,
+    "excess_pct": 2.9873417721518987,
+    "seconds": 53.37109062500531
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2053,
+    "l2": 1993,
+    "excess_pct": 3.010536879076769,
+    "seconds": 50.77885066700401
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 2050,
+    "l2": 1988,
+    "excess_pct": 3.118712273641851,
+    "seconds": 50.674585542001296
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 2037,
+    "l2": 1975,
+    "excess_pct": 3.1392405063291138,
+    "seconds": 56.07780412500142
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 2046,
+    "l2": 1986,
+    "excess_pct": 3.0211480362537766,
+    "seconds": 50.64058183299494
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2062,
+    "l2": 2001,
+    "excess_pct": 3.0484757621189407,
+    "seconds": 51.244457958993735
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2056,
+    "l2": 1994,
+    "excess_pct": 3.1093279839518555,
+    "seconds": 50.31560170798912
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2057,
+    "l2": 1997,
+    "excess_pct": 3.0045067601402105,
+    "seconds": 55.28910862500197
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2058,
+    "l2": 1996,
+    "excess_pct": 3.1062124248496996,
+    "seconds": 49.90179437500774
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1992,
+    "excess_pct": 2.961847389558233,
+    "seconds": 49.63957012500032
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1994,
+    "excess_pct": 2.858575727181545,
+    "seconds": 50.68754933399032
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2060,
+    "l2": 2000,
+    "excess_pct": 3.0,
+    "seconds": 50.02851616599946
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1983,
+    "excess_pct": 3.0761472516389308,
+    "seconds": 49.42825787499896
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 2029,
+    "l2": 1968,
+    "excess_pct": 3.0995934959349594,
+    "seconds": 50.17596570801106
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 2046,
+    "l2": 1984,
+    "excess_pct": 3.125,
+    "seconds": 49.89829912499408
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1975,
+    "excess_pct": 2.9873417721518987,
+    "seconds": 48.74347433401272
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 2042,
+    "l2": 1981,
+    "excess_pct": 3.0792529025744573,
+    "seconds": 51.51910054200562
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1984,
+    "excess_pct": 2.973790322580645,
+    "seconds": 49.70503320801072
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2053,
+    "l2": 1991,
+    "excess_pct": 3.11401305876444,
+    "seconds": 49.793432165984996
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 2035,
+    "l2": 1973,
+    "excess_pct": 3.1424227065382664,
+    "seconds": 49.562829666014295
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2049,
+    "l2": 1986,
+    "excess_pct": 3.1722054380664653,
+    "seconds": 49.421680958010256
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1974,
+    "excess_pct": 3.0395136778115504,
+    "seconds": 49.1582637920219
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 2028,
+    "l2": 1969,
+    "excess_pct": 2.9964448958862366,
+    "seconds": 49.30697762500495
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1984,
+    "excess_pct": 3.0745967741935485,
+    "seconds": 49.74370387499221
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 2047,
+    "l2": 1983,
+    "excess_pct": 3.227433182047403,
+    "seconds": 49.997285249992274
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2050,
+    "l2": 1989,
+    "excess_pct": 3.066867772750126,
+    "seconds": 50.37063308301731
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1984,
+    "excess_pct": 3.0745967741935485,
+    "seconds": 49.75674816602259
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2054,
+    "l2": 1995,
+    "excess_pct": 2.9573934837092732,
+    "seconds": 49.84791495799436
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 2041,
+    "l2": 1981,
+    "excess_pct": 3.0287733467945483,
+    "seconds": 49.550981249980396
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2054,
+    "l2": 1992,
+    "excess_pct": 3.112449799196787,
+    "seconds": 49.30395970898098
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1981,
+    "excess_pct": 3.1802120141342756,
+    "seconds": 49.48503533398616
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1984,
+    "excess_pct": 3.024193548387097,
+    "seconds": 49.566403874981916
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2059,
+    "l2": 1999,
+    "excess_pct": 3.0015007503751874,
+    "seconds": 49.50189641700126
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 2038,
+    "l2": 1977,
+    "excess_pct": 3.0854830551340413,
+    "seconds": 48.76044824998826
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1984,
+    "excess_pct": 3.0745967741935485,
+    "seconds": 49.01865983300377
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2051,
+    "l2": 1989,
+    "excess_pct": 3.117144293614882,
+    "seconds": 50.64312612498179
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 2048,
+    "l2": 1989,
+    "excess_pct": 2.9663147310206135,
+    "seconds": 52.19797891701455
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 2028,
+    "l2": 1968,
+    "excess_pct": 3.048780487804878,
+    "seconds": 49.35214529102086
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 2035,
+    "l2": 1976,
+    "excess_pct": 2.98582995951417,
+    "seconds": 48.172139250003966
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 2045,
+    "l2": 1985,
+    "excess_pct": 3.022670025188917,
+    "seconds": 48.290947917004814
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2064,
+    "l2": 2002,
+    "excess_pct": 3.096903096903097,
+    "seconds": 48.470763958001044
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1982,
+    "excess_pct": 3.1281533804238144,
+    "seconds": 47.40119154198328
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2049,
+    "l2": 1986,
+    "excess_pct": 3.1722054380664653,
+    "seconds": 47.80813758299337
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 2035,
+    "l2": 1975,
+    "excess_pct": 3.037974683544304,
+    "seconds": 47.420269167021615
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 2032,
+    "l2": 1972,
+    "excess_pct": 3.0425963488843815,
+    "seconds": 47.2590112919861
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 2032,
+    "l2": 1968,
+    "excess_pct": 3.252032520325203,
+    "seconds": 46.0681441250199
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1982,
+    "excess_pct": 3.077699293642785,
+    "seconds": 32.989804000011645
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 2043,
+    "l2": 1982,
+    "excess_pct": 3.077699293642785,
+    "seconds": 33.054981958004646
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2065,
+    "l2": 2003,
+    "excess_pct": 3.0953569645531704,
+    "seconds": 33.06388145801611
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1984,
+    "excess_pct": 3.024193548387097,
+    "seconds": 33.06742799998028
+   }
+  ],
+  "run_s0": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1997,
+    "excess_pct": 0.7511266900350526,
+    "seconds": 3.5257521249877755
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1986,
+    "excess_pct": 0.6042296072507553,
+    "seconds": 3.2425632090016734
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1988,
+    "excess_pct": 0.704225352112676,
+    "seconds": 3.2558591660053935
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1974,
+    "excess_pct": 0.8611955420466059,
+    "seconds": 3.4899788750044536
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1979,
+    "excess_pct": 0.9095502779181405,
+    "seconds": 3.3562099580012728
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1999,
+    "excess_pct": 0.7503751875937968,
+    "seconds": 3.4873701249889564
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1987,
+    "excess_pct": 1.1071967790639154,
+    "seconds": 3.5162590419931803
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1981,
+    "excess_pct": 0.8581524482584554,
+    "seconds": 3.4898222080082633
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2013,
+    "l2": 2000,
+    "excess_pct": 0.65,
+    "seconds": 3.5269794999912847
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1980,
+    "excess_pct": 0.7575757575757576,
+    "seconds": 3.641942415997619
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 1985,
+    "l2": 1976,
+    "excess_pct": 0.45546558704453444,
+    "seconds": 3.647669332975056
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1984,
+    "excess_pct": 0.655241935483871,
+    "seconds": 3.392063750012312
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1979,
+    "excess_pct": 0.7074279939363315,
+    "seconds": 3.2863501249812543
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1980,
+    "excess_pct": 0.7070707070707071,
+    "seconds": 3.510530875006225
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1982,
+    "excess_pct": 1.0595358224016145,
+    "seconds": 3.57334129101946
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1981,
+    "excess_pct": 0.7067137809187279,
+    "seconds": 3.7108795000240207
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1978,
+    "excess_pct": 0.6572295247724975,
+    "seconds": 3.285504375002347
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 1987,
+    "l2": 1973,
+    "excess_pct": 0.7095793208312214,
+    "seconds": 3.640890207985649
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2018,
+    "l2": 2002,
+    "excess_pct": 0.7992007992007992,
+    "seconds": 3.4270109579956625
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1983,
+    "excess_pct": 0.75642965204236,
+    "seconds": 3.6072940420126542
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 1982,
+    "l2": 1967,
+    "excess_pct": 0.762582613116421,
+    "seconds": 3.2814388330152724
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 1983,
+    "l2": 1974,
+    "excess_pct": 0.45592705167173253,
+    "seconds": 3.6803775829903316
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1976,
+    "excess_pct": 0.9615384615384616,
+    "seconds": 3.7918683330062777
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 1966,
+    "l2": 1955,
+    "excess_pct": 0.5626598465473146,
+    "seconds": 3.6380525839922484
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1995,
+    "excess_pct": 0.8020050125313283,
+    "seconds": 3.2979749999940395
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1971,
+    "excess_pct": 1.1161846778285134,
+    "seconds": 3.4426360839861445
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1982,
+    "excess_pct": 0.5045408678102926,
+    "seconds": 3.6478794169961475
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1989,
+    "excess_pct": 1.2066365007541477,
+    "seconds": 3.4069501660123933
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1988,
+    "excess_pct": 1.0060362173038229,
+    "seconds": 3.479549166979268
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1977,
+    "excess_pct": 1.112797167425392,
+    "seconds": 3.273927791015012
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 1981,
+    "l2": 1971,
+    "excess_pct": 0.5073566717402334,
+    "seconds": 3.086214209004538
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1995,
+    "excess_pct": 1.0526315789473684,
+    "seconds": 3.5157038329925854
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 1985,
+    "l2": 1971,
+    "excess_pct": 0.7102993404363267,
+    "seconds": 3.371906374988612
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2024,
+    "l2": 2004,
+    "excess_pct": 0.998003992015968,
+    "seconds": 3.5007555409974884
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1982,
+    "excess_pct": 0.5045408678102926,
+    "seconds": 3.3379086249915417
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2015,
+    "l2": 1998,
+    "excess_pct": 0.8508508508508509,
+    "seconds": 3.6419624160043895
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1982,
+    "excess_pct": 1.0595358224016145,
+    "seconds": 3.6098880839999765
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1994,
+    "excess_pct": 1.0030090270812437,
+    "seconds": 3.34347054202226
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 3.620707082998706
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1984,
+    "excess_pct": 0.9576612903225806,
+    "seconds": 3.4759609999891836
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1999,
+    "excess_pct": 0.7003501750875438,
+    "seconds": 3.731795166997472
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1990,
+    "excess_pct": 0.5527638190954773,
+    "seconds": 3.333844874985516
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 1984,
+    "l2": 1973,
+    "excess_pct": 0.5575266092245311,
+    "seconds": 3.676131999993231
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2015,
+    "l2": 1997,
+    "excess_pct": 0.901352028042063,
+    "seconds": 3.561155208008131
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1990,
+    "excess_pct": 1.0552763819095476,
+    "seconds": 3.549216916988371
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2020,
+    "l2": 1997,
+    "excess_pct": 1.1517275913870806,
+    "seconds": 3.4488835420052055
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1992,
+    "excess_pct": 0.9036144578313253,
+    "seconds": 3.712363667000318
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1985,
+    "excess_pct": 0.5037783375314862,
+    "seconds": 3.5092701249814127
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1990,
+    "excess_pct": 0.9045226130653267,
+    "seconds": 3.236967625009129
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1976,
+    "excess_pct": 0.7591093117408907,
+    "seconds": 3.3869626669911668
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1975,
+    "excess_pct": 0.810126582278481,
+    "seconds": 2.966863709007157
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1993,
+    "excess_pct": 0.7024586051179127,
+    "seconds": 3.419507207989227
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1988,
+    "excess_pct": 0.9054325955734407,
+    "seconds": 3.537458541977685
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1975,
+    "excess_pct": 0.810126582278481,
+    "seconds": 3.3161371250171214
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1986,
+    "excess_pct": 0.6545820745216515,
+    "seconds": 3.5591640829807147
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2016,
+    "l2": 2001,
+    "excess_pct": 0.7496251874062968,
+    "seconds": 3.561773583991453
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1994,
+    "excess_pct": 0.7522567703109327,
+    "seconds": 3.7786606659938116
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1997,
+    "excess_pct": 0.8512769153730596,
+    "seconds": 3.759183665999444
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1996,
+    "excess_pct": 0.751503006012024,
+    "seconds": 3.879523291019723
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1992,
+    "excess_pct": 1.0040160642570282,
+    "seconds": 3.518821207981091
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1994,
+    "excess_pct": 0.7021063189568706,
+    "seconds": 3.4216673750197515
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2017,
+    "l2": 2000,
+    "excess_pct": 0.85,
+    "seconds": 3.317230874992674
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1983,
+    "excess_pct": 0.9077155824508321,
+    "seconds": 3.4750667919870466
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 1980,
+    "l2": 1968,
+    "excess_pct": 0.6097560975609756,
+    "seconds": 3.3643250000022817
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1984,
+    "excess_pct": 0.8064516129032258,
+    "seconds": 3.5494714579836
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1975,
+    "excess_pct": 0.8607594936708861,
+    "seconds": 3.4019588750088587
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1981,
+    "excess_pct": 0.8076728924785462,
+    "seconds": 3.4964507080148906
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 3.5673351250006817
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1991,
+    "excess_pct": 0.5524861878453039,
+    "seconds": 3.511722708004527
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1973,
+    "excess_pct": 0.8616320324379118,
+    "seconds": 3.4948500829923432
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1986,
+    "excess_pct": 0.9063444108761329,
+    "seconds": 3.452685374999419
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 1987,
+    "l2": 1974,
+    "excess_pct": 0.6585612968591692,
+    "seconds": 3.225538917002268
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1969,
+    "excess_pct": 0.9649568308786186,
+    "seconds": 3.2411536669824272
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1984,
+    "excess_pct": 0.7560483870967742,
+    "seconds": 3.447058082994772
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1983,
+    "excess_pct": 1.1094301563287947,
+    "seconds": 2.9155890829861164
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1989,
+    "excess_pct": 0.6535947712418301,
+    "seconds": 3.2405373330111615
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1984,
+    "excess_pct": 0.907258064516129,
+    "seconds": 3.0389943750051316
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1995,
+    "excess_pct": 1.2030075187969924,
+    "seconds": 3.0758538329973817
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1981,
+    "excess_pct": 0.7067137809187279,
+    "seconds": 3.535031875013374
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1992,
+    "excess_pct": 0.7530120481927711,
+    "seconds": 2.835299957980169
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1981,
+    "excess_pct": 0.8581524482584554,
+    "seconds": 3.428840166016016
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1984,
+    "excess_pct": 0.907258064516129,
+    "seconds": 3.3508875409897882
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2022,
+    "l2": 1999,
+    "excess_pct": 1.150575287643822,
+    "seconds": 3.3768320420058444
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1977,
+    "excess_pct": 0.9104704097116844,
+    "seconds": 3.315728166984627
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 3.473927792016184
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1989,
+    "excess_pct": 0.9049773755656109,
+    "seconds": 3.353318792011123
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1989,
+    "excess_pct": 0.7038712921065863,
+    "seconds": 3.535030541010201
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 1979,
+    "l2": 1968,
+    "excess_pct": 0.5589430894308943,
+    "seconds": 3.476253792003263
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1976,
+    "excess_pct": 0.9615384615384616,
+    "seconds": 3.6837689590174705
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1985,
+    "excess_pct": 0.7556675062972292,
+    "seconds": 3.453215249988716
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2014,
+    "l2": 2002,
+    "excess_pct": 0.5994005994005994,
+    "seconds": 3.610001666995231
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1982,
+    "excess_pct": 0.8577194752774975,
+    "seconds": 3.585704833007185
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1986,
+    "excess_pct": 0.9566968781470292,
+    "seconds": 3.523849416000303
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1975,
+    "excess_pct": 0.6582278481012658,
+    "seconds": 3.4065714579774067
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1972,
+    "excess_pct": 1.0649087221095335,
+    "seconds": 3.3821013330016285
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 1978,
+    "l2": 1968,
+    "excess_pct": 0.508130081300813,
+    "seconds": 3.4352274580160156
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1982,
+    "excess_pct": 0.7063572149344097,
+    "seconds": 2.7942642499983776
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1982,
+    "excess_pct": 1.1099899091826437,
+    "seconds": 2.7546665420231875
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2022,
+    "l2": 2003,
+    "excess_pct": 0.9485771342985522,
+    "seconds": 2.9363787499896716
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1984,
+    "excess_pct": 0.907258064516129,
+    "seconds": 2.592294292000588
+   }
+  ],
+  "run_s1": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1997,
+    "excess_pct": 0.7511266900350526,
+    "seconds": 3.190463584003737
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1986,
+    "excess_pct": 0.6042296072507553,
+    "seconds": 3.0551968330109958
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1988,
+    "excess_pct": 0.704225352112676,
+    "seconds": 2.929614541993942
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1974,
+    "excess_pct": 0.9625126646403243,
+    "seconds": 3.0554873750079423
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1979,
+    "excess_pct": 0.7579585649317837,
+    "seconds": 3.2317205839790404
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1999,
+    "excess_pct": 0.6503251625812907,
+    "seconds": 3.035709207993932
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1987,
+    "excess_pct": 1.0568696527428283,
+    "seconds": 3.139164291002089
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1981,
+    "excess_pct": 0.8076728924785462,
+    "seconds": 2.9712562080239877
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2014,
+    "l2": 2000,
+    "excess_pct": 0.7,
+    "seconds": 3.467551250010729
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1980,
+    "excess_pct": 0.8080808080808081,
+    "seconds": 3.6200996249972377
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 1984,
+    "l2": 1976,
+    "excess_pct": 0.4048582995951417,
+    "seconds": 3.382191625016276
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1984,
+    "excess_pct": 0.8568548387096774,
+    "seconds": 3.4506717920012306
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1979,
+    "excess_pct": 0.7579585649317837,
+    "seconds": 3.2854336249874905
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1980,
+    "excess_pct": 0.7575757575757576,
+    "seconds": 3.496234499994898
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1982,
+    "excess_pct": 1.1099899091826437,
+    "seconds": 3.4936227499856614
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1981,
+    "excess_pct": 0.8076728924785462,
+    "seconds": 3.2383445409941487
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1978,
+    "excess_pct": 0.6572295247724975,
+    "seconds": 2.971643166994909
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 1987,
+    "l2": 1973,
+    "excess_pct": 0.7095793208312214,
+    "seconds": 2.7298291249899194
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2020,
+    "l2": 2002,
+    "excess_pct": 0.8991008991008991,
+    "seconds": 2.8169854170118924
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1983,
+    "excess_pct": 0.6555723651033787,
+    "seconds": 2.95668454101542
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 1984,
+    "l2": 1967,
+    "excess_pct": 0.8642602948652771,
+    "seconds": 3.0445594170014374
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 1986,
+    "l2": 1974,
+    "excess_pct": 0.60790273556231,
+    "seconds": 2.9729435420013033
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1976,
+    "excess_pct": 1.2651821862348178,
+    "seconds": 2.87560312502319
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 1965,
+    "l2": 1955,
+    "excess_pct": 0.5115089514066496,
+    "seconds": 2.814635457994882
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1995,
+    "excess_pct": 0.8521303258145363,
+    "seconds": 3.0060917499940842
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1971,
+    "excess_pct": 1.0147133434804667,
+    "seconds": 2.8073994159931317
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1982,
+    "excess_pct": 0.7063572149344097,
+    "seconds": 2.8218156659859233
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1989,
+    "excess_pct": 1.256913021618904,
+    "seconds": 2.7418183329864405
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1988,
+    "excess_pct": 0.8551307847082495,
+    "seconds": 2.9085833330173045
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1977,
+    "excess_pct": 1.062215477996965,
+    "seconds": 2.8594197079946753
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 1986,
+    "l2": 1971,
+    "excess_pct": 0.76103500761035,
+    "seconds": 3.0390614589850884
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1995,
+    "excess_pct": 0.9523809523809523,
+    "seconds": 3.1779994999815244
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 1986,
+    "l2": 1971,
+    "excess_pct": 0.76103500761035,
+    "seconds": 2.753274999995483
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2025,
+    "l2": 2004,
+    "excess_pct": 1.0479041916167664,
+    "seconds": 3.125857457984239
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1982,
+    "excess_pct": 0.45408678102926336,
+    "seconds": 2.821705790993292
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2017,
+    "l2": 1998,
+    "excess_pct": 0.950950950950951,
+    "seconds": 2.9024103749834467
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1982,
+    "excess_pct": 1.1099899091826437,
+    "seconds": 2.7273970840033144
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1994,
+    "excess_pct": 0.9528585757271816,
+    "seconds": 3.021904584020376
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1984,
+    "excess_pct": 0.7560483870967742,
+    "seconds": 3.275526166020427
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1984,
+    "excess_pct": 1.0080645161290323,
+    "seconds": 3.1012017079920042
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1999,
+    "excess_pct": 0.7003501750875438,
+    "seconds": 2.707384999986971
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1990,
+    "excess_pct": 0.6532663316582915,
+    "seconds": 3.022156499995617
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1973,
+    "excess_pct": 0.7602635580334516,
+    "seconds": 3.1832303749979474
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1997,
+    "excess_pct": 0.9514271407110666,
+    "seconds": 2.9105443749867845
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1990,
+    "excess_pct": 1.1557788944723617,
+    "seconds": 2.7084517079929356
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2021,
+    "l2": 1997,
+    "excess_pct": 1.2018027040560841,
+    "seconds": 3.2734735000121873
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1992,
+    "excess_pct": 0.8032128514056225,
+    "seconds": 3.025837875000434
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1985,
+    "excess_pct": 0.5541561712846348,
+    "seconds": 3.2766679170017596
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1990,
+    "excess_pct": 0.9547738693467337,
+    "seconds": 2.9519012499949895
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1976,
+    "excess_pct": 0.9109311740890689,
+    "seconds": 3.005070000013802
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1975,
+    "excess_pct": 0.9113924050632911,
+    "seconds": 3.291539708006894
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1993,
+    "excess_pct": 0.8529854490717511,
+    "seconds": 2.5911043750238605
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1988,
+    "excess_pct": 0.8048289738430584,
+    "seconds": 2.855587707977975
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1975,
+    "excess_pct": 0.9113924050632911,
+    "seconds": 2.892660874989815
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1986,
+    "excess_pct": 0.7049345417925479,
+    "seconds": 2.8670291659946088
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2016,
+    "l2": 2001,
+    "excess_pct": 0.7496251874062968,
+    "seconds": 2.814375000016298
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1994,
+    "excess_pct": 0.7522567703109327,
+    "seconds": 3.197216250002384
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2015,
+    "l2": 1997,
+    "excess_pct": 0.901352028042063,
+    "seconds": 2.9585856670164503
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1996,
+    "excess_pct": 1.002004008016032,
+    "seconds": 3.1577066669997294
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1992,
+    "excess_pct": 0.9538152610441767,
+    "seconds": 2.962402667006245
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1994,
+    "excess_pct": 0.8525576730190572,
+    "seconds": 2.9301259580242913
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2012,
+    "l2": 2000,
+    "excess_pct": 0.6,
+    "seconds": 2.8059062919928692
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1983,
+    "excess_pct": 0.8572869389813415,
+    "seconds": 2.713475083990488
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 1983,
+    "l2": 1968,
+    "excess_pct": 0.7621951219512195,
+    "seconds": 2.901586583000608
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1984,
+    "excess_pct": 0.655241935483871,
+    "seconds": 2.504393291019369
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1975,
+    "excess_pct": 1.0632911392405062,
+    "seconds": 2.453605582995806
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1981,
+    "excess_pct": 0.6057546693589096,
+    "seconds": 2.4232731660013087
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1984,
+    "excess_pct": 0.8568548387096774,
+    "seconds": 2.704810874973191
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1991,
+    "excess_pct": 0.7031642390758412,
+    "seconds": 2.541262833023211
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1973,
+    "excess_pct": 0.7602635580334516,
+    "seconds": 2.6411511249898467
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1986,
+    "excess_pct": 0.9063444108761329,
+    "seconds": 2.740010417008307
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 1987,
+    "l2": 1974,
+    "excess_pct": 0.6585612968591692,
+    "seconds": 2.5824383750150446
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1969,
+    "excess_pct": 1.1681056373793803,
+    "seconds": 2.983660249999957
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1984,
+    "excess_pct": 0.907258064516129,
+    "seconds": 2.7525890420074575
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1983,
+    "excess_pct": 1.1598587997982854,
+    "seconds": 2.897559500008356
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1989,
+    "excess_pct": 0.6535947712418301,
+    "seconds": 3.065191417001188
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1984,
+    "excess_pct": 0.9576612903225806,
+    "seconds": 2.8555660419806372
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1995,
+    "excess_pct": 1.2030075187969924,
+    "seconds": 2.635758917022031
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1981,
+    "excess_pct": 0.6562342251388188,
+    "seconds": 2.892921166989254
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1992,
+    "excess_pct": 0.7530120481927711,
+    "seconds": 2.5368393340031616
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1981,
+    "excess_pct": 0.9086320040383644,
+    "seconds": 2.724155708012404
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1984,
+    "excess_pct": 0.9576612903225806,
+    "seconds": 2.7250299169973005
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1999,
+    "excess_pct": 0.8504252126063031,
+    "seconds": 2.4847762910067104
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1977,
+    "excess_pct": 0.8093070308548306,
+    "seconds": 2.7961101660039276
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1984,
+    "excess_pct": 0.5544354838709677,
+    "seconds": 2.771052416006569
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1989,
+    "excess_pct": 0.6535947712418301,
+    "seconds": 2.6315515830065124
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1989,
+    "excess_pct": 0.6033182503770739,
+    "seconds": 2.831965749996016
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 1979,
+    "l2": 1968,
+    "excess_pct": 0.5589430894308943,
+    "seconds": 2.867954750021454
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1976,
+    "excess_pct": 1.0121457489878543,
+    "seconds": 2.9870635420084
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1985,
+    "excess_pct": 0.7556675062972292,
+    "seconds": 2.917148291016929
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2016,
+    "l2": 2002,
+    "excess_pct": 0.6993006993006993,
+    "seconds": 2.814080374984769
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1982,
+    "excess_pct": 0.9081735620585267,
+    "seconds": 2.8549707499914803
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1986,
+    "excess_pct": 0.9063444108761329,
+    "seconds": 2.7883264999836683
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1975,
+    "excess_pct": 0.759493670886076,
+    "seconds": 2.7960680839896668
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1972,
+    "excess_pct": 0.9127789046653144,
+    "seconds": 2.6722365000168793
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 1983,
+    "l2": 1968,
+    "excess_pct": 0.7621951219512195,
+    "seconds": 2.614768166997237
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1982,
+    "excess_pct": 0.6559031281533805,
+    "seconds": 2.2352722079958767
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1982,
+    "excess_pct": 1.160443995963673,
+    "seconds": 2.051486583019141
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2022,
+    "l2": 2003,
+    "excess_pct": 0.9485771342985522,
+    "seconds": 2.232749082992086
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1984,
+    "excess_pct": 0.8064516129032258,
+    "seconds": 1.9157777090149466
+   }
+  ],
+  "run_s2": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2033,
+    "l2": 1997,
+    "excess_pct": 1.802704056084126,
+    "seconds": 4.119114583998453
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1986,
+    "excess_pct": 1.309164149043303,
+    "seconds": 4.1277909169730265
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1988,
+    "excess_pct": 1.5593561368209254,
+    "seconds": 4.152954040997429
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 2022,
+    "l2": 1974,
+    "excess_pct": 2.43161094224924,
+    "seconds": 4.137752125010593
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1979,
+    "excess_pct": 1.3137948458817585,
+    "seconds": 4.02811262497562
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1999,
+    "excess_pct": 1.7508754377188593,
+    "seconds": 3.931255167000927
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2024,
+    "l2": 1987,
+    "excess_pct": 1.8621036738802215,
+    "seconds": 4.0142157090012915
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1981,
+    "excess_pct": 1.867743563856638,
+    "seconds": 4.103435083001386
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2038,
+    "l2": 2000,
+    "excess_pct": 1.9,
+    "seconds": 4.317241374985315
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1980,
+    "excess_pct": 1.8181818181818181,
+    "seconds": 4.342836582974996
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1976,
+    "excess_pct": 1.6194331983805668,
+    "seconds": 4.113711667014286
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1984,
+    "excess_pct": 1.7137096774193548,
+    "seconds": 4.214191042003222
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1979,
+    "excess_pct": 1.6675088428499243,
+    "seconds": 4.215887792001013
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1980,
+    "excess_pct": 1.6666666666666667,
+    "seconds": 4.239730125002097
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 2024,
+    "l2": 1982,
+    "excess_pct": 2.119071644803229,
+    "seconds": 4.275478833005764
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1981,
+    "excess_pct": 1.867743563856638,
+    "seconds": 4.311335582984611
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1978,
+    "excess_pct": 1.6683518705763398,
+    "seconds": 4.346764665999217
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1973,
+    "excess_pct": 1.926001013684744,
+    "seconds": 4.277727250009775
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2044,
+    "l2": 2002,
+    "excess_pct": 2.097902097902098,
+    "seconds": 4.321666332980385
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 2017,
+    "l2": 1983,
+    "excess_pct": 1.714573877962683,
+    "seconds": 4.207465624989709
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1967,
+    "excess_pct": 1.8810371123538383,
+    "seconds": 4.182918083999539
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1974,
+    "excess_pct": 1.5704154002026343,
+    "seconds": 4.438079750019824
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 2020,
+    "l2": 1976,
+    "excess_pct": 2.2267206477732793,
+    "seconds": 4.187758499989286
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1955,
+    "excess_pct": 2.1994884910485935,
+    "seconds": 4.15938324999297
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2029,
+    "l2": 1995,
+    "excess_pct": 1.7042606516290726,
+    "seconds": 3.865277833014261
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1971,
+    "excess_pct": 2.1816336884830037,
+    "seconds": 4.171592124999734
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1982,
+    "excess_pct": 1.8163471241170535,
+    "seconds": 3.844173666991992
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2031,
+    "l2": 1989,
+    "excess_pct": 2.1116138763197587,
+    "seconds": 4.050458957994124
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2027,
+    "l2": 1988,
+    "excess_pct": 1.9617706237424548,
+    "seconds": 4.17032916698372
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 2017,
+    "l2": 1977,
+    "excess_pct": 2.0232675771370765,
+    "seconds": 3.769222292001359
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1971,
+    "excess_pct": 2.384576357179097,
+    "seconds": 4.118540374998702
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2052,
+    "l2": 1995,
+    "excess_pct": 2.857142857142857,
+    "seconds": 4.174931499990635
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1971,
+    "excess_pct": 2.0294266869609334,
+    "seconds": 4.131664541986538
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2044,
+    "l2": 2004,
+    "excess_pct": 1.996007984031936,
+    "seconds": 3.974778583011357
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1982,
+    "excess_pct": 1.715438950554995,
+    "seconds": 4.063777499977732
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2029,
+    "l2": 1998,
+    "excess_pct": 1.5515515515515514,
+    "seconds": 4.057284208014607
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 2025,
+    "l2": 1982,
+    "excess_pct": 2.169525731584258,
+    "seconds": 3.970014499995159
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2033,
+    "l2": 1994,
+    "excess_pct": 1.9558676028084252,
+    "seconds": 4.315191166009754
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 2026,
+    "l2": 1984,
+    "excess_pct": 2.1169354838709675,
+    "seconds": 4.100286792003317
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 2040,
+    "l2": 1984,
+    "excess_pct": 2.8225806451612905,
+    "seconds": 4.02263474999927
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2030,
+    "l2": 1999,
+    "excess_pct": 1.5507753876938468,
+    "seconds": 4.0659887499932665
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2027,
+    "l2": 1990,
+    "excess_pct": 1.8592964824120604,
+    "seconds": 4.045064083999023
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 2023,
+    "l2": 1973,
+    "excess_pct": 2.534211860111505,
+    "seconds": 4.134124958014581
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2030,
+    "l2": 1997,
+    "excess_pct": 1.6524787180771157,
+    "seconds": 4.178208958997857
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2021,
+    "l2": 1990,
+    "excess_pct": 1.5577889447236182,
+    "seconds": 4.468087499990361
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2037,
+    "l2": 1997,
+    "excess_pct": 2.0030045067601403,
+    "seconds": 4.230289750004886
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2032,
+    "l2": 1992,
+    "excess_pct": 2.0080321285140563,
+    "seconds": 4.435631000000285
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 2024,
+    "l2": 1985,
+    "excess_pct": 1.964735516372796,
+    "seconds": 4.25086095900042
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2025,
+    "l2": 1990,
+    "excess_pct": 1.7587939698492463,
+    "seconds": 3.941960124997422
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1976,
+    "excess_pct": 1.5182186234817814,
+    "seconds": 4.084631334000733
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1975,
+    "excess_pct": 2.1772151898734178,
+    "seconds": 3.9341797499801032
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2030,
+    "l2": 1993,
+    "excess_pct": 1.8564977420973408,
+    "seconds": 3.964177457994083
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 2027,
+    "l2": 1988,
+    "excess_pct": 1.9617706237424548,
+    "seconds": 3.91397454199614
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1975,
+    "excess_pct": 1.8734177215189873,
+    "seconds": 4.050912208011141
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 2020,
+    "l2": 1986,
+    "excess_pct": 1.7119838872104733,
+    "seconds": 3.9639300830021966
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2043,
+    "l2": 2001,
+    "excess_pct": 2.098950524737631,
+    "seconds": 3.9523588749871124
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2028,
+    "l2": 1994,
+    "excess_pct": 1.7051153460381143,
+    "seconds": 4.215686874988023
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2047,
+    "l2": 1997,
+    "excess_pct": 2.5037556334501754,
+    "seconds": 4.124468666996108
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2039,
+    "l2": 1996,
+    "excess_pct": 2.1543086172344688,
+    "seconds": 4.065551333012991
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2037,
+    "l2": 1992,
+    "excess_pct": 2.2590361445783134,
+    "seconds": 3.930996999988565
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2026,
+    "l2": 1994,
+    "excess_pct": 1.60481444332999,
+    "seconds": 4.227275665994966
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2035,
+    "l2": 2000,
+    "excess_pct": 1.75,
+    "seconds": 4.049551333999261
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 2023,
+    "l2": 1983,
+    "excess_pct": 2.017145738779627,
+    "seconds": 3.889311916020233
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1968,
+    "excess_pct": 2.032520325203252,
+    "seconds": 4.14314483301132
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 2021,
+    "l2": 1984,
+    "excess_pct": 1.8649193548387097,
+    "seconds": 4.392647041997407
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1975,
+    "excess_pct": 1.9240506329113924,
+    "seconds": 4.051454166008625
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1981,
+    "excess_pct": 1.6658253407370016,
+    "seconds": 3.9624940420035273
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1984,
+    "excess_pct": 1.6129032258064515,
+    "seconds": 4.173174333001953
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2022,
+    "l2": 1991,
+    "excess_pct": 1.55700652938222,
+    "seconds": 4.141303334006807
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1973,
+    "excess_pct": 2.078053725291434,
+    "seconds": 3.977979082992533
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2034,
+    "l2": 1986,
+    "excess_pct": 2.416918429003021,
+    "seconds": 3.9815710420079995
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1974,
+    "excess_pct": 1.8237082066869301,
+    "seconds": 4.049116042006062
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 2017,
+    "l2": 1969,
+    "excess_pct": 2.4377856780091416,
+    "seconds": 3.9371345409890637
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 2030,
+    "l2": 1984,
+    "excess_pct": 2.318548387096774,
+    "seconds": 3.4229028330009896
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 2026,
+    "l2": 1983,
+    "excess_pct": 2.1684316691880987,
+    "seconds": 3.6814938750176225
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2029,
+    "l2": 1989,
+    "excess_pct": 2.0110608345902463,
+    "seconds": 3.8030172500002664
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 2028,
+    "l2": 1984,
+    "excess_pct": 2.217741935483871,
+    "seconds": 3.3794615829829127
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1995,
+    "excess_pct": 2.456140350877193,
+    "seconds": 3.551683249999769
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1981,
+    "excess_pct": 1.9182231196365471,
+    "seconds": 3.5926902079954743
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2038,
+    "l2": 1992,
+    "excess_pct": 2.3092369477911645,
+    "seconds": 3.4648926249938086
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 2022,
+    "l2": 1981,
+    "excess_pct": 2.069661786976275,
+    "seconds": 3.6303587909787893
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 2032,
+    "l2": 1984,
+    "excess_pct": 2.4193548387096775,
+    "seconds": 3.6563354579848237
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2044,
+    "l2": 1999,
+    "excess_pct": 2.251125562781391,
+    "seconds": 3.8476483749982435
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 2020,
+    "l2": 1977,
+    "excess_pct": 2.175012645422357,
+    "seconds": 3.636540874984348
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1984,
+    "excess_pct": 1.7641129032258065,
+    "seconds": 3.551031749986578
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2031,
+    "l2": 1989,
+    "excess_pct": 2.1116138763197587,
+    "seconds": 3.7714819579850882
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 2025,
+    "l2": 1989,
+    "excess_pct": 1.8099547511312217,
+    "seconds": 3.750109707994852
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1968,
+    "excess_pct": 1.524390243902439,
+    "seconds": 3.6321918339817785
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 2020,
+    "l2": 1976,
+    "excess_pct": 2.2267206477732793,
+    "seconds": 3.9258762919926085
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 2031,
+    "l2": 1985,
+    "excess_pct": 2.3173803526448364,
+    "seconds": 4.124455749988556
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2035,
+    "l2": 2002,
+    "excess_pct": 1.6483516483516483,
+    "seconds": 4.101738499972271
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1982,
+    "excess_pct": 1.8163471241170535,
+    "seconds": 4.030990541999927
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2027,
+    "l2": 1986,
+    "excess_pct": 2.0644511581067473,
+    "seconds": 4.069536082999548
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 2016,
+    "l2": 1975,
+    "excess_pct": 2.0759493670886076,
+    "seconds": 4.041074957989622
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1972,
+    "excess_pct": 1.9269776876267748,
+    "seconds": 3.9459223749872763
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1968,
+    "excess_pct": 2.184959349593496,
+    "seconds": 3.845593459001975
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 2027,
+    "l2": 1982,
+    "excess_pct": 2.2704339051463167,
+    "seconds": 3.298945791000733
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 2023,
+    "l2": 1982,
+    "excess_pct": 2.0686175580221997,
+    "seconds": 3.3490834170079324
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2042,
+    "l2": 2003,
+    "excess_pct": 1.947079380928607,
+    "seconds": 3.1673877910070587
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 2023,
+    "l2": 1984,
+    "excess_pct": 1.965725806451613,
+    "seconds": 3.226381542015588
+   }
+  ],
+  "run_s3": [
+   {
+    "seed": 30000,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1997,
+    "excess_pct": 1.101652478718077,
+    "seconds": 4.146259125001961
+   },
+   {
+    "seed": 30001,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1986,
+    "excess_pct": 0.7049345417925479,
+    "seconds": 4.30158654198749
+   },
+   {
+    "seed": 30002,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1988,
+    "excess_pct": 1.0060362173038229,
+    "seconds": 3.888873165997211
+   },
+   {
+    "seed": 30003,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1974,
+    "excess_pct": 0.8105369807497467,
+    "seconds": 4.003541999991285
+   },
+   {
+    "seed": 30004,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1979,
+    "excess_pct": 1.010611419909045,
+    "seconds": 4.177511209010845
+   },
+   {
+    "seed": 30005,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1999,
+    "excess_pct": 1.0005002501250626,
+    "seconds": 4.274001124984352
+   },
+   {
+    "seed": 30006,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1987,
+    "excess_pct": 1.0065425264217414,
+    "seconds": 4.165866374998586
+   },
+   {
+    "seed": 30007,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1981,
+    "excess_pct": 0.8581524482584554,
+    "seconds": 4.308684082992841
+   },
+   {
+    "seed": 30008,
+    "valid": true,
+    "bins": 2017,
+    "l2": 2000,
+    "excess_pct": 0.85,
+    "seconds": 4.030358207994141
+   },
+   {
+    "seed": 30009,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1980,
+    "excess_pct": 0.5555555555555556,
+    "seconds": 4.179464374989038
+   },
+   {
+    "seed": 30010,
+    "valid": true,
+    "bins": 1986,
+    "l2": 1976,
+    "excess_pct": 0.5060728744939271,
+    "seconds": 4.200267208012519
+   },
+   {
+    "seed": 30011,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 4.366620041982969
+   },
+   {
+    "seed": 30012,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1979,
+    "excess_pct": 1.0611419909044972,
+    "seconds": 4.341691167006502
+   },
+   {
+    "seed": 30013,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1980,
+    "excess_pct": 0.9090909090909091,
+    "seconds": 4.266016542009311
+   },
+   {
+    "seed": 30014,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1982,
+    "excess_pct": 1.0090817356205852,
+    "seconds": 4.372372749989154
+   },
+   {
+    "seed": 30015,
+    "valid": true,
+    "bins": 1995,
+    "l2": 1981,
+    "excess_pct": 0.7067137809187279,
+    "seconds": 4.382671125000343
+   },
+   {
+    "seed": 30016,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1978,
+    "excess_pct": 0.8088978766430738,
+    "seconds": 4.469717792002484
+   },
+   {
+    "seed": 30017,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1973,
+    "excess_pct": 0.9123162696401419,
+    "seconds": 4.221780791005585
+   },
+   {
+    "seed": 30018,
+    "valid": true,
+    "bins": 2020,
+    "l2": 2002,
+    "excess_pct": 0.8991008991008991,
+    "seconds": 4.1865650420077145
+   },
+   {
+    "seed": 30019,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1983,
+    "excess_pct": 0.8572869389813415,
+    "seconds": 4.291870957997162
+   },
+   {
+    "seed": 30020,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1967,
+    "excess_pct": 1.0676156583629892,
+    "seconds": 4.509035459021106
+   },
+   {
+    "seed": 30021,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1974,
+    "excess_pct": 0.7092198581560284,
+    "seconds": 4.106603790976806
+   },
+   {
+    "seed": 30022,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1976,
+    "excess_pct": 1.1133603238866396,
+    "seconds": 4.352769791992614
+   },
+   {
+    "seed": 30023,
+    "valid": true,
+    "bins": 1963,
+    "l2": 1955,
+    "excess_pct": 0.4092071611253197,
+    "seconds": 4.465151333017275
+   },
+   {
+    "seed": 30024,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1995,
+    "excess_pct": 0.8020050125313283,
+    "seconds": 4.161463541997364
+   },
+   {
+    "seed": 30025,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1971,
+    "excess_pct": 1.0147133434804667,
+    "seconds": 4.290154000016628
+   },
+   {
+    "seed": 30026,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1982,
+    "excess_pct": 0.45408678102926336,
+    "seconds": 4.361471249983879
+   },
+   {
+    "seed": 30027,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1989,
+    "excess_pct": 1.0558069381598794,
+    "seconds": 4.186525500001153
+   },
+   {
+    "seed": 30028,
+    "valid": true,
+    "bins": 2011,
+    "l2": 1988,
+    "excess_pct": 1.1569416498993963,
+    "seconds": 4.2370431250019465
+   },
+   {
+    "seed": 30029,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1977,
+    "excess_pct": 1.0116337885685383,
+    "seconds": 4.437295792013174
+   },
+   {
+    "seed": 30030,
+    "valid": true,
+    "bins": 1984,
+    "l2": 1971,
+    "excess_pct": 0.6595636732623034,
+    "seconds": 4.541554665978765
+   },
+   {
+    "seed": 30031,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1995,
+    "excess_pct": 0.9022556390977443,
+    "seconds": 4.465714999998454
+   },
+   {
+    "seed": 30032,
+    "valid": true,
+    "bins": 1989,
+    "l2": 1971,
+    "excess_pct": 0.91324200913242,
+    "seconds": 4.128659834008431
+   },
+   {
+    "seed": 30033,
+    "valid": true,
+    "bins": 2022,
+    "l2": 2004,
+    "excess_pct": 0.8982035928143712,
+    "seconds": 4.222889083001064
+   },
+   {
+    "seed": 30034,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1982,
+    "excess_pct": 0.5045408678102926,
+    "seconds": 4.0609365409763996
+   },
+   {
+    "seed": 30035,
+    "valid": true,
+    "bins": 2017,
+    "l2": 1998,
+    "excess_pct": 0.950950950950951,
+    "seconds": 4.157093625020934
+   },
+   {
+    "seed": 30036,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1982,
+    "excess_pct": 0.756811301715439,
+    "seconds": 4.1954559159930795
+   },
+   {
+    "seed": 30037,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1994,
+    "excess_pct": 0.7021063189568706,
+    "seconds": 4.020147167000687
+   },
+   {
+    "seed": 30038,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1984,
+    "excess_pct": 0.6048387096774194,
+    "seconds": 4.189460374996997
+   },
+   {
+    "seed": 30039,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 4.14300050001475
+   },
+   {
+    "seed": 30040,
+    "valid": true,
+    "bins": 2010,
+    "l2": 1999,
+    "excess_pct": 0.5502751375687844,
+    "seconds": 4.192798500007484
+   },
+   {
+    "seed": 30041,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1990,
+    "excess_pct": 0.7537688442211056,
+    "seconds": 4.165059749997454
+   },
+   {
+    "seed": 30042,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1973,
+    "excess_pct": 0.7602635580334516,
+    "seconds": 4.31487274999381
+   },
+   {
+    "seed": 30043,
+    "valid": true,
+    "bins": 2013,
+    "l2": 1997,
+    "excess_pct": 0.801201802704056,
+    "seconds": 4.333282916981261
+   },
+   {
+    "seed": 30044,
+    "valid": true,
+    "bins": 2019,
+    "l2": 1990,
+    "excess_pct": 1.4572864321608041,
+    "seconds": 4.16981212500832
+   },
+   {
+    "seed": 30045,
+    "valid": true,
+    "bins": 2015,
+    "l2": 1997,
+    "excess_pct": 0.901352028042063,
+    "seconds": 4.17679841601057
+   },
+   {
+    "seed": 30046,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1992,
+    "excess_pct": 0.7530120481927711,
+    "seconds": 4.297045916027855
+   },
+   {
+    "seed": 30047,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1985,
+    "excess_pct": 0.8060453400503779,
+    "seconds": 4.360504875017796
+   },
+   {
+    "seed": 30048,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1990,
+    "excess_pct": 0.6532663316582915,
+    "seconds": 4.1533689169737045
+   },
+   {
+    "seed": 30049,
+    "valid": true,
+    "bins": 1994,
+    "l2": 1976,
+    "excess_pct": 0.9109311740890689,
+    "seconds": 4.00239729101304
+   },
+   {
+    "seed": 30050,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1975,
+    "excess_pct": 0.8607594936708861,
+    "seconds": 4.394465082994429
+   },
+   {
+    "seed": 30051,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1993,
+    "excess_pct": 0.5017561465127948,
+    "seconds": 4.008240625000326
+   },
+   {
+    "seed": 30052,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1988,
+    "excess_pct": 0.8551307847082495,
+    "seconds": 4.049558582977625
+   },
+   {
+    "seed": 30053,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1975,
+    "excess_pct": 0.810126582278481,
+    "seconds": 4.327410792000592
+   },
+   {
+    "seed": 30054,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1986,
+    "excess_pct": 0.8559919436052367,
+    "seconds": 4.25599166698521
+   },
+   {
+    "seed": 30055,
+    "valid": true,
+    "bins": 2012,
+    "l2": 2001,
+    "excess_pct": 0.5497251374312844,
+    "seconds": 4.501987582974834
+   },
+   {
+    "seed": 30056,
+    "valid": true,
+    "bins": 2014,
+    "l2": 1994,
+    "excess_pct": 1.0030090270812437,
+    "seconds": 4.215593250002712
+   },
+   {
+    "seed": 30057,
+    "valid": true,
+    "bins": 2018,
+    "l2": 1997,
+    "excess_pct": 1.0515773660490737,
+    "seconds": 4.330946875008522
+   },
+   {
+    "seed": 30058,
+    "valid": true,
+    "bins": 2007,
+    "l2": 1996,
+    "excess_pct": 0.5511022044088176,
+    "seconds": 4.2699498750153
+   },
+   {
+    "seed": 30059,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1992,
+    "excess_pct": 0.8032128514056225,
+    "seconds": 4.407157499983441
+   },
+   {
+    "seed": 30060,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1994,
+    "excess_pct": 0.7021063189568706,
+    "seconds": 4.237659541977337
+   },
+   {
+    "seed": 30061,
+    "valid": true,
+    "bins": 2022,
+    "l2": 2000,
+    "excess_pct": 1.1,
+    "seconds": 4.1996574999939185
+   },
+   {
+    "seed": 30062,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1983,
+    "excess_pct": 1.0085728693898135,
+    "seconds": 4.278261374973226
+   },
+   {
+    "seed": 30063,
+    "valid": true,
+    "bins": 1978,
+    "l2": 1968,
+    "excess_pct": 0.508130081300813,
+    "seconds": 4.224938415980432
+   },
+   {
+    "seed": 30064,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1984,
+    "excess_pct": 0.655241935483871,
+    "seconds": 4.0536477910063695
+   },
+   {
+    "seed": 30065,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1975,
+    "excess_pct": 0.8607594936708861,
+    "seconds": 4.327478374994826
+   },
+   {
+    "seed": 30066,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1981,
+    "excess_pct": 0.8076728924785462,
+    "seconds": 4.328085374989314
+   },
+   {
+    "seed": 30067,
+    "valid": true,
+    "bins": 2003,
+    "l2": 1984,
+    "excess_pct": 0.9576612903225806,
+    "seconds": 4.247038083005464
+   },
+   {
+    "seed": 30068,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1991,
+    "excess_pct": 0.7533902561526871,
+    "seconds": 4.137987416994292
+   },
+   {
+    "seed": 30069,
+    "valid": true,
+    "bins": 1988,
+    "l2": 1973,
+    "excess_pct": 0.7602635580334516,
+    "seconds": 4.194546165992506
+   },
+   {
+    "seed": 30070,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1986,
+    "excess_pct": 0.9063444108761329,
+    "seconds": 4.226762041973416
+   },
+   {
+    "seed": 30071,
+    "valid": true,
+    "bins": 1982,
+    "l2": 1974,
+    "excess_pct": 0.40526849037487334,
+    "seconds": 4.153117415989982
+   },
+   {
+    "seed": 30072,
+    "valid": true,
+    "bins": 1990,
+    "l2": 1969,
+    "excess_pct": 1.0665312341289994,
+    "seconds": 4.036709583015181
+   },
+   {
+    "seed": 30073,
+    "valid": true,
+    "bins": 2001,
+    "l2": 1984,
+    "excess_pct": 0.8568548387096774,
+    "seconds": 4.150403333012946
+   },
+   {
+    "seed": 30074,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1983,
+    "excess_pct": 1.1598587997982854,
+    "seconds": 3.8635602919966914
+   },
+   {
+    "seed": 30075,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1989,
+    "excess_pct": 0.8547008547008547,
+    "seconds": 3.8758109170012176
+   },
+   {
+    "seed": 30076,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1984,
+    "excess_pct": 1.2600806451612903,
+    "seconds": 4.042779375013197
+   },
+   {
+    "seed": 30077,
+    "valid": true,
+    "bins": 2009,
+    "l2": 1995,
+    "excess_pct": 0.7017543859649122,
+    "seconds": 3.9785584159835707
+   },
+   {
+    "seed": 30078,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1981,
+    "excess_pct": 1.0600706713780919,
+    "seconds": 3.7889999999897555
+   },
+   {
+    "seed": 30079,
+    "valid": true,
+    "bins": 2008,
+    "l2": 1992,
+    "excess_pct": 0.8032128514056225,
+    "seconds": 3.9189950000145473
+   },
+   {
+    "seed": 30080,
+    "valid": true,
+    "bins": 1997,
+    "l2": 1981,
+    "excess_pct": 0.8076728924785462,
+    "seconds": 3.2746428749815095
+   },
+   {
+    "seed": 30081,
+    "valid": true,
+    "bins": 1998,
+    "l2": 1984,
+    "excess_pct": 0.7056451612903226,
+    "seconds": 3.1370399160077795
+   },
+   {
+    "seed": 30082,
+    "valid": true,
+    "bins": 2012,
+    "l2": 1999,
+    "excess_pct": 0.6503251625812907,
+    "seconds": 3.1581356250098906
+   },
+   {
+    "seed": 30083,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1977,
+    "excess_pct": 0.9610520991401112,
+    "seconds": 3.0382707089884207
+   },
+   {
+    "seed": 30084,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1984,
+    "excess_pct": 0.6048387096774194,
+    "seconds": 3.055719666997902
+   },
+   {
+    "seed": 30085,
+    "valid": true,
+    "bins": 2004,
+    "l2": 1989,
+    "excess_pct": 0.7541478129713424,
+    "seconds": 2.9842822499922477
+   },
+   {
+    "seed": 30086,
+    "valid": true,
+    "bins": 2005,
+    "l2": 1989,
+    "excess_pct": 0.8044243338360986,
+    "seconds": 2.7912379170011263
+   },
+   {
+    "seed": 30087,
+    "valid": true,
+    "bins": 1981,
+    "l2": 1968,
+    "excess_pct": 0.6605691056910569,
+    "seconds": 2.881597083003726
+   },
+   {
+    "seed": 30088,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1976,
+    "excess_pct": 0.8097165991902834,
+    "seconds": 2.617813750024652
+   },
+   {
+    "seed": 30089,
+    "valid": true,
+    "bins": 2000,
+    "l2": 1985,
+    "excess_pct": 0.7556675062972292,
+    "seconds": 2.572471374995075
+   },
+   {
+    "seed": 30090,
+    "valid": true,
+    "bins": 2021,
+    "l2": 2002,
+    "excess_pct": 0.949050949050949,
+    "seconds": 2.569368791009765
+   },
+   {
+    "seed": 30091,
+    "valid": true,
+    "bins": 1996,
+    "l2": 1982,
+    "excess_pct": 0.7063572149344097,
+    "seconds": 2.594773625023663
+   },
+   {
+    "seed": 30092,
+    "valid": true,
+    "bins": 2006,
+    "l2": 1986,
+    "excess_pct": 1.0070493454179255,
+    "seconds": 2.594697583001107
+   },
+   {
+    "seed": 30093,
+    "valid": true,
+    "bins": 1991,
+    "l2": 1975,
+    "excess_pct": 0.810126582278481,
+    "seconds": 2.6318689579784404
+   },
+   {
+    "seed": 30094,
+    "valid": true,
+    "bins": 1993,
+    "l2": 1972,
+    "excess_pct": 1.0649087221095335,
+    "seconds": 2.5324509999773
+   },
+   {
+    "seed": 30095,
+    "valid": true,
+    "bins": 1980,
+    "l2": 1968,
+    "excess_pct": 0.6097560975609756,
+    "seconds": 2.402551124978345
+   },
+   {
+    "seed": 30096,
+    "valid": true,
+    "bins": 1992,
+    "l2": 1982,
+    "excess_pct": 0.5045408678102926,
+    "seconds": 2.026033458998427
+   },
+   {
+    "seed": 30097,
+    "valid": true,
+    "bins": 1999,
+    "l2": 1982,
+    "excess_pct": 0.8577194752774975,
+    "seconds": 1.859749416995328
+   },
+   {
+    "seed": 30098,
+    "valid": true,
+    "bins": 2023,
+    "l2": 2003,
+    "excess_pct": 0.9985022466300549,
+    "seconds": 1.8077517499914393
+   },
+   {
+    "seed": 30099,
+    "valid": true,
+    "bins": 2002,
+    "l2": 1984,
+    "excess_pct": 0.907258064516129,
+    "seconds": 1.825856457988266
+   }
+  ]
+ }
+}

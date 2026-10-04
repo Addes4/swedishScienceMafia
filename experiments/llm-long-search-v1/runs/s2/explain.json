@@ -1,0 +1,336 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.980942086866756,
+    "hidden": 0.9776275000574066,
+    "code": "\"\"\"Log-penalty best fit with neighbor-blended frequency lookup and reuse bonus.\"\"\"\nimport numpy as np\n_counts = np.zeros(101, dtype=np.float64)\n_n = 0.0\n_sum = 0.0\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    global _n, _sum\n    residual = bins - item\n    rf = residual.astype(np.float64)\n    r = residual.astype(np.int64)\n    freq = _counts\n    use = freq[r]\n    use = use + 0.5 * np.where(r > 0, freq[np.clip(r - 1, 0, 100)], 0.0)\n    use = use + 0.5 * np.where(r < 100, freq[np.clip(r + 1, 0, 100)], 0.0)\n    tight = -np.log1p(rf)\n    score = 4.0 * tight + 0.4 * use\n    if _n > 0.0:\n        mean_item = _sum / _n\n        reuse = 0.25 * np.exp(-(rf - mean_item) ** 2 / (2.0 * (0.25 * mean_item + 1.0) ** 2))\n        score = score + reuse\n    score[residual == 0] += 1000.0\n    _counts[item] += 1.0\n    _n += 1.0\n    _sum += item\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9804534595442955,
+    "hidden": 0.9793139830169322,
+    "code": "\"\"\"Log-penalty best fit with neighbor-blended frequency lookup and reuse bonus.\"\"\"\nimport numpy as np\n_counts = np.zeros(101, dtype=np.float64)\n_n = 0.0\n_sum = 0.0\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    global _n, _sum\n    residual = bins - item\n    rf = residual.astype(np.float64)\n    r = residual.astype(np.int64)\n    freq = _counts\n    use = freq[r]\n    use = use + 0.5 * np.where(r > 0, freq[np.clip(r - 1, 0, 100)], 0.0)\n    use = use + 0.5 * np.where(r < 100, freq[np.clip(r + 1, 0, 100)], 0.0)\n    tight = -np.log1p(rf)\n    score = 4.0 * tight + 0.4 * use\n    score[residual == 0] += 1000.0\n    _counts[item] += 1.0\n    return score\n",
+    "removed": [
+      18,
+      26,
+      27
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 12,
+      "text": "global _n, _sum",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 13,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "term",
+      "line": 13,
+      "text": "term + bins",
+      "inside": [
+        1
+      ],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 3,
+      "kind": "term",
+      "line": 13,
+      "text": "term - item",
+      "inside": [
+        1
+      ],
+      "delta": -0.06763520822232483,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 14,
+      "text": "rf = residual.astype(np.float64)",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 15,
+      "text": "r = residual.astype(np.int64)",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 17,
+      "text": "freq = _counts",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 19,
+      "text": "use = freq[r]",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 20,
+      "text": "use = use + 0.5 * np.where(r > 0, freq[np.clip(r - 1, 0, 100)], 0.0)",
+      "inside": [],
+      "delta": -0.005803388047741498,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 9,
+      "kind": "term",
+      "line": 20,
+      "text": "term + use",
+      "inside": [
+        8
+      ],
+      "delta": -0.009390187222384272,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 10,
+      "kind": "term",
+      "line": 20,
+      "text": "term + 0.5 * np.where(r > 0, freq[np.clip(r - 1, 0, 100)], 0.0)",
+      "inside": [
+        8
+      ],
+      "delta": -0.005803388047741498,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 21,
+      "text": "use = use + 0.5 * np.where(r < 100, freq[np.clip(r + 1, 0, 100)], 0.0)",
+      "inside": [],
+      "delta": -0.00291204248300736,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 12,
+      "kind": "term",
+      "line": 21,
+      "text": "term + use",
+      "inside": [
+        11
+      ],
+      "delta": -0.012481741976091865,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 13,
+      "kind": "term",
+      "line": 21,
+      "text": "term + 0.5 * np.where(r < 100, freq[np.clip(r + 1, 0, 100)], 0.0)",
+      "inside": [
+        11
+      ],
+      "delta": -0.00291204248300736,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 24,
+      "text": "tight = -np.log1p(rf)",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 25,
+      "text": "score = 4.0 * tight + 0.4 * use",
+      "inside": [],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 16,
+      "kind": "term",
+      "line": 25,
+      "text": "term + 4.0 * tight",
+      "inside": [
+        15
+      ],
+      "delta": 0.008824273968738527,
+      "valid": true,
+      "verdict": "REPAIRED (not an explanation)"
+    },
+    {
+      "id": 17,
+      "kind": "term",
+      "line": 25,
+      "text": "term + 0.4 * use",
+      "inside": [
+        15
+      ],
+      "delta": -0.019300578527092327,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 18,
+      "kind": "statement",
+      "line": 27,
+      "text": "if _n > 0.0: ...",
+      "inside": [],
+      "delta": -0.0004886273224604665,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 28,
+      "text": "mean_item = _sum / _n",
+      "inside": [
+        18
+      ],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 20,
+      "kind": "statement",
+      "line": 29,
+      "text": "reuse = 0.25 * np.exp(-(rf - mean_item) ** 2 / (2.0 * (0.25 * mean_item + 1.0) ** 2))",
+      "inside": [
+        18
+      ],
+      "delta": -0.980942086866756,
+      "valid": false,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 21,
+      "kind": "statement",
+      "line": 31,
+      "text": "score = score + reuse",
+      "inside": [
+        18
+      ],
+      "delta": -0.0004886273224604665,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 22,
+      "kind": "term",
+      "line": 31,
+      "text": "term + score",
+      "inside": [
+        18,
+        21
+      ],
+      "delta": 0.010551742936155573,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 23,
+      "kind": "term",
+      "line": 31,
+      "text": "term + reuse",
+      "inside": [
+        18,
+        21
+      ],
+      "delta": -0.0004886273224604665,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 24,
+      "kind": "statement",
+      "line": 33,
+      "text": "score[residual == 0] += 1000.0",
+      "inside": [],
+      "delta": -0.1748768275589061,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 25,
+      "kind": "statement",
+      "line": 35,
+      "text": "_counts[item] += 1.0",
+      "inside": [],
+      "delta": -0.019300578527092327,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 26,
+      "kind": "statement",
+      "line": 36,
+      "text": "_n += 1.0",
+      "inside": [],
+      "delta": -0.0004886273224604665,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 27,
+      "kind": "statement",
+      "line": 37,
+      "text": "_sum += item",
+      "inside": [],
+      "delta": -0.00024119110663489707,
+      "valid": true,
+      "verdict": "can go"
+    }
+  ],
+  "repaired": [
+    16
+  ],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s2/best_program.py"
+}

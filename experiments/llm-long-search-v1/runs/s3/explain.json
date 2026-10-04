@@ -1,0 +1,604 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.992237951807229,
+    "hidden": 0.9932503373334292,
+    "code": "\"\"\"Distribution-aware best fit: prefer placements that either nearly seal the bin (residual\nclose to 0) or leave a leftover matching a common upcoming item size (so the bin stays\nreusable). Uses a running estimate of item statistics to set these targets adaptively.\"\"\"\nimport numpy as np\n_state = {'n': 0, 'sum': 0.0, 'full_hist': np.zeros(101, dtype=np.float64), 'recent': np.zeros(256, dtype=np.int64), 'ptr': 0, 'filled': 0, 'recent_hist': np.zeros(101, dtype=np.float64)}\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    st = _state\n    st['n'] += 1\n    st['sum'] += item\n    st['full_hist'][item] += 1\n    r = st['recent']\n    if st['filled'] < r.size:\n        r[st['filled']] = item\n        st['filled'] += 1\n    else:\n        old = r[st['ptr']]\n        st['recent_hist'][old] -= 1\n        r[st['ptr']] = item\n        st['ptr'] = (st['ptr'] + 1) % r.size\n    st['recent_hist'][item] += 1\n    mean_all = st['sum'] / st['n']\n    if st['filled'] >= 32:\n        window = r[:st['filled']]\n        mean_recent = float(window.mean())\n        med_recent = float(np.median(window))\n    else:\n        mean_recent = mean_all\n        med_recent = mean_all\n    residual = bins - item\n    score = -0.08 * residual\n    score = score + 2.0 * np.clip(4.0 - residual, 0.0, None)\n    score = np.where(residual == 0, score + 100000.0, score)\n    target = max(mean_recent, 1.0)\n    score = score - 0.6 * np.abs(residual - target)\n    sliver = np.clip(target - residual, 0.0, None)\n    score = score - 0.5 * sliver\n    total_recent = float(max(st['filled'], 1))\n    frac = st['recent_hist'] / total_recent\n    kern = np.array([0.15, 0.7, 0.15])\n    smoothed = np.convolve(frac, kern, mode='same')\n    in_range = (residual >= 0) & (residual <= 100)\n    rr = np.where(in_range, residual, 0).astype(np.int64)\n    reuse = smoothed[rr] * in_range\n    score = score + 18.0 * reuse\n    full_total = float(max(st['n'], 1))\n    ffrac = st['full_hist'] / full_total\n    fpeak = ffrac[rr] * in_range\n    score = score + 6.0 * fpeak\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.992237951807229,
+    "hidden": 0.9932503373334292,
+    "code": "\"\"\"Distribution-aware best fit: prefer placements that either nearly seal the bin (residual\nclose to 0) or leave a leftover matching a common upcoming item size (so the bin stays\nreusable). Uses a running estimate of item statistics to set these targets adaptively.\"\"\"\nimport numpy as np\n_state = {'n': 0, 'sum': 0.0, 'full_hist': np.zeros(101, dtype=np.float64), 'recent': np.zeros(256, dtype=np.int64), 'ptr': 0, 'filled': 0, 'recent_hist': np.zeros(101, dtype=np.float64)}\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    st = _state\n    st['n'] += 1\n    st['sum'] += item\n    st['full_hist'][item] += 1\n    r = st['recent']\n    if st['filled'] < r.size:\n        r[st['filled']] = item\n        st['filled'] += 1\n    else:\n        old = r[st['ptr']]\n        st['recent_hist'][old] -= 1\n        r[st['ptr']] = item\n        st['ptr'] = (st['ptr'] + 1) % r.size\n    st['recent_hist'][item] += 1\n    mean_all = st['sum'] / st['n']\n    if st['filled'] >= 32:\n        window = r[:st['filled']]\n        mean_recent = float(window.mean())\n    else:\n        mean_recent = mean_all\n        med_recent = mean_all\n    residual = bins - item\n    score = -0.08 * residual\n    score = score + 2.0 * np.clip(4.0 - residual, 0.0, None)\n    score = np.where(residual == 0, score + 100000.0, score)\n    target = max(mean_recent, 1.0)\n    score = score - 0.6 * np.abs(residual - target)\n    sliver = np.clip(target - residual, 0.0, None)\n    score = score - 0.5 * sliver\n    total_recent = float(max(st['filled'], 1))\n    frac = st['recent_hist'] / total_recent\n    kern = np.array([0.15, 0.7, 0.15])\n    smoothed = np.convolve(frac, kern, mode='same')\n    in_range = (residual >= 0) & (residual <= 100)\n    rr = np.where(in_range, residual, 0).astype(np.int64)\n    reuse = smoothed[rr] * in_range\n    score = score + 18.0 * reuse\n    full_total = float(max(st['n'], 1))\n    ffrac = st['full_hist'] / full_total\n    fpeak = ffrac[rr] * in_range\n    score = score + 6.0 * fpeak\n    return score\n",
+    "removed": [
+      17
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 14,
+      "text": "st = _state",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 15,
+      "text": "st['n'] += 1",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 16,
+      "text": "st['sum'] += item",
+      "inside": [],
+      "delta": -0.0007441220043173935,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 17,
+      "text": "st['full_hist'][item] += 1",
+      "inside": [],
+      "delta": -0.0007441220043173935,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 20,
+      "text": "r = st['recent']",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 21,
+      "text": "if st['filled'] < r.size: ...",
+      "inside": [],
+      "delta": -0.0027171245169959057,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 22,
+      "text": "r[st['filled']] = item",
+      "inside": [
+        5
+      ],
+      "delta": -0.002232859338186066,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 23,
+      "text": "st['filled'] += 1",
+      "inside": [
+        5
+      ],
+      "delta": -0.0027171245169959057,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 25,
+      "text": "old = r[st['ptr']]",
+      "inside": [
+        5
+      ],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 26,
+      "text": "st['recent_hist'][old] -= 1",
+      "inside": [
+        5
+      ],
+      "delta": -0.0009948515528449553,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 27,
+      "text": "r[st['ptr']] = item",
+      "inside": [
+        5
+      ],
+      "delta": -0.002725642465848943,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 28,
+      "text": "st['ptr'] = (st['ptr'] + 1) % r.size",
+      "inside": [
+        5
+      ],
+      "delta": -0.0029624137502720638,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 29,
+      "text": "st['recent_hist'][item] += 1",
+      "inside": [],
+      "delta": -0.0012350374064838965,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 31,
+      "text": "mean_all = st['sum'] / st['n']",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 33,
+      "text": "if st['filled'] >= 32: ...",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 34,
+      "text": "window = r[:st['filled']]",
+      "inside": [
+        14
+      ],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 35,
+      "text": "mean_recent = float(window.mean())",
+      "inside": [
+        14
+      ],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 17,
+      "kind": "statement",
+      "line": 36,
+      "text": "med_recent = float(np.median(window))",
+      "inside": [
+        14
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 18,
+      "kind": "statement",
+      "line": 38,
+      "text": "mean_recent = mean_all",
+      "inside": [
+        14
+      ],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 39,
+      "text": "med_recent = mean_all",
+      "inside": [
+        14
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 20,
+      "kind": "statement",
+      "line": 41,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 21,
+      "kind": "term",
+      "line": 41,
+      "text": "term + bins",
+      "inside": [
+        20
+      ],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 22,
+      "kind": "term",
+      "line": 41,
+      "text": "term - item",
+      "inside": [
+        20
+      ],
+      "delta": -0.08933876732496981,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 23,
+      "kind": "statement",
+      "line": 44,
+      "text": "score = -0.08 * residual",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 24,
+      "kind": "statement",
+      "line": 47,
+      "text": "score = score + 2.0 * np.clip(4.0 - residual, 0.0, None)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 25,
+      "kind": "term",
+      "line": 47,
+      "text": "term + score",
+      "inside": [
+        24
+      ],
+      "delta": -0.0032197856590180374,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 26,
+      "kind": "term",
+      "line": 47,
+      "text": "term + 2.0 * np.clip(4.0 - residual, 0.0, None)",
+      "inside": [
+        24
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 27,
+      "kind": "statement",
+      "line": 48,
+      "text": "score = np.where(residual == 0, score + 100000.0, score)",
+      "inside": [],
+      "delta": -0.34480413415546807,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 28,
+      "kind": "statement",
+      "line": 51,
+      "text": "target = max(mean_recent, 1.0)",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 29,
+      "kind": "statement",
+      "line": 52,
+      "text": "score = score - 0.6 * np.abs(residual - target)",
+      "inside": [],
+      "delta": -0.011519270648064572,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 30,
+      "kind": "term",
+      "line": 52,
+      "text": "term + score",
+      "inside": [
+        29
+      ],
+      "delta": -0.36380705524228385,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 31,
+      "kind": "term",
+      "line": 52,
+      "text": "term - 0.6 * np.abs(residual - target)",
+      "inside": [
+        29
+      ],
+      "delta": -0.011519270648064572,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 32,
+      "kind": "statement",
+      "line": 55,
+      "text": "sliver = np.clip(target - residual, 0.0, None)",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 33,
+      "kind": "statement",
+      "line": 56,
+      "text": "score = score - 0.5 * sliver",
+      "inside": [],
+      "delta": -0.01179169119918988,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 34,
+      "kind": "term",
+      "line": 56,
+      "text": "term + score",
+      "inside": [
+        33
+      ],
+      "delta": -0.45427784721385633,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 35,
+      "kind": "term",
+      "line": 56,
+      "text": "term - 0.5 * sliver",
+      "inside": [
+        33
+      ],
+      "delta": -0.01179169119918988,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 36,
+      "kind": "statement",
+      "line": 59,
+      "text": "total_recent = float(max(st['filled'], 1))",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 37,
+      "kind": "statement",
+      "line": 60,
+      "text": "frac = st['recent_hist'] / total_recent",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 38,
+      "kind": "statement",
+      "line": 61,
+      "text": "kern = np.array([0.15, 0.7, 0.15])",
+      "inside": [],
+      "delta": -0.992237951807229,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 39,
+      "kind": "statement",
+      "line": 62,
+      "text": "smoothed = np.convolve(frac, kern, mode='same')",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 40,
+      "kind": "statement",
+      "line": 63,
+      "text": "in_range = (residual >= 0) & (residual <= 100)",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 41,
+      "kind": "statement",
+      "line": 64,
+      "text": "rr = np.where(in_range, residual, 0).astype(np.int64)",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 42,
+      "kind": "statement",
+      "line": 65,
+      "text": "reuse = smoothed[rr] * in_range",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 43,
+      "kind": "statement",
+      "line": 66,
+      "text": "score = score + 18.0 * reuse",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 44,
+      "kind": "term",
+      "line": 66,
+      "text": "term + score",
+      "inside": [
+        43
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 45,
+      "kind": "term",
+      "line": 66,
+      "text": "term + 18.0 * reuse",
+      "inside": [
+        43
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 46,
+      "kind": "statement",
+      "line": 70,
+      "text": "full_total = float(max(st['n'], 1))",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 47,
+      "kind": "statement",
+      "line": 71,
+      "text": "ffrac = st['full_hist'] / full_total",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 48,
+      "kind": "statement",
+      "line": 72,
+      "text": "fpeak = ffrac[rr] * in_range",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 49,
+      "kind": "statement",
+      "line": 73,
+      "text": "score = score + 6.0 * fpeak",
+      "inside": [],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 50,
+      "kind": "term",
+      "line": 73,
+      "text": "term + score",
+      "inside": [
+        49
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    },
+    {
+      "id": 51,
+      "kind": "term",
+      "line": 73,
+      "text": "term + 6.0 * fpeak",
+      "inside": [
+        49
+      ],
+      "delta": null,
+      "valid": null,
+      "verdict": "not tested"
+    }
+  ],
+  "repaired": [],
+  "untested": [
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s3/best_program.py"
+}

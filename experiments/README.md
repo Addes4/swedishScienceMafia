@@ -52,6 +52,12 @@ which cut two of them short; the write-ups say exactly which runs are affected.
 | Strategist v2 | [strategist-v2](strategist-v2/RESULTS.md) | Do v1's three proposed fixes help, on fresh seeds with a dev/validation/confirmatory split? | Better than v1 on LABS (+0.137) and NK, mostly via the crossover gate; a patience rule tuned on dev seeds still wins on LABS | Complete |
 | Gate red-team | [gate-redteam-v1](gate-redteam-v1/RESULTS.md) | Can candidate programs obtain a score they did not earn? | 0 of 68 attempts (28 hand-written, 40 by Sonnet and Haiku told to cheat) gained a material unearned score | Complete |
 
+## Follow-up (4 October)
+
+| Study | Folder | Question | Main result | Status |
+|---|---|---|---|---|
+| LLM long search | [llm-long-search-v1](llm-long-search-v1/RESULTS.md) | With 300 steps of an inexpensive open model, does `autoresearch.loop` beat best-fit on FunSearch's 5,000-item Weibull benchmark, and how close does it get to FunSearch? | All 4 runs beat best-fit on 100 unseen instances; the best reached −3.20 pp vs FunSearch's −3.31 (97% of its gain, still 0.11 pp [0.07, 0.15] behind) for $0.19. Sum-of-Squares (post-hoc reference) reached −3.48 and beats FunSearch | Complete; pre-registered |
+
 ## Demo runs of the one-command loop
 
 [../runs/](../runs/README.md) holds two committed runs of `python -m autoresearch.loop`: a live
