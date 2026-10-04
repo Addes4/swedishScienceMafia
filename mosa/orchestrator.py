@@ -121,7 +121,7 @@ def describe_context(context, events):
         strategy = next((e for e in events if e["type"] == "strategy" and (e.get("idea") or [e.get("session", 0), e.get("chain", 0), e.get("round", 1)]) == key), {})
         return f"idea {context['idea']} (researcher {key[1]+1}, round {key[2]}: {strategy.get('name') or strategy.get('source', '')[:90]})"
     if context.get("n"):
-        return f"the instance n = {context['n']}"
+        return f"the instance n = {context['n']}" + (f" of {context['problem']}" if context.get("problem") else "")
     return None
 
 

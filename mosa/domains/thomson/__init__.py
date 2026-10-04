@@ -39,8 +39,12 @@ def energy_gradient(y, s=1.):
             d0, d1, d2 = x[i, 0]-x[j, 0], x[i, 1]-x[j, 1], x[i, 2]-x[j, 2]
             r2 = d0*d0+d1*d1+d2*d2
             r = math.sqrt(r2)
-            e += r**-s
-            f = s*r**(-s-2.)
+            if s == 0.:  # the logarithmic energy, the limit s -> 0 (Smale's 7th problem)
+                e -= math.log(r)
+                f = 1./r2
+            else:
+                e += r**-s
+                f = s*r**(-s-2.)
             g[i, 0] -= d0*f
             g[i, 1] -= d1*f
             g[i, 2] -= d2*f
@@ -70,8 +74,10 @@ class Riesz(Domain):
     def __init__(self, s=1.):
         self.s = float(s)
         self.name = "thomson" if self.s == 1. else f"riesz-{s:g}"
-        self.title = "Charges on a sphere (the Thomson problem)" if self.s == 1. else f"Riesz {s:g}-energy on the sphere"
-        self.problem = (f"Place n identical points on the unit sphere to minimize the sum over all pairs of 1/distance^{s:g}"
+        self.title = {1.: "Charges on a sphere (the Thomson problem)", 0.: "Logarithmic energy on the sphere (Smale's 7th problem)"}.get(
+            self.s, f"Riesz {s:g}-energy on the sphere")
+        pairs = "-log(distance)" if self.s == 0. else f"1/distance^{s:g}"
+        self.problem = (f"Place n identical points on the unit sphere to minimize the sum over all pairs of {pairs}"
                         f"{' (the Coulomb energy)' if self.s == 1. else ''}. The objective is the energy.")
     evidence = """What is known about this landscape (from the literature; no measurements of our own yet):
 - The number of local minima grows roughly exponentially with n; random starts relaxed by gradient descent land in many
@@ -148,7 +154,7 @@ def vary(parents, rng, count):
                 for j in range(i):
                     r = mp.sqrt(sum((p[i][k]-p[j][k])**2 for k in range(3)))
                     closest = min(closest, r)
-                    energy += r**(-mp.mpf(self.s))
+                    energy += -mp.log(r) if self.s == 0. else r**(-mp.mpf(self.s))
             value = float(energy)
         best = self.best_known(n)
         valid = len(p) == n and closest > 1e-9

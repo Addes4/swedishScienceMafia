@@ -73,12 +73,12 @@ LIBRARY = [
     {"name": "squares", "family": "unit squares", "title": "Unit squares in the smallest square",
      "about": "Pack n unit squares, free to rotate, in the smallest square. Best known values for n up to 324 (Friedman and Ellsworth's catalogue).",
      "sizes": "non-trivial n between 5 and 324"},
-    {"name": "thomson", "family": "points on a sphere", "title": "Charges on a sphere (the Thomson problem)",
-     "about": "n unit charges on a sphere minimizing the Coulomb energy (sum of 1/r). Best known energies for n = 10-972 (Cambridge Cluster Database).",
-     "sizes": "10-972"},
-    {"name": "riesz-<s>", "family": "points on a sphere", "title": "Riesz s-energy on the sphere, for any s > 0",
-     "about": "As the Thomson problem with the sum of 1/r^s. No published values for most s: nothing to memorize, so methods are compared with each other.",
-     "sizes": "any n from 10 to 1000"},
+    {"name": "riesz-<s>", "family": "points on a sphere", "title": "Riesz s-energy of n points on a sphere, for any s >= 0",
+     "about": "Minimize the sum over pairs of 1/r^s. riesz-1 is the Thomson problem (Coulomb energy; best known energies for "
+              "n = 10-972 from the Cambridge Cluster Database); riesz-0 is the logarithmic energy of Smale's 7th problem; other s "
+              "(e.g. riesz-0.5, riesz-2, riesz-3) have no published optima, so methods are compared with each other. Several "
+              "exponents can share a workspace: their solutions are offered to each other.",
+     "sizes": "10-972 for riesz-1; any n from 10 to 1000 otherwise"},
 ]
 
 

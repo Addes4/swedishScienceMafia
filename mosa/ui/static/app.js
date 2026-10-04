@@ -18,6 +18,7 @@ const ICON = {
   sun: svg('<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M5 5l1.4 1.4M17.6 17.6L19 19M3 12h2M19 12h2M5 19l1.4-1.4M17.6 6.4L19 5"/>'),
   moon: svg('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'),
   download: svg('<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>', 14),
+  send: svg('<path d="M12 19V5M6 11l6-6 6 6"/>', 16),
 };
 const LOGO = `<svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="8" height="8" rx="1" fill="var(--accent)"/><rect x="13" y="3" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="3" y="13" width="8" height="8" rx="1" fill="var(--faint)"/><rect x="13.2" y="13.2" width="7.6" height="7.6" rx="1" fill="var(--strong)" transform="rotate(22 17 17)"/></svg>`;
 
@@ -84,9 +85,16 @@ function buildModel(events, until = Infinity) {
   }
   m.done = m.sessions.length > 0 && m.sessions.every((x) => !x || x.done);
   for (const r of m.ideas.values()) r.live = [...r.sessions].some((s) => m.sessions[s] && !m.sessions[s].done) && r.results.length < r.expected;
-  m.targets = [...new Set(m.sessions.flatMap((x) => (x && x.targets) || []))].sort((a, b) => a - b);
+  m.problem = m.lab?.domain || "squares";  // the workspace's first problem: results without a problem field are its
+  const seen = new Map();
+  for (const x of m.sessions) for (const [p, n] of (x && (x.instances || (x.targets || []).map((n) => [x.domain || m.problem, n]))) || []) seen.set(`${p}:${n}`, { p, n });
+  m.instances = [...seen.values()].sort((a, b) => a.p.localeCompare(b.p) || a.n - b.n);
+  m.targets = [...new Set(m.instances.map((i) => i.n))].sort((a, b) => a - b);
   m.bestValue = {};
-  for (const r of m.ideas.values()) for (const x of r.results) if (!x.error && x.polished != null && !(x.polished >= m.bestValue[x.n])) m.bestValue[x.n] = x.polished;
+  for (const r of m.ideas.values()) for (const x of r.results) {
+    const k = `${x.problem || m.problem}:${x.n}`;
+    if (!x.error && x.polished != null && !(x.polished >= m.bestValue[k])) m.bestValue[k] = x.polished;
+  }
   return m;
 }
 
@@ -160,7 +168,7 @@ function outcome(r, m) {
   if (errors.length === r.results.length) return { kind: "fail", text: `The code failed on every size: ${lastLine(errors[0].error)}`, short: "code failed" };
   const ok = r.results.filter((x) => !x.error);
   if (ok.length && ok.every((x) => x.gap == null)) {  // no published values: compare with the rest of the workspace
-    const tops = [...new Set(ok.filter((x) => x.polished <= m.bestValue[x.n] + 1e-9).map((x) => x.n))].sort((a, b) => a - b);
+    const tops = [...new Set(ok.filter((x) => x.polished <= m.bestValue[`${x.problem || m.problem}:${x.n}`] + 1e-9).map((x) => x.n))].sort((a, b) => a - b);
     const text = (tops.length ? `Best in this workspace on n = ${listN(tops)}.` : `Not the best in this workspace on any of the ${sizesWord(new Set(ok.map((x) => x.n)).size)}.`)
       + (errors.length ? ` The code failed on ${errors.length} of ${r.results.length} runs.` : "");
     return { kind: tops.length ? "reached" : "none", text, short: tops.length ? `best on n = ${tops.join(", ")}` : "" };
@@ -238,20 +246,26 @@ function renderMain() {
 // Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
 // solution was given to start from); ○ not reached.
 const knownGiven = (m) => (m.lab?.domain || "squares") === "squares";
-function instanceState(m, n) {
+function instanceState(m, n, p = m.problem) {
+  const mine = (x) => x.n === n && (x.problem || m.problem) === p;
   const rounds = [...m.ideas.values()];
-  const records = rounds.flatMap((r) => r.records).filter((x) => x.n === n).sort((a, b) => a.side - b.side);
-  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, key: r.key }))).filter((x) => x.n === n && !x.error && x.polished != null);
+  const records = rounds.flatMap((r) => r.records).filter(mine).sort((a, b) => a.side - b.side);
+  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, key: r.key }))).filter((x) => mine(x) && !x.error && x.polished != null);
   const best = results.sort((a, b) => a.polished - b.polished)[0] || null;
   const kind = records.length ? "star" : !knownGiven(m) && best && best.gap != null && best.gap <= 1e-6 ? "reached" : "none";
-  return { n, kind, record: records[0] || null, best, tried: results.length > 0 };
+  return { n, p, kind, record: records[0] || null, best, tried: results.length > 0 };
 }
+// A problem's short name, for a workspace holding several related problems.
+const problemName = (p) => p === "thomson" ? "Thomson (s = 1)" : p === "riesz-0" ? "Logarithmic (s = 0)" : p.startsWith("riesz-") ? `Riesz s = ${p.slice(6)}` : p;
 // The workspace's instances: plain numbers, with a new best-known (★) or a reached best known (●) standing out.
 function instancesHTML(m) {
-  const states = m.targets.map((n) => instanceState(m, n));
+  const states = m.instances.map((i) => instanceState(m, i.n, i.p));
   if (!states.length) return "";
-  const on = (s) => S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n;
-  return `<div class="instances">${states.map((s) => `<a class="inst-link ${s.kind} ${on(s) ? "on" : ""}" data-act="instance" data-n="${s.n}">${s.kind === "star" ? "★" : s.kind === "reached" ? "●" : ""}${s.n}</a>`).join("")}</div>`;
+  const on = (s) => S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n && (S.sel.problem || m.problem) === s.p;
+  const link = (s) => `<a class="inst-link ${s.kind} ${on(s) ? "on" : ""}" data-act="instance" data-n="${s.n}" data-p="${esc(s.p)}">${s.kind === "star" ? "★" : s.kind === "reached" ? "●" : ""}${s.n}</a>`;
+  const problems = [...new Set(states.map((s) => s.p))];
+  if (problems.length === 1) return `<div class="instances">${states.map(link).join("")}</div>`;
+  return `<div class="instances grouped">${problems.map((p) => `<div class="inst-row"><span class="inst-problem">${esc(problemName(p))}</span>${states.filter((s) => s.p === p).map(link).join("")}</div>`).join("")}</div>`;
 }
 
 function threads(m) {
@@ -312,7 +326,7 @@ function composerHTML() {
   const m = model(S.lab), r = S.sel?.type === "idea" ? m?.ideas.get(S.sel.idea) : null;
   const hint = r ? `Ask about “${idea(r.strategy).name || "this idea"}”, or run it on more instances…`
     : S.sel?.type === "instance" ? `Ask about n = ${S.sel.n}…` : "Direct the research, or ask about it…";
-  return `<div class="composer"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="btn" data-act="send">Send</button></div>`;
+  return `<div class="composer"><div class="box"><textarea id="chat-input" rows="2" placeholder="${esc(hint)}"></textarea><button class="send" data-act="send" title="Send (Enter)">${ICON.send}</button></div></div>`;
 }
 
 function resultsTable(r, m) {
@@ -357,7 +371,7 @@ function ideaView() {
 function instanceView() {
   const m = S.books[S.sel.lab]?.model;  // the whole notebook, even mid-replay
   if (!m) return "";
-  const n = S.sel.n, st = instanceState(m, n), domain = m.lab.domain || "squares";
+  const n = S.sel.n, domain = S.sel.problem || m.problem, st = instanceState(m, n, domain);
   const what = `${n} squares in a square`;
   const by = (x) => {
     if (!x) return "";
@@ -383,7 +397,8 @@ const onSphere = (d) => d === "thomson" || d.startsWith("riesz-");
 const value10 = (v) => `<span class="mono">${Number(v).toPrecision(10)}</span>`;
 function otherInstance(m, n, st, domain, by) {
   const b = st.best, rec = st.record;
-  const what = domain === "thomson" ? `${n} charges on a sphere` : domain.startsWith("riesz-") ? `${n} points on a sphere, Riesz ${domain.slice(6)}-energy` : `${m.lab.title}, n = ${n}`;
+  const what = domain === "thomson" ? `${n} charges on a sphere (Thomson)` : domain === "riesz-0" ? `${n} points on a sphere, logarithmic energy`
+    : domain.startsWith("riesz-") ? `${n} points on a sphere, Riesz ${domain.slice(6)}-energy` : `${m.lab.title}, n = ${n}`;
   const picture = !b?.best ? "" : onSphere(domain) ? `<div class="figure sphere">${sphere(b.best.x)}</div>`
     : `<div class="figure"><img alt="" src="/api/svg?lab=${encodeURIComponent(S.sel.lab)}&n=${n}&problem=${encodeURIComponent(domain)}&v=${b.polished}"></div>`;
   const numbers = !b ? "Not tried yet."
@@ -467,7 +482,7 @@ function contextHTML(book, c) {
     const r = book.model?.ideas.get(c.idea);
     return `<a class="about" data-act="idea" data-idea="${esc(c.idea)}">${esc(r ? idea(r.strategy).name || "an idea" : "an idea")}</a>`;
   }
-  return c.n ? `<a class="about" data-act="instance" data-n="${c.n}">n = ${c.n}</a>` : "";
+  return c.n ? `<a class="about" data-act="instance" data-n="${c.n}" data-p="${esc(c.problem || "")}">${c.problem ? `${esc(problemName(c.problem))}, ` : ""}n = ${c.n}</a>` : "";
 }
 
 // A harness drafted for a problem outside the library: what it is, how its self-test went, and its code.
@@ -487,7 +502,7 @@ async function send() {
   const box = $("#chat-input"), text = box.value.trim();
   if (!text) return;
   const m = model(S.lab), backend = (m?.sessions.filter(Boolean).slice(-1)[0] || {}).backend || "modal";
-  const context = S.sel?.type === "idea" ? { idea: S.sel.idea } : S.sel?.type === "instance" ? { n: S.sel.n } : undefined;
+  const context = S.sel?.type === "idea" ? { idea: S.sel.idea } : S.sel?.type === "instance" ? { n: S.sel.n, problem: S.sel.problem } : undefined;
   box.value = "";
   S.sel = null;  // back to the conversation, where the answer appears
   try { await api("/api/launch", { kind: "run", workspace: S.lab, prompt: text, backend, context }); await refresh(); render(); }
@@ -499,13 +514,13 @@ function composeView() {
   const c = S.compose;
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
-    : ["Beat the best known squares-in-a-square packings near n = 120", "Find the lowest-energy arrangements of 300–305 charges on a sphere (the Thomson problem)",
-       "Pack 20–25 circles in the smallest possible circle", "Try to beat the 1980 record for 67 squares in a square"];
+    : ["Beat the 2024 records for packing 85–90 unit squares in a square",
+       "Smale's 7th problem: spread 100–103 points on a sphere with the lowest logarithmic energy, starting from Thomson solutions"];
   return `<div class="compose">
     <h1>${c.workspace ? `Research in ${esc(here)}` : "New workspace"}</h1>
     <div class="sub">${c.workspace ? "Say what to do next. The research agent continues the same researchers; they see everything this workspace has found."
       : "Say what you want to research. The research agent picks the problem from the library, or writes and tests a harness for a new one, then chooses the instances, researchers and rounds."}</div>
-    <div class="field-row"><textarea id="f-prompt" class="prompt" placeholder="${esc(examples[0])}">${esc(c.prompt || "")}</textarea>
+    <div class="field-row"><textarea id="f-prompt" class="prompt">${esc(c.prompt || "")}</textarea>
       <div class="examples">${examples.map((x) => `<a data-act="example">${esc(x)}</a>`).join("")}</div></div>
     ${computeRow(c)}
     <div style="margin-top:18px"><button class="btn" data-act="start">${c.workspace ? "Start" : "Create and start"}</button><span class="note" id="f-note"></span></div>
@@ -583,7 +598,7 @@ document.addEventListener("click", (ev) => {
   switch (d.act) {
     case "lab": selectLab(d.id); break;
     case "idea": selectIdea(S.lab, d.idea); break;
-    case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n }; S.view = "after"; S.compose = null; render(); break;
+    case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n, problem: d.p || undefined }; S.view = "after"; S.compose = null; render(); break;
     case "unselect": S.sel = null; render(); break;
     case "view": S.view = d.v; renderDetail(); break;
     case "compose": S.compose = { kind: "run", backend: "modal" }; S.sel = null; render(); $("#f-prompt")?.focus(); break;

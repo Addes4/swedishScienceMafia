@@ -194,7 +194,7 @@ class Lab:
             n, seed = result["n"], result["seed"]
             domain = self.problem(result.get("problem", self.domain.name))
             certificate = domain.verify(result["best"]["x"], n)
-            self.write("record", **tag, seed=seed, **certificate)
+            self.write("record", **tag, seed=seed, problem=domain.name, **certificate)
             name = self.out/"records"/f"n{n}-idea{'-'.join(map(str, tag['idea']))}-seed{seed}"
             name.parent.mkdir(exist_ok=True)
             name.with_suffix(".json").write_text(json.dumps(certificate))
