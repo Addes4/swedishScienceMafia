@@ -37,17 +37,33 @@ def _relax_one(job):
         return {"error": str(error)}
 
 
-def _forked(function, jobs, cores):
-    first = function(jobs[0])  # loads the compiled kernels once; forked workers inherit them
-    if len(jobs) == 1:
-        return [first]
+_POOL = {}
+
+
+def _pool(cores, fresh=False):
+    """One worker pool per container, kept across calls. Workers start from a forkserver, not by forking this process:
+    a fork of a process that also runs Modal's threads can inherit held locks and hang forever (seen as stalled
+    sessions). Compiled kernels come from the numba cache, so later workers start fast."""
     import multiprocessing
     from concurrent.futures import ProcessPoolExecutor
-    with ProcessPoolExecutor(min(cores, len(jobs)-1), mp_context=multiprocessing.get_context("fork")) as pool:
-        return [first]+list(pool.map(function, jobs[1:], chunksize=max(1, (len(jobs)-1)//(4*cores))))
+    if fresh or cores not in _POOL:
+        if cores in _POOL:
+            _POOL[cores].shutdown(wait=False, cancel_futures=True)
+        _POOL[cores] = ProcessPoolExecutor(cores, mp_context=multiprocessing.get_context("forkserver"))
+    return _POOL[cores]
 
 
-@app.function(image=image, cpu=CORES, memory=256*CORES+1024, timeout=1800, max_containers=CONTAINERS, scaledown_window=IDLE)
+def _forked(function, jobs, cores):
+    from concurrent.futures.process import BrokenProcessPool
+    chunk = max(1, len(jobs)//(4*cores))
+    try:
+        return list(_pool(cores).map(function, jobs, chunksize=chunk))
+    except BrokenProcessPool:  # a worker died (out of memory, crash): a fresh pool, and the batch once more
+        return list(_pool(cores, fresh=True).map(function, jobs, chunksize=chunk))
+
+
+# A call that hangs fails after its timeout and is retried, instead of blocking a session for half an hour.
+@app.function(image=image, cpu=CORES, memory=512*CORES+1024, timeout=600, retries=modal.Retries(max_retries=2, initial_delay=1.0, backoff_coefficient=1.0), max_containers=CONTAINERS, scaledown_window=IDLE)
 def relax_batch(name, xs, values):
     return _forked(_relax_one, [(name, x, v) for x, v in zip(xs, values)], CORES)
 
@@ -58,12 +74,12 @@ def _polish_one(job):
     return get(name).polish(x, value)
 
 
-@app.function(image=image, cpu=POLISH_CORES, memory=256*POLISH_CORES+1024, timeout=1800, max_containers=8, scaledown_window=IDLE)
+@app.function(image=image, cpu=POLISH_CORES, memory=512*POLISH_CORES+1024, timeout=600, retries=modal.Retries(max_retries=2, initial_delay=1.0, backoff_coefficient=1.0), max_containers=8, scaledown_window=IDLE)
 def polish_batch(name, packings):
     return _forked(_polish_one, [(name, x, v) for x, v in packings], POLISH_CORES)
 
 
-@app.function(image=image, cpu=STRATEGY_CORES, memory=512*STRATEGY_CORES+2048, timeout=300, max_containers=8, scaledown_window=IDLE)
+@app.function(image=image, cpu=STRATEGY_CORES, memory=512*STRATEGY_CORES+2048, timeout=300, retries=modal.Retries(max_retries=2, initial_delay=1.0, backoff_coefficient=1.0), max_containers=8, scaledown_window=IDLE)
 def strategy_step(name, code, kind, payload, count, seed, n):
     from mosa import sandbox
     from mosa.domain import get
