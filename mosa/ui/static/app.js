@@ -381,7 +381,7 @@ function ideaView() {
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
-    <div class="outcome">${markHTML(o.kind)}<span>${o.html || esc(o.text)}</span></div>
+    <div class="outcome"><span class="lead">${markHTML(o.kind)}</span><span>${o.html || esc(o.text)}</span></div>
     ${s.mapping ? `<div class="section"><div class="section-label">Why the researcher expected it to work</div><div class="prose">${esc(s.mapping)}</div></div>` : ""}
     ${s.strategy ? `<div class="section"><div class="section-label">What it does</div><div class="prose">${esc(s.strategy)}</div></div>` : ""}
     ${r.results.length ? `<details><summary>Results on each size</summary>${resultsTable(r, m)}</details>` : ""}
