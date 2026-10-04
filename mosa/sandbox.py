@@ -1,7 +1,7 @@
 """Running model-written strategy code.
 
 A strategy defines initialize(record, neighbours, rng, count) and vary(parents, rng, count), each returning a list of
-candidates (x, value). The code runs with only numpy, math and numba available, under a time limit, and every call
+candidates (x, value). The code runs with only numpy, math, numba and the size n available, under a time limit, and every call
 starts from a fresh namespace, so a strategy keeps no state between calls. Candidates that fail the domain's
 validation are dropped and counted; a call fails only if its code raises or nothing valid comes back. A call can be
 split over forked workers, each with its own chunk of the count and its own random stream. Before any code runs it
@@ -79,7 +79,7 @@ def step(domain, code, kind, payload, count, seed, n, cores=1):
         problems = violations(code)
         if problems:
             raise PermissionError("integrity scan: "+", ".join(problems))
-        namespace = {"np": np, "math": math, "numba": numba}
+        namespace = {"np": np, "math": math, "numba": numba, "n": n}  # n: the size of this run
         exec(code, namespace)
         _CURRENT.update(namespace=namespace, payload=payload)
         workers = max(1, min(cores, count//8))

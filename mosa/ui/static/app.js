@@ -41,8 +41,8 @@ async function loadBook(id) {
   return true;
 }
 
-async function reference(n) {
-  if (!S.refs[n]) { S.refs[n] = "loading"; S.refs[n] = await api(`/api/reference?n=${n}`); render(); }
+async function reference(n, domain = "squares") {
+  if (!S.refs[n]) { S.refs[n] = "loading"; S.refs[n] = await api(`/api/reference?n=${n}&domain=${domain}`); render(); }
   return S.refs[n];
 }
 
@@ -128,7 +128,7 @@ function outcome(r, m) {
     const found = recordSizes(r);
     const note = " Only the record-breaking runs of this rerun were saved.";
     return found.length ? { kind: "star", text: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found)}.${note}`,
-      html: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found.map((n) => `<a data-act="discovery" data-n="${n}">${n}</a>`))}.${note}`, short: `n = ${found.join(", ")}` }
+      html: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`))}.${note}`, short: `n = ${found.join(", ")}` }
       : { kind: "none", text: "No results were saved for this run." };
   }
   if (!r.done && r.results.length < expected) {
@@ -139,7 +139,7 @@ function outcome(r, m) {
   if (found.length) {
     const held = sizes - found.length;
     const rest = held > 0 ? ` The best known held on the other ${sizesWord(held)}.` : "";
-    const links = listN(found.map((n) => `<a data-act="discovery" data-n="${n}">${n}</a>`));
+    const links = listN(found.map((n) => `<a data-act="instance" data-n="${n}">${n}</a>`));
     return { kind: "star", text: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${listN(found)}.${rest}`,
       html: `New best-known packing${found.length > 1 ? "s" : ""} for n = ${links}.${rest}`, short: `n = ${found.join(", ")}` };
   }
@@ -181,12 +181,10 @@ function renderSide() {
     return `<button class="item ${S.lab === l.id && !S.compose ? "on" : ""}" data-act="lab" data-id="${esc(l.id)}">
       <span class="name">${esc(labTitle(l))}</span>${l.running ? '<span class="live-dot" title="running"></span>' : found ? `<span class="aside"><span class="star">★</span> ${found}</span>` : ""}</button>`;
   }).join("");
-  const found = S.discoveries.map((d) => `<button class="item ${S.sel?.type === "discovery" && S.sel.n === d.n ? "on" : ""}" data-act="discovery" data-n="${d.n}">
-      <span class="star">★</span><span class="name">n = ${d.n}</span><span class="aside">−${plain(d.improvement)}</span></button>`).join("");
   const dark = (document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")) === "dark";
   $("#side").innerHTML = `<div class="brand">${LOGO} Mosa</div>
     <button class="new" data-act="compose">${ICON.plus} New lab</button>
-    <div class="list"><div class="heading">Labs</div>${labs}${found ? `<div class="heading">Discoveries</div>${found}` : ""}</div>
+    <div class="list"><div class="heading">Labs</div>${labs}</div>
     <div class="side-foot"><button class="icon-btn" data-act="theme" title="${dark ? "Light" : "Dark"} theme">${dark ? ICON.sun : ICON.moon}</button></div>`;
 }
 
@@ -210,7 +208,29 @@ function renderMain() {
         <input type="range" id="scrub" min="${S.replay.start}" max="${S.replay.end}" value="${S.replay.t}"><span class="time">${clock(S.replay.t)}</span>
         <button class="icon-btn" data-act="replay-stop" title="Stop replay">${ICON.close}</button></div>`
     : m.done ? `<button class="text-btn" data-act="replay">${ICON.replay} Replay</button>` : "";
-  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div></div>${replay}</div>${mapHTML(m)}`;
+  el.innerHTML = `<div class="lab-head"><div class="head-text"><h1>${esc(labTitle(l || L))}</h1><div class="sub">${parts.join(" · ")}</div></div>${replay}</div>${instancesHTML(m)}${mapHTML(m)}`;
+}
+
+// Where each instance stands: ★ a verified new best-known; ● the best known reached (only meaningful when no known
+// solution was given to start from); ○ not reached.
+const knownGiven = (m) => (m.lab?.domain || "squares") === "squares";
+function instanceState(m, n) {
+  const rounds = [...m.chains.values()].flatMap((rs) => [...rs.values()]);
+  const records = rounds.flatMap((r) => r.records).filter((x) => x.n === n).sort((a, b) => a.side - b.side);
+  const results = rounds.flatMap((r) => r.results.map((x) => ({ ...x, chain: r.chain, round: r.round }))).filter((x) => x.n === n && !x.error && x.gap != null);
+  const best = results.sort((a, b) => a.gap - b.gap)[0] || null;
+  const kind = records.length ? "star" : !knownGiven(m) && best && best.gap <= 1e-6 ? "reached" : "none";
+  return { n, kind, record: records[0] || null, best, tried: results.length > 0 };
+}
+function instancesHTML(m) {
+  const targets = [...(m.lab.targets || [])].sort((a, b) => a - b);
+  if (targets.length < 2) return "";
+  const states = targets.map((n) => instanceState(m, n));
+  const stars = states.filter((s) => s.kind === "star").length, reached = states.filter((s) => s.kind === "reached").length;
+  const sum = stars ? `${stars} new best-known` : !knownGiven(m) ? `best known reached on ${reached} of ${targets.length}` : "";
+  const glyph = (k) => (k === "star" ? "★" : k === "reached" ? "●" : "○");
+  return `<div class="instances"><div class="who">Instances${sum ? ` · ${sum}` : ""}</div><div class="inst-row">${states.map((s) =>
+    `<button class="inst ${s.kind} ${S.sel?.type === "instance" && S.sel.lab === S.lab && S.sel.n === s.n ? "on" : ""}" data-act="instance" data-n="${s.n}" title="${s.best ? `best found ${plain(Math.abs(s.best.gap))} ${s.best.gap < 0 ? "below" : "above"} the best known` : "no result"}"><span>${glyph(s.kind)}</span>${s.n}</button>`).join("")}</div></div>`;
 }
 
 function mapHTML(m) {
@@ -233,7 +253,7 @@ function mapHTML(m) {
 // ---------- detail: the selection ----------
 function renderDetail() {
   const el = $("#detail");
-  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : S.sel.type === "discovery" ? discoveryView() : briefView()) : "";
+  const html = S.sel ? (S.sel.type === "idea" ? ideaView() : S.sel.type === "instance" ? instanceView() : briefView()) : "";
   el.hidden = !html;
   if (!html) return;
   const top = el.scrollTop, open = [...el.querySelectorAll("details[open] > summary")].map((s) => s.textContent);
@@ -282,22 +302,46 @@ function ideaView() {
   </div>`;
 }
 
-function discoveryView() {
-  const d = S.discoveries.find((x) => x.n === S.sel.n);
-  if (!d) return "";
+function instanceView() {
+  const m = S.books[S.sel.lab]?.model;  // the whole notebook, even mid-replay
+  if (!m) return "";
+  const n = S.sel.n, st = instanceState(m, n), domain = m.lab.domain || "squares";
+  const what = domain === "thomson" ? `${n} charges on a sphere` : `${n} squares in a square`;
+  const by = (x) => {
+    if (!x) return "";
+    const r = m.chains.get(x.chain ?? 0)?.get(x.round ?? 1);
+    const it = r ? idea(r.strategy) : idea({ source: m.lab.source });
+    return m.lab.kind === "lab" ? `<a data-act="idea" data-chain="${x.chain}" data-round="${x.round}">Researcher ${x.chain + 1}, round ${x.round}</a>: ${esc(it.name)}`
+      : `A rerun of “${esc(it.name)}”`;
+  };
+  if (st.record) return discoveryView(st.record, what, by(st.record));
+  const b = st.best;
+  if (domain === "thomson") {
+    return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
+      ${b?.best ? `<div class="figure sphere">${sphere(b.best.x)}</div>` : ""}
+      <div class="numbers">${b ? (b.gap <= 1e-6 ? `Reached the best-known energy <span class="mono">${b.best_known.toFixed(7)}</span>.`
+        : `Best energy found <span class="mono">${b.polished.toFixed(7)}</span>, ${plain(b.gap)} above the best known <span class="mono">${b.best_known.toFixed(7)}</span>.`) : "Not tried yet."}</div>
+      ${b ? `<div class="section"><div class="section-label">Best found by</div>${by(b)}</div>` : ""}</div>`;
+  }
+  const ref = S.refs[n];
+  if (!ref) reference(n, domain);
+  return `<div class="pane"><div class="eyebrow">Instance</div><h2>${what}</h2>
+    ${ref && ref !== "loading" && ref.poses ? `<div class="figure">${figure(ref.poses, ref.side)}</div>` : ""}
+    <div class="numbers">${st.tried ? `No improvement: the best known packing (side <span class="mono">${side6(ref?.side || b?.best_known || 0)}</span>) held.` : "Not tried yet."}</div>
+    ${b && b.runner_up_gap > 0 ? `<div class="section">The closest other packing came within ${plain(b.runner_up_gap)} of it.</div>` : ""}</div>`;
+}
+
+function discoveryView(d, what, by) {
   const ref = S.refs[d.n];
-  if (!ref) reference(d.n);
+  if (!ref) reference(d.n, "squares");
   const ready = ref && ref !== "loading";
   const view = ready ? S.view : "after";
-  const m = S.books[d.lab]?.model, r = m && m.chains.get(d.chain ?? 0)?.get(d.round ?? 1);  // provenance from the whole notebook, even mid-replay
-  const lab = summary(d.lab), it = r ? idea(r.strategy) : idea({ source: m?.lab?.source || lab?.source });
-  const by = lab?.kind === "lab" && r ? `<a data-act="idea-in" data-lab="${esc(d.lab)}" data-chain="${d.chain}" data-round="${d.round}">Researcher ${d.chain + 1}, round ${d.round}</a>: ${esc(it.name)}`
-    : `A rerun of “${esc(it.name)}” on <a data-act="lab" data-id="${esc(d.lab)}">${esc(labTitle(lab))}</a>`;
   const pct = (100 * d.improvement / d.reference_side).toPrecision(2);
   const info = ready ? ref.info : null;
+  S.download = d;
   return `<div class="pane">
     <div class="eyebrow">Discovery</div>
-    <h2>${d.n} squares in a square</h2>
+    <h2>${what}</h2>
     <div class="toggle">${[["after", "Mosa"], ["before", "Previous best"]].map(([v, label]) => `<button class="${view === v ? "on" : ""}" data-act="view" data-v="${v}">${label}</button>`).join("")}</div>
     <div class="figure">${view === "before" ? figure(ref.poses, ref.side) : figure(d.poses, d.side)}</div>
     <div class="numbers">Side <span class="mono">${side6(d.side)}</span>, ${plain(d.improvement)} smaller than the best known <span class="mono">${side6(d.reference_side)}</span> (${pct}%).</div>
@@ -307,6 +351,14 @@ function discoveryView() {
     ${info?.notes ? `<details><summary>Previous record</summary><div class="prose" style="color:var(--muted)">${info.official ? `Catalogue value ${side6(info.official)}. ` : ""}${esc(info.notes)}</div></details>` : ""}
     <div class="section" style="display:flex;gap:8px"><button class="btn" data-act="svg">${ICON.download} square-${d.n}.svg</button><button class="btn quiet" data-act="json">JSON</button></div>
   </div>`;
+}
+
+// Charges on the sphere, seen from slightly above: near side filled, far side hollow.
+function sphere(points) {
+  const c = Math.cos(0.4), s = Math.sin(0.4);
+  const ps = points.map(([x, y, z]) => { const r = Math.hypot(x, y, z); return [x / r, (y * c - z * s) / r, (y * s + z * c) / r]; }).sort((a, b) => a[2] - b[2]);
+  return `<svg viewBox="-1.08 -1.08 2.16 2.16" xmlns="http://www.w3.org/2000/svg"><circle r="1" style="fill:var(--paper);stroke:var(--sq-edge)" stroke-width="1" vector-effect="non-scaling-stroke"/>` +
+    ps.map(([x, y, z]) => `<circle cx="${x.toFixed(4)}" cy="${(-y).toFixed(4)}" r="0.028" style="fill:${z > 0 ? "var(--strong)" : "none"};stroke:${z > 0 ? "var(--strong)" : "var(--faint)"}" stroke-width="1" vector-effect="non-scaling-stroke"/>`).join("") + "</svg>";
 }
 
 function briefView() {
@@ -374,7 +426,7 @@ function render() { renderSide(); renderMain(); renderDetail(); renderStatus(); 
 // ---------- navigation ----------
 function selectLab(id) {
   S.lab = id; S.compose = null;
-  if (S.sel && S.sel.type !== "discovery") S.sel = null;
+  S.sel = null;
   if (!S.books[id]) loadBook(id).then(render);
   render();
 }
@@ -421,13 +473,7 @@ document.addEventListener("click", (ev) => {
     case "lab": selectLab(d.id); break;
     case "idea": selectIdea(S.lab, +d.chain, +d.round); break;
     case "idea-in": selectIdea(d.lab, +d.chain, +d.round); break;
-    case "discovery": {
-      const disc = S.discoveries.find((x) => x.n === +d.n);
-      S.sel = { type: "discovery", n: +d.n }; S.view = "after"; S.compose = null;
-      if (disc && S.lab !== disc.lab) { S.lab = disc.lab; if (!S.books[disc.lab]) loadBook(disc.lab).then(render); }
-      render();
-      break;
-    }
+    case "instance": S.sel = { type: "instance", lab: S.lab, n: +d.n }; S.view = "after"; S.compose = null; render(); break;
     case "brief": S.sel = { type: "brief", lab: S.lab }; render(); break;
     case "unselect": S.sel = null; render(); break;
     case "view": S.view = d.v; renderDetail(); break;
@@ -450,8 +496,8 @@ document.addEventListener("click", (ev) => {
     case "replay": replayStart(); break;
     case "replay-toggle": if (S.replay.t >= S.replay.end) S.replay.t = S.replay.start; S.replay.playing = !S.replay.playing; replayRun(); break;
     case "replay-stop": clearInterval(timer); S.replay = null; render(); break;
-    case "svg": { const x = S.discoveries.find((y) => y.n === S.sel.n); download(`square-${x.n}.svg`, catalogueSVG(x.poses, x.side, x.n), "image/svg+xml"); break; }
-    case "json": { const x = S.discoveries.find((y) => y.n === S.sel.n); download(`n${x.n}.json`, JSON.stringify({ n: x.n, side: x.side, previous_best_known: x.reference_side, squares: x.poses.map(([a, b, t]) => ({ x: a, y: b, angle_radians: t })) }, null, 1), "application/json"); break; }
+    case "svg": { const x = S.download; download(`square-${x.n}.svg`, catalogueSVG(x.poses, x.side, x.n), "image/svg+xml"); break; }
+    case "json": { const x = S.download; download(`n${x.n}.json`, JSON.stringify({ n: x.n, side: x.side, previous_best_known: x.reference_side, squares: x.poses.map(([a, b, t]) => ({ x: a, y: b, angle_radians: t })) }, null, 1), "application/json"); break; }
   }
 });
 document.addEventListener("input", (ev) => {

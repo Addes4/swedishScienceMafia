@@ -45,7 +45,8 @@ def main():
         p.add_argument("--backend", choices=["local", "modal"], default="modal")
         p.add_argument("--out", default=None, help="notebook directory (default runs/<command>-<time>)")
         p.add_argument("--references", type=int, nargs="*", default=[], help="extra sizes whose best solutions strategies receive")
-        p.add_argument("--library", default="data/strategy-library.json")
+        p.add_argument("--library", default=None, help="strategy library (default: data/strategy-library.json for squares, "
+                                                      "data/<domain>-library.json otherwise)")
         p.add_argument("--workers", type=int, default=None, help="local processes (default: cores - 1)")
         for field, value in vars(Budget()).items():
             p.add_argument(f"--{field}", type=int, default=value)
@@ -70,13 +71,13 @@ def main():
         from .research import Lab
         budget = Budget(**{field: getattr(args, field) for field in vars(Budget())})
         out = args.out or f"runs/{args.command}-{time.strftime('%Y%m%d-%H%M%S')}"
-        library = args.library if Path(args.library).exists() or args.command == "lab" else None
+        library = args.library or ("data/strategy-library.json" if args.domain == "squares" else f"data/{args.domain}-library.json")
         lab = Lab(args.domain, args.backend, out, budget, args.references, library, args.workers)
         if args.command == "lab":
             brief = Path(args.brief).read_text() if args.brief else ""
             lab.lab(sizes(args.targets), args.chains, args.rounds, args.seeds, brief, args.model)
         else:
-            code, source = _strategy(args.strategy, args.library)
+            code, source = _strategy(args.strategy, library)
             lab.apply(code, source, sizes(args.targets), args.seeds)
         print(f"notebook: {out}/events.jsonl")
     elif args.command == "verify":

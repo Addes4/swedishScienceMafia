@@ -20,7 +20,7 @@ import threading
 
 from .backends import Local, Modal, session
 from .domain import get
-from .evaluate import Budget, run
+from .evaluate import Budget, neighbours_for, run
 from .llm import ask
 from .store import Notebook
 
@@ -81,10 +81,10 @@ initialize and vary do) and "code"."""]
 
 def _local_run(job):
     """One run in a worker process (local backend): progress goes straight to the notebook."""
-    name, code, n, seed, budget, references, notebook, tag = job
+    name, code, n, seed, budget, neighbours, notebook, tag = job
     domain = get(name)
     book = Notebook(notebook)
-    return run(domain, Local(domain), code, n, seed, Budget(**budget), references,
+    return run(domain, Local(domain), code, n, seed, Budget(**budget), neighbours,
                progress=lambda g, best: book.write("progress", **tag, n=n, seed=seed, generation=g, best=best))
 
 
@@ -96,6 +96,7 @@ class Lab:
         self.library_path = Path(library_path) if library_path else None
         self.library = json.loads(self.library_path.read_text()) if self.library_path and self.library_path.exists() else []
         self.lock = threading.Lock()
+        self.memory = {}  # the workspace's shared memory: best solution found so far for each size, {n: (x, value)}
         self.pool = ProcessPoolExecutor(workers or max(1, (os.cpu_count() or 2)-1)) if backend == "local" else None
         self.remote = Modal(self.domain) if backend == "modal" else None
 
@@ -103,20 +104,29 @@ class Lab:
         """Run code on every target and seed; write each result (and verified record) to the notebook as it arrives."""
         jobs = [(n, seed) for n in targets for seed in seeds]
         if self.pool:
-            futures = [self.pool.submit(_local_run, (self.domain.name, code, n, seed, asdict(self.budget), self.references,
+            futures = [self.pool.submit(_local_run, (self.domain.name, code, n, seed, asdict(self.budget), self.neighbours(n),
                                                      self.notebook.path.parent, tag)) for n, seed in jobs]
             return [self.keep(f.result(), tag) for f in futures]
 
         def one(job):
             n, seed = job
-            result = run(self.domain, self.remote, code, n, seed, self.budget, self.references,
+            result = run(self.domain, self.remote, code, n, seed, self.budget, self.neighbours(n),
                          progress=lambda g, best: self.notebook.write("progress", **tag, n=n, seed=seed, generation=g, best=best))
             return self.keep(result, tag)
         with ThreadPoolExecutor(len(jobs)) as pool:
             return list(pool.map(one, jobs))
 
+    def neighbours(self, n):
+        with self.lock:
+            return neighbours_for(self.domain, n, self.references, dict(self.memory))
+
     def keep(self, result, tag):
         self.notebook.write("result", **tag, **result)
+        if result.get("best"):
+            with self.lock:
+                n, value = result["n"], result["best"]["value"]
+                if n not in self.memory or value < self.memory[n][1]:
+                    self.memory[n] = (result["best"]["x"], value)
         if result.get("record"):
             n, seed = result["n"], result["seed"]
             certificate = self.domain.verify(result["best"]["x"], n)

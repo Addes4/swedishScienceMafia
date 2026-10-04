@@ -57,4 +57,7 @@ def get(name):
     if name == "squares":
         from .domains.squares import Squares
         return Squares()
+    if name == "thomson":
+        from .domains.thomson import Thomson
+        return Thomson()
     raise ValueError(f"unknown domain {name!r}")

@@ -58,17 +58,17 @@ def summary(lab_id, path):
             "records": {str(k): v for k, v in sorted(records.items())}, "source": head.get("source"), "brief": bool(head.get("brief"))}
 
 
-@lru_cache(maxsize=1)
-def domain():
+@lru_cache(maxsize=8)
+def domain(name="squares"):
     sys.path.insert(0, str(ROOT))
     from mosa.domain import get
-    return get("squares")
+    return get(name)
 
 
-def reference(n):
-    d = domain()
+def reference(n, name="squares"):
+    d = domain(name)
     poses, side = d.reference(n)
-    return {"n": n, "side": side, "poses": poses.tolist(), "info": d.info(n)}
+    return {"n": n, "side": side, "poses": poses.tolist() if poses is not None else None, "info": d.info(n)}
 
 
 def records():
@@ -137,7 +137,7 @@ class Handler(SimpleHTTPRequestHandler):
                 since = int(q.get("since", 0))
                 return self.send_json({"events": ev[since:], "next": len(ev)})
             if url.path == "/api/reference":
-                return self.send_json(reference(int(q["n"])))
+                return self.send_json(reference(int(q["n"]), q.get("domain", "squares")))
             if url.path == "/api/records":
                 return self.send_json(records())
             if url.path == "/api/targets":
