@@ -8,7 +8,7 @@ against the papers. `python3 docs/literature/fetch_papers.py` downloads them int
 redistributed; the links below lead to every paper. [How the review was done](#how-this-review-was-done)
 records the method, decisions and corrections. [What changed in our experiments](#what-changed-in-our-experiments)
 records what the review changed in the running experiments. [related-work-log.md](../logs/related-work-log.md)
-is the session's timeline, decisions, incidents and cost. [docs/papers/outlines/](../papers/outlines/README.md)
+is the session's timeline, decisions, incidents and cost. docs/papers/outlines/ (kept outside the repository)
 turns the findings into two candidate research papers.
 
 ## Question and answer
@@ -273,7 +273,7 @@ its subagents only.
 - Rerun the tournament with credit, budget-matched, on problems that do not saturate.
 - Consider ASRO-style instance generators and the Sum-of-Squares feature for a Falsify v5, in the
   Weibull regime where bp-ceiling found headroom.
-- Research papers: see [docs/papers/outlines/](../papers/outlines/README.md).
+- Research papers: see docs/papers/outlines/ (kept outside the repository).
 
 ## Reading list
 

@@ -3,8 +3,8 @@
 This log records what the literature-review session did, decided and produced. The session was a
 separate Claude Code session from the one coordinating the overnight experiments. Findings are in
 [related-work.md](../literature/related-work.md), paper plans in
-[docs/papers/outlines/](../papers/outlines/README.md) and the pitch draft in
-[docs/papers/pitch-draft.md](../papers/pitch-draft.md). The experiments are recorded in their own
+docs/papers/outlines/ (kept outside the repository) and the pitch draft in
+docs/papers/pitch-draft.md (kept outside the repository). The experiments are recorded in their own
 RESULTS.md files and in the coordination log (`docs/logs/OVERNIGHT-2026-10-03.md` on branch
 `docs/overnight-log`). Times are BST and approximate unless they come from commits.
 

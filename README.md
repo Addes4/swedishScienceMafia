@@ -163,7 +163,7 @@ problems/       circle packing, Erdős squares, Erdős discrepancy, sum-differen
 experiments/    one folder per study, with protocol, write-up and raw data (index: experiments/README.md)
 runs/           committed example runs of autoresearch.loop (other runs are git-ignored)
 tests/          all tests
-docs/           literature review, coordination log, independent reviews, paper outlines (map: docs/README.md)
+docs/           literature review, coordination log, independent reviews (map: docs/README.md)
 ```
 
 ## Related work
