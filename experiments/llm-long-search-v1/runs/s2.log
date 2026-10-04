@@ -1,0 +1,314 @@
+[loop] bin_packing_online -> /Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s2
+[start] loop__bin_packing_online__s2: arm lean (lean) on bin_packing_online, seed 2, cap $0.75
+  initial          score 0.9616
+  step  1 edit    not_better    score 0.9616  best 0.9616  $0.0003  I will add a small "almost full bin" preference: bins whose 
+  step  2 edit    not_better    score 0.9616  best 0.9616  $0.0003  Replace the pure best-fit score with a bounded best-fit that
+  step  3 edit    not_better    score 0.9616  best 0.9616  $0.0003  I'll replace the plain best-fit rule with Best-Fit-Decreasin
+  step  4 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll add a learned-style "residual threshold" heuristic: ran
+  step  5 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll switch from pure best-fit to a "best fit with almost-fu
+  step  6 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll replace best-fit with a residual-threshold "harmonic-li
+  step  7 edit    not_better    score 0.9616  best 0.9616  $0.0004  Replace best-fit with a randomized/round-robin perturbation 
+  step  8 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace pure best-fit with a "residual-aware harmonic" 
+  step  9 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll add adaptive online statistics (per-instance running me
+  step 10 edit    not_better    score 0.9616  best 0.9616  $0.0005  Replace the per-item greedy best-fit with a scheme that rese
+  step 11 edit    not_better    score 0.9616  best 0.9616  $0.0005  Pure per-item best-fit ignores the distribution's small-item
+  step 12 edit    not_better    score 0.8067  best 0.9616  $0.0005  I'll replace pure best-fit with a size-aware "almost-worst-f
+  step 13 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll add a light online-capacity-class ("harmonic") twist to
+  step 14 edit    not_better    score 0.9616  best 0.9616  $0.0006  Replace pure best-fit with a hybrid that tracks the online m
+  step 15 edit    not_better    score 0.9616  best 0.9616  $0.0005  Replace the score with a multiplicative normalized fit: scor
+  step 16 edit    not_better    score 0.9584  best 0.9616  $0.0006  Track the smallest item size seen so far, and among bins tha
+  step 17 edit    not_better    score 0.9616  best 0.9616  $0.0004  I'll add a small deterministic score jitter derived from the
+  step 18 edit    not_better    score 0.9298  best 0.9616  $0.0004  Replace pure best-fit with a "reservation"-style rule: defin
+  step 19 edit    not_better    score 0.9616  best 0.9616  $0.0004  Best fit leaves a residual (bin capacity after placing the i
+  step 20 edit    not_better    score 0.9616  best 0.9616  $0.0004  Replace pure best-fit with a "fullest-bin-that-still-fits-bu
+  step 21 edit    not_better    score 0.9593  best 0.9616  $0.0005  I'll replace pure best-fit with a First-Fit variant that kee
+  step 22 edit    not_better    score 0.9616  best 0.9616  $0.0004  I will add a "large-item lookahead" heuristic: track the max
+  step 23 edit    not_better    score 0.9616  best 0.9616  $0.0006  Replace pure best-fit with a "largest fill fraction" rule: s
+  step 24 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll switch from pure best-fit to a "good-fit with bin-open 
+  step 25 edit    not_better    score 0.9616  best 0.9616  $0.0005  I'll replace pure best-fit with a "worst-fit for mid-range r
+  step 26 edit    improved      score 0.9649  best 0.9649  $0.0006  Pure best-fit scores 0.9616, close to the ~0.957-0.99 range 
+  step 27 edit    not_better    score 0.9647  best 0.9649  $0.0006  I will refine the tie-break by replacing the histogram-usefu
+  step 28 edit    not_better    score 0.9616  best 0.9649  $0.0007  I will replace the static histogram usefulness tie-break wit
+  step 29 edit    not_better    score 0.9647  best 0.9649  $0.0006  Replace the fixed 0.5 coefficient and hard tightness term wi
+  step 30 edit    gate_rejected score 0.9652  best 0.9649  $0.0005  Replace the ad-hoc histogram bonus with a scale-free "expect
+  step 31 edit    not_better    score 0.9616  best 0.9649  $0.0006  I will replace the histogram-usefulness tie-break with a glo
+  step 32 edit    not_better    score 0.9442  best 0.9649  $0.0006  Replace the hard histogram lookup with a smoothed, weighted 
+  step 33 edit    not_better    score 0.9616  best 0.9649  $0.0006  I'll strengthen the best-fit tie-break using a smoothed esti
+  step 34 edit    not_better    score 0.9616  best 0.9649  $0.0006  Replace the histogram tie-break with a two-part rule that is
+  step 35 edit    not_better    score 0.9616  best 0.9649  $0.0004  Replace the bounded best-fit-plus-tiebreak family (which has
+  step 36 edit    not_better    score 0.9649  best 0.9649  $0.0006  I'll replace the histogram-based tie-break with a principled
+  step 37 edit    not_better    score 0.9616  best 0.9649  $0.0006  I'll replace the ad-hoc histogram tie-break with a mean-base
+  step 38 edit    not_better    score 0.9616  best 0.9649  $0.0006  Replace best-fit's raw tightness with a scale-free "usefulne
+  step 39 edit    not_better    score 0.9616  best 0.9649  $0.0007  I'll replace the ad-hoc histogram tie-break with a principle
+  step 40 edit    improved      score 0.9661  best 0.9661  $0.0006  Add a small "hole-size awareness" term to the current best-f
+  step 41 edit    not_better    score 0.9654  best 0.9661  $0.0006  I'll refine the smoothed-histogram tie-break by using a slig
+  step 42 edit    gate_rejected score 0.9668  best 0.9661  $0.0008  I'll make the residual-usefulness tie-break adaptive by repl
+  step 43 edit    not_better    score 0.9661  best 0.9661  $0.0006  I'll keep the best-fit primary term but replace the fixed 0.
+  step 44 edit    not_better    score 0.9649  best 0.9661  $0.0006  The current rule is essentially best-fit with a weak smoothe
+  step 45 edit    not_better    score 0.9563  best 0.9661  $0.0006  The current smoothed-histogram tie-break is too weak; I'll r
+  step 46 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll replace the smoothed-histogram usefulness bonus with a 
+  step 47 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll switch from best-fit (min residual) to a score that ble
+  step 48 edit    not_better    score 0.9649  best 0.9661  $0.0007  (no description)
+  step 49 edit    not_better    score 0.9656  best 0.9661  $0.0006  Replace the best-fit primary term with an approximate "worst
+  step 50 edit    not_better    score 0.9661  best 0.9661  $0.0006  I will replace the additive smoothed-histogram bonus with a 
+  step 51 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll keep best-fit as the primary rule (it is near-optimal f
+  step 52 edit    not_better    score 0.9654  best 0.9661  $0.0006  I'll replace the pure best-fit (min residual) primary term w
+  step 53 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll keep the near-optimal best-fit primary term but make th
+  step 54 edit    gate_rejected score 0.9663  best 0.9661  $0.0006  Introduce a converging, decaying exploration bonus: bias res
+  step 55 edit    not_better    score 0.9661  best 0.9661  $0.0006  I will replace the smoothed-histogram additive tie-break wit
+  step 56 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll refine the tie-break to prefer residuals that equal a c
+  step 57 edit    not_better    score 0.9654  best 0.9661  $0.0007  I will change the primary rule from pure best-fit to a linea
+  step 58 edit    not_better    score 0.9616  best 0.9661  $0.0009  I'll add a small, properly-scaled exact-match reward (not a 
+  step 59 edit    not_better    score 0.9616  best 0.9661  $0.0007  I'll replace the additive smoothed-histogram bonus with a "p
+  step 60 edit    not_better    score 0.9616  best 0.9661  $0.0006  The current tie-break coefficient (0.5) seems too large, cau
+  step 61 edit    not_better    score 0.9616  best 0.9661  $0.0007  I'll replace the weak additive histogram bonus with a proper
+  step 62 edit    not_better    score 0.9616  best 0.9661  $0.0007  I will replace the histogram tie-break with a simple, well-k
+  step 63 edit    not_better    score 0.9616  best 0.9661  $0.0009  I'll replace the weak additive histogram bonus with a proper
+  step 64 edit    not_better    score 0.9616  best 0.9661  $0.0005  I'll replace the weak histogram bonus with an exact-fit-domi
+  step 65 edit    not_better    score 0.9616  best 0.9661  $0.0005  The current smoothed-histogram bonus is too weak and slightl
+  step 66 edit    invalid       score 0.0000  best 0.9661  $0.0008  Switch from an additive bonus (which perturbs the tightness 
+  step 67 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll replace the smoothed-histogram additive bonus with a cl
+  step 68 edit    not_better    score 0.9616  best 0.9661  $0.0007  I'll replace the current rule with a pure best-fit (tightest
+  step 69 edit    not_better    score 0.9616  best 0.9661  $0.0007  The empirical evidence across many attempts shows that any m
+  step 70 edit    not_better    score 0.9616  best 0.9661  $0.0006  Replace the smoothed-histogram tie-break with a "worst-fit a
+  step 71 edit    not_better    score 0.9616  best 0.9661  $0.0006  I will keep the smoothed-histogram usefulness bonus but repl
+  step 72 edit    not_better    score 0.9616  best 0.9661  $0.0006  The additive histogram bonus clearly hurts (every pure best-
+  step 73 edit    no_code       score   n/a   best 0.9661  $0.0004  I'll switch to a proper "best fit decreasing"-style heuristi
+  step 74 edit    invalid       score 0.0000  best 0.9661  $0.0005  I'll replace the fixed kernel with a running histogram of pa
+  step 75 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll break residual ties using the exact empirical frequency
+  step 76 edit    not_better    score 0.9616  best 0.9661  $0.0007  The key insight: the current rule adds `0.5 * use` to `-resi
+  step 77 edit    not_better    score 0.9616  best 0.9661  $0.0006  Replace the potentially-dominating histogram bonus with a mu
+  step 78 edit    not_better    score 0.9661  best 0.9661  $0.0006  I'll keep the exact current rule (pure best-fit plus the exi
+  step 79 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll replace the smoothed-histogram usefulness bonus with a 
+  step 80 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll replace the histogram-based usefulness term with a "res
+  step 81 edit    not_better    score 0.9616  best 0.9661  $0.0005  I'll drop the histogram/usefulness term entirely and switch 
+  step 82 edit    not_better    score 0.9616  best 0.9661  $0.0007  Normalize the smoothed histogram bonus into a probability (d
+  step 83 edit    not_better    score 0.9598  best 0.9661  $0.0006  The best-fit key should stay a *tie-breaker* only: I'll make
+  step 84 edit    not_better    score 0.9616  best 0.9661  $0.0007  Replace the per-step cumulative-count bonus (which drifts in
+  step 85 edit    not_better    score 0.9607  best 0.9661  $0.0005  Replace the histogram-usefulness tie-break with a "least-fit
+  step 86 edit    not_better    score 0.9616  best 0.9661  $0.0005  Implement a dual-signal rule: strongly prefer exact fits, th
+  step 87 edit    not_better    score 0.9661  best 0.9661  $0.0019  Keep the proven `-residual + 0.5*smoothed_use` formula intac
+  step 88 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll add a mild secondary preference that among bins with ve
+  step 89 edit    not_better    score 0.9616  best 0.9661  $0.0006  I'll modify the smoothed-usefulness tie-break so that, inste
+  step 90 edit    not_better    score 0.9616  best 0.9661  $0.0007  I will replace the heuristic tie-break with a provably stron
+  step 91 edit    not_better    score 0.9616  best 0.9661  $0.0007  I'll keep the proven best-fit dominant term (`-residual`) bu
+  step 92 edit    not_better    score 0.9661  best 0.9661  $0.0006  Boost the exact-fill preference to be effectively absolute, 
+  step 93 edit    improved      score 0.9663  best 0.9663  $0.0008  Keep the proven `-residual + 0.5*smoothed_use` formula, but 
+  step 94 edit    not_better    score 0.9661  best 0.9663  $0.0008  The running mean is a poor summary of a Weibull distribution
+  step 95 edit    gate_rejected score 0.9663  best 0.9663  $0.0007  Replace the single-kernel smoothed-usefulness tie-break with
+  step 96 edit    not_better    score 0.9616  best 0.9663  $0.0007  I'll replace the hand-tuned single-kernel usefulness with a 
+  step 97 edit    gate_rejected score 0.9663  best 0.9663  $0.0008  I'll keep the proven best-fit dominant term and smoothed-use
+  step 98 edit    not_better    score 0.9616  best 0.9663  $0.0009  Replace the single hand-tuned smoothing kernel with a direct
+  step 99 edit    not_better    score 0.9647  best 0.9663  $0.0008  I'll keep the proven best-fit dominant term and smoothed-use
+  step 100 edit    not_better    score 0.9663  best 0.9663  $0.0007  Replace the mean-based reusability bonus with a tiny bonus r
+  step 101 edit    not_better    score 0.9647  best 0.9663  $0.0008  I'll strengthen the smoothed-usefulness term (raise its coef
+  step 102 edit    not_better    score 0.9616  best 0.9663  $0.0007  I'll replace the heuristic smoothed-usefulness bonus with a 
+  step 103 edit    not_better    score 0.9616  best 0.9663  $0.0008  I'll switch the tie-break from a raw residual-frequency bonu
+  step 104 edit    not_better    score 0.9659  best 0.9663  $0.0007  Replace the per-call Python loop that rebuilds the smoothed 
+  step 105 edit    invalid       score 0.0000  best 0.9663  $0.0007  I will replace the mean-based reusability bonus with a tie-b
+  step 106 edit    not_better    score 0.9633  best 0.9663  $0.0008  I'll strengthen the best-fit dominance by making the primary
+  step 107 edit    not_better    score 0.9616  best 0.9663  $0.0007  I'll replace the smoothed-histogram tie-break and mean-based
+  step 108 edit    not_better    score 0.9616  best 0.9663  $0.0005  I'll simplify to pure best-fit (smallest residual), which is
+  step 109 edit    not_better    score 0.9616  best 0.9663  $0.0005  I'll replace the current heuristic bonuses with the classic 
+  step 110 edit    not_better    score 0.9616  best 0.9663  $0.0006  I'll try the classic "worst fit"-style complementary approac
+  step 111 edit    invalid       score 0.0000  best 0.9663  $0.0006  I will switch the primary rule to pure best-fit (smallest re
+  step 112 edit    not_better    score 0.9661  best 0.9663  $0.0007  I'll replace the fixed shifted-window smoothing with a prope
+  step 113 edit    not_better    score 0.9649  best 0.9663  $0.0007  I'll keep the proven structure but replace the hard-coded 5-
+  step 114 edit    not_better    score 0.9621  best 0.9663  $0.0007  Replace the fixed 5-tap loop with a cached full-length Gauss
+  step 115 edit    not_better    score 0.9647  best 0.9663  $0.0007  I'll strengthen the exact-fill signal by looking one step ah
+  step 116 edit    not_better    score 0.9616  best 0.9663  $0.0007  I'll revert to the strongest structure but make best-fit the
+  step 117 edit    not_better    score 0.9616  best 0.9663  $0.0007  The key insight from the failed attempts is that any usefuln
+  step 118 edit    not_better    score 0.9616  best 0.9663  $0.0006  Replace the smoothed-usefulness tie-break with a principled 
+  step 119 edit    not_better    score 0.9616  best 0.9663  $0.0006  I will replace the smoothed-usefulness term with a proper on
+  step 120 edit    invalid       score 0.0000  best 0.9663  $0.0007  I'll switch the tie-break to a one-step expected-waste looka
+  step 121 edit    improved      score 0.9668  best 0.9668  $0.0007  I'll revert to the best-scoring structure but make the usefu
+  step 122 edit    not_better    score 0.9668  best 0.9668  $0.0008  I'll replace the mean-based reuse Gaussian with a sharper, p
+  step 123 edit    not_better    score 0.9654  best 0.9668  $0.0007  I'll make the best-fit primary rule strictly dominant with a
+  step 124 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll enforce best-fit as a strictly dominant primary rule by
+  step 125 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the ad-hoc mixed tie-break with a cleaner stric
+  step 126 edit    not_better    score 0.9668  best 0.9668  $0.0007  The current tie-break adds a reuse bonus and a usefulness te
+  step 127 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll replace the ad-hoc mixed tie-break with a principled bo
+  step 128 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the tie-break with a statistical "expected futu
+  step 129 edit    not_better    score 0.9616  best 0.9668  $0.0007  Try a provably strong competitive rule instead of the smooth
+  step 130 edit    not_better    score 0.9616  best 0.9668  $0.0010  The current tie-break Gaussian centered on the historical me
+  step 131 edit    not_better    score 0.9616  best 0.9668  $0.0006  The reuse bonus currently uses the running mean, which is no
+  step 132 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll strengthen the exact-match tie-break by making it depen
+  step 133 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the ad-hoc tie-break terms with a single principled 
+  step 134 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the noisy running-mean Gaussian reuse bonus wit
+  step 135 edit    not_better    score 0.9616  best 0.9668  $0.0005  Replace the hand-tuned reuse/bonus logic with a principled b
+  step 136 edit    not_better    score 0.9616  best 0.9668  $0.0010  I'll replace the ad-hoc reuse bonus with a principled "expec
+  step 137 edit    not_better    score 0.9663  best 0.9668  $0.0007  I'll add a light "harmonic-like" worst-fit tie-break on top 
+  step 138 edit    not_better    score 0.9668  best 0.9668  $0.0006  I'll replace the running-mean Gaussian reuse bonus with a co
+  step 139 edit    not_better    score 0.9668  best 0.9668  $0.0006  Replace the noisy running-mean Gaussian reuse bonus with a p
+  step 140 edit    not_better    score 0.9649  best 0.9668  $0.0006  Replace the noisy Gaussian reuse bonus with a principled sco
+  step 141 edit    invalid       score 0.0000  best 0.9668  $0.0006  Replace the exact-residual tie-break with a sub-1.0 "future-
+  step 142 edit    not_better    score 0.9422  best 0.9668  $0.0006  I'll replace the ad-hoc bonuses with a clean two-level rule:
+  step 143 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll make the tie-break term adaptive and safe: keep best-fi
+  step 144 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll make the tie-break more decisive by keeping best-fit st
+  step 145 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the ad-hoc reuse Gaussian with a principled "su
+  step 146 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the smooth histogram-based residual bonus with a str
+  step 147 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the noisy Gaussian reuse bonus and smoothed-histogra
+  step 148 edit    not_better    score 0.9616  best 0.9668  $0.0005  Keep best-fit strictly dominant but replace the noisy Gaussi
+  step 149 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll keep the proven best-fit-dominant rule (score = -residu
+  step 150 edit    not_better    score 0.9668  best 0.9668  $0.0008  I'll replace the fixed reuse Gaussian with an adaptive term 
+  step 151 edit    invalid       score 0.0000  best 0.9668  $0.0007  I'll replace the crude Gaussian reuse bonus with a principle
+  step 152 edit    not_better    score 0.9668  best 0.9668  $0.0007  Keep pure best-fit dominance (score = -residual) and replace
+  step 153 edit    not_better    score 0.9616  best 0.9668  $0.0006  I will replace the noisy Gaussian reuse term with a bin-dens
+  step 154 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the noisy Gaussian/mean-based reuse bonus with 
+  step 155 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll add a principled "perfect-pack pairing" tie-break: amon
+  step 156 edit    not_better    score 0.9616  best 0.9668  $0.0006  I will replace the reuse/mean term with a "smallest residual
+  step 157 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the noisy historical/Gaussian reuse terms with a det
+  step 158 edit    not_better    score 0.9616  best 0.9668  $0.0006  Remove the noisy Gaussian/mean-based reuse term and the smoo
+  step 159 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll replace the noisy Gaussian reuse term with a sum-of-two
+  step 160 edit    not_better    score 0.9616  best 0.9668  $0.0007  Replace the mean-centered Gaussian reuse term with a determi
+  step 161 edit    not_better    score 0.9661  best 0.9668  $0.0007  I'll replace the mean-centered Gaussian reuse term with a sm
+  step 162 edit    not_better    score 0.9663  best 0.9668  $0.0023  I'll refine the reuse tie-break by adding a second Gaussian 
+  step 163 edit    not_better    score 0.9666  best 0.9668  $0.0007  Widen the smoothing kernel to a flatter 7-wide window (offse
+  step 164 edit    not_better    score 0.9649  best 0.9668  $0.0007  I will add a bounded "complement fit" bonus computed from th
+  step 165 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll make the score a pure, deterministic best-fit rule (sco
+  step 166 edit    not_better    score 0.5224  best 0.9668  $0.0005  I'll replace the noisy historical terms with a deterministic
+  step 167 edit    not_better    score 0.9649  best 0.9668  $0.0009  Increase the bounded smoothed-histogram usefulness weight to
+  step 168 edit    not_better    score 0.9616  best 0.9668  $0.0006  Add a small best-fit-consistent tie-break that rewards resid
+  step 169 edit    not_better    score 0.9649  best 0.9668  $0.0006  I'll add a deterministic "expected future waste" term: score
+  step 170 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the noisy historical/Gaussian adjustments with 
+  step 171 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll add a deterministic "leftover quality" tie-break that f
+  step 172 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll add a small, strictly sub-1.0 tie-break that prefers re
+  step 173 edit    not_better    score 0.9616  best 0.9668  $0.0006  I will replace the weak tie-break with a strong best-fit cor
+  step 174 edit    not_better    score 0.9668  best 0.9668  $0.0008  Replace the mean-item-keyed reuse Gaussian with one keyed on
+  step 175 edit    not_better    score 0.9616  best 0.9668  $0.0007  Replace the noisy distance-to-mean reuse bonus with a term t
+  step 176 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the historical-statistics heuristic with a simp
+  step 177 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll replace the fixed reuse Gaussian with one keyed on the 
+  step 178 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the smoothed-histogram/ad-hoc bonuses with the class
+  step 179 edit    not_better    score 0.9668  best 0.9668  $0.0006  The current smoothed-histogram tie-break is noisy and hasn't
+  step 180 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the noisy histogram-based tie-break with a prin
+  step 181 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the noisy histogram/mode tie-break (which never
+  step 182 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll replace the noisy histogram-based tie-break bonuses wit
+  step 183 edit    invalid       score 0.0000  best 0.9668  $0.0007  Remove the noisy histogram/reuse bonuses entirely (they hurt
+  step 184 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll strip out the noisy histogram/reuse bonuses and keep a 
+  step 185 edit    not_better    score 0.9616  best 0.9668  $0.0005  Replace the noisy deterministic tie-breaks with pure best-fi
+  step 186 edit    not_better    score 0.9616  best 0.9668  $0.0005  Replace the ad-hoc smoothing/reuse terms with a principled "
+  step 187 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the noisy histogram/reuse tie-breaks with a pri
+  step 188 edit    not_better    score 0.9616  best 0.9668  $0.0007  The best-fit primary term should be scaled by a large consta
+  step 189 edit    not_better    score 0.9616  best 0.9668  $0.0007  I will keep the dominant best-fit primary term but replace t
+  step 190 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll add a score-based multiplicative "balance" term: keep t
+  step 191 edit    not_better    score 0.9616  best 0.9668  $0.0005  Simplify to the empirically strongest rule seen so far: remo
+  step 192 edit    not_better    score 0.9616  best 0.9668  $0.0007  I will keep the best-fit-dominant structure but replace the 
+  step 193 edit    not_better    score 0.9616  best 0.9668  $0.0008  Replace the smoothed-histogram and Gaussian reuse bonuses wi
+  step 194 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the T3-constraint with a stronger "modified bes
+  step 195 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll strengthen best-fit dominance by scaling the primary -r
+  step 196 edit    not_better    score 0.9661  best 0.9668  $0.0007  Increase the smoothed-histogram usefulness weight from 0.4 t
+  step 197 edit    not_better    score 0.9616  best 0.9668  $0.0007  The dominant best-fit term uses `tight = -residual` which gi
+  step 198 edit    not_better    score 0.9659  best 0.9668  $0.0007  I'll add a bounded "perfect-complement" bonus: after the str
+  step 199 edit    invalid       score 0.0000  best 0.9668  $0.0006  Replace the smoothed-histogram/kernel machinery with a simpl
+  step 200 edit    not_better    score 0.9616  best 0.9668  $0.0010  Replace the histogram/reuse bonuses with a clean "avoid-wast
+  step 201 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll add a bounded "future-fit" bonus that favors residuals 
+  step 202 edit    not_better    score 0.9616  best 0.9668  $0.0007  Replace the fixed integer-best-fit ordering with a rule that
+  step 203 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the current smoothed-histogram/reuse bonuses with an
+  step 204 edit    not_better    score 0.9616  best 0.9668  $0.0008  I'll replace the complicated bonus machinery with a clean, s
+  step 205 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the ad-hoc reuse Gaussian with a single tie-breaking
+  step 206 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll keep best-fit as the strict primary term but add a boun
+  step 207 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the bonus machinery with a stricter, strictly-domina
+  step 208 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the history-based bonuses with a simple "best-f
+  step 209 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll replace the tie-breaking bonus machinery with a variant
+  step 210 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the soft histogram/Gaussian bonuses (which are domin
+  step 211 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the dominated tie-break bonuses with a genuine,
+  step 212 edit    not_better    score 0.9616  best 0.9668  $0.0008  I'll replace the residual-usefulness bonus with a lookahead 
+  step 213 edit    not_better    score 0.9642  best 0.9668  $0.0006  I'll replace the fragile history/Gaussian machinery with a r
+  step 214 edit    not_better    score 0.9668  best 0.9668  $0.0007  I will add a bounded "match advantage" term that estimates, 
+  step 215 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the dominated Gaussian/mean-based reuse bonus w
+  step 216 edit    not_better    score 0.9616  best 0.9668  $0.0006  Add a bounded "waste from pairing": among bins with the mini
+  step 217 edit    not_better    score 0.9668  best 0.9668  $0.0007  Replace the dominated tie-break bonuses with a small, bounde
+  step 218 edit    not_better    score 0.9666  best 0.9668  $0.0008  Add a "future-fit" refinement: keep best-fit as the primary 
+  step 219 edit    not_better    score 0.9616  best 0.9668  $0.0006  I will add a "least-loaded fragmentation" tie-break: keep be
+  step 220 edit    not_better    score 0.9661  best 0.9668  $0.0007  I will restructure the scoring so that best-fit (smallest re
+  step 221 edit    not_better    score 0.9616  best 0.9668  $0.0006  I will keep best-fit as the strict primary rule but make the
+  step 222 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll replace the current dominant best-fit-plus-tie-break he
+  step 223 edit    not_better    score 0.9616  best 0.9668  $0.0007  Replace the hand-crafted heuristic with the classic "best fi
+  step 224 edit    not_better    score 0.9616  best 0.9668  $0.0008  I will replace the heuristic scoring with a strictly dominan
+  step 225 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the weak tie-break with a bounded "matching-fit" bon
+  step 226 edit    not_better    score 0.9616  best 0.9668  $0.0007  Use a "best-fit with a small look-ahead tie-break that prefe
+  step 227 edit    not_better    score 0.9621  best 0.9668  $0.0007  I will replace the memoryless best-fit rule with a "best fit
+  step 228 edit    not_better    score 0.9616  best 0.9668  $0.0007  I will modify the tie-break so it targets the exact-fit case
+  step 229 edit    not_better    score 0.9656  best 0.9668  $0.0007  I will add a bounded, sign-aware "waste" adjustment: keep be
+  step 230 edit    not_better    score 0.9616  best 0.9668  $0.0008  I'll replace the fixed hand-tuned constants with a "law of c
+  step 231 edit    not_better    score 0.9616  best 0.9668  $0.0006  The current heuristic perturbs best-fit with a weak margin, 
+  step 232 edit    not_better    score 0.9616  best 0.9668  $0.0005  I will remove the leaked per-instance state that persists ac
+  step 233 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll keep the dominant best-fit term but replace the weak hi
+  step 234 edit    not_better    score 0.9668  best 0.9668  $0.0008  I'll replace the heuristic tie-break with a simple, robust "
+  step 235 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the pure best-fit tie-break with a "residual-ma
+  step 236 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the weak tie-break with a self-tuning best-fit that 
+  step 237 edit    not_better    score 0.9616  best 0.9668  $0.0007  I will switch from pure best-fit to a two-scale rule that ke
+  step 238 edit    not_better    score 0.9616  best 0.9668  $0.0006  Add a small, bounded "fillability" bonus that rewards puttin
+  step 239 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the tie-break with a principled "future-fit" sc
+  step 240 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll replace the histogram-based tie-break with a pure best-
+  step 241 edit    not_better    score 0.9616  best 0.9668  $0.0007  Replace the weak smoothed-histogram tie-break with a princip
+  step 242 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll drop the noisy histogram/reuse tie-breaks and instead u
+  step 243 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll replace the current tie-break machinery with a pure bes
+  step 244 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll make the scoring a strict lexicographic best-fit where 
+  step 245 edit    not_better    score 0.9666  best 0.9668  $0.0007  I'll replace the residual-usefulness tie-break with a revise
+  step 246 edit    not_better    score 0.9616  best 0.9668  $0.0006  Add a bounded "pairing" bonus that, among bins whose residua
+  step 247 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll shift from a purely local best-fit bias to a "worst-fit
+  step 248 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll keep pure best-fit as the strictly dominant primary key
+  step 249 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the smoothed-histogram/reuse heuristics (which did n
+  step 250 edit    not_better    score 0.9668  best 0.9668  $0.0007  I'll replace the fixed Gaussian "reuse" bonus (which targets
+  step 251 edit    not_better    score 0.9630  best 0.9668  $0.0007  I'll keep exact-fill dominant but replace the linear residua
+  step 252 edit    not_better    score 0.5224  best 0.9668  $0.0005  I'll switch from best-fit residual ranking to a "worst-fit (
+  step 253 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the smoothed-histogram/reuse heuristics with a princ
+  step 254 edit    not_better    score 0.9616  best 0.9668  $0.0006  Keep best-fit (−residual) dominant, but add a small secondar
+  step 255 edit    not_better    score 0.9616  best 0.9668  $0.0006  I'll replace the noisy smoothed-histogram and Gaussian reuse
+  step 256 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll keep exact-fill and best-fit dominant, but replace the 
+  step 257 edit    not_better    score 0.9614  best 0.9668  $0.0006  I will replace the noisy smoothed-histogram and Gaussian reu
+  step 258 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll remove all the noisy secondary heuristics (smoothed his
+  step 259 edit    not_better    score 0.9616  best 0.9668  $0.0007  I'll replace the noisy histogram/reuse bonuses with a bounde
+  step 260 edit    not_better    score 0.9663  best 0.9668  $0.0007  I'll keep best-fit dominant but strengthen and sharpen the r
+  step 261 edit    gate_rejected score 0.9670  best 0.9668  $0.0007  I'll strengthen the residual-usefulness tie-break by making 
+  step 262 edit    not_better    score 0.9666  best 0.9668  $0.0007  I'll replace the noisy smoothed-histogram usefulness term wi
+  step 263 edit    not_better    score 0.9616  best 0.9668  $0.0007  Replace the 5-tap smoothed histogram with a sharper single-s
+  step 264 edit    not_better    score 0.9663  best 0.9668  $0.0006  I will sharpen the usefulness tie-break by replacing the sym
+  step 265 edit    not_better    score 0.9616  best 0.9668  $0.0005  I'll replace the noisy secondary heuristics with a determini
+  step 266 edit    not_better    score 0.9649  best 0.9668  $0.0006  Replace the smoothed 5-tap kernel with a sharp single-tap re
+  step 267 edit    invalid       score 0.0000  best 0.9668  $0.0006  I will keep the strictly best-fit-dominant ordering (tight r
+  step 268 edit    not_better    score 0.9616  best 0.9668  $0.0006  The best-fit gap is the dominant signal, so I'll make exact-
+  step 269 edit    not_better    score 0.9663  best 0.9668  $0.0007  I'll add a light "sum-of-residuals" consolidation objective:
+  step 270 edit    not_better    score 0.9649  best 0.9668  $0.0006  I'll make the tie-break term depend on the item size in a sc
+  step 271 edit    not_better    score 0.9654  best 0.9668  $0.0006  I'll replace the heuristic tie-breaking with a deterministic
+  step 272 edit    not_better    score 0.9616  best 0.9668  $0.0008  I'll make the tie-break deterministic and stably beneficial:
+  step 273 edit    not_better    score 0.9616  best 0.9668  $0.0005  Replace the noisy smoothed-histogram and Gaussian-reuse tie-
+  step 274 edit    not_better    score 0.9637  best 0.9668  $0.0007  I will strengthen the reuse of nearly-full bins by making th
+  step 275 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the fixed smoothed-histogram / Gaussian-reuse tie-br
+  step 276 edit    not_better    score 0.9616  best 0.9668  $0.0006  The current tie-break only fires on exact equal residuals, w
+  step 277 edit    invalid       score 0.0000  best 0.9668  $0.0007  Replace the smoothed-kernel and Gaussian-reuse tie-breakers 
+  step 278 edit    not_better    score 0.9616  best 0.9668  $0.0006  Replace the smoothed-kernel histogram and Gaussian reuse bon
+  step 279 edit    improved      score 0.9747  best 0.9747  $0.0007  I'll replace the fixed -residual + small bonuses with a scal
+  step 280 edit    gate_rejected score 0.9749  best 0.9747  $0.0008  Make the tie-break among equal-residual bins context-depende
+  step 281 edit    not_better    score 0.9706  best 0.9747  $0.0007  I'll replace the somewhat arbitrary log-penalty coefficients
+  step 282 edit    not_better    score 0.9701  best 0.9747  $0.0008  Increase the dominance of the proven log tight-fit term from
+  step 283 edit    improved      score 0.9749  best 0.9749  $0.0007  Add a small bonus that rewards bins whose exact leftover cap
+  step 284 edit    not_better    score 0.9749  best 0.9749  $0.0007  I will make the smoothed-frequency bonus depend on the arriv
+  step 285 edit    gate_rejected score 0.9749  best 0.9749  $0.0008  I'll add a targeted "sum-complement" bonus: in addition to r
+  step 286 edit    not_better    score 0.9616  best 0.9749  $0.0006  I'll replace the noisy smoothed-kernel histogram and the reu
+  step 287 edit    not_better    score 0.9749  best 0.9749  $0.0008  (no description)
+  step 288 edit    invalid       score 0.0000  best 0.9749  $0.0008  I'll strengthen the exact-residual reuse signal by giving th
+  step 289 edit    not_better    score 0.9749  best 0.9749  $0.0008  I'll replace the fixed Gaussian reuse term's constant 0.25-m
+  step 290 edit    not_better    score 0.9614  best 0.9749  $0.0006  I'll calibrate the reuse-term bonus so it is driven by the t
+  step 291 edit    not_better    score 0.9614  best 0.9749  $0.0006  The smoothed frequency convolution is noisy and adds cost ea
+  step 292 edit    not_better    score 0.9616  best 0.9749  $0.0006  I'll strengthen best-fit dominance (raise the log-penalty we
+  step 293 edit    not_better    score 0.9616  best 0.9749  $0.0007  I'll replace the smoothed-kernel convolution (noisy and orde
+  step 294 edit    not_better    score 0.9614  best 0.9749  $0.0006  Replace the noisy Gaussian reuse term with a deterministic "
+  step 295 edit    not_better    score 0.9614  best 0.9749  $0.0006  I'll make the tie-break signal purely predictive and stable:
+  step 296 edit    not_better    score 0.9616  best 0.9749  $0.0007  The best-fit dominance term is currently a log penalty that 
+  step 297 edit    not_better    score 0.9616  best 0.9749  $0.0006  The Gaussian reuse term is the only part that ever helped, s
+  step 298 edit    not_better    score 0.9614  best 0.9749  $0.0006  I'll replace the noisy smoothed-kernel convolution and the G
+  step 299 edit    invalid       score 0.0000  best 0.9749  $0.0008  I'll add an adaptive "fullness matching" term: instead of on
+  step 300 edit    improved      score 0.9809  best 0.9809  $0.0007  I'll rebuild from the original 0.9749 version but simplify t
+[done] loop__bin_packing_online__s2: status ok, spent $0.1928 of $0.75, 300 calls, 300 evals, public 0.9616415083396637 -> 0.980942086866756, hidden 0.9776275000574066
+  baseline funsearch_or           public 0.9699  hidden 0.9702
+  baseline funsearch_weibull      public 0.9925  hidden 0.9928
+  explaining best_program.py (up to 40 evaluations)
+== bin_packing_online: lean + gate, deepseek-ai/DeepSeek-V4.1-Flash:deepinfra (hf)
+spend     $0.1928 of $0.75 cap, 300 calls, 300 evals, search 1826 s
+public    0.9616 -> 0.9809   (initial -> final incumbent; selected on)
+hidden    0.9604 -> 0.9776   (fresh audit, never selected on)
+baselines funsearch_or 0.9699/0.9702, funsearch_weibull 0.9925/0.9928
+explain   28 parts: 8 can go, 1 REPAIRED; minimal program public 0.9805, hidden 0.9793
+report    /Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s2/report.md

@@ -1,0 +1,137 @@
+{
+  "job_id": "loop__bin_packing_online__s2",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-long/problems/bin_packing_online",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 0.75,
+  "spent_usd": 0.192763,
+  "within_cap": true,
+  "tokens": 654824,
+  "calls": 300,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 300
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 300
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.192763
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 300,
+  "valid_evals": 287,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.9616415083396637,
+  "initial_hidden": 0.960408920805711,
+  "final_public": 0.980942086866756,
+  "final_hidden": 0.9776275000574066,
+  "final_sha": "d623aadd858ad833",
+  "max_public_seen": 0.980942086866756,
+  "hidden_of_max_public_seen": 0.9776275000574066,
+  "improvements": 7,
+  "usd_per_improvement": 0.027538,
+  "tokens_per_improvement": 93546,
+  "auc": 0.977319,
+  "auc_gain": 0.40871,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1825.6,
+  "status": "ok",
+  "arm_result": "max_iters",
+  "completion": "stopped_early",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.192763,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 4.0,
+      "t": 1791073063.734146,
+      "incumbent_public": 0.9616415083396637,
+      "incumbent_hidden": 0.960408920805711,
+      "sha": "609927c5ea619a94"
+    },
+    {
+      "spent_usd": 0.011811,
+      "budget_frac": 0.015748,
+      "tokens": 41634,
+      "wall_s": 125.0,
+      "t": 1791073184.736054,
+      "incumbent_public": 0.9649208261764982,
+      "incumbent_hidden": 0.9631922007531764,
+      "sha": "c8ffb648a239f20d"
+    },
+    {
+      "spent_usd": 0.020073,
+      "budget_frac": 0.026764,
+      "tokens": 70233,
+      "wall_s": 197.3,
+      "t": 1791073257.085441,
+      "incumbent_public": 0.966097909838884,
+      "incumbent_hidden": 0.9638808196398903,
+      "sha": "572dbe298dd3d6b1"
+    },
+    {
+      "spent_usd": 0.055029,
+      "budget_frac": 0.073372,
+      "tokens": 187731,
+      "wall_s": 535.8,
+      "t": 1791073595.531348,
+      "incumbent_public": 0.966333369043793,
+      "incumbent_hidden": 0.9641198942109903,
+      "sha": "15962d5c8e01dc18"
+    },
+    {
+      "spent_usd": 0.074353,
+      "budget_frac": 0.099137,
+      "tokens": 253124,
+      "wall_s": 743.8,
+      "t": 1791073803.516257,
+      "incumbent_public": 0.9668049772755003,
+      "incumbent_hidden": 0.963659002184685,
+      "sha": "0a73f5c26dd413e3"
+    },
+    {
+      "spent_usd": 0.178074,
+      "budget_frac": 0.237432,
+      "tokens": 605668,
+      "wall_s": 1677.8,
+      "t": 1791074737.5601761,
+      "incumbent_public": 0.9746588042454749,
+      "incumbent_hidden": 0.9742722491446167,
+      "sha": "d339da937a7b27bf"
+    },
+    {
+      "spent_usd": 0.181019,
+      "budget_frac": 0.241359,
+      "tokens": 615153,
+      "wall_s": 1707.4,
+      "t": 1791074767.126536,
+      "incumbent_public": 0.97489963585893,
+      "incumbent_hidden": 0.9742745482130168,
+      "sha": "b61d2cb6281ec7c9"
+    },
+    {
+      "spent_usd": 0.192763,
+      "budget_frac": 0.257017,
+      "tokens": 654824,
+      "wall_s": 1825.6,
+      "t": 1791074885.348126,
+      "incumbent_public": 0.980942086866756,
+      "incumbent_hidden": 0.9776275000574066,
+      "sha": "d623aadd858ad833"
+    }
+  ]
+}

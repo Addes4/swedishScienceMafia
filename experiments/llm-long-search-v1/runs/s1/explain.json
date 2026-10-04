@@ -1,0 +1,273 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.9924857006816661,
+    "hidden": 0.9917608960849518,
+    "code": "\"\"\"Best fit with a \"reusable residual\" objective.\n\nExact fills are strongly preferred. Otherwise, prefer leaving a residual that\nmatches a recently-seen item size (so the next few arrivals can fill it exactly),\nfalling back toward a mild preference for residuals near the running mean.\n\"\"\"\nimport numpy as np\n_hist = np.zeros(101, dtype=np.float64)\n_count = 0.0\n_sum = 0.0\n_seen = np.zeros(101, dtype=np.float64)\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    global _hist, _count, _sum, _seen\n    _hist[item] += 1.0\n    _count += 1.0\n    _sum += item\n    _seen *= 0.999\n    _seen[item] += 1.0\n    residual = bins - item\n    res = residual.astype(np.float64)\n    if _count > 0:\n        mean_item = _sum / _count\n    else:\n        mean_item = 40.0\n    seen_present = _seen > 0.0\n    idx = np.nonzero(seen_present)[0]\n    if idx.size > 0:\n        vals = np.arange(101, dtype=np.float64)\n        d = np.abs(vals[:, None] - idx[None, :].astype(np.float64))\n        nearest = d.min(axis=1)\n    else:\n        nearest = np.abs(np.arange(101, dtype=np.float64) - mean_item)\n    score = -nearest[residual.astype(np.int64)]\n    score += -0.05 * np.abs(res - mean_item)\n    score += np.where(residual == 0, 1000.0, 0.0)\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9924857006816661,
+    "hidden": 0.9917608960849518,
+    "code": "\"\"\"Best fit with a \"reusable residual\" objective.\n\nExact fills are strongly preferred. Otherwise, prefer leaving a residual that\nmatches a recently-seen item size (so the next few arrivals can fill it exactly),\nfalling back toward a mild preference for residuals near the running mean.\n\"\"\"\nimport numpy as np\n_hist = np.zeros(101, dtype=np.float64)\n_count = 0.0\n_sum = 0.0\n_seen = np.zeros(101, dtype=np.float64)\n\ndef priority(item, bins):\n    \"\"\"Return a priority for every bin in `bins`; the item goes to the highest (first on ties).\"\"\"\n    global _hist, _count, _sum, _seen\n    _count += 1.0\n    _sum += item\n    _seen[item] += 1.0\n    residual = bins - item\n    res = residual.astype(np.float64)\n    if _count > 0:\n        mean_item = _sum / _count\n    else:\n        pass\n    seen_present = _seen > 0.0\n    idx = np.nonzero(seen_present)[0]\n    if idx.size > 0:\n        vals = np.arange(101, dtype=np.float64)\n        d = np.abs(vals[:, None] - idx[None, :].astype(np.float64))\n        nearest = d.min(axis=1)\n    else:\n        pass\n    score = -nearest[residual.astype(np.int64)]\n    score += -0.05 * np.abs(res - mean_item)\n    score += np.where(residual == 0, 1000.0, 0.0)\n    return score\n",
+    "removed": [
+      1,
+      4,
+      12,
+      19
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 19,
+      "text": "global _hist, _count, _sum, _seen",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 20,
+      "text": "_hist[item] += 1.0",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 21,
+      "text": "_count += 1.0",
+      "inside": [],
+      "delta": -0.0014879946329158233,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 22,
+      "text": "_sum += item",
+      "inside": [],
+      "delta": -0.03456517844706575,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 24,
+      "text": "_seen *= 0.999",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 25,
+      "text": "_seen[item] += 1.0",
+      "inside": [],
+      "delta": -0.0012388779904646263,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 27,
+      "text": "residual = bins - item",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "term",
+      "line": 27,
+      "text": "term + bins",
+      "inside": [
+        6
+      ],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 8,
+      "kind": "term",
+      "line": 27,
+      "text": "term - item",
+      "inside": [
+        6
+      ],
+      "delta": -0.08566327106902594,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 28,
+      "text": "res = residual.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 30,
+      "text": "if _count > 0: ...",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 31,
+      "text": "mean_item = _sum / _count",
+      "inside": [
+        10
+      ],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 33,
+      "text": "mean_item = 40.0",
+      "inside": [
+        10
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 37,
+      "text": "seen_present = _seen > 0.0",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 41,
+      "text": "idx = np.nonzero(seen_present)[0]",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 42,
+      "text": "if idx.size > 0: ...",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 44,
+      "text": "vals = np.arange(101, dtype=np.float64)",
+      "inside": [
+        15
+      ],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 17,
+      "kind": "statement",
+      "line": 45,
+      "text": "d = np.abs(vals[:, None] - idx[None, :].astype(np.float64))",
+      "inside": [
+        15
+      ],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 18,
+      "kind": "statement",
+      "line": 46,
+      "text": "nearest = d.min(axis=1)",
+      "inside": [
+        15
+      ],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 48,
+      "text": "nearest = np.abs(np.arange(101, dtype=np.float64) - mean_item)",
+      "inside": [
+        15
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 20,
+      "kind": "statement",
+      "line": 51,
+      "text": "score = -nearest[residual.astype(np.int64)]",
+      "inside": [],
+      "delta": -0.9924857006816661,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 21,
+      "kind": "statement",
+      "line": 54,
+      "text": "score += -0.05 * np.abs(res - mean_item)",
+      "inside": [],
+      "delta": -0.035950320582304185,
+      "valid": true,
+      "verdict": "matters"
+    },
+    {
+      "id": 22,
+      "kind": "statement",
+      "line": 57,
+      "text": "score += np.where(residual == 0, 1000.0, 0.0)",
+      "inside": [],
+      "delta": -0.2836436194203453,
+      "valid": true,
+      "verdict": "matters"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-llm-long/experiments/llm-long-search-v1/runs/s1/best_program.py"
+}
