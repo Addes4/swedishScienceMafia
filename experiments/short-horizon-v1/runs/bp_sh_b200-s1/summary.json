@@ -1,0 +1,97 @@
+{
+  "job_id": "loop__bp_sh_b200__s1",
+  "arm": "lean",
+  "arm_type": "lean",
+  "problem": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/problems/bp_sh_b200",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 0.2,
+  "spent_usd": 0.090013,
+  "within_cap": true,
+  "tokens": 309427,
+  "calls": 150,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 150
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 150
+  },
+  "usd_by_model": {
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.090013
+  },
+  "external_usd": 0,
+  "idea_calls": 0,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 151,
+  "valid_evals": 151,
+  "evals_with_timeout": 1,
+  "instance_timeouts": 2,
+  "initial_public": 0.9443906996297546,
+  "initial_hidden": 0.9633920746934446,
+  "final_public": 0.9502428726353667,
+  "final_hidden": 0.9678380850956703,
+  "final_sha": "ee5437a6078eea2e",
+  "max_public_seen": 0.9502428726353667,
+  "hidden_of_max_public_seen": 0.9678380850956703,
+  "improvements": 3,
+  "usd_per_improvement": 0.030004,
+  "tokens_per_improvement": 103142,
+  "auc": 0.948857,
+  "auc_gain": 0.080308,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1666.9,
+  "status": "ok",
+  "arm_result": "max_iters",
+  "completion": "stopped_early",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.090013,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 7.9,
+      "t": 1791091425.542677,
+      "incumbent_public": 0.9443906996297546,
+      "incumbent_hidden": 0.9633920746934446,
+      "sha": "609927c5ea619a94"
+    },
+    {
+      "spent_usd": 0.016306,
+      "budget_frac": 0.08153,
+      "tokens": 56067,
+      "wall_s": 337.5,
+      "t": 1791091755.077417,
+      "incumbent_public": 0.9468580544707814,
+      "incumbent_hidden": 0.9673635233376991,
+      "sha": "e4eccdb3b3c224d0"
+    },
+    {
+      "spent_usd": 0.069438,
+      "budget_frac": 0.34719,
+      "tokens": 238459,
+      "wall_s": 1328.7,
+      "t": 1791092746.2943301,
+      "incumbent_public": 0.9495622540765967,
+      "incumbent_hidden": 0.9671294715273628,
+      "sha": "bd7f61a199bb23f2"
+    },
+    {
+      "spent_usd": 0.072364,
+      "budget_frac": 0.36182,
+      "tokens": 248640,
+      "wall_s": 1374.1,
+      "t": 1791092791.725149,
+      "incumbent_public": 0.9502428726353667,
+      "incumbent_hidden": 0.9678380850956703,
+      "sha": "ee5437a6078eea2e"
+    }
+  ]
+}

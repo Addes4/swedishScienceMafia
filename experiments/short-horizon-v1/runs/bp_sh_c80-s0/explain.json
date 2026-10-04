@@ -1,0 +1,375 @@
+{
+  "function": "priority",
+  "tol": 0.002,
+  "max_evals": 40,
+  "evals": 40,
+  "original": {
+    "public": 0.9351125218343016,
+    "hidden": 0.9624633310551027,
+    "code": "\"\"\"Best fit biased so that the residual left behind is likely reusable.\"\"\"\nimport numpy as np\n_state = {'sizes': []}\n\ndef priority(item, bins):\n    sizes = _state['sizes']\n    sizes.append(int(item))\n    if len(sizes) > 2000:\n        del sizes[:1000]\n    if len(sizes) >= 20:\n        arr = np.array(sizes, dtype=np.float64)\n        mu = arr.mean()\n        sd = arr.std()\n    else:\n        mu = 40.0\n        sd = 20.0\n    tmp = int(mu)\n    if tmp < 1:\n        tmp = 1\n    if tmp > 100:\n        tmp = 100\n    band = tmp\n    tol = int(0.25 * band) + 1\n    resid = bins - item\n    score = -resid.astype(np.float64)\n    useful = (resid >= 0) & (resid <= 100)\n    near_band = useful & (np.abs(resid - band) <= tol)\n    score += np.where(near_band, 6.0, 0.0)\n    reusable = useful & (resid >= band - tol) & (resid <= 100)\n    score += np.where(reusable, 1.0, 0.0)\n    sliver = useful & (resid > 0) & (resid < max(1, band - tol))\n    score -= np.where(sliver, 1.0, 0.0)\n    empty = bins == 100\n    score -= np.where(empty, 0.5, 0.0)\n    return score\n"
+  },
+  "minimal": {
+    "public": 0.9348974407823712,
+    "hidden": 0.9633920746934446,
+    "code": "\"\"\"Best fit biased so that the residual left behind is likely reusable.\"\"\"\nimport numpy as np\n_state = {'sizes': []}\n\ndef priority(item, bins):\n    sizes = _state['sizes']\n    sizes.append(int(item))\n    if len(sizes) >= 20:\n        arr = np.array(sizes, dtype=np.float64)\n        mu = arr.mean()\n    else:\n        mu = 40.0\n    tmp = int(mu)\n    band = tmp\n    tol = int(0.25 * band) + 1\n    resid = bins - item\n    score = -resid.astype(np.float64)\n    useful = (resid >= 0) & (resid <= 100)\n    near_band = useful & (np.abs(resid - band) <= tol)\n    reusable = useful & (resid >= band - tol) & (resid <= 100)\n    sliver = useful & (resid > 0) & (resid < max(1, band - tol))\n    empty = bins == 100\n    score -= np.where(empty, 0.5, 0.0)\n    return score\n",
+    "removed": [
+      2,
+      7,
+      9,
+      11,
+      13,
+      25,
+      27,
+      29
+    ]
+  },
+  "parts": [
+    {
+      "id": 0,
+      "kind": "statement",
+      "line": 9,
+      "text": "sizes = _state['sizes']",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 1,
+      "kind": "statement",
+      "line": 10,
+      "text": "sizes.append(int(item))",
+      "inside": [],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 2,
+      "kind": "statement",
+      "line": 11,
+      "text": "if len(sizes) > 2000: ...",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 3,
+      "kind": "statement",
+      "line": 12,
+      "text": "del sizes[:1000]",
+      "inside": [
+        2
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 4,
+      "kind": "statement",
+      "line": 15,
+      "text": "if len(sizes) >= 20: ...",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 5,
+      "kind": "statement",
+      "line": 16,
+      "text": "arr = np.array(sizes, dtype=np.float64)",
+      "inside": [
+        4
+      ],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 6,
+      "kind": "statement",
+      "line": 17,
+      "text": "mu = arr.mean()",
+      "inside": [
+        4
+      ],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 7,
+      "kind": "statement",
+      "line": 18,
+      "text": "sd = arr.std()",
+      "inside": [
+        4
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 8,
+      "kind": "statement",
+      "line": 20,
+      "text": "mu = 40.0",
+      "inside": [
+        4
+      ],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 9,
+      "kind": "statement",
+      "line": 21,
+      "text": "sd = 20.0",
+      "inside": [
+        4
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 10,
+      "kind": "statement",
+      "line": 23,
+      "text": "tmp = int(mu)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 11,
+      "kind": "statement",
+      "line": 24,
+      "text": "if tmp < 1: ...",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 12,
+      "kind": "statement",
+      "line": 25,
+      "text": "tmp = 1",
+      "inside": [
+        11
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 13,
+      "kind": "statement",
+      "line": 26,
+      "text": "if tmp > 100: ...",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 14,
+      "kind": "statement",
+      "line": 27,
+      "text": "tmp = 100",
+      "inside": [
+        13
+      ],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go (inside a removed statement)"
+    },
+    {
+      "id": 15,
+      "kind": "statement",
+      "line": 28,
+      "text": "band = tmp",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 16,
+      "kind": "statement",
+      "line": 30,
+      "text": "tol = int(0.25 * band) + 1",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 17,
+      "kind": "term",
+      "line": 30,
+      "text": "term + int(0.25 * band)",
+      "inside": [
+        16
+      ],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 18,
+      "kind": "term",
+      "line": 30,
+      "text": "term + 1",
+      "inside": [
+        16
+      ],
+      "delta": -0.00021508105193035476,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 19,
+      "kind": "statement",
+      "line": 32,
+      "text": "resid = bins - item",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 20,
+      "kind": "term",
+      "line": 32,
+      "text": "term + bins",
+      "inside": [
+        19
+      ],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 21,
+      "kind": "term",
+      "line": 32,
+      "text": "term - item",
+      "inside": [
+        19
+      ],
+      "delta": -0.0006449901907398248,
+      "valid": true,
+      "verdict": "no effect alone"
+    },
+    {
+      "id": 22,
+      "kind": "statement",
+      "line": 35,
+      "text": "score = -resid.astype(np.float64)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 23,
+      "kind": "statement",
+      "line": 39,
+      "text": "useful = (resid >= 0) & (resid <= 100)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 24,
+      "kind": "statement",
+      "line": 40,
+      "text": "near_band = useful & (np.abs(resid - band) <= tol)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 25,
+      "kind": "statement",
+      "line": 41,
+      "text": "score += np.where(near_band, 6.0, 0.0)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 26,
+      "kind": "statement",
+      "line": 44,
+      "text": "reusable = useful & (resid >= band - tol) & (resid <= 100)",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 27,
+      "kind": "statement",
+      "line": 45,
+      "text": "score += np.where(reusable, 1.0, 0.0)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 28,
+      "kind": "statement",
+      "line": 48,
+      "text": "sliver = useful & (resid > 0) & (resid < max(1, band - tol))",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 29,
+      "kind": "statement",
+      "line": 49,
+      "text": "score -= np.where(sliver, 1.0, 0.0)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "can go"
+    },
+    {
+      "id": 30,
+      "kind": "statement",
+      "line": 52,
+      "text": "empty = bins == 100",
+      "inside": [],
+      "delta": -0.9351125218343016,
+      "valid": false,
+      "verdict": "essential: the program fails or turns invalid without it"
+    },
+    {
+      "id": 31,
+      "kind": "statement",
+      "line": 53,
+      "text": "score -= np.where(empty, 0.5, 0.0)",
+      "inside": [],
+      "delta": 0.0,
+      "valid": true,
+      "verdict": "no effect alone"
+    }
+  ],
+  "repaired": [],
+  "untested": [],
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/experiments/short-horizon-v1/runs/bp_sh_c80-s0/best_program.py"
+}

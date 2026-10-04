@@ -1,0 +1,93 @@
+{
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-short-horizon/problems/bp_sh_e_rand/baselines/funsearch_weibull.py",
+  "static_violations": [],
+  "public": [
+    {
+      "instance": {
+        "name": "instance 1",
+        "streams": [
+          [
+            85500,
+            5000
+          ]
+        ]
+      },
+      "label": "instance 1 (5000 items, lower bound 1993 bins)",
+      "seconds": 1.0315410000039265,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9925298804780877,
+      "reason": "2008 bins",
+      "normalized": 0.9925298804780877
+    },
+    {
+      "instance": {
+        "name": "instance 2",
+        "streams": [
+          [
+            85501,
+            5000
+          ]
+        ]
+      },
+      "label": "instance 2 (5000 items, lower bound 1985 bins)",
+      "seconds": 1.0214820839755703,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9949874686716792,
+      "reason": "1995 bins",
+      "normalized": 0.9949874686716792
+    },
+    {
+      "instance": {
+        "name": "instance 3",
+        "suite": "suite.json"
+      },
+      "label": "instance 3 (519 short streams of 2-30 items)",
+      "seconds": 0.14167733301292174,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9999962,
+      "reason": "380 streams worse than best fit",
+      "normalized": 0.9999962
+    }
+  ],
+  "hidden": [
+    {
+      "instance": {
+        "name": "hidden 1",
+        "streams": [
+          [
+            85900,
+            5000
+          ]
+        ]
+      },
+      "label": "hidden 1 (5000 items, lower bound 1973 bins)",
+      "seconds": 1.0922252500022296,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9939546599496222,
+      "reason": "1985 bins",
+      "normalized": 0.9939546599496222
+    },
+    {
+      "instance": {
+        "name": "hidden 2",
+        "streams": [
+          [
+            85901,
+            5000
+          ]
+        ]
+      },
+      "label": "hidden 2 (5000 items, lower bound 1999 bins)",
+      "seconds": 1.090382291993592,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9935387673956262,
+      "reason": "2012 bins",
+      "normalized": 0.9935387673956262
+    }
+  ]
+}
