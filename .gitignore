@@ -4,5 +4,4 @@ __pycache__/
 runs/
 .DS_Store
 *.log
-mosa/domains/generated/
 baselines/out/

@@ -213,7 +213,8 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
 .msg.agent { align-self: flex-start; color: var(--text); }
 .msg.agent .plan { color: var(--muted); font-size: 12px; margin-top: 4px; }
 .msg.note { align-self: stretch; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 8px; }
-.msg.thinking { display: flex; gap: 8px; align-items: center; color: var(--muted); }
+.msg.thinking { color: var(--muted); }
+.msg.thinking .line { display: flex; gap: 8px; align-items: center; }
 .msg.thinking .ring { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--line-strong); border-top-color: var(--accent); animation: spin .9s linear infinite; }
 .composer { border-top: 1px solid var(--line); padding: 12px 16px; }
 .composer .box { display: flex; align-items: flex-end; gap: 6px; background: var(--side); border: 1px solid var(--line-strong); border-radius: 8px; padding: 6px 6px 6px 10px; }
@@ -234,8 +235,8 @@ textarea.prompt { min-height: 96px; font: 15px/1.5 var(--ui); padding: 12px 14px
 .instances.grouped { display: grid; gap: 4px; }
 .inst-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 2px; }
 .inst-problem { color: var(--muted); font-size: 12px; width: 140px; flex: none; }
-.msg.thinking .elapsed { color: var(--faint); margin-left: 6px; }
-.msg.thinking .draft-note { color: var(--muted); font-size: 12px; margin: 6px 0 0 22px; line-height: 1.45; }
+.msg.thinking .elapsed { color: var(--faint); }
+.msg.thinking .draft-note { color: var(--muted); font-size: 12px; margin: 6px 0 0 19px; line-height: 1.45; }
 .msg.failed { color: var(--error); border-left: 2px solid var(--error); padding-left: 10px; }
 .msg.failed strong { font-weight: 600; }
 .spend { color: var(--muted); font-size: 12px; }

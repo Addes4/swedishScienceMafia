@@ -503,8 +503,10 @@ function messagesHTML() {
   const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
   const pending = S.pending && S.pending.lab === S.lab && book.events.filter((e) => e.type === "request").length <= S.pending.since ? S.pending : null;
   if (pending) { items.push(`<div class="msg user">${contextHTML(book, pending.context)}${esc(pending.text)}</div>`); waiting = "Thinking"; }
-  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}${draft
-    ? ` <span class="elapsed">${Math.floor(draft.seconds / 60)} min</span>${draft.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}` : ""}</div>`);
+  if (waiting) {
+    const minutes = draft ? Math.floor(draft.seconds / 60) : 0;
+    items.push(`<div class="msg agent thinking"><div class="line"><span class="ring spin"></span><span>${typeof waiting === "string" ? waiting : "Thinking"}</span>${minutes ? `<span class="elapsed">${minutes} min</span>` : ""}</div>${draft?.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}</div>`);
+  }
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
   return items.join("");
 }
@@ -524,7 +526,7 @@ function harnessHTML(e) {
   const r = e.report || {}, sizes = r.sizes || [];
   const rows = sizes.map((s) => `<li>n = ${s.n}: ${s.invalid ? `${s.invalid} of 4 solutions failed the checker` : "all 4 solutions passed the checker"}${s.best_known != null ? `, best ${Number(s.best_found).toPrecision(8)} against the published ${Number(s.best_known).toPrecision(8)}` : `, best ${Number(s.best_found).toPrecision(8)}`}</li>`).join("");
   const verdict = r.passed ? `${ICON.check} Passed its self-test` : `${ICON.fail} Failed its self-test`;
-  return `<div class="msg agent"><div class="section-label">New problem</div><strong>${esc(e.title)}</strong>
+  return `<div class="msg agent"><div class="section-label">New problem${e.forked_from ? `, forked from ${esc(e.forked_from)}` : ""}</div><strong>${esc(e.title)}</strong>
     <div class="harness-about">${esc(e.about || "")}</div>
     <div class="harness-verdict ${r.passed ? "ok" : "bad"}">${verdict}</div>
     ${rows ? `<ul class="checks">${rows}${r.rejects_malformed === false ? "<li>does not reject malformed solutions</li>" : ""}</ul>` : ""}
