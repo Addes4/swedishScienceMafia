@@ -154,7 +154,7 @@ All three are fixed on `consolidate-overnight`, not yet on `main`.
 | Publish the consolidation | Pushed `consolidate-overnight` and opened [PR #3](https://github.com/swedishScienceMafia/swedishScienceMafia/pull/3) into `main` (not merged) | Team review |
 | One runnable framework | Built: `python -m autoresearch.loop` on branch `feat/one-command` (see the 23:39 entry and [runs/README.md](../../runs/README.md) for the demo plan). At the user's choice, pushed and opened as [PR #4](https://github.com/swedishScienceMafia/swedishScienceMafia/pull/4) into `consolidate-overnight` (on top of PR #3) | Team review, then merge into PR #3 |
 | Submission | Video of at most 4 minutes, repo URL and short description to admin@algorithmdiscovery.org by 14:45 on 4 Oct, the event's submission deadline ([schedule](https://github.com/swedishScienceMafia/swedishScienceMafia/blob/archive/full-research-2026-10-04/docs/hackathon/website.md)). The "10:30 code freeze" in earlier plans was an internal target, not an event rule. Draft description, video outline and Q&A are in `docs/papers/pitch-draft.md` | Owner |
-| Review PDF | Done: PR #2 was closed at about 06:20 on 4 October; its refreshed PDF and build script are in [docs/papers/review/](https://github.com/swedishScienceMafia/swedishScienceMafia/tree/archive/full-research-2026-10-04/docs/papers/review) | – |
+| Review PDF | Done: PR #2 was closed at about 06:20 on 4 October; its refreshed PDF and build script are kept outside GitHub with the other papers | – |
 | Devin | Check the session; it may lack access to the GitHub org | User |
 
 ## Devin task, as pasted by the user
