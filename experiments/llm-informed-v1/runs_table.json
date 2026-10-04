@@ -1,0 +1,90 @@
+[
+ {
+  "arm": "informed",
+  "seed": 0,
+  "spent_usd": 0.253745,
+  "steps": 236,
+  "improvements": 17,
+  "public_excess_pct": 0.9593537591260803,
+  "hidden_excess_pct": 0.9812955024102177,
+  "fresh_excess_pct": 1.062655187285745,
+  "fresh_minus_public_pp": 0.1033014281596647
+ },
+ {
+  "arm": "informed",
+  "seed": 1,
+  "spent_usd": 0.265021,
+  "steps": 300,
+  "improvements": 12,
+  "public_excess_pct": 1.6661703534899042,
+  "hidden_excess_pct": 2.1360085884574165,
+  "fresh_excess_pct": 1.969203248926264,
+  "fresh_minus_public_pp": 0.3030328954363599
+ },
+ {
+  "arm": "informed",
+  "seed": 2,
+  "spent_usd": 0.29357,
+  "steps": 300,
+  "improvements": 9,
+  "public_excess_pct": 0.7321257868384334,
+  "hidden_excess_pct": 0.8805043429799042,
+  "fresh_excess_pct": 1.0828111627969945,
+  "fresh_minus_public_pp": 0.3506853759585611
+ },
+ {
+  "arm": "informed",
+  "seed": 3,
+  "spent_usd": 0.259595,
+  "steps": 300,
+  "improvements": 12,
+  "public_excess_pct": 1.1611972538329463,
+  "hidden_excess_pct": 1.3317892298783995,
+  "fresh_excess_pct": 1.3298577303846202,
+  "fresh_minus_public_pp": 0.16866047655167393
+ },
+ {
+  "arm": "uninformed",
+  "seed": 0,
+  "spent_usd": 0.193883,
+  "steps": 300,
+  "improvements": 4,
+  "public_excess_pct": 0.7569294743243749,
+  "hidden_excess_pct": 0.6795530203082212,
+  "fresh_excess_pct": 0.8100690916195511,
+  "fresh_minus_public_pp": 0.053139617295176245
+ },
+ {
+  "arm": "uninformed",
+  "seed": 1,
+  "spent_usd": 0.201041,
+  "steps": 300,
+  "improvements": 4,
+  "public_excess_pct": 0.7571191517593556,
+  "hidden_excess_pct": 0.8307550688449794,
+  "fresh_excess_pct": 0.8328465308895145,
+  "fresh_minus_public_pp": 0.07572737913015892
+ },
+ {
+  "arm": "uninformed",
+  "seed": 2,
+  "spent_usd": 0.192763,
+  "steps": 300,
+  "improvements": 7,
+  "public_excess_pct": 1.9428173577624053,
+  "hidden_excess_pct": 2.2884483038048353,
+  "fresh_excess_pct": 1.9648474915891294,
+  "fresh_minus_public_pp": 0.02203013382672414
+ },
+ {
+  "arm": "uninformed",
+  "seed": 3,
+  "spent_usd": 0.209964,
+  "steps": 300,
+  "improvements": 16,
+  "public_excess_pct": 0.7822768901989186,
+  "hidden_excess_pct": 0.6795530203082212,
+  "fresh_excess_pct": 0.8298021865632714,
+  "fresh_minus_public_pp": 0.047525296364352876
+ }
+]

@@ -1,0 +1,12 @@
+# online-frontier-v1: run log
+
+| Time (BST) | Event |
+|---|---|
+| 2026-10-04 01:48:57 BST | PROTOCOL.md written; SHA-256 `dd6352a9b2904d3abacae66437cc253ee10941b9b85d27d17b98a1516360d150`. No confirmatory code had been run. |
+| 2026-10-04 01:49:02 BST | Corrected the stated writing time in PROTOCOL.md (01:50 → 01:48, from `date`); new SHA-256 `d1cd8aa610e29fb888f1e635dc3c12345f0ce2e152333873899ce7e4b53375fb`. Still no confirmatory code run. |
+| 2026-10-04 02:19:05 BST | Pre-run checks (`checks.py` → `checks.json`), required by the protocol. (1) The compact FunSearch evaluator equals the full evaluator for FS-W, FS-OR and ab-WF on all 25 W5k-released and OR3 instances (75/75), so the compact evaluator is used. (2) The vectorised ab-WF equals the transcription in `falsify/funsearch_heuristics.py`. (3) Arc-flow OPT equals OR-Library's listed value on 76 of 80 instances; on u120_08, u120_19, u250_07 and u250_12 it is one bin lower. `verify_opt.py` extracted explicit packings that meet L1, so those are optimal (`or_improved_packings.json`). This is known: OR-Library's binpackinfo page says these values (and u250_13's) are not proven optima. Primary endpoints use our OPT. Longest OR solve: 171 s. |
+| 2026-10-04 02:19:05 BST | Distribution class (`distribution_class.json`): discretised Weibull(45, 3) has zero LP waste and lies in the interior of the cone of perfect packings (every ±t margin hit its cap of 1 in scaled units). So it is **bounded waste**: OPT − Σs/C = O(1) (Courcoubetis–Weber; Csirik et al. 2006). |
+| 2026-10-04 02:19:05 BST | Launched `run.py --workers 2`. Load average about 16; another session's llm-long-search audit is running. |
+| 2026-10-04 02:20:15 BST | Implementation check (`pd_sanity.py` → `pd_sanity.json`): on Gupta & Radovanović's Figure 3 distributions, PD-exp's excess over OPT grows like √T (LW: 22 → 45 → 92 at T = 1k, 4k, 16k), while SS grows linearly on LW (37 → 132 → 532) and stays flat on BW (5, 2, 2). This matches their theory and figure qualitatively, so the large PD-exp excess on Weibull (about 250 bins at 5k) is the algorithm, not a bug. Their bound √(4BT) is about 1,414 bins at B = 100, T = 5,000. |
+| 02:30:15 BST | Confirmatory run finished: 210/210 instances, all OPT proved optimal, no errors; 1,313 CPU-seconds. |
+| 2026-10-04 02:32:35 BST | `report.py` → `tables.md`, `summary.json`. Secondary: OR u-class distribution classified as bounded waste (`distribution_class_or.json`). RESULTS.md written. No protocol deviations. |

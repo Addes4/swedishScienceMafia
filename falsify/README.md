@@ -19,12 +19,12 @@ This does not yet establish that counterexamples improve autonomous LLM research
 - [Initial protocol](../experiments/PROTOCOL.md)
 - [Follow-up protocol](../experiments/PROTOCOL-v2.md)
 - [Complete work handoff](../experiments/HANDOFF.md)
-- [Promotion-gate experiment protocol](../experiments/PROTOCOL-v3.md)
+- [Promotion-gate experiment protocol](../experiments/gate-v3/PROTOCOL.md)
 - [Promotion-gate results](../experiments/gate-v3/RESULTS.md)
 
 ## Relation to FunSearch
 
-FunSearch (Romera-Paredes et al., Nature 2024; in `context/Track 1 papers/`) evolved
+FunSearch (Romera-Paredes et al., Nature 2024; in `docs/hackathon/track-1-papers/`) evolved
 online bin-packing heuristics that beat best-fit on the OR-Library and Weibull
 benchmarks: for example 2.47% versus 4.94% excess bins over the L2 lower bound on
 OR4, and 0.68% versus 3.98% on 5,000-item Weibull instances. Its heuristics take the
@@ -165,7 +165,7 @@ under the same model, evaluation and token budgets, with a new held-out audit.
 - `tests/`: independent reference checks, packing validity, counterexample replay,
   matched budgets and deterministic reproduction.
 
-The original hackathon brief, website text, and papers remain under `context/`.
+The original hackathon brief, website text, and papers are under [`docs/hackathon/`](../docs/hackathon/).
 
 ## Next experiment: promotion gates and online context
 
@@ -184,7 +184,7 @@ python3 -m falsify.gated_search --seeds 40 --generations 400 --out experiments/m
 
 The named experiment `experiments/gate-v3/` uses a new final audit of 1,600 cases
 and a separate 160-case diagnostic suite to inspect gate rejections of sampled
-proposals. See `experiments/PROTOCOL-v3.md` for the design and interpretation.
+proposals. See `experiments/gate-v3/PROTOCOL.md` for the design and interpretation.
 
 The completed gate experiment reduced mean excess bins from 0.014000 with
 score-only promotion to 0.011828125 with counterexample gating. Its advantage
@@ -200,7 +200,7 @@ experiment preserved 15/16 empirically beneficial proposals and blocked 328/599
 harmful proposals with validation, versus 14/16 and 270/599 with the strict gate.
 Final performance was inconclusive; plain relaxation worsened performance.
 See [V4 results](../experiments/soft-gate-v4/RESULTS.md) and
-[protocol](../experiments/PROTOCOL-v4.md) for the limits of this evidence.
+[protocol](../experiments/soft-gate-v4/PROTOCOL.md) for the limits of this evidence.
 
 ```sh
 python3 -m falsify.soft_gates --seeds 40 --generations 200 --out experiments/my-soft-gate-reproduction

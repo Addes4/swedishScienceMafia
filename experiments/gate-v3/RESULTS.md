@@ -86,4 +86,4 @@ If all search traces finished but an audit was interrupted, resume with the orig
 python3 -m falsify.gated_search --out experiments/my-gate-reproduction --resume-audit
 ```
 
-Use a new output directory for a fresh experiment. The source protocol is ../PROTOCOL-v3.md. summary.json, audit.json, diagnostic.json and seed-*.json.gz contain the full evidence.
+Use a new output directory for a fresh experiment. The source protocol is [PROTOCOL.md](PROTOCOL.md). summary.json, audit.json, diagnostic.json and seed-*.json.gz contain the full evidence.

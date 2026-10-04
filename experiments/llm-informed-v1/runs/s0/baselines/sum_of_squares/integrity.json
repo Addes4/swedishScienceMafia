@@ -1,0 +1,64 @@
+{
+  "program": "/Users/adriansohrabi/Documents/GitHub/ssm-beyond-ss/problems/bin_packing_online_informed/baselines/sum_of_squares.py",
+  "static_violations": [],
+  "public": [
+    {
+      "instance": {
+        "name": "instance 1",
+        "seed": 101,
+        "n": 5000
+      },
+      "label": "instance 1 (5000 items, lower bound 1980 bins)",
+      "seconds": 0.8443261249922216,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9949748743718593,
+      "reason": "1990 bins",
+      "normalized": 0.9949748743718593
+    },
+    {
+      "instance": {
+        "name": "instance 2",
+        "seed": 102,
+        "n": 5000
+      },
+      "label": "instance 2 (5000 items, lower bound 1981 bins)",
+      "seconds": 0.8503192909993231,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.993480441323972,
+      "reason": "1994 bins",
+      "normalized": 0.993480441323972
+    }
+  ],
+  "hidden": [
+    {
+      "instance": {
+        "name": "hidden 1",
+        "seed": 901,
+        "n": 5000
+      },
+      "label": "hidden 1 (5000 items, lower bound 1976 bins)",
+      "seconds": 0.7886151670245454,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9949647532729103,
+      "reason": "1986 bins",
+      "normalized": 0.9949647532729103
+    },
+    {
+      "instance": {
+        "name": "hidden 2",
+        "seed": 902,
+        "n": 5000
+      },
+      "label": "hidden 2 (5000 items, lower bound 2001 bins)",
+      "seconds": 0.79335654102033,
+      "best_known": null,
+      "status": "valid",
+      "score": 0.9950273495773247,
+      "reason": "2011 bins",
+      "normalized": 0.9950273495773247
+    }
+  ]
+}

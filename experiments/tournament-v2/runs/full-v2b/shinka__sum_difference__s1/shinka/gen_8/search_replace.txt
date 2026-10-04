@@ -1,0 +1,220 @@
+<NAME>
+bounded_shifted_sidon_with_compaction</NAME>
+
+<DESCRIPTION>
+The current approach builds Sidon sets but doesn't explicitly optimize the sum set size. The key insight is that |A+A| can be reduced by making the set lie in a short arithmetic interval (compact range), while |A-A| stays large if differences are distinct.
+
+Idea:
+1. Use Bose-Chowla quadratic Sidon sets but *shift* them so they're centered around 0, and then apply a "compaction" step that shrinks the spread while preserving uniqueness of differences.
+2. Better: build sets whose elements are all in a narrow range [L, L+M] with M small relative to n. For a Sidon set of size n, we need M >= n(n-1)/2 for distinct positive differences, but by allowing differences to repeat only in sign-symmetric ways, |A+A| can be much smaller.
+3. Concretely, use a "half-Sidon" construction: A = {0,1,...,n-1} gives |A+A| = 2n-1 (minimal) but |A-A| = 2n-1 too, ratio 1. We need |A-A| large, so we want A to have many distinct *signed* differences while |A+A| stays O(n).
+4. Key trick: choose A such that A+A is an interval of size ~c*n but A-A has size ~n^2/2. This requires A to be a "sum-bounded" set with distinct differences — essentially a Sidon set embedded in a short interval via a modular construction, then lifted.
+
+Implementation: try the Bose-Chowla set {i + p*(i^2 mod p)} but then divide/scale to keep it compact, and additionally test variations where we take A = {a_i : i} with a_i = i*p + (i^2 mod p) but restricted to a subinterval, plus local search that specifically scores |A-A|/|A+A| and moves elements to reduce the sum set span.
+
+Also add: for each candidate, try a "shift and reflect" — reflect half the elements around the center to potentially reduce |A+A| without changing |A-A|.
+
+Finally, add a focused local search that uses the actual ratio and allows larger jumps, and try many random restarts with the best-scoring constructions as seeds.
+
+</DESCRIPTION>
+
+<DIFF>
+<<<<<<< SEARCH
+def solve():
+    """Return a list of distinct integers A making |A - A| large and |A + A| small."""
+    best = None
+    best_score = -1.0
+
+    # Try structured quadratic constructions for a range of primes.
+    primes = [p for p in range(11, 200) if all(p % d for d in range(2, int(p ** 0.5) + 1))]
+    for p in primes:
+        cand = _quadratic_set(p)
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # Also try greedy Sidon sets of various sizes.
+    for n in [30, 50, 80, 120, 150]:
+        cand = _greedy_sidon(n, seed=n)
+        if len(cand) >= 2:
+            s = _score(cand)
+            if s > best_score:
+                best_score = s
+                best = cand[:]
+
+    if best is None:
+        best = [7, 15, 18, 22, -3, -2]
+        best_score = _score(best)
+
+    # Local search: perturb elements, accept improvements.
+    cur = best[:]
+    cur_score = best_score
+    deadline = time.time() + 100
+    step = max(1, (max(cur) - min(cur)) // 50) if len(cur) > 1 else 1
+    while time.time() < deadline:
+        cand = cur[:]
+        i = random.randrange(len(cand))
+        delta = random.randint(-step, step)
+        if delta == 0:
+            delta = 1
+        cand[i] += delta
+        cand = list(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s >= cur_score:
+            cur, cur_score = cand, s
+            if s > best_score:
+                best, best_score = cand[:], s
+        elif random.random() < 0.02:
+            cur = cand
+
+    return sorted(set(best))
+=======
+def _bounded_sidon(n, span, seed=0):
+    """Build a Sidon-like set of size n inside [0, span] using randomized greedy,
+    biased toward keeping elements near the middle (compacting the sum set)."""
+    rng = random.Random(seed)
+    A = []
+    used_sums = set()
+    used_diffs = set()
+    # Prefer candidates near the center of the span to keep |A+A| small.
+    center = span // 2
+    cand = sorted(range(0, span + 1), key=lambda x: (abs(x - center), rng.random()))
+    for x in cand:
+        ok = True
+        new_sums = set()
+        new_diffs = set()
+        for a in A:
+            s = x + a
+            if s in used_sums or s in new_sums:
+                ok = False
+                break
+            new_sums.add(s)
+            d1 = x - a
+            d2 = a - x
+            if d1 in used_diffs or d2 in used_diffs or d1 in new_diffs or d2 in new_diffs:
+                ok = False
+                break
+            new_diffs.add(d1)
+            new_diffs.add(d2)
+        if ok:
+            A.append(x)
+            used_sums |= new_sums | {2 * x}
+            used_diffs |= new_diffs
+        if len(A) >= n:
+            break
+    return A
+
+
+def _reflect_half(A):
+    """Reflect the upper half of A around its center to try to shrink |A+A|."""
+    if len(A) < 4:
+        return A
+    B = sorted(A)
+    c = (B[0] + B[-1]) // 2
+    n = len(B)
+    out = B[: n // 2] + [2 * c - x for x in B[n // 2:]]
+    if len(set(out)) != len(B):
+        return A
+    return out
+
+
+def solve():
+    """Return a list of distinct integers A making |A - A| large and |A + A| small."""
+    best = None
+    best_score = -1.0
+
+    # Try structured quadratic constructions for a range of primes.
+    primes = [p for p in range(11, 200) if all(p % d for d in range(2, int(p ** 0.5) + 1))]
+    for p in primes:
+        cand = _quadratic_set(p)
+        for shift in (0, -p // 2):
+            c2 = [x + shift for x in cand]
+            s = _score(c2)
+            if s > best_score:
+                best_score = s
+                best = c2[:]
+        # Try reflect variant
+        r = _reflect_half(cand)
+        if len(set(r)) == len(cand):
+            s = _score(r)
+            if s > best_score:
+                best_score = s
+                best = r[:]
+
+    # Bounded Sidon constructions inside a tight span: this directly aims to
+    # keep |A+A| small while |A-A| remains large.
+    for n in [20, 40, 60, 90, 120, 160, 200]:
+        for span_mult in (2, 3, 4, 6):
+            span = n * n * span_mult
+            if span > 10 ** 6:
+                continue
+            for seed in (n, n * 7 + 1, n * 13 + 5):
+                cand = _bounded_sidon(n, span, seed=seed)
+                if len(cand) >= 2:
+                    s = _score(cand)
+                    if s > best_score:
+                        best_score = s
+                        best = cand[:]
+
+    # Also try greedy Sidon sets of various sizes.
+    for n in [30, 50, 80, 120, 150]:
+        cand = _greedy_sidon(n, seed=n)
+        if len(cand) >= 2:
+            s = _score(cand)
+            if s > best_score:
+                best_score = s
+                best = cand[:]
+
+    if best is None:
+        best = [7, 15, 18, 22, -3, -2]
+        best_score = _score(best)
+
+    # Local search: perturb elements, accept improvements. Allow multi-scale steps.
+    cur = best[:]
+    cur_score = best_score
+    deadline = time.time() + 100
+    span_cur = (max(cur) - min(cur)) if len(cur) > 1 else 1
+    while time.time() < deadline:
+        cand = cur[:]
+        i = random.randrange(len(cand))
+        if random.random() < 0.7:
+            step = max(1, span_cur // 50)
+        else:
+            step = max(1, span_cur // 8)
+        delta = random.randint(-step, step)
+        if delta == 0:
+            delta = 1
+        cand[i] += delta
+        cand = list(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s >= cur_score:
+            cur, cur_score = cand, s
+            span_cur = (max(cur) - min(cur)) if len(cur) > 1 else 1
+            if s > best_score:
+                best, best_score = cand[:], s
+        elif random.random() < 0.03:
+            cur = cand
+            span_cur = (max(cur) - min(cur)) if len(cur) > 1 else 1
+
+    # Final polishing: try reflecting and small shifts on the best found.
+    for shift in range(-3, 4):
+        c2 = [x + shift for x in best]
+        s = _score(c2)
+        if s > best_score:
+            best_score = s
+            best = c2[:]
+    r = _reflect_half(best)
+    if len(set(r)) == len(best):
+        s = _score(r)
+        if s > best_score:
+            best_score = s
+            best = r[:]
+
+    return sorted(set(best))
+>>>>>>> REPLACE
+</DIFF>

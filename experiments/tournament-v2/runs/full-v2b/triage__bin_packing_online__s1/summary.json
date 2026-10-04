@@ -1,0 +1,71 @@
+{
+  "job_id": "triage__bin_packing_online__s1",
+  "arm": "triage",
+  "arm_type": "triage",
+  "problem": "bin_packing_online",
+  "seed": 1,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.136708,
+  "within_cap": true,
+  "tokens": 142815,
+  "calls": 56,
+  "failed_calls": 0,
+  "refusals": 1,
+  "stop_reason_counts": {
+    "stop": 56
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra": 22,
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 19,
+    "Qwen/Qwen3.5-9B:together": 15
+  },
+  "usd_by_model": {
+    "Qwen/Qwen3.5-9B:together": 0.011796,
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra": 0.100301,
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.018598
+  },
+  "external_usd": 0.00601317,
+  "idea_calls": 8,
+  "truncated_calls": 0,
+  "shortened_calls": 11,
+  "retries": 1,
+  "evals": 49,
+  "valid_evals": 30,
+  "evals_with_timeout": 6,
+  "instance_timeouts": 24,
+  "initial_public": 0.9616415083396637,
+  "initial_hidden": 0.960408920805711,
+  "final_public": 0.9616415083396637,
+  "final_hidden": 0.960408920805711,
+  "final_sha": "609927c5ea619a94",
+  "max_public_seen": 0.9616415083396637,
+  "hidden_of_max_public_seen": 0.960408920805711,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.961642,
+  "auc_gain": 0.0,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 1577.1,
+  "status": "ok",
+  "arm_result": "budget",
+  "completion": "budget",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.136708,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 5.0,
+      "t": 1791069839.4380052,
+      "incumbent_public": 0.9616415083396637,
+      "incumbent_hidden": 0.960408920805711,
+      "sha": "609927c5ea619a94"
+    }
+  ]
+}

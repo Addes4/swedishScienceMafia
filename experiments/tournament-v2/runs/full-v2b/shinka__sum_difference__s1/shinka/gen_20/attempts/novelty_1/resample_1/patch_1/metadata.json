@@ -1,0 +1,14 @@
+{
+  "generation": 20,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 1,
+  "patch_name": "reflect_aggressive_sa",
+  "patch_description": "The key insight from the prior work is that `_reflect_half` (reflecting a subset of A about a center to alter the sum set while roughly preserving the difference set) is a cheap, difference-preserving structural move. In the current program it's barely used. I generalize it into a full reflection search:\n\n1. For any set A and any center c, the operation A -> (A \\ S) \u222a {2c - x : x \u2208 S} for a subset S preserves the *multiset of differences within S* and within A\\S, but changes cross-differences. Crucially, when c is chosen as the midpoint of a \"dense cluster\" inside A, the reflected cluster's sums with other elements often collide with existing sums, shrinking |A+A| while |A-A| stays large.\n\n2. I enumerate many reflection centers (midpoints of pairs, medians of prefixes, quantiles of the sorted set) and reflection fractions (top 20%, 30%, 40%, 50% of the sorted set, plus bottom fractions), evaluate each candidate with the fast scorer, and greedily apply the best improvement. This is iterated as a hill-climb that repeatedly shaves |A+A|.\n\n3. I keep the strong structured seed family (dense core + Golomb tail with stride/scale variants) from the prior version, plus the cardinality-aware SA using the pure ratio, and interleave reflection hill-climbing with SA restarts.\n\n4. Reflection is applied both to the structured seeds (a cheap way to get a much better starting point) and as a final polish on the SA best.\n\nThe result is a program that exploits the reflection move far more aggressively while retaining the proven dense+Golomb base and SA.",
+  "error_msg": null,
+  "timestamp": "2026-10-03T23:45:14.438673",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

@@ -1,0 +1,71 @@
+{
+  "job_id": "triage__erdos_squares__s2",
+  "arm": "triage",
+  "arm_type": "triage",
+  "problem": "erdos_squares",
+  "seed": 2,
+  "mock": false,
+  "cap_usd": 0.15,
+  "spent_usd": 0.003743,
+  "within_cap": true,
+  "tokens": 6497,
+  "calls": 3,
+  "failed_calls": 0,
+  "refusals": 0,
+  "stop_reason_counts": {
+    "stop": 3
+  },
+  "calls_by_model": {
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra": 1,
+    "Qwen/Qwen3.5-9B:together": 1,
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 1
+  },
+  "usd_by_model": {
+    "Qwen/Qwen3.5-9B:together": 0.00083,
+    "deepseek-ai/DeepSeek-V4-Pro:deepinfra": 0.001774,
+    "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra": 0.000886
+  },
+  "external_usd": 0.00025343,
+  "idea_calls": 1,
+  "truncated_calls": 0,
+  "shortened_calls": 0,
+  "retries": 0,
+  "evals": 2,
+  "valid_evals": 1,
+  "evals_with_timeout": 0,
+  "instance_timeouts": 0,
+  "initial_public": 0.8561716061716061,
+  "initial_hidden": 0.9127792599779017,
+  "final_public": 0.8561716061716061,
+  "final_hidden": 0.9127792599779017,
+  "final_sha": "5ca1aa946ee89389",
+  "max_public_seen": 0.8561716061716061,
+  "hidden_of_max_public_seen": 0.9127792599779017,
+  "improvements": 0,
+  "usd_per_improvement": null,
+  "tokens_per_improvement": null,
+  "auc": 0.856172,
+  "auc_gain": 0.0,
+  "flags": [],
+  "record_flags": [],
+  "wall_s": 142.1,
+  "status": null,
+  "arm_result": null,
+  "completion": "incomplete",
+  "first_error": null,
+  "first_error_t": null,
+  "spend_at_first_error_usd": null,
+  "valid_spend_usd": 0.003743,
+  "curve": [
+    {
+      "spent_usd": 0.0,
+      "budget_frac": 0.0,
+      "tokens": 0,
+      "wall_s": 4.0,
+      "t": 1791069476.9070034,
+      "incumbent_public": 0.8561716061716061,
+      "incumbent_hidden": 0.9127792599779017,
+      "sha": "5ca1aa946ee89389"
+    }
+  ]
+}

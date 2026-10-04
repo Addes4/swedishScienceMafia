@@ -1,0 +1,14 @@
+{
+  "generation": 38,
+  "novelty_attempt": 1,
+  "resample_attempt": 1,
+  "patch_attempt": 1,
+  "success": true,
+  "num_applied": 5,
+  "patch_name": "topk_seed_pool_with_adaptive_restart",
+  "patch_description": "The current program's SA watchdog restarts from a freshly constructed dense-Golomb seed each time, which tends to re-enter the same basin and limits exploration. I propose introducing a persistent top-K seed pool that collects the best distinct seeds encountered during the run, and having the watchdog restart from a randomly sampled member of this pool (with occasional fresh construction to preserve diversity). This pairs richer seeding with explicit exploration pressure, matching the observation that low acceptance (~0.02\u20130.03) restricts exploration in prior generations.\n\nConcretely:\n1. Add a global-ish `_TOP_K` list maintained inside `_budget_adaptive_sa` (passed in/out via a mutable list argument) that keeps the K best-scoring seeds seen so far (deduplicated by a canonical tuple key).\n2. Change the watchdog to sample from the top-K pool with prob 0.7 and fall back to `restart_fn` otherwise. This steers restarts toward promising basins while still injecting fresh structure.\n3. Update `solve()` to create the pool once and pass it through all SA invocations, so learning accumulates across phases.\n\nI keep the budget-adaptive T and the acceptance floor as-is to remain consistent with the existing design and avoid regression risk; the pool mechanism is a purely additive change that only affects what seed the watchdog jumps to.",
+  "error_msg": null,
+  "timestamp": "2026-10-04T00:02:28.479120",
+  "llm_cost": 0.0,
+  "llm_model": "deepseek-ai/DeepSeek-V4.1-Flash:deepinfra"
+}

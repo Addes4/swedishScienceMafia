@@ -1,0 +1,587 @@
+<NAME>
+hybrid_bose_golomb_ratio_sa</NAME>
+
+<DESCRIPTION>
+This is a crossover between two strong solvers. From the "top-K Bose-Chowla seed bank + round-robin SA" program we keep:
+  - the single fast symmetric scorer `_score_fast` (returns both full and pure ratio),
+  - the structured seed builders `_bose_chowla`, `_reflect`, `_build_dense_golomb`,
+  - the round-robin SA burst `_refine_burst` (with structured rebuild moves),
+  - the greedy difference-growth polish `_grow_by_difference`,
+  - the top-K seed-bank ranking by PURE ratio.
+
+From the "multiplicative Sidon + reflection polish" program we add:
+  - the reflection polish `_reflection_polish` which collapses the sum set by reflecting a tail through a chosen center,
+  - the `_prune` routine that removes elements whose removal improves the ratio,
+  - the `_local_search` targeted SA moves (shift/add/pop/swap with ratio-aware acceptance),
+  - the `_golomb_ruler` greedy difference-targeting builder used inside `_build_dense_golomb`.
+
+The combined pipeline is:
+  Phase 1: build a broad seed bank (Bose-Chowla, scaled/reflected variants, pure intervals, dense+Golomb) and keep the top-K by PURE ratio.
+  Phase 2: round-robin short SA bursts across the top-K, replacing the weakest slot with any improved best.
+  Phase 3: reflection polish on global best (new from crossover).
+  Phase 4: greedy difference-growth polish (difference-gain / sum-cost).
+  Phase 5: targeted local search (shift/add/pop/swap).
+  Phase 6: prune elements that hurt the ratio.
+  Phase 7: restarts with fresh structured seeds until the deadline.
+This combines the seed-bank diversification of the first solver with the reflection/pruning refinements of the second, targeting a higher combined score.
+</DESCRIPTION>
+
+<CODE>
+```python
+# EVOLVE-BLOCK-START
+"""Hybrid: Bose-Chowla/dense-Golomb seed bank + round-robin SA + reflection polish + greedy growth + target SA + prune."""
+import math
+import random
+import time
+
+
+# ---------------------------------------------------------------------------
+# Scoring (single symmetric fast scorer)
+# ---------------------------------------------------------------------------
+
+def _score_fast(a):
+    """Return (full, pure). a is a list of distinct ints."""
+    n = len(a)
+    if n < 2:
+        return 0.0, 0.0
+    diffs = set()
+    sums = set()
+    add_d = diffs.add
+    add_s = sums.add
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            aj = a[j]
+            add_d(ai - aj)
+            add_d(aj - ai)
+            add_s(ai + aj)
+    nd = len(diffs)
+    ns = len(sums)
+    if ns <= 1:
+        return 0.0, 0.0
+    pure = math.log(nd) / math.log(ns)
+    full = pure + (1 - 1 / n) / 100
+    return full, pure
+
+
+def _score(a):
+    return _score_fast(list(set(a)))[0]
+
+
+# ---------------------------------------------------------------------------
+# Structured seed builders
+# ---------------------------------------------------------------------------
+
+def _primes_upto(N):
+    sieve = bytearray([1]) * (N + 1)
+    sieve[0:2] = b"\x00\x00"
+    for i in range(2, int(N ** 0.5) + 1):
+        if sieve[i]:
+            sieve[i * i :: i] = b"\x00" * (((N - i * i) // i) + 1)
+    return [i for i in range(N + 1) if sieve[i]]
+
+
+def _bose_chowla(p):
+    """Sidon set of size p in [0, 2p^2) via Bose-Chowla construction."""
+    return [2 * p * i + (i * i) % p for i in range(p)]
+
+
+def _reflect(a, center):
+    return sorted(set(2 * center - x for x in a))
+
+
+def _reflect_tail(a, center, k):
+    """Reflect the top k elements through center (from crossover)."""
+    a = sorted(set(a))
+    if k <= 0 or k >= len(a):
+        return a
+    head = a[:len(a) - k]
+    tail = a[len(a) - k:]
+    reflected = [2 * center - x for x in tail]
+    return sorted(set(head + reflected))
+
+
+def _golomb_ruler(n, rng, max_tries=300):
+    """Greedy near-optimal Golomb ruler with n marks (from crossover)."""
+    if n <= 1:
+        return [0]
+    marks = [0]
+    used = set()
+    for _ in range(n - 1):
+        best_c = None
+        best_score = -1
+        span = max(20, 4 * n * n)
+        for _ in range(max_tries):
+            c = rng.randint(1, span)
+            if c in marks:
+                continue
+            new_d = set()
+            ok = True
+            for m in marks:
+                d = abs(c - m)
+                if d in new_d:
+                    ok = False
+                    break
+                new_d.add(d)
+            if not ok:
+                continue
+            gain = len(new_d - used)
+            if gain > best_score:
+                best_score = gain
+                best_c = c
+        if best_c is None:
+            c = 1
+            while c in marks:
+                c += 1
+            best_c = c
+        marks.append(best_c)
+        for m in marks[:-1]:
+            used.add(abs(best_c - m))
+    return sorted(marks)
+
+
+def _build_dense_golomb(m, gs, gap, rng, stride=1, scale=1):
+    """Dense/strided core plus a scaled Golomb tail."""
+    if stride <= 1:
+        core = list(range(m + 1))
+        core_end = m
+    else:
+        core = [i * stride for i in range(m + 1)]
+        core_end = m * stride
+    if gs <= 0:
+        return core
+    marks = [0]
+    used = {0}
+    diffs = {0}
+    hi = max(40, gs * gs + 30)
+    for _ in range(gs - 1):
+        best_x = None
+        best_new = -1
+        cands = set()
+        for _ in range(50):
+            cands.add(rng.randint(1, hi))
+        for mm in marks:
+            for d in (1, 2, 3, 5, 8, 13, 21, 34):
+                cands.add(mm + d)
+                cands.add(mm - d)
+        for x in cands:
+            if x in used or x < 0:
+                continue
+            new_d = 0
+            for mm in marks:
+                if abs(x - mm) not in diffs:
+                    new_d += 1
+            if new_d > best_new:
+                best_new = new_d
+                best_x = x
+        if best_x is None:
+            break
+        for mm in marks:
+            diffs.add(abs(best_x - mm))
+        marks.append(best_x)
+        used.add(best_x)
+    offset = core_end + gap
+    return core + [offset + scale * x for x in marks]
+
+
+# ---------------------------------------------------------------------------
+# Local search: round-robin SA burst
+# ---------------------------------------------------------------------------
+
+def _refine_burst(seed, deadline, rng, T0=0.05):
+    cur = sorted(set(seed))
+    if len(cur) < 2:
+        return cur, 0.0
+    cur_score, _ = _score_fast(cur)
+    best = cur[:]
+    best_score = cur_score
+    T = T0
+    step = 0
+    while time.time() < deadline:
+        step += 1
+        if step % 400 == 0:
+            T = max(0.0003, T * 0.996)
+        cand = cur[:]
+        r = rng.random()
+        n = len(cand)
+        if r < 0.30 and n > 3:
+            i = rng.randrange(n)
+            cand[i] += rng.randint(-120, 120)
+            cand = sorted(set(cand))
+        elif r < 0.50 and n > 3:
+            i = rng.randrange(n)
+            base = rng.choice(cand)
+            cand[i] = base + rng.choice([-1, 1]) * rng.randint(1, 80)
+            cand = sorted(set(cand))
+        elif r < 0.68 and n < 4000:
+            base = rng.choice(cand)
+            cand.append(base + rng.randint(1, 40))
+            cand = sorted(set(cand))
+        elif r < 0.80 and n < 4000:
+            lo, hi = min(cand), max(cand)
+            span = max(hi - lo, 1)
+            cand.append(rng.randint(lo - 2 * span, hi + 2 * span))
+            cand = sorted(set(cand))
+        elif r < 0.92 and n > 3:
+            cand.pop(rng.randrange(len(cand)))
+        else:
+            kind = rng.random()
+            if kind < 0.55:
+                cand = _build_dense_golomb(
+                    rng.randint(0, 18), rng.randint(2, 18),
+                    rng.randint(1, 22), rng,
+                    rng.choice([1, 1, 2, 3]), rng.choice([1, 1, 2, 3]))
+            else:
+                p = rng.choice([3, 5, 7, 11, 13, 17, 19, 23])
+                cand = _bose_chowla(p)
+                if rng.random() < 0.5:
+                    cand = [x * rng.choice([2, 3]) for x in cand]
+        if len(cand) < 2:
+            continue
+        s, _ = _score_fast(cand)
+        if s > cur_score or rng.random() < math.exp((s - cur_score) / max(T, 1e-9)):
+            cur = cand
+            cur_score = s
+            if s > best_score:
+                best = cand[:]
+                best_score = s
+        if rng.random() < 0.006:
+            cur = best[:]
+            cur_score = best_score
+    return best, best_score
+
+
+# ---------------------------------------------------------------------------
+# Targeted SA local search (from crossover)
+# ---------------------------------------------------------------------------
+
+def _local_search(a, deadline, rng):
+    cur = sorted(set(a))
+    cur_s = _score(cur)
+    best = cur[:]
+    best_s = cur_s
+    T = 0.05
+    step = 0
+    while time.time() < deadline:
+        step += 1
+        if step % 800 == 0:
+            T = max(0.0003, T * 0.996)
+        cand = cur[:]
+        op = rng.random()
+        if op < 0.35 and cand:
+            i = rng.randrange(len(cand))
+            if len(cand) > 1:
+                j = rng.randrange(len(cand))
+                d = cand[i] - cand[j]
+                if d == 0:
+                    d = rng.randint(1, 20)
+                cand[i] = cand[j] + d + rng.randint(-2, 2)
+        elif op < 0.6 and len(cand) < 4000:
+            if len(cand) >= 2:
+                x = rng.choice(cand)
+                y = rng.choice(cand)
+                cand.append(x + (x - y) + rng.randint(-1, 1))
+        elif op < 0.78 and len(cand) > 3:
+            cand.pop(rng.randrange(len(cand)))
+        else:
+            if len(cand) >= 2:
+                i, j = rng.randrange(len(cand)), rng.randrange(len(cand))
+                cand[i], cand[j] = cand[j], cand[i]
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s > cur_s or rng.random() < math.exp((s - cur_s) / max(T, 1e-9)):
+            cur = cand
+            cur_s = s
+            if s > best_s:
+                best = cand[:]
+                best_s = s
+        if rng.random() < 0.01:
+            cur = best[:]
+            cur_s = best_s
+    return best, best_s
+
+
+# ---------------------------------------------------------------------------
+# Reflection polish (from crossover)
+# ---------------------------------------------------------------------------
+
+def _reflection_polish(a, deadline, rng):
+    best = sorted(set(a))
+    best_s = _score(best)
+    while time.time() < deadline:
+        improved = False
+        n = len(best)
+        if n < 4:
+            break
+        for q_idx in (0.3, 0.4, 0.5, 0.6, 0.7):
+            idx = int(q_idx * (n - 1))
+            center = best[idx]
+            for frac in (0.15, 0.25, 0.35, 0.45):
+                k = max(1, int(frac * n))
+                cand = _reflect_tail(best, center, k)
+                if len(cand) < 2:
+                    continue
+                s = _score(cand)
+                if s > best_s:
+                    best = cand
+                    best_s = s
+                    improved = True
+        if not improved:
+            break
+    return best, best_s
+
+
+# ---------------------------------------------------------------------------
+# Greedy growth polish (difference-gain / sum-cost)
+# ---------------------------------------------------------------------------
+
+def _grow_by_difference(seed, deadline, rng):
+    cur = sorted(set(seed))
+    if len(cur) < 2:
+        return cur, 0.0
+    cur_score, _ = _score_fast(cur)
+    best = cur[:]
+    best_score = cur_score
+    while time.time() < deadline and len(cur) < 4000:
+        base_diffs = set()
+        base_sums = set()
+        n = len(cur)
+        for i in range(n):
+            ai = cur[i]
+            for j in range(i, n):
+                aj = cur[j]
+                base_diffs.add(ai - aj)
+                base_diffs.add(aj - ai)
+                base_sums.add(ai + aj)
+        best_c = None
+        best_gain = -1e18
+        for _ in range(50):
+            x = rng.choice(cur)
+            y = rng.choice(cur)
+            c = x + (x - y) + rng.randint(-4, 4)
+            if c in cur:
+                continue
+            new_d = 0
+            for z in cur:
+                if (c - z) not in base_diffs:
+                    new_d += 1
+                if (z - c) not in base_diffs:
+                    new_d += 1
+            new_s = 0
+            for z in cur:
+                if (c + z) not in base_sums:
+                    new_s += 1
+            gain = new_d - 0.35 * new_s
+            if gain > best_gain:
+                best_gain = gain
+                best_c = c
+        if best_c is None:
+            break
+        cur.append(best_c)
+        cur = sorted(set(cur))
+        s, _ = _score_fast(cur)
+        if s > cur_score:
+            cur_score = s
+            if s > best_score:
+                best = cur[:]
+                best_score = s
+        else:
+            cur = best[:]
+            cur_score = best_score
+            break
+    return best, best_score
+
+
+# ---------------------------------------------------------------------------
+# Prune (from crossover)
+# ---------------------------------------------------------------------------
+
+def _prune(a, deadline, rng):
+    a = sorted(set(a))
+    cur = _score(a)
+    improved = True
+    while improved and time.time() < deadline:
+        improved = False
+        order = list(range(len(a)))
+        rng.shuffle(order)
+        for i in order:
+            if len(a) <= 3:
+                break
+            trial = a[:i] + a[i+1:]
+            s = _score(trial)
+            if s > cur:
+                a = trial
+                cur = s
+                improved = True
+                break
+    return a, cur
+
+
+# ---------------------------------------------------------------------------
+# Main solver
+# ---------------------------------------------------------------------------
+
+def solve():
+    rng = random.Random(20240617)
+    deadline = time.time() + 108
+
+    # ---- Phase 1: seed bank, ranked by PURE ratio -------------------------
+    phase1_end = time.time() + 22
+    bank = []  # (pure, full, list)
+
+    def consider(cand):
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            return
+        full, pure = _score_fast(cand)
+        if pure > 0:
+            bank.append((pure, full, cand))
+
+    primes = _primes_upto(60)
+
+    for p in primes:
+        if time.time() > phase1_end:
+            break
+        base = _bose_chowla(p)
+        consider(base)
+        for sc in (2, 3, 4):
+            consider([sc * x for x in base])
+        for ci in (0, p // 2, p - 1):
+            if 0 <= ci < len(base):
+                consider(_reflect(base, base[ci]))
+
+    for n in range(2, 120):
+        consider(list(range(n)))
+
+    for m in range(0, 14):
+        for gs in range(2, 14):
+            if time.time() > phase1_end:
+                break
+            for gap in (1, 2, 3, 5, 8, 13, 21, 34):
+                for stride in (1, 1, 2, 3):
+                    for scale in (1, 1, 2, 3):
+                        consider(_build_dense_golomb(m, gs, gap, rng, stride, scale))
+
+    bank.sort(key=lambda t: (t[0], t[1]), reverse=True)
+    seen = set()
+    topK = []
+    for pure, full, cand in bank:
+        key = tuple(cand)
+        if key in seen:
+            continue
+        seen.add(key)
+        topK.append((pure, full, cand))
+        if len(topK) >= 20:
+            break
+
+    if not topK:
+        topK = [(0.0, 0.0, [0, 1, 3])]
+
+    best_pure, best_full, best = topK[0]
+    best_score = best_full
+
+    # ---- Phase 2: round-robin short SA bursts across top-K ----------------
+    burst_len = 3.0
+    idx = 0
+    while time.time() < deadline - 20:
+        pure, full, seed = topK[idx % len(topK)]
+        idx += 1
+        remaining = deadline - time.time()
+        if remaining < 1.5:
+            break
+        sub = time.time() + min(burst_len, remaining - 1.0)
+        cand, s = _refine_burst(seed, sub, rng, T0=0.05)
+        if s > best_score:
+            best = cand[:]
+            best_score = s
+            _, best_pure = _score_fast(best)
+            topK[-1] = (best_pure, best_score, best[:])
+        if rng.random() < 0.12 and len(topK) > 1:
+            j = rng.randrange(1, len(topK))
+            p = rng.choice(primes)
+            fresh = _bose_chowla(p)
+            if rng.random() < 0.5:
+                fresh = [x * rng.choice([2, 3]) for x in fresh]
+                fresh = sorted(set(fresh))
+            fp, ff = _score_fast(fresh)
+            topK[j] = (fp, ff, fresh)
+
+    # ---- Phase 3: reflection polish on best (from crossover) --------------
+    if time.time() < deadline - 12:
+        sub = time.time() + 4
+        cand, s = _reflection_polish(best, sub, rng)
+        if s > best_score:
+            best, best_score = cand[:], s
+
+    # ---- Phase 4: greedy difference-growth polish -------------------------
+    if time.time() < deadline - 8:
+        sub = time.time() + 6
+        cand, s = _grow_by_difference(best, sub, rng)
+        if s > best_score:
+            best, best_score = cand[:], s
+
+    # ---- Phase 5: targeted local search (from crossover) ------------------
+    if time.time() < deadline - 4:
+        sub = time.time() + 3
+        cand, s = _local_search(best, sub, rng)
+        if s > best_score:
+            best, best_score = cand[:], s
+
+    # ---- Phase 6: prune (from crossover) ----------------------------------
+    if time.time() < deadline - 2:
+        sub = time.time() + 1.5
+        cand, s = _prune(best, sub, rng)
+        if s > best_score:
+            best, best_score = cand[:], s
+
+    # ---- Phase 7: restarts with fresh structured seeds --------------------
+    while time.time() < deadline:
+        remaining = deadline - time.time()
+        if remaining < 3:
+            break
+        choice = rng.random()
+        if choice < 0.4:
+            p = rng.choice(primes)
+            seed = _bose_chowla(p)
+            if rng.random() < 0.5:
+                seed = [x * rng.choice([2, 3]) for x in seed]
+                seed = sorted(set(seed))
+        elif choice < 0.75:
+            seed = _build_dense_golomb(
+                rng.randint(0, 18), rng.randint(2, 18),
+                rng.choice([1, 2, 3, 5, 8, 13, 21]), rng,
+                rng.choice([1, 1, 2, 3]), rng.choice([1, 1, 2, 3]))
+        else:
+            seed = list(range(rng.randint(3, 60)))
+        sub = time.time() + min(remaining, 4)
+        cand, s = _refine_burst(seed, sub, rng, T0=0.05)
+        if s > best_score:
+            best, best_score = cand[:], s
+        if time.time() < deadline - 1:
+            sub2 = time.time() + min(deadline - time.time(), 1.0)
+            cand, s = _local_search(cand, sub2, rng)
+            if s > best_score:
+                best, best_score = cand[:], s
+
+    # Final polish
+    if time.time() < deadline + 5:
+        try:
+            cand, s = _reflection_polish(best, time.time() + 3, rng)
+            if s > best_score:
+                best, best_score = cand, s
+        except Exception:
+            pass
+
+    out = sorted(set(int(x) for x in best))
+    if len(out) > 4000:
+        out = out[:4000]
+    return out
+
+
+if __name__ == "__main__":
+    print(solve())
+# EVOLVE-BLOCK-END
+```
+</CODE>

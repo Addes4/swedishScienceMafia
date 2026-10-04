@@ -1,0 +1,260 @@
+<NAME>
+ratio_aware_topk_seed_selection</NAME>
+<DESCRIPTION>
+The current program spends its entire Phase 1 budget (~25s) enumerating structured seeds and only tracks a single `best` seed by the full score (which includes the small size bonus). This means it often starts refinement from the first seed that happens to beat the incumbent, rather than from the seed with the highest *pure* log-ratio (which is what actually drives the objective). 
+
+Idea: instead of greedily keeping only one seed, collect the top-K (K=8) seeds ranked by their pure `log|A-A|/log|A+A|` (excluding the size bonus), then run the local-search refinement from each of these K seeds in order within the remaining budget. This is the recommendation from the feedback: rank by the pure log-ratio, and use the size bonus only as a tiebreaker.
+
+Implementation:
+1. Add a `_score_pure(a)` helper that returns `log|A-A|/log|A+A|` without the size bonus.
+2. In Phase 1, maintain a small priority list `top_seeds` of (pure_score, cand) keeping the top K=8 unique candidates.
+3. In Phase 2/3, iterate over `top_seeds` (sorted descending by pure score) and run `_local_search` from each, within the remaining budget, keeping the overall best by full score.
+4. Keep the existing random-restart loop for the leftover budget after refining all top-K seeds.
+
+This preserves the existing structure and only changes the seed selection strategy to be ratio-aware and diverse.
+</DESCRIPTION>
+<DIFF>
+<<<<<<< SEARCH
+def _score(a):
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0
+    diffs = set()
+    sums = set()
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            aj = a[j]
+            diffs.add(ai - aj)
+            diffs.add(aj - ai)
+            sums.add(ai + aj)
+    if len(sums) <= 1:
+        return 0.0
+    return math.log(len(diffs)) / math.log(len(sums)) + (1 - 1 / n) / 100
+=======
+def _stats(a):
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0, 0
+    diffs = set()
+    sums = set()
+    for i in range(n):
+        ai = a[i]
+        for j in range(i, n):
+            aj = a[j]
+            diffs.add(ai - aj)
+            diffs.add(aj - ai)
+            sums.add(ai + aj)
+    return len(diffs), len(sums)
+
+
+def _score(a):
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0
+    nd, ns = _stats(a)
+    if ns <= 1:
+        return 0.0
+    return math.log(nd) / math.log(ns) + (1 - 1 / n) / 100
+
+
+def _score_pure(a):
+    """Pure log-ratio without the size bonus; used for ratio-aware seed ranking."""
+    a = list(set(a))
+    n = len(a)
+    if n < 2:
+        return 0.0
+    nd, ns = _stats(a)
+    if ns <= 1:
+        return 0.0
+    return math.log(nd) / math.log(ns)
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+    best = [0, 1, 3]
+    best_score = _score(best)
+
+    # Phase 1: sweep structured seeds (dense-core + Sidon, dense-core + Golomb, pure Sidon)
+    phase1_deadline = time.time() + 25
+    seeds = []
+    for m in range(0, 14):
+        for sm in range(2, 16):
+            for gap in [1, 2, 3, 5, 8, 13, 21]:
+                seeds.append(("sidon", m, sm, gap))
+    for m in range(0, 12):
+        for gs in range(3, 14):
+            for gap in [1, 2, 3, 5, 8, 13]:
+                seeds.append(("golomb", m, gs, gap))
+    rng.shuffle(seeds)
+    for kind, m, k, gap in seeds:
+        if time.time() > phase1_deadline:
+            break
+        if kind == "sidon":
+            cand = _dense_core_sidon(m, k, gap, rng)
+        else:
+            cand = _dense_core_golomb(m, k, gap, rng)
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # Pure Sidon families
+    for m in range(2, 40):
+        if time.time() > phase1_deadline + 3:
+            break
+        cand = _bounded_sidon(m, rng)
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # Pure dense intervals
+    for n in range(2, 80):
+        if time.time() > phase1_deadline + 5:
+            break
+        cand = list(range(n))
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+
+    # Phase 2: long local search from best seed
+    if time.time() < deadline:
+        cand, s = _local_search(best, deadline, rng, T0=0.12)
+        if s > best_score:
+            best, best_score = cand, s
+
+    # Phase 3: restarts from dense-core Sidon/Golomb seeds until deadline
+    while time.time() < deadline:
+        remaining = deadline - time.time()
+        if remaining < 4:
+            break
+        m = rng.randint(0, 12)
+        gap = rng.choice([1, 2, 3, 5, 8, 13, 21])
+        if rng.random() < 0.6:
+            sm = rng.randint(2, 15)
+            seed = _dense_core_sidon(m, sm, gap, rng)
+        else:
+            gs = rng.randint(3, 13)
+            seed = _dense_core_golomb(m, gs, gap, rng)
+        sub_deadline = time.time() + min(remaining, 15)
+        cand, s = _local_search(seed, sub_deadline, rng, T0=0.12)
+        if s > best_score:
+            best, best_score = cand, s
+
+    return sorted(set(best))
+=======
+    best = [0, 1, 3]
+    best_score = _score(best)
+
+    # Ratio-aware top-K seed collector: keep top K seeds by PURE log-ratio.
+    K = 8
+    top_seeds = []  # list of (pure_score, tuple(cand)) kept sorted descending
+
+    def _offer(cand):
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            return
+        ps = _score_pure(cand)
+        key = tuple(cand)
+        for i, (_, c) in enumerate(top_seeds):
+            if c == key:
+                return
+        top_seeds.append((ps, key))
+        top_seeds.sort(key=lambda t: -t[0])
+        if len(top_seeds) > K:
+            top_seeds.pop()
+
+    # Phase 1: sweep structured seeds (dense-core + Sidon, dense-core + Golomb, pure Sidon)
+    phase1_deadline = time.time() + 22
+    seeds = []
+    for m in range(0, 14):
+        for sm in range(2, 16):
+            for gap in [1, 2, 3, 5, 8, 13, 21]:
+                seeds.append(("sidon", m, sm, gap))
+    for m in range(0, 12):
+        for gs in range(3, 14):
+            for gap in [1, 2, 3, 5, 8, 13]:
+                seeds.append(("golomb", m, gs, gap))
+    rng.shuffle(seeds)
+    for kind, m, k, gap in seeds:
+        if time.time() > phase1_deadline:
+            break
+        if kind == "sidon":
+            cand = _dense_core_sidon(m, k, gap, rng)
+        else:
+            cand = _dense_core_golomb(m, k, gap, rng)
+        cand = sorted(set(cand))
+        if len(cand) < 2:
+            continue
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+        _offer(cand)
+
+    # Pure Sidon families
+    for m in range(2, 40):
+        if time.time() > phase1_deadline + 3:
+            break
+        cand = _bounded_sidon(m, rng)
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+        _offer(cand)
+
+    # Pure dense intervals
+    for n in range(2, 80):
+        if time.time() > phase1_deadline + 5:
+            break
+        cand = list(range(n))
+        s = _score(cand)
+        if s > best_score:
+            best_score = s
+            best = cand[:]
+        _offer(cand)
+
+    # Phase 2: refine EACH of the top-K seeds in order of pure ratio.
+    n_top = len(top_seeds)
+    for rank, (_, seed_t) in enumerate(top_seeds):
+        if time.time() >= deadline - 4:
+            break
+        seed = list(seed_t)
+        # Allocate the remaining budget across the remaining top seeds.
+        remaining = deadline - time.time()
+        slots_left = n_top - rank
+        slice_budget = max(4.0, min(remaining - 3.0, remaining / max(1, slots_left)))
+        sub_deadline = time.time() + slice_budget
+        cand, s = _local_search(seed, sub_deadline, rng, T0=0.12)
+        if s > best_score:
+            best, best_score = cand, s
+
+    # Phase 3: restarts from dense-core Sidon/Golomb seeds until deadline
+    while time.time() < deadline:
+        remaining = deadline - time.time()
+        if remaining < 4:
+            break
+        m = rng.randint(0, 12)
+        gap = rng.choice([1, 2, 3, 5, 8, 13, 21])
+        if rng.random() < 0.6:
+            sm = rng.randint(2, 15)
+            seed = _dense_core_sidon(m, sm, gap, rng)
+        else:
+            gs = rng.randint(3, 13)
+            seed = _dense_core_golomb(m, gs, gap, rng)
+        sub_deadline = time.time() + min(remaining, 15)
+        cand, s = _local_search(seed, sub_deadline, rng, T0=0.12)
+        if s > best_score:
+            best, best_score = cand, s
+
+    return sorted(set(best))
+>>>>>>> REPLACE
+
+</DIFF>
