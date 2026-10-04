@@ -176,3 +176,4 @@ CPU only, no LLM API calls, don't modify existing folders, small commits.
 | Updated review PDF | PR #2 (`refresh-review-pdf`) | Predates the overnight work; needs updating or closing |
 | Workshop-paper drafts (LaTeX and PDF) | `~/Desktop/ssm-paper-sources/` and the PDFs on the Desktop | Written by another session outside the repository |
 | Devin's FunSearch reproduction | – | No branch or pull request was ever pushed |
+| **In progress** (claimed at 05:52): tsp-construct-v1, classical baselines for the step-by-step TSP construction benchmark used by EoH, ReEvo, MCTS-AHD and HSEvo | Session 2d: branch `exp/tsp-construct`, worktree `../ssm-tsp-construct`, folder `experiments/tsp-construct-v1`; CPU only; instance seeds 200000–209999 | Running; the session will add its row to `experiments/README.md` and a log entry, and push only with the user's approval |
