@@ -358,7 +358,7 @@ function ideaView() {
   const o = outcome(r, m), it = idea(r.strategy), s = r.strategy || {};
   const kind = { new: "new idea", refine: "refinement", combine: "combination" }[s.decision];
   const ses = m.sessions[r.session] || {};
-  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1} · round ${r.round}${kind ? ` · ${kind}` : ""}`;
+  const who = ses.kind === "apply" ? "Strategy" : `Researcher ${r.chain + 1}${kind ? ` · ${kind}` : ""}`;  // the map shows the order
   return `<div class="pane">
     <div class="eyebrow">${who}</div>
     <h2>${esc(it.name || "Thinking…")}</h2>${it.field ? `<div class="from">from ${esc(it.field)}</div>` : ""}
@@ -475,7 +475,9 @@ function messagesHTML() {
       items.push(`<div class="msg note">Session finished · ${note}</div>`);
     }
   }
-  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}</div>`);
+  const draft = summary(S.lab)?.drafting;  // the drafting model's latest message, while it writes and tests a harness
+  if (waiting) items.push(`<div class="msg agent thinking"><span class="ring spin"></span> ${typeof waiting === "string" ? waiting : "Thinking"}${draft
+    ? ` <span class="elapsed">${Math.floor(draft.seconds / 60)} min</span>${draft.note ? `<div class="draft-note">${esc(draft.note)}</div>` : ""}` : ""}</div>`);
   if (!items.length) items.push(`<div class="msg note">Direct the research here: ask for more instances, a new focus, or why something failed.</div>`);
   return items.join("");
 }
@@ -519,7 +521,7 @@ function composeView() {
   const c = S.compose;
   const here = c.workspace ? labTitle(summary(c.workspace)) : "";
   const examples = c.workspace ? ["Continue, and focus on the instances that are still open", "Try constructions from scratch instead of perturbing the best known"]
-    : ["Beat the 2024 records for packing 85–90 unit squares in a square",
+    : ["Beat the best known packings of 85–90 unit squares in a square",
        "Points on a sphere for n = 30–33: Smale's logarithmic energy, Thomson's Coulomb energy and Tammes' largest smallest distance, side by side",
        "Beat AlphaEvolve and ShinkaEvolve on 26 circles in a square, maximizing the sum of radii",
        "Heilbronn's triangle problem: place 8–12 points in a unit square so that the smallest triangle is as large as possible"];
